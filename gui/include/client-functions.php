@@ -70,6 +70,18 @@ SQL_QUERY;
 
 }
 
+function add_temp_ftp_acc(&$sql, $domain, $user) {
+	//goal : install temporary ftp-user for some skripts	
+	
+	
+	
+
+}
+
+function del_temp_ftp_acc(&$sql, $domain, $user) {
+	
+
+}
 
 function get_domain_running_sub_cnt(&$sql, $domain_id) {
     $query = <<<SQL_QUERY
