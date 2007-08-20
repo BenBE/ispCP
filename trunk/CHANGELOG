@@ -11,6 +11,8 @@ ispCP ω 1.0.0 Changelog
     - CONFIGS:
         * Changed the default site (ispcp) to listen on port 3400
 	* Added ssl support on port 3400 if mod_ssl is loaded
+    - GUI:
+        * Fixed edit FTP account directory does not exist bug
 
 2007-08-20 Geoffrey McRae
     - SETUP:
