@@ -1,0 +1,3588 @@
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-18 23:11-0500\n"
+"PO-Revision-Date: 2007-07-06 16:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hungarian <hu_HU@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: x64PoPot 0.2\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "UTF-8"
+
+msgid "_: Localised language"
+msgstr "Hungarian"
+
+#, fuzzy
+msgid "ispCP Omega a Virtual Hosting Control System"
+msgstr "ISPCP - Virtuális Szolgáltatás Irányító Rendszer"
+
+msgid "Administrator login"
+msgstr ""
+
+msgid "Login"
+msgstr "Belépés"
+
+msgid "Username"
+msgstr "Felhasználónév"
+
+msgid "Password"
+msgstr "Jelszó"
+
+msgid "Please enter your login information"
+msgstr ""
+
+msgid "Secure Connection"
+msgstr ""
+
+msgid "Normal Connection"
+msgstr ""
+
+msgid "Lost password"
+msgstr "Elveszett jelszó"
+
+msgid "Lost password function currently disabled"
+msgstr ""
+
+msgid "ISPCP - Virtual Hosting Control System"
+msgstr "ISPCP - Virtuális Szolgáltatás Irányító Rendszer"
+
+msgid "Password sent"
+msgstr ""
+
+msgid "ERROR: Password was not sent"
+msgstr ""
+
+msgid "The password was requested"
+msgstr "A jelszó szükséges"
+
+msgid "Back"
+msgstr "Vissza"
+
+msgid "ERROR: Unknown user"
+msgstr "HIBA: Ismeretlen felhasználó"
+
+msgid "Retry"
+msgstr "Újra"
+
+msgid "ERROR: Security code was not correct!"
+msgstr "HIBA: A biztonsági kód nem megfelelõ!"
+
+msgid "Security code"
+msgstr "Biztonsági kód"
+
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr ""
+
+msgid "Request password"
+msgstr "Jelszó kérés"
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr ""
+
+msgid "Reseller IP list is empty!"
+msgstr "Viszonteladó IP lista üres!"
+
+msgid "No."
+msgstr "Nem."
+
+msgid "Assign"
+msgstr "Hozzárendel"
+
+msgid "Label"
+msgstr "Cimke"
+
+msgid "Number"
+msgstr "Szám"
+
+msgid "Reseller"
+msgstr "Viszonteladó"
+
+msgid "This user name already exist!"
+msgstr "Ez a felhasználó név már létezik!"
+
+msgid "Incorrect username length or syntax!"
+msgstr ""
+
+msgid "Incorrect password length or syntax!"
+msgstr ""
+
+msgid "Entered passwords do not match!"
+msgstr ""
+
+msgid "Incorrect email length or syntax!"
+msgstr ""
+
+msgid "Incorrect max domain count or syntax!"
+msgstr "Hibás max domain szám vagy hibás formátum!"
+
+msgid "Incorrect max subdomain count or syntax!"
+msgstr "Hibás max aldomain szám vagy hibás formátum!"
+
+msgid "Incorrect max alias count or syntax!"
+msgstr "Hibás max alias szám vagy hibás formátum!"
+
+msgid "Incorrect max FTP count or syntax!"
+msgstr "Hibáx max FTP szám vagy hibás formátum!"
+
+msgid "Incorrect max mail count or syntax!"
+msgstr "Hibás max email szám vagy hibás formátum!"
+
+msgid "Incorrect max SQL databases count or syntax!"
+msgstr "Hibás max SQL adatbázis szám vagy hibás formátum!"
+
+msgid "Incorrect max SQL users count or syntax!"
+msgstr "Hibás max SQL felhasználó szám vagy hibás formátum!"
+
+msgid "Incorrect max traffic amount or syntax!"
+msgstr "Hibás max forgalom mennyiség vagy hibás formátum!"
+
+msgid "Incorrect max disk amount or syntax!"
+msgstr "Hibás max diszk mennyiség vagy hibás formátum!"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "Legalább egy IP címet rendelj hozzá egy viszonteladóhoz!"
+
+msgid "Add reseller"
+msgstr "Viszonteladó hozzáadása"
+
+msgid "Core data"
+msgstr "Alap információk"
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "unlimited"
+msgstr "korlátlan"
+
+msgid "Domains limit"
+msgstr ""
+
+msgid "Subdomains limit"
+msgstr ""
+
+msgid "Aliases limit"
+msgstr ""
+
+msgid "Mail accounts limit"
+msgstr ""
+
+msgid "FTP accounts limit"
+msgstr ""
+
+msgid "SQL databases limit"
+msgstr ""
+
+msgid "SQL users limit"
+msgstr ""
+
+msgid "Traffic limit [MB]"
+msgstr ""
+
+msgid "Disk limit [MB]"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "CGI / Perl"
+msgstr ""
+
+msgid "JSP"
+msgstr ""
+
+msgid "SSI"
+msgstr ""
+
+msgid "Frontpage extensions"
+msgstr ""
+
+msgid "Backup and restore"
+msgstr "Mentés és visszaállítás"
+
+msgid "Custom error pages"
+msgstr "Egyedi hibalapok"
+
+msgid "Protected areas"
+msgstr "Védett területek"
+
+msgid "Webmail"
+msgstr "Webes levelezés"
+
+msgid "Directory listing"
+msgstr "Könyvtár lista"
+
+msgid "Apache logfiles"
+msgstr "Apache naplófájlok"
+
+msgid "AwStats"
+msgstr ""
+
+msgid "Logo upload"
+msgstr "Logó feltöltés"
+
+msgid "yes"
+msgstr "igen"
+
+msgid "no"
+msgstr "nem"
+
+msgid "Reseller IPs"
+msgstr "Viszonteladó IP címe"
+
+msgid "Additional data"
+msgstr "További adatok"
+
+msgid "Customer ID"
+msgstr "Ügyfél azonosító"
+
+msgid "First name"
+msgstr "Vezetéknév"
+
+msgid "Last name"
+msgstr "Keresztnév"
+
+#, fuzzy
+msgid "Gender"
+msgstr "Fejléc"
+
+#, fuzzy
+msgid "Male"
+msgstr "Email"
+
+#, fuzzy
+msgid "Female"
+msgstr "Webes levelezés"
+
+msgid "Company"
+msgstr "Cég"
+
+msgid "Zip/Postal code"
+msgstr "Irányítószám"
+
+msgid "City"
+msgstr "Város"
+
+msgid "Country"
+msgstr "Ország"
+
+msgid "Street 1"
+msgstr "Utca 1"
+
+msgid "Street 2"
+msgstr "Utca 2"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Fax"
+msgstr ""
+
+msgid "Add"
+msgstr "Hozzáad"
+
+msgid "ISPCP - Admin/Manage users/Add User"
+msgstr "ISPCP - Admin/Felhasználók/Új Felhasználó"
+
+msgid "Administrator"
+msgstr "Adminisztrátor"
+
+msgid "Empty data or wrong field!"
+msgstr "Nincs adat, vagy rossz mezõ!"
+
+msgid "Passwords don't match!"
+msgstr ""
+
+msgid "Add admin"
+msgstr "Adminisztrátor hozzáadása"
+
+msgid "ISPCP - Admin/Admin Log"
+msgstr "ISPCP - Admin/Admin Napló"
+
+msgid "Log is empty!"
+msgstr "Üres naplófájl!"
+
+msgid "Invalid time period!"
+msgstr ""
+
+msgid "Admin Log"
+msgstr "Admin Napló"
+
+msgid "Clear log"
+msgstr "Napló törlése"
+
+msgid "Date"
+msgstr "Dátum"
+
+msgid "Message"
+msgstr "Üzenet"
+
+msgid "Delete from log:"
+msgstr " Törlés a naplóból"
+
+msgid "everything"
+msgstr "minden"
+
+msgid "older than 2 weeks"
+msgstr ""
+
+msgid "older than 1 month"
+msgstr ""
+
+msgid "older than 3 months"
+msgstr ""
+
+msgid "older than 6 months"
+msgstr ""
+
+msgid "older than 12 months"
+msgstr ""
+
+msgid "ISPCP - Administrator/Add hosting plan"
+msgstr "ISPCP - Administrator/Új szolgáltatási csomag"
+
+msgid "Add hosting plan"
+msgstr "Szolgáltatási csomag hozzáadása"
+
+msgid "Hosting plan properties"
+msgstr "Szolgáltatási csomag tulajdonságai"
+
+msgid "Template name"
+msgstr "Sablon neve"
+
+msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "SQL adatbázis limit<br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "SQL felhasználó limit<br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "Forgalom limit [MB]<br><i>(0 korlátlan)</i>"
+
+msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "Diszk limit [MB]<br><i>(0 korlátlan)</i>"
+
+msgid "Billing Settings"
+msgstr "Számlázási beállítások"
+
+msgid "Price"
+msgstr "Ár"
+
+msgid "Setup fee"
+msgstr "Díj beállítás"
+
+msgid "Currency"
+msgstr "Pénznem"
+
+msgid "Payment period"
+msgstr "Fizetési periódus"
+
+msgid "Available for purchasing"
+msgstr "Vásárlásra elérhetõ"
+
+msgid "Description"
+msgstr "Leírás"
+
+msgid "(e.g. EUR)"
+msgstr "(Pl. EUR)"
+
+msgid "Add plan"
+msgstr "Csomag hozzáadása"
+
+msgid "Incorrect template name length!"
+msgstr ""
+
+msgid "Incorrect template description length!"
+msgstr ""
+
+msgid "Incorrect price syntax!"
+msgstr ""
+
+msgid "Incorrect setup fee syntax!"
+msgstr ""
+
+msgid "Incorrect subdomain length or syntax!"
+msgstr ""
+
+msgid "Incorrect alias length or syntax!"
+msgstr ""
+
+msgid "Incorrect mail account length or syntax!"
+msgstr ""
+
+msgid "Incorrect FTP account length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL database length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL user length or syntax!"
+msgstr ""
+
+msgid "Incorrect traffic length or syntax!"
+msgstr ""
+
+msgid "Incorrect disk length or syntax!"
+msgstr ""
+
+msgid "Hosting plan with entered name already exists!"
+msgstr "A megadott néven már létezik szolgáltatási csomag!"
+
+msgid "ISPCP - Admin/Change Password"
+msgstr "ISPCP - Admin/Jelszóváltás"
+
+msgid "Please fill up all data fields!"
+msgstr "Töltsd fel minden adatmezõt!"
+
+msgid "Passwords do not match!"
+msgstr ""
+
+msgid "The current password is wrong!"
+msgstr "A jelenlegi jelszó rossz!"
+
+msgid "User password updated successfully!"
+msgstr "Felhasználó jelszó módosítva!"
+
+msgid "Change password"
+msgstr "Jelszó csere"
+
+msgid "Password data"
+msgstr "Jelszó adat"
+
+msgid "Update password"
+msgstr "Jelszó módosítás"
+
+msgid "Current password"
+msgstr "Jelenlegi jelszó"
+
+msgid "Personal data updated successfully!"
+msgstr "Személyes adatok sikeresen módosítva!"
+
+msgid "ISPCP - Admin/Change Personal Data"
+msgstr "ISPCP - Admin/Személyes Adatok"
+
+msgid "Change personal data"
+msgstr "Személyes adatok cseréje"
+
+msgid "Personal data"
+msgstr "Személyes adatok"
+
+msgid "Update data"
+msgstr "Adatok módosítása"
+
+msgid "User does not exist!"
+msgstr "Felhasználó nem létezik!"
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr ""
+
+msgid "Please specify a message subject!"
+msgstr "Add meg az üzenet tárgyát!"
+
+msgid "Please specify a message content!"
+msgstr "Add meg az üzenet tartalmát!"
+
+msgid "Please specify a sender name!"
+msgstr "Add meg a küldõ nevét!"
+
+msgid "Please specify a sender email!"
+msgstr "Add meg a feladó címét!"
+
+msgid "You send email to your users successfully!"
+msgstr "Email sikeresen elküldve a felhasználódnak!"
+
+msgid "Email marketing"
+msgstr ""
+
+msgid "Send message to"
+msgstr "Üzenet küldése:"
+
+msgid "All users"
+msgstr "Minden felhasználó"
+
+msgid "All resellers"
+msgstr "Minden viszonteladó"
+
+msgid "All users & resellers"
+msgstr "Minden felhasználó és viszonteladó"
+
+msgid "Message subject"
+msgstr "Üzenet tárgya"
+
+msgid "Senders email"
+msgstr "Feladó címe"
+
+msgid "Senders name"
+msgstr "Feladó neve"
+
+msgid "Send message"
+msgstr "Üzenet küldése"
+
+msgid "You have no custom menus."
+msgstr "Nincsenek saját menük."
+
+msgid "User"
+msgstr "Felhasználó"
+
+msgid "All"
+msgstr "Mind"
+
+msgid "Are you sure you want to delete"
+msgstr "Biztos törölni akarod?"
+
+msgid "Missing or incorrect data input!"
+msgstr "Hiányzó vagy hibás adatok!"
+
+msgid "Custom menu data updated successful!"
+msgstr "Egyedi menüadatok sikeresen frissítve!"
+
+msgid "Custom menu deleted successful!"
+msgstr "Egyedi menüadatok sikeresen törölve!"
+
+msgid "ISPCP - Admin - Manage custom menus"
+msgstr "ISPCP - Admin - Saját menük"
+
+msgid "Manage custom menus"
+msgstr "Saját menük kezelése"
+
+msgid "Add new button"
+msgstr "Új gomb hozzáadása"
+
+msgid "Button name"
+msgstr "Gomb neve"
+
+msgid "Button link"
+msgstr "Gomb linkje"
+
+msgid "Button target"
+msgstr "Gomb célpontja"
+
+msgid "Show in"
+msgstr "Mutasd:"
+
+msgid "Administrator level"
+msgstr ""
+
+msgid "Reseller level"
+msgstr "Viszonteladói szint"
+
+msgid "Enduser level"
+msgstr "Felhasználói szint"
+
+msgid "Reseller and enduser level"
+msgstr "Viszonteladói és felhasználói szint"
+
+msgid "Menu button"
+msgstr "Menügomb"
+
+msgid "Action"
+msgstr "Cselekvés"
+
+msgid "Edit"
+msgstr "Szerkeszt"
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Level"
+msgstr "Szint"
+
+msgid "Save"
+msgstr "Mentés"
+
+msgid "Edit button"
+msgstr "Gomb szerkesztése"
+
+msgid "Error: we have a domain using this IP!"
+msgstr ""
+
+msgid "Error: we have a reseller using this IP!"
+msgstr ""
+
+msgid "IP was deleted!"
+msgstr "IP törölve!"
+
+msgid "Support ticket deleted successfully!"
+msgstr "Hibajegy sikeresen törölve!"
+
+msgid "All open support tickets deleted successfully!"
+msgstr "Minden nyitott hibajegy sikeresen törölve!"
+
+msgid "All closed support tickets deleted successfully!"
+msgstr "Minden lezárt hibajegy sikeresen törölve!"
+
+msgid "ISPCP - Domain/Details"
+msgstr "ISPCP - Domain/Adatok"
+
+msgid "Domain details"
+msgstr "Domain részletek"
+
+msgid "Domain name"
+msgstr "Domain név"
+
+msgid "Domain IP"
+msgstr ""
+
+msgid "Status"
+msgstr "Állapot"
+
+msgid "PHP support"
+msgstr "PHP támogatás"
+
+msgid "CGI support"
+msgstr "CGI támogatás"
+
+msgid "MySQL support"
+msgstr "MySQL támogatás"
+
+msgid "Traffic in MB"
+msgstr "Forgalom MB-ban"
+
+msgid "Disk in MB"
+msgstr "Diszk MB-ban"
+
+msgid "Feature"
+msgstr "Sajátság"
+
+msgid "Used"
+msgstr "Használatban"
+
+msgid "Limit"
+msgstr "Korlát"
+
+msgid "Mail accounts"
+msgstr "Email hozzáférések"
+
+msgid "FTP accounts"
+msgstr "FTP hozzáférések"
+
+msgid "SQL databases"
+msgstr "SQL adatbázisok"
+
+msgid "SQL users"
+msgstr "SQL felhasználók"
+
+msgid "Subdomains"
+msgstr "Aldomainek"
+
+msgid "Domain aliases"
+msgstr "Domain aliasok"
+
+msgid "Submit changes"
+msgstr "Változások mentése"
+
+msgid "None"
+msgstr "Nincs"
+
+msgid "ISPCP - Domain Statistics Data"
+msgstr "ISPCP - Domain Statisztikai Adatok"
+
+msgid "Domain statistics"
+msgstr "Domain statisztikák"
+
+msgid "Month"
+msgstr "Hónap"
+
+msgid "Year"
+msgstr "Év"
+
+msgid "Show"
+msgstr "Mutasd"
+
+msgid "Web traffic"
+msgstr "Web forgalom"
+
+msgid "FTP traffic"
+msgstr "FTP forgalom!"
+
+msgid "SMTP traffic"
+msgstr "SMTP forgalom"
+
+msgid "POP3/IMAP traffic"
+msgstr "POP/IMAP forgalom"
+
+msgid "All traffic"
+msgstr "Minden forgalom"
+
+msgid "Day"
+msgstr "Nap"
+
+msgid "ISPCP - Admin/Manage users/Edit Reseller"
+msgstr "ISPCP - Admin/Felhasználók/Viszonteladó módosítása"
+
+msgid "Domains"
+msgstr "Domainek"
+
+#, php-format
+msgid "Inconsistency between current_als_cnt and actual alias count: %1$d != %2$d"
+msgstr ""
+
+msgid "Aliases"
+msgstr "Aliasok"
+
+#, php-format
+msgid "Inconsistency between current_mail_cnt and actual mail count: %1$d != %2$d"
+msgstr ""
+
+msgid "Mail"
+msgstr "Email"
+
+#, php-format
+msgid "Inconsistency between current_ftp_cnt and actual ftp count: %1$d != %2$d"
+msgstr ""
+
+msgid "FTP"
+msgstr ""
+
+msgid "SQL Databases"
+msgstr ""
+
+msgid "SQL Users"
+msgstr ""
+
+#, fuzzy
+msgid "Web Traffic"
+msgstr "Web forgalom"
+
+#, fuzzy
+msgid "Disk storage"
+msgstr "Diszk használat"
+
+#, fuzzy
+msgid "Reseller data inconsistency!"
+msgstr "Viszonteladó statisztikai tábla"
+
+#, php-format
+msgid "This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+msgid "Edit reseller aborted!"
+msgstr "Viszonteladó szerkesztés megszakítva!"
+
+#, php-format
+msgid "This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+#, php-format
+msgid "This reseller has customer(s) with unlimited rights for the <b>%s</b> service!<br>"
+msgstr ""
+
+#, fuzzy
+msgid "If you want to limit the reseller, you must first limit its customers!<br>"
+msgstr "Ha korlátozni akarod a viszonteladót, elõször be kell állítanod a felhasználó szám korlátját!<br>"
+
+#, fuzzy, php-format
+msgid "This reseller has domains assigned to the <b>%s</b> address!<br>"
+msgstr "Ehez a viszonteladóhoz van domain hozzárendelve<br>"
+
+msgid "Edit reseller"
+msgstr "Viszonteladó szerkesztése"
+
+msgid "E-mail"
+msgstr ""
+
+msgid "Max domain count"
+msgstr "Max domain szám"
+
+msgid "Max subdomain count"
+msgstr "Max aldomainek száma"
+
+msgid "Max aliases count"
+msgstr "Max aliasok száma"
+
+msgid "Max mail users count"
+msgstr "Max email felhasználók száma"
+
+msgid "Max FTP users count"
+msgstr "Max FTP felhasználók száma"
+
+msgid "Max SQL databases count"
+msgstr "Max SQL adatbázisok"
+
+msgid "Max SQL users count"
+msgstr "Max SQL felhasználók száma"
+
+msgid "Max traffic amount [MB]"
+msgstr "Max forgalom mennyiség [MB]"
+
+msgid "Max disk amount [MB]"
+msgstr "Max diszk mennyiség [MB]"
+
+msgid "Update"
+msgstr "Frissítés"
+
+msgid "Send new login data"
+msgstr ""
+
+#, fuzzy
+msgid "Generate password"
+msgstr "Jelszó módosítás"
+
+msgid "ISPCP - Admin/Manage users/Edit User"
+msgstr "ISPCP - Admin/Felhasználók/Felhasználó módosítása"
+
+msgid "User session was killed!"
+msgstr "Felhasználói folyamat törölve!"
+
+msgid "Domain account"
+msgstr "Domain hozzáférés"
+
+msgid "Edit admin"
+msgstr "Admin szerkesztése"
+
+msgid "ISPCP - Administrator/Edit hosting plan"
+msgstr "ISPCP - Administrator/Szolgáltatási csomag módosítás"
+
+msgid "Price Style"
+msgstr ""
+
+msgid "Update plan"
+msgstr "Csomag módosítás"
+
+msgid "Edit hosting plan"
+msgstr "Szolgáltatási csomag szerkesztése"
+
+msgid "Undefined reference to data!"
+msgstr "Definiálatlan adathivatkozás!"
+
+msgid "Incorrect price. Example: 9.99"
+msgstr ""
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr ""
+
+msgid "Please specify a subject!"
+msgstr "Adj meg egy tárgyat!"
+
+msgid "Please specify message!"
+msgstr "Add meg az uzenetet!"
+
+msgid "Auto email template data updated!"
+msgstr "Auto válasz email sablon adatai módosítva!"
+
+msgid "ISPCP - Admin/Manage users/Email setup"
+msgstr "ISPCP - Admin/Felhasználók/Email beállítás"
+
+msgid "Email setup"
+msgstr "Email beállítás"
+
+msgid "Message template info"
+msgstr "Üzenet sablon infó"
+
+msgid "User login (system) name"
+msgstr "Felhasználó bejelentkezés (rendszer) név"
+
+msgid "User password"
+msgstr "Felhasználó jelszó"
+
+msgid "User real (first and last) name"
+msgstr ""
+
+msgid "Message template"
+msgstr "Üzenet sablon"
+
+msgid "Subject"
+msgstr "Tárgy"
+
+msgid "Apply changes"
+msgstr "Változtatások végrehajtása"
+
+msgid "ISPCP - Administrator/Hosting Plan Management"
+msgstr "ISPCP - Administrator/Szolgáltatási Csomag Kezelés"
+
+msgid "Hosting plans"
+msgstr "Szolgáltatási csomagok"
+
+msgid "Manage hosting plans"
+msgstr "Szolgálltatási csomagok kezelése"
+
+msgid "Purchasing"
+msgstr "Vásárlás"
+
+msgid "Add new user hosting plan"
+msgstr "Új felhasználói díjcsomag hozzáadása"
+
+msgid "Return to previous menu"
+msgstr "Vissza ez elözõ menübe"
+
+msgid "Hosting plan added!"
+msgstr "Szolgáltatási csomag hozzáadva!"
+
+msgid "Hosting plan deleted!"
+msgstr "Szolgáltatási csomag törölve!"
+
+msgid "Hosting plan updated!"
+msgstr "Szolgáltatási csomag módosítva!"
+
+msgid "Hosting plans not found!"
+msgstr "Szolgálltatási csomag nem található!"
+
+msgid "Name"
+msgstr "Név"
+
+msgid "Enabled"
+msgstr "Engedélyezve"
+
+msgid "Disabled"
+msgstr "Tiltva"
+
+msgid "Show hosting plan"
+msgstr ""
+
+#, php-format
+msgid "You have <b>%d</b> new support questions"
+msgstr ""
+
+msgid "View"
+msgstr "Megnéz"
+
+msgid "Couldn't check for updates!"
+msgstr ""
+
+msgid "New ISPCP update is now available"
+msgstr "Új ISPCP verzió most elérhetõ"
+
+msgid "You are exceeding your traffic limit!"
+msgstr "Túllépted a forgalm maximális korlátját!"
+
+msgid "%1$d % [%2$d of %3$d]"
+msgstr ""
+
+msgid "ISPCP - Admin/Main Index"
+msgstr "ISPCP - Admin/Kezdõlap"
+
+msgid "ISPCP - Admin/IP manage"
+msgstr "ISPCP - Admin/IP kezelése"
+
+msgid "New IP was added!"
+msgstr "Új IP hozzáadva!"
+
+msgid "Wrong IP number!"
+msgstr "Rossz IP cím!"
+
+msgid "Please specify domain!"
+msgstr "Add meg a domaint!"
+
+msgid "Please specify alias!"
+msgstr "Add meg az alias nevét!"
+
+msgid "This IP already exist!"
+msgstr "Ez az IP már létezik!"
+
+msgid "Manage IPs"
+msgstr "IP címek kezelése"
+
+msgid "Available IPs"
+msgstr "Rendelkezésre álló IP címek"
+
+msgid "IP"
+msgstr ""
+
+msgid "Domain"
+msgstr ""
+
+msgid "Alias"
+msgstr ""
+
+msgid "Uninstall"
+msgstr "Eltávolít"
+
+msgid "Add new IP"
+msgstr "Új IP hozzáadása"
+
+msgid "No domain system errors"
+msgstr "Nincs domain, rendszerhiba"
+
+msgid "No domain alias system errors"
+msgstr "Nincs domain alias, rendszerhiba"
+
+msgid "No subdomain system errors"
+msgstr "Nincs aldomain, rendszerhiba"
+
+msgid "No email account system errors"
+msgstr "Nincs email hozzáférés, rendszerhiba"
+
+msgid "ISPCP debugger"
+msgstr "ISPCP hibakeresõ"
+
+msgid "Domain errors"
+msgstr "Domain hibák"
+
+msgid "Domain alias errors"
+msgstr "Domain alias hibák!"
+
+msgid "Subdomain errors"
+msgstr "Aldomain hibák"
+
+msgid "Mail account errors"
+msgstr "Email hozzáférés hibák"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown domain status!"
+msgstr "ismeretlen státusz"
+
+#, fuzzy
+msgid "Unknown account type!"
+msgstr "Ismeretlen típus"
+
+#, fuzzy
+msgid "Invalid account id!"
+msgstr "Email hozzáférés"
+
+msgid "Done"
+msgstr "Kész"
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "Get it at"
+msgstr ""
+
+msgid "ISPCP updates"
+msgstr "ISPCP frissítések"
+
+msgid "Available ISPCP updates"
+msgstr "Rendelkezésre álló ISPCP frissítések"
+
+msgid "No new ISPCP updates available"
+msgstr "Nincs új ISPCP verzió"
+
+msgid "Update details"
+msgstr "Részletek módosítása"
+
+msgid "Upload file error!"
+msgstr "Hiba a feltöltésben!"
+
+msgid "You can only upload images!"
+msgstr ""
+
+msgid "Your logo was successful uploaded!"
+msgstr "A logód sikeresen feltöltve!"
+
+msgid "Layout settings"
+msgstr "Kinézet beállítások"
+
+msgid "Installed layouts"
+msgstr "Telepített kinézetek"
+
+msgid "Layout name"
+msgstr "Kinézet neve"
+
+msgid "default"
+msgstr "alapértelmezett"
+
+msgid "Upload logo"
+msgstr "Logó feltöltése"
+
+msgid "Logo file"
+msgstr "Logó fájl"
+
+msgid "Upload"
+msgstr "Feltöltés"
+
+msgid "Remove"
+msgstr "Eltávolít"
+
+msgid "Choose default layout"
+msgstr "Alapértelmezett kinézet kiválasztása"
+
+msgid "Layout"
+msgstr "Kinézet"
+
+msgid "ISPCP - Admin/Lostpw email setup"
+msgstr "ISPCP - Admin/Elveszett jelszó email beállítás"
+
+msgid "Lost password e-mail"
+msgstr ""
+
+msgid "Activation E-Mail"
+msgstr ""
+
+msgid "Password E-Mail"
+msgstr ""
+
+msgid "User (first and last) name"
+msgstr "Felhasználó (vezeték és kereszt) név"
+
+msgid "Lost password link"
+msgstr ""
+
+msgid "Reseller list is empty!"
+msgstr "Viszonteladó lista üres!"
+
+msgid "ISPCP - Admin/Manage users/Reseller assignment"
+msgstr "ISPCP - Admin/Felhasználók/Viszonteladó hozzárendelés"
+
+msgid "Reseller assignment"
+msgstr "Viszonteladó megbízása"
+
+msgid "Reseller users"
+msgstr "Viszonteladó felhasználók"
+
+msgid "Mark"
+msgstr "Bejelöl"
+
+msgid "Reseller name"
+msgstr "Viszonteladó neve"
+
+msgid "Owner"
+msgstr "Tulajdonos"
+
+msgid "To Admin"
+msgstr "Az Adminnak"
+
+msgid "Move"
+msgstr "Áthelyez"
+
+msgid "Reseller or user list is empty!"
+msgstr "Viszonteladó vagy felhasználó lista üres!"
+
+msgid "User list is empty!"
+msgstr ""
+
+msgid "User was moved"
+msgstr "Felhasználó átmozgatva"
+
+msgid "Please select some user(s)!"
+msgstr "Válassz valamilyen felhasználót(kat)!"
+
+msgid "Source and destination reseller are the same!"
+msgstr "A forrás és cél viszonteladó ugyanaz!"
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
+msgstr ""
+
+#, php-format
+msgid "You can not move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>"
+msgstr ""
+
+msgid "Moving aborted!"
+msgstr "Áthelyezés megszakítva!"
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> service !<br>"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> has IP address that can not be managed from the destination reseller !<br>This user can not be moved!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/User assignment"
+msgstr "ISPCP - Admin/Felhasználók/Felhasználó hozzárendelés"
+
+msgid "User assignment"
+msgstr "Felhasználó hozzárendelése"
+
+msgid "Users"
+msgstr "Felhasználók"
+
+msgid "User name"
+msgstr "Felhasználó neve"
+
+msgid "From reseller"
+msgstr "Viszonteladótól"
+
+msgid "To reseller"
+msgstr "Viszonteladónak"
+
+msgid "ISPCP - Admin/Manage Sessions"
+msgstr "ISPCP - Admin/Folyamatok"
+
+msgid "Manage user sessions"
+msgstr "Felhasználói folyamatok kezelése"
+
+msgid "User type"
+msgstr "Felhasználó típus"
+
+msgid "Last access"
+msgstr "Utolsó hozzáférés"
+
+msgid "Options"
+msgstr "Lehetõségek"
+
+msgid "Kill session"
+msgstr "Folyamat lezárása"
+
+msgid "ISPCP - Admin/Manage Users"
+msgstr "ISPCP - Admin/Felhasználók"
+
+msgid "User added"
+msgstr "Felhasználó hozzáadva"
+
+msgid "Reseller added"
+msgstr "Viszonteladó hozzáadva"
+
+msgid "User updated"
+msgstr "Felhasználó módosítva"
+
+msgid "User deleted"
+msgstr "Felhasználó törölve"
+
+msgid "Email Updated"
+msgstr "Email Frisssítve"
+
+msgid "This user has a domain!<br>To delete the user first delete the domain!"
+msgstr ""
+
+msgid "User was disabled"
+msgstr "A felhasználó letiltva"
+
+msgid "Incorrect data input!"
+msgstr "Hibás bemenõ adat!"
+
+msgid "ISPCP - Admin/Internationalisation"
+msgstr ""
+
+msgid "Default language changed!"
+msgstr "Alapértelmezett nyelv megválzotatva!"
+
+msgid "You can upload only text files!"
+msgstr "Csak szöveget tölthetsz fel!"
+
+#, fuzzy
+msgid "Could not read language file!"
+msgstr "Nem lehet olvasni a ispcp nyelvi fájlt!"
+
+#, fuzzy
+msgid "Uploaded file is not a valid language file!"
+msgstr "Nem lehet olvasni a ispcp nyelvi fájlt!"
+
+msgid "Uploaded file does not contain the language information!"
+msgstr ""
+
+msgid "New language installed!"
+msgstr "Új nyelv telepítve!"
+
+#, fuzzy
+msgid "Language was updated!"
+msgstr "Egyedi hibalap frissítve!"
+
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+msgid "uninstall"
+msgstr "eltávolít"
+
+#, php-format
+msgid "%d messages translated"
+msgstr ""
+
+msgid "Multilingual"
+msgstr ""
+
+msgid "Installed languages"
+msgstr "Telepített nyelvek"
+
+msgid "Language"
+msgstr "Nyelv"
+
+msgid "Messages"
+msgstr "Üzenetek"
+
+msgid "Default"
+msgstr "Alapértelmezett"
+
+msgid "Install new language"
+msgstr "Új nyelv telepítése"
+
+msgid "Language file"
+msgstr "Nyelvi fájl"
+
+msgid "Install"
+msgstr "Telepít"
+
+msgid "Export"
+msgstr ""
+
+msgid "ISPCP - Reseller statistics"
+msgstr "ISPCP - Viszonteladói statisztika"
+
+msgid "Not found reseller(s) in your system!"
+msgstr "Nem található viszonteladó a rendszeredben!"
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>unlimited</b>"
+msgstr ""
+
+msgid "Reseller statistics table"
+msgstr "Viszonteladó statisztikai tábla"
+
+msgid "Traffic"
+msgstr "Forgalom"
+
+msgid "Disk"
+msgstr "Diszk"
+
+msgid "Subdomain"
+msgstr "Aldomain"
+
+msgid "SQL database"
+msgstr "SQL adatbázis"
+
+msgid "SQL user"
+msgstr "SQL felhasználó"
+
+msgid "ISPCP - Admin/Reseller User Statistics"
+msgstr "ISPCP - Admin/Viszonteladó Felhasználó statisztika"
+
+#, php-format
+msgid "%1$d <br/>of</br> <b>%2$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%d <br/>of</br> <b>unlimited</b>"
+msgstr ""
+
+#, fuzzy
+msgid "<b>disabled</b>"
+msgstr "tiltva"
+
+msgid "Reseller users table"
+msgstr "Viszonteladó felhasználók tábla"
+
+msgid "This reseller has no domains."
+msgstr "A viszonteladónak nincs domainje."
+
+msgid "Traffic<br>usage"
+msgstr "Forgalom<br>használat"
+
+msgid "Disk<br>usage"
+msgstr "Diszk<br>használat"
+
+msgid "Web<br>traffic"
+msgstr "Web<br>forgalom"
+
+msgid "FTP<br>traffic"
+msgstr "FTP<br>forgalom"
+
+msgid "SMTP<br>traffic"
+msgstr "SMTP<br>forgalom"
+
+msgid "POP3/IMAP<br>traffic"
+msgstr "POP/IMAP <br>forgalom"
+
+msgid "SQL<br>database"
+msgstr "SQL<br>adatbázis"
+
+msgid "SQL<br>user"
+msgstr "SQL<br>felhasználó"
+
+msgid "ISPCP Admin / System Tools / Rootkit Hunter Log"
+msgstr ""
+
+msgid "The file doesn't exist or can't be read."
+msgstr ""
+
+msgid "Rootkit Log Checker"
+msgstr ""
+
+msgid "ISPCP - Admin/Server day stats"
+msgstr "ISPCP - Admin/Server napi statisztika"
+
+msgid "Server day statistics"
+msgstr "Szerver napi statisztika"
+
+msgid "Month:"
+msgstr "Hónap:"
+
+msgid "Year:"
+msgstr "Év:"
+
+msgid "Day:"
+msgstr "Nap:"
+
+msgid "Hour"
+msgstr "Óra"
+
+msgid "Web in"
+msgstr "Web bejövõ"
+
+msgid "Web out"
+msgstr "Web kimenõ"
+
+msgid "Mail in"
+msgstr "Bejövõ levelek"
+
+msgid "Mail out"
+msgstr "Kimenõ levelek"
+
+msgid "Pop/IMAP in"
+msgstr "Pop/IMAP bejövõ"
+
+msgid "Pop/IMAP out"
+msgstr "Pop/IMAP kimenõ"
+
+msgid "Other in"
+msgstr "Egyéb bejövõ"
+
+msgid "Other out"
+msgstr "Egyéb kimenõ"
+
+msgid "All in"
+msgstr "Minden bejövõ"
+
+msgid "All out"
+msgstr "Minden kimenõ"
+
+msgid "ISPCP - Admin/Server statistics"
+msgstr "ISPCP - Admin/Szerver statisztika"
+
+msgid "Server statistics"
+msgstr "Szerver statisztikák"
+
+msgid "ISPCP Admin / System Tools / Server Status"
+msgstr "ISPCP Admin / Rendszereszközök / Szerverállapot"
+
+msgid "UP"
+msgstr ""
+
+msgid "DOWN"
+msgstr ""
+
+msgid "Host"
+msgstr "Hoszt"
+
+msgid "Service"
+msgstr "Szolgáltatás"
+
+msgid "Server status"
+msgstr "Szerver státusz"
+
+msgid "ISPCP - Admin/Server Traffic Settings"
+msgstr "ISPCP - Admin/Server Forgalmi Beállítások"
+
+msgid "Wrong data input!"
+msgstr "Rossz bemenõ adat!"
+
+msgid "Warning traffic is bigger then max traffic!"
+msgstr "Figyelem, a forgalom nagyobb az engedélyezettnél!"
+
+msgid "Server traffic settings updated successfully!"
+msgstr "Szerver forgalmi beállítások sikeresen módosítva!"
+
+msgid "Modify"
+msgstr "Módosít"
+
+msgid "Server traffic settings"
+msgstr "Szerver forgalom beállítások"
+
+msgid "Set server traffic settings"
+msgstr "Szerver forgalom beállítások"
+
+msgid "Max traffic [MB]"
+msgstr "Max forgalom [MB]"
+
+msgid "Warning traffic [MB]"
+msgstr "Figyelmeztetési forgalom [MB]"
+
+msgid "ISPCP - Admin/Servicemode"
+msgstr ""
+
+msgid "Settings saved !"
+msgstr ""
+
+msgid "Servicemode"
+msgstr ""
+
+msgid "In this mode only administrators can login"
+msgstr ""
+
+msgid "ISPCP - Admin/Settings"
+msgstr ""
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr ""
+
+msgid "General settings"
+msgstr "Általános Beállítások"
+
+msgid "Settings"
+msgstr ""
+
+msgid "Activation link expire time (minutes)"
+msgstr ""
+
+msgid "Bruteforce detection"
+msgstr ""
+
+msgid "Block time between logins"
+msgstr ""
+
+msgid "Max number of login attempts"
+msgstr ""
+
+msgid "Blocktime (minutes)"
+msgstr ""
+
+msgid "Block time between logins (seconds)"
+msgstr ""
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr ""
+
+msgid "Other settings"
+msgstr ""
+
+msgid "Default language"
+msgstr "Alapértelmezett nyelv"
+
+msgid "Support system"
+msgstr "Ügyfélszolgálati rendszer"
+
+msgid "Serverports"
+msgstr ""
+
+msgid "Domains per page"
+msgstr "Domainek oldalanként"
+
+msgid "ERROR: Only Letters, Numbers, Dash and Underscore are allowed!"
+msgstr ""
+
+msgid "ERROR: Port already exists!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr ""
+
+msgid "udp"
+msgstr ""
+
+msgid "tcp"
+msgstr ""
+
+msgid "Yes"
+msgstr "Igen"
+
+msgid "No"
+msgstr "Nem"
+
+msgid "Services"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "You have no support tickets."
+msgstr "Nincs ügyfélszolgálati hibajegy."
+
+msgid "Low"
+msgstr "Alacsony"
+
+msgid "Medium"
+msgstr "Közepes"
+
+msgid "High"
+msgstr "Magas"
+
+msgid "Very high"
+msgstr "Nagyon magas"
+
+msgid "ISPCP - Client/Questions & Comments"
+msgstr "ISPCP - Kliens/Kérdések És Vélemények"
+
+msgid "Support tickets"
+msgstr "Ügyfélszolgálati Hibajegyek"
+
+msgid "Priority"
+msgstr "Prioritás"
+
+msgid "Last reply"
+msgstr "Utolsó válasz"
+
+msgid "Delete all"
+msgstr "Összes törlése"
+
+msgid "Open tickets"
+msgstr "Nyitott hibajegyek"
+
+msgid "Closed tickets"
+msgstr "Lezárt hibajegyek"
+
+msgid "[New]"
+msgstr "[Új]"
+
+msgid "[Re]"
+msgstr "[Vá]"
+
+msgid "ISPCP - Client/Enable Mail Autoresponder"
+msgstr "ISPCP - Kliens/Automatikus Email Válasz Bekapcsolása"
+
+msgid "From"
+msgstr "Feladó"
+
+msgid "days"
+msgstr "nap"
+
+msgid "hours"
+msgstr "óra"
+
+msgid "minutes"
+msgstr ""
+
+msgid "System info"
+msgstr "Rendszer info"
+
+msgid "Vital system info"
+msgstr "Fontos rendszeradatok"
+
+msgid "CPU system Info"
+msgstr "Processzor Info"
+
+msgid "CPU model"
+msgstr "Processzor modell"
+
+msgid "CPU MHz"
+msgstr "Processzor MHz"
+
+msgid "CPU cache"
+msgstr "Processzor cache"
+
+msgid "CPU bogomips"
+msgstr "Processzor bogomips"
+
+msgid "Memory system info"
+msgstr "Memória Infó"
+
+msgid "RAM"
+msgstr ""
+
+msgid "Total"
+msgstr "Összes"
+
+msgid "Free"
+msgstr "Szabad"
+
+msgid "Swap"
+msgstr ""
+
+msgid "Up time"
+msgstr "Üzemidõ"
+
+msgid "Kernel"
+msgstr ""
+
+msgid "Load"
+msgstr "Terhelés"
+
+msgid "Filesystem system Info"
+msgstr "Fájlrendszer Infó"
+
+msgid "Mount"
+msgstr "Beilleszt"
+
+msgid "Type"
+msgstr "Típus"
+
+msgid "Partition"
+msgstr "Partíció"
+
+msgid "Percent"
+msgstr "Százalék"
+
+msgid "Size"
+msgstr "Méret"
+
+msgid "Ticket not found!"
+msgstr "Hibajegy nem található!"
+
+msgid "Open ticket"
+msgstr "Nyitott hibajegy"
+
+msgid "Close ticket"
+msgstr "Hibajegy lezárása"
+
+msgid "ISPCP - Client : Support System: View Tickets"
+msgstr "ISPCP - Kliens: Ügyfélszolgálati Rendszer: Bejelentések áttekintése"
+
+msgid "Please type your message!"
+msgstr "Írd be az üzeneted!"
+
+msgid "Message was sent!"
+msgstr ""
+
+msgid "Ticket was closed!"
+msgstr "A hibajegy le lett zárva!"
+
+msgid "Ticket was reopened!"
+msgstr ""
+
+msgid "ISPCP - Admin : Support System: View Tickets"
+msgstr ""
+
+msgid "View support ticket"
+msgstr "Hibajegy megtekintése"
+
+msgid "Send message reply"
+msgstr "Válasz küldése"
+
+msgid "Send reply"
+msgstr "Válasz küldése"
+
+msgid "ISPCP Client : Add Alias"
+msgstr "ISPCP Kliens : Új Alias"
+
+msgid "Manage domain alias"
+msgstr "Domain alias kezelés"
+
+msgid "Add domain alias"
+msgstr "Domain alias hozzáadása"
+
+msgid "User account"
+msgstr "Felhasználói hozzáférés"
+
+msgid "Directory mount point"
+msgstr "Könyvtár beillesztési pont"
+
+msgid "Forward to URL"
+msgstr "Továbbítás URL-re:"
+
+msgid "Add alias"
+msgstr "Alias hozzáadása"
+
+msgid "Domain alias limit reached!"
+msgstr ""
+
+msgid "Incorrect domain name syntax"
+msgstr "Hibás domain név formátum!"
+
+msgid "Domain with that name already exists on the system!"
+msgstr "ilyen nevû domain már létezik!"
+
+msgid "Incorrect mount point syntax"
+msgstr "Hibás beillesztési pont formátum!"
+
+msgid "Incorrect forward syntax"
+msgstr "Hibás forward cím formátum!"
+
+msgid "Domain with this name already exist"
+msgstr "Ilyen nevû domain már létezik!"
+
+#, fuzzy
+msgid "There is a subdomain with the same mount point!"
+msgstr "Már létezik alias ezzel a beillesztési ponttal"
+
+msgid "Alias scheduled for addition!"
+msgstr "Alias hozzáadása beütemezve!"
+
+msgid "Empty List"
+msgstr "Üres Lista"
+
+msgid "Empty list"
+msgstr "Üres lista"
+
+msgid "FTP account already exists!"
+msgstr "FTP hozzáférés már létezik!"
+
+msgid "Unknown domain type"
+msgstr ""
+
+msgid "Incorrect mount point length or syntax"
+msgstr ""
+
+#, php-format
+msgid "%s does not exist"
+msgstr ""
+
+msgid "FTP account added!"
+msgstr "FTP hozzáférés hozzáadva!"
+
+msgid "Please enter FTP account username!"
+msgstr "Írd be az FTP hozzáférés nevét!"
+
+msgid "Password data is missing!"
+msgstr "Hiányzó jelszó adat!"
+
+msgid "Entered passwords differ from the another!"
+msgstr "A megadott jelszavak különböznek egymástól!"
+
+msgid "Subdomain list is empty! You can not add FTP accounts there!"
+msgstr "Üres aldomain lista! Nem hozhatsz itt létre új FTP hozzáférést!"
+
+msgid "Alias list is empty! You can not add FTP accounts there!"
+msgstr "Alias lista üres! Nem hozhatsz létre FTP hozzáférést!"
+
+msgid "Please specify other FTP account dir!"
+msgstr "Adj meg másik könyvtárat az FTP hozzáférésnek!"
+
+msgid "FTP accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add FTP User"
+msgstr "ISPCP - Kliens/Új FTP Felhasználó"
+
+msgid "Add FTP user"
+msgstr "FTP felhasználó hozzáadása"
+
+msgid "To main domain"
+msgstr "Elsõdleges domainnek"
+
+msgid "To domain alias"
+msgstr "A domain aliasnak"
+
+msgid "To subdomain"
+msgstr "Aldomainnek"
+
+msgid "Use other dir"
+msgstr "Másik könyvtár használata"
+
+msgid "Choose dir"
+msgstr "Válassz könyvtárat"
+
+msgid "Invalid Mail Localpart Format used!"
+msgstr ""
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr ""
+
+msgid "Mail forward list empty!"
+msgstr ""
+
+msgid "Mail account already exists!"
+msgstr "Már létezik ilyen email hozzáférés!"
+
+msgid "Mail account scheduled for addition!"
+msgstr "Email hozzáférés hozáadás beütemezve!"
+
+msgid "Please enter mail account username!"
+msgstr "Add meg az email hozzáférés nevét!"
+
+msgid "Password data includes not permitted signs!"
+msgstr ""
+
+msgid "Subdomain list is empty! You can not add mail accounts!"
+msgstr "Üres aldomain lista! Nem hozhatsz itt létre új email hozzáférést!"
+
+msgid "Alias list is empty! You can not add mail accounts!"
+msgstr "Alias lista üres! Nem hozhatsz létre Email hozzáférést!"
+
+msgid "Forward list is empty!"
+msgstr "Továbbító lista üres!"
+
+msgid "Mail accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Mail User"
+msgstr "ISPCP - Kliens/Új Email Felhasználó"
+
+msgid "Add mail users"
+msgstr "Email felhasználók hozzáadása"
+
+msgid "Normal mail"
+msgstr "Normál email"
+
+msgid "Forward mail"
+msgstr "Továbbító cím"
+
+msgid "Forward to"
+msgstr "Továbbítás erre:"
+
+msgid "Separate multiple email addresses with a line-break."
+msgstr ""
+
+msgid "Please type database name!"
+msgstr "Írd be az adatbázis nevét!"
+
+msgid "Database name is too long!"
+msgstr ""
+
+msgid "Specified database name already exists!"
+msgstr "A megadott adatbázis név már létezik!"
+
+#, php-format
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr ""
+
+msgid "SQL database created successfully!"
+msgstr "SQL adatbázis sikeresen létrehozva!"
+
+msgid "SQL accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL Database"
+msgstr "ISPCP - Kliens/Új SQL Adatbázis"
+
+msgid "Add SQL database"
+msgstr "SQL adatbázis hozzáadása"
+
+msgid "Database name"
+msgstr "Adatbázis neve"
+
+msgid "Use numeric ID"
+msgstr "Numerikus azonosító használata"
+
+msgid "Before the name"
+msgstr ""
+
+msgid "After the name"
+msgstr ""
+
+msgid "Subdomains limit reached!"
+msgstr ""
+
+msgid "Please specify subdomain name!"
+msgstr "Add meg az aldomain nevét!"
+
+msgid "Subdomain already exists!"
+msgstr "Az aldomain már létezik!"
+
+msgid "Wrong subdomain syntax!"
+msgstr "Rossz aldomain formátum!"
+
+msgid "Subdomain mount point already exists!"
+msgstr "Aldomain beillesztési pont már létezik !"
+
+msgid "Subdomain scheduled for addition!"
+msgstr "Aldomain hozzáadása beütemezve!"
+
+msgid "ISPCP - Client/Add Subdomain"
+msgstr "ISPCP - Kliens/Új Aldomain"
+
+msgid "Add subdomain"
+msgstr "Aldomain hozzáadása"
+
+msgid "Subdomain data"
+msgstr "Aldomain adatok"
+
+msgid "Subdomain name"
+msgstr "Aldomain neve"
+
+msgid "Directory tree<br>mount point"
+msgstr "Könyvtárfa<br>beillesztési pont"
+
+msgid "Backup archive scheduled for restoring!"
+msgstr "Mentésbõl való visszaállás beütemezve!"
+
+msgid "ISPCP - Client/Daily Backup"
+msgstr "ISPCP - Kliens/Napi Mentés"
+
+msgid "Backup"
+msgstr "Mentés"
+
+msgid "Daily backup"
+msgstr "Napi mentés"
+
+msgid "Instructions to download today's backup"
+msgstr ""
+
+msgid "Login with your FTP account"
+msgstr "Lépj be az FTP hozzáféréseddel!"
+
+msgid "Switch to backups/ directory"
+msgstr ""
+
+msgid "Download the files stored in this directory"
+msgstr "Töltsd le a könyvtárban található egyetlen fájlt!"
+
+msgid "(usually named backup_YYYY_MM_DD.tar.bz2)"
+msgstr "(rendszerint elnevezve: domain-backup-ÉÉÉÉ.HH.NN-ÓÓPPMM.tar.bz2)"
+
+msgid "Restore backup"
+msgstr "Mentés visszaállítása"
+
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+
+msgid "Restore"
+msgstr "Visszaállítás"
+
+msgid "N/A"
+msgstr "NA"
+
+msgid "Enable"
+msgstr "Engedélyez"
+
+msgid "Disable"
+msgstr "Letilt"
+
+msgid "Delete CatchAll"
+msgstr "Gyûjtõ cím törlése"
+
+msgid "Create catch all"
+msgstr "Gyûjtõ cím létrehozása"
+
+msgid "ISPCP - Client/Manage Users"
+msgstr "ISPCP - Kliens/Felhasználók Kezelése"
+
+msgid "Manage users"
+msgstr "Felhasználók kezelése"
+
+msgid "Mail users"
+msgstr "Email felhasználók"
+
+msgid "Auto respond"
+msgstr "Auto válasz"
+
+msgid "Domain mails"
+msgstr "Domain email címek"
+
+msgid "Subdomain mails"
+msgstr "Aldomain emailek"
+
+msgid "Alias mails"
+msgstr "Alias email címek"
+
+msgid "Mails total"
+msgstr "Összes email"
+
+msgid "FTPs total"
+msgstr "Összes FTP"
+
+msgid "Catch all account"
+msgstr "Gyûjtõ email"
+
+msgid "Catch all"
+msgstr "Gyûjtõ"
+
+msgid "FTP users"
+msgstr "FTP felhasználók"
+
+msgid "FTP account"
+msgstr "FTP hozzáférés"
+
+msgid "ISPCP - Client/Change Password"
+msgstr "ISPCP - Kliens/Jelszóváltás"
+
+msgid "ISPCP - Client/Change Personal Data"
+msgstr "ISPCP - Kliens/Személyes Adatok"
+
+msgid "User does not exist or you do not have permission to access this interface!"
+msgstr "Nincs ilyen felhasználó, vagy nincs jogosultságod ehez a menühöz!"
+
+msgid "Catch all account scheduled for creation!"
+msgstr "Gyûjtõ email létrehozása beütemezve!"
+
+msgid "Mail forward list error!"
+msgstr "Email továbbítás lista hiba!"
+
+msgid "ISPCP - Client/Create CatchAll Mail Account"
+msgstr "ISPCP - Kliens/Új Gyûjtö Email"
+
+msgid "Create catch all mail account"
+msgstr "Gyûjtõ email cím létrehozása"
+
+msgid "Mail accounts list"
+msgstr ""
+
+msgid "ISPCP - Client/Cronjob Manager"
+msgstr "ISPCP - Kliens/Ütemezések Kezelése"
+
+msgid "Cronjob Manager"
+msgstr "Ütemezés kezelése"
+
+msgid "Add Cronjob"
+msgstr "Ütemezés hozzáadása"
+
+msgid "Active"
+msgstr "Aktív"
+
+msgid "Cronjob"
+msgstr "Ütemezés"
+
+msgid "Command to run:"
+msgstr "Parancs futtatás:"
+
+msgid "Minute(s):"
+msgstr "Perc(ek):"
+
+msgid "Hour(s):"
+msgstr "Óra(ák):"
+
+msgid "Day(s):"
+msgstr "Nap(ok):"
+
+#, fuzzy
+msgid "Month(s):"
+msgstr "Hónap(ok):"
+
+msgid "Weekday(s):"
+msgstr "Hét napja(i):"
+
+msgid "Reset"
+msgstr "Alaphelyzet"
+
+msgid "Cancel"
+msgstr "Mégsem"
+
+msgid "Edit Cronjob"
+msgstr "Ütemezés szerkesztése"
+
+msgid "Cronjobs"
+msgstr "Ütemezések"
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr "A törölni kívánt domain aliashoz email cím tartozik!<br>Elõbb azt kell törölni!"
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr "A törölni kívánt domain aliashoz FTP hozzáférés tartozik!<br>Elõbb azt kell törölni!"
+
+msgid "Alias scheduled for deletion!"
+msgstr "Alias törlése beütemezve!"
+
+msgid "Catch all account scheduled for deletion!"
+msgstr "Gyûjtõ email törlése beütemezve!"
+
+msgid "FTP account deleted successfully!"
+msgstr "FTP hozzáférés sikeresen törölve!"
+
+msgid "Please delete first CatchAll account for this email!"
+msgstr "Elõbb töröld a gyûjtõjét az  email-nek!"
+
+msgid "SQL database was removed successfully!"
+msgstr "SQL adatbázis sikeresen törölve!"
+
+msgid "Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr "Az aldomainhez amit törölni próbálsz email hozzáférések tartoznak! <br>Elõbb töröld azokat!"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr "Aldomain törlés beütemezve!"
+
+msgid "Mail account scheduled for modification!"
+msgstr "Email hozzáférés módosítás beütemezve!"
+
+msgid "ISPCP - Client/Domain Statistics"
+msgstr "ISPCP - Kliens/Domain Statisztika"
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr ""
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP/IMAP"
+msgstr ""
+
+msgid "Sum"
+msgstr "Össz"
+
+msgid "ISPCP - Manage Domain Alias/Edit Alias"
+msgstr "ISPCP - Domain Alias Kezelés/Alias Módosítás"
+
+msgid "Edit domain alias"
+msgstr "Domain alias szerkeztése"
+
+msgid "Alias name"
+msgstr "Alias név"
+
+#, fuzzy
+msgid "Mount Point"
+msgstr "Beillesztési pont"
+
+#, fuzzy
+msgid "Enable Forward"
+msgstr "Levél továbbítása"
+
+msgid "Entered passwords differ!"
+msgstr "A megadott jelszavak különbözõek!"
+
+msgid "FTP account data updated!"
+msgstr "FTP hozzáférés módosítva!"
+
+msgid "ISPCP - Client/Edit FTP Account"
+msgstr "ISPCP - Kliens/FTP Hozzáférés Módosítása"
+
+msgid "Edit FTP user"
+msgstr "FTP felhasználó szerkesztése"
+
+msgid "Save changes"
+msgstr "Változások mentése"
+
+msgid "Email account not found!"
+msgstr ""
+
+msgid "Missing or wrong data!"
+msgstr "Hiányzó vagy rossz adat!"
+
+msgid "Password data includes not valid signs!"
+msgstr ""
+
+msgid "Mail were updated successfully!"
+msgstr "Email sikeresen módosítva!"
+
+msgid "ISPCP - Manage Mail and FTP / Edit mail account"
+msgstr "ISPCP - Email és FTP Kezelés / Email hozzáférések módosítása"
+
+msgid "Edit email account"
+msgstr "Email cím szerkesztése"
+
+msgid "Please type your mail autorespond message!"
+msgstr "Írd be az automatikus válasz üzenetét!"
+
+msgid "Mail account scheduler for modification!"
+msgstr "Email hozzáférés módosítás beütemezve!"
+
+msgid "ISPCP - Client/Enable Mail Auto Responder"
+msgstr "ISPCP - Kliens/Automatikus Email Válasz Bekapcsolása"
+
+msgid "Edit mail auto responder"
+msgstr "Automatikus válaszlevél szerkesztése"
+
+msgid "Your message"
+msgstr "Az üzeneted"
+
+msgid "Please wait for update"
+msgstr ""
+
+msgid "Mail accounts list is empty!"
+msgstr ""
+
+msgid "Enable mail auto responder"
+msgstr "Automatikus email válasz engedélyezése"
+
+msgid "ISPCP - Client/Manage Error Custom Pages"
+msgstr "ISPCP - Kliens/Saját Hiba Lapok Kezelése"
+
+msgid "Server error - please choose error page"
+msgstr "Szerver hiba - válassz hibalapot"
+
+msgid "Edit error page"
+msgstr "Hibalap szerkesztése"
+
+msgid "Custom error page was updated!"
+msgstr "Egyedi hibalap frissítve!"
+
+msgid "System error - custom error page was NOT updated!"
+msgstr "Rendszerhiba - saját hibalap NEM lett módosítva!"
+
+msgid "Error 401 (unauthorised)"
+msgstr ""
+
+msgid "Error 403 (forbidden)"
+msgstr "Hiba 403 (tiltott)"
+
+msgid "Error 404 (not found)"
+msgstr "Hiba 404 (nem található)"
+
+msgid "Error 500 (internal server error)"
+msgstr "Hiba 500 (belsõ szerver hiba)"
+
+msgid "Error 503 (service unavailable)"
+msgstr ""
+
+msgid "Error pages"
+msgstr "Hibalapok"
+
+msgid "FTP list is empty!"
+msgstr "FTP lista üres!"
+
+msgid "Can not open directory !<br>Please contact your administrator !"
+msgstr "Nem lehet megnyitni a könyvtárat!<br>Lépj kapcsolatba az adminisztrátorral !"
+
+msgid "Parent Directory"
+msgstr "Szülõ könyvtár"
+
+msgid "Protect it"
+msgstr "Védd le"
+
+msgid "ISPCP - Client/Webtools"
+msgstr "ISPCP - Kliens/Webes Eszközök"
+
+msgid "Directory tree"
+msgstr "Könyvtárfa"
+
+msgid "Directories"
+msgstr "Könyvtárak"
+
+msgid "Choose"
+msgstr "Válassz"
+
+msgid "disabled"
+msgstr "tiltva"
+
+#, php-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr ""
+
+#, php-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr ""
+
+msgid "You are exceeding your disk limit!"
+msgstr "Túllépted a felhasználható helyek maximélis méretét!"
+
+msgid "You have no new support questions!"
+msgstr "Nincs új ügyfélszolgálati kérdés!"
+
+msgid "ISPCP - Client/Main Index"
+msgstr "ISPCP - Kliens/Kezdõlap"
+
+msgid "General information"
+msgstr "Általános információk"
+
+msgid "Account name"
+msgstr "Belépési név"
+
+msgid "Main domain"
+msgstr "Email domain"
+
+msgid "SQL support"
+msgstr "SQL támogatás"
+
+msgid "Choose default language"
+msgstr "Alapértelmezett nyelv kiválasztása"
+
+msgid "Traffic usage"
+msgstr "Forgalom használat"
+
+msgid "Disk usage"
+msgstr "Diszk használat"
+
+msgid "User language updated successfully!"
+msgstr "Felhasználói nyelv sikeresen módosítva!"
+
+msgid "ISPCP - Client/Change Language"
+msgstr "ISPCP - Kliens/Nyelvváltás"
+
+msgid "Subdomain list is empty!"
+msgstr "Aldomain lista üres!"
+
+msgid "Alias list is empty!"
+msgstr "Alias lista üres!"
+
+msgid "ISPCP - Client/Manage Domains"
+msgstr "ISPCP - Kliens/Domain Kezelés"
+
+msgid "Manage domains"
+msgstr "Domainek kezelése"
+
+msgid "Mount point"
+msgstr "Beillesztési pont"
+
+msgid "Forward"
+msgstr "Továbbít"
+
+#, fuzzy
+msgid "Actions"
+msgstr "Cselekvés"
+
+msgid "Database user list is empty!"
+msgstr "Adatbázis felhasználó lista üres!"
+
+msgid "Database list is empty!"
+msgstr "Adatbázis lista üres!"
+
+msgid "ISPCP - Client/Manage SQL"
+msgstr "ISPCP - Kliens/SQL Kezelés"
+
+msgid "Manage SQL"
+msgstr "SQL kezelés"
+
+msgid "Database users"
+msgstr "Adatbázis felhasználók"
+
+msgid "Add SQL user"
+msgstr "SQL felhasználó hozzáadása"
+
+msgid "Execute query"
+msgstr "Kérés végrehajtása"
+
+msgid "Please specify message subject!"
+msgstr "Add meg a levél tárgyát!"
+
+msgid "Your message was sent!"
+msgstr "Az üzeneted elküldve!"
+
+msgid "ISPCP - Support system - New ticket"
+msgstr "ISPCP - Ügyfélszolgállat - Új bejelentés"
+
+msgid "New ticket"
+msgstr "Új hibajegy"
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+
+msgid "Protected area deleted successfully!"
+msgstr "Védett terület sikeresen törölve!"
+
+msgid "Permission deny!"
+msgstr "Engedély megtagadva!"
+
+msgid "You do not have protected areas"
+msgstr "Nincs védett területed"
+
+msgid "Manage users and groups"
+msgstr "Felhasználók és csoportok kezelése"
+
+msgid "Add user"
+msgstr "Felhasználó hozzáadása"
+
+msgid "Group name"
+msgstr "Csoport neve"
+
+msgid "Group members"
+msgstr "Csoport tagok"
+
+msgid "Add group"
+msgstr "Csoport hozzáadása"
+
+msgid "Group"
+msgstr "Csoport"
+
+msgid "Add new protected area"
+msgstr "Új védett terület hozzáadása"
+
+msgid "Please choose user or group"
+msgstr "Válassz felhasználót vagy csoportot"
+
+msgid "Please enter area name"
+msgstr "Add meg a terület nevét"
+
+msgid "Please enter area path"
+msgstr "Add meg a terület útvonalát"
+
+#, php-format
+msgid "%s doesn't exist"
+msgstr ""
+
+msgid "You can not protect area without selected user(s)"
+msgstr ""
+
+msgid "You can not protect area without selected group(s)"
+msgstr "Nem védheted a területet kiválasztott csoport(ok) nélkül"
+
+msgid "Protected area updated successfully!"
+msgstr "Védett terület sikeresen módisítva!"
+
+msgid "Protected area created successfully!"
+msgstr "Védett terület sikeresen létrehozva!"
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+
+msgid "You have no users !"
+msgstr "Nincs felhasználód !"
+
+msgid "You have no groups!"
+msgstr "Nincsenek csoportok!"
+
+msgid "Protect this area"
+msgstr "Védd le ezt a területet"
+
+msgid "Path"
+msgstr "Útvonal"
+
+msgid "Groups"
+msgstr "Csoportok"
+
+msgid "User auth"
+msgstr "Felhasználó engedély"
+
+msgid "Group auth"
+msgstr "Engedély csoport"
+
+msgid "Area name"
+msgstr "Terület név"
+
+msgid "Unprotect it"
+msgstr "Védelem eltávolítása"
+
+#, fuzzy, php-format
+msgid "User was assigned to the %s group"
+msgstr "Felhasználó hozzárendelve a csoporthoz"
+
+#, fuzzy, php-format
+msgid "User was deleted from the %s group "
+msgstr "Felhasználó törölve a csoportból"
+
+msgid "User assign"
+msgstr "Felhasználó hozzárendelés"
+
+msgid "Already in:"
+msgstr "Már létezik:"
+
+msgid "Member of group:"
+msgstr ""
+
+msgid "Select group:"
+msgstr ""
+
+msgid "Update user"
+msgstr "Felhasználó módosítás"
+
+msgid "Wrong username!"
+msgstr "Rossz felhasználónév!"
+
+#, fuzzy
+msgid "Group already exists!"
+msgstr "Csoport már létezik !"
+
+msgid "Manage user"
+msgstr "Felhasználó kezelése"
+
+msgid "You have no users!"
+msgstr "Nincs felhasználód!"
+
+msgid "User already exist !"
+msgstr "Felhasználó már létezik !"
+
+#, fuzzy
+msgid "SQL users limit reached!"
+msgstr "SQL felhasználó limit túllépve!"
+
+msgid "Please type user name!"
+msgstr "Írd be a felhasználónevet!"
+
+msgid "Please type user password!"
+msgstr "Írd be a felhasználó jelszavát!"
+
+msgid "Too user long password!"
+msgstr "Túl hosszú felhasználó jelszó!"
+
+msgid "SQL-user not found! Maybe it was deleted by another user!"
+msgstr ""
+
+msgid "User name too long!"
+msgstr "Felhasználó név túl hosszú!"
+
+#, fuzzy, php-format
+msgid "Wildcards as %% and ? are not allowed!"
+msgstr "Különleges karakterek mint % és ? nem engedélyezettek!"
+
+msgid "Specified SQL username name already exists!"
+msgstr "A megadott SQL felhasználó már létezik!"
+
+msgid "SQL user successfully added!"
+msgstr "SQL felhasználó sikeresen hozzáadva!"
+
+msgid "ISPCP - Client/Add SQL User"
+msgstr "ISPCP - Kliens/Új SQL Felhasználó"
+
+msgid "SQL user name"
+msgstr "SQL felhasználó név"
+
+msgid "In front the name"
+msgstr "A név elején"
+
+msgid "Behind the name"
+msgstr "A név mögött"
+
+msgid "Add existing user"
+msgstr "Létezõ felhasználó hozáadása"
+
+msgid "Existing SQL users"
+msgstr "Létezõ SQL felhasználók"
+
+msgid "Too long user password!"
+msgstr "Túl hosszú felhasználó jelszó!"
+
+msgid "SQL user password was successfully changed!"
+msgstr "SQL felhasználói jelszó sikeresen módosítva!"
+
+msgid "ISPCP - Client/Change SQL User Password"
+msgstr "ISPCP - Kliens/SQL Felhasználó Jelszóváltás"
+
+msgid "Change SQL user password"
+msgstr "SQL felhasználó jelszó csere"
+
+msgid "Change"
+msgstr "Vált"
+
+msgid "SQL user was removed successfully!"
+msgstr "SQL felhasználó sikeresen törölve!"
+
+msgid "Please enter SQL query!"
+msgstr "Add meg az SQL kérést!"
+
+msgid "Cannot connect as MySQL administrator!"
+msgstr "Sikertelen csatlakozás mint MySQL adminisztrátor!"
+
+msgid "SQL query has error"
+msgstr "SQL kérés hibás"
+
+msgid "SQL query is ok"
+msgstr "SQL kérés OK"
+
+msgid "ISPCP - Client/Execute SQL Query"
+msgstr "ISPCP - Kliens/SQL Kérés Végrehajtása"
+
+msgid "Execute SQL query"
+msgstr "SQL kérés végrehajtása"
+
+msgid "SQL query"
+msgstr "SQL kérés"
+
+msgid "Query status"
+msgstr "Kérés státusza"
+
+msgid "Query result"
+msgstr "Kérés eredménye"
+
+msgid "Execute"
+msgstr "Végrehajt"
+
+msgid "Protected area was deleted successful!"
+msgstr "Védett terület sikeresen törölve!"
+
+msgid "Hosting plans available for update"
+msgstr "Megújítható szolgáltatási csomag elérhetõ"
+
+msgid "Cancel order"
+msgstr "Rendelés visszavonása"
+
+msgid "Your order"
+msgstr "Rendelésed"
+
+msgid "Purchase"
+msgstr "Vásárlás"
+
+msgid "There are no available updates"
+msgstr "Itt nincsenek elérhetõ frissítések"
+
+msgid "PHP Support: enabled"
+msgstr "PHP támogatás: engedélyezve"
+
+msgid "PHP Support: disabled"
+msgstr "PHP támogatás: tiltva"
+
+msgid "CGI Support: enabled"
+msgstr "CGI Támogatás: engedélyezve"
+
+msgid "CGI Support: disabled"
+msgstr "CGI Támogatás: tiltva"
+
+#, fuzzy
+msgid "Disk limit"
+msgstr "Diszk MB-ban"
+
+#, fuzzy
+msgid "Traffic limit"
+msgstr "Forgalom"
+
+msgid "Emails"
+msgstr ""
+
+msgid "FTPs"
+msgstr ""
+
+msgid "free of charge"
+msgstr "feltölthetõ"
+
+msgid "There are no available hosting plans for update"
+msgstr "Itt nincs elérhetõ szolgáltatási csomag módosításra"
+
+msgid "ISPCP - Update hosting plan"
+msgstr "ISPCP - Szolgáltatási csomag frissítés"
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr "Az általad kért szolgáltatási csomag sikeresen hozzáadva!"
+
+msgid "[ispCP OrderPanel] - You have an update order"
+msgstr ""
+
+msgid ""
+"You have an update order for the account {ACCOUNT}\n"
+"\n"
+"\n"
+"Please login into your ispCP control panel for more details"
+msgstr ""
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "Az általad kért szolgáltatási csomag sikeresen eltávolítva!"
+
+msgid "Message was send!"
+msgstr "Üzenet elküldve!"
+
+msgid "Webtools"
+msgstr "Webes eszközök"
+
+msgid "Customise error pages for your domain"
+msgstr ""
+
+msgid "Backup and restore settings"
+msgstr "Fájlok mentése és visszaállítása"
+
+msgid "Access your mail through the web interface"
+msgstr "Email elérése webes felületen keresztül"
+
+msgid "Access your files through the web interface"
+msgstr "Fájlok elérése webes felületen keresztül"
+
+msgid "Manage protected areas, users and groups"
+msgstr "Védett területek, felhasználók és csoportok kezelése"
+
+msgid "System tools"
+msgstr "Rendszereszközök"
+
+msgid "Statistics"
+msgstr "Statisztika"
+
+msgid "Reseller statistics"
+msgstr "Viszonteladó statisztika"
+
+msgid "Admin log"
+msgstr "Admin napló"
+
+msgid "Logout"
+msgstr "Kilépés"
+
+msgid "Custom menus"
+msgstr "Egyedi menük"
+
+msgid "Overview"
+msgstr "Áttekintés"
+
+msgid "User sessions"
+msgstr "Felhasználói folyamat"
+
+msgid "Lostpw email setup"
+msgstr "Elveszett jelszó beállítás"
+
+msgid "Rootkit Log"
+msgstr ""
+
+msgid "Admin users"
+msgstr "Admin felhasználók"
+
+msgid "Normal users"
+msgstr "Normál felhasználók"
+
+msgid "System messages"
+msgstr "Rendszer üzenetek"
+
+msgid "No new messages"
+msgstr "Nincs új üzenet"
+
+msgid "Server traffic"
+msgstr "Szerver forgalom"
+
+msgid "Administrators list is empty!"
+msgstr ""
+
+msgid "Created by"
+msgstr "Létrehozta"
+
+msgid "Resellers list is empty!"
+msgstr "Viszonteladók lista üres!"
+
+msgid "Change user interface"
+msgstr "Váltás erre a felületre"
+
+msgid "Not found user records matching the search criteria!"
+msgstr "A keresési feltételek alapján nem található felhasználó!"
+
+msgid "view aliases"
+msgstr "aliasok mutatása"
+
+msgid "Users list is empty!"
+msgstr "A felhasználó lista üres!"
+
+msgid "Details"
+msgstr "Részletek"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr "Biztos cserélni akarod a domain státuszát?"
+
+msgid "Are you sure you want to delete this account?"
+msgstr "Biztos törölni akarod ezt a hozzáférést?"
+
+msgid "Administrators"
+msgstr "Adminisztrátorok"
+
+msgid "Resellers"
+msgstr "Viszonteladók"
+
+msgid "Search"
+msgstr "Keresés"
+
+msgid "Creation date"
+msgstr "Létrehozás ideje"
+
+#, php-format
+msgid "%1$s you are now logged as %2$s"
+msgstr ""
+
+msgid "Go back"
+msgstr "Vissza"
+
+msgid "OK"
+msgstr ""
+
+msgid "Suspended"
+msgstr "Felfüggesztve"
+
+msgid "Error"
+msgstr "Hiba"
+
+msgid "[Ticket] {SUBJ}"
+msgstr ""
+
+msgid ""
+"Hello {TO_NAME} !\n"
+"\n"
+"You have a new ticket to read"
+msgstr ""
+
+msgid "Email and FTP accounts"
+msgstr "Email és FTP hozzáférések"
+
+msgid "Add mail user"
+msgstr "Email felhasználó hozzáadása"
+
+msgid "PhpMyAdmin"
+msgstr ""
+
+msgid "Filemanager"
+msgstr "Fájlkezelõ"
+
+msgid "Web statistics"
+msgstr ""
+
+msgid "Group/User management"
+msgstr ""
+
+msgid "Email Accounts"
+msgstr "Email hozzáférések"
+
+msgid "FTP Accounts"
+msgstr "FTP Hozzáférések"
+
+msgid "Update Hosting Package"
+msgstr ""
+
+msgid "Domain mail"
+msgstr "Domain email"
+
+msgid "Email forward"
+msgstr "Levél továbbítása"
+
+msgid "Alias mail"
+msgstr "Alias email cím"
+
+msgid "Alias forward"
+msgstr "Alias továbbítás"
+
+msgid "Subdomain mail"
+msgstr "Aldomain email"
+
+msgid "Subdomain forward"
+msgstr "Aldomain átirányítás"
+
+msgid "Unknown type"
+msgstr "Ismeretlen típus"
+
+msgid "Welcome new ispCP user {USERNAME}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP user type is: {USERTYPE}\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good luck with the ispCP system!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+
+msgid "Please activate your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"Use this link to activate your new ispCP password:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {NAME},\n"
+"This is an automatic confirmation for the order of the domain:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Catchall account"
+msgstr ""
+
+msgid "Could not get config from database"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "You have to wait %d seconds"
+msgstr "Nincsenek alias rekordok."
+
+#, php-format
+msgid "You have been blocked for %d minutes"
+msgstr ""
+
+msgid "System is currently in servicemode! At time only administrators can login."
+msgstr ""
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr "A felhasználó már be van lépve, vagy folyamat megosztási probléma! Megszakítva..."
+
+msgid "Domain status is not OK - Login aborted."
+msgstr ""
+
+msgid "Request from foreign host was blocked!"
+msgstr ""
+
+msgid "Domain alias"
+msgstr ""
+
+msgid "Manage Orders"
+msgstr "Rendelések Kezelése"
+
+msgid "Order settings"
+msgstr "Rendelés beállítások"
+
+msgid "Order email setup"
+msgstr "Rendelés email beállítás"
+
+msgid "Please fill up both data fields for password!"
+msgstr "Töltsd fel a jelszó mindkét mezõjét!"
+
+msgid "Addition in progress"
+msgstr "Hozzáadás folyamatban"
+
+msgid "Modification in progress"
+msgstr "Módosítás folyamatban"
+
+msgid "Deletion in progress"
+msgstr "Törlés folyamatban"
+
+#, fuzzy
+msgid "Being enabled"
+msgstr "engedélyezve"
+
+#, fuzzy
+msgid "Being suspended"
+msgstr "felfüggeszt"
+
+#, fuzzy
+msgid "Unknown error"
+msgstr "Ismeretlen típus"
+
+msgid "hide aliases"
+msgstr "aliasok elrejtése"
+
+msgid "You have reached your domains limit.<br>You can not add more domains!"
+msgstr ""
+
+msgid "You have a subdomains limit!<br>You can not add an user with unlimited subdomains!"
+msgstr ""
+
+msgid "You are exceeding your subdomains limit!"
+msgstr ""
+
+msgid "You have an aliases limit!<br>You can not add an user with unlimited aliases!"
+msgstr ""
+
+msgid "You Are Exceeding Your Alias Limit!"
+msgstr "Túllépted az aliasok maximális számát!"
+
+msgid "You have a mail accounts limit!<br>You can not add an user with unlimited mail accounts!"
+msgstr ""
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr ""
+
+msgid "You have a FTP accounts limit!<br>You can not add an user with unlimited FTP accounts!"
+msgstr ""
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr ""
+
+msgid "You have a SQL databases limit!<br>You can not add an user with unlimited SQL databases!"
+msgstr ""
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr ""
+
+msgid "You have an SQL users limit!<br>You can not add an user with unlimited SQL users!"
+msgstr ""
+
+msgid "You have disabled SQL databases for this user!<br>You can not have SQL users here!"
+msgstr "Nem engedélyezted az SQL adatbázisokat ennek a felhasználónak!<br>Nem hozhatsz létre SQL felhasználót!"
+
+msgid "You are exceeding your SQL database limit!"
+msgstr ""
+
+msgid "You have a traffic limit!<br>You can not add an user with unlimited traffic!"
+msgstr ""
+
+msgid "You have a disk limit!<br>You can not add an user with unlimited disk!"
+msgstr ""
+
+msgid "You have a new order"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"you have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n"
+"\n"
+"Please login into your ISPCP control panel for more details.\n"
+"\n"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr "Rossz domain név formátum!"
+
+msgid "You do not have permission to access this interface!"
+msgstr "Nincs engedélyed ehez a felülethez!"
+
+msgid "Add On A Domain"
+msgstr "Hozzáadás egy domainhez"
+
+msgid "Continue"
+msgstr "Tovább"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(Pl. a_te_domained.com)"
+
+msgid "Please fill out all needed fields!"
+msgstr "Tölts ki minden szükséges mezõt!"
+
+msgid "Enter Address"
+msgstr "Cím megadás"
+
+msgid "* denotes mandatory field."
+msgstr "* kötelezõen kitöltendõ mezõ."
+
+msgid "Your Chart"
+msgstr "A grafikonod"
+
+msgid "Costs"
+msgstr "Ár"
+
+msgid "Personal Data"
+msgstr "Személyes Adatok"
+
+msgid "Check Out"
+msgstr "Kilépés"
+
+msgid "<b>Thank You for purchasing</b><br>You will receive an email with more details and information"
+msgstr "<b>Köszönjük a vásárlást</b><br>Levélben küldjük a további részletes információkat"
+
+msgid "No available hosting packages"
+msgstr "Nincs elérhetõ szolgáltatás csomag"
+
+msgid "Webspace"
+msgstr "Webhely"
+
+msgid "Domain Features"
+msgstr "Domain Sajátságok"
+
+msgid "Package Features"
+msgstr "Csomag Sajátságok"
+
+msgid "Backup and Restore"
+msgstr "Mentés és Visszaállítás"
+
+msgid "Custom Error Pages"
+msgstr "Egyedi Hibalapok"
+
+msgid "Protected Areas"
+msgstr "Védett Területek"
+
+msgid "Custom Apache Logs"
+msgstr "Egyedi Apache Napló"
+
+msgid "Web & E-Mail Support"
+msgstr "Web és Email Támogatás"
+
+msgid "Your Own Domain"
+msgstr "Saját domained"
+
+msgid "ISPCP Control Panel"
+msgstr "ISPCP Irányító Panel"
+
+msgid "Automatic Updates"
+msgstr "Automatikus Frissítés"
+
+msgid "Package Price"
+msgstr "Csomag Ár"
+
+msgid "Setup Fee"
+msgstr "Díj Beállítás"
+
+msgid "Performance"
+msgstr "Teljesítmény"
+
+msgid "ISPCP Reseller : Add Alias"
+msgstr "ISPCP Viszonteladó : Új alias"
+
+msgid "You have no user records."
+msgstr "Nincs felhasználó rekord."
+
+msgid "ISPCP - Reseller/Add hosting plan"
+msgstr "ISPCP - Viszonteladó/Új szolgálltatási csomag"
+
+msgid "ISPCP - Reseller/Change Password"
+msgstr "ISPCP - Viszonteladó/Jelszóváltás"
+
+msgid "ISPCP - Reseller/Change Personal Data"
+msgstr "ISPCP - Viszonteladó/Személyes adatok módosítása"
+
+msgid "ISPCP - Circular"
+msgstr "ISPCP - Körlevél"
+
+msgid "Circular"
+msgstr "Körlevél"
+
+msgid "Wrong domain ID!"
+msgstr "Rossz domain azonosító!"
+
+msgid "Domain you are trying to remove has email accounts !<br> first remove them !"
+msgstr "A törölni kívánt domainhez email cím tartozik !<br>Elõbb azt kell törölni !"
+
+msgid "Domain you are trying to remove has FTP accounts !<br> first remove them !"
+msgstr "A törölni kívánt domainhez FTP hozzáférés tartozik!<br>Elõbb azt kell törölni !"
+
+msgid "Domain you are trying to remove has domain alias!<br> first remove them !"
+msgstr "A törölni kívánt domainhez domin alias tartozik!<br>Elõbb azt kell törölni !"
+
+msgid "Domain you are trying to remove has subdomains accounts !<br> first remove them !"
+msgstr "A törölni kívánt domainhez aldomain hozzáférés tartozik !<br>Elõbb azt kell törölni !"
+
+msgid "ISPCP - Manage Domain/Alias"
+msgstr "ISPCP - Domain Kezelés/Alias"
+
+msgid "Manage alias"
+msgstr "Alias kezelés"
+
+msgid "Real domain"
+msgstr "Valódi domain"
+
+msgid "You have no alias records."
+msgstr "Nincsenek alias rekordok."
+
+msgid "Domain alias added for termination!"
+msgstr "Domain alias törlése beütemezve!"
+
+msgid "Domain alias not added for termination!"
+msgstr "Domain alias nem lett kijelölve törlésre!"
+
+msgid "Domain alias added!"
+msgstr "Domain alias hozzáadva!"
+
+msgid "Domain alias not added!"
+msgstr "Domain alias nincs hozzáadva!"
+
+msgid "Domain alias modified!"
+msgstr "Domain alias módosítva!"
+
+msgid "Domain alias not modified!"
+msgstr "Domain alias nincs módosítva!"
+
+msgid "User terminated!"
+msgstr "Felhasználó törölve!"
+
+msgid "ISPCP - Domain/Edit"
+msgstr "ISPCP - Domain/Módosítás"
+
+msgid "Edit Domain"
+msgstr "Domain szerkesztése"
+
+msgid "Domain properties"
+msgstr "Domain tulajdonságok"
+
+msgid "SQL Database"
+msgstr "SQL Adatbázis"
+
+msgid "SQL User"
+msgstr "SQL Felhasználó"
+
+msgid "Domain properties updated successfully!"
+msgstr "Domain tulajdonságok sikeresen frissítve!"
+
+#, php-format
+msgid "<b>%s</b> Service can not be disabled !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are <b>%s</b> records on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> records, present on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be unlimited !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "You are exceeding reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> amount, present on the system!"
+msgstr ""
+
+msgid "ISPCP - Users/Edit"
+msgstr "ISPCP - Felhasználók/Szerkesztés"
+
+msgid "Edit user"
+msgstr "Felhasználó szerkesztése"
+
+msgid "Users list"
+msgstr "Felhasználó lista"
+
+msgid "ISPCP - Reseller/Edit hosting plan"
+msgstr "ISPCP - Viszonteladó/Szolgálltatási csomag szerkesztése"
+
+msgid "View hosting plan"
+msgstr "Szolgáltatási csomagok megtekintése"
+
+msgid "Incorrect price!"
+msgstr ""
+
+msgid "Incorrect setup fee!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ISPCP - Reseller/Main Index"
+msgstr "ISPCP - Viszonteladó/Kezdõlap"
+
+msgid "View details"
+msgstr "Részletek megtekintése"
+
+msgid "User accounts"
+msgstr "Felhasználói hozzáférések"
+
+msgid "Mail account"
+msgstr "Email hozzáférés"
+
+msgid "Extras"
+msgstr "Extrák"
+
+#, php-format
+msgid "%1$d / %2$d of <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>unlimited</b>"
+msgstr ""
+
+msgid "of"
+msgstr "max:"
+
+msgid "ISPCP - Reseller/Lostpw email setup"
+msgstr "ISPCP - Viszonteladó/Elveszett jelszó email beállítás"
+
+msgid "Lostpw email"
+msgstr "Elveszett jelszó email"
+
+msgid "Lostpw link"
+msgstr "Elveszett jelszó link"
+
+msgid "ISPCP - Reseller/Order email setup"
+msgstr "ISPCP - Viszonteladó/Rendelés email beállítás"
+
+msgid "Manage orders"
+msgstr "Rendelések kezelése"
+
+msgid "Wrong order ID!"
+msgstr "Rossz rendelés azonosító!"
+
+msgid "User added!"
+msgstr "Felhasználó hozzáadva!"
+
+msgid "Customer order was removed successful!"
+msgstr "Ügyfél rendelés sikeresen törölve!"
+
+msgid "ISPCP - Reseller/Order details"
+msgstr "ISPCP - Viszonteladó/Rendelés részletek"
+
+msgid "Order data updated successfully!"
+msgstr "Rendelési adatok sikeresen módosítva!"
+
+msgid "Order date"
+msgstr "Rendelés dátum"
+
+msgid "Hosting plan"
+msgstr "Szolgáltatási csomag"
+
+msgid "Hosting details"
+msgstr "Szolgáltatás részletek"
+
+msgid "Order details"
+msgstr "Rendelés részletei"
+
+msgid "Customer data"
+msgstr "Ügyfél adat"
+
+msgid "Delete order"
+msgstr "Rendelés törlése"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Biztos törölni akarod ezt a rendelést?"
+
+msgid "Add to the system"
+msgstr "Rendszerhez hozzáad"
+
+msgid "ISPCP - Reseller/Order settings"
+msgstr "ISPCP - Viszonteladó/Rendelés beállítás"
+
+msgid "Header"
+msgstr "Fejléc"
+
+msgid "Preview"
+msgstr "Elõnézet"
+
+msgid "Implementation URL"
+msgstr "Megvalósítás URL"
+
+msgid "Footer"
+msgstr "Lábléc"
+
+msgid "ISPCP - Reseller/Order management"
+msgstr "ISPCP - Viszonteladó/Rendelés Kezelés"
+
+msgid "You do not have new orders!"
+msgstr "Nincs új rendelésed!"
+
+msgid "New order"
+msgstr "Új rendelés"
+
+msgid "Update order"
+msgstr "Rendelés módosítás"
+
+msgid "ID"
+msgstr "Azon."
+
+msgid "Order"
+msgstr "Rendelés"
+
+msgid "Add/Details"
+msgstr "Hozzáad/Részletez"
+
+msgid "ISPCP - Users/Add user"
+msgstr "ISPCP - Felhasználók/Új felhasználó"
+
+msgid "Choose hosting plan"
+msgstr "Válassz szolgáltatás csomagot"
+
+msgid "Personalise template"
+msgstr ""
+
+msgid "Next step"
+msgstr "Következõ lépés"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+
+msgid "ISPCP - User/Add user(step2)"
+msgstr "ISPCP - Felhasználó/Új felhasználó (lépés 2)"
+
+msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Backup / Restore"
+msgstr "Mentés / Visszaállítás"
+
+msgid "Apache logs"
+msgstr "Apache napló"
+
+msgid "Awstats"
+msgstr ""
+
+msgid "ISPCP - User/Add user"
+msgstr "ISPCP - Felhasználó/Új felhasználó"
+
+msgid "Add other domains to this account"
+msgstr "Domainek hozzáadása ehez a hozzáféréshez"
+
+msgid "There's a conflicting admin / reseller fix that first!"
+msgstr ""
+
+msgid "System error with Domain ID "
+msgstr ""
+
+msgid "This reseller has no domains yet."
+msgstr "A viszonteladónak nincs domainje."
+
+msgid "ISPCP - Users"
+msgstr "ISPCP - Felhasználók"
+
+msgid "Stats"
+msgstr "Statisztikák"
+
+msgid "Edit properties"
+msgstr "Tulajdonságok szerkesztése"
+
+msgid "You have no users."
+msgstr "Nincs felhasználód."
+
+msgid "User data updated!"
+msgstr "Felhasználói adatok módosítva!"
+
+msgid "User data not updated!"
+msgstr "Felhasználói adatok nem lettek módosítva!"
+
+msgid "This user has domain record !<br>First remove the domain from the system!"
+msgstr "Ennek a felhasználónak létezik domain rekordja!<br>Elõször töröld a domaint!"
+
+msgid "User not terminated!"
+msgstr "Felhasználó nincs törölve!"
+
+msgid "ISPCP - Reseller : Support System: View Tickets"
+msgstr "ISPCP - Viszonteladó : Ügyfélszolgálati Rendszer: Bejelentések"
+
+msgid "Message was sent."
+msgstr "Üzenet elküldve."
+
+#~ msgid "Update language installed!"
+#~ msgstr "Nyelvi fájl telepítve!"
+
+#~ msgid "Undefined user accounting error!"
+#~ msgstr "Definiálatlan felhasználói hozzáférés hiba!"
+
+#~ msgid "This reseller has already dispatched more <b>"
+#~ msgstr "Ez a viszonteladó már elindított még <b>"
+
+#~ msgid "Then the value you are trying to enter now !<br>"
+#~ msgstr "Aztán az értéket amit most be akarsz írni!<br>"
+
+#~ msgid "This reseller has more <b>"
+#~ msgstr "A viszonteladónak van még <b>"
+
+#~ msgid "Then the value you are trying to enter now!<br>"
+#~ msgstr "Aztán az értéket amit most be akarsz írni!<br>"
+
+#~ msgid "</b> Address !<br>Edit reseller aborted!"
+#~ msgstr "</b> Cím!<br> Viszonteladó szerkesztése megszakítva!"
+
+#~ msgid "Can not open file! Please contact your administrator !"
+#~ msgstr "Nem lehet megnyitni a fájlt!<br>Lépj kapcsolatba az adminisztrátorral !"
+
+#~ msgid "Not in:"
+#~ msgstr "Ebben nincs:"
+
+#~ msgid "wait to be added"
+#~ msgstr "hozzáadásra vár"
+
+#~ msgid "wait to be modified"
+#~ msgstr "módosításra vár"
+
+#~ msgid "wait to be deleted"
+#~ msgstr "törlésre vár"
+
+#~ msgid "wait to be enabled"
+#~ msgstr "engedélyezésre vár"
+
+#~ msgid "wait to be suspended"
+#~ msgstr "felfüggesztésre vár"
+
+#~ msgid "unknown status"
+#~ msgstr "ismeretlen státusz"
+
+#~ msgid "You have"
+#~ msgstr "Neked van"
+
+#~ msgid "Support question(s)"
+#~ msgstr "Ügyfélszolgálati kérdés(ek)"
+
+#~ msgid "New"
+#~ msgstr "Új"
+
+#~ msgid "Catch all mail account can not be created!"
+#~ msgstr "Nem hozható létre gyûjtõ email!"
+
+#~ msgid "support question(s)"
+#~ msgstr "Ügyfélszolgálati kérdés(ek)"
+
+#~ msgid "new"
+#~ msgstr "új"
+
+#~ msgid "Alias scheduled for modification!"
+#~ msgstr "Alias módosítása beütemezve!"
+
+#~ msgid "delete"
+#~ msgstr "törlés"

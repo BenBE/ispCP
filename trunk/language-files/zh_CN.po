@@ -1,0 +1,3353 @@
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-06 16:02-0500\n"
+"PO-Revision-Date: 2007-07-06 16:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese <zh_CN@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=GB2312\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: x64PoPot 0.2\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "GB2312"
+
+msgid "_: Localised language"
+msgstr "Chinese"
+
+msgid "ISPCP - Virtual Hosting Control System"
+msgstr "ISPCP - 虚拟主机控制系统"
+
+msgid "Administrator login"
+msgstr ""
+
+msgid "Login"
+msgstr "登录"
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Please enter your login information"
+msgstr ""
+
+msgid "Lost password"
+msgstr "丢失密码"
+
+msgid "Lost password function currently disabled"
+msgstr ""
+
+msgid "Password sent"
+msgstr ""
+
+msgid "ERROR: Password was not sent"
+msgstr ""
+
+msgid "The password was requested"
+msgstr "密码已经被请求"
+
+msgid "Back"
+msgstr "后退"
+
+msgid "ERROR: Unknown user"
+msgstr "错误：未知用户"
+
+msgid "Retry"
+msgstr "重试"
+
+msgid "ERROR: Security code was not correct!"
+msgstr "错误：安全代码不正确"
+
+msgid "Security code"
+msgstr "安全代码"
+
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr ""
+
+msgid "Request password"
+msgstr "请求密码"
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr ""
+
+msgid "Reseller IP list is empty!"
+msgstr "代理的IP列表为空！"
+
+msgid "No."
+msgstr ""
+
+msgid "Assign"
+msgstr "分配"
+
+msgid "Label"
+msgstr "标签"
+
+msgid "Number"
+msgstr "数字"
+
+msgid "Reseller"
+msgstr "代理"
+
+msgid "This user name already exist!"
+msgstr "用户名称已存在！"
+
+msgid "Incorrect username length or syntax!"
+msgstr ""
+
+msgid "Incorrect password length or syntax!"
+msgstr ""
+
+msgid "Entered passwords do not match!"
+msgstr ""
+
+msgid "Incorrect email length or syntax!"
+msgstr ""
+
+msgid "Incorrect max domain count or syntax!"
+msgstr "最大域名个数有误"
+
+msgid "Incorrect max subdomain count or syntax!"
+msgstr "最大子域名个数有误"
+
+msgid "Incorrect max alias count or syntax!"
+msgstr "最大别名数目有误"
+
+msgid "Incorrect max FTP count or syntax!"
+msgstr "最大FTP帐号个数有误"
+
+msgid "Incorrect max mail count or syntax!"
+msgstr "最大邮件帐号个数有误"
+
+msgid "Incorrect max SQL databases count or syntax!"
+msgstr "最大SQL数据库个数有误"
+
+msgid "Incorrect max SQL users count or syntax!"
+msgstr "最大SQL用户个数有误"
+
+msgid "Incorrect max traffic amount or syntax!"
+msgstr "最大流量有误"
+
+msgid "Incorrect max disk amount or syntax!"
+msgstr "最大空间容量有误"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "您必须至少给代理指派一个IP！"
+
+msgid "Add reseller"
+msgstr "添加代理"
+
+msgid "Core data"
+msgstr "关键数据"
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "unlimited"
+msgstr "不限制"
+
+msgid "Domains limit"
+msgstr ""
+
+msgid "Subdomains limit"
+msgstr ""
+
+msgid "Aliases limit"
+msgstr ""
+
+msgid "Mail accounts limit"
+msgstr ""
+
+msgid "FTP accounts limit"
+msgstr ""
+
+msgid "SQL databases limit"
+msgstr ""
+
+msgid "SQL users limit"
+msgstr ""
+
+msgid "Traffic limit [MB]"
+msgstr ""
+
+msgid "Disk limit [MB]"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "CGI / Perl"
+msgstr ""
+
+msgid "JSP"
+msgstr ""
+
+msgid "SSI"
+msgstr ""
+
+msgid "Frontpage extensions"
+msgstr ""
+
+msgid "Backup and restore"
+msgstr "备份和还原"
+
+msgid "Custom error pages"
+msgstr "自定义错误页面"
+
+msgid "Protected areas"
+msgstr "受包含区域"
+
+msgid "Webmail"
+msgstr "网上邮局"
+
+msgid "Directory listing"
+msgstr "目录列表"
+
+msgid "Apache logfiles"
+msgstr "Apache 日志文件"
+
+msgid "AwStats"
+msgstr "Awstats"
+
+msgid "Logo upload"
+msgstr "上传图标文件"
+
+msgid "yes"
+msgstr "是"
+
+msgid "no"
+msgstr "否"
+
+msgid "Reseller IPs"
+msgstr "代理IP"
+
+msgid "Additional data"
+msgstr "额外数据"
+
+msgid "Customer ID"
+msgstr "客户ID"
+
+msgid "First name"
+msgstr "名字"
+
+msgid "Last name"
+msgstr "姓氏"
+
+msgid "Company"
+msgstr "公司"
+
+msgid "Zip/Postal code"
+msgstr "邮政编码"
+
+msgid "City"
+msgstr "城市"
+
+msgid "Country"
+msgstr "国家"
+
+msgid "Street 1"
+msgstr "街道（第1行）"
+
+msgid "Street 2"
+msgstr "街道（第2行）"
+
+msgid "Phone"
+msgstr "电话号码"
+
+msgid "Fax"
+msgstr "传真"
+
+msgid "Add"
+msgstr "添加"
+
+msgid "ISPCP - Admin/Manage users/Add User"
+msgstr "ISPCP - 管理/管理用户/添加用户"
+
+msgid "Administrator"
+msgstr "管理员"
+
+msgid "Empty data or wrong field!"
+msgstr "空白数据或错误的区域"
+
+msgid "Passwords don't match!"
+msgstr ""
+
+msgid "Add admin"
+msgstr "添加管理员"
+
+msgid "ISPCP - Admin/Admin Log"
+msgstr "ISPCP - 管理/管理日志"
+
+msgid "Log is empty!"
+msgstr "日志为空！"
+
+msgid "Invalid time period!"
+msgstr ""
+
+msgid "Admin Log"
+msgstr "管理日志"
+
+msgid "Clear log"
+msgstr "清除日志"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "Message"
+msgstr "消息"
+
+msgid "Delete from log:"
+msgstr ""
+
+msgid "everything"
+msgstr ""
+
+msgid "older than 2 weeks"
+msgstr ""
+
+msgid "older than 1 month"
+msgstr ""
+
+msgid "older than 3 months"
+msgstr ""
+
+msgid "older than 6 months"
+msgstr ""
+
+msgid "older than 12 months"
+msgstr ""
+
+msgid "ISPCP - Administrator/Add hosting plan"
+msgstr "ISPCP - 管理员/添加托管计划"
+
+msgid "Add hosting plan"
+msgstr "添加托管计划"
+
+msgid "Hosting plan properties"
+msgstr "托管计划属性"
+
+msgid "Template name"
+msgstr "模板名称"
+
+msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "SQL数据库限制<br><i>(-1 禁用, 0为不限制)</i>"
+
+msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "SQL用户限制<br><i>(-1 禁用, 0为不限制)</i>"
+
+msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "流量限制[MB]<br><i>(0为不限制)</i>"
+
+msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "磁盘空间限制[MB]<br><i>(0 不限制)</i>"
+
+msgid "Billing Settings"
+msgstr "付款设置"
+
+msgid "Price"
+msgstr "价格"
+
+msgid "Setup fee"
+msgstr "设置费"
+
+msgid "Currency"
+msgstr "货币"
+
+msgid "Payment period"
+msgstr "付款期"
+
+msgid "Available for purchasing"
+msgstr "可购买"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "(e.g. EUR)"
+msgstr "(如. EUR)"
+
+msgid "Add plan"
+msgstr "添加计划"
+
+msgid "Incorrect template name length!"
+msgstr ""
+
+msgid "Incorrect template description length!"
+msgstr ""
+
+msgid "Incorrect price syntax!"
+msgstr ""
+
+msgid "Incorrect setup fee syntax!"
+msgstr ""
+
+msgid "Incorrect subdomain length or syntax!"
+msgstr ""
+
+msgid "Incorrect alias length or syntax!"
+msgstr ""
+
+msgid "Incorrect mail account length or syntax!"
+msgstr ""
+
+msgid "Incorrect FTP account length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL database length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL user length or syntax!"
+msgstr ""
+
+msgid "Incorrect traffic length or syntax!"
+msgstr ""
+
+msgid "Incorrect disk length or syntax!"
+msgstr ""
+
+msgid "Hosting plan with entered name already exists!"
+msgstr "已有一个相同名称的托管计划！"
+
+msgid "ISPCP - Admin/Change Password"
+msgstr "ISPCP - 管理/更改密码"
+
+msgid "Please fill up all data fields!"
+msgstr "倯頂塬铦钴劻鞌Ａ"
+
+msgid "Passwords do not match!"
+msgstr ""
+
+msgid "The current password is wrong!"
+msgstr "镄虇鍛珤霔Ａ"
+
+msgid "User password updated successfully!"
+msgstr "用户密码成功更新！"
+
+msgid "Change password"
+msgstr "改变密码"
+
+msgid "Password data"
+msgstr "密码数据"
+
+msgid "Update password"
+msgstr "更新密码"
+
+msgid "Current password"
+msgstr "镄虇鍛"
+
+msgid "Personal data updated successfully!"
+msgstr "成功更新个人数据！"
+
+msgid "ISPCP - Admin/Change Personal Data"
+msgstr "ISPCP - 管理/更改个人数据"
+
+msgid "Change personal data"
+msgstr "改变个人数据"
+
+msgid "Personal data"
+msgstr "个人数据"
+
+msgid "Update data"
+msgstr "更新数据"
+
+msgid "User does not exist!"
+msgstr "用户不存在！"
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr ""
+
+msgid "Please specify a message subject!"
+msgstr "请指定消息标题"
+
+msgid "Please specify a message content!"
+msgstr "请指定消息内容"
+
+msgid "Please specify a sender name!"
+msgstr "请指定发信人邮件地址"
+
+msgid "Please specify a sender email!"
+msgstr "请指定发信人邮件地址！"
+
+msgid "You send email to your users successfully!"
+msgstr "您成功将邮件发送给用户。"
+
+msgid "Email marketing"
+msgstr "邮件宣传"
+
+msgid "Send message to"
+msgstr "发送消息给"
+
+msgid "All users"
+msgstr "全部用户"
+
+msgid "All resellers"
+msgstr "全部代理"
+
+msgid "All users & resellers"
+msgstr "全部用户和代理"
+
+msgid "Message subject"
+msgstr "消息主题"
+
+msgid "Senders email"
+msgstr "发件人电子邮件"
+
+msgid "Senders name"
+msgstr "发件人名称"
+
+msgid "Send message"
+msgstr "发送消息"
+
+msgid "You have no custom menus."
+msgstr "您没有自定义菜单"
+
+msgid "User"
+msgstr "用户"
+
+msgid "All"
+msgstr "全部"
+
+msgid "Are you sure you want to delete"
+msgstr "您确定要删除吗？"
+
+msgid "Missing or incorrect data input!"
+msgstr "没有输入数据或数据不正确"
+
+msgid "Custom menu data updated successful!"
+msgstr "自定义菜单数据成功更新！"
+
+msgid "Custom menu deleted successful!"
+msgstr "自定义菜单成功删除！"
+
+msgid "ISPCP - Admin - Manage custom menus"
+msgstr "ISPCP - 管理 - 管理自定义菜单"
+
+msgid "Manage custom menus"
+msgstr "管理自定义菜单"
+
+msgid "Add new button"
+msgstr "添加新的按钮"
+
+msgid "Button name"
+msgstr "按钮的名称"
+
+msgid "Button link"
+msgstr "按钮的链接"
+
+msgid "Button target"
+msgstr "按钮的目标"
+
+msgid "Show in"
+msgstr "显示流入"
+
+msgid "Administrator level"
+msgstr ""
+
+msgid "Reseller level"
+msgstr "代理级别"
+
+msgid "Enduser level"
+msgstr "最终用户级别"
+
+msgid "Reseller and enduser level"
+msgstr "代理和最终用户级别"
+
+msgid "Menu button"
+msgstr "菜单按钮"
+
+msgid "Action"
+msgstr "动作"
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Level"
+msgstr "级别"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Edit button"
+msgstr "编辑按钮"
+
+msgid "Error: we have a domain using this IP!"
+msgstr ""
+
+msgid "Error: we have a reseller using this IP!"
+msgstr ""
+
+msgid "IP was deleted!"
+msgstr "IP删除成功！"
+
+msgid "Support ticket deleted successfully!"
+msgstr "求助信息成功删除！Support tickets"
+
+msgid "All open support tickets deleted successfully!"
+msgstr "全部打开的求助信息成功删除！"
+
+msgid "All closed support tickets deleted successfully!"
+msgstr "全部已关闭的求助信息成功删除！"
+
+msgid "ISPCP - Domain/Details"
+msgstr "ISPCP - 域名/详情"
+
+msgid "Domain details"
+msgstr "详情"
+
+msgid "Domain name"
+msgstr "域名名称"
+
+msgid "Domain IP"
+msgstr "域名IP"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "PHP support"
+msgstr "PHP支持"
+
+msgid "CGI support"
+msgstr "支持CGI"
+
+msgid "MySQL support"
+msgstr "MySQL支持"
+
+msgid "Traffic in MB"
+msgstr "流量(MB)"
+
+msgid "Disk in MB"
+msgstr "磁盘空间(MB)"
+
+msgid "Feature"
+msgstr "功能"
+
+msgid "Used"
+msgstr "已用"
+
+msgid "Limit"
+msgstr "限制"
+
+msgid "Mail accounts"
+msgstr "邮箱帐号"
+
+msgid "FTP accounts"
+msgstr "FTP帐号"
+
+msgid "SQL databases"
+msgstr "SQL数据库"
+
+msgid "SQL users"
+msgstr "SQL用户"
+
+msgid "Subdomains"
+msgstr "子域名"
+
+msgid "Domain aliases"
+msgstr "域名别名"
+
+msgid "Submit changes"
+msgstr "提交更改"
+
+msgid "None"
+msgstr "全无"
+
+msgid "ISPCP - Domain Statistics Data"
+msgstr "ISPCP - 域名统计列表数据"
+
+msgid "Domain statistics"
+msgstr "域名统计信息"
+
+msgid "Month"
+msgstr "月"
+
+msgid "Year"
+msgstr "年"
+
+msgid "Show"
+msgstr "显示"
+
+msgid "Web traffic"
+msgstr "Web流量"
+
+msgid "FTP traffic"
+msgstr "FTP流量"
+
+msgid "SMTP traffic"
+msgstr "SMTP流量"
+
+msgid "POP3/IMAP traffic"
+msgstr "POP3/IMAP 流量"
+
+msgid "All traffic"
+msgstr "全部流量"
+
+msgid "Day"
+msgstr "天"
+
+msgid "ISPCP - Admin/Manage users/Edit Reseller"
+msgstr "ISPCP - 管理/管理用户/编辑代理"
+
+msgid "Domain"
+msgstr "域名"
+
+msgid "Subdomain"
+msgstr "子域名"
+
+msgid "Alias"
+msgstr "别名"
+
+msgid "Mail"
+msgstr "邮件"
+
+msgid "FTP"
+msgstr ""
+
+msgid "SQL Database"
+msgstr "SQL数据库"
+
+msgid "SQL User"
+msgstr "SQL用户"
+
+msgid "Traffic"
+msgstr "流量"
+
+msgid "Disk"
+msgstr "磁盘"
+
+msgid "Undefined user accounting error!"
+msgstr "未定义的用户帐户错误！"
+
+msgid "This reseller has already dispatched more <b>"
+msgstr ""
+
+msgid "Then the value you are trying to enter now !<br>"
+msgstr "然后是您正尝试输入的数值!<br>"
+
+msgid "Edit reseller aborted!"
+msgstr "取消代理编辑"
+
+msgid "This reseller has more <b>"
+msgstr "该代理有<b>"
+
+msgid "Then the value you are trying to enter now!<br>"
+msgstr "然后是您正尝试输入的数值!<br>"
+
+msgid "This reseller has user(s) with unlimited rights for <b>%s</b> service !<br>"
+msgstr ""
+
+msgid "If you want to limit the reseller, fist you must limit its users !<br>"
+msgstr "如果您要限制此代理，您必须先限制他的用户！<br>"
+
+msgid "This reseller has domains assigned To <b>"
+msgstr "该代理拥有分配的域名<b>"
+
+msgid "</b> Address !<br>Edit reseller aborted!"
+msgstr "</b> 地址 !<br>编辑代理中断"
+
+msgid "Edit reseller"
+msgstr "编辑代理"
+
+msgid "E-mail"
+msgstr ""
+
+msgid "Max domain count"
+msgstr "最大域名数量"
+
+msgid "Max subdomain count"
+msgstr "最大子域名数量"
+
+msgid "Max aliases count"
+msgstr "最大别名数量"
+
+msgid "Max mail users count"
+msgstr "最大邮箱用户数量"
+
+msgid "Max FTP users count"
+msgstr "最大FTP用户数量"
+
+msgid "Max SQL databases count"
+msgstr "最大SQL数据库数量"
+
+msgid "Max SQL users count"
+msgstr "最大SQL用户数量"
+
+msgid "Max traffic amount [MB]"
+msgstr "最大流量[MB]"
+
+msgid "Max disk amount [MB]"
+msgstr "最大磁盘空间[MB]"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Send new login data"
+msgstr ""
+
+msgid "Password generate"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/Edit User"
+msgstr "ISPCP - 管理/管理用户/编辑用户"
+
+msgid "User session was killed!"
+msgstr "用户会话已被杀死！"
+
+msgid "Domain account"
+msgstr "域名帐号"
+
+msgid "Edit admin"
+msgstr "编辑管理员"
+
+msgid "ISPCP - Administrator/Edit hosting plan"
+msgstr "ISPCP - 管理员/编辑托管计划"
+
+msgid "Price Style"
+msgstr ""
+
+msgid "Update plan"
+msgstr "更新计划"
+
+msgid "Edit hosting plan"
+msgstr "编辑托管计划"
+
+msgid "Undefined reference to data!"
+msgstr "未定义的数据参考！"
+
+msgid "Incorrect price. Example: 9.99"
+msgstr ""
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr ""
+
+msgid "Please specify a subject!"
+msgstr "请指定标题"
+
+msgid "Please specify message!"
+msgstr "请指定消息"
+
+msgid "Auto email template data updated!"
+msgstr "邮件自动回复模板数据已更新！"
+
+msgid "ISPCP - Admin/Manage users/Email setup"
+msgstr "ISPCP - 管理/管理用户/电子邮件设置"
+
+msgid "Email setup"
+msgstr "电子邮件设置"
+
+msgid "Message template info"
+msgstr "消息模板信息"
+
+msgid "User login (system) name"
+msgstr "用户登录名称"
+
+msgid "User password"
+msgstr "用户密码"
+
+msgid "User real (first and last) name"
+msgstr ""
+
+msgid "Message template"
+msgstr "消息模板"
+
+msgid "Subject"
+msgstr "标题"
+
+msgid "Apply changes"
+msgstr "应用更改"
+
+msgid "ISPCP - Administrator/Hosting Plan Management"
+msgstr "ISPCP - 管理员/托管计划管理"
+
+msgid "Hosting plans"
+msgstr "托管计划"
+
+msgid "Manage hosting plans"
+msgstr "管理托管计划"
+
+msgid "Purchasing"
+msgstr "购买"
+
+msgid "Add new user hosting plan"
+msgstr "添加新的托管计划"
+
+msgid "Return to previous menu"
+msgstr "返回上级菜单"
+
+msgid "Hosting plan added!"
+msgstr "托管计划成功添加！"
+
+msgid "Hosting plan deleted!"
+msgstr "托管计划成功删除！"
+
+msgid "Hosting plan updated!"
+msgstr "托管计划成功更新！"
+
+msgid "Hosting plans not found!"
+msgstr "未找到托管计划！"
+
+msgid "Name"
+msgstr "名字"
+
+msgid "Enabled"
+msgstr "已启用"
+
+msgid "Disabled"
+msgstr "已取消"
+
+msgid "Show hosting plan"
+msgstr ""
+
+msgid "You have"
+msgstr "您存在"
+
+msgid "Support question(s)"
+msgstr "支持问题"
+
+msgid "New"
+msgstr "新"
+
+msgid "View"
+msgstr "查看"
+
+msgid "Couldn't check for updates!"
+msgstr ""
+
+msgid "New ISPCP update is now available"
+msgstr "有新的ISPCP更新"
+
+msgid "You are exceeding your traffic limit!"
+msgstr "您达到流量限制！"
+
+msgid "of"
+msgstr "之"
+
+msgid "ISPCP - Admin/Main Index"
+msgstr "ISPCP - 管理/主索引"
+
+msgid "ISPCP - Admin/IP manage"
+msgstr "ISPCP - 管理/IP管理"
+
+msgid "New IP was added!"
+msgstr "新IP添加成功！"
+
+msgid "Wrong IP number!"
+msgstr "错误的IP！"
+
+msgid "Please specify domain!"
+msgstr "请指定域名"
+
+msgid "Please specify alias!"
+msgstr "请指定别名"
+
+msgid "This IP already exist!"
+msgstr "IP已经存在"
+
+msgid "Manage IPs"
+msgstr "管理IP"
+
+msgid "Available IPs"
+msgstr "可用的IP"
+
+msgid "IP"
+msgstr ""
+
+msgid "Uninstall"
+msgstr "卸载"
+
+msgid "Add new IP"
+msgstr "添加新的IP"
+
+msgid "No domain system errors"
+msgstr "没有域名系统错误"
+
+msgid "No domain alias system errors"
+msgstr "没有域名别名系统错误"
+
+msgid "No subdomain system errors"
+msgstr "没有子域名系统错误"
+
+msgid "No email account system errors"
+msgstr "没有邮箱帐号系统错误"
+
+msgid "ISPCP debugger"
+msgstr "ISPCP调试器"
+
+msgid "Domain errors"
+msgstr " 错误"
+
+msgid "Domain alias errors"
+msgstr "域名别名出错"
+
+msgid "Subdomain errors"
+msgstr "子域名错误"
+
+msgid "Mail account errors"
+msgstr "邮件帐号错误"
+
+msgid "Get it at"
+msgstr ""
+
+msgid "ISPCP updates"
+msgstr "ISPCP 更新"
+
+msgid "Available ISPCP updates"
+msgstr "可用的ISPCP更新"
+
+msgid "No new ISPCP updates available"
+msgstr "没有新的ISPCP更新"
+
+msgid "Update details"
+msgstr "更新详情"
+
+msgid "Upload file error!"
+msgstr "上传文件错误！"
+
+msgid "You can only upload images!"
+msgstr ""
+
+msgid "Your logo was successful uploaded!"
+msgstr "您的图标成功上传！"
+
+msgid "Layout settings"
+msgstr "界面设置"
+
+msgid "Installed layouts"
+msgstr "已安装界面"
+
+msgid "Layout name"
+msgstr "界面名称"
+
+msgid "default"
+msgstr "默认"
+
+msgid "Upload logo"
+msgstr "上传图标"
+
+msgid "Logo file"
+msgstr "图标文件"
+
+msgid "Upload"
+msgstr "上传"
+
+msgid "Remove"
+msgstr "删除"
+
+msgid "Choose default layout"
+msgstr "选择默认界面"
+
+msgid "Layout"
+msgstr "界面"
+
+msgid "ISPCP - Admin/Lostpw email setup"
+msgstr "ISPCP - 管理/丢失密码邮件设置"
+
+msgid "Lost password e-mail"
+msgstr ""
+
+msgid "Activation E-Mail"
+msgstr ""
+
+msgid "Password E-Mail"
+msgstr ""
+
+msgid "User (first and last) name"
+msgstr "用户姓名"
+
+msgid "Lost password link"
+msgstr ""
+
+msgid "Reseller list is empty!"
+msgstr "代理列表为空"
+
+msgid "ISPCP - Admin/Manage users/Reseller assignment"
+msgstr "ISPCP - 管理/管理用户/代理指派"
+
+msgid "Reseller assignment"
+msgstr "指派代理"
+
+msgid "Reseller users"
+msgstr "用户"
+
+msgid "Mark"
+msgstr "标记"
+
+msgid "Reseller name"
+msgstr "代理名称"
+
+msgid "Owner"
+msgstr "属主"
+
+msgid "To Admin"
+msgstr "给管理员"
+
+msgid "Move"
+msgstr "移动"
+
+msgid "Reseller or user list is empty!"
+msgstr "代理或用户列表为空！"
+
+msgid "User list is empty!"
+msgstr ""
+
+msgid "User was moved"
+msgstr "用户移动成功"
+
+msgid "Please select some user(s)!"
+msgstr "请选择用户"
+
+msgid "Source and destination reseller are the same!"
+msgstr "源代理和目标代理相同！"
+
+#, c-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
+msgstr ""
+
+#, c-format
+msgid "You can not move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!"
+msgstr ""
+
+#, c-format
+msgid "<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>"
+msgstr ""
+
+msgid "Moving aborted!"
+msgstr "终止移动"
+
+#, c-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> service !<br>"
+msgstr ""
+
+msgid "<b>%s</b> has IP address that can not be managed from the destination reseller !<br>This user can not be moved!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/User assignment"
+msgstr "ISPCP - 管理/管理用户/用户指派"
+
+msgid "User assignment"
+msgstr "用户分配"
+
+msgid "Users"
+msgstr "用户"
+
+msgid "User name"
+msgstr "用户名"
+
+msgid "From reseller"
+msgstr "从代理"
+
+msgid "To reseller"
+msgstr "给代理"
+
+msgid "ISPCP - Admin/Manage Sessions"
+msgstr "ISPCP - 管理/管理会话"
+
+msgid "Manage user sessions"
+msgstr "管理会话"
+
+msgid "User type"
+msgstr "用户类型"
+
+msgid "Last access"
+msgstr "最后一次访问"
+
+msgid "Options"
+msgstr "选项"
+
+msgid "Kill session"
+msgstr "杀死会话"
+
+msgid "ISPCP - Admin/Manage Users"
+msgstr "ISPCP - 管理/管理用户"
+
+msgid "User added"
+msgstr "用户已添加"
+
+msgid "Reseller added"
+msgstr "成功添加代理"
+
+msgid "User updated"
+msgstr "已更新用户"
+
+msgid "User deleted"
+msgstr "删除了用户"
+
+msgid "Email Updated"
+msgstr "电子邮件设置成功更新"
+
+msgid "This user has a domain!<br>To delete the user first delete the domain!"
+msgstr ""
+
+msgid "User was disabled"
+msgstr "用户被禁用"
+
+msgid "Incorrect data input!"
+msgstr "数据输入有误！"
+
+msgid "ISPCP - Admin/Internationalisation"
+msgstr ""
+
+msgid "Default language changed!"
+msgstr "默认语言成功改变！"
+
+msgid "You can upload only text files!"
+msgstr "您只能上传文本文件！"
+
+msgid "Can not read ispcp language file!"
+msgstr "无法读取ispcp语言文件！"
+
+msgid "New language installed!"
+msgstr "新语言成功安装！"
+
+msgid "Update language installed!"
+msgstr "更新已安装的语言！"
+
+msgid "Unknown"
+msgstr "未知"
+
+msgid "uninstall"
+msgstr "卸载"
+
+msgid "%d messages translated"
+msgstr ""
+
+msgid "Multilingual"
+msgstr ""
+
+msgid "Installed languages"
+msgstr "已安装语言"
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Messages"
+msgstr "消息"
+
+msgid "Default"
+msgstr "默认"
+
+msgid "Install new language"
+msgstr "安装新的语言"
+
+msgid "Language file"
+msgstr "语言文件"
+
+msgid "Install"
+msgstr "安装"
+
+msgid "Export"
+msgstr "导出"
+
+msgid "ISPCP - Reseller statistics"
+msgstr "ISPCP - 代理统计信息"
+
+msgid "Not found reseller(s) in your system!"
+msgstr "您的系统没有代理！"
+
+msgid "Reseller statistics table"
+msgstr "代理统计信息列表"
+
+msgid "SQL database"
+msgstr "SQL数据库"
+
+msgid "SQL user"
+msgstr "SQL用户"
+
+msgid "ISPCP - Admin/Reseller User Statistics"
+msgstr "ISPCP - 管理/代理用户统计列表"
+
+msgid "disabled"
+msgstr "已取消"
+
+msgid "Reseller users table"
+msgstr "用户列表"
+
+msgid "This reseller has no domains."
+msgstr "此代理无域名。"
+
+msgid "Traffic<br>usage"
+msgstr "流量<br>使用"
+
+msgid "Disk<br>usage"
+msgstr "磁盘空间<br>使用"
+
+msgid "Web<br>traffic"
+msgstr "Web<br>流量"
+
+msgid "FTP<br>traffic"
+msgstr "FTP<br>流量"
+
+msgid "SMTP<br>traffic"
+msgstr "SMTP<br>流量"
+
+msgid "POP3/IMAP<br>traffic"
+msgstr "POP3/IMAP<br>流量"
+
+msgid "SQL<br>database"
+msgstr "SQL<br>数据库"
+
+msgid "SQL<br>user"
+msgstr "SQL<br>用户"
+
+msgid "ISPCP Admin / System Tools / Rootkit Hunter Log"
+msgstr ""
+
+msgid "The file doesn't exist or can't be read."
+msgstr ""
+
+msgid "Rootkit Log Checker"
+msgstr ""
+
+msgid "ISPCP - Admin/Server day stats"
+msgstr "ISPCP - 管理/服务器每日统计列表"
+
+msgid "Server day statistics"
+msgstr "服务器日期统计信息"
+
+msgid "Month:"
+msgstr "月："
+
+msgid "Year:"
+msgstr "年："
+
+msgid "Day:"
+msgstr "天："
+
+msgid "Hour"
+msgstr "小时"
+
+msgid "Web in"
+msgstr "Web流入"
+
+msgid "Web out"
+msgstr "Web流出"
+
+msgid "Mail in"
+msgstr "接收的邮件"
+
+msgid "Mail out"
+msgstr "发出的邮件"
+
+msgid "Pop/IMAP in"
+msgstr "Pop/IMAP 流入"
+
+msgid "Pop/IMAP out"
+msgstr "Pop/IMAP 流出"
+
+msgid "Other in"
+msgstr "其他流入流量"
+
+msgid "Other out"
+msgstr "其他流出流量"
+
+msgid "All in"
+msgstr "全部流入流量"
+
+msgid "All out"
+msgstr "全部流出流量"
+
+msgid "ISPCP - Admin/Server statistics"
+msgstr "ISPCP - 管理/服务器统计列表"
+
+msgid "Server statistics"
+msgstr "服务器统计信息"
+
+msgid "ISPCP Admin / System Tools / Server Status"
+msgstr "ISPCP 管理/系统工具/服务器状态"
+
+msgid "Host"
+msgstr "托管"
+
+msgid "Service"
+msgstr "服务"
+
+msgid "Server status"
+msgstr "服务器状态"
+
+msgid "ISPCP - Admin/Server Traffic Settings"
+msgstr "ISPCP - 管理/服务器流量设置"
+
+msgid "Wrong data input!"
+msgstr "错误的输入数据！"
+
+msgid "Warning traffic is bigger then max traffic!"
+msgstr "警告流量大于最大流量！"
+
+msgid "Server traffic settings updated successfully!"
+msgstr "服务器流量设置成功更新！"
+
+msgid "Modify"
+msgstr "更改"
+
+msgid "Server traffic settings"
+msgstr "服务器流量设置"
+
+msgid "Set server traffic settings"
+msgstr "更改服务器流量设置"
+
+msgid "Max traffic [MB]"
+msgstr "最大流量[MB]"
+
+msgid "Warning traffic [MB]"
+msgstr "警告流量[MB]"
+
+msgid "ISPCP - Admin/Servicemode"
+msgstr ""
+
+msgid "Settings saved !"
+msgstr ""
+
+msgid "Servicemode"
+msgstr ""
+
+msgid "In this mode only administrators can login"
+msgstr ""
+
+msgid "ISPCP - Admin/Settings"
+msgstr ""
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr ""
+
+msgid "General settings"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Activation link expire time (minutes)"
+msgstr ""
+
+msgid "Bruteforce detection"
+msgstr ""
+
+msgid "Block time between logins"
+msgstr ""
+
+msgid "Max number of login attempts"
+msgstr ""
+
+msgid "Blocktime (minutes)"
+msgstr ""
+
+msgid "Block time between logins (seconds)"
+msgstr ""
+
+msgid "Other settings"
+msgstr ""
+
+msgid "Default language"
+msgstr ""
+
+msgid "Support system"
+msgstr "支持系统"
+
+msgid "Serverports"
+msgstr ""
+
+msgid "Domains per page"
+msgstr ""
+
+msgid "ERROR: Only Letters, Numbers, Dash and Underscore are allowed!"
+msgstr ""
+
+msgid "ERROR: Port already exists!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr ""
+
+msgid "udp"
+msgstr ""
+
+msgid "tcp"
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "You have no support tickets."
+msgstr "您没有求助信息。"
+
+msgid "Low"
+msgstr "低"
+
+msgid "Medium"
+msgstr "中"
+
+msgid "High"
+msgstr "高"
+
+msgid "Very high"
+msgstr "非常高"
+
+msgid "ISPCP - Client/Questions & Comments"
+msgstr "ISPCP - 客户/问题及建议"
+
+msgid "Support tickets"
+msgstr "求助信息"
+
+msgid "Priority"
+msgstr "优先级"
+
+msgid "Last reply"
+msgstr "最后回复"
+
+msgid "Delete all"
+msgstr "全部删除"
+
+msgid "Open tickets"
+msgstr "打开求助信息"
+
+msgid "Closed tickets"
+msgstr "已关闭的求助信息"
+
+msgid "[New]"
+msgstr "[新]"
+
+msgid "[Re]"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Autoresponder"
+msgstr "ISPCP - 客户/启用邮件自动回复"
+
+msgid "From"
+msgstr "从"
+
+msgid "days"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "minutes"
+msgstr ""
+
+msgid "System info"
+msgstr "系统信息"
+
+msgid "Vital system info"
+msgstr "重要的系统信息"
+
+msgid "CPU system Info"
+msgstr "CPU系统信息"
+
+msgid "CPU model"
+msgstr "CPU型号"
+
+msgid "CPU MHz"
+msgstr ""
+
+msgid "CPU cache"
+msgstr "CPU缓存"
+
+msgid "CPU bogomips"
+msgstr ""
+
+msgid "Memory system info"
+msgstr "系统内存信息"
+
+msgid "RAM"
+msgstr ""
+
+msgid "Total"
+msgstr "全部"
+
+msgid "Free"
+msgstr "可用"
+
+msgid "Swap"
+msgstr "交换"
+
+msgid "Up time"
+msgstr "开机时间"
+
+msgid "Kernel"
+msgstr "内核"
+
+msgid "Load"
+msgstr "载入"
+
+msgid "Filesystem system Info"
+msgstr "文件系统信息"
+
+msgid "Mount"
+msgstr "加载"
+
+msgid "Type"
+msgstr "类别"
+
+msgid "Partition"
+msgstr "分区"
+
+msgid "Percent"
+msgstr "百分比"
+
+msgid "Size"
+msgstr "大小"
+
+msgid "Ticket not found!"
+msgstr "没有找到求助信息！"
+
+msgid "Open ticket"
+msgstr "打开求助信息"
+
+msgid "Close ticket"
+msgstr "关闭求助信息"
+
+msgid "ISPCP - Client : Support System: View Tickets"
+msgstr "ISPCP - 客户:支持系统:查看求助信息"
+
+msgid "Please type your message!"
+msgstr "请输入您的消息！"
+
+msgid "Message was sent!"
+msgstr ""
+
+msgid "Ticket was closed!"
+msgstr "求助信息已关闭！"
+
+msgid "Ticket was reopened!"
+msgstr ""
+
+msgid "ISPCP - Admin : Support System: View Tickets"
+msgstr ""
+
+msgid "View support ticket"
+msgstr "查看求助信息"
+
+msgid "Send message reply"
+msgstr "发送回复消息"
+
+msgid "Send reply"
+msgstr "发送回复"
+
+msgid "ISPCP Client : Add Alias"
+msgstr "ISPCP客户：添加别名"
+
+msgid "Manage domain alias"
+msgstr "管理域名别名"
+
+msgid "Add domain alias"
+msgstr "添加域名别名"
+
+msgid "User account"
+msgstr "用户账号"
+
+msgid "Directory mount point"
+msgstr "目录加载点"
+
+msgid "Forward to URL"
+msgstr "转发到URL"
+
+msgid "Add alias"
+msgstr "添加别名"
+
+msgid "Domain alias limit reached!"
+msgstr ""
+
+msgid "Incorrect domain name syntax"
+msgstr "域名有误"
+
+msgid "Domain with that name already exists on the system!"
+msgstr "系统内已有一个相同名称的域名！"
+
+msgid "Incorrect mount point syntax"
+msgstr "加载点有误"
+
+msgid "Incorrect forward syntax"
+msgstr "转发名称有误"
+
+msgid "Domain with this name already exist"
+msgstr "相同名称的域名已经存在"
+
+msgid "There are alias with same mount point"
+msgstr "存在相同加载点的别名"
+
+msgid "Alias scheduled for addition!"
+msgstr "正计划添加别名"
+
+msgid "Empty List"
+msgstr "空白列表"
+
+msgid "Empty list"
+msgstr "空白列表"
+
+msgid "FTP account already exists!"
+msgstr "已存在此FTP帐号"
+
+msgid "Unknown domain type"
+msgstr ""
+
+msgid "Incorrect mount point length or syntax"
+msgstr ""
+
+msgid "%s does not exist"
+msgstr ""
+
+msgid "FTP account added!"
+msgstr "FTP帐号成功添加！"
+
+msgid "Please enter FTP account username!"
+msgstr "请输入FTP账号用户名"
+
+msgid "Password data is missing!"
+msgstr "密码数据不存在！"
+
+msgid "Entered passwords differ from the another!"
+msgstr "输入的密码不一致"
+
+msgid "Subdomain list is empty! You can not add FTP accounts there!"
+msgstr "子域名列表为空！您不能在这里添加FTP帐户！"
+
+msgid "Alias list is empty! You can not add FTP accounts there!"
+msgstr "别名列表为空！您无法添加FTP用户"
+
+msgid "Please specify other FTP account dir!"
+msgstr "请指定其它的FTP账号目录！"
+
+msgid "FTP accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add FTP User"
+msgstr "ISPCP - 客户/添加FTP用户"
+
+msgid "Add FTP user"
+msgstr "添加FTP用户"
+
+msgid "To main domain"
+msgstr "给主域名"
+
+msgid "To domain alias"
+msgstr "给域名别名"
+
+msgid "To subdomain"
+msgstr "给子域名"
+
+msgid "Use other dir"
+msgstr "使用其他目录"
+
+msgid "Choose dir"
+msgstr "选择目录"
+
+msgid "Invalid Mail Localpart Format used!"
+msgstr ""
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr ""
+
+msgid "Mail forward list empty!"
+msgstr ""
+
+msgid "Mail account already exists!"
+msgstr "该邮件帐号已存在"
+
+msgid "Mail account scheduled for addition!"
+msgstr "计划添加的邮箱帐号"
+
+msgid "Please enter mail account username!"
+msgstr "请输入邮件账号用户名"
+
+msgid "Password data includes not permitted signs!"
+msgstr ""
+
+msgid "Subdomain list is empty! You can not add mail accounts!"
+msgstr "子域名列表为空！您不能在这里添加邮箱帐户！"
+
+msgid "Alias list is empty! You can not add mail accounts!"
+msgstr "别名列表为空！您无法添加email用户"
+
+msgid "Forward list is empty!"
+msgstr "转发列表为空"
+
+msgid "Mail accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Mail User"
+msgstr "ISPCP - 客户/添加邮件用户"
+
+msgid "Add mail users"
+msgstr "添加email用户"
+
+msgid "Normal mail"
+msgstr "一般邮件"
+
+msgid "Forward mail"
+msgstr "转发邮件"
+
+msgid "Forward to"
+msgstr "转发到"
+
+msgid "Please type database name!"
+msgstr "请输入数据库名称！"
+
+msgid "Database name is too long!"
+msgstr ""
+
+msgid "Specified database name already exists!"
+msgstr "指定的数据库名称已经存在！"
+
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr ""
+
+msgid "SQL database created successfully!"
+msgstr "成功创建SQL数据库！"
+
+msgid "SQL accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL Database"
+msgstr "ISPCP - 客户/添加SQL数据库"
+
+msgid "Add SQL database"
+msgstr "添加SQL数据库"
+
+msgid "Database name"
+msgstr "数据库名称"
+
+msgid "Use numeric ID"
+msgstr "使用数字ID"
+
+msgid "Before the name"
+msgstr ""
+
+msgid "After the name"
+msgstr ""
+
+msgid "Subdomains limit reached!"
+msgstr ""
+
+msgid "Please specify subdomain name!"
+msgstr "请指定子域名！"
+
+msgid "Subdomain already exists!"
+msgstr "已存在相同的子域名"
+
+msgid "Wrong subdomain syntax!"
+msgstr "子域名语法错误！"
+
+msgid "Subdomain mount point already exists!"
+msgstr "子域名加载点已经存在！"
+
+msgid "Subdomain scheduled for addition!"
+msgstr "子域名计划添加！"
+
+msgid "ISPCP - Client/Add Subdomain"
+msgstr "ISPCP - 客户/添加子域名"
+
+msgid "Add subdomain"
+msgstr "添加子域名"
+
+msgid "Subdomain data"
+msgstr "子域名数据"
+
+msgid "Subdomain name"
+msgstr "子域名名称"
+
+msgid "Directory tree<br>mount point"
+msgstr "目录树<br>加载点"
+
+msgid "Backup archive scheduled for restoring!"
+msgstr "计划用备份文档用还原"
+
+msgid "ISPCP - Client/Daily Backup"
+msgstr "ISPCP - 客户/每日备份"
+
+msgid "Backup"
+msgstr "备份"
+
+msgid "Daily backup"
+msgstr "每日备份"
+
+msgid "Instructions to download today's backup"
+msgstr ""
+
+msgid "Login with your FTP account"
+msgstr "用您的FTP帐号登录"
+
+msgid "Switch to backups/ directory"
+msgstr ""
+
+msgid "Download the files stored in this directory"
+msgstr ""
+
+msgid "(usually named backup_YYYY_MM_DD.tar.bz2)"
+msgstr ""
+
+msgid "Restore backup"
+msgstr "恢复备份"
+
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+
+msgid "Restore"
+msgstr "恢复"
+
+msgid "N/A"
+msgstr "不可用"
+
+msgid "Enable"
+msgstr "启用"
+
+msgid "Disable"
+msgstr "取消"
+
+msgid "Delete CatchAll"
+msgstr "删除选择的全部"
+
+msgid "Create catch all"
+msgstr "创建批量选择"
+
+msgid "Catch all mail account can not be created!"
+msgstr "选取全部无法创建的邮件帐号"
+
+msgid "Mail accounts list is empty!"
+msgstr "邮箱帐号列表为空！"
+
+msgid "ISPCP - Client/Manage Users"
+msgstr "ISPCP - 客户/管理用户"
+
+msgid "Manage users"
+msgstr "管理用户"
+
+msgid "Mail users"
+msgstr "邮箱用户"
+
+msgid "Auto respond"
+msgstr "自动回复"
+
+msgid "Domain mails"
+msgstr "域名邮件"
+
+msgid "Subdomain mails"
+msgstr "子域名邮箱"
+
+msgid "Alias mails"
+msgstr "别名邮件"
+
+msgid "Mails total"
+msgstr "邮件合计"
+
+msgid "FTPs total"
+msgstr "FTP总计"
+
+msgid "Catch all account"
+msgstr "选择全部帐号"
+
+msgid "Catch all"
+msgstr "选择全部"
+
+msgid "FTP users"
+msgstr "FTP用户"
+
+msgid "FTP account"
+msgstr "FTP帐号"
+
+msgid "ISPCP - Client/Change Password"
+msgstr "ISPCP - 客户/更改密码"
+
+msgid "ISPCP - Client/Change Personal Data"
+msgstr "ISPCP - 客户/更改个人数据"
+
+msgid "Catch all account scheduled for creation!"
+msgstr "选取全部帐号以备创建"
+
+msgid "Mail forward list error!"
+msgstr "邮箱转发列表出错！"
+
+msgid "ISPCP - Client/Create CatchAll Mail Account"
+msgstr "ISPCP - 客户/创建邮件帐户列表"
+
+msgid "Create catch all mail account"
+msgstr "创建批量选择邮箱帐号"
+
+msgid "Mail accounts list"
+msgstr "邮箱帐号列表"
+
+msgid "ISPCP - Client/Cronjob Manager"
+msgstr "ISPCP - 客户/计划任务管理器"
+
+msgid "Cronjob Manager"
+msgstr "计划任务管理器"
+
+msgid "Add Cronjob"
+msgstr "添加计划任务"
+
+msgid "Active"
+msgstr "活跃"
+
+msgid "Yes"
+msgstr "是"
+
+msgid "No"
+msgstr "否"
+
+msgid "Cronjob"
+msgstr "计划任务"
+
+msgid "Command to run:"
+msgstr "运行的命令："
+
+msgid "Minute(s):"
+msgstr "分钟："
+
+msgid "Hour(s):"
+msgstr "小时："
+
+msgid "Day(s):"
+msgstr "天："
+
+msgid "Months(s):"
+msgstr "月："
+
+msgid "Weekday(s):"
+msgstr "星期："
+
+msgid "Reset"
+msgstr "重设"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Edit Cronjob"
+msgstr "编辑计划任务"
+
+msgid "Cronjobs"
+msgstr "计划任务"
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr "您要删除的域名别名拥有email账号!<br>请先删除它们!"
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr "您要删除的域名别名拥有FTP账号!<br>请先删除它们!"
+
+msgid "Alias scheduled for deletion!"
+msgstr "计划删除的别名"
+
+msgid "Catch all account scheduled for deletion!"
+msgstr "选取全部帐号以备删除"
+
+msgid "FTP account deleted successfully!"
+msgstr "FTP帐号成功删除！"
+
+msgid "Please delete first CatchAll account for this email!"
+msgstr "请先删除本邮件的首次批量选取账号"
+
+msgid "SQL database was removed successfully!"
+msgstr "成功删除SQL数据库！"
+
+msgid "Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr "�嬹粌惨嗟�最顦虨畹钴祶最铈惯Ａ<br>倯扉儾亦祶最铈惯丸紒"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr "子域名计划删除！"
+
+msgid "You have no permission to disable this alias forward"
+msgstr ""
+
+msgid "Alias scheduled for modification!"
+msgstr "计划更改的别名"
+
+msgid "User does not exist or you do not have permission to access this interface!"
+msgstr "用户不存在或您没有权限访问此界面！"
+
+msgid "Mail account scheduled for modification!"
+msgstr "计划改变的邮箱帐号"
+
+msgid "ISPCP - Client/Domain Statistics"
+msgstr "ISPCP - 客户/域名统计信息列表"
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr ""
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP/IMAP"
+msgstr ""
+
+msgid "Sum"
+msgstr "合计"
+
+msgid "Entered passwords differ!"
+msgstr "输入的密码不一致"
+
+msgid "%s do not exist"
+msgstr ""
+
+msgid "FTP account data updated!"
+msgstr "FTP帐号数据成功更新！"
+
+msgid "ISPCP - Client/Edit FTP Account"
+msgstr "ISPCP - 客户/编辑FTP账号"
+
+msgid "Edit FTP user"
+msgstr "编辑FTP用户"
+
+msgid "Save changes"
+msgstr "保存变更"
+
+msgid "Email account not found!"
+msgstr ""
+
+msgid "Missing or wrong data!"
+msgstr "数据丢失或错误"
+
+msgid "Password data includes not valid signs!"
+msgstr ""
+
+msgid "Mail were updated successfully!"
+msgstr "邮箱成功更新"
+
+msgid "ISPCP - Manage Mail and FTP / Edit mail account"
+msgstr "ISPCP - 管理邮箱及FTP/编辑邮箱账号"
+
+msgid "Edit email account"
+msgstr "编辑email账号"
+
+msgid "Please type your mail autorespond message!"
+msgstr "请输入您的邮件自动回复消息！"
+
+msgid "Mail account scheduler for modification!"
+msgstr "计划改变的邮箱帐号"
+
+msgid "ISPCP - Client/Enable Mail Auto Responder"
+msgstr "ISPCP - 客户/启用邮件自动回复"
+
+msgid "Edit mail auto responder"
+msgstr "编辑邮件自动回复"
+
+msgid "Your message"
+msgstr "您的消息"
+
+msgid "Please wait for update"
+msgstr ""
+
+msgid "ISPCP - Manage Domain Alias/Edit Alias"
+msgstr "ISPCP - 管理域名别名/编辑别名"
+
+msgid "Edit domain alias"
+msgstr "编辑域名别名"
+
+msgid "Alias name"
+msgstr "别名"
+
+msgid "Enable mail auto responder"
+msgstr "启用邮件自动回复"
+
+msgid "ISPCP - Client/Manage Error Custom Pages"
+msgstr "ISPCP - 客户/管理自定义错误页面"
+
+msgid "Server error - please choose error page"
+msgstr "服务器错误 - 请选择出错页面"
+
+msgid "Edit error page"
+msgstr "编辑错误页面"
+
+msgid "Custom error page was updated!"
+msgstr "自定义错误页面成功更新！"
+
+msgid "System error - custom error page was NOT updated!"
+msgstr "系统错误 - 自定义错误页面没有更新！"
+
+msgid "Error 401 (unauthorised)"
+msgstr ""
+
+msgid "Error 403 (forbidden)"
+msgstr "错误403(禁止访问)"
+
+msgid "Error 404 (not found)"
+msgstr "错误404(找不到文件)"
+
+msgid "Error 500 (internal server error)"
+msgstr "错误500(内部服务器错误)"
+
+msgid "Error pages"
+msgstr "出错页面"
+
+msgid "FTP list is empty!"
+msgstr "FTP列表为空！"
+
+msgid "Can not open directory !<br>Please contact your administrator !"
+msgstr "无法打开目录！<br>请与您的管理员联系"
+
+msgid "Parent Directory"
+msgstr "上一级目录"
+
+msgid "Protect it"
+msgstr "保护它！"
+
+msgid "ISPCP - Client/Webtools"
+msgstr "ISPCP - 客户/网页工具"
+
+msgid "Directory tree"
+msgstr "目录树"
+
+msgid "Directories"
+msgstr "目录"
+
+msgid "Choose"
+msgstr "选择"
+
+#, c-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr ""
+
+#, c-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr ""
+
+msgid "You are exceeding your disk limit!"
+msgstr "您达到磁盘空间限制！"
+
+msgid "You have no new support questions!"
+msgstr "您没有新的支持问题！"
+
+msgid "support question(s)"
+msgstr "支持问题"
+
+msgid "new"
+msgstr "新"
+
+msgid "ISPCP - Client/Main Index"
+msgstr "ISPCP - 客户/主索引"
+
+msgid "General information"
+msgstr "一般信息"
+
+msgid "Account name"
+msgstr "帐号名称"
+
+msgid "Main domain"
+msgstr "主域名"
+
+msgid "SQL support"
+msgstr "SQL支持"
+
+msgid "Choose default language"
+msgstr "选择默认语言"
+
+msgid "Traffic usage"
+msgstr "流量使用"
+
+msgid "Disk usage"
+msgstr "磁盘空间使用"
+
+msgid "User language updated successfully!"
+msgstr "用户语言成功更新！"
+
+msgid "ISPCP - Client/Change Language"
+msgstr "ISPCP - 客户/改变语言"
+
+msgid "Subdomain list is empty!"
+msgstr "子域名列表为空！"
+
+msgid "Alias list is empty!"
+msgstr "别名列表为空"
+
+msgid "ISPCP - Client/Manage Domains"
+msgstr "ISPCP - 客户/管理域名"
+
+msgid "Manage domains"
+msgstr "管理域名别名"
+
+msgid "Mount point"
+msgstr "加载点"
+
+msgid "Forward"
+msgstr "转发"
+
+msgid "Database user list is empty!"
+msgstr "数据库用户列表为空！"
+
+msgid "Database list is empty!"
+msgstr "数据库列表为空！"
+
+msgid "ISPCP - Client/Manage SQL"
+msgstr "ISPCP - 客户/管理SQL"
+
+msgid "Manage SQL"
+msgstr "管理SQL"
+
+msgid "Database users"
+msgstr "数据库用户"
+
+msgid "Add SQL user"
+msgstr "添加SQL用户"
+
+msgid "Execute query"
+msgstr "执行查询"
+
+msgid "Please specify message subject!"
+msgstr "请指定消息标题"
+
+msgid "Your message was sent!"
+msgstr "信息已发出！"
+
+msgid "ISPCP - Support system - New ticket"
+msgstr "ISPCP - 支持系统 - 新的求助信息"
+
+msgid "New ticket"
+msgstr "新的求助信息"
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+
+msgid "Protected area deleted successfully!"
+msgstr "保护区域成功删除！"
+
+msgid "Permission deny!"
+msgstr "禁止访问！"
+
+msgid "You do not have protected areas"
+msgstr "您没有保护区域"
+
+msgid "Manage users and groups"
+msgstr "管理用户和组"
+
+msgid "Add user"
+msgstr "添加用户"
+
+msgid "Group name"
+msgstr "组名称"
+
+msgid "Group members"
+msgstr "组成员"
+
+msgid "Add group"
+msgstr "添加组"
+
+msgid "Group"
+msgstr "组"
+
+msgid "Add new protected area"
+msgstr "添加新的保护区域"
+
+msgid "Please choose user or group"
+msgstr "请选择用户或组"
+
+msgid "Please enter area name"
+msgstr "请输入地区名"
+
+msgid "Please enter area path"
+msgstr "请输入路径"
+
+msgid "%s doesn't exist"
+msgstr ""
+
+msgid "You can not protect area without selected user(s)"
+msgstr ""
+
+msgid "You can not protect area without selected group(s)"
+msgstr "没有选择组之前您无法保护区域"
+
+msgid "Protected area updated successfully!"
+msgstr "保护区域成功更新！"
+
+msgid "Protected area created successfully!"
+msgstr "保护区域成功创建！"
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+
+msgid "You have no users !"
+msgstr "您没有用户！"
+
+msgid "You have no groups!"
+msgstr "您没有组"
+
+msgid "Protect this area"
+msgstr "保护本区域"
+
+msgid "Path"
+msgstr "路径"
+
+msgid "Groups"
+msgstr "组"
+
+msgid "User auth"
+msgstr "用户认证"
+
+msgid "Group auth"
+msgstr "组认证"
+
+msgid "Area name"
+msgstr "地区名"
+
+msgid "Unprotect it"
+msgstr "取消保护"
+
+msgid "Can not open file! Please contact your administrator !"
+msgstr "无法打开文件！请联系管理员"
+
+msgid "User was assigned to group "
+msgstr ""
+
+msgid "User was deleted from group "
+msgstr ""
+
+msgid "User assign"
+msgstr "用户分配"
+
+msgid "Already in:"
+msgstr "已经存在于："
+
+msgid "Not in:"
+msgstr "不存在："
+
+msgid "User was assigned to group"
+msgstr "用户被分配到组"
+
+msgid "Member of group:"
+msgstr ""
+
+msgid "Select group:"
+msgstr ""
+
+msgid "Update user"
+msgstr "更新用户"
+
+msgid "Wrong username!"
+msgstr "用户名有误！"
+
+msgid "Group already exist !"
+msgstr "组已经存在"
+
+msgid "Manage user"
+msgstr "管理用户"
+
+msgid "You have no users!"
+msgstr "您没有用户！"
+
+msgid "User already exist !"
+msgstr "用户已存在"
+
+msgid "SQL-user limit expired!"
+msgstr "SQL用户超过限制！"
+
+msgid "Please type user name!"
+msgstr "请输入用户名称！"
+
+msgid "Please type user password!"
+msgstr "请输入用户密码！"
+
+msgid "Too user long password!"
+msgstr "用户密码太长！"
+
+msgid "SQL-user not found! Maybe it was deleted by another user!"
+msgstr ""
+
+msgid "User name too long!"
+msgstr "用户名太长！"
+
+msgid "Wildcards as % and ? are not allowed!"
+msgstr "不允许使用通配符 % 和 ? ！"
+
+msgid "Specified SQL username name already exists!"
+msgstr "指定的SQL用户名已经存在！"
+
+msgid "SQL user successfully added!"
+msgstr "添加SQL用户成功！"
+
+msgid "ISPCP - Client/Add SQL User"
+msgstr "ISPCP - 客户/添加SQL用户"
+
+msgid "SQL user name"
+msgstr "SQL用户名称"
+
+msgid "In front the name"
+msgstr "名字前面"
+
+msgid "Behind the name"
+msgstr "名字后面"
+
+msgid "Add existing user"
+msgstr "添加的用户已存在"
+
+msgid "Existing SQL users"
+msgstr "已存在的SQL用户"
+
+msgid "Too long user password!"
+msgstr "用户密码太长！"
+
+msgid "SQL user password was successfully changed!"
+msgstr "SQL用户密码成功更改！"
+
+msgid "ISPCP - Client/Change SQL User Password"
+msgstr "ISPCP - 客户/更改SQL用户密码"
+
+msgid "Change SQL user password"
+msgstr "改变SQL用户密码"
+
+msgid "Change"
+msgstr "切换"
+
+msgid "SQL user was removed successfully!"
+msgstr "删除SQL用户成功！"
+
+msgid "Please enter SQL query!"
+msgstr "请输入SQL查询"
+
+msgid "Cannot connect as MySQL administrator!"
+msgstr "无法以MYSQL管理员身份连接"
+
+msgid "SQL query has error"
+msgstr "SQL查询出错"
+
+msgid "SQL query is ok"
+msgstr "SQL查询正常"
+
+msgid "ISPCP - Client/Execute SQL Query"
+msgstr "ISPCP - 客户/执行SQL查询"
+
+msgid "Execute SQL query"
+msgstr "执行SQL查询"
+
+msgid "SQL query"
+msgstr "SQL查询"
+
+msgid "Query status"
+msgstr "查询状态"
+
+msgid "Query result"
+msgstr "查询结果"
+
+msgid "Execute"
+msgstr "执行"
+
+msgid "Protected area was deleted successful!"
+msgstr "成功删除受保护区域！"
+
+msgid "Hosting plans available for update"
+msgstr "可更新的托管计划"
+
+msgid "Cancel order"
+msgstr "取消订购"
+
+msgid "Your order"
+msgstr "您的订购"
+
+msgid "Purchase"
+msgstr "购买"
+
+msgid "There are no available updates"
+msgstr "没有可用的更新"
+
+msgid "PHP Support: enabled"
+msgstr "PHP支持：启用"
+
+msgid "PHP Support: disabled"
+msgstr "PHP支持：禁用"
+
+msgid "CGI Support: enabled"
+msgstr "CGI 支持： 启用"
+
+msgid "CGI Support: disabled"
+msgstr "CGI 支持： 禁用"
+
+msgid "HDD"
+msgstr ""
+
+msgid "Aliases"
+msgstr "别名"
+
+msgid "Emails"
+msgstr ""
+
+msgid "FTPs"
+msgstr ""
+
+msgid "SQL Databases"
+msgstr ""
+
+msgid "SQL Users"
+msgstr ""
+
+msgid "free of charge"
+msgstr "免费"
+
+msgid "There are no available hosting plans for update"
+msgstr "没有可更新的托管计划"
+
+msgid "ISPCP - Update hosting plan"
+msgstr "ISPCP - 更新托管计划"
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr "您的托管计划要求已经成功添加"
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "您的托管计划要求已经成功删除"
+
+msgid "Message was send!"
+msgstr "消息已发出！"
+
+msgid "Webtools"
+msgstr "网页工具"
+
+msgid "Customise error pages for your domain"
+msgstr ""
+
+msgid "Backup and restore settings"
+msgstr "备份和还原设置"
+
+msgid "Access your mail through the web interface"
+msgstr "通过网页方式来访问您的邮件"
+
+msgid "Access your files through the web interface"
+msgstr "通过网页方式来访问您的文件"
+
+msgid "Manage protected areas, users and groups"
+msgstr "管理保护区域，用户和组"
+
+msgid "System tools"
+msgstr "系统工具"
+
+msgid "Statistics"
+msgstr "统计信息"
+
+msgid "Reseller statistics"
+msgstr "代理统计信息"
+
+msgid "Admin log"
+msgstr "管理日志"
+
+msgid "Logout"
+msgstr "注销"
+
+msgid "Custom menus"
+msgstr "自定义菜单"
+
+msgid "Overview"
+msgstr "概观"
+
+msgid "User sessions"
+msgstr "用户会话"
+
+msgid "Lostpw email setup"
+msgstr "丢失密码邮件设置"
+
+msgid "Rootkit Log"
+msgstr ""
+
+msgid "Admin users"
+msgstr "管理用户"
+
+msgid "Normal users"
+msgstr "一般用户"
+
+msgid "Domains"
+msgstr "域名"
+
+msgid "System messages"
+msgstr "系统消息"
+
+msgid "No new messages"
+msgstr "没有新信息"
+
+msgid "Server traffic"
+msgstr "服务器流量"
+
+msgid "Administrators list is empty!"
+msgstr ""
+
+msgid "Created by"
+msgstr "创建人"
+
+msgid "Resellers list is empty!"
+msgstr "代理列表为空！"
+
+msgid "Change user interface"
+msgstr "切换用户界面"
+
+msgid "Not found user records matching the search criteria!"
+msgstr "没有发现符合搜索条件的用户记录"
+
+msgid "view aliases"
+msgstr "查看别名"
+
+msgid "Users list is empty!"
+msgstr "用户列表为空"
+
+msgid "Details"
+msgstr "详情"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr "您确定要改变域名邮件的状态吗？"
+
+msgid "Are you sure you want to delete this account?"
+msgstr "您确定要删除这个帐号？"
+
+msgid "Administrators"
+msgstr "管理员"
+
+msgid "Resellers"
+msgstr "代理"
+
+msgid "Search"
+msgstr "搜索"
+
+msgid "Creation date"
+msgstr "创建日期"
+
+#, c-format
+msgid "%1$s you are now logged as %2$s"
+msgstr ""
+
+msgid "Go back"
+msgstr "后退"
+
+msgid "OK"
+msgstr "正常"
+
+msgid "Suspended"
+msgstr "挂起"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "[Ticket] {SUBJ}"
+msgstr ""
+
+msgid "Hello {TO_NAME} !\n\nYou have a new ticket to read"
+msgstr ""
+
+msgid "Email and FTP accounts"
+msgstr "电子邮件及FTP账号"
+
+msgid "Add mail user"
+msgstr "添加email用户"
+
+msgid "PhpMyAdmin"
+msgstr ""
+
+msgid "Filemanager"
+msgstr "文件管理器"
+
+msgid "Web statistics"
+msgstr ""
+
+msgid "Group/User management"
+msgstr ""
+
+msgid "Email Accounts"
+msgstr "邮箱账号"
+
+msgid "FTP Accounts"
+msgstr "FTP帐号"
+
+msgid "Update Hosting Package"
+msgstr ""
+
+msgid "Addition in progress"
+msgstr "正在处理"
+
+msgid "Modification in progress"
+msgstr "正在更改"
+
+msgid "Deletion in progress"
+msgstr "正在删除"
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "Domain mail"
+msgstr "域名邮件"
+
+msgid "Email forward"
+msgstr "电子邮件转发"
+
+msgid "Alias mail"
+msgstr "别名邮件"
+
+msgid "Alias forward"
+msgstr "别名转发"
+
+msgid "Subdomain mail"
+msgstr "子域名邮箱"
+
+msgid "Subdomain forward"
+msgstr "子域名转发"
+
+msgid "Unknown type"
+msgstr "未知类别"
+
+msgid "Welcome new ispCP user {USERNAME}!"
+msgstr ""
+
+msgid "\n\nHello {NAME}!\n\nYour ispCP user type is: {USERTYPE}\nYour ispCP login is: {USERNAME}\nYour ispCP password is: {PASSWORD}\n\nYou can login at http://{BASE_SERVER_VHOST}\n\nGood luck with the ispCP system!\nThe ispCP Team.\n\n"
+msgstr ""
+
+msgid "Please activate your new ispCP login!"
+msgstr ""
+
+msgid "\n\nHello {NAME}!\nUse this link to activate your new ispCP password:\n\n{LINK}\n\nGood Luck with the ispCP System\nThe ispCP Team\n\n"
+msgstr ""
+
+msgid "Your new ispCP login!"
+msgstr ""
+
+msgid "\n\nHello {NAME}!\n\nYour ispCP login is: {USERNAME}\nYour ispCP password is: {PASSWORD}\n\nYou can login at http://{BASE_SERVER_VHOST}\n\nGood Luck with the ispCP System\nThe ispCP Team\n\n"
+msgstr ""
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr ""
+
+msgid "\n\nDear {NAME},\nThis is an automatic confirmation for the order of the domain:\n\n{DOMAIN}\n\nThank you for using ispCP services.\nThe ispCP Team\n\n"
+msgstr ""
+
+msgid "Catchall account"
+msgstr ""
+
+msgid "Could not get config from database"
+msgstr ""
+
+msgid "You have to wait"
+msgstr ""
+
+msgid "seconds"
+msgstr ""
+
+msgid "You have been blocked for"
+msgstr ""
+
+msgid "System is currently in servicemode! At time only administrators can login."
+msgstr ""
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr "用户已经登录或会话共享问题！取消..."
+
+msgid "Domain status is not OK - Login aborted."
+msgstr ""
+
+msgid "Domain alias"
+msgstr "域名别名"
+
+msgid "Manage Orders"
+msgstr "管理订购"
+
+msgid "Order settings"
+msgstr "订购设置"
+
+msgid "Order email setup"
+msgstr "订购邮件设置"
+
+msgid "Please fill up both data fields for password!"
+msgstr "请填写密码的两个数据栏"
+
+msgid "wait to be added"
+msgstr "等待添加"
+
+msgid "wait to be modified"
+msgstr "等待更改"
+
+msgid "wait to be deleted"
+msgstr "等待删除"
+
+msgid "suspended"
+msgstr "挂起"
+
+msgid "wait to be enabled"
+msgstr "等待启用"
+
+msgid "wait to be suspended"
+msgstr "等待挂起"
+
+msgid "unknown status"
+msgstr "未知状态"
+
+msgid "hide aliases"
+msgstr "隐藏别名"
+
+msgid "You have reached your domains limit.<br>You can not add more domains!"
+msgstr ""
+
+msgid "You have a subdomains limit!<br>You can not add an user with unlimited subdomains!"
+msgstr ""
+
+msgid "You are exceeding your subdomains limit!"
+msgstr ""
+
+msgid "You have an aliases limit!<br>You can not add an user with unlimited aliases!"
+msgstr ""
+
+msgid "You Are Exceeding Your Alias Limit!"
+msgstr "您达到别名数量限制！"
+
+msgid "You have a mail accounts limit!<br>You can not add an user with unlimited mail accounts!"
+msgstr ""
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr ""
+
+msgid "You have a FTP accounts limit!<br>You can not add an user with unlimited FTP accounts!"
+msgstr ""
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr ""
+
+msgid "You have a SQL databases limit!<br>You can not add an user with unlimited SQL databases!"
+msgstr ""
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr ""
+
+msgid "You have an SQL users limit!<br>You can not add an user with unlimited SQL users!"
+msgstr ""
+
+msgid "You have disabled SQL databases for this user!<br>You can not have SQL users here!"
+msgstr "您取消了这个用户的SQL数据库支持！<br>您不能为他添加SQL用户！"
+
+msgid "You are exceeding your SQL database limit!"
+msgstr ""
+
+msgid "You have a traffic limit!<br>You can not add an user with unlimited traffic!"
+msgstr ""
+
+msgid "You have a disk limit!<br>You can not add an user with unlimited disk!"
+msgstr ""
+
+msgid "You have a new order"
+msgstr ""
+
+msgid "\n\nDear {RESELLER},\nyou have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n\nPlease login into your ISPCP control panel for more details.\n\n"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr "错误的域名语法！"
+
+msgid "You do not have permission to access this interface!"
+msgstr "您没有权限查看此界面！"
+
+msgid "Add On A Domain"
+msgstr "再添加一个域名"
+
+msgid "Continue"
+msgstr "继续"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(如： domain-of-your-choice.com)"
+
+msgid "Please fill out all needed fields!"
+msgstr "请填写全部必需的区域！"
+
+msgid "Enter Address"
+msgstr "输入地址"
+
+msgid "* denotes mandatory field."
+msgstr "* 表明托管区域."
+
+msgid "Your Chart"
+msgstr "您的图表"
+
+msgid "Costs"
+msgstr "花费"
+
+msgid "Personal Data"
+msgstr "个人数据"
+
+msgid "Check Out"
+msgstr "付款"
+
+msgid "<b>Thank You for purchasing</b><br>You will receive an email with more details and information"
+msgstr "<b>感谢您的购买</b><br>您将会收到一封电子邮件，里面有更多的细节信息"
+
+msgid "No available hosting packages"
+msgstr "没有可用的托管计划"
+
+msgid "Webspace"
+msgstr "网页空间"
+
+msgid "Domain Features"
+msgstr "空间功能"
+
+msgid "Package Features"
+msgstr "计划功能"
+
+msgid "Backup and Restore"
+msgstr "备份和还原"
+
+msgid "Custom Error Pages"
+msgstr "自定义错误页面"
+
+msgid "Protected Areas"
+msgstr "受包含区域"
+
+msgid "Custom Apache Logs"
+msgstr "自定义Apache日志"
+
+msgid "Web & E-Mail Support"
+msgstr "网页和邮件支持"
+
+msgid "Your Own Domain"
+msgstr "您自己的域名"
+
+msgid "ISPCP Control Panel"
+msgstr "ISPCP控制面板"
+
+msgid "Automatic Updates"
+msgstr "自动更新"
+
+msgid "Package Price"
+msgstr "计划价格"
+
+msgid "Setup Fee"
+msgstr ""
+
+msgid "Performance"
+msgstr "性能"
+
+msgid "ISPCP Reseller : Add Alias"
+msgstr "ISPCP 代理：添加别名"
+
+msgid "You have no user records."
+msgstr "您没有用户记录。"
+
+msgid "ISPCP - Reseller/Add hosting plan"
+msgstr "ISPCP - 代理/添加托管计划"
+
+msgid "ISPCP - Reseller/Change Password"
+msgstr "ISPCP - 代理/更改密码"
+
+msgid "ISPCP - Reseller/Change Personal Data"
+msgstr "ISPCP - 代理/更改个人数据"
+
+msgid "ISPCP - Circular"
+msgstr "ISPCP - 循环"
+
+msgid "Circular"
+msgstr "循环"
+
+msgid "Wrong domain ID!"
+msgstr "错误的域名ID！"
+
+msgid "Domain you are trying to remove has email accounts !<br> first remove them !"
+msgstr "您要删除的域名拥有邮件账号！<br>请先删除它们！"
+
+msgid "Domain you are trying to remove has FTP accounts !<br> first remove them !"
+msgstr "您要删除的域名拥有FTP账号！<br>请先删除它们！"
+
+msgid "Domain you are trying to remove has domain alias!<br> first remove them !"
+msgstr "您要删除的域名拥有别名记录！<br>请先删除它们！"
+
+msgid "Domain you are trying to remove has subdomains accounts !<br> first remove them !"
+msgstr "您要删除的域名拥有子域名账号！<br>请先删除它们！"
+
+msgid "ISPCP - Manage Domain/Alias"
+msgstr "ISPCP - 管理域名/别名"
+
+msgid "Manage alias"
+msgstr "管理别名"
+
+msgid "Real domain"
+msgstr "真实域名"
+
+msgid "You have no alias records."
+msgstr "您没有别名记录"
+
+msgid "enabled"
+msgstr "已启用"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "Domain alias added for termination!"
+msgstr "添加域名别名被中止!"
+
+msgid "Domain alias not added for termination!"
+msgstr "域名别名添加被中止!"
+
+msgid "Domain alias added!"
+msgstr "域名别名已添加！"
+
+msgid "Domain alias not added!"
+msgstr "域名别名没有添加！"
+
+msgid "Domain alias modified!"
+msgstr "域名别名成功更改！"
+
+msgid "Domain alias not modified!"
+msgstr "域名别名没有更改！"
+
+msgid "User terminated!"
+msgstr "用户中断！"
+
+msgid "ISPCP - Domain/Edit"
+msgstr "ISPCP - 域名/编辑"
+
+msgid "Edit Domain"
+msgstr "编辑域名"
+
+msgid "Domain properties"
+msgstr "属性"
+
+msgid "Domain properties updated successfully!"
+msgstr "属性成功更新！"
+
+msgid "<b>%s</b> Service can not be disabled !<br>"
+msgstr ""
+
+msgid "There are <b>%s</b> records on the system!"
+msgstr ""
+
+msgid "<b>%s</b> Service can not be limited !<br>"
+msgstr ""
+
+msgid "Specified number is smaller than <b>%s</b> records, present on the system!"
+msgstr ""
+
+msgid "<b>%s</b> Service can not be unlimited !<br>"
+msgstr ""
+
+msgid "There are reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+msgid "You are exceeding reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+msgid "<b>%s</b> service can not be limited !<br>"
+msgstr ""
+
+msgid "Specified number is smaller than <b>%s</b> amount, present on the system!"
+msgstr ""
+
+msgid "ISPCP - Users/Edit"
+msgstr "ISPCP - 用户/编辑"
+
+msgid "Edit user"
+msgstr "编辑用户"
+
+msgid "Users list"
+msgstr "用户列表"
+
+msgid "ISPCP - Reseller/Edit hosting plan"
+msgstr "ISPCP - 代理/编辑托管计划"
+
+msgid "View hosting plan"
+msgstr "查看托管计划"
+
+msgid "Incorrect price!"
+msgstr ""
+
+msgid "Incorrect setup fee!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ISPCP - Reseller/Main Index"
+msgstr "ISPCP - 代理/主索引"
+
+msgid "View details"
+msgstr "查看详情"
+
+msgid "User accounts"
+msgstr "用户账号"
+
+msgid "Mail account"
+msgstr "邮件帐号"
+
+msgid "Extras"
+msgstr "额外信息"
+
+msgid "You have <b>%d</b> new support questions"
+msgstr ""
+
+msgid "ISPCP - Reseller/Lostpw email setup"
+msgstr "ISPCP"
+
+msgid "Lostpw email"
+msgstr "丢失密码邮件"
+
+msgid "Lostpw link"
+msgstr "丢失密码链接"
+
+msgid "ISPCP - Reseller/Order email setup"
+msgstr "ISPCP - 代理/订购邮件设置"
+
+msgid "Manage orders"
+msgstr "管理订购"
+
+msgid "Wrong order ID!"
+msgstr "订购ID有误！"
+
+msgid "User added!"
+msgstr "用户已添加！"
+
+msgid "Customer order was removed successful!"
+msgstr "客户订购已被成功删除！"
+
+msgid "ISPCP - Reseller/Order details"
+msgstr "ISPCP - 代理/订购详情"
+
+msgid "Order data updated successfully!"
+msgstr "订购数据成功更新！"
+
+msgid "Order date"
+msgstr "订购日期"
+
+msgid "Hosting plan"
+msgstr "托管计划"
+
+msgid "Hosting details"
+msgstr "空间详情"
+
+msgid "Order details"
+msgstr "订购详情"
+
+msgid "Customer data"
+msgstr "客户数据"
+
+msgid "Delete order"
+msgstr "删除订购"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "确认要删除本订购信息？"
+
+msgid "Add to the system"
+msgstr "添加到系统"
+
+msgid "ISPCP - Reseller/Order settings"
+msgstr "ISPCP - 代理/订购设置"
+
+msgid "Header"
+msgstr "页眉"
+
+msgid "Preview"
+msgstr "预览"
+
+msgid "Implementation URL"
+msgstr "执行URL"
+
+msgid "Footer"
+msgstr "页脚"
+
+msgid "ISPCP - Reseller/Order management"
+msgstr "ISPCP - 代理/订购管理"
+
+msgid "You do not have new orders!"
+msgstr "您没有新的订购！"
+
+msgid "New order"
+msgstr "新订购"
+
+msgid "Update order"
+msgstr "更新订购"
+
+msgid "ID"
+msgstr ""
+
+msgid "Order"
+msgstr "订购"
+
+msgid "Add/Details"
+msgstr "添加/详情"
+
+msgid "ISPCP - Users/Add user"
+msgstr "ISPCP - 用户/添加用户"
+
+msgid "Choose hosting plan"
+msgstr "选择托管计划"
+
+msgid "Personalise template"
+msgstr ""
+
+msgid "Next step"
+msgstr "下一步"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+
+msgid "ISPCP - User/Add user(step2)"
+msgstr "ISPCP - 用户/添加用户（第2步）"
+
+msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Backup / Restore"
+msgstr "备份/还原"
+
+msgid "Apache logs"
+msgstr "Apache日志"
+
+msgid "Awstats"
+msgstr ""
+
+msgid "ISPCP - User/Add user"
+msgstr "ISPCP - 用户/添加用户"
+
+msgid "Add other domains to this account"
+msgstr "添加其他域名到此账号"
+
+msgid "There's a conflicting admin / reseller fix that first!"
+msgstr ""
+
+msgid "System error with Domain ID "
+msgstr ""
+
+msgid "Done"
+msgstr "完成"
+
+msgid "This reseller has no domains yet."
+msgstr "此代理尚无域名。"
+
+msgid "ISPCP - Users"
+msgstr "ISPCP - 用户"
+
+msgid "Stats"
+msgstr "统计信息"
+
+msgid "Edit properties"
+msgstr "编辑属性"
+
+msgid "You have no users."
+msgstr "您没有用户。"
+
+msgid "User data updated!"
+msgstr "用户数据成功更新！"
+
+msgid "User data not updated!"
+msgstr "用户数据没有更新！"
+
+msgid "This user has domain record !<br>First remove the domain from the system!"
+msgstr "该用户拥有域名记录！<br>请先从系统中删除他的域名！"
+
+msgid "User not terminated!"
+msgstr "用户没有中断！"
+
+msgid "ISPCP - Reseller : Support System: View Tickets"
+msgstr "ISPCP - 代理：支持系统：查看求助信息"
+
+msgid "Message was sent."
+msgstr "消息已发出。"

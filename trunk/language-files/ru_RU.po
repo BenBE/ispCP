@@ -1,0 +1,3551 @@
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-18 23:11-0500\n"
+"PO-Revision-Date: 2007-07-06 16:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <ru_RU@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: x64PoPot 0.2\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "UTF-8"
+
+msgid "_: Localised language"
+msgstr "Russian"
+
+#, fuzzy
+msgid "ispCP Omega a Virtual Hosting Control System"
+msgstr "ISPCP - Виртуальная Система Управления Хостингом"
+
+msgid "Administrator login"
+msgstr ""
+
+msgid "Login"
+msgstr "Войти"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Password"
+msgstr ""
+
+msgid "Please enter your login information"
+msgstr "Пожалуйста, введите Ваши данные для входа"
+
+msgid "Secure Connection"
+msgstr ""
+
+msgid "Normal Connection"
+msgstr ""
+
+msgid "Lost password"
+msgstr ""
+
+msgid "Lost password function currently disabled"
+msgstr ""
+
+msgid "ISPCP - Virtual Hosting Control System"
+msgstr "ISPCP - Виртуальная Система Управления Хостингом"
+
+msgid "Password sent"
+msgstr ""
+
+msgid "ERROR: Password was not sent"
+msgstr ""
+
+msgid "The password was requested"
+msgstr ""
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "ERROR: Unknown user"
+msgstr "Ошибка: неизвестный пользователь!"
+
+msgid "Retry"
+msgstr "Повторить"
+
+msgid "ERROR: Security code was not correct!"
+msgstr "Ошибка: Секретный код не корректен!"
+
+msgid "Security code"
+msgstr "Секретный код"
+
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr ""
+
+msgid "Request password"
+msgstr ""
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr ""
+
+msgid "Reseller IP list is empty!"
+msgstr ""
+
+msgid "No."
+msgstr "Число"
+
+msgid "Assign"
+msgstr "Привязать"
+
+msgid "Label"
+msgstr ""
+
+msgid "Number"
+msgstr "Число"
+
+msgid "Reseller"
+msgstr ""
+
+msgid "This user name already exist!"
+msgstr ""
+
+msgid "Incorrect username length or syntax!"
+msgstr ""
+
+msgid "Incorrect password length or syntax!"
+msgstr ""
+
+msgid "Entered passwords do not match!"
+msgstr ""
+
+msgid "Incorrect email length or syntax!"
+msgstr ""
+
+msgid "Incorrect max domain count or syntax!"
+msgstr "Incorrect <i>max domain</i> count or syntax!"
+
+msgid "Incorrect max subdomain count or syntax!"
+msgstr "Incorrect <i>max subdomain</i> count or syntax!"
+
+msgid "Incorrect max alias count or syntax!"
+msgstr "Incorrect <i>max alias</i> count or syntax!"
+
+msgid "Incorrect max FTP count or syntax!"
+msgstr "Incorrect <i>max FTP</i> count or syntax!"
+
+msgid "Incorrect max mail count or syntax!"
+msgstr "Incorrect <i>max e-mail</i> count or syntax!"
+
+msgid "Incorrect max SQL databases count or syntax!"
+msgstr "Incorrect <i>max mySQL databases</i> count or syntax!"
+
+msgid "Incorrect max SQL users count or syntax!"
+msgstr "Incorrect <i>max mySQL users</i> count or syntax!"
+
+msgid "Incorrect max traffic amount or syntax!"
+msgstr "Incorrect <i>max traffic</i> amount or syntax!"
+
+msgid "Incorrect max disk amount or syntax!"
+msgstr "Incorrect <i>max disk</i> amount or syntax!"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "Вы должны дать хотя-бы один IP адрес для реселейра"
+
+msgid "Add reseller"
+msgstr "Добавить реселлера"
+
+msgid "Core data"
+msgstr "Данные ядра"
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+msgid "Domains limit"
+msgstr ""
+
+msgid "Subdomains limit"
+msgstr ""
+
+msgid "Aliases limit"
+msgstr ""
+
+msgid "Mail accounts limit"
+msgstr ""
+
+msgid "FTP accounts limit"
+msgstr ""
+
+msgid "SQL databases limit"
+msgstr ""
+
+msgid "SQL users limit"
+msgstr ""
+
+msgid "Traffic limit [MB]"
+msgstr ""
+
+msgid "Disk limit [MB]"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "CGI / Perl"
+msgstr ""
+
+msgid "JSP"
+msgstr ""
+
+msgid "SSI"
+msgstr ""
+
+msgid "Frontpage extensions"
+msgstr ""
+
+msgid "Backup and restore"
+msgstr "Резервное копирование и восстановление"
+
+msgid "Custom error pages"
+msgstr "Персональные Cтраницы ошибок"
+
+msgid "Protected areas"
+msgstr ""
+
+msgid "Webmail"
+msgstr "Вебмыло"
+
+msgid "Directory listing"
+msgstr "Список Папок"
+
+msgid "Apache logfiles"
+msgstr "Файлы журнала Apache"
+
+msgid "AwStats"
+msgstr ""
+
+msgid "Logo upload"
+msgstr "Загрузить логотоп"
+
+msgid "yes"
+msgstr "да"
+
+msgid "no"
+msgstr "нет"
+
+msgid "Reseller IPs"
+msgstr ""
+
+msgid "Additional data"
+msgstr "Дополнительные данные"
+
+msgid "Customer ID"
+msgstr "ID Покупателя"
+
+msgid "First name"
+msgstr "Имя"
+
+msgid "Last name"
+msgstr ""
+
+msgid "Gender"
+msgstr ""
+
+#, fuzzy
+msgid "Male"
+msgstr "e-mail"
+
+#, fuzzy
+msgid "Female"
+msgstr "Вебмыло"
+
+msgid "Company"
+msgstr "Компания"
+
+msgid "Zip/Postal code"
+msgstr "Почтовый индекс"
+
+msgid "City"
+msgstr "Город"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Street 1"
+msgstr "Улица 1"
+
+msgid "Street 2"
+msgstr "Улица 2"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Fax"
+msgstr "Факс"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "ISPCP - Admin/Manage users/Add User"
+msgstr ""
+
+msgid "Administrator"
+msgstr "Администратор"
+
+msgid "Empty data or wrong field!"
+msgstr "Пусто или поле не правильно заполнено!"
+
+msgid "Passwords don't match!"
+msgstr ""
+
+msgid "Add admin"
+msgstr "Добавить админа"
+
+msgid "ISPCP - Admin/Admin Log"
+msgstr ""
+
+msgid "Log is empty!"
+msgstr "Лог пуст!"
+
+msgid "Invalid time period!"
+msgstr ""
+
+msgid "Admin Log"
+msgstr "Журнал администратора"
+
+msgid "Clear log"
+msgstr "Очистить лог"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "Delete from log:"
+msgstr "Удалить из лога:"
+
+msgid "everything"
+msgstr "все"
+
+msgid "older than 2 weeks"
+msgstr "старше 2 недель"
+
+msgid "older than 1 month"
+msgstr "старше месяца"
+
+msgid "older than 3 months"
+msgstr "старше 3 месяцев"
+
+msgid "older than 6 months"
+msgstr "старше 6 месяцев"
+
+msgid "older than 12 months"
+msgstr "старше 12 месяцев"
+
+msgid "ISPCP - Administrator/Add hosting plan"
+msgstr ""
+
+msgid "Add hosting plan"
+msgstr "Добавить хостинг-план"
+
+msgid "Hosting plan properties"
+msgstr ""
+
+msgid "Template name"
+msgstr "Имя шаблона"
+
+msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
+msgstr ""
+
+msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "Винтовой лимит [MB]<br><i>(0 - не ограничено)</i>"
+
+msgid "Billing Settings"
+msgstr "Настройки билинга"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Setup fee"
+msgstr ""
+
+msgid "Currency"
+msgstr "Валюта"
+
+msgid "Payment period"
+msgstr ""
+
+msgid "Available for purchasing"
+msgstr "Доступно к приобретению"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "(e.g. EUR)"
+msgstr "(например EUR)"
+
+msgid "Add plan"
+msgstr "Добавить план"
+
+msgid "Incorrect template name length!"
+msgstr ""
+
+msgid "Incorrect template description length!"
+msgstr ""
+
+msgid "Incorrect price syntax!"
+msgstr ""
+
+msgid "Incorrect setup fee syntax!"
+msgstr ""
+
+msgid "Incorrect subdomain length or syntax!"
+msgstr ""
+
+msgid "Incorrect alias length or syntax!"
+msgstr ""
+
+msgid "Incorrect mail account length or syntax!"
+msgstr ""
+
+msgid "Incorrect FTP account length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL database length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL user length or syntax!"
+msgstr ""
+
+msgid "Incorrect traffic length or syntax!"
+msgstr ""
+
+msgid "Incorrect disk length or syntax!"
+msgstr ""
+
+msgid "Hosting plan with entered name already exists!"
+msgstr ""
+
+msgid "ISPCP - Admin/Change Password"
+msgstr ""
+
+msgid "Please fill up all data fields!"
+msgstr "Пожалуйста, заполните все поля!"
+
+msgid "Passwords do not match!"
+msgstr ""
+
+msgid "The current password is wrong!"
+msgstr "Текущий пароль - неправильный!"
+
+msgid "User password updated successfully!"
+msgstr "Пароль пользователя был успешно изменен!"
+
+msgid "Change password"
+msgstr "Изменить пароль"
+
+msgid "Password data"
+msgstr ""
+
+msgid "Update password"
+msgstr "Изменить пароль"
+
+msgid "Current password"
+msgstr "Текущий пароль"
+
+msgid "Personal data updated successfully!"
+msgstr "Персональные данные успешно закачаны!"
+
+msgid "ISPCP - Admin/Change Personal Data"
+msgstr ""
+
+msgid "Change personal data"
+msgstr "Изменить личные данные"
+
+msgid "Personal data"
+msgstr "Персональные данные"
+
+msgid "Update data"
+msgstr "Изменить данные"
+
+msgid "User does not exist!"
+msgstr "Пользователь не существует!"
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr ""
+
+msgid "Please specify a message subject!"
+msgstr "Пожалуйста, введите тему сообщения!"
+
+msgid "Please specify a message content!"
+msgstr " Пожалуйста, введите содержание сообщения!"
+
+msgid "Please specify a sender name!"
+msgstr ""
+
+msgid "Please specify a sender email!"
+msgstr ""
+
+msgid "You send email to your users successfully!"
+msgstr "Сообщение Вашим пользователям отправленно!"
+
+msgid "Email marketing"
+msgstr "Почтовая рассылка"
+
+msgid "Send message to"
+msgstr "Отпровить сообщение"
+
+msgid "All users"
+msgstr "Все пользователи"
+
+msgid "All resellers"
+msgstr "Все реселлеры"
+
+msgid "All users & resellers"
+msgstr "Все пользователи и реселлеры"
+
+msgid "Message subject"
+msgstr "Тема сообщения"
+
+msgid "Senders email"
+msgstr ""
+
+msgid "Senders name"
+msgstr ""
+
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+msgid "You have no custom menus."
+msgstr "У Вас нет индивидуальных меню."
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "All"
+msgstr "Все"
+
+msgid "Are you sure you want to delete"
+msgstr "Вы уверены что хотите удалить"
+
+msgid "Missing or incorrect data input!"
+msgstr "пропущенный или неправильный ввод!"
+
+msgid "Custom menu data updated successful!"
+msgstr "Персональное меню успешно обновлено!"
+
+msgid "Custom menu deleted successful!"
+msgstr "Персональное меню успешно удалено!"
+
+msgid "ISPCP - Admin - Manage custom menus"
+msgstr ""
+
+msgid "Manage custom menus"
+msgstr ""
+
+msgid "Add new button"
+msgstr "Добавить кнопку"
+
+msgid "Button name"
+msgstr "Имя кнопки"
+
+msgid "Button link"
+msgstr "Ссылка кнопки"
+
+msgid "Button target"
+msgstr "Цель кнопки"
+
+msgid "Show in"
+msgstr ""
+
+msgid "Administrator level"
+msgstr "Уровень администратора"
+
+msgid "Reseller level"
+msgstr ""
+
+msgid "Enduser level"
+msgstr ""
+
+msgid "Reseller and enduser level"
+msgstr ""
+
+msgid "Menu button"
+msgstr ""
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Level"
+msgstr "Уровень"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Edit button"
+msgstr "Кнопка редактирования"
+
+msgid "Error: we have a domain using this IP!"
+msgstr ""
+
+msgid "Error: we have a reseller using this IP!"
+msgstr ""
+
+msgid "IP was deleted!"
+msgstr ""
+
+msgid "Support ticket deleted successfully!"
+msgstr ""
+
+msgid "All open support tickets deleted successfully!"
+msgstr "Все открытые билеты поддержки успешно удалены!"
+
+msgid "All closed support tickets deleted successfully!"
+msgstr "Все закрытые билеты поддержки успешно удалены!"
+
+msgid "ISPCP - Domain/Details"
+msgstr ""
+
+msgid "Domain details"
+msgstr "Информация о домене"
+
+msgid "Domain name"
+msgstr "Имя Домена"
+
+msgid "Domain IP"
+msgstr "IP домена"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "PHP support"
+msgstr "поддержка PHP"
+
+msgid "CGI support"
+msgstr "Поддержка CGI"
+
+msgid "MySQL support"
+msgstr "Поддержка MySQL"
+
+msgid "Traffic in MB"
+msgstr ""
+
+msgid "Disk in MB"
+msgstr "Диск в МегаБайтах"
+
+msgid "Feature"
+msgstr ""
+
+msgid "Used"
+msgstr "Использовано"
+
+msgid "Limit"
+msgstr "Лимит"
+
+msgid "Mail accounts"
+msgstr ""
+
+msgid "FTP accounts"
+msgstr "FTP аккаунты"
+
+msgid "SQL databases"
+msgstr "Баз данных SQL"
+
+msgid "SQL users"
+msgstr ""
+
+msgid "Subdomains"
+msgstr ""
+
+msgid "Domain aliases"
+msgstr "Псевдоним домена"
+
+msgid "Submit changes"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "ISPCP - Domain Statistics Data"
+msgstr ""
+
+msgid "Domain statistics"
+msgstr "Статистика домена"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Year"
+msgstr "Год"
+
+msgid "Show"
+msgstr "Показать"
+
+msgid "Web traffic"
+msgstr "Вебтрафик"
+
+msgid "FTP traffic"
+msgstr "FTP траффик"
+
+msgid "SMTP traffic"
+msgstr ""
+
+msgid "POP3/IMAP traffic"
+msgstr ""
+
+msgid "All traffic"
+msgstr "Весь трафик"
+
+msgid "Day"
+msgstr "День"
+
+msgid "ISPCP - Admin/Manage users/Edit Reseller"
+msgstr ""
+
+msgid "Domains"
+msgstr "Домены"
+
+#, php-format
+msgid "Inconsistency between current_als_cnt and actual alias count: %1$d != %2$d"
+msgstr ""
+
+msgid "Aliases"
+msgstr "Алиасы"
+
+#, php-format
+msgid "Inconsistency between current_mail_cnt and actual mail count: %1$d != %2$d"
+msgstr ""
+
+msgid "Mail"
+msgstr "e-mail"
+
+#, php-format
+msgid "Inconsistency between current_ftp_cnt and actual ftp count: %1$d != %2$d"
+msgstr ""
+
+msgid "FTP"
+msgstr ""
+
+msgid "SQL Databases"
+msgstr ""
+
+msgid "SQL Users"
+msgstr ""
+
+#, fuzzy
+msgid "Web Traffic"
+msgstr "Вебтрафик"
+
+#, fuzzy
+msgid "Disk storage"
+msgstr "Использование диска"
+
+msgid "Reseller data inconsistency!"
+msgstr ""
+
+#, php-format
+msgid "This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+msgid "Edit reseller aborted!"
+msgstr "Редактирование Спекулянта прервано!"
+
+#, php-format
+msgid "This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+#, php-format
+msgid "This reseller has customer(s) with unlimited rights for the <b>%s</b> service!<br>"
+msgstr ""
+
+msgid "If you want to limit the reseller, you must first limit its customers!<br>"
+msgstr ""
+
+#, php-format
+msgid "This reseller has domains assigned to the <b>%s</b> address!<br>"
+msgstr ""
+
+msgid "Edit reseller"
+msgstr "Редактировать Спекулянта"
+
+msgid "E-mail"
+msgstr "мыло"
+
+msgid "Max domain count"
+msgstr ""
+
+msgid "Max subdomain count"
+msgstr ""
+
+msgid "Max aliases count"
+msgstr ""
+
+msgid "Max mail users count"
+msgstr ""
+
+msgid "Max FTP users count"
+msgstr ""
+
+msgid "Max SQL databases count"
+msgstr ""
+
+msgid "Max SQL users count"
+msgstr ""
+
+msgid "Max traffic amount [MB]"
+msgstr ""
+
+msgid "Max disk amount [MB]"
+msgstr ""
+
+msgid "Update"
+msgstr "Изменить"
+
+msgid "Send new login data"
+msgstr ""
+
+#, fuzzy
+msgid "Generate password"
+msgstr "Изменить пароль"
+
+msgid "ISPCP - Admin/Manage users/Edit User"
+msgstr ""
+
+msgid "User session was killed!"
+msgstr "Сеанс пользователя был прерван!"
+
+msgid "Domain account"
+msgstr "Эккоунт Домена"
+
+msgid "Edit admin"
+msgstr "Редактировать Админа"
+
+msgid "ISPCP - Administrator/Edit hosting plan"
+msgstr ""
+
+msgid "Price Style"
+msgstr ""
+
+msgid "Update plan"
+msgstr ""
+
+msgid "Edit hosting plan"
+msgstr "Редактировать хостинг-план"
+
+msgid "Undefined reference to data!"
+msgstr "Неопределенная ссылка на данные!"
+
+msgid "Incorrect price. Example: 9.99"
+msgstr ""
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr ""
+
+msgid "Please specify a subject!"
+msgstr "Пожалуйста, введите тему!"
+
+msgid "Please specify message!"
+msgstr "Пожалуйста, введите сообщение!"
+
+msgid "Auto email template data updated!"
+msgstr "Шаблон авто письма обновлен!"
+
+msgid "ISPCP - Admin/Manage users/Email setup"
+msgstr ""
+
+msgid "Email setup"
+msgstr "Настройка Почтового Ящика"
+
+msgid "Message template info"
+msgstr "Информация шаблона сообщения"
+
+msgid "User login (system) name"
+msgstr "Системное имя (логин) пользователя"
+
+msgid "User password"
+msgstr "Пароль пользователя"
+
+msgid "User real (first and last) name"
+msgstr ""
+
+msgid "Message template"
+msgstr "Шаблон сообщения"
+
+msgid "Subject"
+msgstr ""
+
+msgid "Apply changes"
+msgstr "Применить изменения"
+
+msgid "ISPCP - Administrator/Hosting Plan Management"
+msgstr ""
+
+msgid "Hosting plans"
+msgstr ""
+
+msgid "Manage hosting plans"
+msgstr ""
+
+msgid "Purchasing"
+msgstr ""
+
+msgid "Add new user hosting plan"
+msgstr "Добавить новый хостинг-план"
+
+msgid "Return to previous menu"
+msgstr ""
+
+msgid "Hosting plan added!"
+msgstr ""
+
+msgid "Hosting plan deleted!"
+msgstr ""
+
+msgid "Hosting plan updated!"
+msgstr ""
+
+msgid "Hosting plans not found!"
+msgstr ""
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Enabled"
+msgstr "Включено"
+
+msgid "Disabled"
+msgstr "Отключено"
+
+msgid "Show hosting plan"
+msgstr ""
+
+#, php-format
+msgid "You have <b>%d</b> new support questions"
+msgstr ""
+
+msgid "View"
+msgstr "Смотреть"
+
+msgid "Couldn't check for updates!"
+msgstr ""
+
+msgid "New ISPCP update is now available"
+msgstr "Доступна новая версия ispCP"
+
+msgid "You are exceeding your traffic limit!"
+msgstr "Вы превысили Ваше ограничение трафика!"
+
+msgid "%1$d % [%2$d of %3$d]"
+msgstr ""
+
+msgid "ISPCP - Admin/Main Index"
+msgstr ""
+
+msgid "ISPCP - Admin/IP manage"
+msgstr ""
+
+msgid "New IP was added!"
+msgstr " Новый IP адрес был добавлен!"
+
+msgid "Wrong IP number!"
+msgstr "Неправильный IP адрес!"
+
+msgid "Please specify domain!"
+msgstr ""
+
+msgid "Please specify alias!"
+msgstr ""
+
+msgid "This IP already exist!"
+msgstr "Этот IP адрес уже существует!"
+
+msgid "Manage IPs"
+msgstr "Управление IP адресами"
+
+msgid "Available IPs"
+msgstr "Доступные IP"
+
+msgid "IP"
+msgstr ""
+
+msgid "Domain"
+msgstr "Домен"
+
+msgid "Alias"
+msgstr "Алиас"
+
+msgid "Uninstall"
+msgstr "Удалить"
+
+msgid "Add new IP"
+msgstr "Добавить IP"
+
+msgid "No domain system errors"
+msgstr ""
+
+msgid "No domain alias system errors"
+msgstr ""
+
+msgid "No subdomain system errors"
+msgstr ""
+
+msgid "No email account system errors"
+msgstr ""
+
+msgid "ISPCP debugger"
+msgstr "ISPCP отладчик"
+
+msgid "Domain errors"
+msgstr "Ошибки домена"
+
+msgid "Domain alias errors"
+msgstr "Ошибка псевдонима домена!"
+
+msgid "Subdomain errors"
+msgstr ""
+
+msgid "Mail account errors"
+msgstr ""
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown domain status!"
+msgstr "неизвестный статус"
+
+#, fuzzy
+msgid "Unknown account type!"
+msgstr "Неизвестный тип"
+
+#, fuzzy
+msgid "Invalid account id!"
+msgstr "Эккоунт Домена"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "Get it at"
+msgstr ""
+
+msgid "ISPCP updates"
+msgstr "ISPCP обновления"
+
+msgid "Available ISPCP updates"
+msgstr "Доступные ISPCP обновления"
+
+msgid "No new ISPCP updates available"
+msgstr ""
+
+msgid "Update details"
+msgstr ""
+
+msgid "Upload file error!"
+msgstr "Ошибка закачки файла!"
+
+msgid "You can only upload images!"
+msgstr ""
+
+msgid "Your logo was successful uploaded!"
+msgstr "Ваш логотип загружен!"
+
+msgid "Layout settings"
+msgstr ""
+
+msgid "Installed layouts"
+msgstr ""
+
+msgid "Layout name"
+msgstr ""
+
+msgid "default"
+msgstr "по умолчанию"
+
+msgid "Upload logo"
+msgstr "Закачайте лого"
+
+msgid "Logo file"
+msgstr "Файл логотипа"
+
+msgid "Upload"
+msgstr "Закачка"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Choose default layout"
+msgstr "Выбрать"
+
+msgid "Layout"
+msgstr ""
+
+msgid "ISPCP - Admin/Lostpw email setup"
+msgstr ""
+
+msgid "Lost password e-mail"
+msgstr ""
+
+msgid "Activation E-Mail"
+msgstr ""
+
+msgid "Password E-Mail"
+msgstr ""
+
+msgid "User (first and last) name"
+msgstr "Имя и фамилия пользователя"
+
+msgid "Lost password link"
+msgstr ""
+
+msgid "Reseller list is empty!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/Reseller assignment"
+msgstr ""
+
+msgid "Reseller assignment"
+msgstr ""
+
+msgid "Reseller users"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Reseller name"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "To Admin"
+msgstr "Администратору"
+
+msgid "Move"
+msgstr "Переместить"
+
+msgid "Reseller or user list is empty!"
+msgstr ""
+
+msgid "User list is empty!"
+msgstr "Список пользователей пуст!"
+
+msgid "User was moved"
+msgstr "Пользователь был перемещен"
+
+msgid "Please select some user(s)!"
+msgstr "Пожалуйста, выберите какого-нибудь пользователя(-ей)!"
+
+msgid "Source and destination reseller are the same!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
+msgstr ""
+
+#, php-format
+msgid "You can not move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>"
+msgstr ""
+
+msgid "Moving aborted!"
+msgstr "Перемещение прервано!"
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> service !<br>"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> has IP address that can not be managed from the destination reseller !<br>This user can not be moved!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/User assignment"
+msgstr ""
+
+msgid "User assignment"
+msgstr ""
+
+msgid "Users"
+msgstr "Пользователи"
+
+msgid "User name"
+msgstr "Имя пользователя"
+
+msgid "From reseller"
+msgstr ""
+
+msgid "To reseller"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage Sessions"
+msgstr ""
+
+msgid "Manage user sessions"
+msgstr "Управление пользовательскими сеансами"
+
+msgid "User type"
+msgstr "Тип пользователя"
+
+msgid "Last access"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Kill session"
+msgstr "Завершить сеанс"
+
+msgid "ISPCP - Admin/Manage Users"
+msgstr ""
+
+msgid "User added"
+msgstr "Пользователь добавлен"
+
+msgid "Reseller added"
+msgstr ""
+
+msgid "User updated"
+msgstr ""
+
+msgid "User deleted"
+msgstr "Пользователь удален"
+
+msgid "Email Updated"
+msgstr "Ящик обновлён"
+
+msgid "This user has a domain!<br>To delete the user first delete the domain!"
+msgstr ""
+
+msgid "User was disabled"
+msgstr "Пользователь был выключен"
+
+msgid "Incorrect data input!"
+msgstr ""
+
+msgid "ISPCP - Admin/Internationalisation"
+msgstr ""
+
+msgid "Default language changed!"
+msgstr "Язык по умолчанию изменён!"
+
+msgid "You can upload only text files!"
+msgstr "Вы можете закачивать только текстовые файлы!"
+
+#, fuzzy
+msgid "Could not read language file!"
+msgstr "Невозможно прочитать файл языка!"
+
+#, fuzzy
+msgid "Uploaded file is not a valid language file!"
+msgstr "Невозможно прочитать файл языка!"
+
+msgid "Uploaded file does not contain the language information!"
+msgstr ""
+
+msgid "New language installed!"
+msgstr ""
+
+#, fuzzy
+msgid "Language was updated!"
+msgstr "Страницы ошибок обновлены!"
+
+msgid "Unknown"
+msgstr "Неизвестный"
+
+msgid "uninstall"
+msgstr "удалить"
+
+#, php-format
+msgid "%d messages translated"
+msgstr ""
+
+msgid "Multilingual"
+msgstr ""
+
+msgid "Installed languages"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Messages"
+msgstr "Сообщения"
+
+msgid "Default"
+msgstr "По умолчанию"
+
+msgid "Install new language"
+msgstr ""
+
+msgid "Language file"
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+msgid "Export"
+msgstr "Экспортировать"
+
+msgid "ISPCP - Reseller statistics"
+msgstr ""
+
+msgid "Not found reseller(s) in your system!"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>unlimited</b>"
+msgstr ""
+
+msgid "Reseller statistics table"
+msgstr ""
+
+msgid "Traffic"
+msgstr ""
+
+msgid "Disk"
+msgstr "Диск"
+
+msgid "Subdomain"
+msgstr ""
+
+msgid "SQL database"
+msgstr "База данных SQL"
+
+msgid "SQL user"
+msgstr ""
+
+msgid "ISPCP - Admin/Reseller User Statistics"
+msgstr ""
+
+#, php-format
+msgid "%1$d <br/>of</br> <b>%2$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%d <br/>of</br> <b>unlimited</b>"
+msgstr ""
+
+#, fuzzy
+msgid "<b>disabled</b>"
+msgstr "отклоючено"
+
+msgid "Reseller users table"
+msgstr ""
+
+msgid "This reseller has no domains."
+msgstr ""
+
+msgid "Traffic<br>usage"
+msgstr ""
+
+msgid "Disk<br>usage"
+msgstr "Диск<br>использовано"
+
+msgid "Web<br>traffic"
+msgstr "Веб<br>трафик"
+
+msgid "FTP<br>traffic"
+msgstr "FTP<br>траффик"
+
+msgid "SMTP<br>traffic"
+msgstr ""
+
+msgid "POP3/IMAP<br>traffic"
+msgstr ""
+
+msgid "SQL<br>database"
+msgstr ""
+
+msgid "SQL<br>user"
+msgstr ""
+
+msgid "ISPCP Admin / System Tools / Rootkit Hunter Log"
+msgstr ""
+
+msgid "The file doesn't exist or can't be read."
+msgstr ""
+
+msgid "Rootkit Log Checker"
+msgstr ""
+
+msgid "ISPCP - Admin/Server day stats"
+msgstr ""
+
+msgid "Server day statistics"
+msgstr ""
+
+msgid "Month:"
+msgstr "Месяц:"
+
+msgid "Year:"
+msgstr "Год:"
+
+msgid "Day:"
+msgstr "День:"
+
+msgid "Hour"
+msgstr "Час"
+
+msgid "Web in"
+msgstr "Веб-вход"
+
+msgid "Web out"
+msgstr "Веб-выход"
+
+msgid "Mail in"
+msgstr ""
+
+msgid "Mail out"
+msgstr ""
+
+msgid "Pop/IMAP in"
+msgstr "POP/IMAP вход"
+
+msgid "Pop/IMAP out"
+msgstr "POP/IMAP выход"
+
+msgid "Other in"
+msgstr ""
+
+msgid "Other out"
+msgstr ""
+
+msgid "All in"
+msgstr "Все в"
+
+msgid "All out"
+msgstr "Все вне"
+
+msgid "ISPCP - Admin/Server statistics"
+msgstr ""
+
+msgid "Server statistics"
+msgstr ""
+
+msgid "ISPCP Admin / System Tools / Server Status"
+msgstr "ISPCP администратор / Системные инструменты / Статус сервера"
+
+msgid "UP"
+msgstr ""
+
+msgid "DOWN"
+msgstr ""
+
+msgid "Host"
+msgstr "Хост"
+
+msgid "Service"
+msgstr "Служба"
+
+msgid "Server status"
+msgstr "Статус сервера"
+
+msgid "ISPCP - Admin/Server Traffic Settings"
+msgstr ""
+
+msgid "Wrong data input!"
+msgstr "Ошибка ввода данных!"
+
+msgid "Warning traffic is bigger then max traffic!"
+msgstr "Предупреждение: Ваш трафик превысил максимальный!"
+
+msgid "Server traffic settings updated successfully!"
+msgstr ""
+
+msgid "Modify"
+msgstr "Изменить"
+
+msgid "Server traffic settings"
+msgstr ""
+
+msgid "Set server traffic settings"
+msgstr ""
+
+msgid "Max traffic [MB]"
+msgstr ""
+
+msgid "Warning traffic [MB]"
+msgstr "Предупреждение по трафику"
+
+msgid "ISPCP - Admin/Servicemode"
+msgstr ""
+
+msgid "Settings saved !"
+msgstr ""
+
+msgid "Servicemode"
+msgstr ""
+
+msgid "In this mode only administrators can login"
+msgstr ""
+
+msgid "ISPCP - Admin/Settings"
+msgstr ""
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr ""
+
+msgid "General settings"
+msgstr "Общие настройки"
+
+msgid "Settings"
+msgstr ""
+
+msgid "Activation link expire time (minutes)"
+msgstr ""
+
+msgid "Bruteforce detection"
+msgstr "регистрация атаки-перебора"
+
+msgid "Block time between logins"
+msgstr ""
+
+msgid "Max number of login attempts"
+msgstr ""
+
+msgid "Blocktime (minutes)"
+msgstr "Время блокировки (в минутах)"
+
+msgid "Block time between logins (seconds)"
+msgstr ""
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr ""
+
+msgid "Other settings"
+msgstr ""
+
+msgid "Default language"
+msgstr "Язык по умолчанию"
+
+msgid "Support system"
+msgstr ""
+
+msgid "Serverports"
+msgstr ""
+
+msgid "Domains per page"
+msgstr "Доменов на странице"
+
+msgid "ERROR: Only Letters, Numbers, Dash and Underscore are allowed!"
+msgstr ""
+
+msgid "ERROR: Port already exists!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr ""
+
+msgid "udp"
+msgstr ""
+
+msgid "tcp"
+msgstr ""
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "Services"
+msgstr ""
+
+msgid "Port"
+msgstr "Порт"
+
+msgid "Protocol"
+msgstr ""
+
+msgid "You have no support tickets."
+msgstr "Билетов нет."
+
+msgid "Low"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Very high"
+msgstr "Очень высокий"
+
+msgid "ISPCP - Client/Questions & Comments"
+msgstr ""
+
+msgid "Support tickets"
+msgstr ""
+
+msgid "Priority"
+msgstr "Приоритет"
+
+msgid "Last reply"
+msgstr ""
+
+msgid "Delete all"
+msgstr "Удалить всё"
+
+msgid "Open tickets"
+msgstr ""
+
+msgid "Closed tickets"
+msgstr "Закрытые билеты"
+
+msgid "[New]"
+msgstr "[Новый]"
+
+msgid "[Re]"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Autoresponder"
+msgstr ""
+
+msgid "From"
+msgstr "От"
+
+msgid "days"
+msgstr "дней"
+
+msgid "hours"
+msgstr "часов"
+
+msgid "minutes"
+msgstr "минут"
+
+msgid "System info"
+msgstr ""
+
+msgid "Vital system info"
+msgstr "Жизненоважная системная информация"
+
+msgid "CPU system Info"
+msgstr "CPU системная информация"
+
+msgid "CPU model"
+msgstr "Модель CPU"
+
+msgid "CPU MHz"
+msgstr ""
+
+msgid "CPU cache"
+msgstr "CPU кеш"
+
+msgid "CPU bogomips"
+msgstr ""
+
+msgid "Memory system info"
+msgstr ""
+
+msgid "RAM"
+msgstr ""
+
+msgid "Total"
+msgstr "Всего"
+
+msgid "Free"
+msgstr ""
+
+msgid "Swap"
+msgstr ""
+
+msgid "Up time"
+msgstr ""
+
+msgid "Kernel"
+msgstr "Ядро"
+
+msgid "Load"
+msgstr ""
+
+msgid "Filesystem system Info"
+msgstr "Информация файловой системы"
+
+msgid "Mount"
+msgstr ""
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Partition"
+msgstr ""
+
+msgid "Percent"
+msgstr "Процент"
+
+msgid "Size"
+msgstr "Размер"
+
+msgid "Ticket not found!"
+msgstr ""
+
+msgid "Open ticket"
+msgstr ""
+
+msgid "Close ticket"
+msgstr "Закрыть билет"
+
+msgid "ISPCP - Client : Support System: View Tickets"
+msgstr ""
+
+msgid "Please type your message!"
+msgstr "Пожалуйста, введите Ваше сообщение!"
+
+msgid "Message was sent!"
+msgstr ""
+
+msgid "Ticket was closed!"
+msgstr ""
+
+msgid "Ticket was reopened!"
+msgstr ""
+
+msgid "ISPCP - Admin : Support System: View Tickets"
+msgstr ""
+
+msgid "View support ticket"
+msgstr "Смотреть билеты поддержки"
+
+msgid "Send message reply"
+msgstr "Отправить ответное сообщение"
+
+msgid "Send reply"
+msgstr "Отправить ответ"
+
+msgid "ISPCP Client : Add Alias"
+msgstr "ISPCP клиент: добавить псевдоним"
+
+msgid "Manage domain alias"
+msgstr ""
+
+msgid "Add domain alias"
+msgstr "Добавить алиас домена"
+
+msgid "User account"
+msgstr ""
+
+msgid "Directory mount point"
+msgstr "Точка монтирования папки"
+
+msgid "Forward to URL"
+msgstr ""
+
+msgid "Add alias"
+msgstr "Добавить алиас"
+
+msgid "Domain alias limit reached!"
+msgstr ""
+
+msgid "Incorrect domain name syntax"
+msgstr "Incorrect <i>domain name</i> syntax"
+
+msgid "Domain with that name already exists on the system!"
+msgstr "Домен с этим именем уже есть в системе!"
+
+msgid "Incorrect mount point syntax"
+msgstr "Incorrect <i>mount point</i> syntax!"
+
+msgid "Incorrect forward syntax"
+msgstr "Incorrect <i>forward</i> syntax!"
+
+msgid "Domain with this name already exist"
+msgstr "Домен с этим доменом уже существует"
+
+msgid "There is a subdomain with the same mount point!"
+msgstr ""
+
+msgid "Alias scheduled for addition!"
+msgstr "Алиас в процессе добавления!"
+
+msgid "Empty List"
+msgstr "Пустой Список"
+
+msgid "Empty list"
+msgstr "Пустой список"
+
+msgid "FTP account already exists!"
+msgstr "FTP аккаунт уже существует!"
+
+msgid "Unknown domain type"
+msgstr ""
+
+msgid "Incorrect mount point length or syntax"
+msgstr ""
+
+#, php-format
+msgid "%s does not exist"
+msgstr ""
+
+msgid "FTP account added!"
+msgstr "FTP аккаунт добавлен!"
+
+msgid "Please enter FTP account username!"
+msgstr "Пожалуйста, введите имя FTP аккаунта!"
+
+msgid "Password data is missing!"
+msgstr ""
+
+msgid "Entered passwords differ from the another!"
+msgstr "Ввведенные пароли отличаются от другого!"
+
+msgid "Subdomain list is empty! You can not add FTP accounts there!"
+msgstr ""
+
+msgid "Alias list is empty! You can not add FTP accounts there!"
+msgstr "Список алиасов пуст! Вы не можете добавлять учетные записи FTP."
+
+msgid "Please specify other FTP account dir!"
+msgstr ""
+
+msgid "FTP accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add FTP User"
+msgstr ""
+
+msgid "Add FTP user"
+msgstr "Добавить пользователя FTP"
+
+msgid "To main domain"
+msgstr ""
+
+msgid "To domain alias"
+msgstr ""
+
+msgid "To subdomain"
+msgstr ""
+
+msgid "Use other dir"
+msgstr "Используйте другую папку"
+
+msgid "Choose dir"
+msgstr "Изменить директорию"
+
+msgid "Invalid Mail Localpart Format used!"
+msgstr ""
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr ""
+
+msgid "Mail forward list empty!"
+msgstr ""
+
+msgid "Mail account already exists!"
+msgstr ""
+
+msgid "Mail account scheduled for addition!"
+msgstr ""
+
+msgid "Please enter mail account username!"
+msgstr ""
+
+msgid "Password data includes not permitted signs!"
+msgstr ""
+
+msgid "Subdomain list is empty! You can not add mail accounts!"
+msgstr ""
+
+msgid "Alias list is empty! You can not add mail accounts!"
+msgstr "Список алиасов пуст! Вы не можете добавлять почтовые ящики."
+
+msgid "Forward list is empty!"
+msgstr ""
+
+msgid "Mail accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Mail User"
+msgstr ""
+
+msgid "Add mail users"
+msgstr "Добавление почтовых ящиков"
+
+msgid "Normal mail"
+msgstr ""
+
+msgid "Forward mail"
+msgstr ""
+
+msgid "Forward to"
+msgstr ""
+
+msgid "Separate multiple email addresses with a line-break."
+msgstr ""
+
+msgid "Please type database name!"
+msgstr ""
+
+msgid "Database name is too long!"
+msgstr ""
+
+msgid "Specified database name already exists!"
+msgstr ""
+
+#, php-format
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr ""
+
+msgid "SQL database created successfully!"
+msgstr "База данных SQL успешно создана!"
+
+msgid "SQL accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL Database"
+msgstr ""
+
+msgid "Add SQL database"
+msgstr "Добавить базу данных"
+
+msgid "Database name"
+msgstr "Имя базы данных"
+
+msgid "Use numeric ID"
+msgstr "Используйте численный ID"
+
+msgid "Before the name"
+msgstr ""
+
+msgid "After the name"
+msgstr ""
+
+msgid "Subdomains limit reached!"
+msgstr ""
+
+msgid "Please specify subdomain name!"
+msgstr ""
+
+msgid "Subdomain already exists!"
+msgstr ""
+
+msgid "Wrong subdomain syntax!"
+msgstr "Неправильный синтаксис поддомена!"
+
+msgid "Subdomain mount point already exists!"
+msgstr ""
+
+msgid "Subdomain scheduled for addition!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Subdomain"
+msgstr ""
+
+msgid "Add subdomain"
+msgstr "Добавить субдомен"
+
+msgid "Subdomain data"
+msgstr ""
+
+msgid "Subdomain name"
+msgstr ""
+
+msgid "Directory tree<br>mount point"
+msgstr ""
+
+msgid "Backup archive scheduled for restoring!"
+msgstr "Резервная копия включена для восстановления"
+
+msgid "ISPCP - Client/Daily Backup"
+msgstr ""
+
+msgid "Backup"
+msgstr "Резервное копирование"
+
+msgid "Daily backup"
+msgstr "Ежедневный бэкап"
+
+msgid "Instructions to download today's backup"
+msgstr ""
+
+msgid "Login with your FTP account"
+msgstr "Войти как Ваш FTP аккаунт"
+
+msgid "Switch to backups/ directory"
+msgstr ""
+
+msgid "Download the files stored in this directory"
+msgstr ""
+
+msgid "(usually named backup_YYYY_MM_DD.tar.bz2)"
+msgstr "(Обычное имя архива: backup_YYYY_MM_DD.tar.bz2)"
+
+msgid "Restore backup"
+msgstr ""
+
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+
+msgid "Restore"
+msgstr "Восстановить"
+
+msgid "N/A"
+msgstr ""
+
+msgid "Enable"
+msgstr "Включить"
+
+msgid "Disable"
+msgstr "Отключить"
+
+msgid "Delete CatchAll"
+msgstr ""
+
+msgid "Create catch all"
+msgstr "Создайте выгоду все"
+
+msgid "ISPCP - Client/Manage Users"
+msgstr ""
+
+msgid "Manage users"
+msgstr "Управление пользователями"
+
+msgid "Mail users"
+msgstr ""
+
+msgid "Auto respond"
+msgstr "Автоответ"
+
+msgid "Domain mails"
+msgstr "Почтовые эккоунты домена"
+
+msgid "Subdomain mails"
+msgstr ""
+
+msgid "Alias mails"
+msgstr "Почтовые алиасы"
+
+msgid "Mails total"
+msgstr ""
+
+msgid "FTPs total"
+msgstr "всего FTP аккаунтов"
+
+msgid "Catch all account"
+msgstr "Перехватывать все эккоунты"
+
+msgid "Catch all"
+msgstr "Перехватить все"
+
+msgid "FTP users"
+msgstr "FTP пользователи"
+
+msgid "FTP account"
+msgstr "FTP аккаунт"
+
+msgid "ISPCP - Client/Change Password"
+msgstr ""
+
+msgid "ISPCP - Client/Change Personal Data"
+msgstr ""
+
+msgid "User does not exist or you do not have permission to access this interface!"
+msgstr "Пользователь не существует или Вы не имеете доступа в этот интерфейс!"
+
+msgid "Catch all account scheduled for creation!"
+msgstr ""
+
+msgid "Mail forward list error!"
+msgstr ""
+
+msgid "ISPCP - Client/Create CatchAll Mail Account"
+msgstr ""
+
+msgid "Create catch all mail account"
+msgstr ""
+
+msgid "Mail accounts list"
+msgstr ""
+
+msgid "ISPCP - Client/Cronjob Manager"
+msgstr ""
+
+msgid "Cronjob Manager"
+msgstr "Планировшик задач"
+
+msgid "Add Cronjob"
+msgstr "Добавить задачу Планировщика"
+
+msgid "Active"
+msgstr "Активно"
+
+msgid "Cronjob"
+msgstr "Задача"
+
+msgid "Command to run:"
+msgstr "Выполнить команду:"
+
+msgid "Minute(s):"
+msgstr "Минут(а)"
+
+msgid "Hour(s):"
+msgstr "Час(ов):"
+
+msgid "Day(s):"
+msgstr "День(и):"
+
+#, fuzzy
+msgid "Month(s):"
+msgstr "Месяцев:"
+
+msgid "Weekday(s):"
+msgstr "Дни недели:"
+
+msgid "Reset"
+msgstr "Сбросить"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Edit Cronjob"
+msgstr "Редактировать Задачу"
+
+msgid "Cronjobs"
+msgstr "Задачи"
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr "Псевдоним домена, что Вы пытаетесь удалить имеет почтовые ящики !<br>Сперва удалите их!"
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr "Псевдоним домена, что Вы пытаетесь удалить имеет FTP эккоунты !<br>Сперва удалите их!"
+
+msgid "Alias scheduled for deletion!"
+msgstr "Алиас в процессе удаления!"
+
+msgid "Catch all account scheduled for deletion!"
+msgstr ""
+
+msgid "FTP account deleted successfully!"
+msgstr "FTP аккаунт был успешно удален!"
+
+msgid "Please delete first CatchAll account for this email!"
+msgstr ""
+
+msgid "SQL database was removed successfully!"
+msgstr "База данных SQL успешно удалена!"
+
+msgid "Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+
+msgid "Subdomain scheduled for deletion!"
+msgstr ""
+
+msgid "Mail account scheduled for modification!"
+msgstr ""
+
+msgid "ISPCP - Client/Domain Statistics"
+msgstr ""
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr "Веб"
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP/IMAP"
+msgstr " POP/IMAP"
+
+msgid "Sum"
+msgstr ""
+
+msgid "ISPCP - Manage Domain Alias/Edit Alias"
+msgstr ""
+
+msgid "Edit domain alias"
+msgstr "Редактировать Псевдоним Домена"
+
+msgid "Alias name"
+msgstr "Имя алиаса"
+
+msgid "Mount Point"
+msgstr ""
+
+#, fuzzy
+msgid "Enable Forward"
+msgstr "Переадресация почты"
+
+msgid "Entered passwords differ!"
+msgstr "Введенные пароли различаются!"
+
+msgid "FTP account data updated!"
+msgstr "Данные FTP аккаунта обновлены!"
+
+msgid "ISPCP - Client/Edit FTP Account"
+msgstr ""
+
+msgid "Edit FTP user"
+msgstr "Редактировать FTP пользователя"
+
+msgid "Save changes"
+msgstr "Сохранить изменения"
+
+msgid "Email account not found!"
+msgstr ""
+
+msgid "Missing or wrong data!"
+msgstr "пропущенныйе или неправильные данные!"
+
+msgid "Password data includes not valid signs!"
+msgstr ""
+
+msgid "Mail were updated successfully!"
+msgstr ""
+
+msgid "ISPCP - Manage Mail and FTP / Edit mail account"
+msgstr ""
+
+msgid "Edit email account"
+msgstr "Редактировать почтовый ящик"
+
+msgid "Please type your mail autorespond message!"
+msgstr ""
+
+msgid "Mail account scheduler for modification!"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Auto Responder"
+msgstr ""
+
+msgid "Edit mail auto responder"
+msgstr "Редактировать Автоответчик"
+
+msgid "Your message"
+msgstr "Ваше сообщение"
+
+msgid "Please wait for update"
+msgstr ""
+
+msgid "Mail accounts list is empty!"
+msgstr ""
+
+msgid "Enable mail auto responder"
+msgstr "Включить Автоответчик"
+
+msgid "ISPCP - Client/Manage Error Custom Pages"
+msgstr ""
+
+msgid "Server error - please choose error page"
+msgstr ""
+
+msgid "Edit error page"
+msgstr "Редактировать страницу ошибок"
+
+msgid "Custom error page was updated!"
+msgstr "Страницы ошибок обновлены!"
+
+msgid "System error - custom error page was NOT updated!"
+msgstr ""
+
+msgid "Error 401 (unauthorised)"
+msgstr ""
+
+msgid "Error 403 (forbidden)"
+msgstr "Ошибка 403 (доступ запрещен)"
+
+msgid "Error 404 (not found)"
+msgstr "Ошибка 404 (не найдено)"
+
+msgid "Error 500 (internal server error)"
+msgstr "Ошибка 500 (внутренняя ошибка сервера)"
+
+msgid "Error 503 (service unavailable)"
+msgstr ""
+
+msgid "Error pages"
+msgstr "Страницы Обшибок"
+
+msgid "FTP list is empty!"
+msgstr ""
+
+msgid "Can not open directory !<br>Please contact your administrator !"
+msgstr "Невозможно открыть директорию !<br> Свяжитесь со своим администратором !"
+
+msgid "Parent Directory"
+msgstr ""
+
+msgid "Protect it"
+msgstr ""
+
+msgid "ISPCP - Client/Webtools"
+msgstr ""
+
+msgid "Directory tree"
+msgstr "Дерево папок"
+
+msgid "Directories"
+msgstr "Папки"
+
+msgid "Choose"
+msgstr "Выбрать"
+
+msgid "disabled"
+msgstr "отклоючено"
+
+#, php-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr ""
+
+#, php-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr ""
+
+msgid "You are exceeding your disk limit!"
+msgstr "Вы превысили Ваше ограничение на дисковую квоту!"
+
+msgid "You have no new support questions!"
+msgstr "Запросов тех.поддержки нету!"
+
+msgid "ISPCP - Client/Main Index"
+msgstr ""
+
+msgid "General information"
+msgstr "Общая информация"
+
+msgid "Account name"
+msgstr "Аккаунт"
+
+msgid "Main domain"
+msgstr ""
+
+msgid "SQL support"
+msgstr ""
+
+msgid "Choose default language"
+msgstr "Язык по умолчанию"
+
+msgid "Traffic usage"
+msgstr ""
+
+msgid "Disk usage"
+msgstr "Использование диска"
+
+msgid "User language updated successfully!"
+msgstr "Язык интерфейса пользователя был успешно изменен!"
+
+msgid "ISPCP - Client/Change Language"
+msgstr ""
+
+msgid "Subdomain list is empty!"
+msgstr ""
+
+msgid "Alias list is empty!"
+msgstr "Список алиасов пуст!"
+
+msgid "ISPCP - Client/Manage Domains"
+msgstr ""
+
+msgid "Manage domains"
+msgstr ""
+
+msgid "Mount point"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+#, fuzzy
+msgid "Actions"
+msgstr "Действие"
+
+msgid "Database user list is empty!"
+msgstr "Список пользователей базы данных пуст!"
+
+msgid "Database list is empty!"
+msgstr "Список баз данных пуст!"
+
+msgid "ISPCP - Client/Manage SQL"
+msgstr ""
+
+msgid "Manage SQL"
+msgstr ""
+
+msgid "Database users"
+msgstr "Пользователи базы данных"
+
+msgid "Add SQL user"
+msgstr "Добавить SQL-пользователя"
+
+msgid "Execute query"
+msgstr "Выполнить запрос"
+
+msgid "Please specify message subject!"
+msgstr "Пожалуйста, введите тему сообщения!"
+
+msgid "Your message was sent!"
+msgstr "Ваше сообщение отправленно!"
+
+msgid "ISPCP - Support system - New ticket"
+msgstr "Техподдержка - Новый билет"
+
+msgid "New ticket"
+msgstr ""
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+
+msgid "Protected area deleted successfully!"
+msgstr ""
+
+msgid "Permission deny!"
+msgstr "Доступ запрещен!"
+
+msgid "You do not have protected areas"
+msgstr "У Вас нету защищённых зон."
+
+msgid "Manage users and groups"
+msgstr "Управление пользователями и группами"
+
+msgid "Add user"
+msgstr "Добавить пользователя"
+
+msgid "Group name"
+msgstr "Имя группы"
+
+msgid "Group members"
+msgstr "Члены группы"
+
+msgid "Add group"
+msgstr "Добавить группу"
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "Add new protected area"
+msgstr "Добавить новую защищённую зону"
+
+msgid "Please choose user or group"
+msgstr "Пожалуйста, выберите пользователя или группу"
+
+msgid "Please enter area name"
+msgstr ""
+
+msgid "Please enter area path"
+msgstr ""
+
+#, php-format
+msgid "%s doesn't exist"
+msgstr ""
+
+msgid "You can not protect area without selected user(s)"
+msgstr ""
+
+msgid "You can not protect area without selected group(s)"
+msgstr "Вы не можете защитить зону без выбранных групп."
+
+msgid "Protected area updated successfully!"
+msgstr ""
+
+msgid "Protected area created successfully!"
+msgstr ""
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+
+msgid "You have no users !"
+msgstr "Вы не имеете пользователей !"
+
+msgid "You have no groups!"
+msgstr "У вас нет груп!"
+
+msgid "Protect this area"
+msgstr ""
+
+msgid "Path"
+msgstr "Путь"
+
+msgid "Groups"
+msgstr "Группы"
+
+msgid "User auth"
+msgstr ""
+
+msgid "Group auth"
+msgstr ""
+
+msgid "Area name"
+msgstr "Имя зоны"
+
+msgid "Unprotect it"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "User was assigned to the %s group"
+msgstr "Пользователь был добавлен в группу"
+
+#, fuzzy, php-format
+msgid "User was deleted from the %s group "
+msgstr "Пользователь был добавлен в группу"
+
+msgid "User assign"
+msgstr ""
+
+msgid "Already in:"
+msgstr "Уже в группе:"
+
+msgid "Member of group:"
+msgstr ""
+
+msgid "Select group:"
+msgstr ""
+
+msgid "Update user"
+msgstr "Изменить пользователя"
+
+msgid "Wrong username!"
+msgstr "Неправильное имя пользователя!"
+
+#, fuzzy
+msgid "Group already exists!"
+msgstr "Группа уже существует!"
+
+msgid "Manage user"
+msgstr "Управление пользователем"
+
+msgid "You have no users!"
+msgstr "Вы не имеете пользователей!"
+
+msgid "User already exist !"
+msgstr "Пользователь уже существует!"
+
+msgid "SQL users limit reached!"
+msgstr ""
+
+msgid "Please type user name!"
+msgstr "Пожалуйста, введите имя пользователя!"
+
+msgid "Please type user password!"
+msgstr "Пожалуйста, введите пароль пользователя!"
+
+msgid "Too user long password!"
+msgstr "Слишком длинный пароль пользователя!"
+
+msgid "SQL-user not found! Maybe it was deleted by another user!"
+msgstr ""
+
+msgid "User name too long!"
+msgstr "Имя пользователя слишком длинное!"
+
+#, php-format
+msgid "Wildcards as %% and ? are not allowed!"
+msgstr ""
+
+msgid "Specified SQL username name already exists!"
+msgstr ""
+
+msgid "SQL user successfully added!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL User"
+msgstr ""
+
+msgid "SQL user name"
+msgstr ""
+
+msgid "In front the name"
+msgstr ""
+
+msgid "Behind the name"
+msgstr "Перед именем"
+
+msgid "Add existing user"
+msgstr "Добавление существующего пользователя"
+
+msgid "Existing SQL users"
+msgstr "Существующие SQL пользовател"
+
+msgid "Too long user password!"
+msgstr "Слишком длинный пароль пользователя!"
+
+msgid "SQL user password was successfully changed!"
+msgstr ""
+
+msgid "ISPCP - Client/Change SQL User Password"
+msgstr ""
+
+msgid "Change SQL user password"
+msgstr "Изменить пароль SQL пользователя"
+
+msgid "Change"
+msgstr "Изменить"
+
+msgid "SQL user was removed successfully!"
+msgstr ""
+
+msgid "Please enter SQL query!"
+msgstr "Пожалуйста, введите SQL запрос!"
+
+msgid "Cannot connect as MySQL administrator!"
+msgstr "Невозможно соедениться под учетной записью MySQL администратора!"
+
+msgid "SQL query has error"
+msgstr "Ошибка в SQL запросе"
+
+msgid "SQL query is ok"
+msgstr ""
+
+msgid "ISPCP - Client/Execute SQL Query"
+msgstr ""
+
+msgid "Execute SQL query"
+msgstr "Выполнить SQL запрос"
+
+msgid "SQL query"
+msgstr "SQL запрос"
+
+msgid "Query status"
+msgstr "Статус запроса"
+
+msgid "Query result"
+msgstr "Результат запроса"
+
+msgid "Execute"
+msgstr "Выполнить"
+
+msgid "Protected area was deleted successful!"
+msgstr ""
+
+msgid "Hosting plans available for update"
+msgstr ""
+
+msgid "Cancel order"
+msgstr "Отменить заказ"
+
+msgid "Your order"
+msgstr "Ваш заказ"
+
+msgid "Purchase"
+msgstr ""
+
+msgid "There are no available updates"
+msgstr ""
+
+msgid "PHP Support: enabled"
+msgstr "поддержка PHP: включена"
+
+msgid "PHP Support: disabled"
+msgstr "поддержка PHP: выключена"
+
+msgid "CGI Support: enabled"
+msgstr "Поддержка CGI: Включена"
+
+msgid "CGI Support: disabled"
+msgstr "Поддержка CGI: Отключена"
+
+#, fuzzy
+msgid "Disk limit"
+msgstr "Диск в МегаБайтах"
+
+msgid "Traffic limit"
+msgstr ""
+
+msgid "Emails"
+msgstr ""
+
+msgid "FTPs"
+msgstr ""
+
+msgid "free of charge"
+msgstr ""
+
+msgid "There are no available hosting plans for update"
+msgstr ""
+
+msgid "ISPCP - Update hosting plan"
+msgstr "Обновить хостинг-план"
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr "Ваш запрос на пакет хостинг-услуг успешно добавлен"
+
+msgid "[ispCP OrderPanel] - You have an update order"
+msgstr ""
+
+msgid ""
+"You have an update order for the account {ACCOUNT}\n"
+"\n"
+"\n"
+"Please login into your ispCP control panel for more details"
+msgstr ""
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "Ваш запрос на пакет хостинг-услуг успешно удалён"
+
+msgid "Message was send!"
+msgstr "Сообщение отослано!"
+
+msgid "Webtools"
+msgstr "Веб-инструменты"
+
+msgid "Customise error pages for your domain"
+msgstr ""
+
+msgid "Backup and restore settings"
+msgstr "Настройки восстановления"
+
+msgid "Access your mail through the web interface"
+msgstr "Доступ к вашей почте через веб-интерфейс"
+
+msgid "Access your files through the web interface"
+msgstr "Доступ к вашим файлам через веб-интерфейс"
+
+msgid "Manage protected areas, users and groups"
+msgstr ""
+
+msgid "System tools"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Reseller statistics"
+msgstr ""
+
+msgid "Admin log"
+msgstr "Журнал администратора"
+
+msgid "Logout"
+msgstr "Выйти"
+
+msgid "Custom menus"
+msgstr "Персональное меню"
+
+msgid "Overview"
+msgstr ""
+
+msgid "User sessions"
+msgstr "Пользовательские сеансы"
+
+msgid "Lostpw email setup"
+msgstr ""
+
+msgid "Rootkit Log"
+msgstr ""
+
+msgid "Admin users"
+msgstr "Администраторы"
+
+msgid "Normal users"
+msgstr ""
+
+msgid "System messages"
+msgstr ""
+
+msgid "No new messages"
+msgstr ""
+
+msgid "Server traffic"
+msgstr ""
+
+msgid "Administrators list is empty!"
+msgstr ""
+
+msgid "Created by"
+msgstr "Создано"
+
+msgid "Resellers list is empty!"
+msgstr ""
+
+msgid "Change user interface"
+msgstr "Изменить интерфейс пользователя"
+
+msgid "Not found user records matching the search criteria!"
+msgstr ""
+
+msgid "view aliases"
+msgstr "смотреть псевдонимы"
+
+msgid "Users list is empty!"
+msgstr "Список пользователей пуст!"
+
+msgid "Details"
+msgstr "Детали"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr "Вы уверены что хотите изменить статус учетной записи домена?"
+
+msgid "Are you sure you want to delete this account?"
+msgstr "Вы уверены что хотите удалить эту учетную запись?"
+
+msgid "Administrators"
+msgstr "Администраторы"
+
+msgid "Resellers"
+msgstr ""
+
+msgid "Search"
+msgstr "Найти"
+
+msgid "Creation date"
+msgstr "Дата создания"
+
+#, php-format
+msgid "%1$s you are now logged as %2$s"
+msgstr ""
+
+msgid "Go back"
+msgstr "Назад"
+
+msgid "OK"
+msgstr ""
+
+msgid "Suspended"
+msgstr ""
+
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "[Ticket] {SUBJ}"
+msgstr ""
+
+msgid ""
+"Hello {TO_NAME} !\n"
+"\n"
+"You have a new ticket to read"
+msgstr ""
+
+msgid "Email and FTP accounts"
+msgstr "Почтовые и FTP эккоунты"
+
+msgid "Add mail user"
+msgstr "Добавить почтовый ящик"
+
+msgid "PhpMyAdmin"
+msgstr ""
+
+msgid "Filemanager"
+msgstr "Менеджер файлов"
+
+msgid "Web statistics"
+msgstr ""
+
+msgid "Group/User management"
+msgstr ""
+
+msgid "Email Accounts"
+msgstr "Почтовые ящики"
+
+msgid "FTP Accounts"
+msgstr "FTP Аккаунты"
+
+msgid "Update Hosting Package"
+msgstr ""
+
+msgid "Domain mail"
+msgstr "Почта Домена"
+
+msgid "Email forward"
+msgstr "Переадресация почты"
+
+msgid "Alias mail"
+msgstr "Почтовый алиас"
+
+msgid "Alias forward"
+msgstr "Перенаправление алиаса"
+
+msgid "Subdomain mail"
+msgstr ""
+
+msgid "Subdomain forward"
+msgstr ""
+
+msgid "Unknown type"
+msgstr "Неизвестный тип"
+
+msgid "Welcome new ispCP user {USERNAME}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP user type is: {USERTYPE}\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good luck with the ispCP system!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+
+msgid "Please activate your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"Use this link to activate your new ispCP password:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {NAME},\n"
+"This is an automatic confirmation for the order of the domain:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Catchall account"
+msgstr ""
+
+msgid "Could not get config from database"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "You have to wait %d seconds"
+msgstr "Вы должны подождать"
+
+#, php-format
+msgid "You have been blocked for %d minutes"
+msgstr ""
+
+msgid "System is currently in servicemode! At time only administrators can login."
+msgstr ""
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr "Пользователь уже вошел или проблема общего доступа сеанса! Выход..."
+
+msgid "Domain status is not OK - Login aborted."
+msgstr ""
+
+msgid "Request from foreign host was blocked!"
+msgstr ""
+
+msgid "Domain alias"
+msgstr "Псевдоним домена"
+
+msgid "Manage Orders"
+msgstr ""
+
+msgid "Order settings"
+msgstr ""
+
+msgid "Order email setup"
+msgstr ""
+
+msgid "Please fill up both data fields for password!"
+msgstr "Пожалуйста, заполните оба поля паролей!"
+
+msgid "Addition in progress"
+msgstr "Добавление..."
+
+msgid "Modification in progress"
+msgstr ""
+
+msgid "Deletion in progress"
+msgstr "Удаляется"
+
+#, fuzzy
+msgid "Being enabled"
+msgstr "включено"
+
+#, fuzzy
+msgid "Being suspended"
+msgstr "ожидание приостановки"
+
+#, fuzzy
+msgid "Unknown error"
+msgstr "Неизвестный тип"
+
+msgid "hide aliases"
+msgstr ""
+
+msgid "You have reached your domains limit.<br>You can not add more domains!"
+msgstr ""
+
+msgid "You have a subdomains limit!<br>You can not add an user with unlimited subdomains!"
+msgstr ""
+
+msgid "You are exceeding your subdomains limit!"
+msgstr ""
+
+msgid "You have an aliases limit!<br>You can not add an user with unlimited aliases!"
+msgstr ""
+
+msgid "You Are Exceeding Your Alias Limit!"
+msgstr "Вы превысили Ваше ограничение на алиасы (дополнительные домены)!"
+
+msgid "You have a mail accounts limit!<br>You can not add an user with unlimited mail accounts!"
+msgstr ""
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr ""
+
+msgid "You have a FTP accounts limit!<br>You can not add an user with unlimited FTP accounts!"
+msgstr ""
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr ""
+
+msgid "You have a SQL databases limit!<br>You can not add an user with unlimited SQL databases!"
+msgstr ""
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr ""
+
+msgid "You have an SQL users limit!<br>You can not add an user with unlimited SQL users!"
+msgstr ""
+
+msgid "You have disabled SQL databases for this user!<br>You can not have SQL users here!"
+msgstr "Базы данных SQL отключены для вас!<br> Вы не можете иметь  пользователя SQL здесь!"
+
+msgid "You are exceeding your SQL database limit!"
+msgstr ""
+
+msgid "You have a traffic limit!<br>You can not add an user with unlimited traffic!"
+msgstr ""
+
+msgid "You have a disk limit!<br>You can not add an user with unlimited disk!"
+msgstr ""
+
+msgid "You have a new order"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"you have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n"
+"\n"
+"Please login into your ISPCP control panel for more details.\n"
+"\n"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr "Неправильный синтаксис доменного имени!"
+
+msgid "You do not have permission to access this interface!"
+msgstr "У Вас недостаточно прав для доступа к этому интерфейсу!"
+
+msgid "Add On A Domain"
+msgstr "Добавить домен"
+
+msgid "Continue"
+msgstr "Продолжить"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(например example.com)"
+
+msgid "Please fill out all needed fields!"
+msgstr "Пожалуйста, заполните все необходимые поля!"
+
+msgid "Enter Address"
+msgstr "Введите Адрес"
+
+msgid "* denotes mandatory field."
+msgstr "* обозначены обязательные для заполнения поля"
+
+msgid "Your Chart"
+msgstr "Ваша Диаграмма"
+
+msgid "Costs"
+msgstr "Стоимость"
+
+msgid "Personal Data"
+msgstr "Персональные Данные"
+
+msgid "Check Out"
+msgstr "Оплата"
+
+msgid "<b>Thank You for purchasing</b><br>You will receive an email with more details and information"
+msgstr "<b>Благодарим Вас за заказ</b><br>Вам придёт электронное письмо с более подробной информацией"
+
+msgid "No available hosting packages"
+msgstr ""
+
+msgid "Webspace"
+msgstr "Пространство"
+
+msgid "Domain Features"
+msgstr "Параметры домена"
+
+msgid "Package Features"
+msgstr ""
+
+msgid "Backup and Restore"
+msgstr "Резервное копирование и Восстановление"
+
+msgid "Custom Error Pages"
+msgstr "Персональные Cтраницы ошибок"
+
+msgid "Protected Areas"
+msgstr ""
+
+msgid "Custom Apache Logs"
+msgstr "Дефолтные логи"
+
+msgid "Web & E-Mail Support"
+msgstr "Поддержка Web & E-Mail"
+
+msgid "Your Own Domain"
+msgstr "Ваш собственный домен"
+
+msgid "ISPCP Control Panel"
+msgstr "контрольная панель ISPCP"
+
+msgid "Automatic Updates"
+msgstr "Автоматические обновления"
+
+msgid "Package Price"
+msgstr ""
+
+msgid "Setup Fee"
+msgstr ""
+
+msgid "Performance"
+msgstr ""
+
+msgid "ISPCP Reseller : Add Alias"
+msgstr "ISPCP перепродавец: Добавить псевдоним"
+
+msgid "You have no user records."
+msgstr "У Вас нету записей пользователей."
+
+msgid "ISPCP - Reseller/Add hosting plan"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Password"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Personal Data"
+msgstr ""
+
+msgid "ISPCP - Circular"
+msgstr ""
+
+msgid "Circular"
+msgstr "Распоряжения"
+
+msgid "Wrong domain ID!"
+msgstr "Неверный идентификатор домена!"
+
+msgid "Domain you are trying to remove has email accounts !<br> first remove them !"
+msgstr "Домен, что вы собрались удалить имеет почтовые ящики!<br>Сперва удалите их!"
+
+msgid "Domain you are trying to remove has FTP accounts !<br> first remove them !"
+msgstr "Домен, что вы собрались удалить имеет FTP эккоунты!<br>Будьте наконец последовательны!"
+
+msgid "Domain you are trying to remove has domain alias!<br> first remove them !"
+msgstr "Домен, что вы собрались удалить имеет псевдонимы!<br>Сперва удалите их!"
+
+msgid "Domain you are trying to remove has subdomains accounts !<br> first remove them !"
+msgstr "Домен, что вы собрались удалить имеет поддомены!<br>Их надо удалить!"
+
+msgid "ISPCP - Manage Domain/Alias"
+msgstr ""
+
+msgid "Manage alias"
+msgstr ""
+
+msgid "Real domain"
+msgstr ""
+
+msgid "You have no alias records."
+msgstr "Записей об алиасах нет."
+
+msgid "Domain alias added for termination!"
+msgstr "Псевдоним домена добавлен для удаления!"
+
+msgid "Domain alias not added for termination!"
+msgstr "Псевдоним домена НЕ добавлен для удаления!"
+
+msgid "Domain alias added!"
+msgstr "Псевдоним домена добавлен!"
+
+msgid "Domain alias not added!"
+msgstr "Псевдоним домена НЕ добавлен!"
+
+msgid "Domain alias modified!"
+msgstr "Псевдоним домена изменён!"
+
+msgid "Domain alias not modified!"
+msgstr "Псевдоним домена НЕ изменён!"
+
+msgid "User terminated!"
+msgstr ""
+
+msgid "ISPCP - Domain/Edit"
+msgstr ""
+
+msgid "Edit Domain"
+msgstr "Редактировать Домен"
+
+msgid "Domain properties"
+msgstr "Настройки Домена"
+
+msgid "SQL Database"
+msgstr "База данных SQL"
+
+msgid "SQL User"
+msgstr ""
+
+msgid "Domain properties updated successfully!"
+msgstr "Настройки домена успешно изменены!"
+
+#, php-format
+msgid "<b>%s</b> Service can not be disabled !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are <b>%s</b> records on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> records, present on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be unlimited !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "You are exceeding reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> amount, present on the system!"
+msgstr ""
+
+msgid "ISPCP - Users/Edit"
+msgstr "ISPCP - пользователи/редактировать"
+
+msgid "Edit user"
+msgstr "Редактировать Ламера"
+
+msgid "Users list"
+msgstr "Список пользователей"
+
+msgid "ISPCP - Reseller/Edit hosting plan"
+msgstr ""
+
+msgid "View hosting plan"
+msgstr "Смотреть хостинг план"
+
+msgid "Incorrect price!"
+msgstr ""
+
+msgid "Incorrect setup fee!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ISPCP - Reseller/Main Index"
+msgstr ""
+
+msgid "View details"
+msgstr "Смотреть детали"
+
+msgid "User accounts"
+msgstr ""
+
+msgid "Mail account"
+msgstr ""
+
+msgid "Extras"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>unlimited</b>"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "ISPCP - Reseller/Lostpw email setup"
+msgstr ""
+
+msgid "Lostpw email"
+msgstr ""
+
+msgid "Lostpw link"
+msgstr ""
+
+msgid "ISPCP - Reseller/Order email setup"
+msgstr ""
+
+msgid "Manage orders"
+msgstr ""
+
+msgid "Wrong order ID!"
+msgstr "Неверный идентификатор заказа!"
+
+msgid "User added!"
+msgstr "Пользователь добавлен!"
+
+msgid "Customer order was removed successful!"
+msgstr "Заказ покупателя успешно удалён!"
+
+msgid "ISPCP - Reseller/Order details"
+msgstr ""
+
+msgid "Order data updated successfully!"
+msgstr ""
+
+msgid "Order date"
+msgstr ""
+
+msgid "Hosting plan"
+msgstr ""
+
+msgid "Hosting details"
+msgstr ""
+
+msgid "Order details"
+msgstr ""
+
+msgid "Customer data"
+msgstr "Данные Покупателя"
+
+msgid "Delete order"
+msgstr "Удалить заказ"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Вы уверены что хотите удалить этот заказ?"
+
+msgid "Add to the system"
+msgstr "Добавить в систему"
+
+msgid "ISPCP - Reseller/Order settings"
+msgstr ""
+
+msgid "Header"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Implementation URL"
+msgstr ""
+
+msgid "Footer"
+msgstr "Заголовок"
+
+msgid "ISPCP - Reseller/Order management"
+msgstr ""
+
+msgid "You do not have new orders!"
+msgstr "У Вас нету новых заказов."
+
+msgid "New order"
+msgstr ""
+
+msgid "Update order"
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Add/Details"
+msgstr "Добавить/Детали"
+
+msgid "ISPCP - Users/Add user"
+msgstr "ISPCP - пользователи/Добавить пользователя"
+
+msgid "Choose hosting plan"
+msgstr "Выбрать хостинг-план"
+
+msgid "Personalise template"
+msgstr ""
+
+msgid "Next step"
+msgstr "Следующий шаг"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+
+msgid "ISPCP - User/Add user(step2)"
+msgstr "Добавление Пользователя, шаг 2"
+
+msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Backup / Restore"
+msgstr "Резервное копирование / Восстановление"
+
+msgid "Apache logs"
+msgstr "Журнал Apache"
+
+msgid "Awstats"
+msgstr "Статистика AwStats"
+
+msgid "ISPCP - User/Add user"
+msgstr "Добавление Пользователя"
+
+msgid "Add other domains to this account"
+msgstr "Добавить домены в эту учетную запись"
+
+msgid "There's a conflicting admin / reseller fix that first!"
+msgstr ""
+
+msgid "System error with Domain ID "
+msgstr ""
+
+msgid "This reseller has no domains yet."
+msgstr ""
+
+msgid "ISPCP - Users"
+msgstr ""
+
+msgid "Stats"
+msgstr ""
+
+msgid "Edit properties"
+msgstr "Редактировать данные"
+
+msgid "You have no users."
+msgstr "Вы не имеете пользователей."
+
+msgid "User data updated!"
+msgstr "Данные пользователя изменены!"
+
+msgid "User data not updated!"
+msgstr "Данные пользователя не изменены!"
+
+msgid "This user has domain record !<br>First remove the domain from the system!"
+msgstr ""
+
+msgid "User not terminated!"
+msgstr ""
+
+msgid "ISPCP - Reseller : Support System: View Tickets"
+msgstr ""
+
+msgid "Message was sent."
+msgstr "Сообщение отослано."
+
+#~ msgid "</b> Address !<br>Edit reseller aborted!"
+#~ msgstr "</b>Адрес!<br>Редактирование реселлера отменено!"
+
+#~ msgid "Can not open file! Please contact your administrator !"
+#~ msgstr "Невозможно открыть файл! Свяжитесь со своим администратором!"
+
+#~ msgid "seconds"
+#~ msgstr "секунд"
+
+#~ msgid "wait to be added"
+#~ msgstr "ожидание добавления"
+
+#~ msgid "wait to be modified"
+#~ msgstr "ожидание обновления"
+
+#~ msgid "wait to be deleted"
+#~ msgstr "ожидание удаления"
+
+#~ msgid "wait to be enabled"
+#~ msgstr "ожидание включения"
+
+#~ msgid "unknown status"
+#~ msgstr "неизвестный статус"
+
+#~ msgid "You have"
+#~ msgstr "У Вас"
+
+#~ msgid "New"
+#~ msgstr "Новый"
+
+#~ msgid "new"
+#~ msgstr "новый"
+
+#~ msgid "Alias scheduled for modification!"
+#~ msgstr "Алиас в процессе изменения!"
+
+#~ msgid "delete"
+#~ msgstr "удалить"

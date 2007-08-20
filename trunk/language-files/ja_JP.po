@@ -1,0 +1,3550 @@
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-18 23:11-0500\n"
+"PO-Revision-Date: 2007-07-06 16:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Japanese <ja_JP@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: x64PoPot 0.2\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "UTF-8"
+
+msgid "_: Localised language"
+msgstr "Japanese"
+
+msgid "ispCP Omega a Virtual Hosting Control System"
+msgstr ""
+
+msgid "Administrator login"
+msgstr ""
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "Username"
+msgstr "ユーザ名"
+
+msgid "Password"
+msgstr "パスワード"
+
+msgid "Please enter your login information"
+msgstr "ログイン情報を入力してください"
+
+msgid "Secure Connection"
+msgstr ""
+
+msgid "Normal Connection"
+msgstr ""
+
+msgid "Lost password"
+msgstr "パスワードを忘れたとき"
+
+msgid "Lost password function currently disabled"
+msgstr ""
+
+msgid "ISPCP - Virtual Hosting Control System"
+msgstr ""
+
+msgid "Password sent"
+msgstr ""
+
+msgid "ERROR: Password was not sent"
+msgstr ""
+
+msgid "The password was requested"
+msgstr "パスワードを入力してください"
+
+msgid "Back"
+msgstr "戻る"
+
+msgid "ERROR: Unknown user"
+msgstr "エラー ： 未登録のユーザーです"
+
+msgid "Retry"
+msgstr "リトライ"
+
+msgid "ERROR: Security code was not correct!"
+msgstr "エラー ： セキュリティーコードが間違っています"
+
+msgid "Security code"
+msgstr "セキュリティーコード"
+
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr ""
+
+msgid "Request password"
+msgstr "パスワードの"
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr ""
+
+msgid "Reseller IP list is empty!"
+msgstr "リセラーのIPアドレスリストが選択されていません"
+
+msgid "No."
+msgstr ""
+
+msgid "Assign"
+msgstr "割り当て"
+
+msgid "Label"
+msgstr "ラベル"
+
+msgid "Number"
+msgstr "IPアドレス"
+
+msgid "Reseller"
+msgstr "リセラー"
+
+msgid "This user name already exist!"
+msgstr "既に同名のユーザーが存在しています！"
+
+msgid "Incorrect username length or syntax!"
+msgstr ""
+
+msgid "Incorrect password length or syntax!"
+msgstr ""
+
+msgid "Entered passwords do not match!"
+msgstr ""
+
+msgid "Incorrect email length or syntax!"
+msgstr ""
+
+msgid "Incorrect max domain count or syntax!"
+msgstr "Incorrect <i>max domain</i> count or syntax!"
+
+msgid "Incorrect max subdomain count or syntax!"
+msgstr "Incorrect <i>max subdomain</i> count or syntax!"
+
+msgid "Incorrect max alias count or syntax!"
+msgstr "Incorrect <i>max alias</i> count or syntax!"
+
+msgid "Incorrect max FTP count or syntax!"
+msgstr "Incorrect <i>max FTP</i> count or syntax!"
+
+msgid "Incorrect max mail count or syntax!"
+msgstr "Incorrect <i>max e-mail</i> count or syntax!"
+
+msgid "Incorrect max SQL databases count or syntax!"
+msgstr "Incorrect <i>max mySQL databases</i> count or syntax!"
+
+msgid "Incorrect max SQL users count or syntax!"
+msgstr "Incorrect <i>max mySQL users</i> count or syntax!"
+
+msgid "Incorrect max traffic amount or syntax!"
+msgstr "Incorrect <i>max traffic</i> amount or syntax!"
+
+msgid "Incorrect max disk amount or syntax!"
+msgstr "Incorrect <i>max disk</i> amount or syntax!"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "あなたは少なくともひとつのIPアドレスをリセラーへ割り当てる必要があります。"
+
+msgid "Add reseller"
+msgstr "リセラー追加"
+
+msgid "Core data"
+msgstr "基本情報"
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Email"
+msgstr "電子メール"
+
+msgid "unlimited"
+msgstr "無制限"
+
+msgid "Domains limit"
+msgstr ""
+
+msgid "Subdomains limit"
+msgstr ""
+
+msgid "Aliases limit"
+msgstr ""
+
+msgid "Mail accounts limit"
+msgstr ""
+
+msgid "FTP accounts limit"
+msgstr ""
+
+msgid "SQL databases limit"
+msgstr ""
+
+msgid "SQL users limit"
+msgstr ""
+
+msgid "Traffic limit [MB]"
+msgstr ""
+
+msgid "Disk limit [MB]"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "CGI / Perl"
+msgstr ""
+
+msgid "JSP"
+msgstr ""
+
+msgid "SSI"
+msgstr ""
+
+msgid "Frontpage extensions"
+msgstr ""
+
+msgid "Backup and restore"
+msgstr "バックアップと復元"
+
+msgid "Custom error pages"
+msgstr "カスタムエラーページ"
+
+msgid "Protected areas"
+msgstr "アクセス制限領域"
+
+msgid "Webmail"
+msgstr "Webメール"
+
+msgid "Directory listing"
+msgstr "ディレクトリ一覧"
+
+msgid "Apache logfiles"
+msgstr "Apacheログファイル"
+
+msgid "AwStats"
+msgstr ""
+
+msgid "Logo upload"
+msgstr "ロゴのアップロード"
+
+msgid "yes"
+msgstr "有効"
+
+msgid "no"
+msgstr "無効"
+
+msgid "Reseller IPs"
+msgstr "リセラーのIPアドレスリスト"
+
+msgid "Additional data"
+msgstr "追加データ"
+
+msgid "Customer ID"
+msgstr "顧客ID"
+
+msgid "First name"
+msgstr "名字"
+
+msgid "Last name"
+msgstr "名前"
+
+#, fuzzy
+msgid "Gender"
+msgstr "ヘッダー"
+
+#, fuzzy
+msgid "Male"
+msgstr "電子メール"
+
+#, fuzzy
+msgid "Female"
+msgstr "Webメール"
+
+msgid "Company"
+msgstr "会社"
+
+msgid "Zip/Postal code"
+msgstr "郵便番号"
+
+msgid "City"
+msgstr "市区町村"
+
+msgid "Country"
+msgstr "国"
+
+msgid "Street 1"
+msgstr "建物名"
+
+msgid "Street 2"
+msgstr "番地"
+
+msgid "Phone"
+msgstr "電話番号"
+
+msgid "Fax"
+msgstr "FAX番号"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "ISPCP - Admin/Manage users/Add User"
+msgstr "ISPCP - 管理者/ユーザー管理/ユーザー追加"
+
+msgid "Administrator"
+msgstr "管理者"
+
+msgid "Empty data or wrong field!"
+msgstr ""
+
+msgid "Passwords don't match!"
+msgstr ""
+
+msgid "Add admin"
+msgstr "管理者追加"
+
+msgid "ISPCP - Admin/Admin Log"
+msgstr "ISPCP - 管理者/管理ログ"
+
+msgid "Log is empty!"
+msgstr "ログが存在していません"
+
+msgid "Invalid time period!"
+msgstr ""
+
+msgid "Admin Log"
+msgstr "管理者ログ"
+
+msgid "Clear log"
+msgstr "ログ削除"
+
+msgid "Date"
+msgstr "日付"
+
+msgid "Message"
+msgstr "メッセージ"
+
+msgid "Delete from log:"
+msgstr "ログから削除"
+
+msgid "everything"
+msgstr "すべて"
+
+msgid "older than 2 weeks"
+msgstr "過去2週間のオーダー"
+
+msgid "older than 1 month"
+msgstr "過去一月のオーダー"
+
+msgid "older than 3 months"
+msgstr "過去3ヶ月のオーダー"
+
+msgid "older than 6 months"
+msgstr "過去6ヶ月のオーダー"
+
+msgid "older than 12 months"
+msgstr "過去1年のオーダー"
+
+msgid "ISPCP - Administrator/Add hosting plan"
+msgstr "ISPCP - アドミニストレータ/ホスティングプラン追加"
+
+msgid "Add hosting plan"
+msgstr "ホスティングプラン追加"
+
+msgid "Hosting plan properties"
+msgstr "ホスティングプランの詳細"
+
+msgid "Template name"
+msgstr "テンプレート名"
+
+msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "データベースのアカウント数<br><i>(-1:無効, 0:無制限)</i>"
+
+msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr "SQLユーザー最大数<br><i>(-1:無効, 0:無制限)"
+
+msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "トラフィック制限 [Mb]<br><i>(0:無制限)</i>"
+
+msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "容量制限[MB]<br><i>(0:無制限)</i>"
+
+msgid "Billing Settings"
+msgstr "課金設定"
+
+msgid "Price"
+msgstr "価格"
+
+msgid "Setup fee"
+msgstr "セットアップ料金"
+
+msgid "Currency"
+msgstr "通貨"
+
+msgid "Payment period"
+msgstr "課金期間"
+
+msgid "Available for purchasing"
+msgstr "購入可能"
+
+msgid "Description"
+msgstr "説明"
+
+msgid "(e.g. EUR)"
+msgstr "(例 : 円)"
+
+msgid "Add plan"
+msgstr "プラン追加"
+
+msgid "Incorrect template name length!"
+msgstr ""
+
+msgid "Incorrect template description length!"
+msgstr ""
+
+msgid "Incorrect price syntax!"
+msgstr ""
+
+msgid "Incorrect setup fee syntax!"
+msgstr ""
+
+msgid "Incorrect subdomain length or syntax!"
+msgstr ""
+
+msgid "Incorrect alias length or syntax!"
+msgstr ""
+
+msgid "Incorrect mail account length or syntax!"
+msgstr ""
+
+msgid "Incorrect FTP account length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL database length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL user length or syntax!"
+msgstr ""
+
+msgid "Incorrect traffic length or syntax!"
+msgstr ""
+
+msgid "Incorrect disk length or syntax!"
+msgstr ""
+
+msgid "Hosting plan with entered name already exists!"
+msgstr ""
+
+msgid "ISPCP - Admin/Change Password"
+msgstr "ISPCP - 管理者/パスワード変更"
+
+msgid "Please fill up all data fields!"
+msgstr "すべてのフィールドを埋めてください"
+
+msgid "Passwords do not match!"
+msgstr ""
+
+msgid "The current password is wrong!"
+msgstr "現在のパスワードが間違っています"
+
+msgid "User password updated successfully!"
+msgstr "ユーザーのパスワードが更新されました"
+
+msgid "Change password"
+msgstr "パスワード変更"
+
+msgid "Password data"
+msgstr ""
+
+msgid "Update password"
+msgstr "パスワードの更新"
+
+msgid "Current password"
+msgstr "現在のパスワード"
+
+msgid "Personal data updated successfully!"
+msgstr "パーソナルデータは更新されてました"
+
+msgid "ISPCP - Admin/Change Personal Data"
+msgstr "ISPCP - 管理者/パーソナルデータ更新"
+
+msgid "Change personal data"
+msgstr "個人情報変更"
+
+msgid "Personal data"
+msgstr "パーソナルデータ"
+
+msgid "Update data"
+msgstr "データ更新"
+
+msgid "User does not exist!"
+msgstr "ユーザーは存在しません"
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr ""
+
+msgid "Please specify a message subject!"
+msgstr ""
+
+msgid "Please specify a message content!"
+msgstr ""
+
+msgid "Please specify a sender name!"
+msgstr ""
+
+msgid "Please specify a sender email!"
+msgstr ""
+
+msgid "You send email to your users successfully!"
+msgstr "あなたのユーザーへメールを送信しました"
+
+msgid "Email marketing"
+msgstr "電子メール マーケティング"
+
+msgid "Send message to"
+msgstr "送信先アドレス"
+
+msgid "All users"
+msgstr "すべてのユーザー"
+
+msgid "All resellers"
+msgstr "すべてのリセラー"
+
+msgid "All users & resellers"
+msgstr "すべてのユーザーとリセラー"
+
+msgid "Message subject"
+msgstr "メッセージタイトル"
+
+msgid "Senders email"
+msgstr "送信者アドレス"
+
+msgid "Senders name"
+msgstr "送信者名"
+
+msgid "Send message"
+msgstr "メッセージ送信"
+
+msgid "You have no custom menus."
+msgstr "カスタムメニューが存在していません"
+
+msgid "User"
+msgstr "ユーザー"
+
+msgid "All"
+msgstr "すべて"
+
+msgid "Are you sure you want to delete"
+msgstr "削除してもよろしいですか？："
+
+msgid "Missing or incorrect data input!"
+msgstr ""
+
+msgid "Custom menu data updated successful!"
+msgstr "カスタムメニューデータが更新されました"
+
+msgid "Custom menu deleted successful!"
+msgstr "カスタムメニューを削除しました"
+
+msgid "ISPCP - Admin - Manage custom menus"
+msgstr "ISPCP - 管理者 - Manage custom menus"
+
+msgid "Manage custom menus"
+msgstr "カスタムメニュー管理"
+
+msgid "Add new button"
+msgstr "新しいボタン追加"
+
+msgid "Button name"
+msgstr "ボタンの名前"
+
+msgid "Button link"
+msgstr "ボタンリンク"
+
+msgid "Button target"
+msgstr "ボタンのターゲット"
+
+msgid "Show in"
+msgstr ""
+
+msgid "Administrator level"
+msgstr "管理者レベル"
+
+msgid "Reseller level"
+msgstr "リセラーレベル"
+
+msgid "Enduser level"
+msgstr ""
+
+msgid "Reseller and enduser level"
+msgstr ""
+
+msgid "Menu button"
+msgstr "メニューボタン"
+
+msgid "Action"
+msgstr "アクション"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Level"
+msgstr ""
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Edit button"
+msgstr "ボタンの編集"
+
+msgid "Error: we have a domain using this IP!"
+msgstr ""
+
+msgid "Error: we have a reseller using this IP!"
+msgstr ""
+
+msgid "IP was deleted!"
+msgstr "IPアドレスは削除されました"
+
+msgid "Support ticket deleted successfully!"
+msgstr "サポートチケットは削除されました"
+
+msgid "All open support tickets deleted successfully!"
+msgstr "すべてのオープンチケットを削除しました。"
+
+msgid "All closed support tickets deleted successfully!"
+msgstr "すべてのクローズチケットを削除しました。"
+
+msgid "ISPCP - Domain/Details"
+msgstr ""
+
+msgid "Domain details"
+msgstr "ドメイン詳細"
+
+msgid "Domain name"
+msgstr "ドメイン名"
+
+msgid "Domain IP"
+msgstr "ドメインIP"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "PHP support"
+msgstr "PHPサポート"
+
+msgid "CGI support"
+msgstr "CGIサポート"
+
+msgid "MySQL support"
+msgstr "MySQLのサポート"
+
+msgid "Traffic in MB"
+msgstr ""
+
+msgid "Disk in MB"
+msgstr ""
+
+msgid "Feature"
+msgstr ""
+
+msgid "Used"
+msgstr "使用量"
+
+msgid "Limit"
+msgstr "制限"
+
+msgid "Mail accounts"
+msgstr "メールアカウント"
+
+msgid "FTP accounts"
+msgstr "FTPユーザー"
+
+msgid "SQL databases"
+msgstr "データベース"
+
+msgid "SQL users"
+msgstr "データベースユーザー"
+
+msgid "Subdomains"
+msgstr "サブドメイン"
+
+msgid "Domain aliases"
+msgstr "ドメインの別名"
+
+msgid "Submit changes"
+msgstr "変更を送信"
+
+msgid "None"
+msgstr ""
+
+msgid "ISPCP - Domain Statistics Data"
+msgstr ""
+
+msgid "Domain statistics"
+msgstr "ドメイン統計"
+
+msgid "Month"
+msgstr "月"
+
+msgid "Year"
+msgstr "年"
+
+msgid "Show"
+msgstr "表示"
+
+msgid "Web traffic"
+msgstr "Webトラフィック"
+
+msgid "FTP traffic"
+msgstr "FTPのトラフィック"
+
+msgid "SMTP traffic"
+msgstr "SMTPのトラフィック"
+
+msgid "POP3/IMAP traffic"
+msgstr ""
+
+msgid "All traffic"
+msgstr "すべてのトラフィック"
+
+msgid "Day"
+msgstr "日"
+
+msgid "ISPCP - Admin/Manage users/Edit Reseller"
+msgstr "ISPCP - 管理者/ユーザー管理/リセラー情報修正"
+
+msgid "Domains"
+msgstr "ドメイン数"
+
+#, php-format
+msgid "Inconsistency between current_als_cnt and actual alias count: %1$d != %2$d"
+msgstr ""
+
+msgid "Aliases"
+msgstr "エイリアス"
+
+#, php-format
+msgid "Inconsistency between current_mail_cnt and actual mail count: %1$d != %2$d"
+msgstr ""
+
+msgid "Mail"
+msgstr "電子メール"
+
+#, php-format
+msgid "Inconsistency between current_ftp_cnt and actual ftp count: %1$d != %2$d"
+msgstr ""
+
+msgid "FTP"
+msgstr ""
+
+msgid "SQL Databases"
+msgstr ""
+
+msgid "SQL Users"
+msgstr ""
+
+#, fuzzy
+msgid "Web Traffic"
+msgstr "Webトラフィック"
+
+#, fuzzy
+msgid "Disk storage"
+msgstr "ディスク使用量"
+
+#, fuzzy
+msgid "Reseller data inconsistency!"
+msgstr "リセラー統計"
+
+#, php-format
+msgid "This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+msgid "Edit reseller aborted!"
+msgstr ""
+
+#, php-format
+msgid "This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+#, php-format
+msgid "This reseller has customer(s) with unlimited rights for the <b>%s</b> service!<br>"
+msgstr ""
+
+msgid "If you want to limit the reseller, you must first limit its customers!<br>"
+msgstr ""
+
+#, php-format
+msgid "This reseller has domains assigned to the <b>%s</b> address!<br>"
+msgstr ""
+
+msgid "Edit reseller"
+msgstr "リセラー情報編集"
+
+msgid "E-mail"
+msgstr ""
+
+msgid "Max domain count"
+msgstr "最大ドメイン数"
+
+msgid "Max subdomain count"
+msgstr "最大サブドメイン数"
+
+msgid "Max aliases count"
+msgstr "最大エイリアス数"
+
+msgid "Max mail users count"
+msgstr "最大メールアカウント数"
+
+msgid "Max FTP users count"
+msgstr "最大FTPユーザ数"
+
+msgid "Max SQL databases count"
+msgstr "最大データベース数"
+
+msgid "Max SQL users count"
+msgstr "ユーザー最大数"
+
+msgid "Max traffic amount [MB]"
+msgstr "最大トラフィック量 [MB]"
+
+msgid "Max disk amount [MB]"
+msgstr "最大ディスク容量 [MB]"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Send new login data"
+msgstr ""
+
+#, fuzzy
+msgid "Generate password"
+msgstr "パスワードの更新"
+
+msgid "ISPCP - Admin/Manage users/Edit User"
+msgstr "管理者/ユーザー管理/ユーザー情報修正"
+
+msgid "User session was killed!"
+msgstr "ユーザーのセッションは切断されました"
+
+msgid "Domain account"
+msgstr "ドメインアカウント"
+
+msgid "Edit admin"
+msgstr "アドミンの編集"
+
+msgid "ISPCP - Administrator/Edit hosting plan"
+msgstr "ISPCP - アドミニストレータ/ホスティングプラン修正"
+
+msgid "Price Style"
+msgstr ""
+
+msgid "Update plan"
+msgstr "プランの更新"
+
+msgid "Edit hosting plan"
+msgstr "ホスティングプランの編集"
+
+msgid "Undefined reference to data!"
+msgstr "未定義のデータです"
+
+msgid "Incorrect price. Example: 9.99"
+msgstr ""
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr ""
+
+msgid "Please specify a subject!"
+msgstr ""
+
+msgid "Please specify message!"
+msgstr ""
+
+msgid "Auto email template data updated!"
+msgstr "自動送信メールのテンプレート情報が更新されました!"
+
+msgid "ISPCP - Admin/Manage users/Email setup"
+msgstr "管理者/ユーザー管理/電子メール設定"
+
+msgid "Email setup"
+msgstr "メール設定"
+
+msgid "Message template info"
+msgstr "テンプレート情報"
+
+msgid "User login (system) name"
+msgstr "ユーザーのログイン名"
+
+msgid "User password"
+msgstr "ユーザーパスワード"
+
+msgid "User real (first and last) name"
+msgstr ""
+
+msgid "Message template"
+msgstr "メッセージのテンプレート"
+
+msgid "Subject"
+msgstr "タイトル"
+
+msgid "Apply changes"
+msgstr "変更を適用"
+
+msgid "ISPCP - Administrator/Hosting Plan Management"
+msgstr "ISPCP - アドミニストレータ/ホスティングプラン管理t"
+
+msgid "Hosting plans"
+msgstr "ホスティングプラン"
+
+msgid "Manage hosting plans"
+msgstr "ホスティングプラン管理"
+
+msgid "Purchasing"
+msgstr ""
+
+msgid "Add new user hosting plan"
+msgstr "新規ユーザーホスティングプラン追加"
+
+msgid "Return to previous menu"
+msgstr "前のメニューに戻る"
+
+msgid "Hosting plan added!"
+msgstr "ホスティングプランが追加されました"
+
+msgid "Hosting plan deleted!"
+msgstr "ホスティングプランが削除されました"
+
+msgid "Hosting plan updated!"
+msgstr "ホスティングプランが更新されました"
+
+msgid "Hosting plans not found!"
+msgstr "ホスティングプランが見つかりません"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Enabled"
+msgstr "無効"
+
+msgid "Disabled"
+msgstr "無効"
+
+msgid "Show hosting plan"
+msgstr "ホスティングプラン閲覧"
+
+#, php-format
+msgid "You have <b>%d</b> new support questions"
+msgstr ""
+
+msgid "View"
+msgstr "ビュー"
+
+msgid "Couldn't check for updates!"
+msgstr ""
+
+msgid "New ISPCP update is now available"
+msgstr "ISPCPのアップデートが見つかりました"
+
+msgid "You are exceeding your traffic limit!"
+msgstr "サブドメインの制限に達しました"
+
+msgid "%1$d % [%2$d of %3$d]"
+msgstr ""
+
+msgid "ISPCP - Admin/Main Index"
+msgstr "ISPCP - 管理者/メイン インデックス"
+
+msgid "ISPCP - Admin/IP manage"
+msgstr "ISPCP - 管理者/IPアドレス管理"
+
+msgid "New IP was added!"
+msgstr "新規IPアドレスが追加されました"
+
+msgid "Wrong IP number!"
+msgstr ""
+
+msgid "Please specify domain!"
+msgstr ""
+
+msgid "Please specify alias!"
+msgstr ""
+
+msgid "This IP already exist!"
+msgstr "そのIPアドレスは既に存在しています"
+
+msgid "Manage IPs"
+msgstr "IPアドレス管理"
+
+msgid "Available IPs"
+msgstr "利用可能IP"
+
+msgid "IP"
+msgstr "IPアドレス"
+
+msgid "Domain"
+msgstr "ドメイン"
+
+msgid "Alias"
+msgstr "エイリアス"
+
+msgid "Uninstall"
+msgstr "削除"
+
+msgid "Add new IP"
+msgstr "新しいIP追加"
+
+msgid "No domain system errors"
+msgstr "ドメインの障害は発生していません"
+
+msgid "No domain alias system errors"
+msgstr "ドメインの別名の障害は発生していません"
+
+msgid "No subdomain system errors"
+msgstr "サブドメインに障害は発生していません"
+
+msgid "No email account system errors"
+msgstr "メールアカウントに障害は発生していません"
+
+msgid "ISPCP debugger"
+msgstr "ISPCPデバッガー"
+
+msgid "Domain errors"
+msgstr "ドメインエラー"
+
+msgid "Domain alias errors"
+msgstr " ドメインエイリアスエラー"
+
+msgid "Subdomain errors"
+msgstr "サブドメインエラー"
+
+msgid "Mail account errors"
+msgstr "メールアカウントエラー"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown domain status!"
+msgstr "不明"
+
+#, fuzzy
+msgid "Unknown account type!"
+msgstr "不明"
+
+#, fuzzy
+msgid "Invalid account id!"
+msgstr "メールアカウント"
+
+msgid "Done"
+msgstr ""
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "Get it at"
+msgstr ""
+
+msgid "ISPCP updates"
+msgstr "ISPCPアップデート"
+
+msgid "Available ISPCP updates"
+msgstr "利用可能なISPCPアップデート"
+
+msgid "No new ISPCP updates available"
+msgstr "ISPCPのアップデートは有りません"
+
+msgid "Update details"
+msgstr "更新情報詳細"
+
+msgid "Upload file error!"
+msgstr "ファイルのアップロードに失敗"
+
+msgid "You can only upload images!"
+msgstr ""
+
+msgid "Your logo was successful uploaded!"
+msgstr "ロゴのアップロードに成功しました!"
+
+msgid "Layout settings"
+msgstr "レイアウト設定"
+
+msgid "Installed layouts"
+msgstr ""
+
+msgid "Layout name"
+msgstr "レイアウト名"
+
+msgid "default"
+msgstr "初期設定"
+
+msgid "Upload logo"
+msgstr "ロゴをアップロード"
+
+msgid "Logo file"
+msgstr "ロゴファイル"
+
+msgid "Upload"
+msgstr "アップロード"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Choose default layout"
+msgstr "デフォルトレイアウトを選択"
+
+msgid "Layout"
+msgstr "レイアウト"
+
+msgid "ISPCP - Admin/Lostpw email setup"
+msgstr "ISPCP - 管理者/パスワード紛失時 メール設定"
+
+msgid "Lost password e-mail"
+msgstr ""
+
+msgid "Activation E-Mail"
+msgstr "アクティベーションメール"
+
+msgid "Password E-Mail"
+msgstr ""
+
+msgid "User (first and last) name"
+msgstr "ユーザーの氏名"
+
+msgid "Lost password link"
+msgstr ""
+
+msgid "Reseller list is empty!"
+msgstr "リセラーが登録されていません"
+
+msgid "ISPCP - Admin/Manage users/Reseller assignment"
+msgstr "管理者/ユーザー管理/リセラーのアサイン"
+
+msgid "Reseller assignment"
+msgstr "リセラーのアサイン"
+
+msgid "Reseller users"
+msgstr "リセラーユーザー"
+
+msgid "Mark"
+msgstr ""
+
+msgid "Reseller name"
+msgstr "リセラー名"
+
+msgid "Owner"
+msgstr "オーナー"
+
+msgid "To Admin"
+msgstr "Admin へ"
+
+msgid "Move"
+msgstr "移動"
+
+msgid "Reseller or user list is empty!"
+msgstr "リセラー又はユーザー名が入力されていません"
+
+msgid "User list is empty!"
+msgstr "ユーザーリストは未登録です"
+
+msgid "User was moved"
+msgstr "ユーザーは移動しました"
+
+msgid "Please select some user(s)!"
+msgstr ""
+
+msgid "Source and destination reseller are the same!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
+msgstr ""
+
+#, php-format
+msgid "You can not move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>"
+msgstr ""
+
+msgid "Moving aborted!"
+msgstr "移動に失敗しました"
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> service !<br>"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> has IP address that can not be managed from the destination reseller !<br>This user can not be moved!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/User assignment"
+msgstr "管理者/ユーザー管理/ユーザーのアサイン"
+
+msgid "User assignment"
+msgstr "ユーザーのアサイン"
+
+msgid "Users"
+msgstr "ユーザー"
+
+msgid "User name"
+msgstr "ユーザー名"
+
+msgid "From reseller"
+msgstr "リセラーから"
+
+msgid "To reseller"
+msgstr "リセラーへ"
+
+msgid "ISPCP - Admin/Manage Sessions"
+msgstr "ISPCP - 管理者/セッション管理"
+
+msgid "Manage user sessions"
+msgstr "ユーザーセッション管理"
+
+msgid "User type"
+msgstr ""
+
+msgid "Last access"
+msgstr "最終アクセス"
+
+msgid "Options"
+msgstr "オプション"
+
+msgid "Kill session"
+msgstr "セッションの切断"
+
+msgid "ISPCP - Admin/Manage Users"
+msgstr " ISPCP - 管理者/ユーザー管理"
+
+msgid "User added"
+msgstr "ユーザーが追加されました"
+
+msgid "Reseller added"
+msgstr "リセラーが追加されました"
+
+msgid "User updated"
+msgstr "ユーザー情報は更新されてました"
+
+msgid "User deleted"
+msgstr "ユーザー情報は削除されました"
+
+msgid "Email Updated"
+msgstr "メールの設定が更新されました"
+
+msgid "This user has a domain!<br>To delete the user first delete the domain!"
+msgstr ""
+
+msgid "User was disabled"
+msgstr "ユーザーが無効になりました"
+
+msgid "Incorrect data input!"
+msgstr ""
+
+msgid "ISPCP - Admin/Internationalisation"
+msgstr ""
+
+msgid "Default language changed!"
+msgstr "言語を変更しました"
+
+msgid "You can upload only text files!"
+msgstr "テキストファイルのみアップロードできます!"
+
+#, fuzzy
+msgid "Could not read language file!"
+msgstr "ISPCP言語ファイルを読み込めません!"
+
+#, fuzzy
+msgid "Uploaded file is not a valid language file!"
+msgstr "ISPCP言語ファイルを読み込めません!"
+
+msgid "Uploaded file does not contain the language information!"
+msgstr ""
+
+msgid "New language installed!"
+msgstr "新しい言語ファイルが追加されました"
+
+#, fuzzy
+msgid "Language was updated!"
+msgstr "カスタムエラーページが更新されました!"
+
+msgid "Unknown"
+msgstr "不明"
+
+msgid "uninstall"
+msgstr "削除"
+
+#, php-format
+msgid "%d messages translated"
+msgstr ""
+
+msgid "Multilingual"
+msgstr ""
+
+msgid "Installed languages"
+msgstr "インストールされた言語ファイル"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Messages"
+msgstr "メッセージ"
+
+msgid "Default"
+msgstr "初期設定"
+
+msgid "Install new language"
+msgstr "新しい言語ファイルをインストール"
+
+msgid "Language file"
+msgstr "言語ファイル"
+
+msgid "Install"
+msgstr "インストール"
+
+msgid "Export"
+msgstr "エキスポート"
+
+msgid "ISPCP - Reseller statistics"
+msgstr ""
+
+msgid "Not found reseller(s) in your system!"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>unlimited</b>"
+msgstr ""
+
+msgid "Reseller statistics table"
+msgstr ""
+
+msgid "Traffic"
+msgstr "トラフィック"
+
+msgid "Disk"
+msgstr "ディスク"
+
+msgid "Subdomain"
+msgstr "サブドメイン"
+
+msgid "SQL database"
+msgstr "データベース"
+
+msgid "SQL user"
+msgstr "SQLユーザー"
+
+msgid "ISPCP - Admin/Reseller User Statistics"
+msgstr "ISPCP - 管理者/リセラーユーザー情報"
+
+#, php-format
+msgid "%1$d <br/>of</br> <b>%2$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%d <br/>of</br> <b>unlimited</b>"
+msgstr ""
+
+#, fuzzy
+msgid "<b>disabled</b>"
+msgstr "無効"
+
+msgid "Reseller users table"
+msgstr ""
+
+msgid "This reseller has no domains."
+msgstr "このユーザにドメインが登録されていません"
+
+msgid "Traffic<br>usage"
+msgstr ""
+
+msgid "Disk<br>usage"
+msgstr "ディスク<br>使用量"
+
+msgid "Web<br>traffic"
+msgstr "Web<br>トラフィック"
+
+msgid "FTP<br>traffic"
+msgstr "FTPのトラフィック"
+
+msgid "SMTP<br>traffic"
+msgstr "SMTP<br>トラフィック"
+
+msgid "POP3/IMAP<br>traffic"
+msgstr "POP3/IMAP<br>トラフィック"
+
+msgid "SQL<br>database"
+msgstr "SQLデータベース"
+
+msgid "SQL<br>user"
+msgstr "SQLユーザー"
+
+msgid "ISPCP Admin / System Tools / Rootkit Hunter Log"
+msgstr ""
+
+msgid "The file doesn't exist or can't be read."
+msgstr ""
+
+msgid "Rootkit Log Checker"
+msgstr "ルートキットのログチェック"
+
+msgid "ISPCP - Admin/Server day stats"
+msgstr ""
+
+msgid "Server day statistics"
+msgstr ""
+
+msgid "Month:"
+msgstr "月"
+
+msgid "Year:"
+msgstr "年:"
+
+msgid "Day:"
+msgstr "日:"
+
+msgid "Hour"
+msgstr "時間"
+
+msgid "Web in"
+msgstr "Webサーバ受信"
+
+msgid "Web out"
+msgstr "Webサーバ送信"
+
+msgid "Mail in"
+msgstr ""
+
+msgid "Mail out"
+msgstr ""
+
+msgid "Pop/IMAP in"
+msgstr ""
+
+msgid "Pop/IMAP out"
+msgstr ""
+
+msgid "Other in"
+msgstr ""
+
+msgid "Other out"
+msgstr ""
+
+msgid "All in"
+msgstr "全体 in"
+
+msgid "All out"
+msgstr "全体 out"
+
+msgid "ISPCP - Admin/Server statistics"
+msgstr ""
+
+msgid "Server statistics"
+msgstr "サーバー統計情報"
+
+msgid "ISPCP Admin / System Tools / Server Status"
+msgstr ""
+
+msgid "UP"
+msgstr ""
+
+msgid "DOWN"
+msgstr ""
+
+msgid "Host"
+msgstr "ホスト"
+
+msgid "Service"
+msgstr "サービス"
+
+msgid "Server status"
+msgstr "サーバーのステータス"
+
+msgid "ISPCP - Admin/Server Traffic Settings"
+msgstr "ISPCP - 管理者/サーバートラフィック設定"
+
+msgid "Wrong data input!"
+msgstr ""
+
+msgid "Warning traffic is bigger then max traffic!"
+msgstr ""
+
+msgid "Server traffic settings updated successfully!"
+msgstr "サーバーのトラフィック情報は更新されました"
+
+msgid "Modify"
+msgstr "変更"
+
+msgid "Server traffic settings"
+msgstr "トラフィックの設定"
+
+msgid "Set server traffic settings"
+msgstr "トラフィックの設定"
+
+msgid "Max traffic [MB]"
+msgstr "最大トラフィック [MB]"
+
+msgid "Warning traffic [MB]"
+msgstr "警告トラフィック [MB]"
+
+msgid "ISPCP - Admin/Servicemode"
+msgstr ""
+
+msgid "Settings saved !"
+msgstr "設定は保存されました"
+
+msgid "Servicemode"
+msgstr "サービスモード"
+
+msgid "In this mode only administrators can login"
+msgstr "このモードにすると、アドミニストレーター権限以外のログインが出来なくなります"
+
+msgid "ISPCP - Admin/Settings"
+msgstr ""
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr ""
+
+msgid "General settings"
+msgstr "基本設定"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Activation link expire time (minutes)"
+msgstr ""
+
+msgid "Bruteforce detection"
+msgstr "ブルートフォース検知"
+
+msgid "Block time between logins"
+msgstr ""
+
+msgid "Max number of login attempts"
+msgstr ""
+
+msgid "Blocktime (minutes)"
+msgstr "ログイン拒否時間(分)"
+
+msgid "Block time between logins (seconds)"
+msgstr ""
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr ""
+
+msgid "Other settings"
+msgstr "その他設定"
+
+msgid "Default language"
+msgstr "言語"
+
+msgid "Support system"
+msgstr "サポート"
+
+msgid "Serverports"
+msgstr "ポート情報"
+
+msgid "Domains per page"
+msgstr ""
+
+msgid "ERROR: Only Letters, Numbers, Dash and Underscore are allowed!"
+msgstr ""
+
+msgid "ERROR: Port already exists!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr ""
+
+msgid "udp"
+msgstr ""
+
+msgid "tcp"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Services"
+msgstr "サービス"
+
+msgid "Port"
+msgstr "ポート番号"
+
+msgid "Protocol"
+msgstr "プロコトル"
+
+msgid "You have no support tickets."
+msgstr "チケットは登録されていません"
+
+msgid "Low"
+msgstr "低"
+
+msgid "Medium"
+msgstr "中"
+
+msgid "High"
+msgstr "高"
+
+msgid "Very high"
+msgstr "緊急"
+
+msgid "ISPCP - Client/Questions & Comments"
+msgstr "ISPCP - クライアント/質問と回答"
+
+msgid "Support tickets"
+msgstr "サポートチケット"
+
+msgid "Priority"
+msgstr "優先度"
+
+msgid "Last reply"
+msgstr ""
+
+msgid "Delete all"
+msgstr "すべて削除"
+
+msgid "Open tickets"
+msgstr "チケットを開く"
+
+msgid "Closed tickets"
+msgstr "処理済チケット"
+
+msgid "[New]"
+msgstr ""
+
+msgid "[Re]"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Autoresponder"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "days"
+msgstr "日"
+
+msgid "hours"
+msgstr "時間"
+
+msgid "minutes"
+msgstr "分"
+
+msgid "System info"
+msgstr "システム情報"
+
+msgid "Vital system info"
+msgstr "システム情報"
+
+msgid "CPU system Info"
+msgstr "CPU情報"
+
+msgid "CPU model"
+msgstr "CPU モデル"
+
+msgid "CPU MHz"
+msgstr "CPUクロック(MHz)"
+
+msgid "CPU cache"
+msgstr "CPUキャッシュメモリ"
+
+msgid "CPU bogomips"
+msgstr ""
+
+msgid "Memory system info"
+msgstr "システムメモリー情報"
+
+msgid "RAM"
+msgstr "メモリ"
+
+msgid "Total"
+msgstr "合計"
+
+msgid "Free"
+msgstr "空き容量"
+
+msgid "Swap"
+msgstr "スワップ"
+
+msgid "Up time"
+msgstr "起動時間"
+
+msgid "Kernel"
+msgstr "カーネル"
+
+msgid "Load"
+msgstr "ロードアベレージ"
+
+msgid "Filesystem system Info"
+msgstr "ファイルシステム情報"
+
+msgid "Mount"
+msgstr "マウント先"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Partition"
+msgstr "パーティション"
+
+msgid "Percent"
+msgstr "パーセント"
+
+msgid "Size"
+msgstr "サイズ"
+
+msgid "Ticket not found!"
+msgstr "チケットが見つかりません"
+
+msgid "Open ticket"
+msgstr "チケットを開く"
+
+msgid "Close ticket"
+msgstr "チケットの処理"
+
+msgid "ISPCP - Client : Support System: View Tickets"
+msgstr "ISPCP - クライアント : システムサポート: チケット閲覧"
+
+msgid "Please type your message!"
+msgstr ""
+
+msgid "Message was sent!"
+msgstr ""
+
+msgid "Ticket was closed!"
+msgstr "チケットは既にCloseしています"
+
+msgid "Ticket was reopened!"
+msgstr ""
+
+msgid "ISPCP - Admin : Support System: View Tickets"
+msgstr ""
+
+msgid "View support ticket"
+msgstr "ビュー サポートチケット"
+
+msgid "Send message reply"
+msgstr "メッセージ返信"
+
+msgid "Send reply"
+msgstr ""
+
+msgid "ISPCP Client : Add Alias"
+msgstr ""
+
+msgid "Manage domain alias"
+msgstr "ドメインエイリアス管理"
+
+msgid "Add domain alias"
+msgstr "ドメインエイリアス追加"
+
+msgid "User account"
+msgstr "ユーザーアカウント"
+
+msgid "Directory mount point"
+msgstr "ディレクトリのマウントポイント"
+
+msgid "Forward to URL"
+msgstr "転送先URL"
+
+msgid "Add alias"
+msgstr "エイリアス追加"
+
+msgid "Domain alias limit reached!"
+msgstr ""
+
+msgid "Incorrect domain name syntax"
+msgstr "Incorrect <i>domain name</i> syntax"
+
+msgid "Domain with that name already exists on the system!"
+msgstr ""
+
+msgid "Incorrect mount point syntax"
+msgstr "Incorrect <i>mount point</i> syntax!"
+
+msgid "Incorrect forward syntax"
+msgstr "Incorrect <i>forward</i> syntax!"
+
+msgid "Domain with this name already exist"
+msgstr ""
+
+msgid "There is a subdomain with the same mount point!"
+msgstr ""
+
+msgid "Alias scheduled for addition!"
+msgstr "追加予定のエイリアス"
+
+msgid "Empty List"
+msgstr ""
+
+msgid "Empty list"
+msgstr ""
+
+msgid "FTP account already exists!"
+msgstr "FTPユーザーは既に存在しています"
+
+msgid "Unknown domain type"
+msgstr ""
+
+msgid "Incorrect mount point length or syntax"
+msgstr ""
+
+#, php-format
+msgid "%s does not exist"
+msgstr ""
+
+msgid "FTP account added!"
+msgstr "FTPユーザー追加"
+
+msgid "Please enter FTP account username!"
+msgstr "FTPユーザー名を入力してください"
+
+msgid "Password data is missing!"
+msgstr "パスワードが一致しません!"
+
+msgid "Entered passwords differ from the another!"
+msgstr ""
+
+msgid "Subdomain list is empty! You can not add FTP accounts there!"
+msgstr "サブドメインが登録されてないため、FTPユーザーが追加できません"
+
+msgid "Alias list is empty! You can not add FTP accounts there!"
+msgstr "FTPアカウントを追加できません"
+
+msgid "Please specify other FTP account dir!"
+msgstr ""
+
+msgid "FTP accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add FTP User"
+msgstr "ISPCP - クライアント/FTPユーザー追加"
+
+msgid "Add FTP user"
+msgstr "FTPユーザー追加"
+
+msgid "To main domain"
+msgstr "メインドメインへ"
+
+msgid "To domain alias"
+msgstr "ドメインの別名へ"
+
+msgid "To subdomain"
+msgstr "サブドメインへ"
+
+msgid "Use other dir"
+msgstr "他のディレクトリを使用する"
+
+msgid "Choose dir"
+msgstr "ディレクトリ選択"
+
+msgid "Invalid Mail Localpart Format used!"
+msgstr ""
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr ""
+
+msgid "Mail forward list empty!"
+msgstr "メールアカウントは登録されていません"
+
+msgid "Mail account already exists!"
+msgstr "メールアカウントが存在しています"
+
+msgid "Mail account scheduled for addition!"
+msgstr "メールアカウントが登録待ちになっています。しばらくお待ちください"
+
+msgid "Please enter mail account username!"
+msgstr "メールユーザー名を入力してください"
+
+msgid "Password data includes not permitted signs!"
+msgstr ""
+
+msgid "Subdomain list is empty! You can not add mail accounts!"
+msgstr "サブドメインが登録されてないため、メールユーザーが追加できません"
+
+msgid "Alias list is empty! You can not add mail accounts!"
+msgstr "エイリアスリストが空です! メールアカウントを追加できません!"
+
+msgid "Forward list is empty!"
+msgstr ""
+
+msgid "Mail accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Mail User"
+msgstr "ISPCP - クライアント/メールユーザー追加"
+
+msgid "Add mail users"
+msgstr "メールユーザー追加"
+
+msgid "Normal mail"
+msgstr "通常のメール"
+
+msgid "Forward mail"
+msgstr "転送メール"
+
+msgid "Forward to"
+msgstr "転送先アドレス"
+
+msgid "Separate multiple email addresses with a line-break."
+msgstr ""
+
+msgid "Please type database name!"
+msgstr ""
+
+msgid "Database name is too long!"
+msgstr ""
+
+msgid "Specified database name already exists!"
+msgstr ""
+
+#, php-format
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr ""
+
+msgid "SQL database created successfully!"
+msgstr "データベースの作成に成功しました"
+
+msgid "SQL accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL Database"
+msgstr "ISPCP - クライアント/データベース追加"
+
+msgid "Add SQL database"
+msgstr "SQLデータベース追加"
+
+msgid "Database name"
+msgstr "データベース名"
+
+msgid "Use numeric ID"
+msgstr ""
+
+msgid "Before the name"
+msgstr ""
+
+msgid "After the name"
+msgstr ""
+
+msgid "Subdomains limit reached!"
+msgstr ""
+
+msgid "Please specify subdomain name!"
+msgstr ""
+
+msgid "Subdomain already exists!"
+msgstr "サブドメインは既に存在しています"
+
+msgid "Wrong subdomain syntax!"
+msgstr "サブドメインの文法が間違っています"
+
+msgid "Subdomain mount point already exists!"
+msgstr ""
+
+msgid "Subdomain scheduled for addition!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Subdomain"
+msgstr "ISPCP - クライアント/サブドメイン追加"
+
+msgid "Add subdomain"
+msgstr "サブドメイン追加"
+
+msgid "Subdomain data"
+msgstr "サブドメイン情報"
+
+msgid "Subdomain name"
+msgstr "サブドメイン名"
+
+msgid "Directory tree<br>mount point"
+msgstr "ディレクトリーツリー<br>マウントポイント"
+
+msgid "Backup archive scheduled for restoring!"
+msgstr "バックアップスケジュール"
+
+msgid "ISPCP - Client/Daily Backup"
+msgstr "ISPCP - クライアント/日次バックアップ"
+
+msgid "Backup"
+msgstr "バックアップ"
+
+msgid "Daily backup"
+msgstr "日次バックアップ"
+
+msgid "Instructions to download today's backup"
+msgstr ""
+
+msgid "Login with your FTP account"
+msgstr ""
+
+msgid "Switch to backups/ directory"
+msgstr ""
+
+msgid "Download the files stored in this directory"
+msgstr ""
+
+msgid "(usually named backup_YYYY_MM_DD.tar.bz2)"
+msgstr "(backup_YYYY_MM_DD.tar.bz2の形で保存されます)"
+
+msgid "Restore backup"
+msgstr "バックアップからリストア"
+
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+
+msgid "Restore"
+msgstr "リストア"
+
+msgid "N/A"
+msgstr ""
+
+msgid "Enable"
+msgstr "有効"
+
+msgid "Disable"
+msgstr "無効"
+
+msgid "Delete CatchAll"
+msgstr "キャッチオール削除"
+
+msgid "Create catch all"
+msgstr "キャッチオール作成"
+
+msgid "ISPCP - Client/Manage Users"
+msgstr "ISPCP - クライアント/ユーザー管理"
+
+msgid "Manage users"
+msgstr "ユーザ管理"
+
+msgid "Mail users"
+msgstr "メールユーザー"
+
+msgid "Auto respond"
+msgstr "自動応答"
+
+msgid "Domain mails"
+msgstr "ドメインメール"
+
+msgid "Subdomain mails"
+msgstr "サブドメインメールユーザー数"
+
+msgid "Alias mails"
+msgstr "エイリアスメール"
+
+msgid "Mails total"
+msgstr "メール アカウント合計"
+
+msgid "FTPs total"
+msgstr ""
+
+msgid "Catch all account"
+msgstr "全てのアカウントを対象"
+
+msgid "Catch all"
+msgstr "全て対象"
+
+msgid "FTP users"
+msgstr "FTPユーザー"
+
+msgid "FTP account"
+msgstr "FTPユーザー"
+
+msgid "ISPCP - Client/Change Password"
+msgstr "ISPCP - クライアント/パスワード変更"
+
+msgid "ISPCP - Client/Change Personal Data"
+msgstr "ISPCP - クライアント/パーソナルデータ修正"
+
+msgid "User does not exist or you do not have permission to access this interface!"
+msgstr "ユーザーが存在しないか、アクセスできません"
+
+msgid "Catch all account scheduled for creation!"
+msgstr ""
+
+msgid "Mail forward list error!"
+msgstr "メールアカウント管理でエラーが発生しました"
+
+msgid "ISPCP - Client/Create CatchAll Mail Account"
+msgstr ""
+
+msgid "Create catch all mail account"
+msgstr "キャッチオールメールアカウント作成"
+
+msgid "Mail accounts list"
+msgstr ""
+
+msgid "ISPCP - Client/Cronjob Manager"
+msgstr "ISPCP - クライアント/Cronjob マネージャー"
+
+msgid "Cronjob Manager"
+msgstr "Cronjob管理者"
+
+msgid "Add Cronjob"
+msgstr "Cronjob追加"
+
+msgid "Active"
+msgstr "アクティブ"
+
+msgid "Cronjob"
+msgstr ""
+
+msgid "Command to run:"
+msgstr "起動コマンド："
+
+msgid "Minute(s):"
+msgstr "分"
+
+msgid "Hour(s):"
+msgstr ""
+
+msgid "Day(s):"
+msgstr "日:"
+
+#, fuzzy
+msgid "Month(s):"
+msgstr "月"
+
+msgid "Weekday(s):"
+msgstr ""
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "Cancel"
+msgstr "取り消し"
+
+msgid "Edit Cronjob"
+msgstr "CronJob編集"
+
+msgid "Cronjobs"
+msgstr ""
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr ""
+
+msgid "Alias scheduled for deletion!"
+msgstr "削除予定のエイリアス"
+
+msgid "Catch all account scheduled for deletion!"
+msgstr ""
+
+msgid "FTP account deleted successfully!"
+msgstr "FTPユーザー情報が正常に削除されました"
+
+msgid "Please delete first CatchAll account for this email!"
+msgstr ""
+
+msgid "SQL database was removed successfully!"
+msgstr "データベースの削除に成功しました"
+
+msgid "Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+
+msgid "Subdomain scheduled for deletion!"
+msgstr ""
+
+msgid "Mail account scheduled for modification!"
+msgstr ""
+
+msgid "ISPCP - Client/Domain Statistics"
+msgstr ""
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr "ウェブ"
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP/IMAP"
+msgstr ""
+
+msgid "Sum"
+msgstr "合計"
+
+msgid "ISPCP - Manage Domain Alias/Edit Alias"
+msgstr ""
+
+msgid "Edit domain alias"
+msgstr "ドメイン別名の編集"
+
+msgid "Alias name"
+msgstr "エイリアスネーム"
+
+#, fuzzy
+msgid "Mount Point"
+msgstr "マウント先"
+
+#, fuzzy
+msgid "Enable Forward"
+msgstr "転送メール"
+
+msgid "Entered passwords differ!"
+msgstr "入力されたパスワードが異なります!"
+
+msgid "FTP account data updated!"
+msgstr "FTPユーザー情報が更新されました"
+
+msgid "ISPCP - Client/Edit FTP Account"
+msgstr "ISPCP - クライアント/FTPユーザー修正"
+
+msgid "Edit FTP user"
+msgstr "FTPユーザーの編集"
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Email account not found!"
+msgstr ""
+
+msgid "Missing or wrong data!"
+msgstr ""
+
+msgid "Password data includes not valid signs!"
+msgstr ""
+
+msgid "Mail were updated successfully!"
+msgstr ""
+
+msgid "ISPCP - Manage Mail and FTP / Edit mail account"
+msgstr ""
+
+msgid "Edit email account"
+msgstr "電子メールアカウントの編集"
+
+msgid "Please type your mail autorespond message!"
+msgstr ""
+
+msgid "Mail account scheduler for modification!"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Auto Responder"
+msgstr ""
+
+msgid "Edit mail auto responder"
+msgstr ""
+
+msgid "Your message"
+msgstr "本文"
+
+msgid "Please wait for update"
+msgstr ""
+
+msgid "Mail accounts list is empty!"
+msgstr "メールアカウントリストが空です!"
+
+msgid "Enable mail auto responder"
+msgstr "メール自動返信を有効にする"
+
+msgid "ISPCP - Client/Manage Error Custom Pages"
+msgstr "ISPCP - クライアント/カスタムエラーページ管理"
+
+msgid "Server error - please choose error page"
+msgstr ""
+
+msgid "Edit error page"
+msgstr "エラーページの編集"
+
+msgid "Custom error page was updated!"
+msgstr "カスタムエラーページが更新されました!"
+
+msgid "System error - custom error page was NOT updated!"
+msgstr ""
+
+msgid "Error 401 (unauthorised)"
+msgstr ""
+
+msgid "Error 403 (forbidden)"
+msgstr "Error 403 (アクセス拒否)"
+
+msgid "Error 404 (not found)"
+msgstr "Error 404 (ファイルが無い)"
+
+msgid "Error 500 (internal server error)"
+msgstr "Error 500 (サーバーエラー)"
+
+msgid "Error 503 (service unavailable)"
+msgstr ""
+
+msgid "Error pages"
+msgstr "エラーページ"
+
+msgid "FTP list is empty!"
+msgstr "FTPユーザーが登録されていません"
+
+msgid "Can not open directory !<br>Please contact your administrator !"
+msgstr "ディレクトリを開くことが出来ません。管理者に問い合わせてください"
+
+msgid "Parent Directory"
+msgstr ""
+
+msgid "Protect it"
+msgstr "保護する"
+
+msgid "ISPCP - Client/Webtools"
+msgstr "ISPCP - クライアント/Webツール"
+
+msgid "Directory tree"
+msgstr "ディレクトリツリー"
+
+msgid "Directories"
+msgstr "ディレクトリ"
+
+msgid "Choose"
+msgstr "選択"
+
+msgid "disabled"
+msgstr "無効"
+
+#, php-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr ""
+
+#, php-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr ""
+
+msgid "You are exceeding your disk limit!"
+msgstr "ディスク容量の最大量に到達しました"
+
+msgid "You have no new support questions!"
+msgstr "新しい質問はありません!"
+
+msgid "ISPCP - Client/Main Index"
+msgstr "ISPCP - クライアント/メインインデックス"
+
+msgid "General information"
+msgstr "基本情報"
+
+msgid "Account name"
+msgstr "アカウント名"
+
+msgid "Main domain"
+msgstr "メインドメイン"
+
+msgid "SQL support"
+msgstr "SQLサポート"
+
+msgid "Choose default language"
+msgstr "デフォルト言語を選択"
+
+msgid "Traffic usage"
+msgstr "トラフィック量"
+
+msgid "Disk usage"
+msgstr "ディスク使用量"
+
+msgid "User language updated successfully!"
+msgstr "ユーザーの言語が更新されてました"
+
+msgid "ISPCP - Client/Change Language"
+msgstr "ISPCP - クライアント/言語変更"
+
+msgid "Subdomain list is empty!"
+msgstr "サブドメインは登録されていません"
+
+msgid "Alias list is empty!"
+msgstr "エイリアスリストが空です!"
+
+msgid "ISPCP - Client/Manage Domains"
+msgstr "ISPCP - クライアント/ドメイン管理"
+
+msgid "Manage domains"
+msgstr "ドメイン管理"
+
+msgid "Mount point"
+msgstr "マウント先"
+
+msgid "Forward"
+msgstr "転送"
+
+#, fuzzy
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Database user list is empty!"
+msgstr "データベースユーザーリストが空です!"
+
+msgid "Database list is empty!"
+msgstr "データベースリストが空です!"
+
+msgid "ISPCP - Client/Manage SQL"
+msgstr "ISPCP - クライアント/データベース管理"
+
+msgid "Manage SQL"
+msgstr "SQL管理"
+
+msgid "Database users"
+msgstr "データベースユーザー"
+
+msgid "Add SQL user"
+msgstr "SQLユーザー追加"
+
+msgid "Execute query"
+msgstr "クエリーの実行"
+
+msgid "Please specify message subject!"
+msgstr ""
+
+msgid "Your message was sent!"
+msgstr "あなたのメッセージは送信されました"
+
+msgid "ISPCP - Support system - New ticket"
+msgstr ""
+
+msgid "New ticket"
+msgstr "新規チケット"
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+
+msgid "Protected area deleted successfully!"
+msgstr "アクセス制限領域の削除に成功しました!"
+
+msgid "Permission deny!"
+msgstr ""
+
+msgid "You do not have protected areas"
+msgstr "アクセス制限領域は登録されていません"
+
+msgid "Manage users and groups"
+msgstr "ユーザーとグループの管理"
+
+msgid "Add user"
+msgstr "ユーザー追加"
+
+msgid "Group name"
+msgstr "グループ名"
+
+msgid "Group members"
+msgstr "グループのメンバー"
+
+msgid "Add group"
+msgstr "グループ追加"
+
+msgid "Group"
+msgstr "グループ"
+
+msgid "Add new protected area"
+msgstr "新しい保護領域追加"
+
+msgid "Please choose user or group"
+msgstr "ユーザーかグループを選択してください"
+
+msgid "Please enter area name"
+msgstr ""
+
+msgid "Please enter area path"
+msgstr ""
+
+#, php-format
+msgid "%s doesn't exist"
+msgstr ""
+
+msgid "You can not protect area without selected user(s)"
+msgstr ""
+
+msgid "You can not protect area without selected group(s)"
+msgstr ""
+
+msgid "Protected area updated successfully!"
+msgstr "アクセス制限領域の更新に成功しました!"
+
+msgid "Protected area created successfully!"
+msgstr "アクセス制限領域の作成に成功しました!"
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+
+msgid "You have no users !"
+msgstr "ユーザーが登録されていません!"
+
+msgid "You have no groups!"
+msgstr "グループに登録されていません"
+
+msgid "Protect this area"
+msgstr "アクセス制限領域"
+
+msgid "Path"
+msgstr "パス"
+
+msgid "Groups"
+msgstr "グループ"
+
+msgid "User auth"
+msgstr ""
+
+msgid "Group auth"
+msgstr ""
+
+msgid "Area name"
+msgstr "エリア名"
+
+msgid "Unprotect it"
+msgstr "保護を解除する"
+
+#, fuzzy, php-format
+msgid "User was assigned to the %s group"
+msgstr "ユーザーがグループに追加されました"
+
+#, fuzzy, php-format
+msgid "User was deleted from the %s group "
+msgstr "ユーザーがグループに追加されました"
+
+msgid "User assign"
+msgstr "ユーザーのアサイン"
+
+msgid "Already in:"
+msgstr "既に入っています："
+
+msgid "Member of group:"
+msgstr ""
+
+msgid "Select group:"
+msgstr ""
+
+msgid "Update user"
+msgstr "ユーザの更新"
+
+msgid "Wrong username!"
+msgstr ""
+
+#, fuzzy
+msgid "Group already exists!"
+msgstr "グループは既に存在しています"
+
+msgid "Manage user"
+msgstr "ユーザ管理"
+
+msgid "You have no users!"
+msgstr "ユーザーが登録されていません!"
+
+msgid "User already exist !"
+msgstr "ユーザーは既に存在しています"
+
+#, fuzzy
+msgid "SQL users limit reached!"
+msgstr "SQLユーザーの最大数を超えています"
+
+msgid "Please type user name!"
+msgstr ""
+
+msgid "Please type user password!"
+msgstr ""
+
+msgid "Too user long password!"
+msgstr "ユーザのパスワードが長すぎます"
+
+msgid "SQL-user not found! Maybe it was deleted by another user!"
+msgstr ""
+
+msgid "User name too long!"
+msgstr "ユーザー名が長すぎます"
+
+#, php-format
+msgid "Wildcards as %% and ? are not allowed!"
+msgstr ""
+
+msgid "Specified SQL username name already exists!"
+msgstr ""
+
+msgid "SQL user successfully added!"
+msgstr "SQLユーザーは追加されました"
+
+msgid "ISPCP - Client/Add SQL User"
+msgstr "ISPCP - クライアント/データベースユーザー追加"
+
+msgid "SQL user name"
+msgstr "SQLユーザー名"
+
+msgid "In front the name"
+msgstr ""
+
+msgid "Behind the name"
+msgstr ""
+
+msgid "Add existing user"
+msgstr "既存ユーザー追加"
+
+msgid "Existing SQL users"
+msgstr ""
+
+msgid "Too long user password!"
+msgstr "ユーザのパスワードが長すぎます"
+
+msgid "SQL user password was successfully changed!"
+msgstr "SQLユーザーのパスワードは変更されました"
+
+msgid "ISPCP - Client/Change SQL User Password"
+msgstr "ISPCP - クライアント/データベースユーザーパスワード変更"
+
+msgid "Change SQL user password"
+msgstr "SQLユーザーのパスワード変更"
+
+msgid "Change"
+msgstr "変更"
+
+msgid "SQL user was removed successfully!"
+msgstr "SQLユーザは削除されました"
+
+msgid "Please enter SQL query!"
+msgstr "SQLクエリーを入力してください"
+
+msgid "Cannot connect as MySQL administrator!"
+msgstr "MySQL管理者として接続できません!"
+
+msgid "SQL query has error"
+msgstr "SQLクエリーが失敗しました"
+
+msgid "SQL query is ok"
+msgstr "SQLクエリーは成功しました"
+
+msgid "ISPCP - Client/Execute SQL Query"
+msgstr "ISPCP - クライアント/SQLクエリー実行"
+
+msgid "Execute SQL query"
+msgstr "SQLクエリーの実行"
+
+msgid "SQL query"
+msgstr "SQLクエリー"
+
+msgid "Query status"
+msgstr ""
+
+msgid "Query result"
+msgstr ""
+
+msgid "Execute"
+msgstr "実行"
+
+msgid "Protected area was deleted successful!"
+msgstr "アクセス制限領域の削除に成功しました!"
+
+msgid "Hosting plans available for update"
+msgstr "ホスティングプランのアップデート"
+
+msgid "Cancel order"
+msgstr "オーダーの取消"
+
+msgid "Your order"
+msgstr "あなたのオーダー"
+
+msgid "Purchase"
+msgstr "購入"
+
+msgid "There are no available updates"
+msgstr "アップデートは有りません"
+
+msgid "PHP Support: enabled"
+msgstr "有効"
+
+msgid "PHP Support: disabled"
+msgstr "無効"
+
+msgid "CGI Support: enabled"
+msgstr "CGIサポート: 有効"
+
+msgid "CGI Support: disabled"
+msgstr "CGIサポート: 無効"
+
+msgid "Disk limit"
+msgstr ""
+
+#, fuzzy
+msgid "Traffic limit"
+msgstr "トラフィック"
+
+msgid "Emails"
+msgstr ""
+
+msgid "FTPs"
+msgstr ""
+
+msgid "free of charge"
+msgstr ""
+
+msgid "There are no available hosting plans for update"
+msgstr ""
+
+msgid "ISPCP - Update hosting plan"
+msgstr ""
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr "ホスティングパック更新のリクエストが追加されました"
+
+msgid "[ispCP OrderPanel] - You have an update order"
+msgstr ""
+
+msgid ""
+"You have an update order for the account {ACCOUNT}\n"
+"\n"
+"\n"
+"Please login into your ispCP control panel for more details"
+msgstr ""
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "ホスティングパック更新のリクエストは削除されました"
+
+msgid "Message was send!"
+msgstr "メッセージは送信されました"
+
+msgid "Webtools"
+msgstr "Webツール"
+
+msgid "Customise error pages for your domain"
+msgstr ""
+
+msgid "Backup and restore settings"
+msgstr "バックアップと復元の設定"
+
+msgid "Access your mail through the web interface"
+msgstr "Webメールにアクセスします"
+
+msgid "Access your files through the web interface"
+msgstr "Webインターフェースで、ファイルへアクセスします"
+
+msgid "Manage protected areas, users and groups"
+msgstr "アクセス制限を行う領域、ユーザー、グループの設定を行います"
+
+msgid "System tools"
+msgstr "システムツール"
+
+msgid "Statistics"
+msgstr "統計"
+
+msgid "Reseller statistics"
+msgstr "リセラー統計"
+
+msgid "Admin log"
+msgstr "管理者ログ"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Custom menus"
+msgstr "カスタムメニュー"
+
+msgid "Overview"
+msgstr "概要"
+
+msgid "User sessions"
+msgstr "ユーザーセッション"
+
+msgid "Lostpw email setup"
+msgstr "パスワード紛失時のメール設定"
+
+msgid "Rootkit Log"
+msgstr "ルートキットのログ"
+
+msgid "Admin users"
+msgstr "管理者ユーザー"
+
+msgid "Normal users"
+msgstr "一般ユーザー"
+
+msgid "System messages"
+msgstr "システムメッセージ"
+
+msgid "No new messages"
+msgstr ""
+
+msgid "Server traffic"
+msgstr "サーバーのトラフィック情報"
+
+msgid "Administrators list is empty!"
+msgstr ""
+
+msgid "Created by"
+msgstr "作成者"
+
+msgid "Resellers list is empty!"
+msgstr "リセラーは登録されていません"
+
+msgid "Change user interface"
+msgstr "ユーザーインターフェース変更"
+
+msgid "Not found user records matching the search criteria!"
+msgstr ""
+
+msgid "view aliases"
+msgstr "エイリアス確認"
+
+msgid "Users list is empty!"
+msgstr "ユーザーリストは未登録です"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr "ドメインアカウントの状態を変更してよろしいですか?"
+
+msgid "Are you sure you want to delete this account?"
+msgstr "このアカウントを削除してもよろしいですか？"
+
+msgid "Administrators"
+msgstr "管理グループ"
+
+msgid "Resellers"
+msgstr "リセラー"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Creation date"
+msgstr "作成日"
+
+#, php-format
+msgid "%1$s you are now logged as %2$s"
+msgstr ""
+
+msgid "Go back"
+msgstr "前に戻る"
+
+msgid "OK"
+msgstr ""
+
+msgid "Suspended"
+msgstr ""
+
+msgid "Error"
+msgstr "エラー"
+
+msgid "[Ticket] {SUBJ}"
+msgstr ""
+
+msgid ""
+"Hello {TO_NAME} !\n"
+"\n"
+"You have a new ticket to read"
+msgstr ""
+
+msgid "Email and FTP accounts"
+msgstr "メールとFTPのアカウント"
+
+msgid "Add mail user"
+msgstr "メールユーザー追加"
+
+msgid "PhpMyAdmin"
+msgstr ""
+
+msgid "Filemanager"
+msgstr "ファイルマネージャー"
+
+msgid "Web statistics"
+msgstr ""
+
+msgid "Group/User management"
+msgstr ""
+
+msgid "Email Accounts"
+msgstr "メールアカウント"
+
+msgid "FTP Accounts"
+msgstr "FTPユーザー"
+
+msgid "Update Hosting Package"
+msgstr ""
+
+msgid "Domain mail"
+msgstr "ドメインメール"
+
+msgid "Email forward"
+msgstr "転送メール"
+
+msgid "Alias mail"
+msgstr "エイリアスメール"
+
+msgid "Alias forward"
+msgstr "エイリアスフォワード"
+
+msgid "Subdomain mail"
+msgstr "サブドメインメール"
+
+msgid "Subdomain forward"
+msgstr ""
+
+msgid "Unknown type"
+msgstr "不明"
+
+msgid "Welcome new ispCP user {USERNAME}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP user type is: {USERTYPE}\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good luck with the ispCP system!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+
+msgid "Please activate your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"Use this link to activate your new ispCP password:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {NAME},\n"
+"This is an automatic confirmation for the order of the domain:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Catchall account"
+msgstr ""
+
+msgid "Could not get config from database"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "You have to wait %d seconds"
+msgstr "お待ちください"
+
+#, fuzzy, php-format
+msgid "You have been blocked for %d minutes"
+msgstr "ブロックされました"
+
+msgid "System is currently in servicemode! At time only administrators can login."
+msgstr "現在サービスモードとなっております。現在、アドミニストレータ権限以外のログインは許可されて下りません。"
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr ""
+
+msgid "Domain status is not OK - Login aborted."
+msgstr ""
+
+msgid "Request from foreign host was blocked!"
+msgstr ""
+
+msgid "Domain alias"
+msgstr "ドメインエイリアス"
+
+msgid "Manage Orders"
+msgstr "オーダー管理"
+
+msgid "Order settings"
+msgstr "オーダー設定"
+
+msgid "Order email setup"
+msgstr "オーダー電子メール設定"
+
+msgid "Please fill up both data fields for password!"
+msgstr ""
+
+msgid "Addition in progress"
+msgstr "追加中"
+
+msgid "Modification in progress"
+msgstr ""
+
+msgid "Deletion in progress"
+msgstr "削除中"
+
+#, fuzzy
+msgid "Being enabled"
+msgstr "有効"
+
+msgid "Being suspended"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown error"
+msgstr "不明"
+
+msgid "hide aliases"
+msgstr ""
+
+msgid "You have reached your domains limit.<br>You can not add more domains!"
+msgstr ""
+
+msgid "You have a subdomains limit!<br>You can not add an user with unlimited subdomains!"
+msgstr ""
+
+msgid "You are exceeding your subdomains limit!"
+msgstr ""
+
+msgid "You have an aliases limit!<br>You can not add an user with unlimited aliases!"
+msgstr ""
+
+msgid "You Are Exceeding Your Alias Limit!"
+msgstr "エイリアスの最大数に到達しました"
+
+msgid "You have a mail accounts limit!<br>You can not add an user with unlimited mail accounts!"
+msgstr ""
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr ""
+
+msgid "You have a FTP accounts limit!<br>You can not add an user with unlimited FTP accounts!"
+msgstr ""
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr ""
+
+msgid "You have a SQL databases limit!<br>You can not add an user with unlimited SQL databases!"
+msgstr ""
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr ""
+
+msgid "You have an SQL users limit!<br>You can not add an user with unlimited SQL users!"
+msgstr ""
+
+msgid "You have disabled SQL databases for this user!<br>You can not have SQL users here!"
+msgstr "このユーザーのSQLデータベースを無効にしました!<br>SQLユーザーをここに追加できません!"
+
+msgid "You are exceeding your SQL database limit!"
+msgstr ""
+
+msgid "You have a traffic limit!<br>You can not add an user with unlimited traffic!"
+msgstr ""
+
+msgid "You have a disk limit!<br>You can not add an user with unlimited disk!"
+msgstr ""
+
+msgid "You have a new order"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"you have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n"
+"\n"
+"Please login into your ISPCP control panel for more details.\n"
+"\n"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr ""
+
+msgid "You do not have permission to access this interface!"
+msgstr " このインターフェースにアクセスする権限がありません!"
+
+msgid "Add On A Domain"
+msgstr "ドメイン追加"
+
+msgid "Continue"
+msgstr "続行"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(例 : domain-of-your-choice.com)"
+
+msgid "Please fill out all needed fields!"
+msgstr ""
+
+msgid "Enter Address"
+msgstr ""
+
+msgid "* denotes mandatory field."
+msgstr "* は必須項目"
+
+msgid "Your Chart"
+msgstr "あなたのチャート"
+
+msgid "Costs"
+msgstr "費用"
+
+msgid "Personal Data"
+msgstr "パーソナルデータ"
+
+msgid "Check Out"
+msgstr "チェックアウト"
+
+msgid "<b>Thank You for purchasing</b><br>You will receive an email with more details and information"
+msgstr "ご購入ありがとうございます。"
+
+msgid "No available hosting packages"
+msgstr "ホスティングパッケージが見つかりません"
+
+msgid "Webspace"
+msgstr "ウェブスペース"
+
+msgid "Domain Features"
+msgstr ""
+
+msgid "Package Features"
+msgstr ""
+
+msgid "Backup and Restore"
+msgstr "バックアップと復元"
+
+msgid "Custom Error Pages"
+msgstr "カスタムエラーページ"
+
+msgid "Protected Areas"
+msgstr "アクセス制限領域"
+
+msgid "Custom Apache Logs"
+msgstr "カスタム Apache ロゴ"
+
+msgid "Web & E-Mail Support"
+msgstr "WebとEメールサポート"
+
+msgid "Your Own Domain"
+msgstr "あなたのドメイン"
+
+msgid "ISPCP Control Panel"
+msgstr "コントロールパネル"
+
+msgid "Automatic Updates"
+msgstr "自動更新"
+
+msgid "Package Price"
+msgstr "パッケージ価格"
+
+msgid "Setup Fee"
+msgstr "セットアップ料金"
+
+msgid "Performance"
+msgstr "パフォーマンス"
+
+msgid "ISPCP Reseller : Add Alias"
+msgstr ""
+
+msgid "You have no user records."
+msgstr "ユーザーの記録がありません"
+
+msgid "ISPCP - Reseller/Add hosting plan"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Password"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Personal Data"
+msgstr ""
+
+msgid "ISPCP - Circular"
+msgstr ""
+
+msgid "Circular"
+msgstr ""
+
+msgid "Wrong domain ID!"
+msgstr ""
+
+msgid "Domain you are trying to remove has email accounts !<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has FTP accounts !<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has domain alias!<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has subdomains accounts !<br> first remove them !"
+msgstr ""
+
+msgid "ISPCP - Manage Domain/Alias"
+msgstr ""
+
+msgid "Manage alias"
+msgstr "別名管理"
+
+msgid "Real domain"
+msgstr "本来のドメイン"
+
+msgid "You have no alias records."
+msgstr "別名が登録されていません"
+
+msgid "Domain alias added for termination!"
+msgstr "ドメインエイリアスの追加を中止しました"
+
+msgid "Domain alias not added for termination!"
+msgstr ""
+
+msgid "Domain alias added!"
+msgstr "ドメインエイリアスが追加されました!"
+
+msgid "Domain alias not added!"
+msgstr "ドメインエイリアスが追加されませんでした!"
+
+msgid "Domain alias modified!"
+msgstr "ドメインエイリアスが変更されました!"
+
+msgid "Domain alias not modified!"
+msgstr "ドメインエイリアスが変更されませんでした!"
+
+msgid "User terminated!"
+msgstr ""
+
+msgid "ISPCP - Domain/Edit"
+msgstr ""
+
+msgid "Edit Domain"
+msgstr "ドメインの編集"
+
+msgid "Domain properties"
+msgstr "ドメイン情報"
+
+msgid "SQL Database"
+msgstr "データベース"
+
+msgid "SQL User"
+msgstr "SQLユーザー"
+
+msgid "Domain properties updated successfully!"
+msgstr "ドメイン情報は更新されました"
+
+#, php-format
+msgid "<b>%s</b> Service can not be disabled !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are <b>%s</b> records on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> records, present on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be unlimited !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "You are exceeding reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> amount, present on the system!"
+msgstr ""
+
+msgid "ISPCP - Users/Edit"
+msgstr ""
+
+msgid "Edit user"
+msgstr "ユーザーの編集"
+
+msgid "Users list"
+msgstr "ユーザーリスト"
+
+msgid "ISPCP - Reseller/Edit hosting plan"
+msgstr ""
+
+msgid "View hosting plan"
+msgstr "ビュー ホスティングプラン"
+
+msgid "Incorrect price!"
+msgstr ""
+
+msgid "Incorrect setup fee!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ISPCP - Reseller/Main Index"
+msgstr ""
+
+msgid "View details"
+msgstr "ビュー 詳細"
+
+msgid "User accounts"
+msgstr "ユーザーアカウント"
+
+msgid "Mail account"
+msgstr "メールアカウント"
+
+msgid "Extras"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>unlimited</b>"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "ISPCP - Reseller/Lostpw email setup"
+msgstr ""
+
+msgid "Lostpw email"
+msgstr "パスワード紛失時の送信メール"
+
+msgid "Lostpw link"
+msgstr ""
+
+msgid "ISPCP - Reseller/Order email setup"
+msgstr ""
+
+msgid "Manage orders"
+msgstr "オーダー管理"
+
+msgid "Wrong order ID!"
+msgstr ""
+
+msgid "User added!"
+msgstr "ユーザーが追加されました"
+
+msgid "Customer order was removed successful!"
+msgstr "顧客オーダーが削除されました!"
+
+msgid "ISPCP - Reseller/Order details"
+msgstr ""
+
+msgid "Order data updated successfully!"
+msgstr "オーダー情報が更新されました"
+
+msgid "Order date"
+msgstr "オーダー日"
+
+msgid "Hosting plan"
+msgstr "ホスティングプラン"
+
+msgid "Hosting details"
+msgstr "ホスティング詳細"
+
+msgid "Order details"
+msgstr ""
+
+msgid "Customer data"
+msgstr "顧客データ"
+
+msgid "Delete order"
+msgstr "オーダー削除"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "このオーダーを削除してよろしいですか?"
+
+msgid "Add to the system"
+msgstr "システムへ追加"
+
+msgid "ISPCP - Reseller/Order settings"
+msgstr ""
+
+msgid "Header"
+msgstr "ヘッダー"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "Implementation URL"
+msgstr "埋め込まれるURL"
+
+msgid "Footer"
+msgstr "フッター"
+
+msgid "ISPCP - Reseller/Order management"
+msgstr ""
+
+msgid "You do not have new orders!"
+msgstr "新しいオーダーはありません"
+
+msgid "New order"
+msgstr ""
+
+msgid "Update order"
+msgstr "オーダーをアップデート"
+
+msgid "ID"
+msgstr ""
+
+msgid "Order"
+msgstr "オーダー"
+
+msgid "Add/Details"
+msgstr "追加/詳細"
+
+msgid "ISPCP - Users/Add user"
+msgstr ""
+
+msgid "Choose hosting plan"
+msgstr "ホスティングプラン選択"
+
+msgid "Personalise template"
+msgstr ""
+
+msgid "Next step"
+msgstr "次へ"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+
+msgid "ISPCP - User/Add user(step2)"
+msgstr ""
+
+msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Backup / Restore"
+msgstr "バックアップ/復元"
+
+msgid "Apache logs"
+msgstr "Apacheログ"
+
+msgid "Awstats"
+msgstr "AwStats"
+
+msgid "ISPCP - User/Add user"
+msgstr ""
+
+msgid "Add other domains to this account"
+msgstr "他のドメインをこのアカウントに追加"
+
+msgid "There's a conflicting admin / reseller fix that first!"
+msgstr ""
+
+msgid "System error with Domain ID "
+msgstr ""
+
+msgid "This reseller has no domains yet."
+msgstr "このユーザにドメインが登録されていません"
+
+msgid "ISPCP - Users"
+msgstr ""
+
+msgid "Stats"
+msgstr "統計"
+
+msgid "Edit properties"
+msgstr "編集"
+
+msgid "You have no users."
+msgstr "ユーザーが登録されていません"
+
+msgid "User data updated!"
+msgstr "ユーザー情報が更新されました"
+
+msgid "User data not updated!"
+msgstr "ユーザー情報は更新されてませんでした"
+
+msgid "This user has domain record !<br>First remove the domain from the system!"
+msgstr ""
+
+msgid "User not terminated!"
+msgstr ""
+
+msgid "ISPCP - Reseller : Support System: View Tickets"
+msgstr ""
+
+msgid "Message was sent."
+msgstr "送信済み"
+
+#~ msgid "Password generate"
+#~ msgstr "パスワード作成"
+
+#~ msgid "Update language installed!"
+#~ msgstr "言語ファイルが更新されました"
+
+#~ msgid "</b> Address !<br>Edit reseller aborted!"
+#~ msgstr "</b> アドレス <br> リセラーの編集は中断されました。"
+
+#~ msgid "HDD"
+#~ msgstr "ハードディスク"
+
+#~ msgid "seconds"
+#~ msgstr "秒"
+
+#~ msgid "wait to be added"
+#~ msgstr "追加待ちです"
+
+#~ msgid "wait to be modified"
+#~ msgstr "作成待ちです"
+
+#~ msgid "wait to be deleted"
+#~ msgstr "削除待ちです"
+
+#~ msgid "wait to be enabled"
+#~ msgstr "有効化待ちです"
+
+#~ msgid "unknown status"
+#~ msgstr "不明"
+
+#~ msgid "Alias scheduled for modification!"
+#~ msgstr "変更予定のエイリアス"
+
+#~ msgid "delete"
+#~ msgstr "削除"

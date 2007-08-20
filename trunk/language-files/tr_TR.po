@@ -1,0 +1,3536 @@
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-18 23:11-0500\n"
+"PO-Revision-Date: 2007-07-06 16:03-0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <tr_TR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: x64PoPot 0.2\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "UTF-8"
+
+msgid "_: Localised language"
+msgstr "Türkçe"
+
+msgid "ispCP Omega a Virtual Hosting Control System"
+msgstr ""
+
+msgid "Administrator login"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Username"
+msgstr "Kullanıcı adı"
+
+msgid "Password"
+msgstr "Parola"
+
+msgid "Please enter your login information"
+msgstr ""
+
+msgid "Secure Connection"
+msgstr ""
+
+msgid "Normal Connection"
+msgstr ""
+
+msgid "Lost password"
+msgstr "Kayıp parola"
+
+msgid "Lost password function currently disabled"
+msgstr ""
+
+msgid "ISPCP - Virtual Hosting Control System"
+msgstr ""
+
+msgid "Password sent"
+msgstr ""
+
+msgid "ERROR: Password was not sent"
+msgstr ""
+
+msgid "The password was requested"
+msgstr ""
+
+msgid "Back"
+msgstr "Geri"
+
+msgid "ERROR: Unknown user"
+msgstr "HATA: Bilinmeyen kullanıcı"
+
+msgid "Retry"
+msgstr ""
+
+msgid "ERROR: Security code was not correct!"
+msgstr ""
+
+msgid "Security code"
+msgstr ""
+
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr ""
+
+msgid "Request password"
+msgstr ""
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr ""
+
+msgid "Reseller IP list is empty!"
+msgstr ""
+
+msgid "No."
+msgstr "Hayır."
+
+msgid "Assign"
+msgstr "Atama"
+
+msgid "Label"
+msgstr "Etiket"
+
+msgid "Number"
+msgstr "Adet"
+
+msgid "Reseller"
+msgstr ""
+
+msgid "This user name already exist!"
+msgstr ""
+
+msgid "Incorrect username length or syntax!"
+msgstr ""
+
+msgid "Incorrect password length or syntax!"
+msgstr ""
+
+msgid "Entered passwords do not match!"
+msgstr ""
+
+msgid "Incorrect email length or syntax!"
+msgstr ""
+
+msgid "Incorrect max domain count or syntax!"
+msgstr "Incorrect <i>max domain</i> count or syntax!"
+
+msgid "Incorrect max subdomain count or syntax!"
+msgstr "Incorrect <i>max subdomain</i> count or syntax!"
+
+msgid "Incorrect max alias count or syntax!"
+msgstr "Incorrect <i>max alias</i> count or syntax!"
+
+msgid "Incorrect max FTP count or syntax!"
+msgstr "Incorrect <i>max FTP</i> count or syntax!"
+
+msgid "Incorrect max mail count or syntax!"
+msgstr "Incorrect <i>max e-mail</i> count or syntax!"
+
+msgid "Incorrect max SQL databases count or syntax!"
+msgstr "Incorrect <i>max mySQL databases</i> count or syntax!"
+
+msgid "Incorrect max SQL users count or syntax!"
+msgstr "Incorrect <i>max mySQL users</i> count or syntax!"
+
+msgid "Incorrect max traffic amount or syntax!"
+msgstr "Incorrect <i>max traffic</i> amount or syntax!"
+
+msgid "Incorrect max disk amount or syntax!"
+msgstr "Incorrect <i>max disk</i> amount or syntax!"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "Bayiniz için en az bir adet IP ataması yapın!"
+
+msgid "Add reseller"
+msgstr "Bayi ekle"
+
+msgid "Core data"
+msgstr ""
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+msgid "Domains limit"
+msgstr ""
+
+msgid "Subdomains limit"
+msgstr ""
+
+msgid "Aliases limit"
+msgstr ""
+
+msgid "Mail accounts limit"
+msgstr ""
+
+msgid "FTP accounts limit"
+msgstr ""
+
+msgid "SQL databases limit"
+msgstr ""
+
+msgid "SQL users limit"
+msgstr ""
+
+msgid "Traffic limit [MB]"
+msgstr ""
+
+msgid "Disk limit [MB]"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "CGI / Perl"
+msgstr ""
+
+msgid "JSP"
+msgstr ""
+
+msgid "SSI"
+msgstr ""
+
+msgid "Frontpage extensions"
+msgstr ""
+
+msgid "Backup and restore"
+msgstr "Yedekleme"
+
+msgid "Custom error pages"
+msgstr ""
+
+msgid "Protected areas"
+msgstr ""
+
+msgid "Webmail"
+msgstr ""
+
+msgid "Directory listing"
+msgstr "Klasör listeleme"
+
+msgid "Apache logfiles"
+msgstr ""
+
+msgid "AwStats"
+msgstr ""
+
+msgid "Logo upload"
+msgstr ""
+
+msgid "yes"
+msgstr "evet"
+
+msgid "no"
+msgstr "hayır"
+
+msgid "Reseller IPs"
+msgstr ""
+
+msgid "Additional data"
+msgstr "Ek veri"
+
+msgid "Customer ID"
+msgstr "Müşteri ID"
+
+msgid "First name"
+msgstr "Ad"
+
+msgid "Last name"
+msgstr "Soyad"
+
+#, fuzzy
+msgid "Gender"
+msgstr "Başlık"
+
+#, fuzzy
+msgid "Male"
+msgstr "Açık"
+
+#, fuzzy
+msgid "Female"
+msgstr "Özellik"
+
+msgid "Company"
+msgstr "Şirket"
+
+msgid "Zip/Postal code"
+msgstr "Posta kodu"
+
+msgid "City"
+msgstr "Şehir"
+
+msgid "Country"
+msgstr "Ülke"
+
+msgid "Street 1"
+msgstr ""
+
+msgid "Street 2"
+msgstr ""
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Fax"
+msgstr "Faks"
+
+msgid "Add"
+msgstr "Ekle"
+
+msgid "ISPCP - Admin/Manage users/Add User"
+msgstr ""
+
+msgid "Administrator"
+msgstr "Yönetici"
+
+msgid "Empty data or wrong field!"
+msgstr ""
+
+msgid "Passwords don't match!"
+msgstr ""
+
+msgid "Add admin"
+msgstr "Yönetici ekle"
+
+msgid "ISPCP - Admin/Admin Log"
+msgstr ""
+
+msgid "Log is empty!"
+msgstr ""
+
+msgid "Invalid time period!"
+msgstr ""
+
+msgid "Admin Log"
+msgstr "Yönetici Kaydı"
+
+msgid "Clear log"
+msgstr ""
+
+msgid "Date"
+msgstr "Tarih"
+
+msgid "Message"
+msgstr "Mesaj"
+
+msgid "Delete from log:"
+msgstr ""
+
+msgid "everything"
+msgstr "hepsi"
+
+msgid "older than 2 weeks"
+msgstr "2 haftadan eski"
+
+msgid "older than 1 month"
+msgstr "1 aydan eski"
+
+msgid "older than 3 months"
+msgstr "3 aydan eski"
+
+msgid "older than 6 months"
+msgstr "6 aydan eski"
+
+msgid "older than 12 months"
+msgstr "12 aydan eski"
+
+msgid "ISPCP - Administrator/Add hosting plan"
+msgstr ""
+
+msgid "Add hosting plan"
+msgstr "Hosting planı ekle"
+
+msgid "Hosting plan properties"
+msgstr "Hosting plan özellikleri"
+
+msgid "Template name"
+msgstr ""
+
+msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
+msgstr ""
+
+msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
+msgstr "Disk limiti [MB]<br><i>(0 limitsiz)</i>"
+
+msgid "Billing Settings"
+msgstr "Faturalama ayarları"
+
+msgid "Price"
+msgstr ""
+
+msgid "Setup fee"
+msgstr ""
+
+msgid "Currency"
+msgstr "Kur"
+
+msgid "Payment period"
+msgstr "Odeme dönemi"
+
+msgid "Available for purchasing"
+msgstr ""
+
+msgid "Description"
+msgstr "Tanımlama"
+
+msgid "(e.g. EUR)"
+msgstr "(örn. EUR)"
+
+msgid "Add plan"
+msgstr "Plan ekle"
+
+msgid "Incorrect template name length!"
+msgstr ""
+
+msgid "Incorrect template description length!"
+msgstr ""
+
+msgid "Incorrect price syntax!"
+msgstr ""
+
+msgid "Incorrect setup fee syntax!"
+msgstr ""
+
+msgid "Incorrect subdomain length or syntax!"
+msgstr ""
+
+msgid "Incorrect alias length or syntax!"
+msgstr ""
+
+msgid "Incorrect mail account length or syntax!"
+msgstr ""
+
+msgid "Incorrect FTP account length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL database length or syntax!"
+msgstr ""
+
+msgid "Incorrect SQL user length or syntax!"
+msgstr ""
+
+msgid "Incorrect traffic length or syntax!"
+msgstr ""
+
+msgid "Incorrect disk length or syntax!"
+msgstr ""
+
+msgid "Hosting plan with entered name already exists!"
+msgstr "Bu isimde hosting planı mevcut!"
+
+msgid "ISPCP - Admin/Change Password"
+msgstr ""
+
+msgid "Please fill up all data fields!"
+msgstr ""
+
+msgid "Passwords do not match!"
+msgstr ""
+
+msgid "The current password is wrong!"
+msgstr ""
+
+msgid "User password updated successfully!"
+msgstr ""
+
+msgid "Change password"
+msgstr "Parola değiştir"
+
+msgid "Password data"
+msgstr "Parola bilgisi"
+
+msgid "Update password"
+msgstr ""
+
+msgid "Current password"
+msgstr "Mevcut parola"
+
+msgid "Personal data updated successfully!"
+msgstr "Kişisel bilgiler güncellendi!"
+
+msgid "ISPCP - Admin/Change Personal Data"
+msgstr ""
+
+msgid "Change personal data"
+msgstr "Kişisel bilgileri değiştir"
+
+msgid "Personal data"
+msgstr "Kişisel bilgi"
+
+msgid "Update data"
+msgstr ""
+
+msgid "User does not exist!"
+msgstr ""
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr ""
+
+msgid "Please specify a message subject!"
+msgstr ""
+
+msgid "Please specify a message content!"
+msgstr ""
+
+msgid "Please specify a sender name!"
+msgstr ""
+
+msgid "Please specify a sender email!"
+msgstr ""
+
+msgid "You send email to your users successfully!"
+msgstr "Kullanıcılarınıza başarıyla email gönderdiniz!"
+
+msgid "Email marketing"
+msgstr "Email pazarlama"
+
+msgid "Send message to"
+msgstr ""
+
+msgid "All users"
+msgstr "Tüm kullanıcılar"
+
+msgid "All resellers"
+msgstr "Tüm bayiler"
+
+msgid "All users & resellers"
+msgstr "Tüm kullanıcı ve bayiler"
+
+msgid "Message subject"
+msgstr "Mesaj konusu"
+
+msgid "Senders email"
+msgstr ""
+
+msgid "Senders name"
+msgstr ""
+
+msgid "Send message"
+msgstr ""
+
+msgid "You have no custom menus."
+msgstr "Hiç özel menünüz yok."
+
+msgid "User"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Are you sure you want to delete"
+msgstr "Silmek istediğinize emin misiniz"
+
+msgid "Missing or incorrect data input!"
+msgstr ""
+
+msgid "Custom menu data updated successful!"
+msgstr ""
+
+msgid "Custom menu deleted successful!"
+msgstr ""
+
+msgid "ISPCP - Admin - Manage custom menus"
+msgstr ""
+
+msgid "Manage custom menus"
+msgstr ""
+
+msgid "Add new button"
+msgstr "Yeni düğme ekle"
+
+msgid "Button name"
+msgstr "Düğme adı"
+
+msgid "Button link"
+msgstr "Düğme linki"
+
+msgid "Button target"
+msgstr "Düğme hedefi"
+
+msgid "Show in"
+msgstr ""
+
+msgid "Administrator level"
+msgstr ""
+
+msgid "Reseller level"
+msgstr ""
+
+msgid "Enduser level"
+msgstr "Son kullanıcı seviyesi"
+
+msgid "Reseller and enduser level"
+msgstr ""
+
+msgid "Menu button"
+msgstr "Menü düğmesi"
+
+msgid "Action"
+msgstr "İşlem"
+
+msgid "Edit"
+msgstr "Düzenle"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Level"
+msgstr "Seviye"
+
+msgid "Save"
+msgstr ""
+
+msgid "Edit button"
+msgstr "Düğme düzenle"
+
+msgid "Error: we have a domain using this IP!"
+msgstr ""
+
+msgid "Error: we have a reseller using this IP!"
+msgstr ""
+
+msgid "IP was deleted!"
+msgstr "IP silindi!"
+
+msgid "Support ticket deleted successfully!"
+msgstr ""
+
+msgid "All open support tickets deleted successfully!"
+msgstr ""
+
+msgid "All closed support tickets deleted successfully!"
+msgstr ""
+
+msgid "ISPCP - Domain/Details"
+msgstr ""
+
+msgid "Domain details"
+msgstr ""
+
+msgid "Domain name"
+msgstr ""
+
+msgid "Domain IP"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "PHP support"
+msgstr "PHP desteği"
+
+msgid "CGI support"
+msgstr "CGI desteği"
+
+msgid "MySQL support"
+msgstr "MySQL desteği"
+
+msgid "Traffic in MB"
+msgstr ""
+
+msgid "Disk in MB"
+msgstr "MB cinsinden disk"
+
+msgid "Feature"
+msgstr "Özellik"
+
+msgid "Used"
+msgstr ""
+
+msgid "Limit"
+msgstr ""
+
+msgid "Mail accounts"
+msgstr "Mail hesapları"
+
+msgid "FTP accounts"
+msgstr "FTP hesapları"
+
+msgid "SQL databases"
+msgstr ""
+
+msgid "SQL users"
+msgstr ""
+
+msgid "Subdomains"
+msgstr ""
+
+msgid "Domain aliases"
+msgstr ""
+
+msgid "Submit changes"
+msgstr ""
+
+msgid "None"
+msgstr "Yok"
+
+msgid "ISPCP - Domain Statistics Data"
+msgstr ""
+
+msgid "Domain statistics"
+msgstr ""
+
+msgid "Month"
+msgstr "Ay"
+
+msgid "Year"
+msgstr "Yıl"
+
+msgid "Show"
+msgstr ""
+
+msgid "Web traffic"
+msgstr "Web trafiği"
+
+msgid "FTP traffic"
+msgstr "FTP trafiği"
+
+msgid "SMTP traffic"
+msgstr ""
+
+msgid "POP3/IMAP traffic"
+msgstr ""
+
+msgid "All traffic"
+msgstr "Tüm trafik"
+
+msgid "Day"
+msgstr "Gün"
+
+msgid "ISPCP - Admin/Manage users/Edit Reseller"
+msgstr ""
+
+msgid "Domains"
+msgstr "Alan adları"
+
+#, php-format
+msgid "Inconsistency between current_als_cnt and actual alias count: %1$d != %2$d"
+msgstr ""
+
+msgid "Aliases"
+msgstr ""
+
+#, php-format
+msgid "Inconsistency between current_mail_cnt and actual mail count: %1$d != %2$d"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+#, php-format
+msgid "Inconsistency between current_ftp_cnt and actual ftp count: %1$d != %2$d"
+msgstr ""
+
+msgid "FTP"
+msgstr ""
+
+msgid "SQL Databases"
+msgstr ""
+
+msgid "SQL Users"
+msgstr ""
+
+#, fuzzy
+msgid "Web Traffic"
+msgstr "Web trafiği"
+
+#, fuzzy
+msgid "Disk storage"
+msgstr "Disk kullanımı"
+
+msgid "Reseller data inconsistency!"
+msgstr ""
+
+#, php-format
+msgid "This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+msgid "Edit reseller aborted!"
+msgstr ""
+
+#, php-format
+msgid "This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered."
+msgstr ""
+
+#, php-format
+msgid "This reseller has customer(s) with unlimited rights for the <b>%s</b> service!<br>"
+msgstr ""
+
+msgid "If you want to limit the reseller, you must first limit its customers!<br>"
+msgstr ""
+
+#, php-format
+msgid "This reseller has domains assigned to the <b>%s</b> address!<br>"
+msgstr ""
+
+msgid "Edit reseller"
+msgstr "Bayi düzenle"
+
+msgid "E-mail"
+msgstr "E-posta"
+
+msgid "Max domain count"
+msgstr ""
+
+msgid "Max subdomain count"
+msgstr ""
+
+msgid "Max aliases count"
+msgstr ""
+
+msgid "Max mail users count"
+msgstr ""
+
+msgid "Max FTP users count"
+msgstr ""
+
+msgid "Max SQL databases count"
+msgstr ""
+
+msgid "Max SQL users count"
+msgstr ""
+
+msgid "Max traffic amount [MB]"
+msgstr ""
+
+msgid "Max disk amount [MB]"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Send new login data"
+msgstr ""
+
+#, fuzzy
+msgid "Generate password"
+msgstr "Mevcut parola"
+
+msgid "ISPCP - Admin/Manage users/Edit User"
+msgstr ""
+
+msgid "User session was killed!"
+msgstr ""
+
+msgid "Domain account"
+msgstr "Alan adı hesabı"
+
+msgid "Edit admin"
+msgstr "Yöneticiyi düzenle"
+
+msgid "ISPCP - Administrator/Edit hosting plan"
+msgstr ""
+
+msgid "Price Style"
+msgstr ""
+
+msgid "Update plan"
+msgstr ""
+
+msgid "Edit hosting plan"
+msgstr "Hosting planı düzenle"
+
+msgid "Undefined reference to data!"
+msgstr ""
+
+msgid "Incorrect price. Example: 9.99"
+msgstr ""
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr ""
+
+msgid "Please specify a subject!"
+msgstr ""
+
+msgid "Please specify message!"
+msgstr ""
+
+msgid "Auto email template data updated!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/Email setup"
+msgstr ""
+
+msgid "Email setup"
+msgstr "Email ayarları"
+
+msgid "Message template info"
+msgstr ""
+
+msgid "User login (system) name"
+msgstr ""
+
+msgid "User password"
+msgstr ""
+
+msgid "User real (first and last) name"
+msgstr ""
+
+msgid "Message template"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Apply changes"
+msgstr "Değişiklikleri kaydet"
+
+msgid "ISPCP - Administrator/Hosting Plan Management"
+msgstr ""
+
+msgid "Hosting plans"
+msgstr "Hosting planları"
+
+msgid "Manage hosting plans"
+msgstr ""
+
+msgid "Purchasing"
+msgstr ""
+
+msgid "Add new user hosting plan"
+msgstr "Yeni kullanıcı hosting planı ekle"
+
+msgid "Return to previous menu"
+msgstr ""
+
+msgid "Hosting plan added!"
+msgstr "Hosting planı eklendi!"
+
+msgid "Hosting plan deleted!"
+msgstr "Hosting planı silindi!"
+
+msgid "Hosting plan updated!"
+msgstr "Hosting planı güncellendi!"
+
+msgid "Hosting plans not found!"
+msgstr "Hosting planı bulunamadı!"
+
+msgid "Name"
+msgstr "Ad"
+
+msgid "Enabled"
+msgstr "Açık"
+
+msgid "Disabled"
+msgstr "Kapalı"
+
+msgid "Show hosting plan"
+msgstr ""
+
+#, php-format
+msgid "You have <b>%d</b> new support questions"
+msgstr ""
+
+msgid "View"
+msgstr "Görünüm"
+
+msgid "Couldn't check for updates!"
+msgstr ""
+
+msgid "New ISPCP update is now available"
+msgstr "Yeni ISPCP güncellemesi var"
+
+msgid "You are exceeding your traffic limit!"
+msgstr "Trafik limitini aştınız!"
+
+msgid "%1$d % [%2$d of %3$d]"
+msgstr ""
+
+msgid "ISPCP - Admin/Main Index"
+msgstr ""
+
+msgid "ISPCP - Admin/IP manage"
+msgstr ""
+
+msgid "New IP was added!"
+msgstr ""
+
+msgid "Wrong IP number!"
+msgstr "Yanlış IP numarası!"
+
+msgid "Please specify domain!"
+msgstr ""
+
+msgid "Please specify alias!"
+msgstr ""
+
+msgid "This IP already exist!"
+msgstr ""
+
+msgid "Manage IPs"
+msgstr ""
+
+msgid "Available IPs"
+msgstr "Kullanılabilir IPler"
+
+msgid "IP"
+msgstr ""
+
+msgid "Domain"
+msgstr "Alan adı"
+
+msgid "Alias"
+msgstr "Takma ad"
+
+msgid "Uninstall"
+msgstr ""
+
+msgid "Add new IP"
+msgstr "Yeni IP ekle"
+
+msgid "No domain system errors"
+msgstr ""
+
+msgid "No domain alias system errors"
+msgstr ""
+
+msgid "No subdomain system errors"
+msgstr ""
+
+msgid "No email account system errors"
+msgstr ""
+
+msgid "ISPCP debugger"
+msgstr ""
+
+msgid "Domain errors"
+msgstr ""
+
+msgid "Domain alias errors"
+msgstr ""
+
+msgid "Subdomain errors"
+msgstr ""
+
+msgid "Mail account errors"
+msgstr "Mail hesabı hataları"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown domain status!"
+msgstr "Yanlış alt alan adı yazımı!"
+
+msgid "Unknown account type!"
+msgstr ""
+
+#, fuzzy
+msgid "Invalid account id!"
+msgstr "Mail hesapları listesi"
+
+msgid "Done"
+msgstr "Bitti"
+
+msgid "Unknown Error"
+msgstr ""
+
+msgid "Get it at"
+msgstr ""
+
+msgid "ISPCP updates"
+msgstr ""
+
+msgid "Available ISPCP updates"
+msgstr "Hazır ISPCP güncellemeleri"
+
+msgid "No new ISPCP updates available"
+msgstr "Yeni ISPCP güncellemesi yok"
+
+msgid "Update details"
+msgstr ""
+
+msgid "Upload file error!"
+msgstr ""
+
+msgid "You can only upload images!"
+msgstr ""
+
+msgid "Your logo was successful uploaded!"
+msgstr "Ambleminiz yüklendi!"
+
+msgid "Layout settings"
+msgstr "Taslak ayarları"
+
+msgid "Installed layouts"
+msgstr "Yüklü taslaklar"
+
+msgid "Layout name"
+msgstr "Taslak adı"
+
+msgid "default"
+msgstr "Varsayılan"
+
+msgid "Upload logo"
+msgstr ""
+
+msgid "Logo file"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Choose default layout"
+msgstr "Taslak seç"
+
+msgid "Layout"
+msgstr "Taslak"
+
+msgid "ISPCP - Admin/Lostpw email setup"
+msgstr ""
+
+msgid "Lost password e-mail"
+msgstr ""
+
+msgid "Activation E-Mail"
+msgstr ""
+
+msgid "Password E-Mail"
+msgstr ""
+
+msgid "User (first and last) name"
+msgstr ""
+
+msgid "Lost password link"
+msgstr ""
+
+msgid "Reseller list is empty!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/Reseller assignment"
+msgstr ""
+
+msgid "Reseller assignment"
+msgstr ""
+
+msgid "Reseller users"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Reseller name"
+msgstr ""
+
+msgid "Owner"
+msgstr "Sahip"
+
+msgid "To Admin"
+msgstr ""
+
+msgid "Move"
+msgstr "Taşı"
+
+msgid "Reseller or user list is empty!"
+msgstr ""
+
+msgid "User list is empty!"
+msgstr ""
+
+msgid "User was moved"
+msgstr "Kullanıcı taşındı"
+
+msgid "Please select some user(s)!"
+msgstr ""
+
+msgid "Source and destination reseller are the same!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
+msgstr ""
+
+#, php-format
+msgid "You can not move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>"
+msgstr ""
+
+msgid "Moving aborted!"
+msgstr "Taşıma durduruldu!"
+
+#, php-format
+msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> service !<br>"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> has IP address that can not be managed from the destination reseller !<br>This user can not be moved!"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage users/User assignment"
+msgstr ""
+
+msgid "User assignment"
+msgstr ""
+
+msgid "Users"
+msgstr "Kullanıcılar"
+
+msgid "User name"
+msgstr ""
+
+msgid "From reseller"
+msgstr "Bayiden"
+
+msgid "To reseller"
+msgstr ""
+
+msgid "ISPCP - Admin/Manage Sessions"
+msgstr ""
+
+msgid "Manage user sessions"
+msgstr ""
+
+msgid "User type"
+msgstr ""
+
+msgid "Last access"
+msgstr "Son erişim"
+
+msgid "Options"
+msgstr "Seçenekler"
+
+msgid "Kill session"
+msgstr "Oturumu öldür"
+
+msgid "ISPCP - Admin/Manage Users"
+msgstr ""
+
+msgid "User added"
+msgstr ""
+
+msgid "Reseller added"
+msgstr ""
+
+msgid "User updated"
+msgstr ""
+
+msgid "User deleted"
+msgstr ""
+
+msgid "Email Updated"
+msgstr "Email güncellendi"
+
+msgid "This user has a domain!<br>To delete the user first delete the domain!"
+msgstr ""
+
+msgid "User was disabled"
+msgstr "Kullanıcı devre dışı bırakıldı"
+
+msgid "Incorrect data input!"
+msgstr ""
+
+msgid "ISPCP - Admin/Internationalisation"
+msgstr ""
+
+msgid "Default language changed!"
+msgstr ""
+
+msgid "You can upload only text files!"
+msgstr "Sadece metin dosya gönderebilirsin!"
+
+msgid "Could not read language file!"
+msgstr ""
+
+msgid "Uploaded file is not a valid language file!"
+msgstr ""
+
+msgid "Uploaded file does not contain the language information!"
+msgstr ""
+
+msgid "New language installed!"
+msgstr ""
+
+#, fuzzy
+msgid "Language was updated!"
+msgstr "Hosting planı güncellendi!"
+
+msgid "Unknown"
+msgstr ""
+
+msgid "uninstall"
+msgstr ""
+
+#, php-format
+msgid "%d messages translated"
+msgstr ""
+
+msgid "Multilingual"
+msgstr ""
+
+msgid "Installed languages"
+msgstr "Yüklü diller"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "Messages"
+msgstr "Mesajlar"
+
+msgid "Default"
+msgstr "Varsayılan"
+
+msgid "Install new language"
+msgstr "Yüklü yeni diller"
+
+msgid "Language file"
+msgstr "Dil dosyası"
+
+msgid "Install"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "ISPCP - Reseller statistics"
+msgstr ""
+
+msgid "Not found reseller(s) in your system!"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d <br/>of<br/> <b>unlimited</b>"
+msgstr ""
+
+msgid "Reseller statistics table"
+msgstr ""
+
+msgid "Traffic"
+msgstr ""
+
+msgid "Disk"
+msgstr ""
+
+msgid "Subdomain"
+msgstr ""
+
+msgid "SQL database"
+msgstr ""
+
+msgid "SQL user"
+msgstr ""
+
+msgid "ISPCP - Admin/Reseller User Statistics"
+msgstr ""
+
+#, php-format
+msgid "%1$d <br/>of</br> <b>%2$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%d <br/>of</br> <b>unlimited</b>"
+msgstr ""
+
+#, fuzzy
+msgid "<b>disabled</b>"
+msgstr "kapalı"
+
+msgid "Reseller users table"
+msgstr ""
+
+msgid "This reseller has no domains."
+msgstr ""
+
+msgid "Traffic<br>usage"
+msgstr ""
+
+msgid "Disk<br>usage"
+msgstr "Disk<br>kullanımı"
+
+msgid "Web<br>traffic"
+msgstr "Web<br>trafiği"
+
+msgid "FTP<br>traffic"
+msgstr "FTP<br>trafiği"
+
+msgid "SMTP<br>traffic"
+msgstr ""
+
+msgid "POP3/IMAP<br>traffic"
+msgstr ""
+
+msgid "SQL<br>database"
+msgstr ""
+
+msgid "SQL<br>user"
+msgstr ""
+
+msgid "ISPCP Admin / System Tools / Rootkit Hunter Log"
+msgstr ""
+
+msgid "The file doesn't exist or can't be read."
+msgstr ""
+
+msgid "Rootkit Log Checker"
+msgstr ""
+
+msgid "ISPCP - Admin/Server day stats"
+msgstr ""
+
+msgid "Server day statistics"
+msgstr ""
+
+msgid "Month:"
+msgstr "Ay:"
+
+msgid "Year:"
+msgstr "Yıl:"
+
+msgid "Day:"
+msgstr "Gün:"
+
+msgid "Hour"
+msgstr "Saat"
+
+msgid "Web in"
+msgstr "Web gelen"
+
+msgid "Web out"
+msgstr "Web giden"
+
+msgid "Mail in"
+msgstr ""
+
+msgid "Mail out"
+msgstr ""
+
+msgid "Pop/IMAP in"
+msgstr ""
+
+msgid "Pop/IMAP out"
+msgstr ""
+
+msgid "Other in"
+msgstr ""
+
+msgid "Other out"
+msgstr ""
+
+msgid "All in"
+msgstr ""
+
+msgid "All out"
+msgstr ""
+
+msgid "ISPCP - Admin/Server statistics"
+msgstr ""
+
+msgid "Server statistics"
+msgstr ""
+
+msgid "ISPCP Admin / System Tools / Server Status"
+msgstr ""
+
+msgid "UP"
+msgstr ""
+
+msgid "DOWN"
+msgstr ""
+
+msgid "Host"
+msgstr ""
+
+msgid "Service"
+msgstr ""
+
+msgid "Server status"
+msgstr ""
+
+msgid "ISPCP - Admin/Server Traffic Settings"
+msgstr ""
+
+msgid "Wrong data input!"
+msgstr ""
+
+msgid "Warning traffic is bigger then max traffic!"
+msgstr "Trafik uyarı limiti en fazla trafik limitinden daha fazla!"
+
+msgid "Server traffic settings updated successfully!"
+msgstr ""
+
+msgid "Modify"
+msgstr "Düzenle"
+
+msgid "Server traffic settings"
+msgstr ""
+
+msgid "Set server traffic settings"
+msgstr ""
+
+msgid "Max traffic [MB]"
+msgstr ""
+
+msgid "Warning traffic [MB]"
+msgstr "Uyarı trafiği [MB]"
+
+msgid "ISPCP - Admin/Servicemode"
+msgstr ""
+
+msgid "Settings saved !"
+msgstr ""
+
+msgid "Servicemode"
+msgstr ""
+
+msgid "In this mode only administrators can login"
+msgstr ""
+
+msgid "ISPCP - Admin/Settings"
+msgstr ""
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr ""
+
+msgid "General settings"
+msgstr "Genel ayarlar"
+
+msgid "Settings"
+msgstr ""
+
+msgid "Activation link expire time (minutes)"
+msgstr ""
+
+msgid "Bruteforce detection"
+msgstr ""
+
+msgid "Block time between logins"
+msgstr ""
+
+msgid "Max number of login attempts"
+msgstr ""
+
+msgid "Blocktime (minutes)"
+msgstr "Engelleme süresi"
+
+msgid "Block time between logins (seconds)"
+msgstr ""
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr ""
+
+msgid "Other settings"
+msgstr "Diğer ayarlar"
+
+msgid "Default language"
+msgstr ""
+
+msgid "Support system"
+msgstr ""
+
+msgid "Serverports"
+msgstr ""
+
+msgid "Domains per page"
+msgstr "Bir sayfadaki alan adı sayısı"
+
+msgid "ERROR: Only Letters, Numbers, Dash and Underscore are allowed!"
+msgstr ""
+
+msgid "ERROR: Port already exists!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr ""
+
+msgid "udp"
+msgstr ""
+
+msgid "tcp"
+msgstr ""
+
+msgid "Yes"
+msgstr "Evet"
+
+msgid "No"
+msgstr "Hayır"
+
+msgid "Services"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "You have no support tickets."
+msgstr "Yardım isteği mesajınız yok."
+
+msgid "Low"
+msgstr "Düşük"
+
+msgid "Medium"
+msgstr "Orta"
+
+msgid "High"
+msgstr "Yüksek"
+
+msgid "Very high"
+msgstr "Çok yüksek"
+
+msgid "ISPCP - Client/Questions & Comments"
+msgstr ""
+
+msgid "Support tickets"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Last reply"
+msgstr "Son cevap"
+
+msgid "Delete all"
+msgstr "Hepsini sil"
+
+msgid "Open tickets"
+msgstr "Açık etiketler"
+
+msgid "Closed tickets"
+msgstr "Kapalı etiketler"
+
+msgid "[New]"
+msgstr "[Yeni]"
+
+msgid "[Re]"
+msgstr "[Cvp]"
+
+msgid "ISPCP - Client/Enable Mail Autoresponder"
+msgstr ""
+
+msgid "From"
+msgstr "Kimden"
+
+msgid "days"
+msgstr "gün"
+
+msgid "hours"
+msgstr "saat"
+
+msgid "minutes"
+msgstr "dakika"
+
+msgid "System info"
+msgstr ""
+
+msgid "Vital system info"
+msgstr "Hayati sistem hakkında bilgi"
+
+msgid "CPU system Info"
+msgstr ""
+
+msgid "CPU model"
+msgstr ""
+
+msgid "CPU MHz"
+msgstr ""
+
+msgid "CPU cache"
+msgstr ""
+
+msgid "CPU bogomips"
+msgstr ""
+
+msgid "Memory system info"
+msgstr ""
+
+msgid "RAM"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "Swap"
+msgstr ""
+
+msgid "Up time"
+msgstr ""
+
+msgid "Kernel"
+msgstr "Çekirdek"
+
+msgid "Load"
+msgstr "Yükle"
+
+msgid "Filesystem system Info"
+msgstr ""
+
+msgid "Mount"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Partition"
+msgstr "Bölüm"
+
+msgid "Percent"
+msgstr "Yüzde"
+
+msgid "Size"
+msgstr ""
+
+msgid "Ticket not found!"
+msgstr ""
+
+msgid "Open ticket"
+msgstr "Açık etiket"
+
+msgid "Close ticket"
+msgstr "Etiketi kapat"
+
+msgid "ISPCP - Client : Support System: View Tickets"
+msgstr ""
+
+msgid "Please type your message!"
+msgstr ""
+
+msgid "Message was sent!"
+msgstr ""
+
+msgid "Ticket was closed!"
+msgstr ""
+
+msgid "Ticket was reopened!"
+msgstr ""
+
+msgid "ISPCP - Admin : Support System: View Tickets"
+msgstr ""
+
+msgid "View support ticket"
+msgstr "Destek biletlerini göster"
+
+msgid "Send message reply"
+msgstr ""
+
+msgid "Send reply"
+msgstr ""
+
+msgid "ISPCP Client : Add Alias"
+msgstr ""
+
+msgid "Manage domain alias"
+msgstr ""
+
+msgid "Add domain alias"
+msgstr "Alan adına takma isim ekle"
+
+msgid "User account"
+msgstr ""
+
+msgid "Directory mount point"
+msgstr ""
+
+msgid "Forward to URL"
+msgstr ""
+
+msgid "Add alias"
+msgstr "Lakap ekle"
+
+msgid "Domain alias limit reached!"
+msgstr ""
+
+msgid "Incorrect domain name syntax"
+msgstr "Incorrect <i>domain name</i> syntax"
+
+msgid "Domain with that name already exists on the system!"
+msgstr ""
+
+msgid "Incorrect mount point syntax"
+msgstr "Incorrect <i>mount point</i> syntax!"
+
+msgid "Incorrect forward syntax"
+msgstr "Incorrect <i>forward</i> syntax!"
+
+msgid "Domain with this name already exist"
+msgstr ""
+
+msgid "There is a subdomain with the same mount point!"
+msgstr ""
+
+msgid "Alias scheduled for addition!"
+msgstr ""
+
+msgid "Empty List"
+msgstr "Boş Liste"
+
+msgid "Empty list"
+msgstr "Boş liste"
+
+msgid "FTP account already exists!"
+msgstr "Bu FTP hesabı mevcut!"
+
+msgid "Unknown domain type"
+msgstr ""
+
+msgid "Incorrect mount point length or syntax"
+msgstr ""
+
+#, php-format
+msgid "%s does not exist"
+msgstr ""
+
+msgid "FTP account added!"
+msgstr "FTP hesabı eklendi!"
+
+msgid "Please enter FTP account username!"
+msgstr ""
+
+msgid "Password data is missing!"
+msgstr "Parola bilgisi kayıp"
+
+msgid "Entered passwords differ from the another!"
+msgstr "Girilen parolalar diğerinden değişik olmalı!"
+
+msgid "Subdomain list is empty! You can not add FTP accounts there!"
+msgstr ""
+
+msgid "Alias list is empty! You can not add FTP accounts there!"
+msgstr "Takma isim listesi boş! Oraya FTP hesabı ekleyemezsiniz!"
+
+msgid "Please specify other FTP account dir!"
+msgstr ""
+
+msgid "FTP accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add FTP User"
+msgstr ""
+
+msgid "Add FTP user"
+msgstr "FTP kullanıcısı ekle"
+
+msgid "To main domain"
+msgstr ""
+
+msgid "To domain alias"
+msgstr ""
+
+msgid "To subdomain"
+msgstr ""
+
+msgid "Use other dir"
+msgstr ""
+
+msgid "Choose dir"
+msgstr "Klasör seç"
+
+msgid "Invalid Mail Localpart Format used!"
+msgstr ""
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr ""
+
+msgid "Mail forward list empty!"
+msgstr "Mail yönlendirme listesi boş!"
+
+msgid "Mail account already exists!"
+msgstr "Mail hesabı mevcut!"
+
+msgid "Mail account scheduled for addition!"
+msgstr "Mail hesabı eklenmesi için kaydedildi"
+
+msgid "Please enter mail account username!"
+msgstr ""
+
+msgid "Password data includes not permitted signs!"
+msgstr "Parolada izin verilmeyen işaretler var!"
+
+msgid "Subdomain list is empty! You can not add mail accounts!"
+msgstr ""
+
+msgid "Alias list is empty! You can not add mail accounts!"
+msgstr "Takma isim listesi boş! Oraya eposta hesabı ekleyemezsiniz!"
+
+msgid "Forward list is empty!"
+msgstr ""
+
+msgid "Mail accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Mail User"
+msgstr ""
+
+msgid "Add mail users"
+msgstr "Mail kullanıcıları ekle"
+
+msgid "Normal mail"
+msgstr ""
+
+msgid "Forward mail"
+msgstr "Mail yönlendir"
+
+msgid "Forward to"
+msgstr "Yönlendir"
+
+msgid "Separate multiple email addresses with a line-break."
+msgstr ""
+
+msgid "Please type database name!"
+msgstr ""
+
+msgid "Database name is too long!"
+msgstr ""
+
+msgid "Specified database name already exists!"
+msgstr ""
+
+#, php-format
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr ""
+
+msgid "SQL database created successfully!"
+msgstr ""
+
+msgid "SQL accounts limit reached!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL Database"
+msgstr ""
+
+msgid "Add SQL database"
+msgstr "SQL veritabanı ekle"
+
+msgid "Database name"
+msgstr ""
+
+msgid "Use numeric ID"
+msgstr ""
+
+msgid "Before the name"
+msgstr ""
+
+msgid "After the name"
+msgstr ""
+
+msgid "Subdomains limit reached!"
+msgstr ""
+
+msgid "Please specify subdomain name!"
+msgstr ""
+
+msgid "Subdomain already exists!"
+msgstr ""
+
+msgid "Wrong subdomain syntax!"
+msgstr "Yanlış alt alan adı yazımı!"
+
+msgid "Subdomain mount point already exists!"
+msgstr ""
+
+msgid "Subdomain scheduled for addition!"
+msgstr ""
+
+msgid "ISPCP - Client/Add Subdomain"
+msgstr ""
+
+msgid "Add subdomain"
+msgstr "Alt alan adı ekle"
+
+msgid "Subdomain data"
+msgstr ""
+
+msgid "Subdomain name"
+msgstr ""
+
+msgid "Directory tree<br>mount point"
+msgstr ""
+
+msgid "Backup archive scheduled for restoring!"
+msgstr ""
+
+msgid "ISPCP - Client/Daily Backup"
+msgstr ""
+
+msgid "Backup"
+msgstr "Yedek"
+
+msgid "Daily backup"
+msgstr ""
+
+msgid "Instructions to download today's backup"
+msgstr ""
+
+msgid "Login with your FTP account"
+msgstr ""
+
+msgid "Switch to backups/ directory"
+msgstr ""
+
+msgid "Download the files stored in this directory"
+msgstr ""
+
+msgid "(usually named backup_YYYY_MM_DD.tar.bz2)"
+msgstr "(örn. yedek_YIL_AY_GUN.tar.bz2)"
+
+msgid "Restore backup"
+msgstr ""
+
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid "N/A"
+msgstr ""
+
+msgid "Enable"
+msgstr "Açık"
+
+msgid "Disable"
+msgstr "Kapalı"
+
+msgid "Delete CatchAll"
+msgstr ""
+
+msgid "Create catch all"
+msgstr ""
+
+msgid "ISPCP - Client/Manage Users"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
+msgid "Mail users"
+msgstr "Mail kullanıcıları"
+
+msgid "Auto respond"
+msgstr ""
+
+msgid "Domain mails"
+msgstr ""
+
+msgid "Subdomain mails"
+msgstr ""
+
+msgid "Alias mails"
+msgstr ""
+
+msgid "Mails total"
+msgstr ""
+
+msgid "FTPs total"
+msgstr "Toplam FTPler"
+
+msgid "Catch all account"
+msgstr ""
+
+msgid "Catch all"
+msgstr ""
+
+msgid "FTP users"
+msgstr "FTP kullanıcıları"
+
+msgid "FTP account"
+msgstr "FTP hesabı"
+
+msgid "ISPCP - Client/Change Password"
+msgstr ""
+
+msgid "ISPCP - Client/Change Personal Data"
+msgstr ""
+
+msgid "User does not exist or you do not have permission to access this interface!"
+msgstr ""
+
+msgid "Catch all account scheduled for creation!"
+msgstr ""
+
+msgid "Mail forward list error!"
+msgstr "Mail yönlendirme listesi hatası!"
+
+msgid "ISPCP - Client/Create CatchAll Mail Account"
+msgstr ""
+
+msgid "Create catch all mail account"
+msgstr ""
+
+msgid "Mail accounts list"
+msgstr "Mail hesapları listesi"
+
+msgid "ISPCP - Client/Cronjob Manager"
+msgstr ""
+
+msgid "Cronjob Manager"
+msgstr ""
+
+msgid "Add Cronjob"
+msgstr "Cronjob ekle"
+
+msgid "Active"
+msgstr "Etkinleştir"
+
+msgid "Cronjob"
+msgstr ""
+
+msgid "Command to run:"
+msgstr "Çalışacak komut:"
+
+msgid "Minute(s):"
+msgstr "Dakika:"
+
+msgid "Hour(s):"
+msgstr "Saat"
+
+msgid "Day(s):"
+msgstr "Gün"
+
+#, fuzzy
+msgid "Month(s):"
+msgstr "Ay:"
+
+msgid "Weekday(s):"
+msgstr "Haftanın günü"
+
+msgid "Reset"
+msgstr ""
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Edit Cronjob"
+msgstr "Cronjob düzenle"
+
+msgid "Cronjobs"
+msgstr ""
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr ""
+
+msgid "Alias scheduled for deletion!"
+msgstr ""
+
+msgid "Catch all account scheduled for deletion!"
+msgstr ""
+
+msgid "FTP account deleted successfully!"
+msgstr "FTP hesabı silindi!"
+
+msgid "Please delete first CatchAll account for this email!"
+msgstr ""
+
+msgid "SQL database was removed successfully!"
+msgstr ""
+
+msgid "Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+
+msgid "Subdomain scheduled for deletion!"
+msgstr ""
+
+msgid "Mail account scheduled for modification!"
+msgstr "Mail hesabı düzenlenmesi için kaydedildi"
+
+msgid "ISPCP - Client/Domain Statistics"
+msgstr ""
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr ""
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP/IMAP"
+msgstr ""
+
+msgid "Sum"
+msgstr ""
+
+msgid "ISPCP - Manage Domain Alias/Edit Alias"
+msgstr ""
+
+msgid "Edit domain alias"
+msgstr ""
+
+msgid "Alias name"
+msgstr ""
+
+msgid "Mount Point"
+msgstr ""
+
+#, fuzzy
+msgid "Enable Forward"
+msgstr "Email yönlendirme"
+
+msgid "Entered passwords differ!"
+msgstr "Girilen parolalar değişik!"
+
+msgid "FTP account data updated!"
+msgstr "FTP hesabı güncellendi!"
+
+msgid "ISPCP - Client/Edit FTP Account"
+msgstr ""
+
+msgid "Edit FTP user"
+msgstr "FTP kullanıcısı düzenle"
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Email account not found!"
+msgstr ""
+
+msgid "Missing or wrong data!"
+msgstr ""
+
+msgid "Password data includes not valid signs!"
+msgstr ""
+
+msgid "Mail were updated successfully!"
+msgstr ""
+
+msgid "ISPCP - Manage Mail and FTP / Edit mail account"
+msgstr ""
+
+msgid "Edit email account"
+msgstr ""
+
+msgid "Please type your mail autorespond message!"
+msgstr ""
+
+msgid "Mail account scheduler for modification!"
+msgstr ""
+
+msgid "ISPCP - Client/Enable Mail Auto Responder"
+msgstr ""
+
+msgid "Edit mail auto responder"
+msgstr "Posta otoyanıt düzenle"
+
+msgid "Your message"
+msgstr "Mesajınız"
+
+msgid "Please wait for update"
+msgstr ""
+
+msgid "Mail accounts list is empty!"
+msgstr "Mail hesapları listesi boş!"
+
+msgid "Enable mail auto responder"
+msgstr ""
+
+msgid "ISPCP - Client/Manage Error Custom Pages"
+msgstr ""
+
+msgid "Server error - please choose error page"
+msgstr ""
+
+msgid "Edit error page"
+msgstr "Hata sayafası düzenle"
+
+msgid "Custom error page was updated!"
+msgstr ""
+
+msgid "System error - custom error page was NOT updated!"
+msgstr ""
+
+msgid "Error 401 (unauthorised)"
+msgstr ""
+
+msgid "Error 403 (forbidden)"
+msgstr "Hata 403 (yasak)"
+
+msgid "Error 404 (not found)"
+msgstr "Hata 404 (bulunamadı)"
+
+msgid "Error 500 (internal server error)"
+msgstr "Hata 500 (sunucu hatası)"
+
+msgid "Error 503 (service unavailable)"
+msgstr ""
+
+msgid "Error pages"
+msgstr "Hata sayfaları"
+
+msgid "FTP list is empty!"
+msgstr ""
+
+msgid "Can not open directory !<br>Please contact your administrator !"
+msgstr ""
+
+msgid "Parent Directory"
+msgstr "Üst klasör"
+
+msgid "Protect it"
+msgstr ""
+
+msgid "ISPCP - Client/Webtools"
+msgstr ""
+
+msgid "Directory tree"
+msgstr "Klasör yapısı"
+
+msgid "Directories"
+msgstr "Klasörler"
+
+msgid "Choose"
+msgstr "Seç"
+
+msgid "disabled"
+msgstr "kapalı"
+
+#, php-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr ""
+
+#, php-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr ""
+
+msgid "You are exceeding your disk limit!"
+msgstr "Disk limitini aştınız!"
+
+msgid "You have no new support questions!"
+msgstr "Yeni bir yardım isteği sorusu yok!"
+
+msgid "ISPCP - Client/Main Index"
+msgstr ""
+
+msgid "General information"
+msgstr "Genel bilgi"
+
+msgid "Account name"
+msgstr "Hesap adı"
+
+msgid "Main domain"
+msgstr "Ana alan adı"
+
+msgid "SQL support"
+msgstr ""
+
+msgid "Choose default language"
+msgstr "Dil seç"
+
+msgid "Traffic usage"
+msgstr ""
+
+msgid "Disk usage"
+msgstr "Disk kullanımı"
+
+msgid "User language updated successfully!"
+msgstr ""
+
+msgid "ISPCP - Client/Change Language"
+msgstr ""
+
+msgid "Subdomain list is empty!"
+msgstr ""
+
+msgid "Alias list is empty!"
+msgstr "Takma ad listesi boş!"
+
+msgid "ISPCP - Client/Manage Domains"
+msgstr ""
+
+msgid "Manage domains"
+msgstr ""
+
+msgid "Mount point"
+msgstr ""
+
+msgid "Forward"
+msgstr "Yönlendir"
+
+#, fuzzy
+msgid "Actions"
+msgstr "İşlem"
+
+msgid "Database user list is empty!"
+msgstr ""
+
+msgid "Database list is empty!"
+msgstr ""
+
+msgid "ISPCP - Client/Manage SQL"
+msgstr ""
+
+msgid "Manage SQL"
+msgstr ""
+
+msgid "Database users"
+msgstr ""
+
+msgid "Add SQL user"
+msgstr "SQL kullanıcısı ekle"
+
+msgid "Execute query"
+msgstr "Sorgu çalıştır"
+
+msgid "Please specify message subject!"
+msgstr ""
+
+msgid "Your message was sent!"
+msgstr "Mesajınız gönderildi!"
+
+msgid "ISPCP - Support system - New ticket"
+msgstr ""
+
+msgid "New ticket"
+msgstr "Yeni etiket"
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+
+msgid "Protected area deleted successfully!"
+msgstr ""
+
+msgid "Permission deny!"
+msgstr "Erişim reddedildi!"
+
+msgid "You do not have protected areas"
+msgstr "Korumalı alan yok!"
+
+msgid "Manage users and groups"
+msgstr ""
+
+msgid "Add user"
+msgstr "Kullanıcı ekle"
+
+msgid "Group name"
+msgstr "Grup adı"
+
+msgid "Group members"
+msgstr "Grup üyeleri"
+
+msgid "Add group"
+msgstr "Grup ekle"
+
+msgid "Group"
+msgstr "Grup"
+
+msgid "Add new protected area"
+msgstr "Yeni şifreli alan ekle"
+
+msgid "Please choose user or group"
+msgstr ""
+
+msgid "Please enter area name"
+msgstr ""
+
+msgid "Please enter area path"
+msgstr ""
+
+#, php-format
+msgid "%s doesn't exist"
+msgstr ""
+
+msgid "You can not protect area without selected user(s)"
+msgstr ""
+
+msgid "You can not protect area without selected group(s)"
+msgstr "Seçili grup olmadan alan koruması yapamazsınız"
+
+msgid "Protected area updated successfully!"
+msgstr ""
+
+msgid "Protected area created successfully!"
+msgstr ""
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+
+msgid "You have no users !"
+msgstr "Kullanıcınız yok !"
+
+msgid "You have no groups!"
+msgstr "Grubunuz yok!"
+
+msgid "Protect this area"
+msgstr ""
+
+msgid "Path"
+msgstr "Yol"
+
+msgid "Groups"
+msgstr "Gruplar"
+
+msgid "User auth"
+msgstr ""
+
+msgid "Group auth"
+msgstr ""
+
+msgid "Area name"
+msgstr "Kısım adı"
+
+msgid "Unprotect it"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "User was assigned to the %s group"
+msgstr "Kullanıcı guruba eklendi"
+
+#, fuzzy, php-format
+msgid "User was deleted from the %s group "
+msgstr "Kullanıcı guruba eklendi"
+
+msgid "User assign"
+msgstr ""
+
+msgid "Already in:"
+msgstr "Kullanıma hazır:"
+
+msgid "Member of group:"
+msgstr ""
+
+msgid "Select group:"
+msgstr ""
+
+msgid "Update user"
+msgstr ""
+
+msgid "Wrong username!"
+msgstr "Yanlış kullanıcı adı!"
+
+#, fuzzy
+msgid "Group already exists!"
+msgstr "Bu FTP hesabı mevcut!"
+
+msgid "Manage user"
+msgstr ""
+
+msgid "You have no users!"
+msgstr "Kullanıcınız yok!"
+
+msgid "User already exist !"
+msgstr ""
+
+msgid "SQL users limit reached!"
+msgstr ""
+
+msgid "Please type user name!"
+msgstr ""
+
+msgid "Please type user password!"
+msgstr ""
+
+msgid "Too user long password!"
+msgstr ""
+
+msgid "SQL-user not found! Maybe it was deleted by another user!"
+msgstr ""
+
+msgid "User name too long!"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Wildcards as %% and ? are not allowed!"
+msgstr "Wilcard olarak % ve ? kabul edilmiyor!"
+
+msgid "Specified SQL username name already exists!"
+msgstr ""
+
+msgid "SQL user successfully added!"
+msgstr ""
+
+msgid "ISPCP - Client/Add SQL User"
+msgstr ""
+
+msgid "SQL user name"
+msgstr ""
+
+msgid "In front the name"
+msgstr ""
+
+msgid "Behind the name"
+msgstr ""
+
+msgid "Add existing user"
+msgstr "Mevcut kullanıcı ekle"
+
+msgid "Existing SQL users"
+msgstr "Mevcut SQL kullanıcıları"
+
+msgid "Too long user password!"
+msgstr ""
+
+msgid "SQL user password was successfully changed!"
+msgstr ""
+
+msgid "ISPCP - Client/Change SQL User Password"
+msgstr ""
+
+msgid "Change SQL user password"
+msgstr "SQL kullanıcı parolasını değiştir"
+
+msgid "Change"
+msgstr "Değiştir"
+
+msgid "SQL user was removed successfully!"
+msgstr ""
+
+msgid "Please enter SQL query!"
+msgstr ""
+
+msgid "Cannot connect as MySQL administrator!"
+msgstr "MySQL yöneticisi olarak bağlanılamıyor!"
+
+msgid "SQL query has error"
+msgstr ""
+
+msgid "SQL query is ok"
+msgstr ""
+
+msgid "ISPCP - Client/Execute SQL Query"
+msgstr ""
+
+msgid "Execute SQL query"
+msgstr "SQL sorgusu çalıştır"
+
+msgid "SQL query"
+msgstr ""
+
+msgid "Query status"
+msgstr ""
+
+msgid "Query result"
+msgstr ""
+
+msgid "Execute"
+msgstr "Çalıştır"
+
+msgid "Protected area was deleted successful!"
+msgstr ""
+
+msgid "Hosting plans available for update"
+msgstr "Hosting planları güncelleme için uygun"
+
+msgid "Cancel order"
+msgstr "Sipariş iptali"
+
+msgid "Your order"
+msgstr "Siparişiniz"
+
+msgid "Purchase"
+msgstr ""
+
+msgid "There are no available updates"
+msgstr ""
+
+msgid "PHP Support: enabled"
+msgstr "PHP Desteği: açık"
+
+msgid "PHP Support: disabled"
+msgstr "PHP Desteği: kapalı"
+
+msgid "CGI Support: enabled"
+msgstr "CGI Desteği: açık"
+
+msgid "CGI Support: disabled"
+msgstr "CGI Desteği: kapalı"
+
+#, fuzzy
+msgid "Disk limit"
+msgstr "MB cinsinden disk"
+
+msgid "Traffic limit"
+msgstr ""
+
+msgid "Emails"
+msgstr ""
+
+msgid "FTPs"
+msgstr ""
+
+msgid "free of charge"
+msgstr "ücretsiz"
+
+msgid "There are no available hosting plans for update"
+msgstr ""
+
+msgid "ISPCP - Update hosting plan"
+msgstr ""
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr "Hosting paketi güncellemesi isteğiniz eklendi"
+
+msgid "[ispCP OrderPanel] - You have an update order"
+msgstr ""
+
+msgid ""
+"You have an update order for the account {ACCOUNT}\n"
+"\n"
+"\n"
+"Please login into your ispCP control panel for more details"
+msgstr ""
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "Hosting paketi güncellemesi isteğiniz silindi"
+
+msgid "Message was send!"
+msgstr "Mesaj gönderildi!"
+
+msgid "Webtools"
+msgstr "Web araçları"
+
+msgid "Customise error pages for your domain"
+msgstr ""
+
+msgid "Backup and restore settings"
+msgstr "Yedekleme ayarları"
+
+msgid "Access your mail through the web interface"
+msgstr "Web arayüzünden mail hesabınıza erişin"
+
+msgid "Access your files through the web interface"
+msgstr "Web arayüzünden dosyalarınıza erişin"
+
+msgid "Manage protected areas, users and groups"
+msgstr ""
+
+msgid "System tools"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Reseller statistics"
+msgstr ""
+
+msgid "Admin log"
+msgstr "Yönetici kaydı"
+
+msgid "Logout"
+msgstr ""
+
+msgid "Custom menus"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "User sessions"
+msgstr ""
+
+msgid "Lostpw email setup"
+msgstr ""
+
+msgid "Rootkit Log"
+msgstr ""
+
+msgid "Admin users"
+msgstr "Yönetici kullanıcılar"
+
+msgid "Normal users"
+msgstr "Normal kullanıcı"
+
+msgid "System messages"
+msgstr ""
+
+msgid "No new messages"
+msgstr "Yeni mesaj yok"
+
+msgid "Server traffic"
+msgstr ""
+
+msgid "Administrators list is empty!"
+msgstr ""
+
+msgid "Created by"
+msgstr "tarafında oluşturulmuştur"
+
+msgid "Resellers list is empty!"
+msgstr ""
+
+msgid "Change user interface"
+msgstr "Kullanıcı arayüzü değiştir"
+
+msgid "Not found user records matching the search criteria!"
+msgstr ""
+
+msgid "view aliases"
+msgstr "aliasları göster"
+
+msgid "Users list is empty!"
+msgstr "Kullanıcı listesi boş!"
+
+msgid "Details"
+msgstr "Detaylar"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr ""
+
+msgid "Are you sure you want to delete this account?"
+msgstr "Bu hesabı silmek istediğinize emin misiniz?"
+
+msgid "Administrators"
+msgstr "Yöneticiler"
+
+msgid "Resellers"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Creation date"
+msgstr "Oluşturma tarihi"
+
+#, php-format
+msgid "%1$s you are now logged as %2$s"
+msgstr ""
+
+msgid "Go back"
+msgstr "Geri dön"
+
+msgid "OK"
+msgstr "Tamam"
+
+msgid "Suspended"
+msgstr ""
+
+msgid "Error"
+msgstr "Hata"
+
+msgid "[Ticket] {SUBJ}"
+msgstr ""
+
+msgid ""
+"Hello {TO_NAME} !\n"
+"\n"
+"You have a new ticket to read"
+msgstr ""
+
+msgid "Email and FTP accounts"
+msgstr "Email ve FTP hesapları"
+
+msgid "Add mail user"
+msgstr "Mail kullanıcısı ekle"
+
+msgid "PhpMyAdmin"
+msgstr ""
+
+msgid "Filemanager"
+msgstr "Dosya yöneticisi"
+
+msgid "Web statistics"
+msgstr ""
+
+msgid "Group/User management"
+msgstr ""
+
+msgid "Email Accounts"
+msgstr "Email hesapları"
+
+msgid "FTP Accounts"
+msgstr "FTP Hesapları"
+
+msgid "Update Hosting Package"
+msgstr ""
+
+msgid "Domain mail"
+msgstr ""
+
+msgid "Email forward"
+msgstr "Email yönlendirme"
+
+msgid "Alias mail"
+msgstr ""
+
+msgid "Alias forward"
+msgstr "Takma ad yönlendir"
+
+msgid "Subdomain mail"
+msgstr ""
+
+msgid "Subdomain forward"
+msgstr ""
+
+msgid "Unknown type"
+msgstr ""
+
+msgid "Welcome new ispCP user {USERNAME}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP user type is: {USERTYPE}\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good luck with the ispCP system!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+
+msgid "Please activate your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"Use this link to activate your new ispCP password:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Your new ispCP login!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your ispCP login is: {USERNAME}\n"
+"Your ispCP password is: {PASSWORD}\n"
+"\n"
+"You can login at http://{BASE_SERVER_VHOST}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {NAME},\n"
+"This is an automatic confirmation for the order of the domain:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+
+msgid "Catchall account"
+msgstr ""
+
+msgid "Could not get config from database"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "You have to wait %d seconds"
+msgstr "Bekleyin"
+
+#, fuzzy, php-format
+msgid "You have been blocked for %d minutes"
+msgstr "Bir süre için engellendiniz"
+
+msgid "System is currently in servicemode! At time only administrators can login."
+msgstr ""
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr ""
+
+msgid "Domain status is not OK - Login aborted."
+msgstr ""
+
+msgid "Request from foreign host was blocked!"
+msgstr ""
+
+msgid "Domain alias"
+msgstr ""
+
+msgid "Manage Orders"
+msgstr ""
+
+msgid "Order settings"
+msgstr "Sipariş ayarları"
+
+msgid "Order email setup"
+msgstr "Sipariş email ayarları"
+
+msgid "Please fill up both data fields for password!"
+msgstr ""
+
+msgid "Addition in progress"
+msgstr "Ekleniyor"
+
+msgid "Modification in progress"
+msgstr ""
+
+msgid "Deletion in progress"
+msgstr ""
+
+#, fuzzy
+msgid "Being enabled"
+msgstr "açık"
+
+#, fuzzy
+msgid "Being suspended"
+msgstr "kapanmayı bekliyor"
+
+#, fuzzy
+msgid "Unknown error"
+msgstr "HATA: Bilinmeyen kullanıcı"
+
+msgid "hide aliases"
+msgstr ""
+
+msgid "You have reached your domains limit.<br>You can not add more domains!"
+msgstr ""
+
+msgid "You have a subdomains limit!<br>You can not add an user with unlimited subdomains!"
+msgstr ""
+
+msgid "You are exceeding your subdomains limit!"
+msgstr ""
+
+msgid "You have an aliases limit!<br>You can not add an user with unlimited aliases!"
+msgstr ""
+
+msgid "You Are Exceeding Your Alias Limit!"
+msgstr "Alias limitini aştınız!"
+
+msgid "You have a mail accounts limit!<br>You can not add an user with unlimited mail accounts!"
+msgstr ""
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr ""
+
+msgid "You have a FTP accounts limit!<br>You can not add an user with unlimited FTP accounts!"
+msgstr ""
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr ""
+
+msgid "You have a SQL databases limit!<br>You can not add an user with unlimited SQL databases!"
+msgstr ""
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr ""
+
+msgid "You have an SQL users limit!<br>You can not add an user with unlimited SQL users!"
+msgstr ""
+
+msgid "You have disabled SQL databases for this user!<br>You can not have SQL users here!"
+msgstr ""
+
+msgid "You are exceeding your SQL database limit!"
+msgstr ""
+
+msgid "You have a traffic limit!<br>You can not add an user with unlimited traffic!"
+msgstr ""
+
+msgid "You have a disk limit!<br>You can not add an user with unlimited disk!"
+msgstr ""
+
+msgid "You have a new order"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"you have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n"
+"\n"
+"Please login into your ISPCP control panel for more details.\n"
+"\n"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr "Yanlış alan adı yazımı!"
+
+msgid "You do not have permission to access this interface!"
+msgstr "Bü arayüze erişim izni yok!"
+
+msgid "Add On A Domain"
+msgstr "Bir Alan Adına Ekle"
+
+msgid "Continue"
+msgstr "Devam"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(örn. alan-adı.com)"
+
+msgid "Please fill out all needed fields!"
+msgstr ""
+
+msgid "Enter Address"
+msgstr "Adres gir"
+
+msgid "* denotes mandatory field."
+msgstr "* zorunlu alanları gösterir."
+
+msgid "Your Chart"
+msgstr "Grafiğiniz"
+
+msgid "Costs"
+msgstr ""
+
+msgid "Personal Data"
+msgstr "Kişisel Bilgi"
+
+msgid "Check Out"
+msgstr ""
+
+msgid "<b>Thank You for purchasing</b><br>You will receive an email with more details and information"
+msgstr "<b>Ödeme için teşekkür ederiz</b><br>Ayrıntılı bilgi içeren bir mail, adresinize gönderilmiştir"
+
+msgid "No available hosting packages"
+msgstr ""
+
+msgid "Webspace"
+msgstr "Webalanı"
+
+msgid "Domain Features"
+msgstr ""
+
+msgid "Package Features"
+msgstr "Paket özellikleri"
+
+msgid "Backup and Restore"
+msgstr "Yedekleme"
+
+msgid "Custom Error Pages"
+msgstr ""
+
+msgid "Protected Areas"
+msgstr ""
+
+msgid "Custom Apache Logs"
+msgstr ""
+
+msgid "Web & E-Mail Support"
+msgstr "Web ve E-Mail Desteği"
+
+msgid "Your Own Domain"
+msgstr "Alan adınız"
+
+msgid "ISPCP Control Panel"
+msgstr ""
+
+msgid "Automatic Updates"
+msgstr ""
+
+msgid "Package Price"
+msgstr "Paket Ücreti"
+
+msgid "Setup Fee"
+msgstr ""
+
+msgid "Performance"
+msgstr "Performans"
+
+msgid "ISPCP Reseller : Add Alias"
+msgstr ""
+
+msgid "You have no user records."
+msgstr "Kullanıcı kaydınız yok."
+
+msgid "ISPCP - Reseller/Add hosting plan"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Password"
+msgstr ""
+
+msgid "ISPCP - Reseller/Change Personal Data"
+msgstr ""
+
+msgid "ISPCP - Circular"
+msgstr ""
+
+msgid "Circular"
+msgstr ""
+
+msgid "Wrong domain ID!"
+msgstr "Yanlış alan adı IDsi!"
+
+msgid "Domain you are trying to remove has email accounts !<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has FTP accounts !<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has domain alias!<br> first remove them !"
+msgstr ""
+
+msgid "Domain you are trying to remove has subdomains accounts !<br> first remove them !"
+msgstr ""
+
+msgid "ISPCP - Manage Domain/Alias"
+msgstr ""
+
+msgid "Manage alias"
+msgstr ""
+
+msgid "Real domain"
+msgstr ""
+
+msgid "You have no alias records."
+msgstr "Hiç alias kaydiniz yok."
+
+msgid "Domain alias added for termination!"
+msgstr ""
+
+msgid "Domain alias not added for termination!"
+msgstr ""
+
+msgid "Domain alias added!"
+msgstr ""
+
+msgid "Domain alias not added!"
+msgstr ""
+
+msgid "Domain alias modified!"
+msgstr ""
+
+msgid "Domain alias not modified!"
+msgstr ""
+
+msgid "User terminated!"
+msgstr ""
+
+msgid "ISPCP - Domain/Edit"
+msgstr ""
+
+msgid "Edit Domain"
+msgstr "Alan adı düzenle"
+
+msgid "Domain properties"
+msgstr ""
+
+msgid "SQL Database"
+msgstr ""
+
+msgid "SQL User"
+msgstr ""
+
+msgid "Domain properties updated successfully!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be disabled !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are <b>%s</b> records on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> records, present on the system!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> Service can not be unlimited !<br>"
+msgstr ""
+
+#, php-format
+msgid "There are reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "You are exceeding reseller limits for the <b>%s</b> service!"
+msgstr ""
+
+#, php-format
+msgid "<b>%s</b> service can not be limited !<br>"
+msgstr ""
+
+#, php-format
+msgid "Specified number is smaller than <b>%s</b> amount, present on the system!"
+msgstr ""
+
+msgid "ISPCP - Users/Edit"
+msgstr ""
+
+msgid "Edit user"
+msgstr "Kullanıcı düzenle"
+
+msgid "Users list"
+msgstr "Kullanıcı listesi"
+
+msgid "ISPCP - Reseller/Edit hosting plan"
+msgstr ""
+
+msgid "View hosting plan"
+msgstr "Barındırma planlarını göster"
+
+msgid "Incorrect price!"
+msgstr ""
+
+msgid "Incorrect setup fee!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ISPCP - Reseller/Main Index"
+msgstr ""
+
+msgid "View details"
+msgstr "Detayları göster"
+
+msgid "User accounts"
+msgstr ""
+
+msgid "Mail account"
+msgstr "Mail hesabı"
+
+msgid "Extras"
+msgstr "Ekstralar"
+
+#, php-format
+msgid "%1$d / %2$d of <b>%3$d</b>"
+msgstr ""
+
+#, php-format
+msgid "%1$d / %2$d of <b>unlimited</b>"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "ISPCP - Reseller/Lostpw email setup"
+msgstr ""
+
+msgid "Lostpw email"
+msgstr ""
+
+msgid "Lostpw link"
+msgstr ""
+
+msgid "ISPCP - Reseller/Order email setup"
+msgstr ""
+
+msgid "Manage orders"
+msgstr ""
+
+msgid "Wrong order ID!"
+msgstr "Yanlış sipariş ID!"
+
+msgid "User added!"
+msgstr ""
+
+msgid "Customer order was removed successful!"
+msgstr ""
+
+msgid "ISPCP - Reseller/Order details"
+msgstr ""
+
+msgid "Order data updated successfully!"
+msgstr "Sipariş bilgisi güncellendi"
+
+msgid "Order date"
+msgstr "Sipariş tarihi"
+
+msgid "Hosting plan"
+msgstr "Hosting planı"
+
+msgid "Hosting details"
+msgstr "Hosting detayları"
+
+msgid "Order details"
+msgstr "Sipariş detayları"
+
+msgid "Customer data"
+msgstr "Müşteri bilgileri"
+
+msgid "Delete order"
+msgstr "Sipariş sil"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Bu siparişi silmek istediğinize emin misiniz"
+
+msgid "Add to the system"
+msgstr "Sisteme ekle"
+
+msgid "ISPCP - Reseller/Order settings"
+msgstr ""
+
+msgid "Header"
+msgstr "Başlık"
+
+msgid "Preview"
+msgstr ""
+
+msgid "Implementation URL"
+msgstr ""
+
+msgid "Footer"
+msgstr "Sayfasonu"
+
+msgid "ISPCP - Reseller/Order management"
+msgstr ""
+
+msgid "You do not have new orders!"
+msgstr "Yeni sipariş yok!"
+
+msgid "New order"
+msgstr "Yeni sipariş"
+
+msgid "Update order"
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "Order"
+msgstr "Sipariş"
+
+msgid "Add/Details"
+msgstr "Ekle/Detaylar"
+
+msgid "ISPCP - Users/Add user"
+msgstr ""
+
+msgid "Choose hosting plan"
+msgstr "Hosting planı seç"
+
+msgid "Personalise template"
+msgstr ""
+
+msgid "Next step"
+msgstr "Sonraki adım"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+
+msgid "ISPCP - User/Add user(step2)"
+msgstr ""
+
+msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
+msgstr ""
+
+msgid "Backup / Restore"
+msgstr "Yedekleme"
+
+msgid "Apache logs"
+msgstr "Apache kayıtları"
+
+msgid "Awstats"
+msgstr ""
+
+msgid "ISPCP - User/Add user"
+msgstr ""
+
+msgid "Add other domains to this account"
+msgstr "Bu hesaba başka alan adı ekle"
+
+msgid "There's a conflicting admin / reseller fix that first!"
+msgstr ""
+
+msgid "System error with Domain ID "
+msgstr ""
+
+msgid "This reseller has no domains yet."
+msgstr ""
+
+msgid "ISPCP - Users"
+msgstr ""
+
+msgid "Stats"
+msgstr ""
+
+msgid "Edit properties"
+msgstr "Özellikleri düzenle"
+
+msgid "You have no users."
+msgstr "Kullanıcınız yok."
+
+msgid "User data updated!"
+msgstr ""
+
+msgid "User data not updated!"
+msgstr ""
+
+msgid "This user has domain record !<br>First remove the domain from the system!"
+msgstr ""
+
+msgid "User not terminated!"
+msgstr ""
+
+msgid "ISPCP - Reseller : Support System: View Tickets"
+msgstr ""
+
+msgid "Message was sent."
+msgstr "Mesaj gönderildi."
+
+#~ msgid "Password generate"
+#~ msgstr "Parola oluştur"
+
+#~ msgid "</b> Address !<br>Edit reseller aborted!"
+#~ msgstr "</b> Adresi !<br>Bayi düzenleme işlemi durduruldu!"
+
+#~ msgid "wait to be added"
+#~ msgstr "eklenmeyi bekliyor"
+
+#~ msgid "wait to be modified"
+#~ msgstr "güncellenmeyi bekliyor"
+
+#~ msgid "wait to be deleted"
+#~ msgstr "silinmeyi bekliyor"
+
+#~ msgid "wait to be enabled"
+#~ msgstr "açılmayı bekliyor"
+
+#~ msgid "New"
+#~ msgstr "Yeni"
+
+#~ msgid "new"
+#~ msgstr "yeni"
+
+#~ msgid "delete"
+#~ msgstr "sil"

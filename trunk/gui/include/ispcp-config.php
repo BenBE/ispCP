@@ -1,0 +1,136 @@
+<?php
+/**
+ *  ispCP ω (OMEGA) a Virtual Hosting Control Panel
+ *
+ *  @copyright 	2001-2006 by moleSoftware GmbH
+ *  @copyright 	2006-2007 by ispCP | http://isp-control.net
+ *  @link 		http://isp-control.net
+ *  @author		ispCP Team (2007)
+ *
+ *  @license
+ *  This program is free software; you can redistribute it and/or modify it under
+ *  the terms of the MPL General Public License as published by the Free Software
+ *  Foundation; either version 1.1 of the License, or (at your option) any later
+ *  version.
+ *  You should have received a copy of the MPL Mozilla Public License along with
+ *  this program; if not, write to the Open Source Initiative (OSI)
+ *  http://opensource.org | osi@opensource.org
+ *
+ **/
+
+
+$cfg_obj = new Config("/etc/ispcp/ispcp.conf");
+
+if ($cfg_obj->status == "err") {
+    /* cannot open ispcp.conf file - we must show warning */
+    print "<center><b><font color=red>Cannot open the ispcp.conf config file !<br><br>Please contact your system administrator</font></b></center>";
+    die();
+}
+
+$cfg = $cfg_obj->getValues();
+
+class Config {
+    /*
+    this class will parse config file and get all variables avaible in PHP */
+    var $config_file;       /* config filename */
+    var $cfg_values;        /* array with  options and values that you can get and user :P :) */
+    var $status;
+
+	function Config($cfg = "/etc/ispcp/ispcp.conf") {
+        $this -> config_file = $cfg;
+        $this -> status = "ok";
+        if ($this->parseFile() == FALSE) {
+            $this->status = "err";
+            return FALSE;
+        }
+        else {
+            return TRUE;
+        }
+    }
+
+    function parseFile(){
+        /* open file ... parse it and put it in $cfg_values */
+        @$fd = fopen($this->config_file,'r');
+        if ($fd == FALSE) {
+            /* ooops error */
+            $this->status = "err";
+            return FALSE;
+        }
+
+        while(!feof($fd)){
+            $buffer = fgets($fd,4096);
+            /* remove spaces  */
+            $buffer = ltrim($buffer);
+            if (strlen($buffer) < 3) {
+                /* empty */
+            }
+            else if ($buffer[0] == '#' || $buffer[0] == ';') {
+                /* this is comment */
+            }
+            else if (strpos($buffer,'=') === false) {
+                /* have no = :( */
+            }
+            else {
+                $pair = explode('=',$buffer,2);
+
+                $pair[0] = ltrim($pair[0]);
+                $pair[0] = rtrim($pair[0]);
+
+                $pair[1] = ltrim($pair[1]);
+                $pair[1] = rtrim($pair[1]);
+
+                /* ok we have it :) */
+                $this->cfg_values[$pair[0]]=$pair[1];
+            }
+        }
+
+        fclose($fd);
+        return TRUE;
+    }
+
+    function getValues() {
+        return $this->cfg_values;
+    }
+}
+
+function decrypt_db_password ($db_pass) {
+    global $ispcp_db_pass_key, $ispcp_db_pass_iv;
+
+    if ($db_pass == '')
+		return '';
+
+    if (extension_loaded('mcrypt') || @dl('mcrypt.'.PHP_SHLIB_SUFFIX)) {
+
+        $text = @base64_decode($db_pass."\n");
+
+        /* Open the cipher */
+        $td = @mcrypt_module_open ('blowfish', '', 'cbc', '');
+
+        /* Create key */
+        $key = $ispcp_db_pass_key;
+
+        /* Create the IV and determine the keysize length */
+        $iv = $ispcp_db_pass_iv;
+
+        /* Intialize encryption */
+        @mcrypt_generic_init ($td, $key, $iv);
+
+        /* Decrypt encrypted string */
+        $decrypted = @mdecrypt_generic ($td, $text);
+
+        @mcrypt_module_close ($td);
+
+        /* Show string */
+        return trim($decrypted);
+
+    } else {
+
+        system_message("ERROR: The php-extension 'mcrypt' not loaded !");
+
+        die();
+
+    }
+
+}
+
+?>
