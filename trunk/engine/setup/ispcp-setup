@@ -2293,7 +2293,7 @@ sub setup_httpd {
 	}
 
 	#
-	# start fastcgi, suexec and rewrite mod
+	# start fastcgi, suexec, rewrite mod and ssl
 	#
 
 	if ( -e "/usr/sbin/a2enmod" ) {
@@ -2303,9 +2303,16 @@ sub setup_httpd {
 		sys_command_rs("/usr/sbin/a2enmod rewrite &> /tmp/ispcp-setup-services.log");
 		sys_command_rs("/usr/sbin/a2enmod fastcgi_ispcp &> /tmp/ispcp-setup-services.log");
 		sys_command_rs("/usr/sbin/a2enmod suexec &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2enmod suexec  &> /tmp/ispcp-setup-services.log");
 
 		if ($main::cfg{'AWSTATS_ACTIVE'} eq 'yes') {
 			sys_command_rs("/usr/sbin/a2enmod proxy &> /tmp/ispcp-setup-services.log");
+		}
+
+		if ( -e "/usr/bin/openssl" ) {
+			sys_command_rs("/usr/sbin/a2enmod ssl &> /tmp/ispcp-setup-services.log");
+			sys_command_rs("/usr/sbin/ispcp-make_cert.sh &> /tmp/ispcp-setup-services.log");
+			sys_command_rs("mv ssl.key $main::cfg{'ROOT_DIR'}/ssl.key");
 		}
 
 	}

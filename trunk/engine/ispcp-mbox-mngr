@@ -186,7 +186,22 @@ sub mbox_mngr_start_up {
     # getting initial data also must be done here;
     #
 
-    my $sql = "select * from mail_users;";
+    my $sql = "
+    	SELECT
+		mail_id,
+		mail_acc,
+		mail_pass,
+		mail_forward,
+		domain_id,
+		mail_type,
+		sub_id,
+		status,
+		mail_auto_respond,
+		quota,
+		mail_addr
+	FROM
+		mail_users
+    ";
 
     ($rs, $rdata) = doSQL($sql);
 
