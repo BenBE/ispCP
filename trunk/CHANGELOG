@@ -4,7 +4,17 @@ ispCP ω 1.0.0 Changelog
 / @TODO:                                                          \
 |         - AWStats:                                              |
 |               * gui: disable stats-alias in client menu         |
+|               * setup: complete SSL support                     |
 \_________________________________________________________________/
+
+2007-08-20 Geoffrey McRae
+    - SETUP:
+        * Added initial SSL support to the installer (incomplete, probarbly broken at the moment)
+    - TOOLS:
+        * Added "ispcp-make_cert.sh" script for SSL certificate generation
+    - ENGINE
+        * Fixed the rest of the "SELECT *" statments
+	* Cleaned up some of the long SQL statements to be easier to read.
 
 2007-08-18 Raphael Geissert
     - GUI:
