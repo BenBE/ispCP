@@ -74,3 +74,5 @@ tar
 wget
 bash
 libnet-libidn-perl
+openssl
+ca-certificates

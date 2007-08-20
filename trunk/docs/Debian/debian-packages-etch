@@ -1,4 +1,4 @@
-apache2
+pache2
 apache2-mpm-worker
 apache2.2-common
 apache2-utils
@@ -77,3 +77,5 @@ wget
 bash
 libnet-libidn-perl
 libapache2-mod-cband
+openssl
+ca-certificates

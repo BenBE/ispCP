@@ -22,7 +22,13 @@
     ErrorDocument 500 /errors/500.html
     ErrorDocument 503 /errors/503.html
 
-    Redirect /ispcp http://{BASE_SERVER_VHOST}
+    <IfModule mod_ssl.c>
+        Redirect /ispcp https://{BASE_SERVER_VHOST}:3400
+    </IfModule>
+
+    <IfModule !mod_ssl.c>
+        Redirect /ispcp http://{BASE_SERVER_VHOST}:3400
+    </IfModule>
 
     <IfModule mod_cband.c>
         CBandUser {DMN_GRP}

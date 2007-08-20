@@ -73,3 +73,5 @@ wget
 bash
 libnet-libidn-perl
 libapache2-mod-cband
+openssl
+ca-certificates
