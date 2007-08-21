@@ -9,6 +9,9 @@ ispCP ω 1.0.0 Changelog
 2007-08-21 Geoffrey McRae
     - GUI:
         * Updated chk_pass function to allow non alphanumeric letters in passwords
+		If strong passwords are turned on, passwords must contain
+			- At least one number or non alpha char
+			- At least one alpha char
 	* Added code to strip slashes if gpc_magic_quotes_runtime is on
 	* Removed escapeshellcmd from the add/edit email pages (why escape? its only going into a database, adodb will do this for us)	
 

@@ -133,7 +133,7 @@ function chk_password($password, $num = 50) {
 		return FALSE;
 
     if ($cfg['PASSWD_STRONG'])
-        return (bool)(preg_match("/[0-9!@#$%^&*()_+\-=\[\]\\\\;',./{}|:\"<>?`~]/", $password) AND preg_match("/[a-zA-Z]/", $password));
+    	return (bool)(preg_match("/[^a-z\\s]/i", $password) && preg_match("/[a-z]/i", $password));
     else
         return TRUE;
 }
