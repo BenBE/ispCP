@@ -140,8 +140,17 @@ function update_email_pass($sql)
     return;
   }
 
+/*
+  (gnif) Why escape it?
+  its never going to be used in a shell command,
+  this breaks non-alpha chars in passwords
+
   $pass = escapeshellcmd($_POST['pass']);
   $pass_rep = escapeshellcmd($_POST['pass_rep']);
+*/
+  $pass		= $_POST['pass'];
+  $pass_rep	= $_POST['pass_rep'];
+
   $mail_id = $_GET['id'];
   $mail_account = clean_input($_POST['mail_account']);
 

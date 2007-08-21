@@ -378,8 +378,15 @@ SQL_QUERY;
 
 function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
     if ($_POST['mail_type'] != 'forward') {
+    	/*
+	(gnif) why escape it?, its not used in a shell command
+
         $pass = escapeshellcmd($_POST['pass']);
         $pass_rep = escapeshellcmd($_POST['pass_rep']);
+	*/
+
+	$pass		= $_POST['pass'];
+	$pass_rep	= $_POST['pass_rep'];
     }
 
     if (!isset($_POST['username']) || $_POST['username'] === '') {

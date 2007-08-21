@@ -26,6 +26,15 @@ session_name('ispCP');
 if (!isset($_SESSION))
 	session_start();
 
+//Remove slashes from input, fixes un-expected behaviour with field inputs
+if (get_magic_quotes_gpc()) {
+	$_REQUEST	= array_map('stripslashes'	, $_REQUEST	);
+	$_GET		= array_map('stripslashes'	, $_GET		);
+	$_POST		= array_map('stripslashes'	, $_POST	);
+	$_COOKIE	= array_map('stripslashes'	, $_COOKIE	);
+	$_FILES		= array_map('stripslashes'	, $_FILES	);
+}
+
 // Error handling and debug
 //error_reporting(0);
 // setting for development edition - see all error messages
