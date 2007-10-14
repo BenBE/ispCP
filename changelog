@@ -1,0 +1,6 @@
+ispcp-omega (1.0.0-0+r850) unstable; urgency=low
+
+  * Initial release (Closes: #283005, #383934)
+
+ -- Raphael Geissert <atomo64@gmail.com>  Wed, 10 Oct 2007 21:30:49 -0500
+

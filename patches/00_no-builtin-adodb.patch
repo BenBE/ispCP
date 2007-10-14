@@ -1,0 +1,15 @@
+diff -urN orig/gui/include/sql.php new/gui/include/sql.php
+--- orig/gui/include/sql.php	2007-10-14 02:11:46.000000000 -0500
++++ new/gui/include/sql.php	2007-10-14 02:21:13.000000000 -0500
+@@ -18,9 +18,9 @@
+  *
+  **/
+ 
+-require (INCLUDEPATH.'/adodb/adodb.inc.php');
++require ('adodb/adodb.inc.php');
+ 
+-require (INCLUDEPATH.'/adodb/adodb-pager.inc.php');
++require ('adodb/adodb-pager.inc.php');
+ 
+ $cfg['DB_TYPE'] = $cfg['DATABASE_TYPE'];
+ 

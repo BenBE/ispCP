@@ -1,0 +1,44 @@
+
+GENERIC_SHORT_DESCRIPTION := web hosting control panel
+
+GENERIC_LARGE_DESCRIPTION := ispCP Omega is a web control panel system for administrators.?LF\
+ .?LF\
+ It provides a ready to use system for web servers with:?LF\
+  * Domains, subdomains and aliases support?LF\
+  * HTTP, FTP, smtp, pop, imap and SQL services?LF\
+  * Domain and SQL data backup-restore support?LF\
+  * Bandwidth and disk quota limits?LF\
+  * Admin, Reseller and Users administration levels?LF\
+  * Hosting packages?LF\
+  * Bandwidth and web traffic statistics
+
+control: control.languages
+	cp control.in control
+	cat control.languages >> control
+	
+	sed -i "s/#GENERIC_SHORT_DESCRIPTION#/$(GENERIC_SHORT_DESCRIPTION)/g;s/#GENERIC_LARGE_DESCRIPTION#/$(GENERIC_LARGE_DESCRIPTION)/g;" control
+	sed -i "s/\?LF/\n/g" control
+
+control.languages:
+	(cd $(CURDIR)/..;\
+		for lang_file in `find language-files -type f | grep -v '.po' | grep -v '.svn'`; do \
+			lang_machine=`cat $$lang_file \
+                        	| grep 'ispcp_languageSetlocaleValue ' \
+                                | cut '-d=' -f2 \
+                                | cut '-d ' -f2 \
+                                | sed 's/_/\-/g;s/.*/\L\0/'`; \
+			lang_human=`cat $$lang_file \
+                        	| grep 'ispcp_language ' \
+                                | cut '-d=' -f2 \
+                                | cut '-d ' -f2-`; \
+			sed "s/#LANG_MACHINE#/$$lang_machine/g;s/#LANG_HUMAN#/$$lang_human/g;" \
+			< $(CURDIR)/language.tpl >> $(CURDIR)/control.languages; \
+			sed "s/#LANG_MACHINE#/$$lang_machine/g;s:#LANG_FILE#:$$lang_file:g" \
+			< $(CURDIR)/language.install.tpl > $(CURDIR)/ispcp-omega-gui-lang-$$lang_machine.install; \
+		done; \
+	)
+	
+clean:
+	$(RM) control control.languages ispcp-omega-gui-lang-*.install
+
+.PHONY: clean

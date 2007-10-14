@@ -1,0 +1,10 @@
+debian/tmp/var/www/ispcp/engine var/www/ispcp/engine
+debian/tmp/var/www/ispcp/keys var/www/ispcp/keys
+debian/tmp/usr/sbin/*
+debian/tmp/etc/*
+debian/tmp/var/log/*
+debian/tmp/var/mail/*
+debian/tmp/var/www/awstats
+debian/tmp/var/www/fcgi
+debian/tmp/var/www/scoreboards
+debian/tmp/var/www/virtual

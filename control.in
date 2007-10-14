@@ -1,0 +1,65 @@
+Source: ispcp-omega
+Section: web
+Priority: extra
+Maintainer: Raphael Geissert <atomo64@gmail.com>
+Build-Depends: debhelper (>= 5), quilt (>= 0.4)
+Standards-Version: 3.7.2
+
+Package: ispcp-omega
+Architecture: all
+Depends: ispcp-omega-daemon, ispcp-omega-gui
+Description: #GENERIC_SHORT_DESCRIPTION#
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This is a meta package depending on all the base components
+
+Package: ispcp-omega-daemon
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ispcp-omega-backend (>= ${source:Version})
+Description: #GENERIC_SHORT_DESCRIPTION# - system daemon
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains the daemon used to connect the GUI with the backend
+
+Package: ispcp-omega-backend
+Architecture: all
+Depends: ${shlibs:Depends}, ${perl:Depends}, ${misc:Depends}, apache2-mpm-worker | apache2, lsb-base, bind9, postgrey, postfix, mysql-server, mysql-client, iptables, bzip2
+Recommends: libapache2-mod-cband, libapache2-mod-fastcgi, chkrootkit, rkhunter, proftpd-mysql, courier-authdaemon, courier-base, courier-imap, courier-maildrop, courier-pop
+Description: #GENERIC_SHORT_DESCRIPTION# - backend scripts
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains the scripts conforming the backend
+
+Package: ispcp-omega-gui
+Architecture: all
+Depends: ${misc:Depends}, libphp-adodb, php5-cgi | php4-cgi | php5 | php4, php5-mysql | php4-mysql, php5-mhash | php4-mhash, php5-mcrypt | php4-mcrypt, 
+Recommends: ispcp-omega-backend (>= ${source:Version}), ispcp-omega-gui-filemanager (>= ${source:Version}), ispcp-omega-gui-pma (>= ${source:Version}), ispcp-omega-gui-webmail (>= ${source:Version}), php5-adodb, php5-idn
+Description: #GENERIC_SHORT_DESCRIPTION# - web frontend
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains the default filemanager
+
+Package: ispcp-omega-gui-filemanager
+Architecture: all
+Depends: ispcp-omega-gui (>= ${source:Version}), ${misc:Depends}
+Description: #GENERIC_SHORT_DESCRIPTION# - GUI's file manager
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains the default filemanager
+
+Package: ispcp-omega-gui-pma
+Architecture: all
+Depends: ispcp-omega-gui (>= ${source:Version}), ${misc:Depends}
+Description: #GENERIC_SHORT_DESCRIPTION# - phpmyadmin
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains phpmyadmin
+
+Package: ispcp-omega-gui-webmail
+Architecture: all
+Depends: ispcp-omega-gui (>= ${source:Version}), ${misc:Depends}, php5 | php4, php5-imap | php4-imap
+Description: #GENERIC_SHORT_DESCRIPTION# - GUI's webmail
+ #GENERIC_LARGE_DESCRIPTION#
+ .
+ This package contains the default webmail
+

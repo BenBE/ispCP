@@ -1,0 +1,7 @@
+ispcp-omega for Debian
+-------------------
+
+This package is a big effort to make ispCP play nice with Debian rules (policy).
+If you have any idea or suggestion don't hesitate to contact me so the changes are done "from upstream" ;-)
+
+ -- Raphael Geissert <atomo64@gmail.com>  Wed, 10 Oct 2007 21:30:49 -0500
