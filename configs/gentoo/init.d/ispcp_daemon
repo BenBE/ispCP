@@ -1,0 +1,57 @@
+#!/sbin/runscript
+#
+# ispCP ω (OMEGA) a Virtual Hosting Control System
+# Copyright (c) 2008 by ispCP
+# http://www.isp-control.net
+#
+#
+# License:
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of the MPL Mozilla Public License
+#    as published by the Free Software Foundation; either version 1.1
+#    of the License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    MPL Mozilla Public License for more details.
+#
+#    You may have received a copy of the MPL Mozilla Public License
+#    along with this program.
+#
+#    An on-line copy of the MPL Mozilla Public License can be found
+#    http://www.mozilla.org/MPL/MPL-1.1.html
+#
+#
+# The ispCP Home Page is at:
+#
+#    http://www.isp-control.net
+#
+
+NAME="ispCP Deamon"
+DAEMON=/var/www/ispcp/daemon/ispcp_daemon
+PID=/var/run/ispcp-daemon.pid
+DESC="ispCP GUI-Backend communication Daemon"
+
+opts=""
+
+depend() {
+    need net
+    after apache mysql
+    use logger
+}
+
+start() {
+    ebegin "Starting $NAME:"
+    start-stop-daemon --start --exec $DAEMON \
+                --pidfile $PID
+    eend $?
+}
+
+
+stop() {
+    ebegin "Stopping $NAME:"
+    start-stop-daemon --stop --exec $DAEMON \
+                --pidfile $PID
+    eend $?
+}
