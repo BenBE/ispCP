@@ -457,7 +457,7 @@ final class UserIO {
 	public static function DB($value) {
 		if (!self::$_dbutf8) $value = utf8_decode($value);
 		// @todo do we need addslashes with pdo prepared statements?
-		return addslashes($value)
+		return addslashes($value);
 	}
 
 }
