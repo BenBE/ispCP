@@ -33,11 +33,11 @@ if (UserIO::GET_Domain('uname') != ''
 
 	$uname = UserIO::POST_Domain('uname');
 	$upass = UserIO::POST_String('upass', true, true);
-	
+
 	check_input($uname);
 	check_input($upass);
 
-	if (register_user($uname, $upass) {
+	if (register_user($uname, $upass)) {
 		redirect_to_level_page();
 	}
 
