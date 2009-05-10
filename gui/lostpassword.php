@@ -103,7 +103,7 @@ if (UserIO::POST_String('uname') != '') {
 		);
 
 		if ($_SESSION['image'] == $capcode) {
-			if (requestpassword($uname) {
+			if (requestpassword($uname)) {
 				$tpl->assign(
 					array(
 						'TR_MESSAGE' => tr('The password was requested'),
