@@ -97,9 +97,9 @@ final class UserIO {
 	 * Unsets a GET variable (why ever...)
 	 * @param $name string name of parameter
 	 */
-	public static function POST_unset($name)
+	public static function GET_unset($name)
 	{
-		if (isset($_POST[$name])) unset($_POST[$name]);
+		if (isset($_GET[$name])) unset($_GET[$name]);
 	}
 	
 	/**
