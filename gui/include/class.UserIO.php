@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: $
+ * @version		SVN: $Id$
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -167,7 +167,7 @@ final class UserIO {
 	}	
 
 	/**
-	 * Returns validated IP string value of _GET parameter
+	 * Returns validated IP (v4) string value of _GET parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given
 	 * @return string cleaned value, '' if not available, false if not correct 
@@ -176,6 +176,26 @@ final class UserIO {
 		$ip = UserIO::GET_String($name);
 		if (!empty($ip)) {
 			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === TRUE) {
+				$result = $ip;
+			} else {
+				$result = $mandatory ? false : '';
+			}
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+	
+	/**
+	 * Returns validated IP (v6) string value of _GET parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false if not correct 
+	 */
+	public static function GET_IPv6($name, $mandatory=false) {
+		$ip = UserIO::GET_String($name);
+		if (!empty($ip)) {
+			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) === TRUE) {
 				$result = $ip;
 			} else {
 				$result = $mandatory ? false : '';
