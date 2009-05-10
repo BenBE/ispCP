@@ -26,6 +26,9 @@
  *   http://www.fsf.org/licensing/licenses/gpl.txt
  */
 
+
+define('OVERRIDE_PURIFIER', true);
+
 /**
  * Class to implement general user input/output handling and provide 
  * some basic validations. Currently this class assumes that the internal 
@@ -59,10 +62,13 @@ final class UserIO {
 	 */
 	private static $_dbutf8 = true;
 	
+	private static $GET = array();
+	private static $POST = array();
+	
 	/**
 	 * Initialize class, sets _stripslash
 	 */
-	public static function init() {
+	private function init() {
 		if (get_magic_quotes_gpc()) {
 			self::$_stripslash = true;
 		} else {
@@ -74,25 +80,44 @@ final class UserIO {
 			self::$_dbutf8 = 'ISO';
 		}
 	}
-	
-	
+
 	// --- Input handlers -------------------------------------------------
+
+	/**
+	 * Returns true if a GET parameter is present 
+	 * @param $name string name of parameter
+	 * @return boolean true if parameter is set
+	 */
+	public static function GET_isset($name)
+	{
+		return isset($_GET[$name]);
+	}	
+	
+	/**
+	 * Unsets a GET variable (why ever...)
+	 * @param $name string name of parameter
+	 */
+	public static function POST_unset($name)
+	{
+		if (isset($_POST[$name])) unset($_POST[$name]);
+	}
 	
 	/**
 	 * Returns string (no linefeeds) value of _GET parameter.
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
 	 * @param $trim boolean trim return value (default false)
+	 * @param $default string default value if not mandatory and not set
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function GET_String($name, $mandatory=false, $trim=false) {
+	public static function GET_String($name, $mandatory=false, $trim=false, $default='') {
 		if (isset($_GET[$name])) {
 			$result = str_replace(array("\n", "\r"), '', $_GET[$name]);
 			if ($trim) $result = trim($result);
 			if (self::$_stripslash) $result = stripslashes($result);
 			if ($mandatory && empty($result)) $result = false;
 		} else {
-			$result = $mandatory ? false : '';
+			$result = $mandatory ? false : $default;
 		}
 		return $result;
 	}
@@ -101,14 +126,15 @@ final class UserIO {
 	 * Returns integer value of _GET parameter 
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @param $default integer default value if not mandatory and not set
 	 * @return integer cleaned value, 0 if not available, false on error
 	 */
-	public static function GET_Int($name, $mandatory=false) {
+	public static function GET_Int($name, $mandatory=false, $default=0) {
 		$value = UserIO::GET_String($name, $mandatory, true);
 		if ($value !== false) {
 			$result = intval($value);
 		} else {
-			$result = $mandatory ? false : 0;
+			$result = $mandatory ? false : $default;
 		}
 		return $result;
 	}
@@ -167,7 +193,23 @@ final class UserIO {
 			$result = $mandatory ? false : '';
 		}
 		return $result;
-	}	
+	}
+	
+	/**
+	 * Returns validated domain string value of _GET parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function GET_Domain($name, $mandatory=false) {
+		$domain = UserIO::GET_String($name);
+		if (!empty($domain)) {
+			$result = encode_idna($domain);
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
 
 	/**
 	 * Returns validated IP (v4) string value of _GET parameter
@@ -178,7 +220,7 @@ final class UserIO {
 	public static function GET_IP($name, $mandatory=false) {
 		$ip = UserIO::GET_String($name);
 		if (!empty($ip)) {
-			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === TRUE) {
+			if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === $ip) {
 				$result = $ip;
 			} else {
 				$result = $mandatory ? false : '';
@@ -198,7 +240,7 @@ final class UserIO {
 	public static function GET_IPv6($name, $mandatory=false) {
 		$ip = UserIO::GET_String($name);
 		if (!empty($ip)) {
-			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) === TRUE) {
+			if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === $ip) {
 				$result = $ip;
 			} else {
 				$result = $mandatory ? false : '';
@@ -209,6 +251,24 @@ final class UserIO {
 		return $result;
 	}
 	
+	/**
+	 * Returns true if a POST parameter is present 
+	 * @param $name string name of parameter
+	 * @return boolean true if parameter is set
+	 */
+	public static function POST_isset($name)
+	{
+		return isset($_POST[$name]);
+	}
+	
+	/**
+	 * Unsets a post variable (why ever...)
+	 * @param $name string name of parameter
+	 */
+	public static function POST_unset($name)
+	{
+		if (isset($_POST[$name])) unset($_POST[$name]);
+	}
 	
 	/**
 	 * Returns string (no linefeeds) value of _POST parameter.
@@ -300,7 +360,23 @@ final class UserIO {
 		}
 		return $result;
 	}	
-
+	
+	/**
+	 * Returns validated domain string value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function POST_Domain($name, $mandatory=false) {
+		$domain = UserIO::POST_String($name);
+		if (!empty($domain)) {
+			$result = encode_idna($domain);
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+	
 	/**
 	 * Returns validated IP (v4) string value of _POST parameter
 	 * @param $name string name of parameter
@@ -340,7 +416,21 @@ final class UserIO {
 		}
 		return $result;
 	}
-	
+
+	/**
+	 * Returns array from _POST parameter 
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return aray empty array if not available, false on error
+	 */
+	public static function POST_Array($name, $mandatory=false) {
+		if (isset($_POST[$name]) && is_array($_POST[$name])) {
+			$result = $_POST[$name];
+		} else {
+			$result = $mandatory ? false : array();
+		}
+		return $result;
+	}
 
 	/**
 	 * Returns string (no linefeeds) value of _COOKIE parameter.
