@@ -87,9 +87,9 @@ final class UserIO {
 	 */
 	public static function GET_String($name, $mandatory=false, $trim=false) {
 		if (isset($_GET[$name])) {
-			$result = str_replace(array("\n", "\r"), '', $_GET['name']);
+			$result = str_replace(array("\n", "\r"), '', $_GET[$name]);
 			if ($trim) $result = trim($result);
-			if (self::$_stripslash) $result = stripslash($result);
+			if (self::$_stripslash) $result = stripslashes($result);
 			if ($mandatory && empty($result)) $result = false;
 		} else {
 			$result = $mandatory ? false : '';
@@ -138,9 +138,9 @@ final class UserIO {
 	 */
 	public static function GET_Memo($name, $mandatory=false, $trim=false) {
 		if (isset($_GET[$name])) {
-			$result = $_GET['name'];
+			$result = $_GET[$name];
 			if ($trim) $result = trim($result);
-			if (self::$_stripslash) $result = stripslash($result);			
+			if (self::$_stripslash) $result = stripslashes($result);			
 			if ($mandatory && empty($result)) $result = false;
 		} else {
 			$result = $mandatory ? false : '';
@@ -157,8 +157,8 @@ final class UserIO {
 	public static function GET_EMail($name, $mandatory=false) {
 		$email = UserIO::GET_String($name);
 		if (!empty($email)) {
-			$email=filter_var($email, FILTER_SANITIZE_EMAIL);
-			if ( filter_var($email, FILTER_VALIDATE_EMAIL)  === TRUE ) {
+			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+			if (filter_var($email, FILTER_VALIDATE_EMAIL) === $email) {
 				$result = $email;
 			} else {
 				$result = $mandatory ? false : '';
@@ -219,9 +219,9 @@ final class UserIO {
 	 */
 	public static function POST_String($name, $mandatory=false, $trim=false) {
 		if (isset($_POST[$name])) {
-			$result = str_replace(array("\n", "\r"), '', $_POST['name']);
+			$result = str_replace(array("\n", "\r"), '', $_POST[$name]);
 			if ($trim) $result = trim($result);
-			if (self::$_stripslash) $result = stripslash($result);
+			if (self::$_stripslash) $result = stripslashes($result);
 			if ($mandatory && empty($result)) $result = false;
 		} else {
 			$result = $mandatory ? false : '';
@@ -270,9 +270,9 @@ final class UserIO {
 	 */
 	public static function POST_Memo($name, $mandatory=false, $trim=false) {
 		if (isset($_POST[$name])) {
-			$result = $_POST['name'];
+			$result = $_POST[$name];
 			if ($trim) $result = trim($result);
-			if (self::$_stripslash) $result = stripslash($result);			
+			if (self::$_stripslash) $result = stripslashes($result);			
 			if ($mandatory && empty($result)) $result = false;
 		} else {
 			$result = $mandatory ? false : '';
@@ -351,9 +351,9 @@ final class UserIO {
 	 */
 	public static function COOKIE_String($name, $mandatory=false, $trim=false) {
 		if (isset($_COOKIE[$name])) {
-			$result = str_replace(array("\n", "\r"), '', $_COOKIE['name']);
+			$result = str_replace(array("\n", "\r"), '', $_COOKIE[$name]);
 			if ($trim) $result = trim($result);
-			if (self::$_stripslash) $result = stripslash($result);
+			if (self::$_stripslash) $result = stripslashes($result);
 			if ($mandatory && empty($result)) $result = false;
 		} else {
 			$result = $mandatory ? false : '';
@@ -401,7 +401,7 @@ final class UserIO {
 	public static function SERVER_String($name) {
 		if (isset($_COOKIE[$name])) {
 			// server variables shouldn't have line breaks
-			$result = str_replace(array("\n", "\r"), '', $_COOKIE['name']);
+			$result = str_replace(array("\n", "\r"), '', $_COOKIE[$name]);
 		} else {
 			$result = '';
 		}
