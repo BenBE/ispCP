@@ -154,8 +154,12 @@ final class UserIO {
 	public static function GET_EMail($name, $mandatory=false) {
 		$email = UserIO::GET_String($name);
 		if (!empty($email)) {
-			// @todo validate email address...
-			$result = $email;
+			$email=filter_var($email, FILTER_SANITIZE_EMAIL);
+			if ( filter_var($email, FILTER_VALIDATE_EMAIL)  === TRUE ) {
+				$result = $email;
+			} else {
+				$result = $mandatory ? false : '';
+			}
 		} else {
 			$result = $mandatory ? false : '';
 		}
@@ -171,8 +175,11 @@ final class UserIO {
 	public static function GET_IP($name, $mandatory=false) {
 		$ip = UserIO::GET_String($name);
 		if (!empty($ip)) {
-			// @todo validate ip address...
-			$result = $ip;
+			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === TRUE) {
+				$result = $ip;
+			} else {
+				$result = $mandatory ? false : '';
+			}
 		} else {
 			$result = $mandatory ? false : '';
 		}
