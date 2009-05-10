@@ -75,12 +75,15 @@ final class UserIO {
 		}
 	}
 	
+	
+	// --- Input handlers -------------------------------------------------
+	
 	/**
 	 * Returns string (no linefeeds) value of _GET parameter.
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
 	 * @param $trim boolean trim return value (default false)
-	 * @return string cleaned value, '' if not available
+	 * @return string cleaned value, '' if not available, false on error
 	 */
 	public static function GET_String($name, $mandatory=false, $trim=false) {
 		if (isset($_GET[$name])) {
@@ -149,7 +152,7 @@ final class UserIO {
 	 * Returns validated E-Mail string value of _GET parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given
-	 * @return string cleaned value, '' if not available, false if not correct 
+	 * @return string cleaned value, '' if not available, false on error
 	 */
 	public static function GET_EMail($name, $mandatory=false) {
 		$email = UserIO::GET_String($name);
@@ -170,7 +173,7 @@ final class UserIO {
 	 * Returns validated IP (v4) string value of _GET parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given
-	 * @return string cleaned value, '' if not available, false if not correct 
+	 * @return string cleaned value, '' if not available, false on error
 	 */
 	public static function GET_IP($name, $mandatory=false) {
 		$ip = UserIO::GET_String($name);
@@ -190,7 +193,7 @@ final class UserIO {
 	 * Returns validated IP (v6) string value of _GET parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given
-	 * @return string cleaned value, '' if not available, false if not correct 
+	 * @return string cleaned value, '' if not available, false on error
 	 */
 	public static function GET_IPv6($name, $mandatory=false) {
 		$ip = UserIO::GET_String($name);
@@ -206,6 +209,208 @@ final class UserIO {
 		return $result;
 	}
 	
+	
+	/**
+	 * Returns string (no linefeeds) value of _POST parameter.
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @param $trim boolean trim return value (default false)
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function POST_String($name, $mandatory=false, $trim=false) {
+		if (isset($_POST[$name])) {
+			$result = str_replace(array("\n", "\r"), '', $_POST['name']);
+			if ($trim) $result = trim($result);
+			if (self::$_stripslash) $result = stripslash($result);
+			if ($mandatory && empty($result)) $result = false;
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns integer value of _POST parameter 
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @return integer cleaned value, 0 if not available, false on error
+	 */
+	public static function POST_Int($name, $mandatory=false) {
+		$value = UserIO::POST_String($name, $mandatory, true);
+		if ($value !== false) {
+			$result = intval($value);
+		} else {
+			$result = $mandatory ? false : 0;
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns float value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @return float cleaned value, 0 if not available, false on error
+	 */
+	public static function POST_Float($name, $mandatory=false) {
+		$value = UserIO::POST_String($name, $mandatory, true);
+		if ($value !== false) {
+			$result = floatval($value);
+		} else {
+			$result = $mandatory ? false : 0;
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns string (with linefeeds) value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @param $trim boolean trim return value (default false)
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function POST_Memo($name, $mandatory=false, $trim=false) {
+		if (isset($_POST[$name])) {
+			$result = $_POST['name'];
+			if ($trim) $result = trim($result);
+			if (self::$_stripslash) $result = stripslash($result);			
+			if ($mandatory && empty($result)) $result = false;
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns validated E-Mail string value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false if not correct 
+	 */
+	public static function POST_EMail($name, $mandatory=false) {
+		$email = UserIO::POST_String($name);
+		if (!empty($email)) {
+			$email=filter_var($email, FILTER_SANITIZE_EMAIL);
+			if ( filter_var($email, FILTER_VALIDATE_EMAIL)  === TRUE ) {
+				$result = $email;
+			} else {
+				$result = $mandatory ? false : '';
+			}
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}	
+
+	/**
+	 * Returns validated IP (v4) string value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function POST_IP($name, $mandatory=false) {
+		$ip = UserIO::POST_String($name);
+		if (!empty($ip)) {
+			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) === TRUE) {
+				$result = $ip;
+			} else {
+				$result = $mandatory ? false : '';
+			}
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+	
+	/**
+	 * Returns validated IP (v6) string value of _POST parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function POST_IPv6($name, $mandatory=false) {
+		$ip = UserIO::POST_String($name);
+		if (!empty($ip)) {
+			if ( filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) === TRUE) {
+				$result = $ip;
+			} else {
+				$result = $mandatory ? false : '';
+			}
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+	
+
+	/**
+	 * Returns string (no linefeeds) value of _COOKIE parameter.
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @param $trim boolean trim return value (default false)
+	 * @return string cleaned value, '' if not available, false on error
+	 */
+	public static function COOKIE_String($name, $mandatory=false, $trim=false) {
+		if (isset($_COOKIE[$name])) {
+			$result = str_replace(array("\n", "\r"), '', $_COOKIE['name']);
+			if ($trim) $result = trim($result);
+			if (self::$_stripslash) $result = stripslash($result);
+			if ($mandatory && empty($result)) $result = false;
+		} else {
+			$result = $mandatory ? false : '';
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns integer value of _COOKIE parameter 
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @return integer cleaned value, 0 if not available, false on error
+	 */
+	public static function COOKIE_Int($name, $mandatory=false) {
+		$value = UserIO::COOKIE_String($name, $mandatory, true);
+		if ($value !== false) {
+			$result = intval($value);
+		} else {
+			$result = $mandatory ? false : 0;
+		}
+		return $result;
+	}
+
+	/**
+	 * Returns float value of _COOKIE parameter
+	 * @param $name string name of parameter
+	 * @param $mandatory boolean if true, the value must be given (default false)
+	 * @return float cleaned value, 0 if not available, false on error
+	 */
+	public static function COOKIE_Float($name, $mandatory=false) {
+		$value = UserIO::COOKIE_String($name, $mandatory, true);
+		if ($value !== false) {
+			$result = floatval($value);
+		} else {
+			$result = $mandatory ? false : 0;
+		}
+		return $result;
+	}
+	
+	/**
+	 * Returns string (no linefeeds) value of _SERVER parameter.
+	 * @param $name string name of parameter
+	 * @return string cleaned value, '' if not available
+	 */
+	public static function SERVER_String($name) {
+		if (isset($_COOKIE[$name])) {
+			// server variables shouldn't have line breaks
+			$result = str_replace(array("\n", "\r"), '', $_COOKIE['name']);
+		} else {
+			$result = '';
+		}
+		return $result;
+	}
+
+	
+	// --- Output handlers ------------------------------------------------
+	
 	/**
 	 * Returns html string value
 	 * @param $value string input string 
@@ -213,7 +418,7 @@ final class UserIO {
 	 */
 	public static function HTML($value) {
 		// i assume UTF-8 is always wanted in ispcp
-		return htmlentities($value, ENT_COMPAT, self::$_encoding); 
+		return htmlentities($value, ENT_COMPAT, 'UTF-8'); 
 	}
 	
 	/**
@@ -251,7 +456,8 @@ final class UserIO {
 	 */
 	public static function DB($value) {
 		if (!self::$_dbutf8) $value = utf8_decode($value);
-		// @todo do we need addslashes with prepared statements?
+		// @todo do we need addslashes with pdo prepared statements?
 		return addslashes($value)
 	}
+
 }
