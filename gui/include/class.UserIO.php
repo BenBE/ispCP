@@ -106,11 +106,11 @@ final class UserIO {
 	 * Returns string (no linefeeds) value of _GET parameter.
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
-	 * @param $trim boolean trim return value (default false)
+	 * @param $trim boolean trim return value (default true)
 	 * @param $default string default value if not mandatory and not set
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function GET_String($name, $mandatory=false, $trim=false, $default='') {
+	public static function GET_String($name, $mandatory=false, $trim=true, $default='') {
 		if (isset($_GET[$name])) {
 			$result = str_replace(array("\n", "\r"), '', $_GET[$name]);
 			if ($trim) $result = trim($result);
@@ -159,10 +159,10 @@ final class UserIO {
 	 * Returns string (with linefeeds) value of _GET parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
-	 * @param $trim boolean trim return value (default false)
+	 * @param $trim boolean trim return value (default true)
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function GET_Memo($name, $mandatory=false, $trim=false) {
+	public static function GET_Memo($name, $mandatory=false, $trim=true) {
 		if (isset($_GET[$name])) {
 			$result = $_GET[$name];
 			if ($trim) $result = trim($result);
@@ -274,10 +274,10 @@ final class UserIO {
 	 * Returns string (no linefeeds) value of _POST parameter.
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
-	 * @param $trim boolean trim return value (default false)
+	 * @param $trim boolean trim return value (default true)
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function POST_String($name, $mandatory=false, $trim=false) {
+	public static function POST_String($name, $mandatory=false, $trim=true) {
 		if (isset($_POST[$name])) {
 			$result = str_replace(array("\n", "\r"), '', $_POST[$name]);
 			if ($trim) $result = trim($result);
@@ -325,10 +325,10 @@ final class UserIO {
 	 * Returns string (with linefeeds) value of _POST parameter
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
-	 * @param $trim boolean trim return value (default false)
+	 * @param $trim boolean trim return value (default true)
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function POST_Memo($name, $mandatory=false, $trim=false) {
+	public static function POST_Memo($name, $mandatory=false, $trim=true) {
 		if (isset($_POST[$name])) {
 			$result = $_POST[$name];
 			if ($trim) $result = trim($result);
@@ -439,7 +439,7 @@ final class UserIO {
 	 * @param $trim boolean trim return value (default false)
 	 * @return string cleaned value, '' if not available, false on error
 	 */
-	public static function COOKIE_String($name, $mandatory=false, $trim=false) {
+	public static function COOKIE_String($name, $mandatory=false, $trim=true) {
 		if (isset($_COOKIE[$name])) {
 			$result = str_replace(array("\n", "\r"), '', $_COOKIE[$name]);
 			if ($trim) $result = trim($result);
