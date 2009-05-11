@@ -76,11 +76,13 @@ function add_new_button(&$sql) {
 	} else if (UserIO::POST_GetString('uaction') != 'new_button') {
 		return;
 	} else {
-		$button_name = clean_input($_POST['bname'], true);
-		$button_link = clean_input($_POST['blink']);
-		$button_target = clean_input($_POST['btarget']);
-		$button_view = $_POST['bview'];
+		$button_name = UserIO::POST_String('bname');
+		$button_link = UserIO::POST_String('blink');
+		$button_target = UserIO::POST_String('btarget');
+		$button_view = UserIO::POST_String('bview');
 
+		// @todo button_name should only have characters and numbers?
+		
 		if (empty($button_name) || empty($button_link)) {
 			set_page_message(tr('Missing or incorrect data input!'));
 			return;
@@ -211,14 +213,14 @@ function edit_button(&$tpl, &$sql) {
 function update_button(&$sql) {
 	if (!UserIO::POST_isset('uaction')) {
 		return;
-	} else if (UserIO::POST_GetString('uaction') != 'edit_button') {
+	} else if (UserIO::POST_String('uaction') != 'edit_button') {
 		return;
 	} else {
-		$button_name = clean_input($_POST['bname'], true);
-		$button_link = clean_input($_POST['blink']);
-		$button_target = clean_input($_POST['btarget']);
-		$button_view = $_POST['bview'];
-		$button_id = $_POST['eid'];
+		$button_name = UserIO::POST_String('bname');
+		$button_link = UserIO::POST_String('blink');
+		$button_target = UserIO::POST_String('btarget');
+		$button_view = UserIO::POST_String('bview');
+		$button_id = UserIO::POST_Int('eid');
 
 		if (empty($button_name) || empty($button_link) || empty($button_id)) {
 			set_page_message(tr('Missing or incorrect data input!'));

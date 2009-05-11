@@ -47,24 +47,24 @@ $tpl->assign(
 function update_data(&$sql) {
 	global $edit_id;
 
-	if (isset($_POST['Submit']) && UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'edit_user') {
+	if (UserIO::POST_isset('Submit')) && UserIO::POST_GetString('uaction') == 'edit_user') {
 		if (check_user_data()) {
 			$user_id	= $_SESSION['user_id'];
-			$fname		= clean_input($_POST['fname'], true);
-			$lname		= clean_input($_POST['lname'], true);
-			$firm		= clean_input($_POST['firm'], true);
-			$gender		= clean_input($_POST['gender'], true);
-			$zip		= clean_input($_POST['zip'], true);
-			$city		= clean_input($_POST['city'], true);
-			$state		= clean_input($_POST['state'], true);
-			$country	= clean_input($_POST['country'], true);
-			$email		= clean_input($_POST['email'], true);
-			$phone		= clean_input($_POST['phone'], true);
-			$fax		= clean_input($_POST['fax'], true);
-			$street1	= clean_input($_POST['street1'], true);
-			$street2	= clean_input($_POST['street2'], true);
+			$fname		= UserIO::POST_String('fname');
+			$lname		= UserIO::POST_String('lname');
+			$firm		= UserIO::POST_String('firm');
+			$gender		= UserIO::POST_String('gender');
+			$zip		= UserIO::POST_String('zip');
+			$city		= UserIO::POST_String('city');
+			$state		= UserIO::POST_String('state');
+			$country	= UserIO::POST_String('country');
+			$email		= UserIO::POST_String('email');
+			$phone		= UserIO::POST_String('phone');
+			$fax		= UserIO::POST_String('fax');
+			$street1	= UserIO::POST_String('street1');
+			$street2	= UserIO::POST_String('street2');
 
-			if (empty($_POST['pass'])) {
+			if (UserIO::POST_String('pass', false, true) == '') {
 				$query = "
 					UPDATE
 						`admin`
@@ -102,13 +102,13 @@ function update_data(&$sql) {
 			} else {
 				$edit_id = UserIO::POST_Int('edit_id');
 
-				if ($_POST['pass'] != $_POST['pass_rep']) {
+				if (UserIO::POST_String('pass') != UserIO::POST_String('pass_rep')) {
 					set_page_message(tr("Entered passwords do not match!"));
 
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
-				if (!chk_password($_POST['pass'])) {
+				if (!chk_password(UserIO::POST_String('pass'))) {
 					if (Config::get('PASSWD_STRONG')) {
 						set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 					} else {
@@ -118,7 +118,7 @@ function update_data(&$sql) {
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
-				$upass = crypt_user_pass($_POST['pass']);
+				$upass = crypt_user_pass(UserIO::POST_String('pass'));
 
 				$query = "
 					UPDATE
@@ -175,13 +175,13 @@ function update_data(&$sql) {
 				}
 			}
 
-			$edit_username = clean_input($_POST['edit_username']);
+			$edit_username = UserIO::POST_String('edit_username');
 
 			$user_logged = $_SESSION['user_logged'];
 
 			write_log("$user_logged: changes data/password for $edit_username!");
 
-			if (isset($_POST['send_data']) && !empty($_POST['pass'])) {
+			if (UserIO::POST_isset('send_data') && UserIO::POST_String('pass', false, true) != '') {
 				$query = "SELECT admin_type FROM admin WHERE admin_id='" . addslashes(htmlspecialchars($edit_id)) . "'";
 
 				$res = exec_query($sql, $query, array());
@@ -194,12 +194,12 @@ function update_data(&$sql) {
 					$admin_type = tr('Domain account');
 				}
 
-				send_add_user_auto_msg ($user_id,
+				send_add_user_auto_msg($user_id,
 					$edit_username,
-					clean_input($_POST['pass']),
-					clean_input($_POST['email']),
-					clean_input($_POST['fname']),
-					clean_input($_POST['lname']),
+					UserIO::POST_String('pass'),
+					$email,
+					$fname,
+					$lname,
 					tr($admin_type),
 					$gender);
 			}
@@ -212,7 +212,7 @@ function update_data(&$sql) {
 }
 
 function check_user_data() {
-	if (!chk_email($_POST['email'])) {
+	if (!chk_email(UserIO::POST_String('email'))) {
 		set_page_message(tr("Incorrect email length or syntax!"));
 
 		return false;
@@ -267,7 +267,7 @@ update_data($sql);
 
 $admin_name = decode_idna($rs->fields['admin_name']);
 
-if (isset($_POST['genpass'])) {
+if (UserIO::POST_isset('genpass')) {
 	$tpl->assign('VAL_PASSWORD', passgen());
 } else {
 	$tpl->assign('VAL_PASSWORD', '');

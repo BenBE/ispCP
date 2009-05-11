@@ -168,7 +168,8 @@ function clear_log() {
 		$query = null;
 		$msg = '';
 
-		switch ($_POST['uaction_clear']) {
+		$uaction_clear = UserIO::POST_String('uaction_clear');
+		switch ($uaction_clear) {
 			case 0:
 				$query = "DELETE FROM `log`";
 				$msg = tr('%s deleted the full admin log!', $_SESSION['user_logged']);
