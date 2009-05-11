@@ -38,26 +38,26 @@ $tpl->assign(
 );
 
 function add_user(&$tpl, &$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_user') {
+	if (UserIO::POST_GetString('uaction') == 'add_user') {
 		if (check_user_data()) {
-			$upass = crypt_user_pass($_POST['pass']);
+			$upass = crypt_user_pass(UserIO::POST_GetString('pass'));
 
 			$user_id = $_SESSION['user_id'];
 
-			$username = clean_input($_POST['username'], true);
-			$fname = clean_input($_POST['fname'], true);
-			$lname = clean_input($_POST['lname'], true);
-			$gender = clean_input($_POST['gender'], true);
-			$firm = clean_input($_POST['firm'], true);
-			$zip = clean_input($_POST['zip'], true);
-			$city = clean_input($_POST['city'], true);
-			$state = clean_input($_POST['state'], true);
-			$country = clean_input($_POST['country'], true);
-			$email = clean_input($_POST['email'], true);
-			$phone = clean_input($_POST['phone'], true);
-			$fax = clean_input($_POST['fax'], true);
-			$street1 = clean_input($_POST['street1'], true);
-			$street2 = clean_input($_POST['street2'], true);
+			$username = UserIO::POST_GetString('username'); 
+			$fname = UserIO::POST_GetString('fname');
+			$lname = UserIO::POST_GetString('lname');
+			$gender = UserIO::POST_GetString('gender');
+			$firm = UserIO::POST_GetString('firm');
+			$zip = UserIO::POST_GetString('zip');
+			$city = UserIO::POST_GetString('city');
+			$state = UserIO::POST_GetString('state');
+			$country = UserIO::POST_GetString('country');
+			$email = UserIO::POST_GetString('email');
+			$phone = UserIO::POST_GetString('phone');
+			$fax = UserIO::POST_GetString('fax');
+			$street1 = UserIO::POST_GetString('street1');
+			$street2 = UserIO::POST_GetString('street2');
 
 			if (get_gender_by_code($gender, true) === null) {
 				$gender = '';
@@ -147,12 +147,12 @@ function add_user(&$tpl, &$sql) {
 					$user_theme_color,
 					$user_logo));
 
-			send_add_user_auto_msg ($user_id,
-				clean_input($_POST['username']),
-				clean_input($_POST['pass']),
-				clean_input($_POST['email']),
-				clean_input($_POST['fname']),
-				clean_input($_POST['lname']),
+			send_add_user_auto_msg($user_id,
+				UserIO::POST_String('username'),
+				UserIO::POST_String('pass'),
+				UserIO::POST_String('email'),
+				UserIO::POST_String('fname'),
+				UserIO::POST_String('lname'),
 				tr('Administrator'),
 				$gender
 				);
@@ -163,22 +163,23 @@ function add_user(&$tpl, &$sql) {
 		} else { // check user data
 			$tpl->assign(
 				array(
-					'EMAIL' => clean_input($_POST['email'], true),
-					'USERNAME' => clean_input($_POST['username'], true),
-					'FIRST_NAME' => clean_input($_POST['fname'], true),
-					'LAST_NAME' => clean_input($_POST['lname'], true),
-					'FIRM' => clean_input($_POST['firm'], true),
-					'ZIP' => clean_input($_POST['zip'], true),
-					'CITY' => clean_input($_POST['city'], true),
-					'STATE' => clean_input($_POST['state'], true),
-					'COUNTRY' => clean_input($_POST['country'], true),
-					'STREET_1' => clean_input($_POST['street1'], true),
-					'STREET_2' => clean_input($_POST['street2'], true),
-					'PHONE' => clean_input($_POST['phone'], true),
-					'FAX' => clean_input($_POST['fax'], true),
-					'VL_MALE' => (($_POST['gender'] == 'M') ? 'selected="selected"' : ''),
-					'VL_FEMALE' => (($_POST['gender'] == 'F') ? 'selected="selected"' : ''),
-					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? 'selected="selected"' : '')
+					'EMAIL' => UserIO::HTML(UserIO::POST_String('email')),
+					'USERNAME' => UserIO::HTML(UserIO::POST_String('username')),
+					'FIRST_NAME' => UserIO::HTML(UserIO::POST_String('fname')),
+					'LAST_NAME' => UserIO::HTML(UserIO::POST_String('lname')),
+					'FIRM' => UserIO::HTML(UserIO::POST_String('firm')),
+					'ZIP' => UserIO::HTML(UserIO::POST_String('zip')),
+					'CITY' => UserIO::HTML(UserIO::POST_String('city')),
+					'STATE' => UserIO::HTML(UserIO::POST_String('state'),
+					'COUNTRY' => UserIO::HTML(UserIO::POST_String('country')),
+					'STREET_1' => UserIO::HTML(UserIO::POST_String('street1')),
+					'STREET_2' => UserIO::HTML(UserIO::POST_String('street2')),
+					'PHONE' => UserIO::HTML(UserIO::POST_String('phone')),
+					'FAX' => UserIO::HTML(UserIO::POST_String('fax')),
+					'VL_MALE' => ((UserIO::POST_String('gender') == 'M') ? 'selected="selected"' : ''),
+					'VL_FEMALE' => ((UserIO::POST_String('gender') == 'F') ? 'selected="selected"' : ''),
+					'VL_UNKNOWN' => (((UserIO::POST_String('gender') == 'U') 
+						|| UserIO::POST_String('gender') == '')) ? 'selected="selected"' : '')
 				)
 			);
 		}
@@ -209,12 +210,12 @@ function add_user(&$tpl, &$sql) {
 function check_user_data() {
 	$sql = Database::getInstance();
 
-	if (!chk_username($_POST['username'])) {
+	if (!chk_username(UserIO::POST_String('username'))) {
 		set_page_message(tr("Incorrect username length or syntax!"));
 
 		return false;
 	}
-	if (!chk_password($_POST['pass'])) {
+	if (!chk_password(UserIO::POST_String('pass'))) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
@@ -223,12 +224,12 @@ function check_user_data() {
 
 		return false;
 	}
-	if ($_POST['pass'] != $_POST['pass_rep']) {
+	if (UserIO::POST_String('pass') != UserIO::POST_String('pass_rep')) {
 		set_page_message(tr("Entered passwords do not match!"));
 
 		return false;
 	}
-	if (!chk_email($_POST['email'])) {
+	if (!chk_email(UserIO::POST_String('email'))) {
 		set_page_message(tr("Incorrect email length or syntax!"));
 
 		return false;
@@ -243,7 +244,7 @@ function check_user_data() {
 			`admin_name` = ?
 ";
 
-	$username = clean_input($_POST['username']);
+	$username = UserIO::POST_String('username');
 
 	$rs = exec_query($sql, $query, array($username));
 
