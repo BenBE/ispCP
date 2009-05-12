@@ -38,7 +38,7 @@ $tpl->assign(
 	)
 );
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'updt_data') {
+if (UserIO::POST_String('uaction') == 'updt_data') {
 	update_user_personal_data($sql, $_SESSION['user_id']);
 }
 

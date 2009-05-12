@@ -88,7 +88,7 @@ $tpl->assign(
 /*
  * Dynamic page process
  */
-if (UserIO::POST_isset('uaction') && ('add_plan' === UserIO::POST_GetString('uaction'))) {
+if (UserIO::POST_String('uaction') == 'add_plan') {
 	// Process data
 	if (check_data_iscorrect($tpl)) { // Save data to db
 		save_data_to_db();

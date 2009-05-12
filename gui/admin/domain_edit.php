@@ -81,7 +81,7 @@ gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_
 gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 gen_page_message($tpl);
 
-if (UserIO::POST_isset('uaction') && ('sub_data' === UserIO::POST_GetString('uaction'))) {
+if (UserIO::POST_String('uaction') == 'sub_data') {
 	// Process data
 	if (isset($_SESSION['edit_id'])) {
 		$editid = $_SESSION['edit_id'];

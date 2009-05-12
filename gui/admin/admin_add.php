@@ -38,26 +38,26 @@ $tpl->assign(
 );
 
 function add_user(&$tpl, &$sql) {
-	if (UserIO::POST_GetString('uaction') == 'add_user') {
+	if (UserIO::POST_String('uaction') == 'add_user') {
 		if (check_user_data()) {
-			$upass = crypt_user_pass(UserIO::POST_GetString('pass'));
+			$upass = crypt_user_pass(UserIO::POST_String('pass'));
 
 			$user_id = $_SESSION['user_id'];
 
-			$username = UserIO::POST_GetString('username'); 
-			$fname = UserIO::POST_GetString('fname');
-			$lname = UserIO::POST_GetString('lname');
-			$gender = UserIO::POST_GetString('gender');
-			$firm = UserIO::POST_GetString('firm');
-			$zip = UserIO::POST_GetString('zip');
-			$city = UserIO::POST_GetString('city');
-			$state = UserIO::POST_GetString('state');
-			$country = UserIO::POST_GetString('country');
-			$email = UserIO::POST_GetString('email');
-			$phone = UserIO::POST_GetString('phone');
-			$fax = UserIO::POST_GetString('fax');
-			$street1 = UserIO::POST_GetString('street1');
-			$street2 = UserIO::POST_GetString('street2');
+			$username = UserIO::POST_String('username'); 
+			$fname = UserIO::POST_String('fname');
+			$lname = UserIO::POST_String('lname');
+			$gender = UserIO::POST_String('gender');
+			$firm = UserIO::POST_String('firm');
+			$zip = UserIO::POST_String('zip');
+			$city = UserIO::POST_String('city');
+			$state = UserIO::POST_String('state');
+			$country = UserIO::POST_String('country');
+			$email = UserIO::POST_String('email');
+			$phone = UserIO::POST_String('phone');
+			$fax = UserIO::POST_String('fax');
+			$street1 = UserIO::POST_String('street1');
+			$street2 = UserIO::POST_String('street2');
 
 			if (get_gender_by_code($gender, true) === null) {
 				$gender = '';

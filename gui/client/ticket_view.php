@@ -188,10 +188,10 @@ $tpl->assign(
 function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	if (!UserIO::POST_isset('uaction')) return;
 	// close ticket
-	elseif (UserIO::POST_GetString('uaction') == "close") {
+	elseif (UserIO::POST_String('uaction') == "close") {
 		close_ticket($sql, $ticket_id);
 		return;
-	} elseif (UserIO::POST_GetString('uaction') == "open") {
+	} elseif (UserIO::POST_String('uaction') == "open") {
 		// open ticket
 		open_ticket($sql, $ticket_id);
 		return;
@@ -266,7 +266,7 @@ function change_ticket_status($sql, $ticket_id) {
 
 	if ($ch_ticket_status == 0) {
 		$ticket_status = 0;
-	} else if (!UserIO::POST_isset('uaction') || UserIO::POST_GetString('uaction') == "open") {
+	} else if (!UserIO::POST_isset('uaction') || UserIO::POST_String('uaction') == "open") {
 		$ticket_status = 3;
 	} else {
 		$ticket_status = 4;

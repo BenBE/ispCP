@@ -81,7 +81,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 	);
 	gen_dmn_als_list($tpl, $sql, $rs->fields['domain_id'], 'no');
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_subd') {
+	if (UserIO::POST_String('uaction') == 'add_subd') {
 		$tpl->assign(
 			array(
 				'SUBDOMAIN_NAME' => clean_input($_POST['subdomain_name']),
@@ -310,7 +310,7 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt)
 function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 	$dmn_id = $domain_id = get_user_domain_id($sql, $user_id);
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_subd') {
+	if (UserIO::POST_String('uaction') == 'add_subd') {
 		if (empty($_POST['subdomain_name'])) {
 			set_page_message(tr('Please specify subdomain name!'));
 			return;

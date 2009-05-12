@@ -650,23 +650,23 @@ function check_ruser_data(&$tpl, $noPass) {
 	$user_add_error = '_off_';
 	$inpass_re = '';
 	// Get data for fields from previous page
-	$inpass		= UserIO::POST_GetString('userpassword', false, true);
-	$inpass_re	= UserIO::POST_GetString('userpassword_repeat', false, true);
-	$domain_ip	= UserIO::POST_GetIP('domain_ip');
-	$first_name	= UserIO::POST_GetString('userfname', false, true);
-	$last_name	= UserIO::POST_GetString('userlname', false, true);
-	$firm		= UserIO::POST_GetString('userfirm', false, true);
-	$zip		= UserIO::POST_GetString('userzip', false, true);
-	$city		= UserIO::POST_GetString('usercity', false, true);
-	$state		= UserIO::POST_GetString('userstate', false, true);
-	$country	= UserIO::POST_GetString('usercountry', false, true);
-	$street_one = UserIO::POST_GetString('userstreet1', false, true);
-	$street_two = UserIO::POST_GetString('userstreet2', false, true);
-	$phone		= UserIO::POST_GetString('userphone', false, true);
-	$fax		= UserIO::POST_GetString('userfax', false, true);
-	$mail = $user_email	= UserIO::POST_GetString('useremail', false, true);
-	$customer_id		= UserIO::POST_GetString('useruid', false, true);
-	$gender		= UserIO::POST_GetString('gender', false, true);
+	$inpass		= UserIO::POST_String('userpassword', false, true);
+	$inpass_re	= UserIO::POST_String('userpassword_repeat', false, true);
+	$domain_ip	= UserIO::POST_IP('domain_ip');
+	$first_name	= UserIO::POST_String('userfname', false, true);
+	$last_name	= UserIO::POST_String('userlname', false, true);
+	$firm		= UserIO::POST_String('userfirm', false, true);
+	$zip		= UserIO::POST_String('userzip', false, true);
+	$city		= UserIO::POST_String('usercity', false, true);
+	$state		= UserIO::POST_String('userstate', false, true);
+	$country	= UserIO::POST_String('usercountry', false, true);
+	$street_one = UserIO::POST_String('userstreet1', false, true);
+	$street_two = UserIO::POST_String('userstreet2', false, true);
+	$phone		= UserIO::POST_String('userphone', false, true);
+	$fax		= UserIO::POST_String('userfax', false, true);
+	$mail = $user_email	= UserIO::POST_String('useremail', false, true);
+	$customer_id		= UserIO::POST_String('useruid', false, true);
+	$gender		= UserIO::POST_String('gender', false, true);
 	if (get_gender_by_code($gender, true) === null) $gender = '';
 	
 	//if (isset($_SESSION['local_data']))

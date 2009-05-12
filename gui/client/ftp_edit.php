@@ -77,7 +77,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 	// Create a virtual filesystem (it's important to use =&!)
 	$vfs =& new vfs($dmn_name, $sql);
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'edit_user') {
+	if (UserIO::POST_String('uaction') == 'edit_user') {
 		if (!empty($_POST['pass']) || !empty($_POST['pass_rep'])) {
 			if ($_POST['pass'] !== $_POST['pass_rep']) {
 				set_page_message(tr('Entered passwords differ!'));

@@ -43,7 +43,7 @@ $tpl->assign(
 );
 
 function padd_group(&$tpl, &$sql, $dmn_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'add_group') {
+	if (UserIO::POST_String('uaction') == 'add_group') {
 		// we have to add the group
 		if (isset($_POST['groupname'])) {
 			if (!chk_username($_POST['groupname'])) {

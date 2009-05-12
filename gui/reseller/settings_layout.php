@@ -35,7 +35,7 @@ function save_layout() {
 	$sql = Database::getInstance();
 	global $theme_color;
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'save_layout') {
+	if (UserIO::POST_String('uaction') == 'save_layout') {
 
 		$user_id = $_SESSION['user_id'];
 		$user_layout = $_POST['def_layout'];

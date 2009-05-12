@@ -53,7 +53,7 @@ function gen_page_post_data(&$tpl) {
 		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
 	}
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_db') {
+	if (UserIO::POST_String('uaction') == 'add_db') {
 		$tpl->assign(
 			array(
 				'DB_NAME' => clean_input($_POST['db_name']),

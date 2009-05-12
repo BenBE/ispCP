@@ -65,7 +65,7 @@ gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_man
 gen_logged_from($tpl);
 
 // "Modify" button has been pressed
-if (UserIO::POST_isset('uaction') && ('modify' === UserIO::POST_GetString('uaction'))) {
+if (UserIO::POST_isset('uaction') && ('modify' === UserIO::POST_String('uaction'))) {
 	if (isset($_SESSION['edit_ID'])) {
 		$editid = $_SESSION['edit_ID'];
 	} else if (UserIO::GET_isset('edit_id')) {
@@ -146,7 +146,7 @@ SQL_QUERY;
 	$ipdat = $ipres->FetchRow();
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
-	if (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') == 'modify')) {
+	if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') == 'modify')) {
 		$url_forward = decode_idna($_POST['forward']);
 	} else {
 		$url_forward = decode_idna($data['url_forward']);

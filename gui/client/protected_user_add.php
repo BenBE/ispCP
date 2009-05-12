@@ -43,7 +43,7 @@ $tpl->assign(
 );
 
 function padd_user(&$tpl, &$sql, $dmn_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'add_user') {
+	if (UserIO::POST_String('uaction') == 'add_user') {
 		// we have to add the user
 		if (isset($_POST['username']) && isset($_POST['pass']) && isset($_POST['pass_rep'])) {
 			if (!chk_username($_POST['username'])) {

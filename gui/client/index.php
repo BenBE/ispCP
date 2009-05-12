@@ -255,7 +255,7 @@ function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'save_layout') {
+if (UserIO::POST_String('uaction') == 'save_layout') {
 	$user_id = $_SESSION['user_id'];
 
 	$user_layout = $_POST['def_layout'];

@@ -30,7 +30,7 @@ $tpl->define_dynamic('logged_from', 'page');
 // page functions.
 
 function send_backup_restore_request(&$sql, $user_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'bk_restore') {
+	if (UserIO::POST_String('uaction') == 'bk_restore') {
 		check_for_lock_file();
 
 		$query = <<<SQL_QUERY

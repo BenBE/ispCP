@@ -33,7 +33,7 @@ $user_id = $_SESSION['user_id'];
 
 $data = get_order_email($user_id);
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'order_email') {
+if (UserIO::POST_String('uaction') == 'order_email') {
 	$data['subject'] = clean_input($_POST['auto_subject']);
 
 	$data['message'] = clean_input($_POST['auto_message']);

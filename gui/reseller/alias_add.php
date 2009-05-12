@@ -73,7 +73,7 @@ $tpl->assign(
 );
 
 $err_txt = '_off_';
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_alias') {
+if (UserIO::POST_String('uaction') == 'add_alias') {
 	add_domain_alias($sql, $err_txt);
 } else {
 	// Init fields

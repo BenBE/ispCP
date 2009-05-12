@@ -112,7 +112,7 @@ if (isset($_POST['genpass'])) {
 
 if (isset($_POST['Submit'])
 	&& UserIO::POST_isset('uaction')
-	&& ('save_changes' === UserIO::POST_GetString('uaction'))) {
+	&& ('save_changes' === UserIO::POST_String('uaction'))) {
 	// Process data
 
 	if (isset($_SESSION['edit_ID'])) {

@@ -47,7 +47,7 @@ $tpl->assign(
 function update_data(&$sql) {
 	global $edit_id;
 
-	if (UserIO::POST_isset('Submit')) && UserIO::POST_GetString('uaction') == 'edit_user') {
+	if (UserIO::POST_isset('Submit')) && UserIO::POST_String('uaction') == 'edit_user') {
 		if (check_user_data()) {
 			$user_id	= $_SESSION['user_id'];
 			$fname		= UserIO::POST_String('fname');

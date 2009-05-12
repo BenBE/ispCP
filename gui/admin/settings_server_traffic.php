@@ -42,7 +42,7 @@ $tpl->assign(
  * @todo What's about the outcommented code?
  */
 function update_server_settings(&$sql) {
-	if (!UserIO::POST_isset('uaction') && !UserIO::POST_isset('uaction')) {
+	if (!UserIO::POST_isset('uaction')) {
 		return;
 	}
 	/*global $data;

@@ -111,7 +111,7 @@ function gen_page_dmn_mail_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				. "WHERE `domain_id` = ? "
 				. "AND `sub_id` = 0 "
 				. "AND (`mail_type` LIKE '%".MT_NORMAL_MAIL."%' OR `mail_type` LIKE '%".MT_NORMAL_FORWARD."%') ";
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') != 'show') {
+	if (UserIO::POST_String('uaction') != 'show') {
 		$dmn_query .= "AND `mail_acc` != 'abuse' "
 					. "AND `mail_acc` != 'postmaster' "
 					. "AND `mail_acc` != 'webmaster' ";
@@ -184,7 +184,7 @@ function gen_page_sub_mail_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				. "AND t2.`domain_id` = ? "
 				. "AND (t2.`mail_type` LIKE '%".MT_SUBDOM_MAIL."%' OR t2.`mail_type` LIKE '%".MT_SUBDOM_FORWARD."%') "
 				. "AND t1.`subdomain_id` = t2.`sub_id` ";
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') != 'show') {
+	if (UserIO::POST_String('uaction') != 'show') {
 		$sub_query .= "AND `mail_acc` != 'abuse' "
 				. "AND `mail_acc` != 'postmaster' "
 				. "AND `mail_acc` != 'webmaster' ";
@@ -257,7 +257,7 @@ function gen_page_als_sub_mail_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				. "LEFT JOIN (`domain_aliasses` AS t3) ON (t2.`alias_id` = t3.`alias_id`) "
 				. "WHERE t1.`domain_id` = ? "
 				. "AND (t1.`mail_type` LIKE '%".MT_ALSSUB_MAIL."%' OR t1.`mail_type` LIKE '%".MT_ALSSUB_FORWARD."%') ";
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') != 'show') {
+	if (UserIO::POST_String('uaction') != 'show') {
 		$sub_query .= "AND `mail_acc` != 'abuse' "
 					. "AND `mail_acc` != 'postmaster' "
 					. "AND `mail_acc` != 'webmaster' ";
@@ -331,7 +331,7 @@ function gen_page_als_mail_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				. "AND t2.`domain_id` = ? "
 				. "AND t1.`alias_id` = t2.`sub_id` "
 				. "AND (t2.`mail_type` LIKE '%".MT_ALIAS_MAIL."%' OR t2.`mail_type` LIKE '%".MT_ALIAS_FORWARD."%') ";
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') != 'show') {
+	if (UserIO::POST_String('uaction') != 'show') {
 		$als_query .= "AND `mail_acc` != 'abuse' "
 				. "AND `mail_acc` != 'postmaster' "
 				. "AND `mail_acc` != 'webmaster' ";
@@ -430,11 +430,11 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, array($dmn_id));
 	$default_mails = $rs->fields['cnt'];
 	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
-		if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'show') {
+		if (UserIO::POST_String('uaction') == 'show') {
 			$total_mails -= $default_mails;
 		}
 	} else {
-		if (!UserIO::POST_isset('uaction') || !UserIO::POST_GetString('uaction') == 'show') {
+		if (!UserIO::POST_isset('uaction') || !UserIO::POST_String('uaction') == 'show') {
 			$total_mails += $default_mails;
 		}
 	}

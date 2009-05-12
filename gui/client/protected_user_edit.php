@@ -47,7 +47,7 @@ $tpl->assign(
 );
 
 function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'modify_user') {
+	if (UserIO::POST_String('uaction') == 'modify_user') {
 		// we have to add the user
 		if (isset($_POST['pass']) && isset($_POST['pass_rep'])) {
 			if (!chk_password($_POST['pass'])) {

@@ -23,10 +23,10 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 function save_layout(&$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'save_layout') {
+	if (UserIO::POST_String('uaction') == 'save_layout') {
 		$user_id = $_SESSION['user_id'];
 
-		$user_layout = $_POST['def_layout'];
+		$user_layout = UserIO::POST_String('def_layout');
 
 		$query = <<<SQL_QUERY
 			UPDATE
@@ -46,7 +46,7 @@ SQL_QUERY;
 function update_logo() {
 	$user_id = $_SESSION['user_id'];
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'delete_logo') {
+	if (UserIO::POST_String('uaction') == 'delete_logo') {
 		$logo = get_own_logo($user_id);
 
 		if (basename($logo) == 'isp_logo.gif') { // default logo
@@ -57,7 +57,7 @@ function update_logo() {
 		unlink($logo);
 
 		return;
-	} else if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'upload_logo') {
+	} else if (UserIO::POST_String('uaction') == 'upload_logo') {
 		if (empty($_FILES['logo_file']['name'])) {
 			set_page_message(tr('Upload file error!'));
 			return;

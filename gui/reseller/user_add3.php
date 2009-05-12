@@ -91,7 +91,7 @@ if (!init_in_values()) {
 
 // Process the action ...
 if (UserIO::POST_isset('uaction')
-	&& ("user_add3_nxt" === UserIO::POST_GetString('uaction'))
+	&& ("user_add3_nxt" === UserIO::POST_String('uaction'))
 	&& !isset($_SESSION['step_two_data'])) {
 	if (check_ruser_data($tpl, '_no_')) {
 		add_user_data($_SESSION['user_id']);

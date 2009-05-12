@@ -46,7 +46,7 @@ function update_def_lang() {
 	$sql = Database::getInstance();
 	global $theme;
 
-	if (UserIO::POST_GetString('uaction') == 'change_language') {
+	if (UserIO::POST_String('uaction') == 'change_language') {
 		if (UserIO::POST_String('default_language') != '') {
 			$user_id = $_SESSION['user_id'];
 			$user_lang = UserIO::POST_String('default_language');
@@ -71,7 +71,7 @@ function update_def_lang() {
 function install_lang() {
 	$sql = Database::getInstance();
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'upload_language') {
+	if (UserIO::POST_String('uaction') == 'upload_language') {
 		// add lang pack now !
 		$file_type = $_FILES['lang_file']['type'];
 		$file = $_FILES['lang_file']['tmp_name'];

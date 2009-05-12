@@ -23,7 +23,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 function gen_page_data(&$tpl, &$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'send_circular') {
+	if (UserIO::POST_String('uaction') == 'send_circular') {
 		$tpl->assign(
 			array(
 				'MESSAGE_SUBJECT' => clean_input($_POST['msg_subject'], true),
@@ -104,7 +104,7 @@ function check_user_data(&$tpl) {
 }
 
 function send_circular(&$tpl, &$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'send_circular') {
+	if (UserIO::POST_String('uaction') == 'send_circular') {
 		if (check_user_data($tpl)) {
 			send_reseller_users_message ($sql, $_SESSION['user_id']);
 			UserIO::POST_unset('uaction');

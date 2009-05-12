@@ -48,7 +48,7 @@ $tpl->assign(
  * @todo use db prepared statements
  */
 function protect_area(&$tpl, &$sql, $dmn_id) {
-	if (!UserIO::POST_isset('uaction') || UserIO::POST_GetString('uaction') != 'protect_it') {
+	if (!UserIO::POST_isset('uaction') || UserIO::POST_String('uaction') != 'protect_it') {
 		return;
 	}
 

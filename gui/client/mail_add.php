@@ -577,7 +577,7 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		gen_dmn_als_list($tpl, $sql, $dmn_id, $post_check);
 		gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, $post_check);
 		gen_dmn_als_sub_list($tpl, $sql, $dmn_id, $post_check);
-		if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_user') {
+		if (UserIO::POST_String('uaction') == 'add_user') {
 			check_mail_acc_data($sql, $dmn_id, $dmn_name);
 		}
 	}

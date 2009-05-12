@@ -40,7 +40,7 @@ $tpl->assign(
 
 function gen_page_data(&$tpl, &$sql) {
 
-	if (UserIO::POST_GetString('uaction') == 'send_circular') {
+	if (UserIO::POST_String('uaction') == 'send_circular') {
 		$tpl->assign(
 			array(
 				'MESSAGE_SUBJECT' => UserIO::HTML(UserIO::POST_String('msg_subject')),
@@ -163,7 +163,7 @@ SQL_QUERY;
 }
 
 function send_circular(&$tpl, &$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'send_circular') {
+	if (UUserIO::POST_String('uaction') == 'send_circular') {
 		if (check_user_data($tpl)) {
 			send_reseller_message($sql);
 			UserIO::POST_unset('uaction');

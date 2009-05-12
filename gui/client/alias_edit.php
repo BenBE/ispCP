@@ -66,7 +66,7 @@ gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domain
 gen_logged_from($tpl);
 
 // "Modify" button has been pressed
-if (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') === 'modify')) {
+if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') === 'modify')) {
 	if (UserIO::GET_isset('edit_id')) {
 		$editid = UserIO::GET_Int('edit_id');
 	} else if (isset($_SESSION['edit_ID'])) {
@@ -120,7 +120,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
 	$ipdat = $ipres->FetchRow();
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
-	if (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') == 'modify')) {
+	if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') == 'modify')) {
 		$url_forward = decode_idna($_POST['forward']);
 	} else {
 		$url_forward = decode_idna($data['url_forward']);

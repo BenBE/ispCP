@@ -127,7 +127,7 @@ function get_server_ip(&$tpl, &$sql) {
 function add_reseller(&$tpl, &$sql) {
 	global $reseller_ips;
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_reseller') {
+	if (UserIO::POST_String('uaction') == 'add_reseller') {
 		if (check_user_data()) {
 			$upass = crypt_user_pass(UserIO::POST_String('pass'));
 

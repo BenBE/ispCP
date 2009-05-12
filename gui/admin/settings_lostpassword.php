@@ -37,7 +37,7 @@ $selected_off = '';
 $data_1 = get_lostpassword_activation_email($user_id);
 $data_2 = get_lostpassword_password_email($user_id);
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'apply') {
+if (UserIO::POST_String('uaction') == 'apply') {
 
 	$err_message = '';
 

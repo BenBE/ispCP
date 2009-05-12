@@ -86,7 +86,7 @@ gen_logged_from($tpl);
 
 gen_page_message($tpl);
 
-if (UserIO::POST_isset('uaction') && ('sub_data' === UserIO::POST_GetString('uaction'))) {
+if (UserIO::POST_isset('uaction') && ('sub_data' === UserIO::POST_String('uaction'))) {
 	// Process data
 	if (isset($_SESSION['edit_id'])) {
 		$editid = $_SESSION['edit_id'];

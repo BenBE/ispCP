@@ -41,7 +41,7 @@ $tpl->assign(
 function update_password() {
 	$sql = Database::getInstance();
 
-	if (UserIO::POST_GetString('uaction') == 'updt_pass') {
+	if (UserIO::POST_String('uaction') == 'updt_pass') {
 		$pass 		= UserIO::POST_String('pass');
 		$pass_rep	= UserIO::POST_String('pass_rep');
 		$curr_pass	= UserIO::POST_String('curr_pass');

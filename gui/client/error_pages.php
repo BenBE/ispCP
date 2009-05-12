@@ -19,7 +19,7 @@
  */
 
 // Deactivate HTMLPurifyer HTML Tag stripping
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'updt_error') {
+if (UserIO::POST_String('uaction') == 'updt_error') {
 	define('OVERRIDE_PURIFIER', 1);
 }
 
@@ -44,7 +44,7 @@ function write_error_page(&$sql, $user_id, $eid) {
 }
 
 function update_error_page(&$sql, $user_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'updt_error') {
+	if (UserIO::POST_String('uaction') == 'updt_error') {
 		$eid = intval($_POST['eid']);
 		if (in_array($eid, array(401, 402, 403, 404, 500, 503))
 			&& write_error_page($sql, $_SESSION['user_id'], $eid)) {

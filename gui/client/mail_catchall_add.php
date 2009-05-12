@@ -273,7 +273,7 @@ function create_catchall_mail_account(&$sql, $id) {
 	}
 
 	$match = array();
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'create_catchall' && $_POST['mail_type'] === 'normal') {
+	if (UserIO::POST_String('uaction') == 'create_catchall' && $_POST['mail_type'] === 'normal') {
 		if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 			$item_id = $match[1];
 			$item_type = $match[2];
@@ -339,7 +339,7 @@ function create_catchall_mail_account(&$sql, $id) {
 				user_goto('mail_catchall.php');
 			}
 		}
-	} else if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'create_catchall' && $_POST['mail_type'] === 'forward' && isset($_POST['forward_list'])) {
+	} else if (UserIO::POST_String('uaction') == 'create_catchall' && $_POST['mail_type'] === 'forward' && isset($_POST['forward_list'])) {
 		if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 			$item_id = $match[1];
 			$item_type = $match[2];

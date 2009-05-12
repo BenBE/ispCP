@@ -202,9 +202,9 @@ if (UserIO::GET_Int('order_id') > 0) {
 if (UserIO::POST_isset('uaction')) {
 	update_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
 
-	if (UserIO::POST_GetString('uaction') === 'update_data') {
+	if (UserIO::POST_String('uaction') === 'update_data') {
 		set_page_message(tr('Order data updated successfully!'));
-	} else if (UserIO::POST_GetString('uaction') === 'add_user') {
+	} else if (UserIO::POST_String('uaction') === 'add_user') {
 		$_SESSION['domain_ip'] = @$_POST['domain_ip'];
 		user_goto('orders_add.php?order_id=' . $order_id);
 	}

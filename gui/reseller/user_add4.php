@@ -92,7 +92,7 @@ if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 }
 
 $err_txt = '_off_';
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_alias') {
+if (UserIO::POST_String('uaction') == 'add_alias') {
 	add_domain_alias($sql, $err_txt);
 }
 

@@ -73,7 +73,7 @@ SQL_QUERY;
 function add_new_button(&$sql) {
 	if (!UserIO::POST_isset('uaction')) {
 		return;
-	} else if (UserIO::POST_GetString('uaction') != 'new_button') {
+	} else if (UserIO::POST_String('uaction') != 'new_button') {
 		return;
 	} else {
 		$button_name = UserIO::POST_String('bname');

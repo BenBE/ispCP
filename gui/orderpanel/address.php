@@ -223,7 +223,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	system_message(tr('You do not have permission to access this interface!'));
 }
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'address')
+if (UserIO::POST_String('uaction') == 'address')
 	check_address_data($tpl);
 
 if ((isset($_SESSION['fname']) && $_SESSION['fname'] != '')

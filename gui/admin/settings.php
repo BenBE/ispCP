@@ -37,7 +37,7 @@ $tpl->assign(
 	)
 );
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'apply') {
+if (UserIO::POST_String('uaction') == 'apply') {
 	$lostpassword					= $_POST['lostpassword'];
 	$lostpassword_timeout			= clean_input($_POST['lostpassword_timeout']);
 	$passwd_chars					= clean_input($_POST['passwd_chars']);

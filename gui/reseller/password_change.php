@@ -38,7 +38,7 @@ $tpl->assign(
 	)
 );
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'updt_pass') {
+if (UserIO::POST_String('uaction') == 'updt_pass') {
 	if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
 		set_page_message(tr('Please fill up all data fields!'));
 	} else if ($_POST['pass'] !== $_POST['pass_rep']) {

@@ -112,7 +112,7 @@ function add_ip(&$tpl, &$sql) {
 	global $ip_number, $domain, $alias, $ip_card;
 
 	$success = false;
-	if (UserIO::POST_GetString('uaction') == 'add_ip') {
+	if (UserIO::POST_String('uaction') == 'add_ip') {
 		if (check_user_data()) {
 
 			$query = "

@@ -489,7 +489,7 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 			gen_dmn_als_list($tpl, $sql, $dmn_id, 'no');
 			gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, 'no');
 			gen_page_js($tpl);
-		} else if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_user') {
+		} else if (UserIO::POST_String('uaction') == 'add_user') {
 			gen_page_form_data($tpl, $dmn_name, 'yes');
 			gen_dmn_als_list($tpl, $sql, $dmn_id, 'yes');
 			gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, 'yes');

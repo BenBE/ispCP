@@ -90,7 +90,7 @@ if (!get_pageone_param()) {
 }
 
 if (UserIO::POST_isset('uaction')
-	&& ("user_add2_nxt" === UserIO::POST_GetString('uaction'))
+	&& ("user_add2_nxt" === UserIO::POST_String('uaction'))
 	&& (!isset($_SESSION['step_one']))) {
 	if (check_user_data($tpl)) {
 		$_SESSION["step_two_data"] = "$dmn_name;0;";

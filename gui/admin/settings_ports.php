@@ -47,7 +47,7 @@ $tpl->assign(
 );
 
 function update_services(&$sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == "apply") {
+	if (UserIO::POST_String('uaction') == 'apply') {
 		$count = count(UserIO::POST_Array('name'));
 		$break = false;
 		$service_name = UserIO::POST_Array('name');

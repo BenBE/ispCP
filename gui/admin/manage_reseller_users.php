@@ -58,11 +58,11 @@ SQL_QUERY;
 
 	while (!$rs->EOF) {
 
-		if (UserIO::POST_GetString('uaction') == 'change_src')
+		if (UserIO::POST_String('uaction') == 'change_src')
 			&& UserIO::POST_Int('src_reseller') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
 			$reseller_id = UserIO::POST_Int('src_reseller');
-		} else if (UserIO::POST_GetString('uaction') == 'move_user')
+		} else if (UserIO::POST_String('uaction') == 'move_user')
 			&& UserIO::POST_Int('dst_reseller') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
 			$reseller_id = UserIO::POST_Int('dst_reseller');
@@ -143,7 +143,7 @@ SQL_QUERY;
 }
 
 function update_reseller_user($sql) {
-	if (UserIO::POST_GetString('uaction') == 'move_user' 
+	if (UserIO::POST_String('uaction') == 'move_user' 
 		&& check_user_data()) {
 		set_page_message(tr('User was moved'));
 	}

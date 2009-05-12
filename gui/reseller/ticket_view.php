@@ -198,7 +198,7 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id, &$screenwi
 	if (!UserIO::POST_isset('uaction')) {
 		return;
 	} elseif (empty($_POST['user_message'])) { // no message check->error
-		if ((UserIO::POST_GetString('uaction') != "open") && (UserIO::POST_GetString('uaction') != "close")) {
+		if ((UserIO::POST_String('uaction') != "open") && (UserIO::POST_String('uaction') != "close")) {
 			set_page_message(tr('Please type your message!'));
 			return;
 		}
@@ -255,12 +255,12 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id, &$screenwi
 			(?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	if (UserIO::POST_GetString('uaction') == "close") {
+	if (UserIO::POST_String('uaction') == "close") {
 		if ($user_message != '') {
 			$user_message .= "\n\n";
 		}
 		$user_message .= tr("Ticket was closed!");
-	} elseif (UserIO::POST_GetString('uaction') == "open") {
+	} elseif (UserIO::POST_String('uaction') == "open") {
 		if ($user_message != '') {
 			$user_message .= "\n\n";
 		}
@@ -273,9 +273,9 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id, &$screenwi
 			));
 
 	// close ticket
-	if (UserIO::POST_GetString('uaction') == "close") {
+	if (UserIO::POST_String('uaction') == "close") {
 		close_ticket($sql, $ticket_id);
-	} elseif (UserIO::POST_GetString('uaction') == "open") { // open ticket 
+	} elseif (UserIO::POST_String('uaction') == "open") { // open ticket 
 		open_ticket($sql, $ticket_id);
 	}
 
@@ -375,8 +375,8 @@ function change_ticket_status_view($sql, $ticket_id) {
 	$ticket_status = 3;
 	// Did the reseller write an answer?
 	if (UserIO::POST_isset('uaction')
-		&& UserIO::POST_GetString('uaction') != "open"
-		&& UserIO::POST_GetString('uaction') != "close") {
+		&& UserIO::POST_String('uaction') != "open"
+		&& UserIO::POST_String('uaction') != "close") {
 		if ($ticket_level != 2) {
 			// if ticket to user
 			$ticket_status = 2;

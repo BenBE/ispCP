@@ -178,10 +178,10 @@ function update_email_pass($sql) {
 	if (!UserIO::POST_isset('uaction')) {
 		return false;
 	}
-	if (preg_match('/update_pass/', UserIO::POST_GetString('uaction')) == 0) {
+	if (preg_match('/update_pass/', UserIO::POST_String('uaction')) == 0) {
 		return true;
 	}
-	if (preg_match('/update_forward/', UserIO::POST_GetString('uaction')) == 1 || isset($_POST['mail_forward'])) {
+	if (preg_match('/update_forward/', UserIO::POST_String('uaction')) == 1 || isset($_POST['mail_forward'])) {
 		// The user only wants to update the forward list, not the password
 		if ($_POST['pass'] === '' && $_POST['pass_rep'] === '') {
 			return true;
@@ -221,7 +221,7 @@ function update_email_forward(&$tpl, &$sql) {
 	if (!UserIO::POST_isset('uaction')) {
 		return false;
 	}
-	if (preg_match('/update_forward/', UserIO::POST_GetString('uaction')) == 0
+	if (preg_match('/update_forward/', UserIO::POST_String('uaction')) == 0
 		&& !isset($_POST['mail_forward'])) {
 		return true;
 	}
@@ -232,7 +232,7 @@ function update_email_forward(&$tpl, &$sql) {
 	$mail_accs = array();
 
 	if (isset($_POST['mail_forward'])
-		|| UserIO::POST_GetString('uaction') == 'update_forward') {
+		|| UserIO::POST_String('uaction') == 'update_forward') {
 		$faray = preg_split ('/[\n\s,]+/', $forward_list);
 
 		foreach ($faray as $value) {

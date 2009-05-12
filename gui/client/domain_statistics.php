@@ -56,7 +56,7 @@ function gen_page_date(&$tpl, $month, $year) {
 }
 
 function gen_page_post_data(&$tpl, $current_month, $current_year) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'show_traff') {
+	if (UserIO::POST_String('uaction') == 'show_traff') {
 		$current_month = $_POST['month'];
 		$current_year = $_POST['year'];
 	}

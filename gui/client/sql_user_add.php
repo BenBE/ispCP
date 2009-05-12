@@ -344,7 +344,7 @@ function gen_page_post_data(&$tpl, $db_id) {
 		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
 	}
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_user') {
+	if (UserIO::POST_String('uaction') == 'add_user') {
 		$tpl->assign(
 			array(
 				'USER_NAME' => (isset($_POST['user_name'])) ? $_POST['user_name'] : '',

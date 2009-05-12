@@ -149,7 +149,7 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 }
 
 function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'add'
+	if (UserIO::POST_String('uaction') == 'add'
 		&& isset($_POST['groups']) && !empty($_POST['groups'])
 		&& isset($_POST['nadmin_name']) && is_numeric($_POST['groups'])
 		&& is_numeric($_POST['nadmin_name'])) {
@@ -203,7 +203,7 @@ function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 }
 
 function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') == 'remove'
+	if (UserIO::POST_String('uaction') == 'remove'
 		&& isset($_POST['groups_in']) && !empty($_POST['groups_in'])
 		&& isset($_POST['nadmin_name']) && is_numeric($_POST['groups_in'])
 		&& is_numeric($_POST['nadmin_name'])) {

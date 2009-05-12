@@ -164,7 +164,7 @@ function generate_page(&$tpl) {
 function clear_log() {
 	$sql = Database::getInstance();
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'clear_log') {
+	if (UserIO::POST_String('uaction') == 'clear_log') {
 		$query = null;
 		$msg = '';
 

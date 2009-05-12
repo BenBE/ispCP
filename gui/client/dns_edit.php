@@ -82,7 +82,7 @@ $tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', '');
 
 // "Modify" button has ben pressed
 $editid = null;
-if (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') === 'modify')) {
+if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') === 'modify')) {
 	if (UserIO::GET_isset('edit_id')) {
 		$editid = UserIO::GET_Int('edit_id');
 	} else if (isset($_SESSION['edit_ID'])) {
@@ -96,7 +96,7 @@ if (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') === 'mod
 		$_SESSION['dnsedit'] = "_yes_";
 		user_goto('domains_manage.php');
 	}
-} elseif (UserIO::POST_isset('uaction') && (UserIO::POST_GetString('uaction') === 'add')) {
+} elseif (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') === 'add')) {
 	if (check_fwd_data($tpl, true)) {
 		$_SESSION['dnsedit'] = "_yes_";
 		user_goto('domains_manage.php');

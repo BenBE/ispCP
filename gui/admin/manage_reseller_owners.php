@@ -142,7 +142,7 @@ SQL_QUERY;
 }
 
 function update_reseller_owner($sql) {
-	if (UserIO::POST_GetString('uaction') == 'reseller_owner') {
+	if (UserIO::POST_String('uaction') == 'reseller_owner') {
 		$query = <<<SQL_QUERY
 			SELECT
 				`admin_id`

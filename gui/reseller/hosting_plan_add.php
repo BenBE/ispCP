@@ -87,7 +87,7 @@ $tpl->assign(
 	)
 );
 
-if (UserIO::POST_isset('uaction') && ('add_plan' === UserIO::POST_GetString('uaction'))) {
+if (UserIO::POST_isset('uaction') && ('add_plan' === UserIO::POST_String('uaction'))) {
 	// Process data
 	if (check_data_correction($tpl)) {
 		save_data_to_db($tpl, $_SESSION['user_id']);

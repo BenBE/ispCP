@@ -58,7 +58,7 @@ function check_email_user(&$sql) {
 }
 
 function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'enable_arsp') {
+	if (UserIO::POST_String('uaction') == 'enable_arsp') {
 		if (empty($_POST['arsp_message'])) {
 			$tpl->assign('ARSP_MESSAGE', '');
 			set_page_message(tr('Please type your mail autorespond message!'));
