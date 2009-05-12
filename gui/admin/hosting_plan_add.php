@@ -192,31 +192,25 @@ function check_data_correction(&$tpl) {
 
 	$ahp_error = "_off_";
 
-	$hp_name		= clean_input($_POST['hp_name'], true);
-	$hp_sub			= clean_input($_POST['hp_sub'], true);
-	$hp_als			= clean_input($_POST['hp_als'], true);
-	$hp_mail		= clean_input($_POST['hp_mail'], true);
-	$hp_ftp			= clean_input($_POST['hp_ftp'], true);
-	$hp_sql_db		= clean_input($_POST['hp_sql_db'], true);
-	$hp_sql_user	= clean_input($_POST['hp_sql_user'], true);
-	$hp_traff		= clean_input($_POST['hp_traff'], true);
-	$hp_disk		= clean_input($_POST['hp_disk'], true);
-	$description	= clean_input($_POST['hp_description'], true);
-	$price			= empty($_POST['hp_price']) ? 0 : clean_input($_POST['hp_price'], true);
-	$setup_fee		= empty($_POST['hp_setupfee']) ? 0 : clean_input($_POST['hp_setupfee'], true);
-	$value			= clean_input($_POST['hp_value'], true);
-	$payment		= clean_input($_POST['hp_payment'], true);
-	$status			= $_POST['status'];
-
-	if (isset($_POST['php'])) {
-		$hp_php = $_POST['php'];
-	}
-	if (isset($_POST['cgi'])) {
-		$hp_cgi = $_POST['cgi'];
-	}
-	if (isset($_POST['dns'])) {
-		$hp_dns = $_POST['dns'];
-	}
+	$hp_name		= UserIO::POST_String(hp_name);
+	$hp_sub			= UserIO::POST_String('hp_sub');
+	$hp_als			= UserIO::POST_String('hp_als');
+	$hp_mail		= UserIO::POST_String('hp_mail');
+	$hp_ftp			= UserIO::POST_String('hp_ftp');
+	$hp_sql_db		= UserIO::POST_String('hp_sql_db');
+	$hp_sql_user	= UserIO::POST_String('hp_sql_user');
+	$hp_traff		= UserIO::POST_String('hp_traff');
+	$hp_disk		= UserIO::POST_String('hp_disk');
+	$description	= UserIO::POST_String('hp_description');
+	$price			= UserIO::POST_Float('hp_price');
+	$setup_fee		= UserIO::POST_Float('hp_setupfee');
+	$value			= UserIO::POST_String('hp_value');
+	$payment		= UserIO::POST_String('hp_payment');
+	$status			= UserIO::POST_String('status');
+	$hp_php			= UserIO::POST_Int('php');
+	$hp_cgi			= UserIO::POST_Int('cgi');
+	$hp_dns			= UserIO::POST_Int('dns');
+	
 	if (empty($hp_name)) {
 		$ahp_error = tr('Incorrect template name length!');
 	}

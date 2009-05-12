@@ -90,19 +90,19 @@ function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
 }
 
 function update_admin_personal_data(&$sql, $user_id) {
-	$fname = clean_input($_POST['fname'], true);
-	$lname = clean_input($_POST['lname'], true);
-	$gender = $_POST['gender'];
-	$firm = clean_input($_POST['firm'], true);
-	$zip = clean_input($_POST['zip'], true);
-	$city = clean_input($_POST['city'], true);
-	$state = clean_input($_POST['state'], true);
-	$country = clean_input($_POST['country'], true);
-	$street1 = clean_input($_POST['street1'], true);
-	$street2 = clean_input($_POST['street2'], true);
-	$email = clean_input($_POST['email'], true);
-	$phone = clean_input($_POST['phone'], true);
-	$fax = clean_input($_POST['fax'], true);
+	$fname = UserIO::POST_String('fname');
+	$lname = UserIO::POST_String('lname');
+	$gender = UserIO::POST_String('gender');
+	$firm = UserIO::POST_String('firm');
+	$zip = UserIO::POST_String('zip');
+	$city = UserIO::POST_String('city');
+	$state = UserIO::POST_String('state');
+	$country = UserIO::POST_String('country');
+	$street1 = UserIO::POST_String('street1');
+	$street2 = UserIO::POST_String('street2');
+	$email = UserIO::POST_String('email');
+	$phone = UserIO::POST_String('phone');
+	$fax = UserIO::POST_String('fax');
 
 	$query = "
 		UPDATE

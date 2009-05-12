@@ -34,11 +34,11 @@ $tpl->define_dynamic('logged_from', 'page');
  *
  */
 
-if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'save_lang') {
+if (UserIO::POST_GetString('uaction') == 'save_lang') {
 
 	$user_id = $_SESSION['user_id'];
 
-	$user_lang = $_POST['def_language'];
+	$user_lang = UserIO::POST_String('def_language');
 
 	$query = <<<SQL_QUERY
 		UPDATE

@@ -114,9 +114,8 @@ SQL_QUERY;
 
 	while (!$rs->EOF) {
 
-		if ((UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'reseller_owner')
-			&& (isset($_POST['dest_admin'])
-				&& $_POST['dest_admin'] == $rs->fields['admin_id'])) {
+		if (UserIO::POST_String('uaction') == 'reseller_owner')
+			&& UserIO::POST_String('dest_admin') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
 		} else {
 			$selected = '';
@@ -143,7 +142,7 @@ SQL_QUERY;
 }
 
 function update_reseller_owner($sql) {
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'reseller_owner') {
+	if (UserIO::POST_GetString('uaction') == 'reseller_owner') {
 		$query = <<<SQL_QUERY
 			SELECT
 				`admin_id`
@@ -162,8 +161,8 @@ SQL_QUERY;
 
 			$admin_id_var_name = "admin_id_$admin_id";
 
-			if (isset($_POST[$admin_id_var_name]) && $_POST[$admin_id_var_name] === 'on') {
-				$dest_admin = $_POST['dest_admin'];
+			if (UserIO::POST_String($admin_id_var_name) == 'on') {
+				$dest_admin = UserIO::POST_String('dest_admin');
 
 				$query = <<<SQL_QUERY
 					UPDATE

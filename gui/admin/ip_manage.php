@@ -111,7 +111,8 @@ function show_IPs(&$tpl, &$sql) {
 function add_ip(&$tpl, &$sql) {
 	global $ip_number, $domain, $alias, $ip_card;
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_ip') {
+	$success = false;
+	if (UserIO::POST_GetString('uaction') == 'add_ip') {
 		if (check_user_data()) {
 
 			$query = "
@@ -130,19 +131,19 @@ function add_ip(&$tpl, &$sql) {
 
 			write_log("{$_SESSION['user_logged']}: adds new IPv4 address: {$ip_number}!");
 
-			$sucess = true;
+			$success = true;
 		}
 	}
 
-	if (!isset($sucess) && isset($_POST['ip_number_1'])) {
+	if (!$success && UserIO::POST_IP('ip_number_1') != '') {
 		$tpl->assign(
 			array(
-				'VALUE_IP1'		=> $_POST['ip_number_1'],
-				'VALUE_IP2'		=> $_POST['ip_number_2'],
-				'VALUE_IP3'		=> $_POST['ip_number_3'],
-				'VALUE_IP4'		=> $_POST['ip_number_4'],
-				'VALUE_DOMAIN'	=> clean_input($_POST['domain'], true),
-				'VALUE_ALIAS'	=> clean_input($_POST['alias'], true),
+				'VALUE_IP1'		=> UserIO::POST_IP('ip_number_1'),
+				'VALUE_IP2'		=> UserIO::POST_IP('ip_number_2'),
+				'VALUE_IP3'		=> UserIO::POST_IP('ip_number_3'),
+				'VALUE_IP4'		=> UserIO::POST_IP('ip_number_4'),
+				'VALUE_DOMAIN'	=> UserIO::POST_IP('domain'),
+				'VALUE_ALIAS'	=> UserIO::POST_IP('alias'),
 			)
 		);
 	} else {
@@ -161,27 +162,34 @@ function add_ip(&$tpl, &$sql) {
 
 function check_user_data() {
 	global $ip_number, $interfaces;
-
-	$ip_number = trim($_POST['ip_number_1']) . '.' . trim($_POST['ip_number_2']) . '.' . trim($_POST['ip_number_3']) . '.' . trim($_POST['ip_number_4']);
-
 	global $domain, $alias, $ip_card;
-
-	$domain = clean_input($_POST['domain']);
-	$alias = clean_input($_POST['alias']);
-	$ip_card = clean_input($_POST['ip_card']);
-
-	$err_msg = '_off_';
-
-	if (filter_var($ip_number, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+	
+	$i1 = UserIO::POST_Int('ip_number_1', true);
+	$i2 = UserIO::POST_Int('ip_number_2', true);
+	$i3 = UserIO::POST_Int('ip_number_3', true);
+	$i4 = UserIO::POST_Int('ip_number_4', true);
+	
+	if ($i1 !== false && $i2 !== false && $i3 !== false && $i4 !== false) {
+		$ip_number = $i1 . '.' . $i2 . '.' . $i3 . '.' . $i4;
+		$domain 	= UserIO::POST_String('domain');
+		$alias 		= UserIO::POST_String('alias');
+		$ip_card 	= UserIO::POST_String('ip_card');		
+	
+		if (filter_var($ip_number, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+			$err_msg = tr('Wrong IP number!');
+		} elseif ($domain == '') {
+			$err_msg = tr('Please specify domain!');
+		} elseif ($alias == '') {
+			$err_msg = tr('Please specify alias!');
+		} elseif (IP_exists()) {
+			$err_msg = tr('This IP already exist!');
+		} elseif (!in_array($ip_card, $interfaces->getAvailableInterface())) {
+			$err_msg = tr('Please select nework interface!');
+		} else {
+			$err_msg = '_off_';
+		}
+	} else {
 		$err_msg = tr('Wrong IP number!');
-	} elseif ($domain == '') {
-		$err_msg = tr('Please specify domain!');
-	} elseif ($alias == '') {
-		$err_msg = tr('Please specify alias!');
-	} elseif (IP_exists()) {
-		$err_msg = tr('This IP already exist!');
-	} elseif (!in_array($ip_card, $interfaces->getAvailableInterface())) {
-		$err_msg = tr('Please select nework interface!');
 	}
 
 	if ($err_msg == '_off_') {

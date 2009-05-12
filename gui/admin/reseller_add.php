@@ -90,7 +90,7 @@ function get_server_ip(&$tpl, &$sql) {
 
 			$ip_var_name = "ip_$ip_id";
 
-			if (isset($_POST[$ip_var_name]) && $_POST[$ip_var_name] == 'asgned') {
+			if (UserIO::POST_String($ip_var_name) == 'asgned') {
 				$ip_item_assigned = 'checked="checked"';
 
 				$reseller_ips .= "$ip_id;";
@@ -129,24 +129,24 @@ function add_reseller(&$tpl, &$sql) {
 
 	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'add_reseller') {
 		if (check_user_data()) {
-			$upass = crypt_user_pass($_POST['pass']);
+			$upass = crypt_user_pass(UserIO::POST_String('pass'));
 
 			$user_id = $_SESSION['user_id'];
 
-			$username = clean_input($_POST['username'], true);
-			$fname = clean_input($_POST['fname'], true);
-			$lname = clean_input($_POST['lname'], true);
-			$gender = clean_input($_POST['gender'], true);
-			$firm = clean_input($_POST['firm'], true);
-			$zip = clean_input($_POST['zip'], true);
-			$city = clean_input($_POST['city'], true);
-			$state = clean_input($_POST['state'], true);
-			$country = clean_input($_POST['country'], true);
-			$email = clean_input($_POST['email'], true);
-			$phone = clean_input($_POST['phone'], true);
-			$fax = clean_input($_POST['fax'], true);
-			$street1 = clean_input($_POST['street1'], true);
-			$street2 = clean_input($_POST['street2'], true);
+			$username = UserIO::POST_String('username');
+			$fname = UserIO::POST_String('fname');
+			$lname = UserIO::POST_String('lname');
+			$gender = UserIO::POST_String('gender');
+			$firm = UserIO::POST_String('firm');
+			$zip = UserIO::POST_String('zip');
+			$city = UserIO::POST_String('city');
+			$state = UserIO::POST_String('state');
+			$country = UserIO::POST_String('country');
+			$email = UserIO::POST_String('email');
+			$phone = UserIO::POST_String('phone');
+			$fax = UserIO::POST_String('fax');
+			$street1 = UserIO::POST_String('street1');
+			$street2 = UserIO::POST_String('street2');
 
 			$query = "
 				INSERT INTO `admin` (
@@ -239,16 +239,16 @@ function add_reseller(&$tpl, &$sql) {
 			 * 'reseller_props' table entry;
 			 */
 
-			$nreseller_max_domain_cnt = clean_input($_POST['nreseller_max_domain_cnt']);
-			$nreseller_max_subdomain_cnt = clean_input($_POST['nreseller_max_subdomain_cnt']);
-			$nreseller_max_alias_cnt = clean_input($_POST['nreseller_max_alias_cnt']);
-			$nreseller_max_mail_cnt = clean_input($_POST['nreseller_max_mail_cnt']);
-			$nreseller_max_ftp_cnt = clean_input($_POST['nreseller_max_ftp_cnt']);
-			$nreseller_max_sql_db_cnt = clean_input($_POST['nreseller_max_sql_db_cnt']);
-			$nreseller_max_sql_user_cnt = clean_input($_POST['nreseller_max_sql_user_cnt']);
-			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
-			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
-			$customer_id = clean_input($_POST['customer_id']);
+			$nreseller_max_domain_cnt = UserIO::POST_Int('nreseller_max_domain_cnt');
+			$nreseller_max_subdomain_cnt = UserIO::POST_Int('nreseller_max_subdomain_cnt');
+			$nreseller_max_alias_cnt = UserIO::POST_Int('nreseller_max_alias_cnt');
+			$nreseller_max_mail_cnt = UserIO::POST_Int('nreseller_max_mail_cnt');
+			$nreseller_max_ftp_cnt = UserIO::POST_Int('nreseller_max_ftp_cnt');
+			$nreseller_max_sql_db_cnt = UserIO::POST_Int('nreseller_max_sql_db_cnt');
+			$nreseller_max_sql_user_cnt = UserIO::POST_Int('nreseller_max_sql_user_cnt');
+			$nreseller_max_traffic = UserIO::POST_Int('nreseller_max_traffic');
+			$nreseller_max_disk = UserIO::POST_Int('nreseller_max_disk');
+			$customer_id = UserIO::POST_Int('customer_id');
 
 			$query = "
 				INSERT INTO `reseller_props` (
@@ -292,11 +292,11 @@ function add_reseller(&$tpl, &$sql) {
 			);
 
 			send_add_user_auto_msg($user_id,
-				clean_input($_POST['username']),
-				$_POST['pass'],
-				clean_input($_POST['email']),
-				clean_input($_POST['fname']),
-				clean_input($_POST['lname']),
+				UserIO::POST_String('username'),
+				UserIO::POST_String('pass'),
+				UserIO::POST_String('email'),
+				UserIO::POST_String('fname'),
+				UserIO::POST_String('lname'),
 				tr('Reseller'),
 				$gender
 			);
@@ -305,35 +305,36 @@ function add_reseller(&$tpl, &$sql) {
 
 			user_goto('manage_users.php');
 		} else {
+			$gender = UserIO::POST_String('gender');
 			$tpl->assign(
 				array(
-					'EMAIL' => clean_input($_POST['email'], true),
-					'USERNAME' => clean_input($_POST['username'], true),
-					'FIRST_NAME' => clean_input($_POST['fname'], true),
-					'CUSTOMER_ID' => clean_input($_POST['customer_id'], true),
-					'LAST_NAME' => clean_input($_POST['lname'], true),
-					'FIRM' => clean_input($_POST['firm'], true),
-					'ZIP' => clean_input($_POST['zip'], true),
-					'CITY' => clean_input($_POST['city'], true),
-					'STATE' => clean_input($_POST['state'], true),
-					'COUNTRY' => clean_input($_POST['country'], true),
-					'STREET_1' => clean_input($_POST['street1'], true),
-					'STREET_2' => clean_input($_POST['street2'], true),
-					'PHONE' => clean_input($_POST['phone'], true),
-					'FAX' => clean_input($_POST['fax'], true),
-					'VL_MALE' => (($_POST['gender'] == 'M') ? 'selected="selected"' : ''),
-					'VL_FEMALE' => (($_POST['gender'] == 'F') ? 'selected="selected"' : ''),
-					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? 'selected="selected"' : ''),
+					'EMAIL' => UserIO::HTML(UserIO::POST_String('email')),
+					'USERNAME' => UserIO::HTML(UserIO::POST_String('username')),
+					'FIRST_NAME' => UserIO::HTML(UserIO::POST_String('fname')),
+					'CUSTOMER_ID' => UserIO::HTML(UserIO::POST_String('customer_id')),
+					'LAST_NAME' => UserIO::HTML(UserIO::POST_String('lname')),
+					'FIRM' => UserIO::HTML(UserIO::POST_String('firm')),
+					'ZIP' => UserIO::HTML(UserIO::POST_String('zip')),
+					'CITY' => UserIO::HTML(UserIO::POST_String('city')),
+					'STATE' => UserIO::HTML(UserIO::POST_String('state')),
+					'COUNTRY' => UserIO::HTML(UserIO::POST_String('country')),
+					'STREET_1' => UserIO::HTML(UserIO::POST_String('street1')),
+					'STREET_2' => UserIO::HTML(UserIO::POST_String('street2')),
+					'PHONE' => UserIO::HTML(UserIO::POST_String('phone')),
+					'FAX' => UserIO::HTML(UserIO::POST_String('fax')),
+					'VL_MALE' => ($gender == 'M') ? 'selected="selected"' : '',
+					'VL_FEMALE' => ($gender == 'F') ? 'selected="selected"' : '',
+					'VL_UNKNOWN' => ($gender == 'U' || empty($gender)) ? 'selected="selected"' : ''),
 
-					'MAX_DOMAIN_COUNT' => clean_input($_POST['nreseller_max_domain_cnt']),
-					'MAX_SUBDOMAIN_COUNT' => clean_input($_POST['nreseller_max_subdomain_cnt']),
-					'MAX_ALIASES_COUNT' => clean_input($_POST['nreseller_max_alias_cnt']),
-					'MAX_MAIL_USERS_COUNT' => clean_input($_POST['nreseller_max_mail_cnt']),
-					'MAX_FTP_USERS_COUNT' => clean_input($_POST['nreseller_max_ftp_cnt']),
-					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt']),
-					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt']),
-					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic']),
-					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'])
+					'MAX_DOMAIN_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_domain_cnt')),
+					'MAX_SUBDOMAIN_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_subdomain_cnt')),
+					'MAX_ALIASES_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_alias_cnt'),
+					'MAX_MAIL_USERS_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_mail_cnt')),
+					'MAX_FTP_USERS_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_ftp_cnt')),
+					'MAX_SQLDB_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_sql_db_cnt')),
+					'MAX_SQL_USERS_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_sql_user_cnt')),
+					'MAX_TRAFFIC_AMOUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_traffic')),
+					'MAX_DISK_AMOUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_disk'))
 				)
 			);
 		}
@@ -378,7 +379,7 @@ function check_user_data() {
 	global $reseller_ips;
 	$sql = Database::getInstance();
 
-	$username = clean_input($_POST['username']);
+	$username = UserIO::POST_String('username');
 
 	$query = "
 		SELECT
@@ -396,12 +397,12 @@ function check_user_data() {
 
 		return false;
 	}
-	if (!chk_username(clean_input($_POST['username']))) {
+	if (!chk_username($username)) {
 		set_page_message(tr("Incorrect username length or syntax!"));
 
 		return false;
 	}
-	if (!chk_password($_POST['pass'])) {
+	if (!chk_password(UserIO::POST_String('pass'))) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
@@ -410,57 +411,57 @@ function check_user_data() {
 
 		return false;
 	}
-	if ($_POST['pass'] != $_POST['pass_rep']) {
+	if (UserIO::POST_String('pass') != UserIO::POST_String('pass_rep')) {
 		set_page_message(tr("Entered passwords do not match!"));
 
 		return false;
 	}
-	if (!chk_email(clean_input($_POST['email']))) {
+	if (UserIO::POST_EMail('email', true) === false) {
 		set_page_message(tr("Incorrect email syntax!"));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_domain_cnt'], null)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_domain_cnt'), null)) {
 		set_page_message(tr("Incorrect domains limit!"));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_subdomain_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_subdomain_cnt'), -1)) {
 		set_page_message(tr("Incorrect subdomains limit!"));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_alias_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_alias_cnt'), -1)) {
 		set_page_message(tr('Incorrect aliases limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_ftp_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_ftp_cnt'), -1)) {
 		set_page_message(tr('Incorrect FTP accounts limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_mail_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_mail_cnt'), -1)) {
 		set_page_message(tr('Incorrect mail accounts limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_sql_db_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_sql_db_cnt'), -1)) {
 		set_page_message(tr('Incorrect SQL databases limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_sql_user_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_sql_user_cnt'), -1)) {
 		set_page_message(tr('Incorrect SQL users limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_traffic'], null)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_traffic'), null)) {
 		set_page_message(tr('Incorrect traffic limit!'));
 
 		return false;
 	}
-	if (!ispcp_limit_check($_POST['nreseller_max_disk'], null)) {
+	if (!ispcp_limit_check(UserIO::POST_String('nreseller_max_disk'), null)) {
 		set_page_message(tr('Incorrect disk quota limit!'));
 
 		return false;

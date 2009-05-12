@@ -58,14 +58,14 @@ SQL_QUERY;
 
 	while (!$rs->EOF) {
 
-		if ((UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'change_src')
-			&& (isset($_POST['src_reseller']) && $_POST['src_reseller'] == $rs->fields['admin_id'])) {
+		if (UserIO::POST_GetString('uaction') == 'change_src')
+			&& UserIO::POST_Int('src_reseller') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
-			$reseller_id = $_POST['src_reseller'];
-		} else if ((UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'move_user')
-			&& (isset($_POST['dst_reseller']) && $_POST['dst_reseller'] == $rs->fields['admin_id'])) {
+			$reseller_id = UserIO::POST_Int('src_reseller');
+		} else if (UserIO::POST_GetString('uaction') == 'move_user')
+			&& UserIO::POST_Int('dst_reseller') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
-			$reseller_id = $_POST['dst_reseller'];
+			$reseller_id = UserIO::POST_Int('dst_reseller');
 		} else {
 			$selected = '';
 		}
@@ -143,8 +143,7 @@ SQL_QUERY;
 }
 
 function update_reseller_user($sql) {
-	if (UserIO::POST_isset('uaction')
-		&& UserIO::POST_GetString('uaction') === 'move_user'
+	if (UserIO::POST_GetString('uaction') == 'move_user' 
 		&& check_user_data()) {
 		set_page_message(tr('User was moved'));
 	}
@@ -173,7 +172,7 @@ SQL_QUERY;
 
 		$admin_id_var_name = "admin_id_$admin_id";
 
-		if (isset($_POST[$admin_id_var_name]) && $_POST[$admin_id_var_name] === 'on') {
+		if (UserIO::POST_String($admin_id_var_name) == 'on') {
 			$selected_users .= $rs->fields['admin_id'] . ';';
 		}
 
@@ -184,13 +183,13 @@ SQL_QUERY;
 		set_page_message(tr('Please select some user(s)!'));
 
 		return false;
-	} else if ($_POST['src_reseller'] == $_POST['dst_reseller']) {
+	} else if (UserIO::POST_Int('src_reseller') == UserIO::POST_Int('dst_reseller')) {
 		set_page_message(tr('Source and destination reseller are the same!'));
 
 		return false;
 	}
 
-	$dst_reseller = $_POST['dst_reseller'];
+	$dst_reseller = UserIO::POST_Int('dst_reseller');
 
 	$query = <<<SQL_QUERY
 		SELECT
@@ -210,7 +209,9 @@ SQL_QUERY;
 	check_ip_sets($dest_reseller_ips, $selected_users, $mru_error);
 
 	if ($mru_error == '_off_') {
-		manage_reseller_limits($_POST['dst_reseller'], $_POST['src_reseller'], $selected_users, $mru_error);
+		manage_reseller_limits(UserIO::POST_Int('dst_reseller'), 
+			UserIO::POST_Int('src_reseller'), 
+			$selected_users, $mru_error);
 	}
 
 	if ($mru_error != '_off_') {

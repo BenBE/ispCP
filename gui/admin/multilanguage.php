@@ -46,10 +46,10 @@ function update_def_lang() {
 	$sql = Database::getInstance();
 	global $theme;
 
-	if (UserIO::POST_isset('uaction') && UserIO::POST_GetString('uaction') === 'change_language') {
-		if (isset($_POST['default_language']) && !empty($_POST['default_language'])) {
+	if (UserIO::POST_GetString('uaction') == 'change_language') {
+		if (UserIO::POST_String('default_language') != '') {
 			$user_id = $_SESSION['user_id'];
-			$user_lang = $_POST['default_language'];
+			$user_lang = UserIO::POST_String('default_language');
 
 			$query = "SELECT * FROM `user_gui_props` WHERE `user_id` = ?";
 			$rs = exec_query($sql, $query, array($user_id));

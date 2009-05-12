@@ -302,8 +302,8 @@ function check_dn_token($data) {
  * @param mixed $extra single extra permitted value or array of permitted values
  * @return boolean	false	incorrect syntax (ranges)
  * 					true	correct syntax (ranges)
- * @example ispcp_limit_check(UserIO::PostString('domains_limit'), null)
- * @example ispcp_limit_check(UserIO::PostString('domains_limit'))
+ * @example ispcp_limit_check(UserIO::POST_String('domains_limit'), null)
+ * @example ispcp_limit_check(UserIO::POST_String('domains_limit'))
  *
  * @todo foreach and "=" inner this loop is unusual
  */
