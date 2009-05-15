@@ -233,8 +233,6 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 			AND
 				`subdomain_alias_mount` = ?
 		";
-		unset($query2);
-		unset($rs2);
 	} else {
 		$query = "
 			SELECT
