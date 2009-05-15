@@ -45,12 +45,15 @@ $tpl->assign(
 function padd_user(&$tpl, &$sql, $dmn_id) {
 	if (UserIO::POST_String('uaction') == 'add_user') {
 		// we have to add the user
-		if (isset($_POST['username']) && isset($_POST['pass']) && isset($_POST['pass_rep'])) {
-			if (!chk_username($_POST['username'])) {
+		$username = UserIO::POST_String('username', false, true);
+		$pass = UserIO::POST_String('pass', false, true);
+		$pass_rep = UserIO::POST_String('pass_rep', false, true);
+		if ($username != '' && $pass != '' && $pass_rep != '') {
+			if (!chk_username($username)) {
 				set_page_message(tr('Wrong username!'));
 				return;
 			}
-			if (!chk_password($_POST['pass'])) {
+			if (!chk_password($pass)) {
 				if (Config::get('PASSWD_STRONG')) {
 					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 				} else {
@@ -58,15 +61,15 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 				}
 				return;
 			}
-			if ($_POST['pass'] !== $_POST['pass_rep']) {
+			if ($pass !== $pass_rep) {
 				set_page_message(tr('Passwords do not match!'));
 				return;
 			}
 			$status = Config::get('ITEM_ADD_STATUS');
 
-			$uname = clean_input($_POST['username']);
+			$uname = $username;
 
-			$upass = crypt_user_pass_with_salt($_POST['pass']);
+			$upass = crypt_user_pass_with_salt($pass);
 
 			$query = "
 				SELECT

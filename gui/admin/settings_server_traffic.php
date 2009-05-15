@@ -49,9 +49,8 @@ function update_server_settings(&$sql) {
 	$match = array();
 	preg_match("/^(-1|0|[1-9][0-9]*)$/D", $data, $match);*/
 
-	$max_traffic = clean_input($_POST['max_traffic']);
-
-	$traffic_warning = $_POST['traffic_warning'];
+	$max_traffic = UserIO::POST_String('max_traffic');
+	$traffic_warning = UserIO::POST_String('traffic_warning');
 
 	if (!is_numeric($max_traffic) || !is_numeric($traffic_warning)) {
 		set_page_message(tr('Wrong data input!'));

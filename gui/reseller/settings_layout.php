@@ -38,7 +38,7 @@ function save_layout() {
 	if (UserIO::POST_String('uaction') == 'save_layout') {
 
 		$user_id = $_SESSION['user_id'];
-		$user_layout = $_POST['def_layout'];
+		$user_layout = UserIO::POST_String('def_layout');
 		$query = "
 			UPDATE
 				`user_gui_props`
@@ -57,7 +57,7 @@ function save_layout() {
 function update_logo() {
 
 	$user_id = $_SESSION['user_id'];
-	if (isset($_POST['delete_logo'])) {
+	if (UserIO::POST_isset('delete_logo')) {
 
 		$logo = get_own_logo($user_id);
 		if (basename($logo) != 'isp_logo.gif') { // default logo
@@ -66,7 +66,7 @@ function update_logo() {
 		}
 		return;
 
-	} else if (isset($_POST['upload_logo'])) {
+	} else if (UserIO::POST_isset('upload_logo')) {
 
 		if (empty($_FILES['logo_file']['tmp_name'])) {
 				set_page_message(tr('Upload file error!'));

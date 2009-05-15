@@ -104,15 +104,14 @@ $tpl->assign(
 	)
 );
 
-if (isset($_POST['genpass'])) {
+if (UserIO::POST_isset('genpass')) {
 	$tpl->assign('VAL_PASSWORD', passgen());
 } else {
 	$tpl->assign('VAL_PASSWORD', '');
 }
 
-if (isset($_POST['Submit'])
-	&& UserIO::POST_isset('uaction')
-	&& ('save_changes' === UserIO::POST_String('uaction'))) {
+if (UserIO::POST_isset('Submit')
+	&& UserIO::POST_String('uaction') == 'save_changes') {
 	// Process data
 
 	if (isset($_SESSION['edit_ID'])) {
@@ -229,22 +228,22 @@ function gen_edituser_page(&$tpl) {
 	// Fill in the fields
 	$tpl->assign(
 		array(
-			'VL_USERNAME'		=> decode_idna($dmn_user_name),
-			'VL_MAIL'			=> empty($user_email) ? '' : $user_email,
+			'VL_USERNAME'		=> UserIO::HTML(decode_idna($dmn_user_name)),
+			'VL_MAIL'			=> empty($user_email) ? '' : UserIO::HTML($user_email),
 			'VL_USR_ID'			=> empty($customer_id) ? '' : $customer_id,
-			'VL_USR_NAME'		=> empty($first_name) ? '' : $first_name,
-			'VL_LAST_USRNAME'	=> empty($last_name) ? '' : $last_name,
-			'VL_USR_FIRM'		=> empty($firm) ? '' : $firm,
-			'VL_USR_POSTCODE'	=> empty($zip) ? '' : $zip,
-			'VL_USRCITY'		=> empty($city) ? '' : $city,
-			'VL_USRSTATE'		=> empty($state) ?'':$state,
-			'VL_COUNTRY'		=> empty($country) ? '' : $country,
-			'VL_STREET1'		=> empty($street_one) ? '' : $street_one,
-			'VL_STREET2'		=> empty($street_two) ? '' : $street_two,
+			'VL_USR_NAME'		=> empty($first_name) ? '' : UserIO::HTML($first_name),
+			'VL_LAST_USRNAME'	=> empty($last_name) ? '' : UserIO::HTML($last_name),
+			'VL_USR_FIRM'		=> empty($firm) ? '' : UserIO::HTML($firm),
+			'VL_USR_POSTCODE'	=> empty($zip) ? '' : UserIO::HTML($zip),
+			'VL_USRCITY'		=> empty($city) ? '' : UserIO::HTML($city),
+			'VL_USRSTATE'		=> empty($state) ?'':UserIO::HTML($state),
+			'VL_COUNTRY'		=> empty($country) ? '' : UserIO::HTML($country),
+			'VL_STREET1'		=> empty($street_one) ? '' : UserIO::HTML($street_one),
+			'VL_STREET2'		=> empty($street_two) ? '' : UserIO::HTML($street_two),
 			'VL_MALE'			=> ($gender == 'M') ? 'checked="checked"' : '',
 			'VL_FEMALE'			=> ($gender == 'F') ? 'checked="checked"' : '',
-			'VL_PHONE'			=> empty($phone) ? '' : $phone,
-			'VL_FAX'			=> empty($fax) ? '' : $fax
+			'VL_PHONE'			=> empty($phone) ? '' : UserIO::HTML($phone),
+			'VL_FAX'			=> empty($fax) ? '' : UserIO::HTML($fax)
 		)
 	);
 
@@ -268,18 +267,18 @@ function update_data_in_db($hpid) {
 
 	$reseller_id = $_SESSION['user_id'];
 
-	$first_name	= clean_input($first_name, true);
-	$last_name	= clean_input($last_name, true);
-	$firm		= clean_input($firm, true);
-	$gender		= clean_input($gender, true);
-	$zip		= clean_input($zip, true);
-	$city		= clean_input($city, true);
-	$state		= clean_input($state, true);
-	$country	= clean_input($country, true);
-	$phone		= clean_input($phone, true);
-	$fax		= clean_input($fax, true);
-	$street_one	= clean_input($street_one, true);
-	$street_two	= clean_input($street_two, true);
+	$first_name	= $first_name;
+	$last_name	= $last_name;
+	$firm		= $firm;
+	$gender		= $gender;
+	$zip		= $zip;
+	$city		= $city;
+	$state		= $state;
+	$country	= $country;
+	$phone		= $phone;
+	$fax		= $fax;
+	$street_one	= $street_one;
+	$street_two	= $street_two;
 
 	if (empty($inpass)) {
 		// Save without password
@@ -326,7 +325,7 @@ function update_data_in_db($hpid) {
 		);
 	} else {
 		// Change password
-		if (!chk_password($_POST['userpassword'])) {
+		if (!chk_password(UserIO::POST_String('userpassword'))) {
 
 			if (Config::get('PASSWD_STRONG')) {
 				set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
@@ -336,7 +335,7 @@ function update_data_in_db($hpid) {
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}
 
-		if ($_POST['userpassword'] != $_POST['userpassword_repeat']) {
+		if (UserIO::POST_String('userpassword') != UserIO::POST_String('userpassword_repeat')) {
 
 			set_page_message(tr("Entered passwords do not match!"));
 
@@ -409,7 +408,7 @@ function update_data_in_db($hpid) {
 	$admin_login = $_SESSION['user_logged'];
 	write_log("$admin_login changes data/password for $dmn_user_name!");
 
-	if (isset($_POST['send_data']) && !empty($inpass)) {
+	if (UserIO::POST_isset('send_data') && !empty($inpass)) {
 		send_add_user_auto_msg(
 			$reseller_id,
 			$dmn_user_name,

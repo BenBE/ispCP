@@ -35,8 +35,8 @@ $data = get_welcome_email($user_id);
 
 if (UserIO::POST_String('uaction') == 'email_setup') {
 
-	$data['subject'] = clean_input($_POST['auto_subject'], false);
-	$data['message'] = clean_input($_POST['auto_message'], false);
+	$data['subject'] = UserIO::POST_String('auto_subject');
+	$data['message'] = UserIO::POST_Memo('auto_message');
 
 	$message = '';
 
@@ -89,10 +89,10 @@ $tpl->assign(
 		'TR_USERTYPE' => tr('User type (admin, reseller, user)'),
 		'TR_BASE_SERVER_VHOST' => tr('URL to this admin panel'),
 		'TR_BASE_SERVER_VHOST_PREFIX' => tr('URL protocol'),
-		'SUBJECT_VALUE' => addslashes(clean_input($data['subject'], true)),
-		'MESSAGE_VALUE' => $data['message'],
-		'SENDER_EMAIL_VALUE' => $data['sender_email'],
-		'SENDER_NAME_VALUE' => $data['sender_name']
+		'SUBJECT_VALUE' => UserIO::HTML($data['subject']),
+		'MESSAGE_VALUE' => UserIO::HTML($data['message']),
+		'SENDER_EMAIL_VALUE' => UserIO::HTML($data['sender_email']),
+		'SENDER_NAME_VALUE' => UserIO::HTML($data['sender_name'])
 	)
 );
 

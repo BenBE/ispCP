@@ -142,7 +142,7 @@ function add_user(&$tpl, &$sql) {
 				) VALUES (?,?,?,?)
 			";
 
-			$rs = exec_query($sql, $query, array($new_admin_id,
+			exec_query($sql, $query, array($new_admin_id,
 					$user_def_lang,
 					$user_theme_color,
 					$user_logo));
@@ -170,7 +170,7 @@ function add_user(&$tpl, &$sql) {
 					'FIRM' => UserIO::HTML(UserIO::POST_String('firm')),
 					'ZIP' => UserIO::HTML(UserIO::POST_String('zip')),
 					'CITY' => UserIO::HTML(UserIO::POST_String('city')),
-					'STATE' => UserIO::HTML(UserIO::POST_String('state'),
+					'STATE' => UserIO::HTML(UserIO::POST_String('state')),
 					'COUNTRY' => UserIO::HTML(UserIO::POST_String('country')),
 					'STREET_1' => UserIO::HTML(UserIO::POST_String('street1')),
 					'STREET_2' => UserIO::HTML(UserIO::POST_String('street2')),
@@ -179,7 +179,7 @@ function add_user(&$tpl, &$sql) {
 					'VL_MALE' => ((UserIO::POST_String('gender') == 'M') ? 'selected="selected"' : ''),
 					'VL_FEMALE' => ((UserIO::POST_String('gender') == 'F') ? 'selected="selected"' : ''),
 					'VL_UNKNOWN' => (((UserIO::POST_String('gender') == 'U') 
-						|| UserIO::POST_String('gender') == '')) ? 'selected="selected"' : '')
+						|| UserIO::POST_String('gender') == '')) ? 'selected="selected"' : ''
 				)
 			);
 		}

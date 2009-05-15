@@ -71,18 +71,18 @@ function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 
 	$tpl->assign(
 		array(
-			'FIRST_NAME'	=> (($rs->fields['fname'] == null)		? '' : $rs->fields['fname']),
-			'LAST_NAME'		=> (($rs->fields['lname'] == null)		? '' : $rs->fields['lname']),
-			'FIRM'			=> (($rs->fields['firm'] == null)		? '' : $rs->fields['firm']),
-			'ZIP'			=> (($rs->fields['zip'] == null)		? '' : $rs->fields['zip']),
-			'CITY'			=> (($rs->fields['city'] == null)		? '' : $rs->fields['city']),
-			'STATE'			=> (($rs->fields['state'] == null)		? '' : $rs->fields['state']),
-			'COUNTRY'		=> (($rs->fields['country'] == null)	? '' : $rs->fields['country']),
-			'STREET_1'		=> (($rs->fields['street1'] == null)	? '' : $rs->fields['street1']),
-			'STREET_2'		=> (($rs->fields['street2'] == null)	? '' : $rs->fields['street2']),
-			'EMAIL'			=> (($rs->fields['email'] == null)		? '' : $rs->fields['email']),
-			'PHONE'			=> (($rs->fields['phone'] == null)		? '' : $rs->fields['phone']),
-			'FAX'			=> (($rs->fields['fax'] == null)		? '' : $rs->fields['fax']),
+			'FIRST_NAME'	=> (($rs->fields['fname'] == null)		? '' : UserIO::HTML($rs->fields['fname'])),
+			'LAST_NAME'		=> (($rs->fields['lname'] == null)		? '' : UserIO::HTML($rs->fields['lname'])),
+			'FIRM'			=> (($rs->fields['firm'] == null)		? '' : UserIO::HTML($rs->fields['firm'])),
+			'ZIP'			=> (($rs->fields['zip'] == null)		? '' : UserIO::HTML($rs->fields['zip'])),
+			'CITY'			=> (($rs->fields['city'] == null)		? '' : UserIO::HTML($rs->fields['city'])),
+			'STATE'			=> (($rs->fields['state'] == null)		? '' : UserIO::HTML($rs->fields['state'])),
+			'COUNTRY'		=> (($rs->fields['country'] == null)	? '' : UserIO::HTML($rs->fields['country'])),
+			'STREET_1'		=> (($rs->fields['street1'] == null)	? '' : UserIO::HTML($rs->fields['street1'])),
+			'STREET_2'		=> (($rs->fields['street2'] == null)	? '' : UserIO::HTML($rs->fields['street2'])),
+			'EMAIL'			=> (($rs->fields['email'] == null)		? '' : UserIO::HTML($rs->fields['email'])),
+			'PHONE'			=> (($rs->fields['phone'] == null)		? '' : UserIO::HTML($rs->fields['phone'])),
+			'FAX'			=> (($rs->fields['fax'] == null)		? '' : UserIO::HTML($rs->fields['fax'])),
 			'VL_MALE'		=> (($rs->fields['gender'] == 'M')		? 'selected="selected"' : ''),
 			'VL_FEMALE'		=> (($rs->fields['gender'] == 'F')		? 'selected="selected"' : ''),
 			'VL_UNKNOWN'	=> ((($rs->fields['gender'] == 'U') || (empty($rs->fields['gender']))) ? 'selected="selected"' : '')
@@ -91,19 +91,19 @@ function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 }
 
 function update_reseller_personal_data(&$sql, $user_id) {
-	$fname		= clean_input($_POST['fname'], true);
-	$lname		= clean_input($_POST['lname'], true);
-	$gender		= $_POST['gender'];
-	$firm		= clean_input($_POST['firm'], true);
-	$zip		= clean_input($_POST['zip'], true);
-	$city		= clean_input($_POST['city'], true);
-	$state		= clean_input($_POST['state'], true);
-	$country	= clean_input($_POST['country'], true);
-	$street1	= clean_input($_POST['street1'], true);
-	$street2	= clean_input($_POST['street2'], true);
-	$email		= clean_input($_POST['email'], true);
-	$phone		= clean_input($_POST['phone'], true);
-	$fax		= clean_input($_POST['fax'], true);
+	$fname		= UserIO::POST_String('fname');
+	$lname		= UserIO::POST_String('lname');
+	$gender		= UserIO::POST_String('gender');
+	$firm		= UserIO::POST_String('firm');
+	$zip		= UserIO::POST_String('zip');
+	$city		= UserIO::POST_String('city');
+	$state		= UserIO::POST_String('state');
+	$country	= UserIO::POST_String('country');
+	$street1	= UserIO::POST_String('street1');
+	$street2	= UserIO::POST_String('street2');
+	$email		= UserIO::POST_String('email');
+	$phone		= UserIO::POST_String('phone');
+	$fax		= UserIO::POST_String('fax');
 
 	$query = "
 		UPDATE

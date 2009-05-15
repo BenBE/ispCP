@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: hosting_plan.php 1744 2009-05-07 03:21:47Z haeber $
+ * @version		SVN: $Id: hosting_plan.php 1740 2009-05-06 22:12:01Z haeber $
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -23,14 +23,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-if (strtolower(Config::get('HOSTING_PLANS_LEVEL')) != 'admin') {
-	user_goto('index.php');
-}
-
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/hosting_plan.tpl');
+$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/hosting_plan.tpl');
 $tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl->define_dynamic('logged_from', 'page');
 // Table with hosting plans
 $tpl->define_dynamic('hp_table', 'page');
 $tpl->define_dynamic('hp_entry', 'hp_table');
@@ -41,7 +37,7 @@ $theme_color = Config::get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Administrator/Hosting Plan Management'),
+		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
 		'THEME_COLOR_PATH' => "../themes/$theme_color",
 		'THEME_CHARSET' => tr('encoding'),
 		'ISP_LOGO' => get_logo($_SESSION['user_id'])
@@ -54,8 +50,11 @@ $tpl->assign(
  *
  */
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
+gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
+
+gen_logged_from($tpl);
+
 gen_hp_table($tpl, $_SESSION['user_id']);
 
 $tpl->assign(
@@ -71,35 +70,38 @@ $tpl->assign(
 	)
 );
 
-gen_hp_message();
+gen_hp_message($tpl);
 gen_page_message($tpl);
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 // BEGIN FUNCTION DECLARE PATH
 
-function gen_hp_message() {
+function gen_hp_message(&$tpl) {
 	// global $externel_event, $hp_added, $hp_deleted, $hp_updated;
-	// global $external_event;
-	if (isset($_SESSION["hp_added"]) && $_SESSION["hp_added"] == '_yes_') {
-		// $external_event = '_on_';
+	global $external_event;
+
+	if (isset($_SESSION["hp_added"])
+		&& $_SESSION["hp_added"] == '_yes_') {
+		$external_event = '_on_';
 		set_page_message(tr('Hosting plan added!'));
 		unset($_SESSION["hp_added"]);
-		if (isset($GLOBALS['hp_added']))
-			unset($GLOBALS['hp_added']);
-	} else if (isset($_SESSION["hp_deleted"]) && $_SESSION["hp_deleted"] == '_yes_') {
-		// $external_event = '_on_';
+		unset($GLOBALS['hp_added']);
+	} else if (isset($_SESSION["hp_deleted"])
+		&& $_SESSION["hp_deleted"] == '_yes_') {
+		$external_event = '_on_';
 		set_page_message(tr('Hosting plan deleted!'));
 		unset($_SESSION["hp_deleted"]);
-		if (isset($GLOBALS['hp_deleted']))
-			unset($GLOBALS['hp_deleted']);
-	} else if (isset($_SESSION["hp_updated"]) && $_SESSION["hp_updated"] == '_yes_') {
-		// $external_event = '_on_';
+		unset($GLOBALS['hp_deleted']);
+	} else if (isset($_SESSION["hp_updated"])
+		&& $_SESSION["hp_updated"] == '_yes_') {
+		$external_event = '_on_';
 		set_page_message(tr('Hosting plan updated!'));
 		unset($_SESSION["hp_updated"]);
-		if (isset($GLOBALS['hp_updated']))
-			unset($GLOBALS['hp_updated']);
-	} else if (isset($_SESSION["hp_deleted_ordererror"]) && $_SESSION["hp_deleted_ordererror"] == '_yes_') {
+		unset($GLOBALS['hp_updated']);
+	} else if (isset($_SESSION["hp_deleted_ordererror"])
+		&& $_SESSION["hp_deleted_ordererror"] == '_yes_') {
 		//$external_event = '_on_';
 		set_page_message(tr('Hosting plan can\'t be deleted, there are orders!'));
 		unset($_SESSION["hp_deleted_ordererror"]);
@@ -111,33 +113,54 @@ function gen_hp_message() {
  */
 function gen_hp_table(&$tpl, $reseller_id) {
 	$sql = Database::getInstance();
+	global $external_event;
 
-	$query = <<<SQL_QUERY
-		SELECT
-			t1.`id`, t1.`reseller_id`, t1.`name`, t1.`props`, t1.`status`,
-			t2.`admin_id`, t2.`admin_type`
-		FROM
-			`hosting_plans` AS t1,
-			`admin` AS t2
-		WHERE
-			t2.`admin_type` = ?
-		AND
-			t1.`reseller_id` = t2.`admin_id`
-		ORDER BY
-			t1.`name`
+	if (Config::exists('HOSTING_PLANS_LEVEL')
+		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+		$query = <<<SQL_QUERY
+			SELECT
+				t1.`id`, t1.`reseller_id`, t1.`name`, t1.`props`, t1.`status`,
+				t2.`admin_id`, t2.`admin_type`
+			FROM
+				`hosting_plans` AS t1,
+				`admin` AS t2
+			WHERE
+				t2.`admin_type` = ?
+			AND
+				t1.`reseller_id` = t2.`admin_id`
+			AND
+				t1.`status` = 1
+			ORDER BY
+				t1.`name`
 SQL_QUERY;
-	$rs = exec_query($sql, $query, array('admin'));
-	$tr_edit = tr('Edit');
+
+		$rs = exec_query($sql, $query, array('admin'));
+		$tr_edit = tr('View details');
+		$tpl->assign('HP_MENU_ADD', '');
+	} else {
+		$query = <<<SQL_QUERY
+			SELECT
+				`id`, `name`, `props`, `status`
+			FROM
+				`hosting_plans`
+			WHERE
+				`reseller_id` = ?
+			ORDER BY
+				`name`
+SQL_QUERY;
+		$rs = exec_query($sql, $query, array($reseller_id));
+		$tr_edit = tr('Edit');
+	}
 
 	if ($rs->RowCount() == 0) {
-		// if ($externel_event == '_off_') {
+		// if ($external_event == '_off_') {
 		set_page_message(tr('Hosting plans not found!'));
 		// }
 		$tpl->assign('HP_TABLE', '');
 	} else { // There are data for hosting plans :-)
-		/*if ($GLOBALS['external_event'] == '_off_') {
+		if ($external_event == '_off_') {
 			$tpl->assign('HP_MESSAGE', '');
-		}*/
+		}
 
 		$tpl->assign(
 			array(
@@ -150,20 +173,22 @@ SQL_QUERY;
 		);
 
 		$i = 1;
-		while (($data = $rs->FetchRow())) {
+		while ($data = $rs->FetchRow()) {
+
 			$tpl->assign(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
+
 			$status = ($data['status'] == 1) ? tr('Enabled') : tr('Disabled');
 
 			$tpl->assign(
 				array(
 					'PLAN_NOM' => $i++,
-					'PLAN_NAME' => UserIO::HTML($data['name']),
+					'PLAN_NAME' => $data['name'],
 					'PLAN_NAME2' => UserIO::JS($data['name'], true),
 					'PLAN_ACTION' => tr('Delete'),
 					'PLAN_SHOW' => tr('Show hosting plan'),
 					'PURCHASING' => $status,
 					'HP_ID' => $data['id'],
-					'ADMIN_ID' => $_SESSION['user_id']
+					'RESELLER_ID' => $_SESSION['user_id']
 				)
 			);
 			$tpl->parse('HP_ENTRY', '.hp_entry');
@@ -172,6 +197,9 @@ SQL_QUERY;
 	}
 } // End of gen_hp_table()
 
+// ******************************
+// END OF FUNCTION DECLARE PATH
+// *****************************
 if (Config::get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }

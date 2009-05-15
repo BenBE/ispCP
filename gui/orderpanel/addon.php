@@ -72,8 +72,8 @@ if (isset($_SESSION['domainname'])) {
 	user_goto('address.php');
 }
 
-if (isset($_POST['domainname']) && $_POST['domainname'] != '') {
-	addon_domain($_POST['domainname']);
+if (UserIO::POST_String('domainname') != '') {
+	addon_domain(UserIO::POST_String('domainname'));
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);

@@ -72,14 +72,12 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 	if (UserIO::GET_Int('uname') > 0) {
 		$uuser_id = UserIO::GET_Int('uname');
 
-		$tpl->assign('UNAME', get_htuser_name($sql, $uuser_id, $dmn_id));
+		$tpl->assign('UNAME', UserIO::HTML(get_htuser_name($sql, $uuser_id, $dmn_id)));
 		$tpl->assign('UID', $uuser_id);
-	} else if (isset($_POST['nadmin_name'])
-		&& !empty($_POST['nadmin_name'])
-		&& is_numeric($_POST['nadmin_name'])) {
-		$uuser_id = $_POST['nadmin_name'];
+	} else if (UserIO::POST_Int('nadmin_name') > 0) {
+		$uuser_id = UserIO::POST_Int('nadmin_name');
 
-		$tpl->assign('UNAME', get_htuser_name($sql, $uuser_id, $dmn_id));
+		$tpl->assign('UNAME', UserIO::HTML(get_htuser_name($sql, $uuser_id, $dmn_id)));
 		$tpl->assign('UID', $uuser_id);
 	} else {
 		user_goto('protected_user_manage.php');
@@ -115,7 +113,7 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 				if ($uuser_id == $members[$i]) {
 					$tpl->assign(
 						array(
-							'GRP_IN' => $group_name,
+							'GRP_IN' => UserIO::HTML($group_name),
 							'GRP_IN_ID' => $group_id,
 						)
 					);
@@ -128,7 +126,7 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 			if ($grp_in !== $group_id) {
 				$tpl->assign(
 					array(
-						'GRP_NAME' => $group_name,
+						'GRP_NAME' => UserIO::HTML($group_name),
 						'GRP_ID' => $group_id,
 					)
 				);
@@ -150,11 +148,10 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 
 function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 	if (UserIO::POST_String('uaction') == 'add'
-		&& isset($_POST['groups']) && !empty($_POST['groups'])
-		&& isset($_POST['nadmin_name']) && is_numeric($_POST['groups'])
-		&& is_numeric($_POST['nadmin_name'])) {
-		$uuser_id = clean_input($_POST['nadmin_name']);
-		$group_id = $_POST['groups'];
+		&& UserIO::POST_Int('groups') > 0
+		&& UserIO::POST_Int('nadmin_name') > 0) {
+		$uuser_id = UserIO::POST_Int('nadmin_name');
+		$group_id = UserIO::POST_Int('groups');
 
 		$query = "
 			SELECT
@@ -204,11 +201,10 @@ function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 
 function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
 	if (UserIO::POST_String('uaction') == 'remove'
-		&& isset($_POST['groups_in']) && !empty($_POST['groups_in'])
-		&& isset($_POST['nadmin_name']) && is_numeric($_POST['groups_in'])
-		&& is_numeric($_POST['nadmin_name'])) {
-		$group_id = $_POST['groups_in'];
-		$uuser_id = clean_input($_POST['nadmin_name']);
+		&& UserIO::POST_Int('groups_in') > 0
+		&& UserIO::POST_Int('nadmin_name') > 0) {
+		$group_id = UserIO::POST_Int('groups_in');
+		$uuser_id = UserIO::POST_Int('nadmin_name');
 
 		$query = "
 			SELECT

@@ -405,7 +405,7 @@ function add_user_data($reseller_id) {
 
 	au_update_reseller_props($reseller_id, $props);
 
-	if (isset($_POST['add_alias']) && $_POST['add_alias'] === 'on') {
+	if (UserIO::POST_String('add_alias') === 'on') {
 		// we have to add some aliases for this looser
 		$_SESSION['dmn_id'] = $dmn_id;
 		$_SESSION['dmn_ip'] = $domain_ip;

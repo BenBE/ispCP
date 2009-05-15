@@ -51,14 +51,15 @@ SQL_QUERY;
 				$menu_level = tr('All');
 			}
 
+			// @todo maybe some variable mismatch 2009-05-15
 			$tpl->assign(
 				array(
-					'BUTTON_LINK'		=> $menu_link,
+					'BUTTON_LINK'		=> UserIO::HTML($menu_link),
 					'BUTONN_ID'			=> $menu_id,
 					'LEVEL'				=> $menu_level,
-					'MENU_NAME'			=> $menu_name,
-					'MENU_NAME2'		=> addslashes(clean_html($menu_name)),
-					'LINK'				=> $menu_link,
+					'MENU_NAME'			=> UserIO::HTML($menu_name),
+					'MENU_NAME2'		=> UserIO::JS($menu_name, true),
+					'LINK'				=> UserIO::HTML($menu_link),
 					'CONTENT'			=> ($i % 2 == 0) ? 'content' : 'content2'
 				)
 			);

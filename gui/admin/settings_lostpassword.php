@@ -41,10 +41,10 @@ if (UserIO::POST_String('uaction') == 'apply') {
 
 	$err_message = '';
 
-	$data_1['subject'] = clean_input($_POST['subject1'], false);
-	$data_1['message'] = clean_input($_POST['message1'], false);
-	$data_2['subject'] = clean_input($_POST['subject2'], false);
-	$data_2['message'] = clean_input($_POST['message2'], false);
+	$data_1['subject'] = UserIO::POST_String('subject1');
+	$data_1['message'] = UserIO::POST_Memo('message1');
+	$data_2['subject'] = UserIO::POST_String('subject2');
+	$data_2['message'] = UserIO::POST_Memo('message2');
 
 	if (empty($data_1['subject']) || empty($data_2['subject'])) {
 		$err_message = tr('Please specify a subject!');
@@ -87,12 +87,12 @@ $tpl->assign(
 		'TR_LOSTPW_EMAIL' => tr('Lost password e-mail'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),
-		'SUBJECT_VALUE1' => clean_input(addslashes($data_1['subject']), true),
-		'MESSAGE_VALUE1' => $data_1['message'],
-		'SUBJECT_VALUE2' => clean_input(addslashes($data_2['subject']), true),
-		'MESSAGE_VALUE2' => $data_2['message'],
-		'SENDER_EMAIL_VALUE' => $data_1['sender_email'],
-		'SENDER_NAME_VALUE' => $data_1['sender_name'],
+		'SUBJECT_VALUE1' => UserIO::JS($data_1['subject'], true),
+		'MESSAGE_VALUE1' => UserIO::HTML($data_1['message']),
+		'SUBJECT_VALUE2' => UserIO::JS($data_2['subject'], true),
+		'MESSAGE_VALUE2' => UserIO::HTML($data_2['message']),
+		'SENDER_EMAIL_VALUE' => UserIO::HTML($data_1['sender_email']),
+		'SENDER_NAME_VALUE' => UserIO::HTML($data_1['sender_name']),
 		'TR_ACTIVATION_EMAIL' => tr('Activation E-Mail'),
 		'TR_PASSWORD_EMAIL' => tr('Password E-Mail'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),

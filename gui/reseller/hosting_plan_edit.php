@@ -120,34 +120,34 @@ if (Config::get('DUMP_GUI_DEBUG')) {
 function restore_form(&$tpl, &$sql) {
 	$tpl->assign(
 		array(
-			'HP_NAME_VALUE'			=> clean_input($_POST['hp_name'], true),
-			'HP_DESCRIPTION_VALUE'	=> clean_input($_POST['hp_description'], true),
-			'TR_MAX_SUB_LIMITS'		=> clean_input($_POST['hp_sub'], true),
-			'TR_MAX_ALS_VALUES'		=> clean_input($_POST['hp_als'], true),
-			'HP_MAIL_VALUE'			=> clean_input($_POST['hp_mail'], true),
-			'HP_FTP_VALUE'			=> clean_input($_POST['hp_ftp'], true),
-			'HP_SQL_DB_VALUE'		=> clean_input($_POST['hp_sql_db'], true),
-			'HP_SQL_USER_VALUE'		=> clean_input($_POST['hp_sql_user'], true),
-			'HP_TRAFF_VALUE'		=> clean_input($_POST['hp_traff'], true),
-			'HP_TRAFF'				=> clean_input($_POST['hp_traff'], true),
-			'HP_DISK_VALUE'			=> clean_input($_POST['hp_disk'], true),
-			'HP_PRICE'				=> clean_input($_POST['hp_price']),
-			'HP_SETUPFEE'			=> clean_input($_POST['hp_setupfee'], true),
-			'HP_CURRENCY'			=> clean_input($_POST['hp_currency'], true),
-			'HP_PAYMENT'			=> clean_input($_POST['hp_payment'], true)
+			'HP_NAME_VALUE'			=> UserIO::HTML(UserIO::POST_String('hp_name')),
+			'HP_DESCRIPTION_VALUE'	=> UserIO::HTML(UserIO::POST_String('hp_description')),
+			'TR_MAX_SUB_LIMITS'		=> UserIO::HTML(UserIO::POST_String('hp_sub')),
+			'TR_MAX_ALS_VALUES'		=> UserIO::HTML(UserIO::POST_String('hp_als')),
+			'HP_MAIL_VALUE'			=> UserIO::HTML(UserIO::POST_String('hp_mail')),
+			'HP_FTP_VALUE'			=> UserIO::HTML(UserIO::POST_String('hp_ftp')),
+			'HP_SQL_DB_VALUE'		=> UserIO::HTML(UserIO::POST_String('hp_sql_db')),
+			'HP_SQL_USER_VALUE'		=> UserIO::HTML(UserIO::POST_String('hp_sql_user')),
+			'HP_TRAFF_VALUE'		=> UserIO::HTML(UserIO::POST_String('hp_traff')),
+			'HP_TRAFF'				=> UserIO::HTML(UserIO::POST_String('hp_traff')),
+			'HP_DISK_VALUE'			=> UserIO::HTML(UserIO::POST_String('hp_disk')),
+			'HP_PRICE'				=> UserIO::POST_Float('hp_price'),
+			'HP_SETUPFEE'			=> UserIO::POST_Float('hp_setupfee'),
+			'HP_CURRENCY'			=> UserIO::HTML(UserIO::POST_String('hp_currency')),
+			'HP_PAYMENT'			=> UserIO::HTML(UserIO::POST_String('hp_payment'))
 		)
 	);
 
 	$tpl->assign(
 		array(
-			'TR_PHP_YES'	=> ($_POST['php'] === '_yes_')	? 'checked="checked"' : '',
-			'TR_PHP_NO'		=> ($_POST['php'] !== '_yes_')	? 'checked="checked"' : '',
-			'TR_CGI_YES'	=> ($_POST['cgi'] === '_yes_')	? 'checked="checked"' : '',
-			'TR_CGI_NO'		=> ($_POST['cgi'] !== '_yes_')	? 'checked="checked"' : '',
-			'TR_DNS_YES'	=> ($_POST['dns'] === '_yes_')	? 'checked="checked"' : '',
-			'TR_DNS_NO'		=> ($_POST['dns'] !== '_yes_')	? 'checked="checked"' : '',
-			'TR_STATUS_YES'	=> ($_POST['status'] == 1) 		? 'checked="checked"' : '',
-			'TR_STATUS_NO'	=> ($_POST['status'] != 1)		? 'checked="checked"' : ''
+			'TR_PHP_YES'	=> (UserIO::POST_String('php') === '_yes_')	? 'checked="checked"' : '',
+			'TR_PHP_NO'		=> (UserIO::POST_String('php') !== '_yes_')	? 'checked="checked"' : '',
+			'TR_CGI_YES'	=> (UserIO::POST_String('cgi') === '_yes_')	? 'checked="checked"' : '',
+			'TR_CGI_NO'		=> (UserIO::POST_String('cgi') !== '_yes_')	? 'checked="checked"' : '',
+			'TR_DNS_YES'	=> (UserIO::POST_String('dns') === '_yes_')	? 'checked="checked"' : '',
+			'TR_DNS_NO'		=> (UserIO::POST_String('dns') !== '_yes_')	? 'checked="checked"' : '',
+			'TR_STATUS_YES'	=> (UserIO::POST_Int('status') == 1) 		? 'checked="checked"' : '',
+			'TR_STATUS_NO'	=> (UserIO::POST_Int('status') != 1)		? 'checked="checked"' : ''
 		)
 	);
 } // end of function restore_form()
@@ -216,23 +216,23 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 	$tpl->assign(
 		array(
-			'HP_NAME_VALUE'			=> stripslashes($hp_name),
-			'TR_EDIT_HOSTING_PLAN'	=> $edit_hp,
-			'TR_MAX_SUB_LIMITS'		=> $hp_sub,
-			'TR_MAX_ALS_VALUES'		=> $hp_als,
-			'HP_MAIL_VALUE'			=> $hp_mail,
-			'HP_FTP_VALUE'			=> $hp_ftp,
-			'HP_SQL_DB_VALUE'		=> $hp_sql_db,
-			'HP_SQL_USER_VALUE'		=> $hp_sql_user,
-			'HP_TRAFF_VALUE'		=> $hp_traff,
-			'HP_DISK_VALUE'			=> $hp_disk,
-			'HP_DESCRIPTION_VALUE'	=> stripslashes($description),
+			'HP_NAME_VALUE'			=> UserIO::HTML($hp_name),
+			'TR_EDIT_HOSTING_PLAN'	=> UserIO::HTML($edit_hp),
+			'TR_MAX_SUB_LIMITS'		=> UserIO::HTML($hp_sub),
+			'TR_MAX_ALS_VALUES'		=> UserIO::HTML($hp_als),
+			'HP_MAIL_VALUE'			=> UserIO::HTML($hp_mail),
+			'HP_FTP_VALUE'			=> UserIO::HTML($hp_ftp),
+			'HP_SQL_DB_VALUE'		=> UserIO::HTML($hp_sql_db),
+			'HP_SQL_USER_VALUE'		=> UserIO::HTML($hp_sql_user),
+			'HP_TRAFF_VALUE'		=> UserIO::HTML($hp_traff),
+			'HP_DISK_VALUE'			=> UserIO::HTML($hp_disk),
+			'HP_DESCRIPTION_VALUE'	=> UserIO::HTML($description),
 			'HP_PRICE'				=> $price,
 			'HP_SETUPFEE'			=> $setup_fee,
-			'HP_CURRENCY'			=> stripslashes($value),
-			'READONLY'				=> $readonly,
-			'DISBLED'				=> $disabled,
-			'HP_PAYMENT'			=> stripslashes($payment)
+			'HP_CURRENCY'			=> UserIO::HTML($value),
+			'READONLY'				=> UserIO::HTML($readonly),
+			'DISBLED'				=> UserIO::HTML($disabled),
+			'HP_PAYMENT'			=> UserIO::HTML($payment)
 		)
 	);
 
@@ -262,18 +262,18 @@ function check_data_iscorrect(&$tpl) {
 	global $price, $setup_fee;
 	global $hp_dns;
 
-	$ahp_error		= "_off_";
-	$hp_name		= clean_input($_POST['hp_name']);
-	$hp_sub			= clean_input($_POST['hp_sub']);
-	$hp_als			= clean_input($_POST['hp_als']);
-	$hp_mail		= clean_input($_POST['hp_mail']);
-	$hp_ftp			= clean_input($_POST['hp_ftp']);
-	$hp_sql_db		= clean_input($_POST['hp_sql_db']);
-	$hp_sql_user	= clean_input($_POST['hp_sql_user']);
-	$hp_traff		= clean_input($_POST['hp_traff']);
-	$hp_disk		= clean_input($_POST['hp_disk']);
-	$price			= clean_input($_POST['hp_price']);
-	$setup_fee		= clean_input($_POST['hp_setupfee']);
+	$ahp_error		= '_off_';
+	$hp_name		= UserIO::POST_String('hp_name');
+	$hp_sub			= UserIO::POST_String('hp_sub');
+	$hp_als			= UserIO::POST_String('hp_als');
+	$hp_mail		= UserIO::POST_String('hp_mail');
+	$hp_ftp			= UserIO::POST_String('hp_ftp');
+	$hp_sql_db		= UserIO::POST_String('hp_sql_db');
+	$hp_sql_user	= UserIO::POST_String('hp_sql_user');
+	$hp_traff		= UserIO::POST_String('hp_traff');
+	$hp_disk		= UserIO::POST_String('hp_disk');
+	$price			= UserIO::POST_Float('hp_price');
+	$setup_fee		= UserIO::POST_Float('hp_setupfee');
 
 	if (isset($_SESSION['hpid']))
 		$hpid = $_SESSION['hpid'];
@@ -281,15 +281,16 @@ function check_data_iscorrect(&$tpl) {
 		$ahp_error = tr('Undefined reference to data!');
 	// put hosting plan id into session value
 	$_SESSION['hpid'] = $hpid;
+	
 	// Get values from previous page and check him correction
-	if (isset($_POST['php']))
-		$hp_php = $_POST['php'];
+	if (UserIO::POST_isset('php'))
+		$hp_php = UserIO::POST_String('php');
 
-	if (isset($_POST['cgi']))
-		$hp_cgi = $_POST['cgi'];;
+	if (UserIO::POST_isset('cgi'))
+		$hp_cgi = UserIO::POST_String('cgi');
 
-	if (isset($_POST['dns']))
-		$hp_dns = $_POST['dns'];
+	if (UserIO::POST_isset('dns'))
+		$hp_dns = UserIO::POST_String('dns');
 
 	if (!ispcp_limit_check($hp_sub, -1)) {
 		$ahp_error = tr('Incorrect subdomains limit!');
@@ -336,12 +337,12 @@ function save_data_to_db() {
 	global $hp_dns;
 
 	$err_msg		= '';
-	$description	= clean_input($_POST['hp_description']);
-	$price			= clean_input($_POST['hp_price']);
-	$setup_fee		= clean_input($_POST['hp_setupfee']);
-	$currency		= clean_input($_POST['hp_currency']);
-	$payment		= clean_input($_POST['hp_payment']);
-	$status			= clean_input($_POST['status']);
+	$description	= UserIO::POST_String('hp_description');
+	$price			= UserIO::POST_String('hp_price');
+	$setup_fee		= UserIO::POST_String('hp_setupfee');
+	$currency		= UserIO::POST_String('hp_currency');
+	$payment		= UserIO::POST_String('hp_payment');
+	$status			= UserIO::POST_String('status');
 
 	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_dns;";
 

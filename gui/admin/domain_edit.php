@@ -344,9 +344,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$traff			= UserIO::POST_String('dom_traffic');
 	$disk			= UserIO::POST_String('dom_disk');
 // 	$domain_ip	= UserIO::POST_String('domain_ip');
-	$domain_php		= UserIO::POST_String('domain_php'];
-	$domain_cgi		= UserIO::POST_String('domain_cgi'];
-	$domain_dns		= UserIO::POST_String('domain_dns'];
+	$domain_php		= UserIO::POST_String('domain_php');
+	$domain_cgi		= UserIO::POST_String('domain_cgi');
+	$domain_dns		= UserIO::POST_String('domain_dns');
 	$allowbackup	= UserIO::POST_String('backup');
 
 	$ed_error = '';

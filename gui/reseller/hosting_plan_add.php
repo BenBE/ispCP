@@ -153,20 +153,20 @@ function gen_data_ahp_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'HP_NAME_VALUE'			=> $hp_name,
-			'TR_MAX_SUB_LIMITS'		=> $hp_sub,
-			'TR_MAX_ALS_VALUES'		=> $hp_als,
-			'HP_MAIL_VALUE'			=> $hp_mail,
-			'HP_FTP_VALUE'			=> $hp_ftp,
-			'HP_SQL_DB_VALUE'		=> $hp_sql_db,
-			'HP_SQL_USER_VALUE'		=> $hp_sql_user,
-			'HP_TRAFF_VALUE'		=> $hp_traff,
-			'HP_DISK_VALUE'			=> $hp_disk,
-			'HP_DESCRIPTION_VALUE'	=> $description,
+			'HP_NAME_VALUE'			=> UserIO::HTML($hp_name),
+			'TR_MAX_SUB_LIMITS'		=> UserIO::HTML($hp_sub),
+			'TR_MAX_ALS_VALUES'		=> UserIO::HTML($hp_als),
+			'HP_MAIL_VALUE'			=> UserIO::HTML($hp_mail),
+			'HP_FTP_VALUE'			=> UserIO::HTML($hp_ftp),
+			'HP_SQL_DB_VALUE'		=> UserIO::HTML($hp_sql_db),
+			'HP_SQL_USER_VALUE'		=> UserIO::HTML($hp_sql_user),
+			'HP_TRAFF_VALUE'		=> UserIO::HTML($hp_traff),
+			'HP_DISK_VALUE'			=> UserIO::HTML($hp_disk),
+			'HP_DESCRIPTION_VALUE'	=> UserIO::HTML($description),
 			'HP_PRICE'				=> $price,
 			'HP_SETUPFEE'			=> $setup_fee,
-			'HP_VELUE'				=> $value,
-			'HP_PAYMENT'			=> $payment
+			'HP_VELUE'				=> UserIO::HTML($value),
+			'HP_PAYMENT'			=> UserIO::HTML($payment)
 		)
 	);
 
@@ -195,43 +195,27 @@ function check_data_correction(&$tpl) {
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_dns;
 
-	$ahp_error = "_off_";
+	$ahp_error = '_off_';
 
-	$hp_name		= clean_input($_POST['hp_name'], true);
-	$hp_sub			= clean_input($_POST['hp_sub'], true);
-	$hp_als			= clean_input($_POST['hp_als'], true);
-	$hp_mail		= clean_input($_POST['hp_mail'], true);
-	$hp_ftp			= clean_input($_POST['hp_ftp'], true);
-	$hp_sql_db		= clean_input($_POST['hp_sql_db'], true);
-	$hp_sql_user	= clean_input($_POST['hp_sql_user'], true);
-	$hp_traff		= clean_input($_POST['hp_traff'], true);
-	$hp_disk		= clean_input($_POST['hp_disk'], true);
-	$description	= clean_input($_POST['hp_description'], true);
-
-	if (empty($_POST['hp_price'])) {
-		$price = 0;
-	} else {
-		$price = clean_input($_POST['hp_price']);
-	}
-	if (empty($_POST['hp_setupfee'])) {
-		$setup_fee = 0;
-	} else {
-		$setup_fee = clean_input($_POST['hp_setupfee']);
-	}
-
-	$value = clean_input($_POST['hp_value']);
-	$payment = clean_input($_POST['hp_payment']);
-	$status = $_POST['status'];
-
-	if (isset($_POST['php']))
-		$hp_php = $_POST['php'];
-
-	if (isset($_POST['cgi']))
-		$hp_cgi = $_POST['cgi'];;
-
-	if (isset($_POST['dns']))
-		$hp_dns = $_POST['dns'];
-
+	$hp_name		= UserIO::POST_String('hp_name');
+	$hp_sub			= UserIO::POST_String('hp_sub');
+	$hp_als			= UserIO::POST_String('hp_als');
+	$hp_mail		= UserIO::POST_String('hp_mail');
+	$hp_ftp			= UserIO::POST_String('hp_ftp');
+	$hp_sql_db		= UserIO::POST_String('hp_sql_db');
+	$hp_sql_user	= UserIO::POST_String('hp_sql_user');
+	$hp_traff		= UserIO::POST_String('hp_traff');
+	$hp_disk		= UserIO::POST_String('hp_disk');
+	$description	= UserIO::POST_String('hp_description');
+	$price			= UserIO::POST_Float('hp_price');
+	$setup_fee		= UserIO::POST_Float('hp_setupfee');
+	$value 			= UserIO::POST_String('hp_value');
+	$payment 		= UserIO::POST_String('hp_payment');
+	$status 		= UserIO::POST_Int('status');
+	$hp_php			= UserIO::POST_String('php');
+	$hp_cgi			= UserIO::POST_String('cgi');
+	$hp_dns			= UserIO::POST_String('dns');
+	
 	if ($hp_name == '') {
 		$ahp_error = tr('Incorrect template name length!');
 	}

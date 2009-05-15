@@ -32,20 +32,20 @@ $tpl->define_dynamic('logged_from', 'page');
 function send_user_message(&$sql, $user_id, $reseller_id) {
 	if (!UserIO::POST_isset('uaction')) return;
 
-	if (empty($_POST['subj'])) {
+	if (UserIO::POST_String('subj') === '') {
 		set_page_message(tr('Please specify message subject!'));
 		return;
 	}
 
-	if ($_POST['user_message'] === '') {
+	if (UserIO::POST_Memo('user_message') === '') {
 		set_page_message(tr('Please type your message!'));
 		return;
 	}
 
 	$ticket_date = time();
-	$urgency = $_POST['urgency'];
-	$subject = clean_input($_POST['subj']);
-	$user_message = clean_input($_POST["user_message"]);
+	$urgency = UserIO::POST_Int('urgency');
+	$subject = UserIO::POST_String('subj');
+	$user_message = UserIO::POST_Memo('user_message');
 	$ticket_status = 1;
 	$ticket_reply = 0;
 	$ticket_level = 1;

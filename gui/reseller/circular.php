@@ -26,10 +26,10 @@ function gen_page_data(&$tpl, &$sql) {
 	if (UserIO::POST_String('uaction') == 'send_circular') {
 		$tpl->assign(
 			array(
-				'MESSAGE_SUBJECT' => clean_input($_POST['msg_subject'], true),
-				'MESSAGE_TEXT' => clean_input($_POST['msg_text'], false),
-				'SENDER_EMAIL' => clean_input($_POST['sender_email'], false),
-				'SENDER_NAME' => clean_input($_POST['sender_name'], false)
+				'MESSAGE_SUBJECT' => UserIO::HTML(UserIO::POST_String('msg_subject')),
+				'MESSAGE_TEXT' => UserIO::HTML(UserIO::POST_Memo('msg_text')),
+				'SENDER_EMAIL' => UserIO::HTML(UserIO::POST_String('sender_email')),
+				'SENDER_NAME' => UserIO::HTML(UserIO::POST_String('sender_name'))
 			)
 		);
 	} else {
@@ -62,8 +62,8 @@ SQL_QUERY;
 			array(
 				'MESSAGE_SUBJECT' => '',
 				'MESSAGE_TEXT' => '',
-				'SENDER_EMAIL' => $rs->fields['email'],
-				'SENDER_NAME' => $sender_name
+				'SENDER_EMAIL' => UserIO::HTML($rs->fields['email']),
+				'SENDER_NAME' => UserIO::HTML($sender_name)
 			)
 		);
 	}
@@ -74,10 +74,10 @@ function check_user_data(&$tpl) {
 
 	$err_message = '';
 
-	$msg_subject = clean_input($_POST['msg_subject'], false);
-	$msg_text = clean_input($_POST['msg_text'], false);
-	$sender_email = clean_input($_POST['sender_email'], false);
-	$sender_name = clean_input($_POST['sender_name'], false);
+	$msg_subject = UserIO::POST_String('msg_subject');
+	$msg_text = UserIO::POST_Memo('msg_text');
+	$sender_email = UserIO::POST_String('sender_email');
+	$sender_name = UserIO::POST_String('sender_name');
 
 	if (empty($msg_subject)) {
 		$err_message .= tr('Please specify a message subject!');
@@ -115,11 +115,11 @@ function send_circular(&$tpl, &$sql) {
 
 function send_reseller_users_message(&$sql, $admin_id) {
 
-	$msg_subject = clean_input($_POST['msg_subject'], false);
-	$msg_text = clean_input($_POST['msg_text'], false);
-	$sender_email = clean_input($_POST['sender_email'], false);
-	$sender_name = clean_input($_POST['sender_name'], false);
-
+	$msg_subject = UserIO::POST_String('msg_subject');
+	$msg_text = UserIO::POST_Memo('msg_text');
+	$sender_email = UserIO::POST_String('sender_email');
+	$sender_name = UserIO::POST_String('sender_name');
+	
 	$query = <<<SQL_QUERY
 		SELECT
 			`fname`, `lname`, `email`
@@ -136,7 +136,7 @@ SQL_QUERY;
 	while (!$rs->EOF) {
 		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
 
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", stripslashes($msg_subject), stripslashes($msg_text));
+		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
 
 		$rs->MoveNext();
 	}

@@ -324,11 +324,11 @@ function add_reseller(&$tpl, &$sql) {
 					'FAX' => UserIO::HTML(UserIO::POST_String('fax')),
 					'VL_MALE' => ($gender == 'M') ? 'selected="selected"' : '',
 					'VL_FEMALE' => ($gender == 'F') ? 'selected="selected"' : '',
-					'VL_UNKNOWN' => ($gender == 'U' || empty($gender)) ? 'selected="selected"' : ''),
+					'VL_UNKNOWN' => ($gender == 'U' || empty($gender)) ? 'selected="selected"' : '',
 
 					'MAX_DOMAIN_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_domain_cnt')),
 					'MAX_SUBDOMAIN_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_subdomain_cnt')),
-					'MAX_ALIASES_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_alias_cnt'),
+					'MAX_ALIASES_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_alias_cnt')),
 					'MAX_MAIL_USERS_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_mail_cnt')),
 					'MAX_FTP_USERS_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_ftp_cnt')),
 					'MAX_SQLDB_COUNT' => UserIO::HTML(UserIO::POST_String('nreseller_max_sql_db_cnt')),

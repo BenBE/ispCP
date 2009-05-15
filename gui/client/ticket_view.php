@@ -78,8 +78,8 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 				'TR_ACTION' => $tr_action,
 				'ACTION' => $action,
 				'DATE' => date($date_formt, $rs->fields['ticket_date']),
-				'SUBJECT' => htmlspecialchars($rs->fields['ticket_subject']),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content)),
+				'SUBJECT' => UserIO::HTML($rs->fields['ticket_subject']),
+				'TICKET_CONTENT' => UserIO::HTML($ticket_content, true),
 				'ID' => $rs->fields['ticket_id']
 			)
 		);
@@ -122,7 +122,7 @@ function get_tickets_replys(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 		$tpl->assign(
 			array(
 				'DATE' => date($date_formt, $ticket_date),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content))
+				'TICKET_CONTENT' => UserIO::HTML($ticket_content, true)
 			)
 		);
 		get_ticket_from($tpl, $sql, $ticket_id);
@@ -150,7 +150,7 @@ function get_ticket_from(&$tpl, &$sql, $ticket_id) {
 	$ticket_from = $rs->fields['ticket_from'];
 	$ticket_to = $rs->fields['ticket_to'];
 	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
+	$ticket_reply = $rs->fields['ticket_reply'];
 
 	$query = "
 		SELECT
@@ -169,7 +169,7 @@ function get_ticket_from(&$tpl, &$sql, $ticket_id) {
 	$from_last_name = $rs->fields['lname'];
 
 	$from_name = $from_first_name . " " . $from_last_name . " (" . $from_user_name . ")";
-	$tpl->assign(array('FROM' => htmlspecialchars($from_name)));
+	$tpl->assign(array('FROM' => UserIO::HTML($from_name)));
 }
 
 // common page data.
@@ -195,18 +195,18 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 		// open ticket
 		open_ticket($sql, $ticket_id);
 		return;
-	} elseif (empty($_POST['user_message'])) {
+	} elseif (UserIO::POST_String('user_message') == '') {
 		// no message check->error
 		set_page_message(tr('Please type your message!'));
 		return;
 	}
 
 	$ticket_date = time();
-	$subject = clean_input($_POST['subject']);
-	$user_message = clean_input($_POST["user_message"]);
+	$subject = UserIO::POST_String('subject');
+	$user_message = UserIO::POST_Memo('user_message');
 	$ticket_status = 4;
 	$ticket_reply = UserIO::GET_Int('ticket_id');
-	$urgency = $_POST['urgency'];
+	$urgency = UserIO::POST_Int('urgency');
 	$ticket_from = $user_id;
 	$ticket_to = $reseller_id;
 

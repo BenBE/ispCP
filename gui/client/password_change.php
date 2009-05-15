@@ -40,20 +40,24 @@ $tpl->assign(
 );
 
 if (UserIO::POST_String('uaction') == 'updt_pass') {
-	if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
+	$curr_pass	= UserIO::POST_String('curr_pass', false, true);
+	$pass		= UserIO::POST_String('pass', false, true);
+	$pass_rep	= UserIO::POST_String('pass_rep', false, true);
+	
+	if (empty($pass) || empty($pass_rep) || empty($curr_pass)) {
 		set_page_message(tr('Please fill up all data fields!'));
-	} else if ($_POST['pass'] !== $_POST['pass_rep']) {
+	} else if ($pass != $pass_rep) {
 		set_page_message(tr('Passwords do not match!'));
-	} else if (!chk_password($_POST['pass'])) {
+	} else if (!chk_password($pass)) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
 			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
 		}
-	} else if (!check_udata($_SESSION['user_id'], $_POST['curr_pass'])) {
+	} else if (!check_udata($_SESSION['user_id'], $curr_pass)) {
 		set_page_message(tr('The current password is wrong!'));
 	} else {
-		$upass = crypt_user_pass($_POST['pass']);
+		$upass = crypt_user_pass($pass);
 
 		$_SESSION['user_pass'] = $upass;
 

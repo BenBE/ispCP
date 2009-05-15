@@ -50,13 +50,11 @@ $tpl->assign(
 $year = 0;
 $month = 0;
 
-if (isset(UserIO::POST_isset('month') && UserIO::POST_isset('year')) {
-	$year = UserIO::POST_Int('year');
-
+if (UserIO::POST_Int('month') && UserIO::POST_Int('year')) {
 	$month = UserIO::POST_Int('month');
-} else if (UserIO::GET_isset('month') && UserIO::GET_isset('year')) {
+	$year = UserIO::POST_Int('year');
+} else if (UserIO::GET_Int('month') && UserIO::GET_Int('year')) {
 	$month = UserIO::GET_Int('month');
-
 	$year = UserIO::GET_Int('year');
 }
 

@@ -103,6 +103,16 @@ final class UserIO {
 	}
 	
 	/**
+	 * Sets a GET variable (why ever...)
+	 * @param $name string name of parameter
+	 * @param $value mixed value of parameter
+	 */
+	public static function GET_set($name, $value)
+	{
+		$_GET[$name] = $value;
+	}
+	
+	/**
 	 * Returns string (no linefeeds) value of _GET parameter.
 	 * @param $name string name of parameter
 	 * @param $mandatory boolean if true, the value must be given (default false)
@@ -504,11 +514,14 @@ final class UserIO {
 	/**
 	 * Returns html string value
 	 * @param $value string input string 
+	 * @param $nl2br boolean use nl2br, default false 
 	 * @return string html string (htmlentities)
 	 */
-	public static function HTML($value) {
+	public static function HTML($value, $nl2br=false) {
 		// i assume UTF-8 is always wanted in ispcp
-		return htmlentities($value, ENT_COMPAT, 'UTF-8'); 
+		$result = htmlentities($value, ENT_COMPAT, 'UTF-8');
+		if ($nl2br) $result = nl2br($result);
+		return $result; 
 	}
 	
 	/**

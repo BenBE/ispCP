@@ -37,8 +37,8 @@ $tpl->define_dynamic('create_sqluser', 'page');
 
 if (UserIO::GET_isset('id')) {
 	$db_id = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$db_id = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$db_id = UserIO::POST_Int('id');
 } else {
 	user_goto('sql_manage.php');
 }
@@ -195,35 +195,39 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 	}
 
 	// let's check user input
+	$add_exist = !UserIO::POST_isset('Add_Exist');
 
-	if (empty($_POST['user_name']) && !isset($_POST['Add_Exist'])) {
+	if (UserIO::POST_String('user_name') === '' && !$add_exist) {
 		set_page_message(tr('Please type user name!'));
 		return;
 	}
-
-	if (empty($_POST['pass']) && empty($_POST['pass_rep'])
-		&& !isset($_POST['Add_Exist'])) {
+	
+	$pass = UserIO::POST_String('pass');
+	$pass_rep = UserIO::POST_String('pass_rep');
+	
+	if (empty($pass) && empty($pass_rep)
+		&& !$add_exist) {
 		set_page_message(tr('Please type user password!'));
 		return;
 	}
 
-	if ((isset($_POST['pass']) && isset($_POST['pass_rep']))
-		&& $_POST['pass'] !== $_POST['pass_rep']
-		&& !isset($_POST['Add_Exist'])) {
+	if ((UserIO::POST_isset('pass') && UserIO::POST_isset('pass_rep'))
+		&& $pass !== $pass_rep
+		&& !$add_exist) {
 		set_page_message(tr('Entered passwords do not match!'));
 		return;
 	}
 
-	if (isset($_POST['pass'])
-		&& strlen($_POST['pass']) > Config::get('MAX_SQL_PASS_LENGTH')
-		&& !isset($_POST['Add_Exist'])) {
+	if ($pass !== ''
+		&& strlen($pass) > Config::get('MAX_SQL_PASS_LENGTH')
+		&& !$add_exist) {
 		set_page_message(tr('Too user long password!'));
 		return;
 	}
 
-	if (isset($_POST['pass'])
-		&& !chk_password($_POST['pass'])
-		&& !isset($_POST['Add_Exist'])) {
+	if ($pass !== ''
+		&& !chk_password($pass)
+		&& !$add_exist) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
@@ -232,9 +236,9 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 		return;
 	}
 
-	if (isset($_POST['Add_Exist'])) {
+	if ($add_exist) {
 		$query = "SELECT `sqlu_pass` FROM `sql_user` WHERE `sqlu_id` = ?";
-		$rs = exec_query($sql, $query, array($_POST['sqluser_id']));
+		$rs = exec_query($sql, $query, array(UserIO::POST_Int('sqluser_id')));
 
 		if ($rs->RecordCount() == 0) {
 			set_page_message(tr('SQL-user not found! Maybe it was deleted by another user!'));
@@ -242,30 +246,26 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 		}
 		$user_pass = decrypt_db_password($rs->fields['sqlu_pass']);
 	} else {
-		$user_pass = $_POST['pass'];
+		$user_pass = $pass;
 	}
 
 	$dmn_id = get_user_domain_id($sql, $user_id);
 
-	if (!isset($_POST['Add_Exist'])) {
+	if (!$add_exist) {
 
 		// we'll use domain_id in the name of the database;
-		if (isset($_POST['use_dmn_id'])
-			&& $_POST['use_dmn_id'] === 'on'
-			&& isset($_POST['id_pos'])
-			&& $_POST['id_pos'] === 'start') {
-			$db_user = $dmn_id . "_" . clean_input($_POST['user_name']);
-		} else if (isset($_POST['use_dmn_id'])
-			&& $_POST['use_dmn_id'] === 'on'
-			&& isset($_POST['id_pos'])
-			&& $_POST['id_pos'] === 'end') {
-			$db_user = clean_input($_POST['user_name']) . "_" . $dmn_id;
+		if (UserIO::POST_String('use_dmn_id') === 'on'
+			&& UserIO::POST_String('id_pos') === 'start') {
+			$db_user = $dmn_id . "_" . UserIO::POST_String('user_name');
+		} else if (UserIO::POST_String('use_dmn_id') === 'on'
+			&& UserIO::POST_String('id_pos') === 'end') {
+			$db_user = UserIO::POST_String('user_name') . '_' . $dmn_id;
 		} else {
-			$db_user = clean_input($_POST['user_name']);
+			$db_user = UserIO::POST_String('user_name');
 		}
 	} else {
 		$query = "SELECT `sqlu_name` FROM `sql_user` WHERE `sqlu_id` = ?";
-		$rs = exec_query($sql, $query, array($_POST['sqluser_id']));
+		$rs = exec_query($sql, $query, array(UserIO::POST_Int('sqluser_id')));
 		$db_user = $rs->fields['sqlu_name'];
 	}
 
@@ -282,7 +282,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 
 	// have we such sql user in the system?!
 
-	if (check_db_user($sql, $db_user) && !isset($_POST['Add_Exist'])) {
+	if (check_db_user($sql, $db_user) && !$add_exist) {
 		set_page_message(tr('Specified SQL username name already exists!'));
 		return;
 	}
@@ -347,10 +347,10 @@ function gen_page_post_data(&$tpl, $db_id) {
 	if (UserIO::POST_String('uaction') == 'add_user') {
 		$tpl->assign(
 			array(
-				'USER_NAME' => (isset($_POST['user_name'])) ? $_POST['user_name'] : '',
-				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? 'checked="checked"' : '',
-				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? 'checked="checked"' : '',
-				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? 'checked="checked"' : ''
+				'USER_NAME' => UserIO::POST_String('user_name'),
+				'USE_DMN_ID' => (UserIO::POST_String('use_dmn_id') === 'on') ? 'checked="checked"' : '',
+				'START_ID_POS_CHECKED' => (UserIO::POST_String('id_pos') !== 'end') ? 'checked="checked"' : '',
+				'END_ID_POS_CHECKED' => (UserIO::POST_String('id_pos') === 'end') ? 'checked="checked"' : ''
 			)
 		);
 	} else {

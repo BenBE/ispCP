@@ -39,10 +39,10 @@ $tpl->assign(
 $selected_on = '';
 $selected_off = '';
 
-if (UserIO::POST_isset('uaction') AND UserIO::POST_String('uaction') == 'apply') {
+if (UserIO::POST_String('uaction') == 'apply') {
 
-	$maintenancemode = $_POST['maintenancemode'];
-	$maintenancemode_message = clean_input($_POST['maintenancemode_message']);
+	$maintenancemode = UserIO::POST_Int('maintenancemode');
+	$maintenancemode_message = UserIO::POST_String('maintenancemode_message');
 
 	setConfig_Value('MAINTENANCEMODE', $maintenancemode);
 	setConfig_Value('MAINTENANCEMODE_MESSAGE', $maintenancemode_message);

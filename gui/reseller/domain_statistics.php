@@ -42,8 +42,8 @@ $tpl->assign(
 	)
 );
 
-if (isset($_POST['domain_id'])) {
-	$domain_id = $_POST['domain_id'];
+if (UserIO::POST_isset('domain_id')) {
+	$domain_id = UserIO::POST_Int('domain_id');
 } else if (UserIO::GET_isset('domain_id')) {
 	$domain_id = UserIO::GET_Int('domain_id');
 }
@@ -55,8 +55,8 @@ if (UserIO::POST_Int('month') > 0 && UserIO::POST_Year('month') > 0) {
 	$month = UserIO::GET_Int('month');
 	$year = UserIO::GET_Int('year');
 } else {
-	$month = date("m");
-	$year = date("Y");
+	$month = date('m');
+	$year = date('Y');
 }
 
 if (!is_numeric($domain_id) || !is_numeric($month) || !is_numeric($year)) {

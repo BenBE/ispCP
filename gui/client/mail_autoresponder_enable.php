@@ -59,13 +59,13 @@ function check_email_user(&$sql) {
 
 function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 	if (UserIO::POST_String('uaction') == 'enable_arsp') {
-		if (empty($_POST['arsp_message'])) {
+		if (UserIO::POST_Memo('arsp_message', true, true) === false) {
 			$tpl->assign('ARSP_MESSAGE', '');
 			set_page_message(tr('Please type your mail autorespond message!'));
 			return;
 		}
 
-		$arsp_message = clean_input($_POST['arsp_message'], false);
+		$arsp_message = UserIO::POST_Memo('arsp_message', true, true);
 		$item_change_status = Config::get('ITEM_CHANGE_STATUS');
 		check_for_lock_file();
 
@@ -122,7 +122,7 @@ function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 		$rs = exec_query($sql, $query, array($mail_id));
 		$mail_name = $rs->fields['mail_acc'];
 
-		$tpl->assign('ARSP_MESSAGE', $rs->fields['mail_auto_respond_text']);
+		$tpl->assign('ARSP_MESSAGE', UserIO::HTML($rs->fields['mail_auto_respond_text']));
 		return;
 	}
 }
@@ -131,8 +131,8 @@ function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 
 if (UserIO::GET_isset('id')) {
 	$mail_id = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$mail_id = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$mail_id = UserIO::POST_Int('id');
 } else {
 	user_goto('mail_accounts.php');
 }

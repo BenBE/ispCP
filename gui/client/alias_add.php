@@ -130,8 +130,8 @@ function init_empty_data() {
 function gen_al_page(&$tpl, $reseller_id) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point;
 
-	if (isset($_POST['forward'])) {
-		$forward = $_POST['forward'];
+	if (UserIO::POST_isset('forward')) {
+		$forward = UserIO::POST_String('forward');
 	} else {
 		$forward = 'no';
 	}
@@ -149,9 +149,9 @@ function add_domain_alias(&$sql, &$err_al) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point;
 
 	$cr_user_id = $domain_id = get_user_domain_id($sql, $_SESSION['user_id']);
-	$alias_name	= strtolower($_POST['ndomain_name']);
-	$mount_point = strtolower($_POST['ndomain_mpoint']);
-	$forward = strtolower(clean_input($_POST['forward']));
+	$alias_name	= strtolower(UserIO::POST_String('ndomain_name'));
+	$mount_point = strtolower(UserIO::POST_String('ndomain_mpoint'));
+	$forward = strtolower(UserIO::POST_String('forward'));
 
 	$query = "
 		SELECT

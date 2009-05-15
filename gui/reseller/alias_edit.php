@@ -147,7 +147,7 @@ SQL_QUERY;
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
 	if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') == 'modify')) {
-		$url_forward = decode_idna($_POST['forward']);
+		$url_forward = decode_idna(UserIO::POST_String('forward'));
 	} else {
 		$url_forward = decode_idna($data['url_forward']);
 	}
@@ -163,9 +163,9 @@ SQL_QUERY;
 	// Fill in the fields
 	$tpl->assign(
 		array(
-			'ALIAS_NAME' => decode_idna($data['alias_name']),
-			'DOMAIN_IP' => $ip_data,
-			'FORWARD' => $url_forward,
+			'ALIAS_NAME' => UserIO::HTML(decode_idna($data['alias_name'])),
+			'DOMAIN_IP' => UserIO::HTML($ip_data),
+			'FORWARD' => UserIO::HTML($url_forward),
 			'CHECK_EN' => $check_en,
 			'CHECK_DIS' => $check_dis,
 			'ID' => $edit_id
@@ -179,13 +179,13 @@ SQL_QUERY;
 function check_fwd_data(&$tpl, $alias_id) {
 	$sql = Database::getInstance();
 
-	$forward_url = encode_idna($_POST['forward']);
-	$status = $_POST['status'];
+	$forward_url = encode_idna(UserIO::POST_String('forward'));
+	$status = UserIO::POST_Int('status');
 	// unset errors
 	$ed_error = '_off_';
 	$admin_login = '';
 
-	if ($status != '0') {
+	if ($status != 0) {
 		if (!chk_forward_url($forward_url)) {
 			$ed_error = tr("Incorrect forward syntax");
 		}
@@ -195,7 +195,7 @@ function check_fwd_data(&$tpl, $alias_id) {
 	}
 
 	if ($ed_error === '_off_') {
-		if ($_POST['status'] == 0) {
+		if ($status == 0) {
 			$forward_url = "no";
 		}
 

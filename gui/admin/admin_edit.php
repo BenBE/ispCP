@@ -47,7 +47,7 @@ $tpl->assign(
 function update_data(&$sql) {
 	global $edit_id;
 
-	if (UserIO::POST_isset('Submit')) && UserIO::POST_String('uaction') == 'edit_user') {
+	if (UserIO::POST_isset('Submit') && UserIO::POST_String('uaction') == 'edit_user') {
 		if (check_user_data()) {
 			$user_id	= $_SESSION['user_id'];
 			$fname		= UserIO::POST_String('fname');
@@ -182,7 +182,8 @@ function update_data(&$sql) {
 			write_log("$user_logged: changes data/password for $edit_username!");
 
 			if (UserIO::POST_isset('send_data') && UserIO::POST_String('pass', false, true) != '') {
-				$query = "SELECT admin_type FROM admin WHERE admin_id='" . addslashes(htmlspecialchars($edit_id)) . "'";
+				// @todo prepared query and remove addsl...
+				$query = "SELECT admin_type FROM admin WHERE admin_id='" . addslashes($edit_id) . "'";
 
 				$res = exec_query($sql, $query, array());
 

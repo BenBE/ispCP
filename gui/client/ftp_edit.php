@@ -24,8 +24,8 @@ check_login(__FILE__);
 
 if (UserIO::GET_isset('id')) {
 	$ftp_acc = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$ftp_acc = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$ftp_acc = UserIO::POST_Int('id');
 } else {
 	user_goto('ftp_accounts.php');
 }
@@ -63,10 +63,10 @@ SQL_QUERY;
 
 	$tpl->assign(
 		array(
-			'FTP_ACCOUNT' => $ftp_acc,
-			'ID' => $ftp_acc,
+			'FTP_ACCOUNT' => UserIO::HTML($ftp_acc),
+			'ID' => UserIO::HTML($ftp_acc),
 			'USE_OTHER_DIR_CHECKED' => $odir,
-			'OTHER_DIR' => $oins
+			'OTHER_DIR' => UserIO::HTML($oins)
 		)
 	);
 }
@@ -78,12 +78,14 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 	$vfs =& new vfs($dmn_name, $sql);
 
 	if (UserIO::POST_String('uaction') == 'edit_user') {
-		if (!empty($_POST['pass']) || !empty($_POST['pass_rep'])) {
-			if ($_POST['pass'] !== $_POST['pass_rep']) {
+		$pass = UserIO::POST_String('pass', true, true);
+		$pass_rep = UserIO::POST_String('pass_rep', true, true);
+		if ($pass !== false && $pass_rep !== false) {
+			if ($pass != $pass_rep) {
 				set_page_message(tr('Entered passwords differ!'));
 				return;
 			}
-			if (!chk_password($_POST['pass'])) {
+			if (!chk_password($pass)) {
 				if (Config::get('PASSWD_STRONG')) {
 					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 				} else {
@@ -92,14 +94,14 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 				return;
 			}
 
-			$pass = crypt_user_pass_with_salt($_POST['pass']);
-			if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') {
+			$pass = crypt_user_pass_with_salt($pass);
+			if (UserIO::POST_String('use_other_dir') == 'on') {
 
-				$other_dir = clean_input($_POST['other_dir']);
+				$other_dir = UserIO::POST_String('other_dir');
 
 				$rs = $vfs->exists($other_dir);
 				if (!$rs) {
-					set_page_message(tr('%s does not exist', clean_input($_POST['other_dir'])));
+					set_page_message(tr('%s does not exist', $other_dir));
 					return;
 				} // domain_id
 
@@ -107,7 +109,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 				// in in the root of the user (no absolute paths are allowed here!)
 
 				$other_dir = Config::get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged']
-							. clean_input($_POST['other_dir']);
+							. $other_dir;
 
 				$query = <<<SQL_QUERY
 					UPDATE
@@ -136,8 +138,8 @@ SQL_QUERY;
 			set_page_message(tr('FTP account data updated!'));
 			user_goto('ftp_accounts.php');
 		} else {
-			if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') {
-				$other_dir = clean_input($_POST['other_dir']);
+			if (UserIO::POST_String('use_other_dir') == 'on') {
+				$other_dir = UserIO::POST_String('other_dir');
 				// Strip possible double-slashes
 				$other_dir = str_replace('//', '/', $other_dir);
 				// Check for updirs ".."

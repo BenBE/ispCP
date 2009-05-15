@@ -450,7 +450,7 @@ if (UserIO::GET_isset('action') && $exec_count > 0) {
 		$c = send_request();
 		set_page_message(tr('Daemon returned %d as status code', $c));
 	} else if (UserIO::GET_String('action') == 'change_status' && (
-			UserIO::GET_isset('id') && UserIO::GET_isset('type'])) {
+			UserIO::GET_isset('id') && UserIO::GET_isset('type'))) {
 		switch (UserIO::GET_String('type')) {
 			case 'domain':
 				$query = 'UPDATE `domain` SET `domain_status` = "change" WHERE `domain_id` = ?';

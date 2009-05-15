@@ -140,8 +140,8 @@ function init_empty_data() {
 
 	$tpl->assign(
 		array(
-			'DOMAIN' => $alias_name,
-			'MP' => $mount_point,
+			'DOMAIN' => UserIO::HTML($alias_name),
+			'MP' => UserIO::HTML($mount_point),
 			'FORWARD' => 'no'
 		)
 	);
@@ -180,7 +180,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 			$tpl->assign(
 				array(
-					'DOMAIN_ALIS' => $alias_name,
+					'DOMAIN_ALIS' => UserIO::HTML($alias_name),
 					'STATUS' => $alias_status,
 					'CLASS' => $page_cont,
 				)
@@ -197,10 +197,11 @@ function add_domain_alias(&$sql, &$err_al) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point, $tpl;
 
 	$cr_user_id = $dmn_id = $_SESSION['dmn_id'];
-	$alias_name = strtolower(clean_input($_POST['ndomain_name']));
+	$alias_name = strtolower(UserIO::POST_String('ndomain_name'));
 	$domain_ip = $_SESSION['dmn_ip'];
-	$mount_point = strtolower(clean_input($_POST['ndomain_mpoint']));
-	$forward = strtolower(clean_input($_POST['forward']));
+	$mount_point = strtolower(UserIO::POST_String('ndomain_mpoint'));
+	// @todo why strtolower? 2009-05-15
+	$forward = strtolower(UserIO::POST_String('forward'));
 
 	$alias_name = encode_idna($alias_name);
 	// First check is the data correct

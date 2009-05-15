@@ -56,10 +56,10 @@ function gen_page_post_data(&$tpl) {
 	if (UserIO::POST_String('uaction') == 'add_db') {
 		$tpl->assign(
 			array(
-				'DB_NAME' => clean_input($_POST['db_name']),
-				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? 'checked="checked"' : '',
-				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? 'checked="checked"' : '',
-				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? 'checked="checked"' : ''
+				'DB_NAME' => UserIO::POST_String('db_name'),
+				'USE_DMN_ID' => (UserIO::POST_String('use_dmn_id') === 'on') ? 'checked="checked"' : '',
+				'START_ID_POS_CHECKED' => (UserIO::POST_String('id_pos') !== 'end') ? 'checked="checked"' : '',
+				'END_ID_POS_CHECKED' => (UserIO::POST_String('id_pos') === 'end') ? 'checked="checked"' : ''
 			)
 		);
 	} else {
@@ -92,23 +92,23 @@ function add_sql_database(&$sql, $user_id) {
 
 	// let's generate database name.
 
-	if (empty($_POST['db_name'])) {
+	if (UserIO::POST_String('db_name') == '') {
 		set_page_message(tr('Please type database name!'));
 		return;
 	}
 
 	$dmn_id = get_user_domain_id($sql, $user_id);
 
-	if (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') {
+	if (UserIO::POST_String('use_dmn_id') === 'on') {
 
 		// we'll use domain_id in the name of the database;
-		if (isset($_POST['id_pos']) && $_POST['id_pos'] === 'start') {
-			$db_name = $dmn_id . "_" . clean_input($_POST['db_name']);
-		} else if (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') {
-			$db_name = clean_input($_POST['db_name']) . "_" . $dmn_id;
+		if (UserIO::POST_String('id_pos') === 'start') {
+			$db_name = $dmn_id . '_' . UserIO::POST_String('db_name');
+		} else if (UserIO::POST_String('id_pos') === 'end') {
+			$db_name = UserIO::POST_String('db_name') . "_" . $dmn_id;
 		}
 	} else {
-		$db_name = clean_input($_POST['db_name']);
+		$db_name = UserIO::POST_String('db_name');
 	}
 
 	if (strlen($db_name) > Config::get('MAX_SQL_DATABASE_LENGTH')) {

@@ -34,9 +34,8 @@ $user_id = $_SESSION['user_id'];
 $data = get_order_email($user_id);
 
 if (UserIO::POST_String('uaction') == 'order_email') {
-	$data['subject'] = clean_input($_POST['auto_subject']);
-
-	$data['message'] = clean_input($_POST['auto_message']);
+	$data['subject'] = UserIO::POST_String('auto_subject');
+	$data['message'] = UserIO::POST_Memo('auto_message');
 
 	if ($data['subject'] == '') {
 		set_page_message(tr('Please specify a subject!'));
@@ -44,8 +43,7 @@ if (UserIO::POST_String('uaction') == 'order_email') {
 		set_page_message(tr('Please specify message!'));
 	} else {
 		set_order_email($user_id, $data);
-
-		set_page_message (tr('Auto email template data updated!'));
+		set_page_message(tr('Auto email template data updated!'));
 	}
 }
 
@@ -83,10 +81,10 @@ $tpl->assign(
 		'TR_SENDER_EMAIL' => tr('Senders email'),
 		'TR_SENDER_NAME' => tr('Senders name'),
 		'TR_APPLY_CHANGES' => tr('Apply changes'),
-		'SUBJECT_VALUE' => $data['subject'],
-		'MESSAGE_VALUE' => $data['message'],
-		'SENDER_EMAIL_VALUE' => $data['sender_email'],
-		'SENDER_NAME_VALUE' => $data['sender_name']
+		'SUBJECT_VALUE' => UserIO::HTML($data['subject']),
+		'MESSAGE_VALUE' => UserIO::HTML($data['message']),
+		'SENDER_EMAIL_VALUE' => UserIO::HTML($data['sender_email']),
+		'SENDER_NAME_VALUE' => UserIO::HTML($data['sender_name'])
 	)
 );
 

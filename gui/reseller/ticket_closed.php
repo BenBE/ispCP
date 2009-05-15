@@ -131,9 +131,9 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'LAST_DATE'	=> $date,
-					'SUBJECT'	=> htmlspecialchars($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
-					'MESSAGE'	=> htmlspecialchars($rs->fields['ticket_message']),
+					'SUBJECT'	=> UserIO::HTML($rs->fields['ticket_subject']),
+					'SUBJECT2'	=> UserIO::JS($rs->fields['ticket_subject'], true),
+					'MESSAGE'	=> UserIO::HTML($rs->fields['ticket_message']),
 					'ID'		=> $ticket_id,
 					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
 				)

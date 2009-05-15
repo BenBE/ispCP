@@ -542,8 +542,8 @@ function gen_user_list(&$tpl, &$sql) {
 	// Search request generated ?!
 	if (UserIO::POST_String('uaction', true, true) !== false) {
 		$_SESSION['search_for'] = UserIO::POST_String('search_for', false, true);
-		$_SESSION['search_common'] = UserIO::POST_String(['search_common'], false, true);
-		$_SESSION['search_status'] = UserIO::POST_String(['search_status'], false, true);
+		$_SESSION['search_common'] = UserIO::POST_String('search_common', false, true);
+		$_SESSION['search_status'] = UserIO::POST_String('search_status', false, true);
 
 		$start_index = 0;
 	} else {

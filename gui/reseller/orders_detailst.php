@@ -66,21 +66,21 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	$date = date($date_formt, $rs->fields['date']);
 
 	if (UserIO::POST_isset('uaction')) {
-		$domain_name	= $_POST['domain'];
-		$customer_id	= $_POST['customer_id'];
-		$fname			= $_POST['fname'];
-		$lname			= $_POST['lname'];
-		$gender			= $_POST['gender'];
-		$firm			= $_POST['firm'];
-		$zip			= $_POST['zip'];
-		$city			= $_POST['city'];
-		$state			= $_POST['state'];
-		$country		= $_POST['country'];
-		$street1		= $_POST['street1'];
-		$street2		= $_POST['street2'];
-		$email			= $_POST['email'];
-		$phone			= $_POST['phone'];
-		$fax			= $_POST['fax'];
+		$domain_name	= UserIO::POST_String(domain);
+		$customer_id	= UserIO::POST_String(customer_id);
+		$fname			= UserIO::POST_String(fname);
+		$lname			= UserIO::POST_String(lname);
+		$gender			= UserIO::POST_String(gender);
+		$firm			= UserIO::POST_String(firm);
+		$zip			= UserIO::POST_String(zip);
+		$city			= UserIO::POST_String(city);
+		$state			= UserIO::POST_String(state);
+		$country		= UserIO::POST_String(country);
+		$street1		= UserIO::POST_String(street1);
+		$street2		= UserIO::POST_String(street2);
+		$email			= UserIO::POST_String(email);
+		$phone			= UserIO::POST_String(phone);
+		$fax			= UserIO::POST_String(fax);
 	} else {
 		$domain_name	= $rs->fields['domain_name'];
 		$customer_id	= $rs->fields['customer_id'];
@@ -107,7 +107,8 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 			`id` = ?
 	";
 	$rs = exec_query($sql, $query, array($plan_id));
-	$plan_name = $rs->fields['name'] . "<br />" . $rs->fields['description'];
+	$plan_name = UserIO::HTML($rs->fields['name']) . "<br />" 
+		. UserIO::HTML($rs->fields['description']);
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
 
@@ -118,20 +119,20 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 			'ID'			=> $order_id,
 			'DATE'			=> $date,
 			'HP'			=> $plan_name,
-			'DOMAINNAME'	=> $domain_name,
+			'DOMAINNAME'	=> UserIO::HTML($domain_name),
 			'CUSTOMER_ID'	=> $customer_id,
-			'FNAME'			=> $fname,
-			'LNAME'			=> $lname,
-			'FIRM'			=> $firm,
-			'ZIP'			=> $zip,
-			'CITY'			=> $city,
-			'STATE'			=> $state,
-			'COUNTRY'		=> $country,
-			'EMAIL'			=> $email,
-			'PHONE'			=> $phone,
-			'FAX'			=> $fax,
-			'STREET1'		=> $street1,
-			'STREET2'		=> $street2,
+			'FNAME'			=> UserIO::HTML($fname),
+			'LNAME'			=> UserIO::HTML($lname),
+			'FIRM'			=> UserIO::HTML($firm),
+			'ZIP'			=> UserIO::HTML($zip),
+			'CITY'			=> UserIO::HTML($city),
+			'STATE'			=> UserIO::HTML($state),
+			'COUNTRY'		=> UserIO::HTML($country),
+			'EMAIL'			=> UserIO::HTML($email),
+			'PHONE'			=> UserIO::HTML($phone),
+			'FAX'			=> UserIO::HTML($fax),
+			'STREET1'		=> UserIO::HTML($street1),
+			'STREET2'		=> UserIO::HTML($street2),
 			'VL_MALE'		=> (($gender == 'M') ? 'selected="selected"' : ''),
 			'VL_FEMALE'		=> (($gender == 'F') ? 'selected="selected"' : ''),
 			'VL_UNKNOWN'	=> ((($gender == 'U') || (empty($gender))) ? 'selected="selected"' : '')
@@ -140,22 +141,22 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 }
 
 function update_order_details(&$tpl, &$sql, $user_id, $order_id) {
-	$domain			= strtolower($_POST['domain']);
+	$domain			= strtolower(UserIO::POST_String(domain));
 	$domain			= encode_idna($domain);
-	$customer_id	= strip_html($_POST['customer_id']);
-	$fname			= strip_html($_POST['fname']);
-	$lname			= strip_html($_POST['lname']);
-	$gender			= in_array($_POST['gender'],array('M', 'F', 'U')) ? $_POST['gender'] : 'U';
-	$firm			= strip_html($_POST['firm']);
-	$zip			= strip_html($_POST['zip']);
-	$city			= strip_html($_POST['city']);
-	$state			= strip_html($_POST['state']);
-	$country		= strip_html($_POST['country']);
-	$street1		= strip_html($_POST['street1']);
-	$street2		= strip_html($_POST['street2']);
-	$email			= strip_html($_POST['email']);
-	$phone			= strip_html($_POST['phone']);
-	$fax			= strip_html($_POST['fax']);
+	$customer_id	= UserIO::POST_String(customer_id);
+	$fname			= UserIO::POST_String(fname);
+	$lname			= UserIO::POST_String(lname);
+	$gender			= in_array(UserIO::POST_String('gender'), array('M', 'F', 'U')) ? UserIO::POST_String('gender') : 'U';
+	$firm			= UserIO::POST_String(firm);
+	$zip			= UserIO::POST_String(zip);
+	$city			= UserIO::POST_String(city);
+	$state			= UserIO::POST_String(state);
+	$country		= UserIO::POST_String(country);
+	$street1		= UserIO::POST_String(street1);
+	$street2		= UserIO::POST_String(street2);
+	$email			= UserIO::POST_String(email);
+	$phone			= UserIO::POST_String(phone);
+	$fax			= UserIO::POST_String(fax);
 
 	$query = "
 		UPDATE
@@ -205,7 +206,7 @@ if (UserIO::POST_isset('uaction')) {
 	if (UserIO::POST_String('uaction') === 'update_data') {
 		set_page_message(tr('Order data updated successfully!'));
 	} else if (UserIO::POST_String('uaction') === 'add_user') {
-		$_SESSION['domain_ip'] = @$_POST['domain_ip'];
+		$_SESSION['domain_ip'] = UserIO::POST_String(domain_ip);
 		user_goto('orders_add.php?order_id=' . $order_id);
 	}
 }

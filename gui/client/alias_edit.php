@@ -121,7 +121,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
 	if (UserIO::POST_isset('uaction') && (UserIO::POST_String('uaction') == 'modify')) {
-		$url_forward = decode_idna($_POST['forward']);
+		$url_forward = decode_idna(UserIO::POST_String('forward'));
 	} else {
 		$url_forward = decode_idna($data['url_forward']);
 	}
@@ -154,13 +154,13 @@ function gen_editalias_page(&$tpl, $edit_id) {
 function check_fwd_data(&$tpl, $alias_id) {
 	$sql = Database::getInstance();
 
-	$forward_url = encode_idna($_POST['forward']);
-	$status = $_POST['status'];
+	$forward_url = encode_idna(UserIO::POST_String('forward'));
+	$status = UserIO::POST_Int('status');
 	// unset errors
 	$ed_error = '_off_';
 	$admin_login = '';
 
-	if ($status != '0') {
+	if ($status != 0) {
 		if (!chk_forward_url($forward_url)) {
 			$ed_error = tr("Incorrect forward syntax");
 		}
@@ -170,8 +170,8 @@ function check_fwd_data(&$tpl, $alias_id) {
 	}
 
 	if ($ed_error === '_off_') {
-		if ($_POST['status'] == 0) {
-			$forward_url = "no";
+		if ($status == 0) {
+			$forward_url = 'no';
 		}
 
 		$query = "

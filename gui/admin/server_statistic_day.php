@@ -42,7 +42,7 @@ global $month, $year, $day;
 
 if (UserIO::GET_Int('month') > 0 
 	&& UserIO::GET_Int('year') > 0 
-	&& UserIO::GET_Int('day') > 0)) {
+	&& UserIO::GET_Int('day') > 0) {
 	$year = UserIO::GET_Int('year');
 
 	$month = UserIO::GET_Int('month');

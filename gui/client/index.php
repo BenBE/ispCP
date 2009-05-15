@@ -258,7 +258,7 @@ $theme_color = Config::get('USER_INITIAL_THEME');
 if (UserIO::POST_String('uaction') == 'save_layout') {
 	$user_id = $_SESSION['user_id'];
 
-	$user_layout = $_POST['def_layout'];
+	$user_layout = UserIO::POST_String('def_layout');
 
 	$query = "
 		UPDATE

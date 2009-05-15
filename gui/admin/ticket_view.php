@@ -79,8 +79,8 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 				'TR_ACTION' => $tr_action,
 				'ACTION' => $action,
 				'DATE' => date($date_formt, $rs->fields['ticket_date']),
-				'SUBJECT' => htmlspecialchars($ticket_subject),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content)),
+				'SUBJECT' => UserIO::HTML($ticket_subject),
+				'TICKET_CONTENT' => nl2br(UserIO::HTML($ticket_content)),
 				'ID' => $rs->fields['ticket_id']
 			)
 		);
@@ -123,7 +123,7 @@ function get_tickets_replys(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 		$tpl->assign(
 			array(
 				'DATE' => date($date_formt, $ticket_date),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_message))
+				'TICKET_CONTENT' => nl2br(UserIO::HTML($ticket_message))
 			)
 		);
 		get_ticket_from($tpl, $sql, $ticket_id);
@@ -170,7 +170,7 @@ function get_ticket_from(&$tpl, &$sql, $ticket_id) {
 
 	$from_name = $from_first_name . " " . $from_last_name . " (" . $from_user_name . ")";
 
-	$tpl->assign(array('FROM' => htmlspecialchars($from_name)));
+	$tpl->assign(array('FROM' => UserIO::HTML($from_name)));
 }
 // common page data.
 
@@ -186,21 +186,22 @@ $tpl->assign(
 );
 
 function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
-	if (!UserIO::POST_isset('uaction')) {
+	if (UserIO::POST_String('uaction') == '') {
 		return;
-	} elseif (empty($_POST['user_message'])) { // no message check->error
-		if ((UserIO::POST_String('uaction') != "open") && (UserIO::POST_String('uaction') != "close")) {
+	}
+	if (UserIO::POST_String('user_message') == '') { // no message check->error
+		if (UserIO::POST_String('uaction') != 'open' && UserIO::POST_String('uaction') != 'close') {
 			set_page_message(tr('Please type your message!'));
 			return; 
 		}
 	}
 
 	$ticket_date = time();
-	$subject = clean_input($_POST['subject']);
-	$user_message = clean_input($_POST["user_message"]);
+	$subject = UserIO::POST_String('subject');
+	$user_message = UserIO::POST_Memo('user_message');
 	$ticket_status = 1;
 	$ticket_reply = UserIO::GET_Int('ticket_id');
-	$urgency = $_POST['urgency'];
+	$urgency = UserIO::POST_Int('urgency');
 
 	$query = "
 		SELECT
@@ -239,12 +240,12 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 			(?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	if (UserIO::POST_String('uaction') == "close") {
+	if (UserIO::POST_String('uaction') == 'close') {
 		if ($user_message != '') {
 			$user_message .= "\n\n";
 		}
 		$user_message .= tr("Ticket was closed!");
-	} elseif (UserIO::POST_String('uaction') == "open") {
+	} elseif (UserIO::POST_String('uaction') == 'open') {
 		if ($user_message != '') {
 			$user_message .= "\n\n";
 		}

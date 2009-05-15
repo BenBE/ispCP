@@ -126,8 +126,8 @@ SQL_QUERY;
 				array(
 					'NEW'		=> " ",
 					'LAST_DATE' => $date,
-					'SUBJECT'	=> htmlspecialchars($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
+					'SUBJECT'	=> UserIO::HTML($rs->fields['ticket_subject']),
+					'SUBJECT2'	=> UserIO::JS($rs->fields['ticket_subject']),
 					'ID'		=> $rs->fields['ticket_id'],
 					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
 				)

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="phpUnderControl" basedir="." default="build">	
+	<target name="initcheckphp">
+		<apply executable="rm" failonerror="false">
+			<filelist dir="tmp" files="checkphp.txt"/>
+		</apply>
+	</target>
+	<target name="initzca">
+		<apply executable="rm" failonerror="false">
+			<filelist dir="tmp" files="zca.txt"/>
+		</apply>
+	</target>
+	<target name="checkphp">
+		<apply executable="php" failonerror="false" output="tmp/checkphp.txt" append="true">
+			<arg value="-l" />
+			<fileset dir="../gui">
+				<include name="**/*.php" />
+			</fileset>
+    	</apply>
+	</target>
+	<target name="zca">
+		<apply executable="ZendCodeAnalyzer" failonerror="false" output="tmp/zca.txt" append="true">
+			<fileset dir="../gui">
+				<include name="**/*.php" />
+			</fileset>
+    	</apply>
+	</target>
+	<target name="build" depends="initcheckphp,initzca,checkphp,zca" />	
+</project>

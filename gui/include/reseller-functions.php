@@ -921,6 +921,7 @@ SQL_QUERY;
 				$start_index, $rows_per_page
 SQL_QUERY;
 	} else if ($search_for != '') {
+		// @todo prepared statements and remove addsl...
 		if ($search_common === 'domain_name') {
 			$add_query = "WHERE `admin_name` RLIKE '" . addslashes($search_for) . "' %s";
 		} else if ($search_common === 'customer_id') {

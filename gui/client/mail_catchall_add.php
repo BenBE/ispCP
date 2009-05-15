@@ -30,8 +30,8 @@ $tpl->define_dynamic('mail_list', 'page');
 
 if (UserIO::GET_isset('id')) {
 	$item_id = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$item_id = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$item_id = UserIO::POST_Int('id');
 } else {
 	user_goto('mail_catchall.php');
 }
@@ -114,8 +114,8 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_domain_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $domain_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> UserIO::HTML($show_mail_acc . "@" . $show_domain_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> UserIO::HTML($mail_acc . "@" . $domain_name) // this will be updated if we create catch all
 						)
 					);
 
@@ -157,8 +157,8 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> UserIO::HTML($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> UserIO::HTML($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
@@ -203,8 +203,8 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> UserIO::HTML($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> UserIO::HTML($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
@@ -249,8 +249,8 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> UserIO::HTML($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> UserIO::HTML($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
@@ -273,11 +273,11 @@ function create_catchall_mail_account(&$sql, $id) {
 	}
 
 	$match = array();
-	if (UserIO::POST_String('uaction') == 'create_catchall' && $_POST['mail_type'] === 'normal') {
+	if (UserIO::POST_String('uaction') == 'create_catchall' && UserIO::POST_String('mail_type') == 'normal') {
 		if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 			$item_id = $match[1];
 			$item_type = $match[2];
-			$post_mail_id = $_POST['mail_id'];
+			$post_mail_id = UserIO::POST_Int('mail_id');
 
 			if (preg_match("/(\d+);([^;]+);/", $post_mail_id, $match) == 1) {
 				$mail_id = $match[1];
@@ -339,7 +339,8 @@ function create_catchall_mail_account(&$sql, $id) {
 				user_goto('mail_catchall.php');
 			}
 		}
-	} else if (UserIO::POST_String('uaction') == 'create_catchall' && $_POST['mail_type'] === 'forward' && isset($_POST['forward_list'])) {
+	} else if (UserIO::POST_String('uaction') == 'create_catchall' 
+		&& UserIO::POST_String('mail_type') == 'forward' && UserIO::POST_isset('forward_list')) {
 		if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 			$item_id = $match[1];
 			$item_type = $match[2];
@@ -386,7 +387,7 @@ function create_catchall_mail_account(&$sql, $id) {
 				$domain_id = $rs->fields['domain_id'];
 				$mail_addr = '@' . $rs->fields['subdomain_alias_name'] . '.' . $rs->fields['alias_name'];
 			}
-			$mail_forward = clean_input($_POST['forward_list']);
+			$mail_forward = UserIO::POST_Memo('forward_list');
 			$mail_acc = array();
 			$faray = preg_split ("/[\n,]+/", $mail_forward);
 

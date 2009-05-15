@@ -198,7 +198,7 @@ function check_user_data() {
 		set_page_message(tr('SQL databases limit is <i>disabled</i>!'));
 		return false;
 	}
-	if (!ispcp_limit_check(UserIO::POST_Int('nreseller_max_sql_user_cnt'], -1)) {
+	if (!ispcp_limit_check(UserIO::POST_Int('nreseller_max_sql_user_cnt'), -1)) {
 		set_page_message(tr('Incorrect SQL users limit!'));
 		return false;
 	} else if (UserIO::POST_Int('nreseller_max_sql_db_cnt') != -1

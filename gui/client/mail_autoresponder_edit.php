@@ -71,17 +71,17 @@ SQL_QUERY;
 		$rs = exec_query($sql, $query, array($mail_id));
 		$mail_name = $rs->fields['mail_acc'];
 
-		$tpl->assign('ARSP_MESSAGE', $rs->fields['mail_auto_respond_text']);
+		$tpl->assign('ARSP_MESSAGE', UserIO::HTML($rs->fields['mail_auto_respond_text']));
 		return;
 	} else {
-		$arsp_message = clean_input($_POST['arsp_message']);
+		$arsp_message = UserIO::POST_Memo('arsp_message');
 	}
 
 	$item_change_status = Config::get('ITEM_CHANGE_STATUS');
 	check_for_lock_file();
 
 	if (UserIO::POST_String('uaction') == 'enable_arsp') {
-		if (empty($_POST['arsp_message'])) {
+		if (UserIO::POST_Memo('arsp_message', true, true) === false) {
 			$tpl->assign('ARSP_MESSAGE', '');
 			set_page_message(tr('Please type your mail autorespond message!'));
 			return;
@@ -134,8 +134,8 @@ SQL_QUERY;
 
 if (UserIO::GET_isset('id')) {
 	$mail_id = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$mail_id = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$mail_id = UserIO::POST_Int('id');
 } else {
 	user_goto('mail_accounts.php');
 }

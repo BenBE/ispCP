@@ -125,15 +125,13 @@ function edit_mail_account(&$tpl, &$sql) {
 			}
 		}
 
-		if (isset($_POST['forward_list'])) {
-			$mail_forward = clean_input($_POST['forward_list']);
-		}
+		$mail_forward = UserIO::POST_Memo('forward_list');
 		$mail_acc = decode_idna($mail_acc);
 		$maildomain = decode_idna($maildomain);
 		$tpl->assign(
 			array(
-				'EMAIL_ACCOUNT'	=> $mail_acc . "@" . $maildomain,
-				'FORWARD_LIST'	=> str_replace(',', "\n", $mail_forward),
+				'EMAIL_ACCOUNT'	=> UserIO::HTML($mail_acc . "@" . $maildomain),
+				'FORWARD_LIST'	=> str_replace(',', "\n", UserIO::HTML($mail_forward)),
 				'MTYPE'			=> implode(',', $mtype),
 				'MAIL_TYPE'		=> $mail_type_list,
 				'MAIL_ID'		=> $mail_id
@@ -181,19 +179,21 @@ function update_email_pass($sql) {
 	if (preg_match('/update_pass/', UserIO::POST_String('uaction')) == 0) {
 		return true;
 	}
-	if (preg_match('/update_forward/', UserIO::POST_String('uaction')) == 1 || isset($_POST['mail_forward'])) {
+	
+	$pass = UserIO::POST_String('pass', false, true);
+	$pass_rep = UserIO::POST_String('pass_rep', false, true);
+
+	if (preg_match('/update_forward/', UserIO::POST_String('uaction')) == 1 || UserIO::POST_isset('mail_forward')) {
 		// The user only wants to update the forward list, not the password
-		if ($_POST['pass'] === '' && $_POST['pass_rep'] === '') {
+		if ($pass == '' && $pass_rep == '') {
 			return true;
 		}
 	}
 
-	$pass = clean_input($_POST['pass']);
-	$pass_rep = clean_input($_POST['pass_rep']);
 	$mail_id = UserIO::GET_Int('id');
-	$mail_account = clean_input($_POST['mail_account']);
+	$mail_account = UserIO::POST_String('mail_account');
 
-	if (trim($pass) === '' || trim($pass_rep) === '' || $mail_id === '' || !is_numeric($mail_id)) {
+	if ($pass == '' || $pass_rep == '' || $mail_id == 0) {
 		set_page_message(tr('Password data is missing!'));
 		return false;
 	} else if ($pass !== $pass_rep) {
@@ -222,16 +222,17 @@ function update_email_forward(&$tpl, &$sql) {
 		return false;
 	}
 	if (preg_match('/update_forward/', UserIO::POST_String('uaction')) == 0
-		&& !isset($_POST['mail_forward'])) {
+		&& !UserIO::POST_isset('mail_forward')) {
 		return true;
 	}
 
-	$mail_account = $_POST['mail_account'];
+	$mail_account = UserIO::POST_String('mail_account');
 	$mail_id = UserIO::GET_Int('id');
-	$forward_list = clean_input($_POST['forward_list']);
+	$forward_list = UserIO::POST_Memo('forward_list');
+	$_mail_type = UserIO::POST_String('mail_type');
 	$mail_accs = array();
 
-	if (isset($_POST['mail_forward'])
+	if (UserIO::POST_Int('mail_forward') == 1
 		|| UserIO::POST_String('uaction') == 'update_forward') {
 		$faray = preg_split ('/[\n\s,]+/', $forward_list);
 
@@ -251,26 +252,26 @@ function update_email_forward(&$tpl, &$sql) {
 		$forward_list = implode(',', $mail_accs);
 
 		// Check if the mail type doesn't contain xxx_forward and append it
-		if (preg_match('/_forward/', $_POST['mail_type']) == 0) {
+		if (preg_match('/_forward/', $mail_type) == 0) {
 			// Get mail account type and append the corresponding xxx_forward
-			if ($_POST['mail_type'] == MT_NORMAL_MAIL) {
-				$mail_type = $_POST['mail_type'] . ',' . MT_NORMAL_FORWARD;
-			} else if ($_POST['mail_type'] == MT_ALIAS_MAIL) {
-				$mail_type = $_POST['mail_type'] . ',' . MT_ALIAS_FORWARD;
-			} else if ($_POST['mail_type'] == MT_SUBDOM_MAIL) {
-				$mail_type = $_POST['mail_type'] . ',' . MT_SUBDOM_FORWARD;
-			} else if ($_POST['mail_type'] == MT_ALSSUB_MAIL) {
-				$mail_type = $_POST['mail_type'] . ',' . MT_ALSSUB_FORWARD;
+			if ($_mail_type == MT_NORMAL_MAIL) {
+				$mail_type = $mail_type . ',' . MT_NORMAL_FORWARD;
+			} else if ($_mail_type == MT_ALIAS_MAIL) {
+				$mail_type = $mail_type . ',' . MT_ALIAS_FORWARD;
+			} else if ($_mail_type == MT_SUBDOM_MAIL) {
+				$mail_type = $mail_type . ',' . MT_SUBDOM_FORWARD;
+			} else if ($_mail_type == MT_ALSSUB_MAIL) {
+				$mail_type = $mail_type . ',' . MT_ALSSUB_FORWARD;
 			}
 		} else {
-			// The mail type already contains xxx_forward, so we can use $_POST['mail_type']
-			$mail_type = $_POST['mail_type'];
+			// The mail type already contains xxx_forward, so we can use _POST['mail_type']
+			$mail_type = $_mail_type;
 		}
 	} else {
 		$forward_list = '_no_';
 		// Check if mail type was a forward type and remove it
-		if (preg_match('/_forward/', $_POST['mail_type']) == 1) {
-			$mail_type = preg_replace('/,[a-z]+_forward$/', '', $_POST['mail_type']);
+		if (preg_match('/_forward/', $_mail_type) == 1) {
+			$mail_type = preg_replace('/,[a-z]+_forward$/', '', $_mail_type);
 		}
 	}
 

@@ -135,12 +135,12 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'ID'		=> $ticket_id,
-					'FROM'		=> htmlspecialchars($from),
-					'TO'		=> htmlspecialchars($to),
+					'FROM'		=> UserIO::HTML($from),
+					'TO'		=> UserIO::HTML($to),
 					'LAST_DATE'	=> $date,
-					'SUBJECT'	=> htmlspecialchars($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
-					'MESSAGE'	=> htmlspecialchars($rs->fields['ticket_message']),
+					'SUBJECT'	=> UserIO::HTML($rs->fields['ticket_subject']),
+					'SUBJECT2'	=> UserIO::JS($rs->fields['ticket_subject'], true),
+					'MESSAGE'	=> UserIO::HTML($rs->fields['ticket_message']),
 					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
 				)
 			);
@@ -169,7 +169,7 @@ SQL_QUERY;
 	$ticket_from = $rs->fields['ticket_from'];
 	$ticket_to = $rs->fields['ticket_to'];
 	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
+	$ticket_reply = $rs->fields['ticket_reply'];
 
 	$query = <<<SQL_QUERY
 		SELECT
@@ -211,7 +211,7 @@ SQL_QUERY;
 	$ticket_from = $rs->fields['ticket_from'];
 	$ticket_to = $rs->fields['ticket_to'];
 	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
+	$ticket_reply = $rs->fields['ticket_reply'];
 
 	$query = <<<SQL_QUERY
 		SELECT

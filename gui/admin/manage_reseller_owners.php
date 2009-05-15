@@ -114,7 +114,7 @@ SQL_QUERY;
 
 	while (!$rs->EOF) {
 
-		if (UserIO::POST_String('uaction') == 'reseller_owner')
+		if (UserIO::POST_String('uaction') == 'reseller_owner'
 			&& UserIO::POST_String('dest_admin') == $rs->fields['admin_id']) {
 			$selected = 'selected="selected"';
 		} else {

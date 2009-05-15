@@ -38,31 +38,31 @@ $tpl->assign(
 );
 
 if (UserIO::POST_String('uaction') == 'apply') {
-	$lostpassword					= $_POST['lostpassword'];
-	$lostpassword_timeout			= clean_input($_POST['lostpassword_timeout']);
-	$passwd_chars					= clean_input($_POST['passwd_chars']);
-	$passwd_strong					= $_POST['passwd_strong'];
-	$bruteforce						= $_POST['bruteforce'];
-	$bruteforce_between				= $_POST['bruteforce_between'];
-	$bruteforce_max_login			= clean_input($_POST['bruteforce_max_login']);
-	$bruteforce_block_time			= clean_input($_POST['bruteforce_block_time']);
-	$bruteforce_between_time		= clean_input($_POST['bruteforce_between_time']);
-	$bruteforce_max_capcha			= clean_input($_POST['bruteforce_max_capcha']);
-	$create_default_email_addresses	= $_POST['create_default_email_addresses'];
-	$count_default_email_addresses	= $_POST['count_default_email_addresses'];
-	$hard_mail_suspension			= $_POST['hard_mail_suspension'];
-	$user_initial_lang				= $_POST['def_language'];
-	$support_system					= $_POST['support_system'];
-	$hosting_plan_level				= $_POST['hosting_plan_level'];
-	$domain_rows_per_page			= clean_input($_POST['domain_rows_per_page']);
-	$checkforupdate					= $_POST['checkforupdate'];
-	$show_serverload				= $_POST['show_serverload'];
-	$prevent_external_login_admin	= $_POST['prevent_external_login_admin'];
-	$prevent_external_login_reseller= $_POST['prevent_external_login_reseller'];
-	$prevent_external_login_client	= $_POST['prevent_external_login_client'];
+	$lostpassword					= UserIO::POST_Int('lostpassword');
+	$lostpassword_timeout			= UserIO::POST_String('lostpassword_timeout');
+	$passwd_chars					= UserIO::POST_String('passwd_chars');
+	$passwd_strong					= UserIO::POST_String('passwd_strong');
+	$bruteforce						= UserIO::POST_String('bruteforce');
+	$bruteforce_between				= UserIO::POST_String('bruteforce_between');
+	$bruteforce_max_login			= UserIO::POST_String('bruteforce_max_login');
+	$bruteforce_block_time			= UserIO::POST_String('bruteforce_block_time');
+	$bruteforce_between_time		= UserIO::POST_String('bruteforce_between_time');
+	$bruteforce_max_capcha			= UserIO::POST_String('bruteforce_max_capcha');
+	$create_default_email_addresses	= UserIO::POST_String('create_default_email_addresses');
+	$count_default_email_addresses	= UserIO::POST_String('count_default_email_addresses');
+	$hard_mail_suspension			= UserIO::POST_String('hard_mail_suspension');
+	$user_initial_lang				= UserIO::POST_String('def_language');
+	$support_system					= UserIO::POST_String('support_system');
+	$hosting_plan_level				= UserIO::POST_String('hosting_plan_level');
+	$domain_rows_per_page			= UserIO::POST_String('domain_rows_per_page');
+	$checkforupdate					= UserIO::POST_String('checkforupdate');
+	$show_serverload				= UserIO::POST_String('show_serverload');
+	$prevent_external_login_admin	= UserIO::POST_String('prevent_external_login_admin');
+	$prevent_external_login_reseller= UserIO::POST_String('prevent_external_login_reseller');
+	$prevent_external_login_client	= UserIO::POST_String('prevent_external_login_client');
 
 	// change Loglevel to constant:
-	switch ($_POST['log_level']) {
+	switch (UserIO::POST_String('log_level')) {
 		case "E_USER_NOTICE":
 			$log_level = E_USER_NOTICE;
 			break;

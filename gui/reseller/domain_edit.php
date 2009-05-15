@@ -292,8 +292,8 @@ function gen_editdomain_page(&$tpl) {
 			'CGI_NO' 				=> ($cgi_supp != 'yes') ? 'selected':'',
 			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected':'',
 			'DNS_NO' 				=> ($dns_supp != 'yes') ? 'selected':'',
-			'VL_DOMAIN_NAME'		=> $domain_name,
-			'VL_DOMAIN_IP'			=> $domain_ip,
+			'VL_DOMAIN_NAME'		=> UserIO::HTML($domain_name),
+			'VL_DOMAIN_IP'			=> UserIO::HTML($domain_ip),
 			'VL_DOM_SUB'			=> $sub,
 			'VL_DOM_ALIAS'			=> $als,
 			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
@@ -302,7 +302,7 @@ function gen_editdomain_page(&$tpl) {
 			'VL_SQL_USERS'			=> $sql_user,
 			'VL_TRAFFIC'			=> $traff,
 			'VL_DOM_DISK'			=> $disk,
-			'VL_USER_NAME'			=> $username
+			'VL_USER_NAME'			=> UserIO::HTML($username)
 		)
 	);
 } // End of gen_editdomain_page()
@@ -317,19 +317,19 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
 
-	$sub = clean_input($_POST['dom_sub']);
-	$als = clean_input($_POST['dom_alias']);
-	$mail = clean_input($_POST['dom_mail_acCount']);
-	$ftp = clean_input($_POST['dom_ftp_acCounts']);
-	$sql_db = clean_input($_POST['dom_sqldb']);
-	$sql_user = clean_input($_POST['dom_sql_users']);
-	$traff = clean_input($_POST['dom_traffic']);
-	$disk = clean_input($_POST['dom_disk']);
-	// $domain_ip = $_POST['domain_ip'];
-	$domain_php = $_POST['domain_php'];
-	$domain_cgi = $_POST['domain_cgi'];
-	$domain_dns = $_POST['domain_dns'];
-	$allowbackup = $_POST['backup'];
+	$sub = UserIO::POST_String('dom_sub');
+	$als = UserIO::POST_String('dom_alias');
+	$mail = UserIO::POST_String('dom_mail_acCount');
+	$ftp = UserIO::POST_String('dom_ftp_acCounts');
+	$sql_db = UserIO::POST_String('dom_sqldb');
+	$sql_user = UserIO::POST_String('dom_sql_users');
+	$traff = UserIO::POST_String('dom_traffic');
+	$disk = UserIO::POST_String('dom_disk');
+	// $domain_ip = UserIO::POST_String('domain_ip');
+	$domain_php = UserIO::POST_String('domain_php');
+	$domain_cgi = UserIO::POST_String('domain_cgi');
+	$domain_dns = UserIO::POST_String('domain_dns');
+	$allowbackup = UserIO::POST_String('backup');
 
 	$ed_error = '';
 

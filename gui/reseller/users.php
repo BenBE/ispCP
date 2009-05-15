@@ -127,8 +127,8 @@ function generate_users_list(&$tpl, $admin_id) {
 
 	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
 
-	if (isset($_POST['details']) && !empty($_POST['details'])) {
-		$_SESSION['details'] = $_POST['details'];
+	if (UserIO::POST_String('details') != '') {
+		$_SESSION['details'] = UserIO::POST_String('details');
 	} else {
 		if (!isset($_SESSION['details'])) {
 			$_SESSION['details'] = "hide";
@@ -138,11 +138,11 @@ function generate_users_list(&$tpl, $admin_id) {
 	// Search request generated ?!
 
 	if (UserIO::POST_String('uaction', true, true) !== false) {
-		$_SESSION['search_for'] = trim(clean_input($_POST['search_for']));
+		$_SESSION['search_for'] = UserIO::POST_String('search_for');
 
-		$_SESSION['search_common'] = $_POST['search_common'];
+		$_SESSION['search_common'] = UserIO::POST_String('search_common');
 
-		$_SESSION['search_status'] = $_POST['search_status'];
+		$_SESSION['search_status'] = UserIO::POST_String('search_status');
 
 		$start_index = 0;
 	} else {
@@ -292,7 +292,7 @@ function generate_users_list(&$tpl, $admin_id) {
 				array(
 					'CREATION_DATE' => $dom_created,
 					'DOMAIN_ID' => $rs->fields['domain_id'],
-					'NAME' => $admin_name,
+					'NAME' => UserIO::HTML($admin_name),
 					'ACTION' => tr('Delete'),
 					'USER_ID' => $rs->fields['domain_admin_id'],
 					'CHANGE_INTERFACE' => tr('Switch'),

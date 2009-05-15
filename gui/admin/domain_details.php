@@ -94,6 +94,7 @@ unset_messages();
 // Begin function block
 
 function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
+	// @todo Function argument 'user_id' is never used.
 	$sql = Database::getInstance();
 	// Get domain data
 	$query = "
@@ -122,6 +123,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	// Get IP info
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
 	$ipres = exec_query($sql, $query, array($data['domain_ip_id']));
+	// @todo Value assigned to variable 'ipdat' is never used
 	$ipdat = $ipres->FetchRow();
 	// Get status name
 	$dstatus = $data['domain_status'];

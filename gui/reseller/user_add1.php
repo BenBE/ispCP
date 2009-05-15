@@ -99,15 +99,15 @@ function check_user_data() {
 	// personal template
 	$even_txt = '';
 
-	if (isset($_POST['dmn_name'])) {
-		$dmn_name = strtolower(trim($_POST['dmn_name']));
+	if (UserIO::POST_isset('dmn_name')) {
+		$dmn_name = strtolower(UserIO::POST_String('dmn_name'));
 		$dmn_name = encode_idna($dmn_name);
 	}
-	if (isset($_POST['dmn_tpl']))
-		$dmn_chp = $_POST['dmn_tpl'];
+	if (UserIO::POST_isset('dmn_tpl'))
+		$dmn_chp = UserIO::POST_String('dmn_tpl');
 
-	if (isset($_POST['chtpl']))
-		$dmn_pt = $_POST['chtpl'];
+	if (UserIO::POST_isset('chtpl'))
+		$dmn_pt = UserIO::POST_String('chtpl');
 
 	if (!chk_dname($dmn_name)) {
 		$even_txt = tr('Wrong domain name syntax!');
@@ -125,7 +125,7 @@ function check_user_data() {
 	if (!empty($even_txt)) { // There are wrong input data
 		set_page_message($even_txt);
 		return false;
-	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
+	} else if ($dmn_pt == '_yes_' || !UserIO::POST_isset('dmn_tpl')) {
 		// send through the session the data
 		$_SESSION['dmn_name']	= $dmn_name;
 		$_SESSION['dmn_tpl']	= $dmn_chp;
@@ -174,7 +174,7 @@ function get_data_au1_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'DMN_NAME_VALUE'	=> $dmn_name,
+			'DMN_NAME_VALUE'	=> UserIO::HTML($dmn_name),
 			'CHTPL1_VAL'		=> $dmn_pt === "_yes_" ? 'checked="checked"' : '',
 			'CHTPL2_VAL'		=> $dmn_pt === "_yes_" ? '' : 'checked="checked"'
 		)
@@ -241,7 +241,7 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
 			$tpl->assign(
 				array(
-					'HP_NAME'			=> $data['name'],
+					'HP_NAME'			=> UserIO::HTML($data['name']),
 					'CHN'				=> $data['id'],
 					'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? 'selected="selected"' : ''
 				)

@@ -29,8 +29,8 @@ $tpl->define_dynamic('logged_from', 'page');
 
 if (UserIO::GET_isset('id')) {
 	$db_user_id = UserIO::GET_Int('id');
-} else if (isset($_POST['id'])) {
-	$db_user_id = $_POST['id'];
+} else if (UserIO::POST_isset('id')) {
+	$db_user_id = UserIO::POST_Int('id');
 } else {
 	user_goto('sql_manage.php');
 }
@@ -41,22 +41,24 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 		return;
 	}
 
-	if ($_POST['pass'] === '' && $_POST['pass_rep'] === '') {
+	$pass = UserIO::POST_String('pass', false, true);
+	$pass_rep = UserIO::POST_String('pass_rep', false, true);
+	if ($pass === '' && $pass_rep === '') {
 		set_page_message(tr('Please type user password!'));
 		return;
 	}
 
-	if ($_POST['pass'] !== $_POST['pass_rep']) {
+	if ($pass !== $pass_rep) {
 		set_page_message(tr('Entered passwords do not match!'));
 		return;
 	}
 
-	if (strlen($_POST['pass']) > Config::get('MAX_SQL_PASS_LENGTH')) {
+	if (strlen($pass) > Config::get('MAX_SQL_PASS_LENGTH')) {
 		set_page_message(tr('Too long user password!'));
 		return;
 	}
 
-	if (!chk_password($_POST['pass'])) {
+	if (!chk_password($pass)) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
@@ -65,7 +67,7 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 		return;
 	}
 
-	$user_pass = $_POST['pass'];
+	$user_pass = $pass;
 
 	// update user pass in the ispcp sql_user table;
 	$query = "

@@ -49,8 +49,10 @@ $tpl->assign(
 function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
 	if (UserIO::POST_String('uaction') == 'modify_user') {
 		// we have to add the user
-		if (isset($_POST['pass']) && isset($_POST['pass_rep'])) {
-			if (!chk_password($_POST['pass'])) {
+		$pass = UserIO::POST_String('pass', true, true);
+		$pass_rep = UserIO::POST_String('pass_rep', true, true);
+		if ($pass !== false && $pass_rep !== false) {
+			if (!chk_password($pass)) {
 				if (Config::get('PASSWD_STRONG')) {
 					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 				} else {
@@ -58,12 +60,12 @@ function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
 				}
 				return;
 			}
-			if ($_POST['pass'] !== $_POST['pass_rep']) {
+			if ($pass !== $pass_rep) {
 				set_page_message(tr('Passwords do not match!'));
 				return;
 			}
 
-			$nadmin_password = crypt_user_pass_with_salt($_POST['pass']);
+			$nadmin_password = crypt_user_pass_with_salt($pass);
 
 			$change_status = Config::get('ITEM_CHANGE_STATUS');
 
@@ -157,10 +159,8 @@ if (UserIO::GET_Int('uname') > 0) {
 			)
 		);
 	}
-} else if (isset($_POST['nadmin_name'])
-	&& !empty($_POST['nadmin_name'])
-	&& is_numeric($_POST['nadmin_name'])) {
-	$uuser_id = clean_input($_POST['nadmin_name']);
+} else if (UserIO::POST_Int('nadmin_name') > 0) {
+	$uuser_id = UserIO::POST_Int('nadmin_name');
 
 /**
  * @todo use DB prepared statements

@@ -48,26 +48,26 @@ $tpl->assign(
  * @todo use db prepared statements
  */
 function protect_area(&$tpl, &$sql, $dmn_id) {
-	if (!UserIO::POST_isset('uaction') || UserIO::POST_String('uaction') != 'protect_it') {
+	if (UserIO::POST_String('uaction') != 'protect_it') {
 		return;
 	}
 
-	if (!isset($_POST['users']) && !isset($_POST['groups'])) {
+	if (!UserIO::POST_isset('users') && !UserIO::POST_isset('groups')) {
 		set_page_message(tr('Please choose user or group'));
 		return;
 	}
 
-	if (empty($_POST['paname'])) {
+	if (UserIO::POST_String('paname', true, true) === false) {
 		set_page_message(tr('Please enter area name'));
 		return;
 	}
 
-	if (empty($_POST['other_dir'])) {
+	if (UserIO::POST_String('other_dir', true, true) === false) {
 		set_page_message(tr('Please enter area path'));
 		return;
 	}
 	// Check for existing directory
-	$path = clean_input($_POST['other_dir'], false);
+	$path = UserIO::POST_String('other_dir');
 	$domain = $_SESSION['user_logged'];
 	// We need to use the virtual file system
 	$vfs = &new vfs($domain, $sql);
@@ -77,15 +77,15 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 		return;
 	}
 
-	$ptype = $_POST['ptype'];
+	$ptype = UserIO::POST_String('ptype');
 
-	if (isset($_POST['users']))
-		$users = $_POST['users'];
+	if (UserIO::POST_isset('users'))
+		$users = UserIO::POST_Array('users');
 
-	if (isset($_POST['groups']))
-		$groups = $_POST['groups'];
+	if (UserIO::POST_isset('groups'))
+		$groups = UserIO::POST_Array('groups');
 
-	$area_name = $_POST['paname'];
+	$area_name = UserIO::POST_String('paname');
 
 	$user_id = '';
 	$group_id = '';
@@ -219,8 +219,8 @@ SQL_QUERY;
 
 		$tpl->assign(
 			array(
-				'PATH' => $path,
-				'AREA_NAME' => $auth_name,
+				'PATH' => UserIO::HTML($path),
+				'AREA_NAME' => UserIO::HTML($auth_name),
 			)
 		);
 		// let's get the htaccess management type
@@ -293,7 +293,7 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'USER_VALUE' => $rs->fields['id'],
-					'USER_LABEL' => $rs->fields['uname'],
+					'USER_LABEL' => UserIO::HTML($rs->fields['uname']),
 					'USER_SELECTED' => $usr_selected,
 				)
 			);
@@ -339,7 +339,7 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'GROUP_VALUE' => $rs->fields['id'],
-					'GROUP_LABEL' => $rs->fields['ugroup'],
+					'GROUP_LABEL' => UserIO::HTML($rs->fields['ugroup']),
 					'GROUP_SELECTED' => $grp_selected,
 				)
 			);

@@ -44,7 +44,7 @@ function check_subdomain_permissions($sql, $user_id) {
 		user_goto('domains_manage.php');
 	}
 
-	if (@$_POST['dmn_type'] == 'als') {
+	if (UserIO::POST_String('dmn_type') === 'als') {
 		$query_alias = "
 			SELECT
 				`alias_name`
@@ -53,7 +53,7 @@ function check_subdomain_permissions($sql, $user_id) {
 			WHERE
 				`alias_id` = ?
 		";
-		$rs = exec_query($sql, $query_alias, array($_POST['als_id']));
+		$rs = exec_query($sql, $query_alias, array(UserIO::POST_Int('als_id')));
 		return $rs->fields['alias_name'];
 	}
 	return $dmn_name; // Will be used in subdmn_exists()
@@ -74,7 +74,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 	$domainname = decode_idna($rs->fields['domain_name']);
 	$tpl->assign(
 		array(
-			'DOMAIN_NAME'		=> '.' . $domainname,
+			'DOMAIN_NAME'		=> '.' . UserIO::HTML($domainname),
 			'SUB_DMN_CHECKED'	=> 'checked="checked"',
 			'SUB_ALS_CHECKED'	=> ''
 		)
@@ -84,8 +84,8 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 	if (UserIO::POST_String('uaction') == 'add_subd') {
 		$tpl->assign(
 			array(
-				'SUBDOMAIN_NAME' => clean_input($_POST['subdomain_name']),
-				'SUBDOMAIN_MOUNT_POINT' => clean_input($_POST['subdomain_mnt_pt'])
+				'SUBDOMAIN_NAME' => UserIO::HTML(UserIO::POST_String('subdomain_name')),
+				'SUBDOMAIN_MOUNT_POINT' => UserIO::HTML(UserIO::POST_String('subdomain_mnt_pt'))
 			)
 		);
 	} else {
@@ -130,9 +130,9 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 		$_SESSION['alias_count'] = "no";
 	} else {
 		$first_passed = false;
+		$als_id = UserIO::POST_String('als_id');
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				$als_id = (!isset($_POST['als_id'])) ? '' : $_POST['als_id'];
 				$als_selected = ($als_id == $rs->fields['alias_id']) ? 'selected="selected"' : '';
 			} else {
 				$als_selected = (!$first_passed) ? 'selected="selected"' : '';
@@ -143,7 +143,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				array(
 					'ALS_ID' => $rs->fields['alias_id'],
 					'ALS_SELECTED' => $als_selected,
-					'ALS_NAME' => $alias_name
+					'ALS_NAME' => UserIO::HTML($alias_name)
 				)
 			);
 			$tpl->parse('ALS_LIST', '.als_list');
@@ -160,7 +160,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 	global $dmn_name;
 
-	if ($_POST['dmn_type'] == 'als') {
+	if (UserIO::POST_String('dmn_type') == 'als') {
 		$query_subdomain = "
 			SELECT
 				COUNT(`subdomain_alias_id`) AS cnt
@@ -222,7 +222,7 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 
 function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt) {
 
-	if ($_POST['dmn_type'] == 'als') {
+	if (UserIO::POST_String('dmn_type') == 'als') {
 		$query = "
 			SELECT
 				COUNT(`subdomain_alias_id`) AS cnt
@@ -272,7 +272,7 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt)
 	$status_add = Config::get('ITEM_ADD_STATUS');
 
 	check_for_lock_file();
-	if ($_POST['dmn_type'] == 'als') {
+	if (UserIO::POST_String('dmn_type') == 'als') {
 		$query = "
 			INSERT INTO
 				`subdomain_alias`
@@ -311,23 +311,24 @@ function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 	$dmn_id = $domain_id = get_user_domain_id($sql, $user_id);
 
 	if (UserIO::POST_String('uaction') == 'add_subd') {
-		if (empty($_POST['subdomain_name'])) {
+		$sub_name = strtolower(UserIO::POST_String('subdomain_name'));
+		if (empty($sub_name)) {
 			set_page_message(tr('Please specify subdomain name!'));
 			return;
 		}
 
-		$sub_name = strtolower($_POST['subdomain_name']);
+		$sub_mnt_pt = strtolower(UserIO::POST_String('subdomain_mnt_pt'));
 		$sub_name = encode_idna($sub_name);
 
-		if (isset($_POST['subdomain_mnt_pt']) && $_POST['subdomain_mnt_pt'] !== '') {
-			$sub_mnt_pt = strtolower($_POST['subdomain_mnt_pt']);
+		if ($sub_mnt_pt !== '') {
+			// @todo document: array?
 			$sub_mnt_pt = array_encode_idna($sub_mnt_pt, true);
 		} else {
 			$sub_mnt_pt = "/";
 		}
 
-		if ($_POST['dmn_type'] === 'als') {
-			if (!isset($_POST['als_id'])) {
+		if (UserIO::POST_String('dmn_type') === 'als') {
+			if (UserIO::POST_Int('als_id') == 0) {
 				set_page_message(tr('No valid alias domain selected!'));
 				return;
 			}
@@ -340,13 +341,13 @@ function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 					`alias_id` = ?
 			";
 
-			$rs = exec_query($sql, $query_alias, array($_POST['als_id']));
+			$rs = exec_query($sql, $query_alias, array(UserIO::POST_Int('als_id')));
 			$als_mnt = $rs->fields['alias_mount'];
 			if ($sub_mnt_pt[0] != '/')
 				$sub_mnt_pt = '/'.$sub_mnt_pt;
 			$sub_mnt_pt = $als_mnt.$sub_mnt_pt;
 			$sub_mnt_pt = str_replace('//', '/', $sub_mnt_pt);
-			$domain_id = $_POST['als_id'];
+			$domain_id = UserIO::POST_Int('als_id');
 		}
 
 		if (subdmn_exists($sql, $user_id, $domain_id, $sub_name)) {

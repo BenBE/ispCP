@@ -105,16 +105,16 @@ function init_empty_data() {
 function gen_al_page(&$tpl, $reseller_id) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point;
 
-	if (isset($_POST['forward'])) {
-		$forward = clean_input($_POST['forward']);
+	if (UserIO::POST_isset('forward')) {
+		$forward = UserIO::POST_String('forward');
 	} else {
 		$forward = 'no';
 	}
 	$tpl->assign(
 		array(
-			'DOMAIN' => $alias_name,
-			'MP' => $mount_point,
-			'FORWARD' => $forward
+			'DOMAIN' => UserIO::HTML($alias_name),
+			'MP' => UserIO::HTML($mount_point),
+			'FORWARD' => UserIO::HTML($forward)
 		)
 	);
 
@@ -125,10 +125,11 @@ function gen_al_page(&$tpl, $reseller_id) {
 function add_domain_alias(&$sql, &$err_al) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point;
 
-	$cr_user_id = $dmn_id = $_POST['usraccounts'];
-	$alias_name = encode_idna(strtolower($_POST['ndomain_name']));
-	$mount_point = array_encode_idna(strtolower($_POST['ndomain_mpoint']), true);
-	$forward = strtolower($_POST['forward']);
+	$cr_user_id = $dmn_id = UserIO::POST_Int('usraccounts');
+	$alias_name = encode_idna(strtolower(UserIO::POST_String('ndomain_name')));
+	$mount_point = array_encode_idna(strtolower(UserIO::POST_String('ndomain_mpoint')), true);
+	// @todo why strtolower? 2009-05-15
+	$forward = strtolower(UserIO::POST_String('forward'));
 
 	$query = <<<SQL_QUERY
 		SELECT
@@ -314,7 +315,7 @@ SQL_QUERY;
 		$tpl->assign(
 			array(
 				'USER' => $domain_id,
-				'USER_DOMAIN_ACCOUN' => $domain_name,
+				'USER_DOMAIN_ACCOUN' => UserIO::HTML($domain_name),
 				'SELECTED' => $selected
 			)
 		);

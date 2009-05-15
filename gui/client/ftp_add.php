@@ -59,7 +59,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		$tpl->assign(
 			array(
 				'USERNAME' => '',
-				'DOMAIN_NAME' => $dmn_name,
+				'DOMAIN_NAME' => UserIO::HTML($dmn_name),
 				'DMN_TYPE_CHECKED' => 'checked="checked"',
 				'ALS_TYPE_CHECKED' => '',
 				'SUB_TYPE_CHECKED' => '',
@@ -70,13 +70,13 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 	} else {
 		$tpl->assign(
 			array(
-				'USERNAME' => clean_input($_POST['username'], true),
-				'DOMAIN_NAME' => $dmn_name,
-				'DMN_TYPE_CHECKED' => ($_POST['dmn_type'] === 'dmn') ? 'checked="checked"' : '',
-				'ALS_TYPE_CHECKED' => ($_POST['dmn_type'] === 'als') ? 'checked="checked"' : '',
-				'SUB_TYPE_CHECKED' => ($_POST['dmn_type'] === 'sub') ? 'checked="checked"' : '',
-				'OTHER_DIR' => clean_input($_POST['other_dir'], true),
-				'USE_OTHER_DIR_CHECKED' => (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') ? 'checked="checked"' : ''
+				'USERNAME' => UserIO::HTML(UserIO::POST_String('username')),
+				'DOMAIN_NAME' => UserIO::HTML($dmn_name),
+				'DMN_TYPE_CHECKED' => (UserIO::POST_String('dmn_type') == 'dmn') ? 'checked="checked"' : '',
+				'ALS_TYPE_CHECKED' => (UserIO::POST_String('dmn_type') == 'als') ? 'checked="checked"' : '',
+				'SUB_TYPE_CHECKED' => (UserIO::POST_String('dmn_type') == 'sub') ? 'checked="checked"' : '',
+				'OTHER_DIR' => UserIO::HTML(UserIO::POST_String('other_dir')),
+				'USE_OTHER_DIR_CHECKED' => (UserIO::POST_String('use_other_dir') == 'on') ? 'checked="checked"' : ''
 			)
 		);
 	}
@@ -114,7 +114,7 @@ SQL_QUERY;
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				$als_id = (!isset($_POST['als_id'])) ? '' : $_POST['als_id'];
+				$als_id = (!UserIO::POST_isset('als_id')) ? '' : UserIO::POST_String('als_id');
 				$als_selected = ($als_id == $rs->fields['alias_name'])
 					? 'selected="selected"'
 					: '';
@@ -126,9 +126,9 @@ SQL_QUERY;
 
 			$tpl->assign(
 				array(
-					'ALS_ID' => $rs->fields['alias_name'],
+					'ALS_ID' => UserIO::HTML($rs->fields['alias_name']),
 					'ALS_SELECTED' => $als_selected,
-					'ALS_NAME' => $als_menu_name
+					'ALS_NAME' => UserIO::HTML($als_menu_name)
 				)
 			);
 
@@ -173,7 +173,8 @@ SQL_QUERY;
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				$sub_id = (!isset($_POST['sub_id'])) ? '' : $_POST['sub_id'];
+				// @todo where is sub_id in the form? can't find the instance
+				$sub_id = (!UserIO::POST_isset('sub_id')) ? '' : UserIO::POST_String('sub_id');
 				$sub_selected = ($sub_id == $rs->fields['sub_name'])
 					? 'selected="selected"'
 					: '';
@@ -185,9 +186,9 @@ SQL_QUERY;
 			$dmn_menu_name = decode_idna($dmn_name);
 			$tpl->assign(
 				array(
-					'SUB_ID' => $rs->fields['sub_name'],
+					'SUB_ID' => UserIO::HTML($rs->fields['sub_name']),
 					'SUB_SELECTED' => $sub_selected,
-					'SUB_NAME' => $sub_menu_name . '.' . $dmn_menu_name
+					'SUB_NAME' => UserIO::HTML($sub_menu_name . '.' . $dmn_menu_name)
 				)
 			);
 			$tpl->parse('SUB_LIST', '.sub_list');
@@ -329,7 +330,7 @@ SQL_QUERY;
 }
 
 function add_ftp_user(&$sql, $dmn_name) {
-	$username = strtolower(clean_input($_POST['username']));
+	$username = strtolower(UserIO::POST_String('username'));
 	$res_uname = preg_match("/\./", $username, $match);
 	if ($res_uname == 1) {
 		set_page_message(tr("Incorrect username length or syntax!"));
@@ -342,7 +343,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 	}
 	// Set default values ($ftp_home may be overwritten if user
 	// has specified a mount point)
-	switch ($_POST['dmn_type']) {
+	switch (UserIO::POST_String('dmn_type')) {
 		// Default moint point for a domain
 		case 'dmn':
 			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $dmn_name;
@@ -350,14 +351,14 @@ function add_ftp_user(&$sql, $dmn_name) {
 			break;
 		// Default mount point for an alias domain
 		case 'als':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['als_id'];
-			$alias_mount_point = get_alias_mount_point($sql, $_POST['als_id']);
+			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . UserIO::POST_String('als_id');
+			$alias_mount_point = get_alias_mount_point($sql, UserIO::POST_String('als_id'));
 			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name" . $alias_mount_point;
 			break;
 		// Default mount point for a subdomain
 		case 'sub':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['sub_id'] . '.' . $dmn_name;
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . clean_input($_POST['sub_id']);
+			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . UserIO::POST_String('sub_id') . '.' . $dmn_name;
+			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . UserIO::POST_String('sub_id');
 			break;
 		// Unknown domain type (?)
 		default:
@@ -366,8 +367,8 @@ function add_ftp_user(&$sql, $dmn_name) {
 			break;
 	}
 	// User-specified mount point
-	if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') {
-		$ftp_vhome = clean_input($_POST['other_dir'], false);
+	if (UserIO::POST_String('use_other_dir') == 'on') {
+		$ftp_vhome = UserIO::POST_String('other_dir');
 		// Strip possible double-slashes
 		$ftp_vhome = str_replace('//', '/', $ftp_vhome);
 		// Check for updirs ".."
@@ -396,7 +397,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 	if ($ftp_uid == -1) return;
 
 	$ftp_shell = Config::get('CMD_SHELL');
-	$ftp_passwd = crypt_user_pass_with_salt($_POST['pass']);
+	$ftp_passwd = crypt_user_pass_with_salt(UserIO::POST_String('pass'));
 
 	$query = <<<SQL_QUERY
 		INSERT INTO ftp_users
@@ -412,24 +413,25 @@ SQL_QUERY;
 }
 
 function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
-	if (!isset($_POST['username']) || $_POST['username'] === '') {
+	if (UserIO::POST_String('username', true, true) === false) {
 		set_page_message(tr('Please enter FTP account username!'));
 		return;
 	}
 
-	if (!isset($_POST['pass']) || empty($_POST['pass'])
-		|| !isset($_POST['pass_rep'])
-		|| $_POST['pass_rep'] === '') {
+	$pass = UserIO::POST_String('pass', true, true);
+	$pass_rep = UserIO::POST_String('pass', true, true);
+	
+	if ($pass === false || $pass_rep === false) {
 		set_page_message(tr('Password data is missing!'));
 		return;
 	}
 
-	if ($_POST['pass'] !== $_POST['pass_rep']) {
+	if ($pass !== $pass_rep) {
 		set_page_message(tr('Entered passwords differ from the another!'));
 		return;
 	}
 
-	if (!chk_password($_POST['pass'])) {
+	if (!chk_password($pass)) {
 		if (Config::get('PASSWD_STRONG')) {
 			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
 		} else {
@@ -438,17 +440,17 @@ function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		return;
 	}
 
-	if ($_POST['dmn_type'] === 'sub' && $_POST['sub_id'] === 'n/a') {
+	if (UserIO::POST_String('dmn_type') == 'sub' && UserIO::POST_String('sub_id') == 'n/a') {
 		set_page_message(tr('Subdomain list is empty! You cannot add FTP accounts there!'));
 		return;
 	}
 
-	if ($_POST['dmn_type'] === 'als' && $_POST['als_id'] === 'n/a') {
+	if (UserIO::POST_String('dmn_type') == 'als' && UserIO::POST_String('als_id') == 'n/a') {
 		set_page_message(tr('Alias list is empty! You cannot add FTP accounts there!'));
 		return;
 	}
 
-	if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on' && empty($_POST['other_dir'])) {
+	if (UserIO::POST_String('use_other_dir') == 'on' && UserIO::POST_String('other_dir', true, true) === false) {
 		set_page_message(tr('Please specify other FTP account dir!'));
 		return;
 	}
@@ -568,7 +570,7 @@ $tpl->assign(
 		'TR_USE_OTHER_DIR' => tr('Use other dir'),
 		'TR_ADD' => tr('Add'),
 		'CHOOSE_DIR' => tr('Choose dir'),
-		'FTP_SEPARATOR' => Config::get('FTP_USERNAME_SEPARATOR')
+		'FTP_SEPARATOR' => UserIO::HTML(Config::get('FTP_USERNAME_SEPARATOR'))
 	)
 );
 

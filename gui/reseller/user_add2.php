@@ -147,7 +147,7 @@ function get_init_au2_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'VL_TEMPLATE_NAME' => $hp_name,
+			'VL_TEMPLATE_NAME' => UserIO::HTML($hp_name),
 			'MAX_DMN_CNT' => '',
 			'MAX_SUBDMN_CNT' => $hp_sub,
 			'MAX_DMN_ALIAS_CNT' => $hp_als,
@@ -282,44 +282,44 @@ function check_user_data(&$tpl) {
 
 	$ehp_error = '';
 	// Get data for fields from previous page
-	if (isset($_POST['template'])) {
-		$hp_name = $_POST['template'];
+	if (UserIO::POST_isset('template')) {
+		$hp_name = UserIO::POST_String('template');
 	}
-	if (isset($_POST['nreseller_max_domain_cnt'])) {
-		$hp_dmn = clean_input($_POST['nreseller_max_domain_cnt']);
+	if (UserIO::POST_isset('nreseller_max_domain_cnt')) {
+		$hp_dmn = UserIO::POST_String('nreseller_max_domain_cnt');
 	}
-	if (isset($_POST['nreseller_max_subdomain_cnt'])) {
-		$hp_sub = clean_input($_POST['nreseller_max_subdomain_cnt']);
+	if (UserIO::POST_isset('nreseller_max_subdomain_cnt')) {
+		$hp_sub = UserIO::POST_String('nreseller_max_subdomain_cnt');
 	}
-	if (isset($_POST['nreseller_max_alias_cnt'])) {
-		$hp_als = clean_input($_POST['nreseller_max_alias_cnt']);
+	if (UserIO::POST_isset('nreseller_max_alias_cnt')) {
+		$hp_als = UserIO::POST_String('nreseller_max_alias_cnt');
 	}
-	if (isset($_POST['nreseller_max_mail_cnt'])) {
-		$hp_mail = clean_input($_POST['nreseller_max_mail_cnt']);
+	if (UserIO::POST_isset('nreseller_max_mail_cnt')) {
+		$hp_mail = UserIO::POST_String('nreseller_max_mail_cnt');
 	}
-	if (isset($_POST['nreseller_max_ftp_cnt']) || $hp_ftp == -1) {
-		$hp_ftp = clean_input($_POST['nreseller_max_ftp_cnt']);
+	if (UserIO::POST_isset('nreseller_max_ftp_cnt') || $hp_ftp == -1) {
+		$hp_ftp = UserIO::POST_String('nreseller_max_ftp_cnt');
 	}
-	if (isset($_POST['nreseller_max_sql_db_cnt'])) {
-		$hp_sql_db = clean_input($_POST['nreseller_max_sql_db_cnt']);
+	if (UserIO::POST_isset('nreseller_max_sql_db_cnt')) {
+		$hp_sql_db = UserIO::POST_String('nreseller_max_sql_db_cnt');
 	}
-	if (isset($_POST['nreseller_max_sql_user_cnt'])) {
-		$hp_sql_user = clean_input($_POST['nreseller_max_sql_user_cnt']);
+	if (UserIO::POST_isset('nreseller_max_sql_user_cnt')) {
+		$hp_sql_user = UserIO::POST_String('nreseller_max_sql_user_cnt');
 	}
-	if (isset($_POST['nreseller_max_traffic'])) {
-		$hp_traff = clean_input($_POST['nreseller_max_traffic']);
+	if (UserIO::POST_isset('nreseller_max_traffic')) {
+		$hp_traff = UserIO::POST_String('nreseller_max_traffic');
 	}
-	if (isset($_POST['nreseller_max_disk'])) {
-		$hp_disk = clean_input($_POST['nreseller_max_disk']);
+	if (UserIO::POST_isset('nreseller_max_disk')) {
+		$hp_disk = UserIO::POST_String('nreseller_max_disk');
 	}
-	if (isset($_POST['php'])) {
-		$hp_php = $_POST['php'];
+	if (UserIO::POST_isset('php')) {
+		$hp_php = UserIO::POST_String('php');
 	}
-	if (isset($_POST['cgi'])) {
-		$hp_cgi = $_POST['cgi'];
+	if (UserIO::POST_isset('cgi')) {
+		$hp_cgi = UserIO::POST_String('cgi');
 	}
-	if (isset($_POST['allowbackup'])) {
-		$hp_allowbackup = $_POST['allowbackup'];
+	if (UserIO::POST_isset('allowbackup')) {
+		$hp_allowbackup = UserIO::POST_String('allowbackup');
 	}
 	// Begin checking...
 	if (!ispcp_limit_check($hp_sub, -1)) {

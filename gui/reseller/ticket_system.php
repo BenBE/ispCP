@@ -138,9 +138,9 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'LAST_DATE' => $date,
-					'FROM'		=> htmlspecialchars($from),
-					'SUBJECT'	=> htmlspecialchars($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
+					'FROM'		=> UserIO::HTML($from),
+					'SUBJECT'	=> UserIO::HTML($rs->fields['ticket_subject']),
+					'SUBJECT2'	=> UserIO::JS($rs->fields['ticket_subject'], true),
 					'ID'		=> $ticket_id,
 					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
 				)
@@ -170,7 +170,7 @@ SQL_QUERY;
 	$ticket_from = $rs->fields['ticket_from'];
 	$ticket_to = $rs->fields['ticket_to'];
 	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
+	$ticket_reply = $rs->fields['ticket_reply'];
 
 	$query = <<<SQL_QUERY
 		SELECT

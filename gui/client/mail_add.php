@@ -44,7 +44,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		$tpl->assign(
 			array(
 				'USERNAME'				=> "",
-				'DOMAIN_NAME'			=> $dmn_name,
+				'DOMAIN_NAME'			=> UserIO::HTML($dmn_name),
 				'MAIL_DMN_CHECKED'		=> 'checked="checked"',
 				'MAIL_ALS_CHECKED'		=> "",
 				'MAIL_SUB_CHECKED'		=> "",
@@ -56,23 +56,19 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		);
 
 	} else {
-		if (!isset($_POST['forward_list'])) {
-			$f_list = '';
-		} else {
-			$f_list = $_POST['forward_list'];
-		}
+		$f_list = UserIO::POST_Memo('forward_list');
 
 		$tpl->assign(
 			array(
-				'USERNAME'				=> clean_input($_POST['username'], true),
-				'DOMAIN_NAME'			=> $dmn_name,
-				'MAIL_DMN_CHECKED'		=> ($_POST['dmn_type'] === 'dmn') ? 'checked="checked"' : "",
-				'MAIL_ALS_CHECKED'		=> ($_POST['dmn_type'] === 'als') ? 'checked="checked"' : "",
-				'MAIL_SUB_CHECKED'		=> ($_POST['dmn_type'] === 'sub') ? 'checked="checked"' : "",
-				'MAIL_ALS_SUB_CHECKED'	=> ($_POST['dmn_type'] === 'als_sub') ? 'checked="checked"' : "",
-				'NORMAL_MAIL_CHECKED'	=> (isset($_POST['mail_type_normal'])) ? 'checked="checked"' : "",
-				'FORWARD_MAIL_CHECKED'	=> (isset($_POST['mail_type_forward'])) ? 'checked="checked"' : "",
-				'FORWARD_LIST'			=> $f_list
+				'USERNAME'				=> UserIO::HTML(UserIO::POST_String('username')),
+				'DOMAIN_NAME'			=> UserIO::HTML($dmn_name),
+				'MAIL_DMN_CHECKED'		=> (UserIO::POST_String('dmn_type') == 'dmn') ? 'checked="checked"' : "",
+				'MAIL_ALS_CHECKED'		=> (UserIO::POST_String('dmn_type') == 'als') ? 'checked="checked"' : "",
+				'MAIL_SUB_CHECKED'		=> (UserIO::POST_String('dmn_type') == 'sub') ? 'checked="checked"' : "",
+				'MAIL_ALS_SUB_CHECKED'	=> (UserIO::POST_String('dmn_type') == 'als_sub') ? 'checked="checked"' : "",
+				'NORMAL_MAIL_CHECKED'	=> (UserIO::POST_Int('mail_type_normal') == 1) ? 'checked="checked"' : "",
+				'FORWARD_MAIL_CHECKED'	=> (UserIO::POST_Int('mail_type_forward') == 1) ? 'checked="checked"' : "",
+				'FORWARD_LIST'			=> UserIO::HTML($f_list)
 			)
 		);
 	}
@@ -109,10 +105,10 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				if (!isset($_POST['als_id'])) {
+				if (!UserIO::POST_isset('als_id')) {
 					$als_id = '';
 				} else {
-					$als_id = $_POST['als_id'];
+					$als_id = UserIO::POST_String('als_id');
 				}
 
 				if ($als_id == $rs->fields['alias_id']) {
@@ -133,7 +129,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				array(
 					'ALS_ID'		=> $rs->fields['alias_id'],
 					'ALS_SELECTED'	=> $als_selected,
-					'ALS_NAME'		=> $alias_name
+					'ALS_NAME'		=> UserIO::HTML($alias_name)
 				)
 			);
 			$tpl->parse('ALS_LIST', '.als_list');
@@ -178,10 +174,10 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				if (!isset($_POST['sub_id'])) {
+				if (!UserIO::POST_isset('sub_id')) {
 					$sub_id = '';
 				} else {
-					$sub_id = $_POST['sub_id'];
+					$sub_id = UserIO::POST_String('sub_id');
 				}
 
 				if ($sub_id == $rs->fields['sub_id']) {
@@ -203,7 +199,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				array(
 					'SUB_ID'		=> $rs->fields['sub_id'],
 					'SUB_SELECTED'	=> $sub_selected,
-					'SUB_NAME'		=> $sub_name . '.' . $dmn_name
+					'SUB_NAME'		=> UserIO::HTML($sub_name . '.' . $dmn_name)
 				)
 			);
 			$tpl->parse('SUB_LIST', '.sub_list');
@@ -251,10 +247,10 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
-				if (!isset($_POST['als_sub_id'])) {
+				if (!UserIO::POST_isset('als_sub_id')) {
 					$als_sub_id = '';
 				} else {
-					$als_sub_id = $_POST['als_sub_id'];
+					$als_sub_id = UserIO::POST_String('als_sub_id');
 				}
 
 				if ($als_sub_id == $rs->fields['als_sub_id']) {
@@ -276,7 +272,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				array(
 					'ALS_SUB_ID'		=> $rs->fields['als_sub_id'],
 					'ALS_SUB_SELECTED'	=> $als_sub_selected,
-					'ALS_SUB_NAME'		=> $als_sub_name . '.' . $als_name
+					'ALS_SUB_NAME'		=> UserIO::HTML($als_sub_name . '.' . $als_name)
 				)
 			);
 			$tpl->parse('ALS_SUB_LIST', '.als_sub_list');
@@ -294,24 +290,25 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 	$mail_auto_respond_text = '';
 	$mail_addr = '';
 
-	if (array_key_exists('mail_type_normal',$_POST)) {
-		$mail_pass = $_POST['pass'];
+	$dmn_type = UserIO::POST_String('dmn_type');
+	if (UserIO::POST_Int('mail_type_normal')) {
+		$mail_pass = UserIO::POST_String('pass');
 		$mail_forward = '_no_';
-		if ($_POST['dmn_type'] === 'dmn') {
+		if ($dmn_type == 'dmn') {
 			$mail_type[] = MT_NORMAL_MAIL;
-			$sub_id = '0';
+			$sub_id = 0;
 			$mail_addr = $mail_acc.'@'.$dmn_name; // the complete address
-		} else if ($_POST['dmn_type'] === 'sub') {
+		} else if ($dmn_type == 'sub') {
 			$mail_type[] = MT_SUBDOM_MAIL;
-			$sub_id = $_POST['sub_id'];
+			$sub_id = UserIO::POST_Int('sub_id');
 			$mail_addr = $mail_acc.'@'.decode_idna($dmn_name); // the complete address
-		} else if ($_POST['dmn_type'] === 'als_sub') {
+		} else if ($dmn_type == 'als_sub') {
 			$mail_type[] = MT_ALSSUB_MAIL;
-			$sub_id = $_POST['als_sub_id'];
+			$sub_id = UserIO::POST_Int('als_sub_id');
 			$mail_addr = $mail_acc.'@'.decode_idna($dmn_name); // the complete address
-		} else if ($_POST['dmn_type'] === 'als') {
+		} else if ($dmn_type == 'als') {
 			$mail_type[] = MT_ALIAS_MAIL;
-			$sub_id = $_POST['als_id'];
+			$sub_id = UserIO::POST_Int('als_id');
 			$mail_addr = $mail_acc.'@'.decode_idna($dmn_name); // the complete address
 		} else {
 			set_page_message(tr('Unknown domain type'));
@@ -319,29 +316,29 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 		}
 	}
 
-	if (array_key_exists('mail_type_forward',$_POST)) {
-		if ($_POST['dmn_type'] === 'dmn') {
+	if (UserIO::POST_Int('mail_type_forward')) {
+		if ($dmn_type == 'dmn') {
 			$mail_type[] = MT_NORMAL_FORWARD;
-			$sub_id = '0';
-		} else if ($_POST['dmn_type'] === 'sub') {
+			$sub_id = 0;
+		} else if ($dmn_type == 'sub') {
 			$mail_type[] = MT_SUBDOM_FORWARD;
-			$sub_id = $_POST['sub_id'];
-		} else if ($_POST['dmn_type'] === 'als_sub') {
+			$sub_id = UserIO::POST_Int('sub_id');
+		} else if ($dmn_type == 'als_sub') {
 			$mail_type[] = MT_ALSSUB_FORWARD;
-			$sub_id = $_POST['als_sub_id'];
-		} else if ($_POST['dmn_type'] === 'als') {
+			$sub_id = UserIO::POST_Int('als_sub_id');
+		} else if ($dmn_type == 'als') {
 			$mail_type[] = MT_ALIAS_FORWARD;
-			$sub_id = $_POST['als_id'];
+			$sub_id = UserIO::POST_Int('als_id');
 		} else {
 			set_page_message(tr('Unknown domain type'));
 			return false;
 		}
 
-		if (!isset($_POST['mail_type_normal'])) {
+		if (UserIO::POST_Int('mail_type_normal') == 0) {
 			$mail_pass = '_no_';
 		}
 
-		$mail_forward = $_POST['forward_list'];
+		$mail_forward = UserIO::POST_Memo('forward_list');
 		$farray = preg_split("/[\n,]+/", $mail_forward);
 		$mail_accs = array();
 
@@ -432,8 +429,8 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 
 function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 
-	$mail_type_normal = isset($_POST['mail_type_normal']) ? $_POST['mail_type_normal'] : false;
-	$mail_type_forward = isset($_POST['mail_type_forward']) ? $_POST['mail_type_forward'] : false;
+	$mail_type_normal = UserIO::POST_Int('mail_type_normal', true);
+	$mail_type_forward = UserIO::POST_Int('mail_type_forward', true);
 
 	if (($mail_type_normal == false) && ($mail_type_forward == false)) {
 		set_page_message(tr('Please select at least one mail type!'));
@@ -441,16 +438,16 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 	}
 
 	if ($mail_type_normal) {
-		$pass = clean_input($_POST['pass']);
-		$pass_rep = clean_input($_POST['pass_rep']);
+		$pass = UserIO::POST_String('pass');
+		$pass_rep = UserIO::POST_String('pass_rep');
 	}
 
-	if (!isset($_POST['username']) || $_POST['username'] === '') {
+	if (UserIO::POST_String('username', true, true) === false) {
 		set_page_message(tr('Please enter mail account username!'));
 		return false;
 	}
 
-	$mail_acc = strtolower(clean_input($_POST['username']));
+	$mail_acc = strtolower(UserIO::POST_String('username', true, true));
 	if (ispcp_check_local_part($mail_acc) == "0") {
 		set_page_message(tr("Invalid Mail Localpart Format used!"));
 		return false;
@@ -474,8 +471,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		}
 	}
 
-
-	if ($_POST['dmn_type'] === 'sub') {
+	if (UserIO::POST_String('dmn_type') == 'sub') {
 		$id = 'sub_id';
 		$query = '
 			SELECT
@@ -492,7 +488,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		$type = tr('Subdomain');
 	}
 
-	if ($_POST['dmn_type'] === 'als_sub') {
+	if (UserIO::POST_String('dmn_type') == 'als_sub') {
 		$id = 'als_sub_id';
 		$query = '
 			SELECT
@@ -509,22 +505,22 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		$type = tr('Subdomain alias');
 	}
 
-	if ($_POST['dmn_type'] === 'als') {
+	if (UserIO::POST_String('dmn_type') == 'als') {
 		$id = 'als_id';
 		$query = 'SELECT `alias_name` AS name FROM `domain_aliasses` WHERE `alias_id` = ? AND `domain_id` = ?';
 		$type = tr('Alias');
 	}
 
-	if (in_array($_POST['dmn_type'], array('sub', 'als_sub', 'als'))) {
-		if (!isset($_POST[$id])) {
+	if (in_array(UserIO::POST_String('dmn_type'), array('sub', 'als_sub', 'als'))) {
+		if (!UserIO::POST_isset($id)) {
 			set_page_message(sprintf(tr('%s list is empty! You cannot add mail accounts!'),$type));
 			return false;
 		}
-		if (!is_numeric($_POST[$id])) {
+		if (UserIO::POST_Int($id) == 0) {
 			set_page_message(sprintf(tr('%s id is invalid! You cannot add mail accounts!'),$type));
 			return false;
 		}
-		$rs = exec_query($sql, $query, array($_POST[$id], $dmn_id));
+		$rs = exec_query($sql, $query, array(UserIO::POST_Int($id), $dmn_id));
 		if ($rs->fields['name'] == '') {
 			set_page_message(sprintf(tr('%s id is invalid! You cannot add mail accounts!'),$type));
 			return false;
@@ -532,7 +528,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		$dmn_name=$rs->fields['name'];
 	}
 
-	if ($mail_type_forward && empty($_POST['forward_list'])) {
+	if ($mail_type_forward && UserIO::POST_Memo('forward_list', true, true) === false) {
 		set_page_message(tr('Forward list is empty!'));
 		return false;
 	}

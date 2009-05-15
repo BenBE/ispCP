@@ -45,13 +45,12 @@ $tpl->assign(
 function padd_group(&$tpl, &$sql, $dmn_id) {
 	if (UserIO::POST_String('uaction') == 'add_group') {
 		// we have to add the group
-		if (isset($_POST['groupname'])) {
-			if (!chk_username($_POST['groupname'])) {
+		$groupname = UserIO::POST_String('groupname');
+		if ($groupname != '') {
+			if (!chk_username($groupname)) {
 				set_page_message(tr('Invalid group name!'));
 				return;
 			}
-
-			$groupname = $_POST['groupname'];
 
 			$query = "
 				SELECT
