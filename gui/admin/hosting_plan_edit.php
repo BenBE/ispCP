@@ -339,7 +339,7 @@ function save_data_to_db() {
 		WHERE
 			`id` = ?
 SQL_QUERY;
-	$res = exec_query($sql, $query, array($hp_name, $description, $hp_props, $hp_price, $hp_setup_fee, $value, $payment, $status, $hpid));
+	$res = exec_query($sql, $query, array($hp_name, $description, $hp_props, $hp_price, $hp_setupfee, $value, $payment, $status, $hpid));
 	$_SESSION['hp_updated'] = "_yes_";
 	user_goto('hosting_plan.php');
 } // end of save_data_to_db()
