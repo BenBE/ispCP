@@ -26,8 +26,8 @@
  *   http://www.fsf.org/licensing/licenses/gpl.txt
  */
 
-
-define('OVERRIDE_PURIFIER', true);
+if (!defined('OVERRIDE_PURIFIER'))
+	define('OVERRIDE_PURIFIER', true);
 
 /**
  * Class to implement general user input/output handling and provide 

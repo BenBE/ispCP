@@ -122,7 +122,7 @@ function add_new_button(&$sql) {
 }
 
 function delete_button(&$sql) {
-	if (UserIO::GET_Int('delete_id') > 0) {
+	if (UserIO::GET_Int('delete_id') == 0) {
 		set_page_message(tr('Missing or incorrect data input!'));
 		return;
 	} else {
