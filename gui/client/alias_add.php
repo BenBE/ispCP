@@ -137,9 +137,9 @@ function gen_al_page(&$tpl, $reseller_id) {
 	}
 	$tpl->assign(
 		array(
-			'DOMAIN'	=> $alias_name,
-			'MP'		=> $mount_point,
-			'FORWARD'	=> $forward
+			'DOMAIN'	=> UserIO::HTML($alias_name),
+			'MP'		=> UserIO::HTML($mount_point),
+			'FORWARD'	=> UserIO::HTML($forward)
 		)
 	);
 

@@ -137,10 +137,10 @@ function gen_editalias_page(&$tpl, $edit_id) {
 	// Fill in the fields
 	$tpl->assign(
 		array(
-			'ALIAS_NAME' => decode_idna($data['alias_name']),
-			'DOMAIN_IP' => $ip_data,
-			'FORWARD' => $url_forward,
-			'MOUNT_POINT' => $data['alias_mount'],
+			'ALIAS_NAME' => UserIO::HTML(decode_idna($data['alias_name'])),
+			'DOMAIN_IP' => UserIO::HTML($ip_data),
+			'FORWARD' => UserIO::HTML($url_forward),
+			'MOUNT_POINT' => UserIO::HTML($data['alias_mount']),
 			'CHECK_EN' => $check_en,
 			'CHECK_DIS' => $check_dis,
 			'ID' => $edit_id
