@@ -28,11 +28,15 @@ do_session_timeout();
 
 init_login();
 
-if (UserIO::GET_Domain('uname') != '' && UserIO::GET_String('upass') != '') {
+//var_dump($_GET);
 
-	$uname = UserIO::POST_Domain('uname');
+if (UserIO::POST_String('uname') != '' && UserIO::POST_String('upass') != '') {
+
+	$uname = UserIO::POST_String('uname');
 	$upass = UserIO::POST_String('upass', true, true);
 
+	//echo $uname.':'.$upass;
+	
 	check_input($uname);
 	check_input($upass);
 

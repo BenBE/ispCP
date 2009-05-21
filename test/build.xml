@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpUnderControl" basedir="." default="build">	
-	<target name="initcheckphp">
-		<apply executable="rm" failonerror="false">
-			<filelist dir="tmp" files="checkphp.txt"/>
-		</apply>
-	</target>
-	<target name="initzca">
-		<apply executable="rm" failonerror="false">
-			<filelist dir="tmp" files="zca.txt"/>
-		</apply>
+	<target name="cleanup">
+		<delete failonerror="false">
+    		<fileset dir="tmp" includes="*" />
+  		</delete>
 	</target>
 	<target name="checkphp">
-		<apply executable="php" failonerror="false" output="tmp/checkphp.txt" append="true">
+		<apply executable="php" output="tmp/checkphp.txt" append="true">
 			<arg value="-l" />
 			<fileset dir="../gui">
 				<include name="**/*.php" />
@@ -25,5 +20,12 @@
 			</fileset>
     	</apply>
 	</target>
-	<target name="build" depends="initcheckphp,initzca,checkphp,zca" />	
+	<target name="copy">
+		<copy todir="/var/www/ispcp/gui">
+    		<fileset dir="../gui">
+      			<exclude name="**/*.svn"/>
+    		</fileset>
+ 		</copy>
+	</target>
+	<target name="build" depends="cleanup,checkphp,zca,copy" />
 </project>

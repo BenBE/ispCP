@@ -68,7 +68,7 @@ final class UserIO {
 	/**
 	 * Initialize class, sets _stripslash
 	 */
-	private function init() {
+	public function init() {
 		if (get_magic_quotes_gpc()) {
 			self::$_stripslash = true;
 		} else {
