@@ -27,7 +27,7 @@ check_login(__FILE__);
 if (isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])
 	&& UserIO::GET_String('action') == "go_back") {
 	change_user_interface($_SESSION['user_id'], $_SESSION['logged_from_id']);
-} else if (isset($_SESSION['user_id']) && UserIO::POST_isset('to_id')) {
+} else if (isset($_SESSION['user_id']) && UserIO::GET_isset('to_id')) {
 
 	$to_id = UserIO::GET_Int('to_id');
 

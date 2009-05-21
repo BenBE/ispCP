@@ -23,7 +23,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 // we need to check only if all vars are OK
 // admin can walk into all interfaces
-if (isset($_SESSION['user_id']) && UserIO::POST_isset('to_id')) {
+if (isset($_SESSION['user_id']) && UserIO::GET_isset('to_id')) {
 	$from_id = $_SESSION['user_id'];
 
 	$to_id = UserIO::GET_Int('to_id');
