@@ -19,9 +19,9 @@
  */
 
 // Deactivate HTMLPurifyer HTML Tag stripping
-if (UserIO::POST_String('uaction') == 'updt_error') {
-	define('OVERRIDE_PURIFIER', 1);
-}
+//if (UserIO::POST_String('uaction') == 'updt_error') {
+//	define('OVERRIDE_PURIFIER', 1);
+//}
 
 require '../include/ispcp-lib.php';
 
