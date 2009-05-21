@@ -83,12 +83,12 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 
 			$tpl->assign(
 				array(
-					'PACK_NAME'	=> $rs->fields['name'],
+					'PACK_NAME'	=> UserIO::HTML($rs->fields['name']),
 					'PACK_ID'	=> $rs->fields['id'],
 					'USER_ID'	=> $user_id,
 					'PURCHASE'	=> tr('Purchase'),
-					'PACK_INFO'	=> $description,
-					'PRICE'		=> $price,
+					'PACK_INFO'	=> UserIO::HTML($description),
+					'PRICE'		=> UserIO::HTML($price),
 				)
 			);
 
