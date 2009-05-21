@@ -60,8 +60,8 @@ function get_error_domains(&$sql, &$tpl) {
 			$tpl->assign(
 				array(
 					'DOMAIN_MESSAGE' => '',
-					'TR_DOMAIN_NAME' => $rs->fields['domain_name'],
-					'TR_DOMAIN_ERROR' => $rs->fields['domain_status'],
+					'TR_DOMAIN_NAME' => UserIO::HTML($rs->fields['domain_name']),
+					'TR_DOMAIN_ERROR' => UserIO::HTML($rs->fields['domain_status']),
 					'CHANGE_ID' => $rs->fields['domain_id'],
 					'CHANGE_TYPE' => 'domain',
 				)
@@ -131,8 +131,8 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'ALIAS_MESSAGE' => '',
-					'TR_ALIAS_NAME' => $rs->fields['alias_name'],
-					'TR_ALIAS_ERROR' => $rs->fields['alias_status'],
+					'TR_ALIAS_NAME' => UserIO::HTML($rs->fields['alias_name']),
+					'TR_ALIAS_ERROR' => UserIO::HTML($rs->fields['alias_status']),
 					'CHANGE_ID' => $rs->fields['alias_id'],
 					'CHANGE_TYPE' => 'alias',
 				)
@@ -195,8 +195,8 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'SUBDOMAIN_MESSAGE' => '',
-					'TR_SUBDOMAIN_NAME' => $rs->fields['subdomain_name'],
-					'TR_SUBDOMAIN_ERROR' => $rs->fields['subdomain_status'],
+					'TR_SUBDOMAIN_NAME' => UserIO::HTML($rs->fields['subdomain_name']),
+					'TR_SUBDOMAIN_ERROR' => UserIO::HTML($rs->fields['subdomain_status']),
 					'CHANGE_ID' => $rs->fields['subdomain_id'],
 					'CHANGE_TYPE' => 'subdomain'
 				)
@@ -259,8 +259,8 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'SUBDOMAIN_ALIAS_MESSAGE' => '',
-					'TR_SUBDOMAIN_ALIAS_NAME' => $rs->fields['subdomain_alias_name'],
-					'TR_SUBDOMAIN_ALIAS_ERROR' => $rs->fields['subdomain_alias_status'],
+					'TR_SUBDOMAIN_ALIAS_NAME' => UserIO::HTML($rs->fields['subdomain_alias_name']),
+					'TR_SUBDOMAIN_ALIAS_ERROR' => UserIO::HTML($rs->fields['subdomain_alias_status']),
 					'CHANGE_ID' => $rs->fields['subdomain_alias_id'],
 					'CHANGE_TYPE' => 'subdomain_alias'
 				)
@@ -370,8 +370,8 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'MAIL_MESSAGE' => '',
-					'TR_MAIL_NAME' => $rs->fields['mail_acc'] . "@" . $domain_name,
-					'TR_MAIL_ERROR' => $rs->fields['status'],
+					'TR_MAIL_NAME' => UserIO::HTML($rs->fields['mail_acc'] . "@" . $domain_name),
+					'TR_MAIL_ERROR' => UserIO::HTML($rs->fields['status']),
 					'CHANGE_ID' => $rs->fields['mail_id'],
 					'CHANGE_TYPE' => 'mail',
 				)

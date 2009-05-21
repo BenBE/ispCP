@@ -85,7 +85,7 @@ SQL_QUERY;
 		} else {
 			$tpl->assign(
 				array(
-					'ADMIN_USERNAME' => $rs->fields['user_name'],
+					'ADMIN_USERNAME' => UserIO::HTML($rs->fields['user_name']),
 					'LOGIN_TIME' => date("G:i:s", $rs->fields['lastaccess'])
 				)
 			);

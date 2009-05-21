@@ -119,9 +119,9 @@ function get_servers_ips(&$tpl, &$sql, $rip_lst) {
 			$tpl->assign(
 				array(
 					'RSL_IP_NUMBER' => $i + 1,
-					'RSL_IP_LABEL' => $rs->fields['ip_domain'],
-					'RSL_IP_IP' => $rs->fields['ip_number'],
-					'RSL_IP_CKB_NAME' => $ip_var_name,
+					'RSL_IP_LABEL' => UserIO::HTML($rs->fields['ip_domain']),
+					'RSL_IP_IP' => UserIO::HTML($rs->fields['ip_number']),
+					'RSL_IP_CKB_NAME' => UserIO::HTML($ip_var_name),
 					'RSL_IP_CKB_VALUE' => 'asgned',
 					'RSL_IP_ITEM_ASSIGNED' => $ip_item_assigned
 				)
@@ -786,8 +786,8 @@ $tpl->assign(
 		'TR_SEND_DATA' => tr('Send new login data'),
 		'TR_PASSWORD_GENERATE' => tr('Generate password'),
 
-		'USERNAME' => $admin_name,
-		'EMAIL' => $email,
+		'USERNAME' => UserIO::HTML($admin_name),
+		'EMAIL' => UserIO::HTML($email),
 
 		'MAX_DOMAIN_COUNT' => $max_dmn_cnt,
 		'MAX_SUBDOMAIN_COUNT' => $max_sub_cnt,
@@ -800,21 +800,21 @@ $tpl->assign(
 		'MAX_DISK_AMOUNT' => $max_disk_amnt,
 
 		'CUSTOMER_ID' => $customer_id,
-		'FIRST_NAME' => $fname,
-		'LAST_NAME' => $lname,
+		'FIRST_NAME' => UserIO::HTML($fname),
+		'LAST_NAME' => UserIO::HTML($lname),
 		'VL_MALE' => (($gender == 'M') ? 'selected="selected"' : ''),
 		'VL_FEMALE' => (($gender == 'F') ? 'selected="selected"' : ''),
 		'VL_UNKNOWN' => ((($gender == 'U') || (empty($gender))) ? 'selected="selected"' : ''),
 
-		'FIRM' => $firm,
-		'ZIP' => $zip,
-		'CITY' => $city,
-		'STATE' => ($state === NULL ? '' : $state),
-		'COUNTRY' => $country,
-		'STREET_1' => $street1,
-		'STREET_2' => $street2,
-		'PHONE' => $phone,
-		'FAX' => $fax,
+		'FIRM' => UserIO::HTML($firm),
+		'ZIP' => UserIO::HTML($zip),
+		'CITY' => UserIO::HTML($city),
+		'STATE' => ($state === NULL ? '' : UserIO::HTML($state)),
+		'COUNTRY' => UserIO::HTML($country),
+		'STREET_1' => UserIO::HTML($street1),
+		'STREET_2' => UserIO::HTML($street2),
+		'PHONE' => UserIO::HTML($phone),
+		'FAX' => UserIO::HTML($fax),
 
 		'EDIT_ID' => $edit_id,
 		'TR_UPDATE' => tr('Update'),

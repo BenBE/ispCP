@@ -195,9 +195,9 @@ function edit_button(&$tpl, &$sql) {
 
 			$tpl->assign(
 				array(
-					'BUTON_NAME'	=> $button_name,
-					'BUTON_LINK'	=> $button_link,
-					'BUTON_TARGET'	=> $button_target,
+					'BUTON_NAME'	=> UserIO::HTML($button_name),
+					'BUTON_LINK'	=> UserIO::HTML($button_link),
+					'BUTON_TARGET'	=> UserIO::HTML($button_target),
 					'ADMIN_VIEW'	=> $admin_view,
 					'RESELLER_VIEW'	=> $reseller_view,
 					'USER_VIEW'		=> $user_view,

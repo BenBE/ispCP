@@ -76,9 +76,9 @@ function show_IPs(&$tpl, &$sql) {
 
 		$tpl->assign(
 			array(
-				'IP'			=> $rs->fields['ip_number'],
-				'DOMAIN'		=> $rs->fields['ip_domain'],
-				'ALIAS'			=> $rs->fields['ip_alias'],
+				'IP'			=> UserIO::HTML($rs->fields['ip_number']),
+				'DOMAIN'		=> UserIO::HTML($rs->fields['ip_domain']),
+				'ALIAS'			=> UserIO::HTML($rs->fields['ip_alias']),
 				'NETWORK_CARD'	=> ($rs->fields['ip_card'] === NULL ? '' : $rs->fields['ip_card'])
 			)
 		);
@@ -229,7 +229,7 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 	foreach ($interfaces->getAvailableInterface() as $interface) {
 		$tpl->assign(
 			array(
-				'NETWORK_CARDS'	=> $interface
+				'NETWORK_CARDS'	=> UserIO::HTML($interface)
 			)
 		);
 		$tpl->parse('CARD_LIST', '.card_list');

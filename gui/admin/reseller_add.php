@@ -101,9 +101,9 @@ function get_server_ip(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'RSL_IP_NUMBER' => $i + 1,
-					'RSL_IP_LABEL' => $rs->fields['ip_domain'],
-					'RSL_IP_IP' => $rs->fields['ip_number'],
-					'RSL_IP_CKB_NAME' => $ip_var_name,
+					'RSL_IP_LABEL' => UserIO::HTML($rs->fields['ip_domain']),
+					'RSL_IP_IP' => UserIO::HTML($rs->fields['ip_number']),
+					'RSL_IP_CKB_NAME' => UserIO::HTML($ip_var_name),
 					'RSL_IP_CKB_VALUE' => 'asgned',
 					'RSL_IP_ITEM_ASSIGNED' => $ip_item_assigned,
 				)

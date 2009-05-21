@@ -79,8 +79,8 @@ SQL_QUERY;
 			array(
 				'MESSAGE_SUBJECT' => '',
 				'MESSAGE_TEXT' => '',
-				'SENDER_EMAIL' => $rs->fields['email'],
-				'SENDER_NAME' => $sender_name
+				'SENDER_EMAIL' => UserIO::HTML($rs->fields['email']),
+				'SENDER_NAME' => UserIO::HTML($sender_name)
 			)
 		);
 	}

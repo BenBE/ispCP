@@ -226,10 +226,10 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 
 	$tpl->assign(
 		array(
-			'RESELLER_NAME' => $reseller_name,
+			'RESELLER_NAME' => UserIO::HTML($reseller_name),
 			'RESELLER_ID' => $reseller_id,
-			'MONTH' => $crnt_month,
-			'YEAR' => $crnt_year,
+			'MONTH' => UserIO::HTML($crnt_month),
+			'YEAR' => UserIO::HTML($crnt_year),
 
 			'TRAFF_SHOW_PERCENT' => $traff_show_percent,
 			'TRAFF_PERCENT' => $traff_percent,

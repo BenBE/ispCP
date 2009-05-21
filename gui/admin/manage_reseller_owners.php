@@ -81,9 +81,9 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'NUMBER' => $i + 1,
-					'RESELLER_NAME' => $rs->fields['admin_name'],
-					'OWNER' => $rs->fields['created_by'],
-					'CKB_NAME' => $admin_id_var_name,
+					'RESELLER_NAME' => UserIO::HTML($rs->fields['admin_name']),
+					'OWNER' => UserIO::HTML($rs->fields['created_by']),
+					'CKB_NAME' => UserIO::HTML($admin_id_var_name),
 				)
 			);
 
@@ -123,7 +123,7 @@ SQL_QUERY;
 
 		$tpl->assign(
 			array(
-				'OPTION' => $rs->fields['admin_name'],
+				'OPTION' => UserIO::HTML($rs->fields['admin_name']),
 				'VALUE' => $rs->fields['admin_id'],
 				'SELECTED' => $selected,
 			)

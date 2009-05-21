@@ -80,7 +80,7 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 				'ACTION' => $action,
 				'DATE' => date($date_formt, $rs->fields['ticket_date']),
 				'SUBJECT' => UserIO::HTML($ticket_subject),
-				'TICKET_CONTENT' => nl2br(UserIO::HTML($ticket_content)),
+				'TICKET_CONTENT' => UserIO::HTML($ticket_content, true),
 				'ID' => $rs->fields['ticket_id']
 			)
 		);
@@ -123,7 +123,7 @@ function get_tickets_replys(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 		$tpl->assign(
 			array(
 				'DATE' => date($date_formt, $ticket_date),
-				'TICKET_CONTENT' => nl2br(UserIO::HTML($ticket_message))
+				'TICKET_CONTENT' => UserIO::HTML($ticket_message, true)
 			)
 		);
 		get_ticket_from($tpl, $sql, $ticket_id);

@@ -198,8 +198,8 @@ SQL_QUERY;
 
 	$tpl->assign(
 		array(
-			'HP_NAME_VALUE' => $hp_name,
-			'TR_EDIT_HOSTING_PLAN' => $edit_hp,
+			'HP_NAME_VALUE' => UserIO::HTML($hp_name),
+			'TR_EDIT_HOSTING_PLAN' => UserIO::HTML($edit_hp),
 			'TR_MAX_SUB_LIMITS' => $hp_sub,
 			'TR_MAX_ALS_VALUES' => $hp_als,
 			'HP_MAIL_VALUE' => $hp_mail,
@@ -208,13 +208,13 @@ SQL_QUERY;
 			'HP_SQL_USER_VALUE' => $hp_sql_user,
 			'HP_TRAFF_VALUE' => $hp_traff,
 			'HP_DISK_VALUE' => $hp_disk,
-			'HP_DESCRIPTION_VALUE' => $description,
+			'HP_DESCRIPTION_VALUE' => UserIO::HTML($description),
 			'HP_PRICE' => $price,
 			'HP_SETUPFEE' => $setup_fee,
-			'HP_CURRENCY' => $value,
+			'HP_CURRENCY' => UserIO::HTML($value),
 			'READONLY' => $readonly,
 			'DISBLED' => $disabled,
-			'HP_PAYMENT' => $payment
+			'HP_PAYMENT' => UserIO::HTML($payment)
 		)
 	);
 

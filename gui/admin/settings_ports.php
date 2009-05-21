@@ -196,7 +196,7 @@ function show_services(&$tpl, &$sql) {
 			$selected_off	= $status == '1' ? "" : "selected=\"selected\"";
 
 			if ($custom == 0) {
-				$tpl->assign(array('SERVICE' => $name . "<input name=\"name[]\" type=\"hidden\" id=\"name" . $row . "\" value=\"" . $name . "\" />"));
+				$tpl->assign(array('SERVICE' => UserIO::HTML($name) . "<input name=\"name[]\" type=\"hidden\" id=\"name" . $row . "\" value=\"" . UserIO::HTML($name) . "\" />"));
 				$tpl->assign(
 					array(
 						'PORT_READONLY'		=> 'readonly="readonly"',
@@ -208,10 +208,10 @@ function show_services(&$tpl, &$sql) {
 				);
 				$tpl->parse('PORT_DELETE_SHOW', '');
 			} else {
-				$tpl->assign(array('SERVICE' => "<input name=\"name[]\" type=\"text\" id=\"name" . $row . "\" value=\"" . $name . "\" class=\"textinput\" maxlength=\"25\" />"));
+				$tpl->assign(array('SERVICE' => "<input name=\"name[]\" type=\"text\" id=\"name" . $row . "\" value=\"" . UserIO::HTML($name) . "\" class=\"textinput\" maxlength=\"25\" />"));
 				$tpl->assign(
 					array(
-						'NAME'				=> $name,
+						'NAME'				=> UserIO::HTML($name),
 						'PORT_READONLY'		=> '',
 						'PROTOCOL_READONLY'	=> '',
 						'TR_DELETE'			=> tr('Delete'),
@@ -225,8 +225,8 @@ function show_services(&$tpl, &$sql) {
 
 			$tpl->assign(
 				array(
-					'CUSTOM'		=> $custom,
-					'VAR_NAME'		=> $rs->fields['name'],
+					'CUSTOM'		=> UserIO::HTML($custom),
+					'VAR_NAME'		=> UserIO::HTML($rs->fields['name']),
 					'IP'			=> (($ip == '127.0.0.1') ? 'localhost' : (empty($ip) ? Config::get('BASE_SERVER_IP') : $ip)),
 					'PORT'			=> $port,
 					'SELECTED_UDP'	=> $selected_udp,

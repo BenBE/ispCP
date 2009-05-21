@@ -250,7 +250,7 @@ function show_lang(&$tpl, &$sql) {
 				array(
 					'TR_UNINSTALL'		=> tr('uninstall'),
 					'LANG_DELETE_LINK'	=> '',
-					'LANGUAGE'			=> $language_name,
+					'LANGUAGE'			=> UserIO::HTML($language_name),
 					'LANGUAGE_REVISION'	=> $language_revision,
 				)
 			);
@@ -261,7 +261,7 @@ function show_lang(&$tpl, &$sql) {
 					'TR_UNINSTALL'		=> tr('uninstall'),
 					'URL_DELETE'		=> 'language_delete.php?delete_lang=lang_' . $dat[1],
 					'LANG_DELETE_SHOW'	=> '',
-					'LANGUAGE'			=> $language_name,
+					'LANGUAGE'			=> UserIO::HTML($language_name),
 					'LANGUAGE_REVISION'	=> $language_revision,
 				)
 			);

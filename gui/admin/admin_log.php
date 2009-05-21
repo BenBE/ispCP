@@ -147,6 +147,7 @@ function generate_page(&$tpl) {
 			}
 
 			$date_formt = Config::get('DATE_FORMAT') . ' H:i';
+			// @todo: entity decode?
 			$tpl->assign(
 				array(
 					'MESSAGE'	=> html_entity_decode($log_message),

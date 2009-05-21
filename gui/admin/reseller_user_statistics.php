@@ -126,7 +126,7 @@ SQL_QUERY;
 
 	$tpl->assign(
 		array(
-			'RESELLER_NAME' => $reseller_name,
+			'RESELLER_NAME' => UserIO::HTML($reseller_name),
 			'RESELLER_ID' => $reseller_id
 		)
 	);
@@ -256,10 +256,10 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	$tpl->assign(
 		array(
-			'DOMAIN_NAME' => $domain_name,
+			'DOMAIN_NAME' => UserIO::HTML($domain_name),
 
-			'MONTH' => $crnt_month,
-			'YEAR' => $crnt_year,
+			'MONTH' => UserIO::HTML($crnt_month),
+			'YEAR' => UserIO::HTML($crnt_year),
 			'DOMAIN_ID' => $domain_id,
 
 			'TRAFF_SHOW_PERCENT' => $traff_show_percent,

@@ -149,7 +149,7 @@ function gen_data_ahp_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'HP_NAME_VALUE'			=> $hp_name,
+			'HP_NAME_VALUE'			=> UserIO::HTML($hp_name),
 			'TR_MAX_SUB_LIMITS'		=> $hp_sub,
 			'TR_MAX_ALS_VALUES'		=> $hp_als,
 			'HP_MAIL_VALUE'			=> $hp_mail,
@@ -158,11 +158,11 @@ function gen_data_ahp_page(&$tpl) {
 			'HP_SQL_USER_VALUE'		=> $hp_sql_user,
 			'HP_TRAFF_VALUE'		=> $hp_traff,
 			'HP_DISK_VALUE'			=> $hp_disk,
-			'HP_DESCRIPTION_VALUE'	=> $description,
+			'HP_DESCRIPTION_VALUE'	=> UserIO::HTML($description),
 			'HP_PRICE'				=> $price,
 			'HP_SETUPFEE'			=> $setup_fee,
-			'HP_VELUE'				=> $value,
-			'HP_PAYMENT'			=> $payment
+			'HP_VELUE'				=> UserIO::HTML($value),
+			'HP_PAYMENT'			=> UserIO::HTML($payment)
 		)
 	);
 
