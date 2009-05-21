@@ -25,7 +25,7 @@ check_login(__FILE__);
 $reseller_id = $_SESSION['user_id'];
 
 
-if (UUserIO::GET_Int('order_id') > 0) {
+if (UserIO::GET_Int('order_id') > 0) {
 	$order_id = UserIO::GET_Int('order_id');
 } else {
 	set_page_message(tr('Wrong order ID!'));

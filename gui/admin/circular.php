@@ -163,7 +163,7 @@ SQL_QUERY;
 }
 
 function send_circular(&$tpl, &$sql) {
-	if (UUserIO::POST_String('uaction') == 'send_circular') {
+	if (UserIO::POST_String('uaction') == 'send_circular') {
 		if (check_user_data($tpl)) {
 			send_reseller_message($sql);
 			UserIO::POST_unset('uaction');
