@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ispcp" basedir="." default="build">	
 	<target name="clean">
-		<mkdir dir="tmp" failonerror="false" />
-		<delete failonerror="false">
-			<fileset dir="tmp" includes="*" />
-  		</delete>
+		<delete dir="tmp" />
+		<mkdir dir="tmp" />
+		<mkdir dir="tmp/tests" />
+		<mkdir dir="tmp/coverage-report" />
 	</target>
 	
 	<target name="checkphp">
@@ -22,17 +22,30 @@
   			</fileset>
 		</analyze>
 	</target>
-	
-	<target name="phpunit">
-	  <phpunit printsummary="true" haltonfailure="true">
-	    <formatter todir="tmp" type="xml"/>
-	    <batchtest>
-	      <fileset dir=".">
-			<include name="*Test.php"/>
-	      </fileset>
-	    </batchtest>
-	  </phpunit>
-	</target>
+
+  <target name="coverage-report">
+    <coverage-setup database="tmp/database">
+      <fileset dir="../gui/include">
+        <include name="class.UserIO.php"/>
+      </fileset>
+    </coverage-setup>
+
+    <phpunit2 codecoverage="true" printsummary="true" haltonfailure="true">
+	  <formatter todir="tmp" type="xml"/>
+      <batchtest>
+        <fileset dir=".">
+          <include name="*Test.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit2>
+
+    <coverage-report outfile="tmp/coverage.xml">
+      <report styledir="/usr/share/php/data/phing/etc"
+              todir="tmp/coverage-report"/>
+    </coverage-report>
+    
+    <phpunit2report infile="tmp/testsuites.xml" format="frames" todir="tmp/tests" styledir="/usr/share/php/data/phing/etc"/>
+  </target>
 	
 	<target name="copy">
 		<copy todir="/var/www/ispcp/gui">
@@ -42,5 +55,5 @@
  		</copy>
 	</target>
 
-	<target name="build" depends="clean,checkphp,phpunit,copy" />
+	<target name="build" depends="clean,checkphp,coverage-report" />
 </project>
