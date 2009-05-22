@@ -146,7 +146,7 @@ function restore_form(&$tpl, &$sql) {
 			'TR_CGI_NO'		=> (UserIO::POST_String('cgi') !== '_yes_')	? 'checked="checked"' : '',
 			'TR_DNS_YES'	=> (UserIO::POST_String('dns') === '_yes_')	? 'checked="checked"' : '',
 			'TR_DNS_NO'		=> (UserIO::POST_String('dns') !== '_yes_')	? 'checked="checked"' : '',
-			'TR_STATUS_YES'	=> (UserIO::POST_Int('status') == 1) 		? 'checked="checked"' : '',
+			'TR_STATUS_YES'	=> (UserIO::POST_Int('status') == 1)		? 'checked="checked"' : '',
 			'TR_STATUS_NO'	=> (UserIO::POST_Int('status') != 1)		? 'checked="checked"' : ''
 		)
 	);

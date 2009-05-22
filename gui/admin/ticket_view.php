@@ -192,7 +192,7 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	if (UserIO::POST_String('user_message') == '') { // no message check->error
 		if (UserIO::POST_String('uaction') != 'open' && UserIO::POST_String('uaction') != 'close') {
 			set_page_message(tr('Please type your message!'));
-			return; 
+			return;
 		}
 	}
 
@@ -281,7 +281,7 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	} elseif (UserIO::POST_String('uaction') == "open") { // open ticket
 		open_ticket($sql, $ticket_id);
 	}
- 
+
 	set_page_message(tr('Message was sent.'));
 	send_tickets_msg($ticket_to, $ticket_from, $subject, $user_message, $ticket_reply, $urgency);
 }

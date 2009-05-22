@@ -65,7 +65,7 @@ $tpl->assign(
 		'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
 		'TR_PHP'					=> tr('PHP'),
 		'TR_CGI'					=> tr('CGI / Perl'),
-		'TR_DNS' 					=> tr('Allow adding records to DNS zone'),
+		'TR_DNS'					=> tr('Allow adding records to DNS zone'),
 		'TR_BACKUP_RESTORE'			=> tr('Backup and restore'),
 		'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
 		'TR_AWSTATS'				=> tr('AwStats'),
@@ -172,11 +172,11 @@ function gen_data_ahp_page(&$tpl) {
 	$tpl->assign(array('TR_CGI_YES'		=> ($hp_cgi === '_yes_') ? 'checked="checked"' : ''));
 	$tpl->assign(array('TR_CGI_NO'		=> ($hp_cgi === '_yes_') ? '' : 'checked="checked"'));
 
+	$tpl->assign(array('TR_DNS_YES'		=> ($hp_dns === '_yes_') ? 'checked="checked"' : ''));
+	$tpl->assign(array('TR_DNS_NO'		=> ($hp_dns === '_yes_') ? '' : 'checked="checked"'));
+
 	$tpl->assign(array('TR_STATUS_YES'	=> ($status === '_yes_') ? 'checked="checked"' : ''));
 	$tpl->assign(array('TR_STATUS_NO'	=> ($status === '_yes_') ? '' : 'checked="checked"'));
-	
-	$tpl->assign(array('TR_DNS_YES'	=> ($hp_dns === '_yes_') ? 'checked="checked"' : ''));
-	$tpl->assign(array('TR_DNS_NO'	=> ($hp_dns === '_yes_') ? '' : 'checked="checked"'));
 } // End of gen_data_ahp_page()
 
 /**

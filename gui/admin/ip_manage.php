@@ -47,7 +47,7 @@ $tpl->assign(
 
 function gen_ip_action($ip_id, $status) {
 	if ($status === Config::get('ITEM_OK_STATUS')) {
-		return array(tr('Remove IP'), 'ip_delete.php?delete_id='.$ip_id);
+		return array(tr('Remove IP'), 'ip_delete.php?delete_id=' . $ip_id);
 	} else {
 		return array(tr('N/A'), '#');
 	}
@@ -79,7 +79,7 @@ function show_IPs(&$tpl, &$sql) {
 				'IP'			=> UserIO::HTML($rs->fields['ip_number']),
 				'DOMAIN'		=> UserIO::HTML($rs->fields['ip_domain']),
 				'ALIAS'			=> UserIO::HTML($rs->fields['ip_alias']),
-				'NETWORK_CARD'	=> ($rs->fields['ip_card'] === NULL ? '' : $rs->fields['ip_card'])
+				'NETWORK_CARD'	=> ($rs->fields['ip_card'] === NULL) ? '' : UserIO::HTML($rs->fields['ip_card'])
 			)
 		);
 
@@ -95,8 +95,8 @@ function show_IPs(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'IP_DELETE_SHOW'	=> '',
-					'IP_ACTION'			=> ( Config::get('BASE_SERVER_IP') == $rs->fields['ip_number'] ) ? tr('N/A') : $ip_action,
-					'IP_ACTION_SCRIPT'	=> ( Config::get('BASE_SERVER_IP') == $rs->fields['ip_number'] ) ? '#' : $ip_action_script
+					'IP_ACTION'			=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? tr('N/A') : $ip_action,
+					'IP_ACTION_SCRIPT'	=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? '#' : $ip_action_script
 				)
 			);
 			$tpl->parse('IP_DELETE_LINK', 'ip_delete_link');
@@ -117,7 +117,8 @@ function add_ip(&$tpl, &$sql) {
 
 			$query = "
 				INSERT INTO `server_ips`
-					(`ip_number`, `ip_domain`, `ip_alias`, `ip_card`, `ip_ssl_domain_id`, `ip_status`)
+					(`ip_number`, `ip_domain`, `ip_alias`, `ip_card`,
+					`ip_ssl_domain_id`, `ip_status`)
 				VALUES
 					(?, ?, ?, ?, ?, ?)
 			";
@@ -226,10 +227,19 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 	if ($interfaces->getErrors() != '') {
 		set_page_message($interfaces->getErrors());
 	}
-	foreach ($interfaces->getAvailableInterface() as $interface) {
+	if ($interfaces->getAvailableInterface() != array()) {
+		foreach ($interfaces->getAvailableInterface() as $interface) {
+			$tpl->assign(
+				array(
+					'NETWORK_CARDS'	=> $interface
+				)
+			);
+			$tpl->parse('CARD_LIST', '.card_list');
+		}
+	} else {
 		$tpl->assign(
 			array(
-				'NETWORK_CARDS'	=> UserIO::HTML($interface)
+				'NETWORK_CARDS'	=> ''
 			)
 		);
 		$tpl->parse('CARD_LIST', '.card_list');
