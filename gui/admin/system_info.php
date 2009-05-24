@@ -154,7 +154,7 @@ $tpl->assign(
 		'TR_FREE'				=> tr('Free'),
 		'TR_SWAP'				=> tr('Swap'),
 		'TR_UPTIME'				=> tr('Up time'),
-		'UPTIME'				=> UserIO::HTML($uptime),
+		'UPTIME'				=> $uptime,
 		'TR_KERNEL'				=> tr('Kernel'),
 		'KERNEL'				=> UserIO::HTML($kernel),
 		'TR_LOAD'				=> tr('Load'),

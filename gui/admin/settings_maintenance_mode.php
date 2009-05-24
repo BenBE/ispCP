@@ -42,10 +42,10 @@ $selected_off = '';
 if (UserIO::POST_String('uaction') == 'apply') {
 
 	$maintenancemode = UserIO::POST_Int('maintenancemode');
-	$maintenancemode_message = UserIO::POST_String('maintenancemode_message');
+	$maintenancemode_message = UserIO::POST_Memo('maintenancemode_message');
 
 	setConfig_Value('MAINTENANCEMODE', $maintenancemode);
-	setConfig_Value('MAINTENANCEMODE_MESSAGE', $maintenancemode_message);
+	setConfig_Value('MAINTENANCEMODE_MESSAGE', UserIO::HTML($maintenancemode_message));
 
 	set_page_message(tr('Settings saved !'));
 }

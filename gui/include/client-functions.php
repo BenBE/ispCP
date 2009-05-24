@@ -455,7 +455,7 @@ SQL_QUERY;
 		while (!$rs->EOF) {
 			$menu_name = $rs->fields['menu_name'];
 			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
+			$menu_target = UserIO::HTML($rs->fields['menu_target']);
 			$menu_link = str_replace('{ispcp_uname}', $_SESSION['user_logged'], $menu_link);
 
 			if ($menu_target !== '') {
@@ -466,7 +466,7 @@ SQL_QUERY;
 				array(
 					'BUTTON_LINK' => UserIO::HTML($menu_link),
 					'BUTTON_NAME' => UserIO::HTML($menu_name),
-					'BUTTON_TARGET' => UserIO::HTML($menu_target),
+					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
 			);
@@ -581,7 +581,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 		while (!$rs->EOF) {
 			$menu_name = $rs->fields['menu_name'];
 			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
+			$menu_target = UserIO::HTML($rs->fields['menu_target']);
 
 			if ($menu_target !== '') {
 				$menu_target = 'target="' . $menu_target . '"';
@@ -591,7 +591,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 				array(
 					'BUTTON_LINK' => UserIO::HTML($menu_link),
 					'BUTTON_NAME' => UserIO::HTML($menu_name),
-					'BUTTON_TARGET' => UserIO::HTML($menu_target),
+					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
 			);

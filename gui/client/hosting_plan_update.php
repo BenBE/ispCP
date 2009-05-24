@@ -129,7 +129,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	if ($rs->RecordCount() == 0) {
 		$tpl->assign(
 			array(
-				'TR_HOSTING_PLANS'	=> $hp_title,
+				'TR_HOSTING_PLANS'	=> UserIO::HTML($hp_title),
 				'HOSTING_PLANS'		=> '',
 				'HP_ORDER'			=> '',
 				'COLSPAN'			=> 2
@@ -222,14 +222,14 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		if ($check->RecordCount() == 0) {
 			$tpl->assign(
 				array(
-					'HP_NAME'			=> stripslashes($rs->fields['name']),
-					'HP_DESCRIPTION'	=> stripslashes($rs->fields['description']),
-					'HP_DETAILS'		=> stripslashes($details),
-					'HP_COSTS'			=> $price,
+					'HP_NAME'			=> UserIO::HTML($rs->fields['name']),
+					'HP_DESCRIPTION'	=> UserIO::HTML($rs->fields['description']),
+					'HP_DETAILS'		=> UserIO::HTML($details),
+					'HP_COSTS'			=> UserIO::HTML($price),
 					'ID'				=> $rs->fields['id'],
-					'TR_PURCHASE'		=> $purchase_text,
+					'TR_PURCHASE'		=> UserIO::HTML($purchase_text),
 					'LINK'				=> $purchase_link,
-					'TR_HOSTING_PLANS'	=> $hp_title,
+					'TR_HOSTING_PLANS'	=> UserIO::HTML($hp_title),
 					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2'
 				)
 			);
@@ -246,7 +246,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			array(
 				'HOSTING_PLANS'		=> '',
 				'HP_ORDER'			=> '',
-				'TR_HOSTING_PLANS'	=> $hp_title,
+				'TR_HOSTING_PLANS'	=> UserIO::HTML($hp_title),
 				'COLSPAN'			=> '2'
 			)
 		);

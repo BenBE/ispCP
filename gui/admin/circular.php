@@ -92,7 +92,7 @@ function check_user_data(&$tpl) {
 	$err_message = '';
 
 	$msg_subject = UserIO::POST_String('msg_subject');
-	$msg_text = UserIO::POST_String('msg_text');
+	$msg_text = UserIO::POST_Memo('msg_text');
 	$sender_email = UserIO::POST_String('sender_email');
 	$sender_name = UserIO::POST_String('sender_name');
 
@@ -125,7 +125,7 @@ function send_reseller_message(&$sql) {
 	$user_id = $_SESSION['user_id'];
 
 	$msg_subject = UserIO::POST_String('msg_subject');
-	$msg_text = UserIO::POST_String('msg_text');
+	$msg_text = UserIO::POST_Memo('msg_text');
 	$sender_email = UserIO::POST_String('sender_email');
 	$sender_name = UserIO::POST_String('sender_name');
 
@@ -147,8 +147,8 @@ SQL_QUERY;
 	while (!$rs->EOF) {
 		if ($rcpt_to == 'rslrs' || $rcpt_to == 'usrs_rslrs') {
 			$to = encode($rs->fields['fname'] . " " . $rs->fields['lname']) . " <" . $rs->fields['email'] . ">";
-			send_circular_email($to, encode($sender_name) . " <$sender_email>", stripslashes($msg_subject),
-				stripslashes($msg_text));
+			send_circular_email($to, encode($sender_name) . " <$sender_email>", $msg_subject,
+				$msg_text);
 		}
 
 		if ($rcpt_to == 'usrs' || $rcpt_to == 'usrs_rslrs') {
@@ -194,7 +194,7 @@ SQL_QUERY;
 
 	while (!$rs->EOF) {
 		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", stripslashes($msg_subject), stripslashes($msg_text));
+		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
 		$rs->MoveNext();
 	}
 }

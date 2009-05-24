@@ -90,7 +90,7 @@ SQL_QUERY;
 		while (!$rs->EOF) {
 			$menu_name = $rs->fields['menu_name'];
 			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
+			$menu_target = UserIO::HTML($rs->fields['menu_target']);
 
 			if ($menu_target !== "") {
 				$menu_target = 'target="' . $menu_target . '"';
@@ -98,8 +98,8 @@ SQL_QUERY;
 
 			$tpl->assign(
 				array(
-					'BUTTON_LINK' => $menu_link,
-					'BUTTON_NAME' => $menu_name,
+					'BUTTON_LINK' => UserIO::HTML($menu_link),
+					'BUTTON_NAME' => UserIO::HTML($menu_name),
 					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
@@ -181,7 +181,7 @@ SQL_QUERY;
 		while (!$rs->EOF) {
 			$menu_name = $rs->fields['menu_name'];
 			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
+			$menu_target = UserIO::HTML($rs->fields['menu_target']);
 
 			if ($menu_target !== "") {
 				$menu_target = 'target="' . $menu_target . '"';
@@ -189,8 +189,8 @@ SQL_QUERY;
 
 			$tpl->assign(
 				array(
-					'BUTTON_LINK' => $menu_link,
-					'BUTTON_NAME' => $menu_name,
+					'BUTTON_LINK' => UserIO::HTML($menu_link),
+					'BUTTON_NAME' => UserIO::HTML($menu_name),
 					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
@@ -1074,7 +1074,7 @@ function gen_manage_domain_search_options(&$tpl,
 		);
 	} else {
 		$tpl->assign(
-			array('SEARCH_FOR' => stripslashes($search_for))
+			array('SEARCH_FOR' => UserIO::HTML($search_for))
 		);
 	}
 

@@ -82,7 +82,6 @@ function set_page_message($message) {
 
 /**
  * @todo remove checks for DATABASE_REVISION >= 11, this produces unmaintainable code
- * @todo rewrite this code
  */
 function get_menu_vars($menu_link) {
 	$sql = Database::getInstance();
