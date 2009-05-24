@@ -360,7 +360,7 @@ final class UserIO {
 		$email = UserIO::POST_String($name);
 		if (!empty($email)) {
 			$email=filter_var($email, FILTER_SANITIZE_EMAIL);
-			if ( filter_var($email, FILTER_VALIDATE_EMAIL)  === TRUE ) {
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)  === $email) {
 				$result = $email;
 			} else {
 				$result = $mandatory ? false : '';
