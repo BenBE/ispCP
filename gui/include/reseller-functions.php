@@ -652,7 +652,7 @@ function check_ruser_data(&$tpl, $noPass) {
 	// Get data for fields from previous page
 	$inpass		= UserIO::POST_String('userpassword', false, true);
 	$inpass_re	= UserIO::POST_String('userpassword_repeat', false, true);
-	$domain_ip	= UserIO::POST_IP('domain_ip');
+	$domain_ip	= UserIO::POST_Int('domain_ip');
 	$first_name	= UserIO::POST_String('userfname', false, true);
 	$last_name	= UserIO::POST_String('userlname', false, true);
 	$firm		= UserIO::POST_String('userfirm', false, true);
