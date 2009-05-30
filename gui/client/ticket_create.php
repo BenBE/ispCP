@@ -59,7 +59,7 @@ function send_user_message(&$sql, $user_id, $reseller_id) {
 			(?, ?, ?, ?, ?, ?, ?, ?, ?)
 SQL_QUERY;
 
-	$rs = exec_query($sql, $query, array($ticket_level, $user_id, $reseller_id,
+	exec_query($sql, $query, array($ticket_level, $user_id, $reseller_id,
 			$ticket_status, $ticket_reply, $urgency, $ticket_date, $subject, $user_message));
 
 	set_page_message(tr('Your message was sent!'));
@@ -96,6 +96,28 @@ gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ticket_system
 gen_logged_from($tpl);
 
 check_permissions($tpl);
+
+$userdata = array('OPT_URGENCY_1'=>'', 'OPT_URGENCY_2'=>'', 'OPT_URGENCY_3'=>'', 'OPT_URGENCY_4'=>'');
+$userdata['URGENCY'] = UserIO::POST_Int('urgency');
+if (empty($userdata['URGENCY'])) $userdata['URGENCY'] = 2;
+
+switch ($userdata['URGENCY']) {
+	case 1:
+		$userdata['OPT_URGENCY_1'] = ' selected="selected"';  
+		break;
+	case 3:
+		$userdata['OPT_URGENCY_3'] = ' selected="selected"';  
+		break;
+	case 4:
+		$userdata['OPT_URGENCY_4'] = ' selected="selected"';  
+		break;
+	default:
+		$userdata['OPT_URGENCY_2'] = ' selected="selected"';  
+		break;
+}
+$userdata['SUBJECT'] = UserIO::HTML(UserIO::POST_String('subj'));
+$userdata['USER_MESSAGE'] = UserIO::HTML(UserIO::POST_Memo('user_message'));
+$tpl->assign($userdata);
 
 $tpl->assign(
 	array(

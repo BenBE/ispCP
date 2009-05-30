@@ -121,6 +121,28 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
+$userdata = array('OPT_URGENCY_1'=>'', 'OPT_URGENCY_2'=>'', 'OPT_URGENCY_3'=>'', 'OPT_URGENCY_4'=>'');
+$userdata['URGENCY'] = UserIO::POST_Int('urgency');
+if (empty($userdata['URGENCY'])) $userdata['URGENCY'] = 2;
+
+switch ($userdata['URGENCY']) {
+	case 1:
+		$userdata['OPT_URGENCY_1'] = ' selected="selected"';  
+		break;
+	case 3:
+		$userdata['OPT_URGENCY_3'] = ' selected="selected"';  
+		break;
+	case 4:
+		$userdata['OPT_URGENCY_4'] = ' selected="selected"';  
+		break;
+	default:
+		$userdata['OPT_URGENCY_2'] = ' selected="selected"';  
+		break;
+}
+$userdata['SUBJECT'] = UserIO::HTML(UserIO::POST_String('subj'));
+$userdata['USER_MESSAGE'] = UserIO::HTML(UserIO::POST_Memo('user_message'));
+$tpl->assign($userdata);
+
 $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
