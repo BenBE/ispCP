@@ -195,7 +195,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 	}
 
 	// let's check user input
-	$add_exist = !UserIO::POST_isset('Add_Exist');
+	$add_exist = UserIO::POST_isset('Add_Exist');
 
 	if (UserIO::POST_String('user_name') === '' && !$add_exist) {
 		set_page_message(tr('Please type user name!'));

@@ -32,7 +32,7 @@ $tpl->define_dynamic('purchase_footer', 'page');
 
 function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	if (UserIO::POST_isset('fname')) {
-		$first_name = UserIO::POST_isset('fname');
+		$first_name = UserIO::POST_String('fname');
 	} else if (isset($_SESSION['fname'])) {
 		$first_name = $_SESSION['fname'];
 	} else {
@@ -40,7 +40,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('lname')) {
-		$last_name = UserIO::POST_isset('lname');
+		$last_name = UserIO::POST_String('lname');
 	} else if (isset($_SESSION['lname'])) {
 		$last_name = $_SESSION['lname'];
 	} else {
@@ -48,7 +48,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('email')) {
-		$email = UserIO::POST_isset('email');
+		$email = UserIO::POST_String('email');
 	} else if (isset($_SESSION['email'])) {
 		$email = $_SESSION['email'];
 	} else {
@@ -64,7 +64,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('firm')) {
-		$company = UserIO::POST_isset('firm');
+		$company = UserIO::POST_String('firm');
 	} else if (isset($_SESSION['firm'])) {
 		$company = $_SESSION['firm'];
 	} else {
@@ -72,7 +72,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('zip')) {
-		$postal_code = UserIO::POST_isset('zip');
+		$postal_code = UserIO::POST_String('zip');
 	} else if (isset($_SESSION['zip'])) {
 		$postal_code = $_SESSION['zip'];
 	} else {
@@ -80,7 +80,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('city')) {
-		$city = UserIO::POST_isset('city');
+		$city = UserIO::POST_String('city');
 	} else if (isset($_SESSION['city'])) {
 		$city = $_SESSION['city'];
 	} else {
@@ -88,7 +88,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('state')) {
-		$state = UserIO::POST_isset('state');
+		$state = UserIO::POST_String('state');
 	} else if (isset($_SESSION['state'])) {
 		$state = $_SESSION['state'];
 	} else {
@@ -96,7 +96,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('country')) {
-		$country = UserIO::POST_isset('country');
+		$country = UserIO::POST_String('country');
 	} else if (isset($_SESSION['country'])) {
 		$country = $_SESSION['country'];
 	} else {
@@ -104,7 +104,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('street1')) {
-		$street1 = UserIO::POST_isset('street1');
+		$street1 = UserIO::POST_String('street1');
 	} else if (isset($_SESSION['street1'])) {
 		$street1 = $_SESSION['street1'];
 	} else {
@@ -112,7 +112,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('street2')) {
-		$street2 = UserIO::POST_isset('street2');
+		$street2 = UserIO::POST_String('street2');
 	} else if (isset($_SESSION['street2'])) {
 		$street2 = $_SESSION['street2'];
 	} else {
@@ -120,7 +120,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('phone')) {
-		$phone = UserIO::POST_isset('phone');
+		$phone = UserIO::POST_String('phone');
 	} else if (isset($_SESSION['phone'])) {
 		$phone = $_SESSION['phone'];
 	} else {
@@ -128,7 +128,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (UserIO::POST_isset('fax')) {
-		$fax = UserIO::POST_isset('fax');
+		$fax = UserIO::POST_String('fax');
 	} else if (isset($_SESSION['fax'])) {
 		$fax = $_SESSION['fax'];
 	} else {
@@ -170,18 +170,18 @@ function check_address_data(&$tpl) {
 		&& (UserIO::POST_isset('street1') && UserIO::POST_String('street1') != '')
 		&& (UserIO::POST_isset('phone') && UserIO::POST_String('phone') != '')
 		) {
-		$_SESSION['fname']		= UserIO::POST_isset('fname');
-		$_SESSION['lname']		= UserIO::POST_isset('lname');
-		$_SESSION['email']		= UserIO::POST_isset('email');
-		$_SESSION['zip']		= UserIO::POST_isset('zip');
-		$_SESSION['city']		= UserIO::POST_isset('city');
-		$_SESSION['state']		= UserIO::POST_isset('state');
-		$_SESSION['country']	= UserIO::POST_isset('country');
-		$_SESSION['street1']	= UserIO::POST_isset('street1');
-		$_SESSION['phone']		= UserIO::POST_isset('phone');
+		$_SESSION['fname']		= UserIO::POST_String('fname');
+		$_SESSION['lname']		= UserIO::POST_String('lname');
+		$_SESSION['email']		= UserIO::POST_String('email');
+		$_SESSION['zip']		= UserIO::POST_String('zip');
+		$_SESSION['city']		= UserIO::POST_String('city');
+		$_SESSION['state']		= UserIO::POST_String('state');
+		$_SESSION['country']	= UserIO::POST_String('country');
+		$_SESSION['street1']	= UserIO::POST_String('street1');
+		$_SESSION['phone']		= UserIO::POST_String('phone');
 
 		if (UserIO::POST_isset('firm') && UserIO::POST_String('firm') != '') {
-			$_SESSION['firm'] = UserIO::POST_isset('firm');
+			$_SESSION['firm'] = UserIO::POST_String('firm');
 		}
 
 		if (UserIO::POST_isset('gender')
@@ -192,11 +192,11 @@ function check_address_data(&$tpl) {
 		}
 
 		if (UserIO::POST_isset('street2') && UserIO::POST_String('street2') != '') {
-			$_SESSION['street2'] = UserIO::POST_isset('street2');
+			$_SESSION['street2'] = UserIO::POST_String('street2');
 		}
 
 		if (UserIO::POST_isset('fax') && UserIO::POST_String('fax') != '') {
-			$_SESSION['fax'] = UserIO::POST_isset('fax');
+			$_SESSION['fax'] = UserIO::POST_String('fax');
 		}
 
 		user_goto('chart.php');

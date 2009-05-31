@@ -22,8 +22,8 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-if (UserIO::GET_isset('id') && UserIO::GET_Int('id') !== '') {
-	$ftp_id = UserIO::GET_Int('id');
+if (UserIO::GET_isset('id') && UserIO::GET_String('id') !== '') {
+	$ftp_id = UserIO::GET_String('id');
 	$dmn_name = $_SESSION['user_logged'];
 
 	$query = <<<SQL_QUERY

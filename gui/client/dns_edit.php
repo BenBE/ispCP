@@ -286,8 +286,8 @@ function gen_editdns_page(&$tpl, $edit_id) {
 
 	$tpl->assign(
 		array(
-			'SELECT_DNS_TYPE'			=> UserIO::HTML($dns_type),
-			'SELECT_DNS_CLASS'			=> UserIO::HTML($dns_class),
+			'SELECT_DNS_TYPE'			=> $dns_type,
+			'SELECT_DNS_CLASS'			=> $dns_class,
 			'DNS_NAME'					=> UserIO::HTML($name),
 			'DNS_ADDRESS'				=> UserIO::HTML(tryPost('dns_A_address', $address)),
 			'DNS_ADDRESS_V6'			=> UserIO::HTML(tryPost('dns_AAAA_address', $addressv6)),

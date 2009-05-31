@@ -255,13 +255,13 @@ function update_email_forward(&$tpl, &$sql) {
 		if (preg_match('/_forward/', $mail_type) == 0) {
 			// Get mail account type and append the corresponding xxx_forward
 			if ($_mail_type == MT_NORMAL_MAIL) {
-				$mail_type = $mail_type . ',' . MT_NORMAL_FORWARD;
+				$mail_type = $_mail_type . ',' . MT_NORMAL_FORWARD;
 			} else if ($_mail_type == MT_ALIAS_MAIL) {
-				$mail_type = $mail_type . ',' . MT_ALIAS_FORWARD;
+				$mail_type = $_mail_type . ',' . MT_ALIAS_FORWARD;
 			} else if ($_mail_type == MT_SUBDOM_MAIL) {
-				$mail_type = $mail_type . ',' . MT_SUBDOM_FORWARD;
+				$mail_type = $_mail_type . ',' . MT_SUBDOM_FORWARD;
 			} else if ($_mail_type == MT_ALSSUB_MAIL) {
-				$mail_type = $mail_type . ',' . MT_ALSSUB_FORWARD;
+				$mail_type = $_mail_type . ',' . MT_ALSSUB_FORWARD;
 			}
 		} else {
 			// The mail type already contains xxx_forward, so we can use _POST['mail_type']
