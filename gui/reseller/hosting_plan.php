@@ -182,7 +182,7 @@ SQL_QUERY;
 			$tpl->assign(
 				array(
 					'PLAN_NOM' => $i++,
-					'PLAN_NAME' => $data['name'],
+					'PLAN_NAME' => UserIO::HTML($data['name']),
 					'PLAN_NAME2' => UserIO::JS($data['name'], true),
 					'PLAN_ACTION' => tr('Delete'),
 					'PLAN_SHOW' => tr('Show hosting plan'),

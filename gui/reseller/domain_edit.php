@@ -208,7 +208,7 @@ function load_additional_data($user_id, $domain_id) {
 	$res = exec_query($sql, $query, array($domain_ip_id));
 	$data = $res->FetchRow();
 
-	$domain_ip = $data['ip_number'] . '&nbsp;(' . $data['ip_domain'] . ')';
+	$domain_ip = UserIO::HTML($data['ip_number']) . '&nbsp;(' . UserIO::HTML($data['ip_domain']) . ')';
 	// Get username of domain
 	$query = "
 		SELECT
@@ -293,7 +293,7 @@ function gen_editdomain_page(&$tpl) {
 			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"':'',
 			'DNS_NO'				=> ($dns_supp != 'yes') ? 'selected="selected"':'',
 			'VL_DOMAIN_NAME'		=> UserIO::HTML($domain_name),
-			'VL_DOMAIN_IP'			=> UserIO::HTML($domain_ip),
+			'VL_DOMAIN_IP'			=> $domain_ip,
 			'VL_DOM_SUB'			=> $sub,
 			'VL_DOM_ALIAS'			=> $als,
 			'VL_DOM_MAIL_ACCOUNT'	=> $mail,

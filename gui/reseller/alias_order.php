@@ -24,7 +24,7 @@ check_login(__FILE__);
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
-if (UserIO::GET_GetString('action') == "delete") {
+if (UserIO::GET_String('action') == "delete") {
 
 	if (UserIO::GET_Int('del_id') > 0) {
 		$del_id = UserIO::GET_Int('del_id');

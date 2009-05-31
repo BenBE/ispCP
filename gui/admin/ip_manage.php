@@ -94,6 +94,7 @@ function show_IPs(&$tpl, &$sql) {
 		} else {
 			$tpl->assign(
 				array(
+					'DELETE_ID'			=> $rs->fields['ip_id'],
 					'IP_DELETE_SHOW'	=> '',
 					'IP_ACTION'			=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? tr('N/A') : $ip_action,
 					'IP_ACTION_SCRIPT'	=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? '#' : $ip_action_script
@@ -165,32 +166,28 @@ function check_user_data() {
 	global $ip_number, $interfaces;
 	global $domain, $alias, $ip_card;
 	
-	$i1 = UserIO::POST_Int('ip_number_1', true);
-	$i2 = UserIO::POST_Int('ip_number_2', true);
-	$i3 = UserIO::POST_Int('ip_number_3', true);
-	$i4 = UserIO::POST_Int('ip_number_4', true);
-	
-	if ($i1 !== false && $i2 !== false && $i3 !== false && $i4 !== false) {
-		$ip_number = $i1 . '.' . $i2 . '.' . $i3 . '.' . $i4;
-		$domain 	= UserIO::POST_String('domain');
-		$alias 		= UserIO::POST_String('alias');
-		$ip_card 	= UserIO::POST_String('ip_card');		
-	
-		if (filter_var($ip_number, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-			$err_msg = tr('Wrong IP number!');
-		} elseif ($domain == '') {
-			$err_msg = tr('Please specify domain!');
-		} elseif ($alias == '') {
-			$err_msg = tr('Please specify alias!');
-		} elseif (IP_exists()) {
-			$err_msg = tr('This IP already exist!');
-		} elseif (!in_array($ip_card, $interfaces->getAvailableInterface())) {
-			$err_msg = tr('Please select nework interface!');
-		} else {
-			$err_msg = '_off_';
-		}
-	} else {
+	$i1 = UserIO::POST_Int('ip_number_1');
+	$i2 = UserIO::POST_Int('ip_number_2');
+	$i3 = UserIO::POST_Int('ip_number_3');
+	$i4 = UserIO::POST_Int('ip_number_4');
+
+	$ip_number = $i1 . '.' . $i2 . '.' . $i3 . '.' . $i4;
+	$domain 	= UserIO::POST_String('domain');
+	$alias 		= UserIO::POST_String('alias');
+	$ip_card 	= UserIO::POST_String('ip_card');		
+
+	if (filter_var($ip_number, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
 		$err_msg = tr('Wrong IP number!');
+	} elseif ($domain == '') {
+		$err_msg = tr('Please specify domain!');
+	} elseif ($alias == '') {
+		$err_msg = tr('Please specify alias!');
+	} elseif (IP_exists()) {
+		$err_msg = tr('This IP already exist!');
+	} elseif (!in_array($ip_card, $interfaces->getAvailableInterface())) {
+		$err_msg = tr('Please select nework interface!');
+	} else {
+		$err_msg = '_off_';
 	}
 
 	if ($err_msg == '_off_') {
@@ -271,6 +268,7 @@ $tpl->assign(
 		'TR_NETWORK_CARD'	=> tr('Network interface'),
 		'TR_ADD'			=> tr('Add'),
 		'TR_ADD_NEW_IP'		=> tr('Add new IP'),
+		'TR_UNINSTALL'		=> tr('Uninstall'),
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete this IP: %s?', true, '%s')
 	)
 );

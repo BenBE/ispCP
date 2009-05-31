@@ -148,7 +148,20 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 						`admin_id` = ?
 				";
 				$rs_customer = exec_query($sql, $cusrtomer_query, array($customer_id));
-				$user_details = $rs_customer->fields['fname'] . "&nbsp;" . $rs_customer->fields['lname'] . "<br /><a href=\"mailto:" . $rs_customer->fields['email'] . "\" class=\"link\">" . $rs_customer->fields['email'] . "</a><br />" . $rs_customer->fields['zip'] . "&nbsp;" . $rs_customer->fields['city'] . "&nbsp;" . $rs_customer->fields['state'] . "&nbsp;" . $rs_customer->fields['country'];
+				$user_details = UserIO::HTML($rs_customer->fields['fname'])
+				 . "&nbsp;" . UserIO::HTML($rs_customer->fields['lname'])
+				 . "<br /><a href=\"mailto:"
+				 . UserIO::HTML($rs_customer->fields['email'])
+				 . "\" class=\"link\">" 
+				 . UserIO::HTML($rs_customer->fields['email'])
+				 . "</a><br />" 
+				 . UserIO::HTML($rs_customer->fields['zip'])
+				 . "&nbsp;" 
+				 . UserIO::HTML($rs_customer->fields['city'])
+				 . "&nbsp;" 
+				 . UserIO::HTML($rs_customer->fields['state'])
+				 . "&nbsp;" 
+				 . UserIO::HTML($rs_customer->fields['country']);
 				$order_status = tr('Update order');
 				$tpl->assign('LINK', 'orders_update.php?order_id=' . $rs->fields['id']);
 			} else {
@@ -158,8 +171,8 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 			$tpl->assign(
 				array(
 					'ID'		=> $rs->fields['id'],
-					'HP'		=> $plan_name,
-					'DOMAIN'	=> $rs->fields['domain_name'],
+					'HP'		=> UserIO::HTML($plan_name),
+					'DOMAIN'	=> UserIO::HTML($rs->fields['domain_name']),
 					'USER'		=> $user_details,
 					'STATUS'	=> $order_status,
 				)

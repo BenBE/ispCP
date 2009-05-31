@@ -23,9 +23,9 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 if (UserIO::GET_isset('id')) {
-	$ftp_acc = UserIO::GET_Int('id');
+	$ftp_acc = UserIO::GET_String('id');
 } else if (UserIO::POST_isset('id')) {
-	$ftp_acc = UserIO::POST_Int('id');
+	$ftp_acc = UserIO::POST_String('id');
 } else {
 	user_goto('ftp_accounts.php');
 }

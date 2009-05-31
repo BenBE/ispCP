@@ -227,7 +227,7 @@ function load_additional_data($user_id, $domain_id) {
 	$res = exec_query($sql, $query, array($domain_ip_id));
 	$data = $res->FetchRow();
 
-	$domain_ip = $data['ip_number'] . '&nbsp;(' . $data['ip_domain'] . ')';
+	$domain_ip = UserIO::HTML($data['ip_number']) . '&nbsp;(' . UserIO::HTML($data['ip_domain']) . ')';
 	// Get username of domain
 	$query = "
 		SELECT
@@ -310,16 +310,16 @@ function gen_editdomain_page(&$tpl) {
 			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"':'',
 			'DNS_NO' 				=> ($dns_supp != 'yes') ? 'selected="selected"':'',
 			'VL_DOMAIN_NAME'		=> UserIO::HTML($domain_name),
-			'VL_DOMAIN_IP'			=> UserIO::HTML($domain_ip),
-			'VL_DOM_SUB'			=> UserIO::HTML($sub),
-			'VL_DOM_ALIAS'			=> UserIO::HTML($als),
-			'VL_DOM_MAIL_ACCOUNT'	=> UserIO::HTML($mail),
-			'VL_FTP_ACCOUNTS'		=> UserIO::HTML($ftp),
-			'VL_SQL_DB'				=> UserIO::HTML($sql_db),
-			'VL_SQL_USERS'			=> UserIO::HTML($sql_user),
-			'VL_TRAFFIC'			=> UserIO::HTML($traff),
-			'VL_DOM_DISK'			=> UserIO::HTML($disk),
-			'VL_USER_NAME'			=> UserIO::HTML($username)
+			'VL_DOMAIN_IP'			=> $domain_ip,
+			'VL_DOM_SUB'			=> $sub,
+			'VL_DOM_ALIAS'			=> $als,
+			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
+			'VL_FTP_ACCOUNTS'		=> $ftp,
+			'VL_SQL_DB'				=> $sql_db,
+			'VL_SQL_USERS'			=> $sql_user,
+			'VL_TRAFFIC'			=> $traff,
+			'VL_DOM_DISK'			=> $disk,
+			'VL_USER_NAME'			=> $username
 		)
 	);
 
