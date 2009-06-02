@@ -201,15 +201,15 @@ function check_data_correction(&$tpl) {
 	$hp_sql_user	= UserIO::POST_String('hp_sql_user');
 	$hp_traff		= UserIO::POST_String('hp_traff');
 	$hp_disk		= UserIO::POST_String('hp_disk');
-	$description	= UserIO::POST_String('hp_description');
+	$description	= UserIO::POST_Memo('hp_description');
 	$price			= UserIO::POST_Float('hp_price');
 	$setup_fee		= UserIO::POST_Float('hp_setupfee');
 	$value			= UserIO::POST_String('hp_value');
 	$payment		= UserIO::POST_String('hp_payment');
 	$status			= UserIO::POST_String('status');
-	$hp_php			= UserIO::POST_Int('php');
-	$hp_cgi			= UserIO::POST_Int('cgi');
-	$hp_dns			= UserIO::POST_Int('dns');
+	$hp_php			= UserIO::POST_String('php');
+	$hp_cgi			= UserIO::POST_String('cgi');
+	$hp_dns			= UserIO::POST_String('dns');
 	
 	if (empty($hp_name)) {
 		$ahp_error = tr('Incorrect template name length!');

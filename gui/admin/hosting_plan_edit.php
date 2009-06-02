@@ -263,9 +263,9 @@ function check_data_iscorrect(&$tpl) {
 	$_SESSION['hpid'] = $hpid;
 	
 	// Get values from previous page and check him correction	
-	$hp_php = UserIO::POST_Int('php');
-	$hp_cgi = UserIO::POST_Int('cgi');
-	$hp_dns = UserIO::POST_Int('dns');
+	$hp_php = UserIO::POST_String('php');
+	$hp_cgi = UserIO::POST_String('cgi');
+	$hp_dns = UserIO::POST_String('dns');
 	
 	$hp_price = UserIO::POST_Float('hp_price', true);
 	if ($hp_price === false) {
@@ -317,7 +317,7 @@ function save_data_to_db() {
 	global $hp_dns;
 	global $hp_price, $hp_setupfee;
 	
-	$description	= UserIO::POST_String('hp_description');
+	$description	= UserIO::POST_Memo('hp_description');
 	$value			= UserIO::POST_String('hp_currency');
 	$payment		= UserIO::POST_String('hp_payment');
 	$status			= UserIO::POST_String('status');
