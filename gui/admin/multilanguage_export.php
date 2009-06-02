@@ -25,6 +25,7 @@ check_login(__FILE__);
 
 if (UserIO::GET_String('export_lang', true, true) !== false) {
 	$language_table = UserIO::GET_String('export_lang', true, true);
+	$language_table = str_replace(array('`', "'", '"'), '', $language_table);
 	$encoding = $sql->Execute("SELECT `msgstr` FROM `" . $language_table . "` WHERE `msgid` = 'encoding';");
 	if ($encoding
 		&& $encoding->RowCount() > 0
