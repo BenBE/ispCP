@@ -1,7 +1,8 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * @version $Id: csv.php 12158 2008-12-25 14:52:28Z lem9 $
+ * @package phpMyAdmin-Export-CSV
+ * @version $Id: csv.php 12602 2009-06-27 11:57:11Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -22,6 +23,7 @@ if (isset($plugin_list)) {
             array('type' => 'text', 'name' => 'escaped', 'text' => 'strFieldsEscapedBy'),
             array('type' => 'text', 'name' => 'terminated', 'text' => 'strLinesTerminatedBy'),
             array('type' => 'text', 'name' => 'null', 'text' => 'strReplaceNULLBy'),
+            array('type' => 'bool', 'name' => 'removeCRLF', 'text' => 'strRemoveCRLF'),
             array('type' => 'bool', 'name' => 'columns', 'text' => 'strPutColNames'),
             array('type' => 'hidden', 'name' => 'data'),
             ),
@@ -179,6 +181,10 @@ function PMA_exportData($db, $table, $crlf, $error_url, $sql_query) {
                 // loic1 : always enclose fields
                 if ($what == 'excel') {
                     $row[$j]       = preg_replace("/\015(\012)?/", "\012", $row[$j]);
+                }
+                // remove CRLF characters within field
+                if (isset($GLOBALS[$what . '_removeCRLF']) && $GLOBALS[$what . '_removeCRLF']) {
+                    $row[$j] = str_replace("\n", "", str_replace("\r", "", $row[$j]));
                 }
                 if ($csv_enclosed == '') {
                     $schema_insert .= $row[$j];

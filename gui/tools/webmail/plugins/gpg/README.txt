@@ -1,6 +1,6 @@
 <meta http-equiv="Content-Type" content="text/plain; charset=ansi">
 <!--
-  * $Id: README.txt,v 1.72 2006/08/18 21:16:48 brian Exp $
+  * $Id: README.txt 1638 2009-04-02 02:35:58Z haeber $
 -->
 
 Readme file for Squirrelmail GPG Plugin code

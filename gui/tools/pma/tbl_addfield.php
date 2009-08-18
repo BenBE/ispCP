@@ -2,7 +2,8 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: tbl_addfield.php 11276 2008-05-15 12:19:32Z lem9 $
+ * @version $Id: tbl_addfield.php 12339 2009-04-09 10:03:03Z helmo $
+ * @package phpMyAdmin
  */
 
 /**
@@ -53,6 +54,7 @@ if (isset($_REQUEST['do_save_data'])) {
     $field_primary  = array();
     $field_index    = array();
     $field_unique   = array();
+    $field_fulltext = array();
     for ($i = 0; $i < $field_cnt; ++$i) {
         if (isset($_REQUEST['field_key'][$i])
          && strlen($_REQUEST['field_name'][$i])) {
@@ -65,9 +67,12 @@ if (isset($_REQUEST['do_save_data'])) {
             if ($_REQUEST['field_key'][$i] == 'unique_' . $i) {
                 $field_unique[]  = $i;
             }
+            if ($_REQUEST['field_key'][$i] == 'fulltext_' . $i) {
+                $field_fulltext[]  = $i;
+            }
         } // end if
     } // end for
-    
+
     // Builds the field creation statement and alters the table
     for ($i = 0; $i < $field_cnt; ++$i) {
         // '0' is also empty for php :-(
@@ -76,23 +81,23 @@ if (isset($_REQUEST['do_save_data'])) {
         }
 
         $definition = ' ADD ' . PMA_Table::generateFieldSpec(
-            $_REQUEST['field_name'][$i], 
+            $_REQUEST['field_name'][$i],
             $_REQUEST['field_type'][$i],
-            $_REQUEST['field_length'][$i], 
+            $_REQUEST['field_length'][$i],
             $_REQUEST['field_attribute'][$i],
-            isset($_REQUEST['field_collation'][$i]) 
-                ? $_REQUEST['field_collation'][$i] 
+            isset($_REQUEST['field_collation'][$i])
+                ? $_REQUEST['field_collation'][$i]
                 : '',
-            isset($_REQUEST['field_null'][$i]) 
-                ? $_REQUEST['field_null'][$i] 
+            isset($_REQUEST['field_null'][$i])
+                ? $_REQUEST['field_null'][$i]
                 : 'NOT NULL',
-            $_REQUEST['field_default_type'][$i], 
+            $_REQUEST['field_default_type'][$i],
             $_REQUEST['field_default_value'][$i],
             isset($_REQUEST['field_extra'][$i])
                 ? $_REQUEST['field_extra'][$i]
                 : false,
-            isset($_REQUEST['field_comments'][$i]) 
-                ? $_REQUEST['field_comments'][$i] 
+            isset($_REQUEST['field_comments'][$i])
+                ? $_REQUEST['field_comments'][$i]
                 : '',
             $field_primary,
             $i
@@ -117,36 +122,40 @@ if (isset($_REQUEST['do_save_data'])) {
     if (count($field_primary)) {
         $fields = array();
         foreach ($field_primary as $field_nr) {
-            $fields[] = $_REQUEST['field_name'][$field_nr];
+            $fields[] = PMA_backquote($_REQUEST['field_name'][$field_nr]);
         }
         $definitions[] = ' ADD PRIMARY KEY (' . implode(', ', $fields) . ') ';
+        unset($fields);
     }
-    
+
     // Builds the indexes statements and updates the table
     if (count($field_index)) {
         $fields = array();
         foreach ($field_index as $field_nr) {
-            $fields[] = $_REQUEST['field_name'][$field_nr];
+            $fields[] = PMA_backquote($_REQUEST['field_name'][$field_nr]);
         }
         $definitions[] = ' ADD INDEX (' . implode(', ', $fields) . ') ';
+        unset($fields);
     }
-    
+
     // Builds the uniques statements and updates the table
     if (count($field_unique)) {
         $fields = array();
         foreach ($field_unique as $field_nr) {
-            $fields[] = $_REQUEST['field_name'][$field_nr];
+            $fields[] = PMA_backquote($_REQUEST['field_name'][$field_nr]);
         }
         $definitions[] = ' ADD UNIQUE (' . implode(', ', $fields) . ') ';
+        unset($fields);
     }
 
     // Builds the fulltext statements and updates the table
-    if (isset($field_fulltext) && count($field_fulltext)) {
+    if (count($field_fulltext)) {
         $fields = array();
         foreach ($field_fulltext as $field_nr) {
-            $fields[] = $_REQUEST['field_name'][$field_nr];
+            $fields[] = PMA_backquote($_REQUEST['field_name'][$field_nr]);
         }
         $definitions[] = ' ADD FULLTEXT (' . implode(', ', $fields) . ') ';
+        unset($fields);
     }
 
     // To allow replication, we first select the db to use and then run queries
@@ -167,10 +176,10 @@ if (isset($_REQUEST['do_save_data'])) {
             foreach ($_REQUEST['field_mimetype'] as $fieldindex => $mimetype) {
                 if (isset($_REQUEST['field_name'][$fieldindex])
                  && strlen($_REQUEST['field_name'][$fieldindex])) {
-                    PMA_setMIME($db, $table, 
-                        $_REQUEST['field_name'][$fieldindex], 
-                        $mimetype, 
-                        $_REQUEST['field_transformation'][$fieldindex], 
+                    PMA_setMIME($db, $table,
+                        $_REQUEST['field_name'][$fieldindex],
+                        $mimetype,
+                        $_REQUEST['field_transformation'][$fieldindex],
                         $_REQUEST['field_transformation_options'][$fieldindex]);
                 }
             }

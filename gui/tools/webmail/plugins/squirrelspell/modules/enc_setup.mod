@@ -4,14 +4,14 @@
  * --------------
  * Squirrelspell module
  *
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This module shows the user a nice invitation to encrypt or decypt
  * his/her personal dictionary and explains the caveats of such a decision.
  *
  * @author Konstantin Riabitsev <icon@duke.edu>
- * @version $Id: enc_setup.mod 10633 2006-02-03 22:27:56Z jervfors $
+ * @version $Id: enc_setup.mod 1813 2009-05-22 21:14:24Z benedikt $
  * @package plugins
  * @subpackage squirrelspell
  */

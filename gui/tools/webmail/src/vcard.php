@@ -5,9 +5,9 @@
  *
  * This file shows an attched vcard
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: vcard.php 12537 2007-07-14 18:34:04Z kink $
+ * @version $Id: vcard.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -155,6 +155,7 @@ echo '</table>' .
      '</td></tr>' .
      '<tr><td align="center">' .
      '<form action="../src/addressbook.php" method="post" name="f_add">' .
+     '<input type="hidden" name="smtoken" value="' . sm_generate_security_token() . '" />' .
      '<table border="0" cellpadding="2" cellspacing="0" align="center">' .
      '<tr><td align="right"><b>' . _("Nickname") . ':</b></td>' .
      '<td>' .

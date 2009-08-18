@@ -6,9 +6,9 @@
  * Gets folder names and enables renaming
  * Called from folders.php
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: folders_rename_getname.php 12551 2007-07-17 22:46:01Z pdontthink $
+ * @version $Id: folders_rename_getname.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -82,7 +82,7 @@ echo '<br />' .
         ) .
         html_tag( 'tr' ) .
             html_tag( 'td', '', 'center', $color[4] ) .
-            addForm('folders_rename_do.php').
+            addForm('folders_rename_do.php', 'post', '', '', '', '', TRUE).
      _("New name:").
      '<br /><b>'. $parent . '</b>'.
      addInput('new_name', $old_name, 25) . '<br />' . "\n";

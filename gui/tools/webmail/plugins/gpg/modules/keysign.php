@@ -8,7 +8,7 @@
  *
  * @author Aaron van Meerten 
  *
- * $Id: keysign.php,v 1.2 2005/07/27 14:07:49 brian Exp $
+ * $Id: keysign.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 //include the gpg system header, so's everything will be in place.

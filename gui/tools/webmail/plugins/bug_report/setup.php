@@ -3,12 +3,12 @@
 /**
  * setup.php
  *
- * Copyright (c) 1999-2008 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This is a standard Squirrelmail-1.2 API for plugins.
  *
- * $Id: setup.php 13029 2008-03-11 05:07:17Z pdontthink $
+ * $Id: setup.php 1813 2009-05-22 21:14:24Z benedikt $
  */
 
 /* This button fills out a form with your setup information already

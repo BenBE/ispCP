@@ -5,7 +5,7 @@
  * @todo Convert most of this file to HTML, and only use
  *       parts of in inside PHP tags
  *
- * $Id: troubleshooting.php,v 1.7 2004/03/17 15:24:49 brian Exp $
+ * $Id: troubleshooting.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 echo '<h2>'. _("Troubleshooting") . '</h2>';

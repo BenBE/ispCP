@@ -7,7 +7,7 @@
  *
  * @package plugins
  * @subpackage notes
- * @version $Id: notes.php,v 1.2 2005/01/09 22:27:12 cigamit Exp $
+ * @version $Id: notes.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 

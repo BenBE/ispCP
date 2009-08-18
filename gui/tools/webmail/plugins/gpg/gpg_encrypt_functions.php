@@ -11,7 +11,7 @@
  * @package gpg
  * @author Brian Peterson
  *
- * $Id: gpg_encrypt_functions.php,v 1.94 2005/10/09 07:08:23 ke Exp $
+ * $Id: gpg_encrypt_functions.php 1638 2009-04-02 02:35:58Z haeber $
  *
  */
 

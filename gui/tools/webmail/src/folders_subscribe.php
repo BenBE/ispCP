@@ -6,9 +6,9 @@
  * Subscribe and unsubcribe from folders. 
  * Called from folders.php
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: folders_subscribe.php 12537 2007-07-14 18:34:04Z kink $
+ * @version $Id: folders_subscribe.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -33,7 +33,13 @@ sqgetGlobalVar('username',  $username,      SQ_SESSION);
 sqgetGlobalVar('onetimepad',$onetimepad,    SQ_SESSION);
 sqgetGlobalVar('method',    $method,        SQ_GET);
 sqgetGlobalVar('mailbox',   $mailbox,       SQ_POST);
+if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
+    $submitted_token = '';
+}
 /* end globals */
+
+// first, validate security token
+sm_validate_security_token($submitted_token, 3600, TRUE);
 
 $location = get_location();
 

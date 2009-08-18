@@ -11,9 +11,9 @@
  *    - Send mail
  *    - Save As Draft
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: compose.php 13307 2008-10-15 20:19:08Z pdontthink $
+ * @version $Id: compose.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -67,6 +67,9 @@ if (isset($send) && $send) {
     $SQ_GLOBAL = SQ_FORM;
 }
 sqgetGlobalVar('smaction',$action, $SQ_GLOBAL);
+if (!sqgetGlobalVar('smtoken',$submitted_token, $SQ_GLOBAL)) {
+    $submitted_token = '';
+}
 sqgetGlobalVar('session',$session, $SQ_GLOBAL);
 sqgetGlobalVar('mailbox',$mailbox, $SQ_GLOBAL);
 if ( !sqgetGlobalVar('identity',$identity, $SQ_GLOBAL) ) {
@@ -377,6 +380,11 @@ if (!isset($mailbox) || $mailbox == '' || ($mailbox == 'None')) {
 }
 
 if ($draft) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     /*
      * Set $default_charset to correspond with the user's selection
      * of language interface.
@@ -428,6 +436,11 @@ if ($draft) {
 }
 
 if ($send) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     if (isset($_FILES['attachfile']) &&
             $_FILES['attachfile']['tmp_name'] &&
             $_FILES['attachfile']['tmp_name'] != 'none') {
@@ -513,6 +526,11 @@ if ($send) {
         /* sqimap_logout($imapConnection); */
     }
 } elseif (isset($html_addr_search_done)) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     if ($compose_new_win == '1') {
         compose_Header($color, $mailbox);
     }
@@ -557,6 +575,11 @@ if ($send) {
      */
     include_once('./addrbook_search_html.php');
 } elseif (isset($attach)) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     if (saveAttachedFiles($session)) {
         plain_error_message(_("Could not move/copy file. File not attached"), $color);
     }
@@ -568,6 +591,11 @@ if ($send) {
     showInputForm($session);
 }
 elseif (isset($sigappend)) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     $signature = $idents[$identity]['signature'];
     
     $body .= "\n\n".($prefix_sig==true? "-- \n":'').$signature;
@@ -578,6 +606,11 @@ elseif (isset($sigappend)) {
     }
     showInputForm($session);
 } elseif (isset($do_delete)) {
+
+    // validate security token
+    //
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     if ($compose_new_win == '1') {
         compose_Header($color, $mailbox);
     } else {
@@ -588,6 +621,8 @@ elseif (isset($sigappend)) {
         foreach($delete as $index) {
             if (!empty($composeMessage->entities) && isset($composeMessage->entities[$index])) {
                 $composeMessage->entities[$index]->purgeAttachments();
+                // FIXME: one person reported that unset() didn't do anything at all here, so this is a work-around... but it triggers PHP notices if the unset() doesn't work, which should be fixed... but bigger question is if unset() doesn't work here, what about everywhere else?  Anyway, uncomment this if you think you need it
+                //$composeMessage->entities[$index] = NULL;
                 unset ($composeMessage->entities[$index]);
             }
         }
@@ -791,7 +826,7 @@ function newMail ($mailbox='', $passed_id='', $passed_ent_id='', $action='', $se
                 $cnt = count($body_ary) ;
                 $body = '';
                 for ($i=0; $i < $cnt; $i++) {
-                    if (!ereg("^[>\\s]*$", $body_ary[$i])  || !$body_ary[$i]) {
+                    if (!preg_match('/^[>\s]*$/', $body_ary[$i])  || !$body_ary[$i]) {
                         sqWordWrap($body_ary[$i], $editor_size, $default_charset );
                         $body .= $body_ary[$i] . "\n";
                     }
@@ -1030,6 +1065,7 @@ function showInputForm ($session, $values=false) {
 
     echo ">\n";
 
+    echo addHidden('smtoken', sm_generate_security_token());
     echo addHidden('startMessage', $startMessage);
 
     if ($action == 'draft') {
@@ -1198,10 +1234,10 @@ function showInputForm ($session, $values=false) {
         }
 
         if(count($sizes) > 0) {
-            $maxsize = '(max.&nbsp;' . show_readable_size( min( $sizes ) ) . ')' .
-                addHidden('MAX_FILE_SIZE', min( $sizes ));
+            $maxsize_text = '(max.&nbsp;' . show_readable_size( min( $sizes ) ) . ')';
+            $maxsize_input = addHidden('MAX_FILE_SIZE', min( $sizes ));
         } else {
-            $maxsize = '';
+            $maxsize_text = $maxsize_input = '';
         }
         echo '   <tr>' . "\n" .
             '      <td colspan="2">' . "\n" .
@@ -1215,10 +1251,11 @@ function showInputForm ($session, $values=false) {
             html_tag( 'td', '', 'right', '', 'valign="middle"' ) .
             _("Attach:") . '</td>' . "\n" .
             html_tag( 'td', '', 'left', '', 'valign="middle"' ) .
+            $maxsize_input .
             '                          <input name="attachfile" size="48" type="file" />' . "\n" .
             '                          &nbsp;&nbsp;<input type="submit" name="attach"' .
             ' value="' . _("Add") .'" />' . "\n" .
-            $maxsize .
+            $maxsize_text .
             '                       </td>' . "\n" .
             '                    </tr>' . "\n";
 
@@ -1470,7 +1507,7 @@ function deliverMessage(&$composeMessage, $draft=false) {
     }
     $composeMessage->setBody($body);
 
-    if (ereg("^([^@%/]+)[@%/](.+)$", $username, $usernamedata)) {
+    if (preg_match('|^([^@%/]+)[@%/](.+)$|', $username, $usernamedata)) {
         $popuser = $usernamedata[1];
         $domain  = $usernamedata[2];
         unset($usernamedata);

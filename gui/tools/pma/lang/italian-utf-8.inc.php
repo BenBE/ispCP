@@ -1,5 +1,5 @@
 <?php
-/* $Id: italian-utf-8.inc.php 11905 2008-11-18 18:10:59Z lem9 $ */
+/* $Id: italian-utf-8.inc.php 12645 2009-07-13 17:21:02Z lem9 $ */
 
 /**
  * translated by: Pietro Danesi <danone at users.sourceforge.net>  2002-03-29
@@ -201,7 +201,7 @@ $strDanish = 'Danese';
 $strDatabase = 'Database';
 $strDatabaseEmpty = 'Il nome del DataBase è vuoto!';
 $strDatabaseExportOptions = 'Opzioni di esportazione del database';
-$strDatabaseHasBeenCreated = 'Il dtabase %1$s è stato creato.';
+$strDatabaseHasBeenCreated = 'Il database %1$s è stato creato.';
 $strDatabaseHasBeenDropped = 'Il Database %s è stato eliminato.';
 $strDatabases = 'Database';
 $strDatabasesDropped = '%s databases sono stati cancellati correttamente.';
@@ -314,7 +314,6 @@ $strFileNameTemplate = 'Nome file template';
 $strFileNameTemplateRemember = 'ricorda il template';
 $strFiles = 'File';
 $strFileToImport = 'File importato';
-$strFixed = 'fisso';
 $strFlushPrivilegesNote = 'N.B.: phpMyAdmin legge i privilegi degli utenti direttamente nella tabella dei privilegi di MySQL. Il contenuto di questa tabella può differire dai privilegi usati dal server se sono stati fatti cambiamenti manuali. In questo caso, Si dovrebbero %srinfrescare i privilegi%s prima di continuare.';
 $strFlushQueryCache = 'Rinfresca la cache delle query';
 $strFlushTable = 'Inizializza ("FLUSH") la tabella';
@@ -1334,28 +1333,26 @@ $strSetupSaveDir_desc = 'Directory where exports can be saved on server';  //to 
 $strSetupSaveDir_name = 'Save directory';  //to translate
 $strSetupServerAuthConfigMsg = 'You set [kbd]config[/kbd] authentication type and included username and password for auto-login, which is not a desirable option for live hosts. Anyone who knows phpMyAdmin URL can directly access your phpMyAdmin panel. Set [a@?page=servers&amp;mode=edit&amp;id=%1$d#tab_Server]authentication type[/a] to [kbd]cookie[/kbd] or [kbd]http[/kbd].';  //to translate
 $strSetupServerExtensionMsg = 'You should use mysqli for performance reasons';  //to translate
-$strSetupServerNoPasswordRootMsg = 'You allow for connecting to the server as root without a passowrd.';  //to translate
 $strSetupServers_AllowDeny_order_desc = 'Leave blank if not used';  //to translate
 $strSetupServers_AllowDeny_order_name = 'Host authentication order';  //to translate
 $strSetupServers_AllowDeny_rules_desc = 'Leave blank for defaults';  //to translate
 $strSetupServers_AllowDeny_rules_name = 'Host authentication rules';  //to translate
-$strSetupServers_AllowNoPasswordRoot_name = 'Allow root without password';  //to translate
 $strSetupServers_AllowRoot_name = 'Allow root login';  //to translate
 $strSetupServers_auth_swekey_config_desc = 'Config file for [a@http://swekey.com]SweKey hardware authentication[/a], relative to phpMyAdmin root directory, eg. ./swekey.conf';  //to translate
 $strSetupServers_auth_swekey_config_name = 'SweKey config file';  //to translate
-$strSetupServers_bookmarktable_desc = 'Leave blank for no [a@http://wiki.cihar.com/pma/bookmark]bookmark[/a] support, default: [kbd]pma_bookmark[/kbd]';  //to translate
+$strSetupServers_bookmarktable_desc = 'Leave blank for no [a@http://wiki.phpmyadmin.net/pma/bookmark]bookmark[/a] support, suggested: [kbd]pma_bookmark[/kbd]';  //to translate
 $strSetupServers_bookmarktable_name = 'Bookmark table';  //to translate
-$strSetupServers_column_info_desc = 'Leave blank for no column comments/mime types, default: [kbd]pma_column_info[/kbd]';  //to translate
+$strSetupServers_column_info_desc = 'Leave blank for no column comments/mime types, suggested: [kbd]pma_column_info[/kbd]';  //to translate
 $strSetupServers_column_info_name = 'Column information table';  //to translate
 $strSetupServers_compress_desc = 'Compress connection to MySQL server';  //to translate
 $strSetupServers_compress_name = 'Compress connection';  //to translate
 $strSetupServers_connect_type_desc = 'How to connect to server, keep tcp if unsure';  //to translate
 $strSetupServers_controlpass_name = 'Control user password';  //to translate
-$strSetupServers_controluser_desc = 'A special MySQL user configured with limited permissions, more information available on [a@http://wiki.cihar.com/pma/controluser]wiki[/a]';  //to translate
+$strSetupServers_controluser_desc = 'A special MySQL user configured with limited permissions, more information available on [a@http://wiki.phpmyadmin.net/pma/controluser]wiki[/a]';  //to translate
 $strSetupServers_controluser_name = 'Control user';  //to translate
 $strSetupServers_CountTables_desc = 'Count tables when showing database list';  //to translate
 $strSetupServers_CountTables_name = 'Count tables';  //to translate
-$strSetupServers_designer_coords_desc = 'Leave blank for no Designer support, default: [kbd]designer_coords[/kbd]';  //to translate
+$strSetupServers_designer_coords_desc = 'Leave blank for no Designer support, suggested: [kbd]pma_designer_coords[/kbd]';  //to translate
 $strSetupServers_designer_coords_name = 'Designer table';  //to translate
 $strSetupServers_DisableIS_desc = 'More information on [a@http://sf.net/support/tracker.php?aid=1849494]PMA bug tracker[/a] and [a@http://bugs.mysql.com/19588]MySQL Bugs[/a]';  //to translate
 $strSetupServers_DisableIS_name = 'Disable use of INFORMATION_SCHEMA';  //to translate
@@ -1364,9 +1361,8 @@ $strSetupServers_extension_desc = 'What PHP extension to use, use mysqli if supp
 $strSetupServers_extension_name = 'PHP extension to use';  //to translate
 $strSetupServers_hide_db_desc = 'Hide databases matching regular expression (PCRE)';  //to translate
 $strSetupServers_hide_db_name = 'Hide databases';  //to translate
-$strSetupServers_history_desc = 'Leave blank for no SQL query history support, default: [kbd]pma_history[/kbd]';  //to translate
+$strSetupServers_history_desc = 'Leave blank for no SQL query history support, suggested: [kbd]pma_history[/kbd]';  //to translate
 $strSetupServers_history_name = 'SQL query history table';  //to translate
-$strSetupServers_host_desc = '';  //to translate
 $strSetupServers_host_name = 'Server hostname';  //to translate
 $strSetupServers_LogoutURL_name = 'Logout URL';  //to translate
 $strSetupServers_nopassword_desc = 'Try to connect without password';  //to translate
@@ -1375,17 +1371,17 @@ $strSetupServers_only_db_desc = 'You can use MySQL wildcard characters (% and _)
 $strSetupServers_only_db_name = 'Show only listed databases';  //to translate
 $strSetupServers_password_desc = 'Leave empty if not using config auth';  //to translate
 $strSetupServers_password_name = 'Password for config auth';  //to translate
-$strSetupServers_pdf_pages_desc = 'Leave blank for no PDF schema support, default: [kbd]pma_pdf_pages[/kbd]';  //to translate
+$strSetupServers_pdf_pages_desc = 'Leave blank for no PDF schema support, suggested: [kbd]pma_pdf_pages[/kbd]';  //to translate
 $strSetupServers_pdf_pages_name = 'PDF schema: pages table';  //to translate
-$strSetupServers_pmadb_desc = 'Database used for relations, bookmarks, and PDF features. See [a@http://wiki.cihar.com/pma/pmadb]pmadb[/a] for complete information. Leave blank for no support. Default: [kbd]phpmyadmin[/kbd]';  //to translate
+$strSetupServers_pmadb_desc = 'Database used for relations, bookmarks, and PDF features. See [a@http://wiki.phpmyadmin.net/pma/pmadb]pmadb[/a] for complete information. Leave blank for no support. Suggested: [kbd]phpmyadmin[/kbd]';  //to translate
 $strSetupServers_pmadb_name = 'PMA database';  //to translate
 $strSetupServers_port_desc = 'Port on which MySQL server is listening, leave empty for default';  //to translate
 $strSetupServers_port_name = 'Server port';  //to translate
-$strSetupServers_relation_desc = 'Leave blank for no [a@http://wiki.cihar.com/pma/relation]relation-links[/a] support, default: [kbd]pma_relation[/kbd]';  //to translate
+$strSetupServers_relation_desc = 'Leave blank for no [a@http://wiki.phpmyadmin.net/pma/relation]relation-links[/a] support, suggested: [kbd]pma_relation[/kbd]';  //to translate
 $strSetupServers_relation_name = 'Relation table';  //to translate
 $strSetupServers_ShowDatabasesCommand_desc = 'SQL command to fetch available databases';  //to translate
 $strSetupServers_ShowDatabasesCommand_name = 'SHOW DATABASES command';  //to translate
-$strSetupServers_SignonSession_desc = 'See [a@http://wiki.cihar.com/pma/auth_types#signon]authentication types[/a] for an example';  //to translate
+$strSetupServers_SignonSession_desc = 'See [a@http://wiki.phpmyadmin.net/pma/auth_types#signon]authentication types[/a] for an example';  //to translate
 $strSetupServers_SignonSession_name = 'Signon session name';  //to translate
 $strSetupServers_SignonURL_name = 'Signon URL';  //to translate
 $strSetupServerSslMsg = 'You should use SSL connections if your web server supports it';  //to translate
@@ -1393,15 +1389,14 @@ $strSetupServers_socket_desc = 'Socket on which MySQL server is listening, leave
 $strSetupServers_socket_name = 'Server socket';  //to translate
 $strSetupServers_ssl_desc = '';  //to translate
 $strSetupServers_ssl_name = 'Use SSL';  //to translate
-$strSetupServers_table_coords_desc = 'Leave blank for no PDF schema support, default: [kbd]pma_table_coords[/kbd]';  //to translate
+$strSetupServers_table_coords_desc = 'Leave blank for no PDF schema support, suggested: [kbd]pma_table_coords[/kbd]';  //to translate
 $strSetupServers_table_coords_name = 'PDF schema: table coordinates';  //to translate
-$strSetupServers_table_info_desc = 'Table to describe the display fields, leave blank for no support; default: [kbd]pma_table_info[/kbd]';  //to translate
+$strSetupServers_table_info_desc = 'Table to describe the display fields, leave blank for no support; suggested: [kbd]pma_table_info[/kbd]';  //to translate
 $strSetupServers_table_info_name = 'Display fields table';  //to translate
 $strSetupServers_user_desc = 'Leave empty if not using config auth';  //to translate
 $strSetupServers_user_name = 'User for config auth';  //to translate
 $strSetupServers_verbose_check_desc = 'Disable if you know that your pma_* tables are up to date. This prevents compatibility checks and thereby increases performance';  //to translate
 $strSetupServers_verbose_check_name = 'Verbose check';  //to translate
-$strSetupServers_verbose_desc = 'Hostname where MySQL server is running';  //to translate
 $strSetupServers_verbose_name = 'Verbose name of this server';  //to translate
 $strSetupShowAll_desc = 'Whether a user should be displayed a &quot;show all (records)&quot; button';  //to translate
 $strSetupShowAll_name = 'Allow to display all the rows';  //to translate
@@ -1449,4 +1444,25 @@ $strSetupZipDumpExportWarning = '[a@?page=form&amp;formset=features#tab_Import_e
 $strSetupZipDumpImportWarning = '[a@?page=form&amp;formset=features#tab_Import_export]Zip decompression[/a] requires functions (%s) which are unavailable on this system.';  //to translate
 $strSetupZipDump_name = 'ZIP';  //to translate
 
+$strSessionGCWarning = 'Your PHP parameter [a@http://php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime@]session.gc_maxlifetime[/a] is lower that cookie validity configured in phpMyAdmin, because of this, your login will expire sooner than configured in phpMyAdmin.';  //to translate
+$strSetupServers_host_desc = 'Hostname where MySQL server is running';  //to translate
+$strSetupServers_verbose_desc = 'A user-friendly description of this server. Leave blank to display the hostname instead.';  //to translate
+$strCreateUserDatabasePrivileges = 'Grant all privileges on database &quot;%s&quot;';  //to translate
+$strShowBinaryContents = 'Show binary contents';  //to translate
+$strShowBLOBContents = 'Show BLOB contents';  //to translate
+$strStatic = 'static';  //to translate
+$strLoginWithoutPassword = 'Login without a password is forbidden by configuration (see AllowNoPassword)';  //to translate
+$strSetupServerNoPasswordMsg = 'You allow for connecting to the server without a password.';  //to translate
+$strSetupServers_AllowNoPassword_name = 'Allow logins without a password';  //to translate
+$strHostTableExplanation = 'When Host table is used, this field is ignored and values stored in Host table are used instead.';  //to translate
+$strGetMoreThemes = 'Get more themes!';  //to translate
+$strNoneDefault = 'None';  //to translate
+$strConfigDirectoryWarning = 'Directory [code]config[/code], which is used by the setup script, still exists in your phpMyAdmin directory. You should remove it once phpMyAdmin has been configured.';  //to translate
+$strRemoveCRLF = 'Remove CRLF characters within fields';  //to translate
+$strDoNotAutoIncrementZeroValues = 'Do not use AUTO_INCREMENT for zero values';  //to translate
+$strAndSmall = 'and';  //to translate
+$strReplicationStatus = 'Replication status';  //to translate
+$strReplicationStatusInfo = 'This MySQL server works as %s in <b>replication</b> process. For further information about replication status on the server, please visit the <a href="#replication">replication section</a>.';  //to translate
+$strReplicationStatus_master = 'Master status';  //to translate
+$strReplicationStatus_slave = 'Slave status';  //to translate
 ?>

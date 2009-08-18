@@ -10,7 +10,7 @@
  *
  * @author Brian Peterson
  *
- * $Id: general.mod,v 1.39 2006/01/08 02:47:20 ke Exp $
+ * $Id: general.mod 1638 2009-04-02 02:35:58Z haeber $
  */
 
 /* From the TODO file

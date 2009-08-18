@@ -10,7 +10,7 @@
  * @author Aaron Van Meerten
  * @author Brian Peterson
  *
- * $Id: keyview.php,v 1.54 2005/07/27 14:07:49 brian Exp $
+ * $Id: keyview.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 if (!defined ('SM_PATH')){

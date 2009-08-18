@@ -12,7 +12,7 @@
  *
  * Portions of this code copyright (c) 1999-2005 the Squirrelmail Development Team
  *
- * $Id: gpgdecrypt.mod,v 1.65 2005/07/27 14:07:49 brian Exp $
+ * $Id: gpgdecrypt.mod 1638 2009-04-02 02:35:58Z haeber $
  *
  * @todo change the file includes to set SM_PATH
  */

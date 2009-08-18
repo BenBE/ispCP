@@ -2,9 +2,9 @@
 
 /**
   * SquirrelMail Demo Plugin
-  * @copyright &copy; 2006-2007 The SquirrelMail Project Team
+  * @copyright &copy; 2006-2009 The SquirrelMail Project Team
   * @license http://opensource.org/licenses/gpl-license.php GNU Public License
-  * @version $Id$
+  * @version $Id: setup.php 1813 2009-05-22 21:14:24Z benedikt $
   * @package plugins
   * @subpackage demo
   */

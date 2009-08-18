@@ -3,9 +3,9 @@
 /**
  * Functions to delete a event.
  *
- * @copyright &copy; 2002-2006 The SquirrelMail Project Team
+ * @copyright &copy; 2002-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: event_delete.php 11118 2006-05-06 07:52:19Z tokul $
+ * @version $Id: event_delete.php 1813 2009-05-22 21:14:24Z benedikt $
  * @package plugins
  * @subpackage calendar
  */

@@ -28,7 +28,8 @@
  * - db connection
  * - authentication work
  *
- * @version $Id: common.inc.php 12165 2009-01-01 23:37:14Z lem9 $
+ * @version $Id: common.inc.php 12397 2009-05-08 14:15:55Z lem9 $
+ * @package phpMyAdmin
  */
 
 /**
@@ -37,6 +38,13 @@
  */
 if (version_compare(PHP_VERSION, '5.2.0', 'lt')) {
     die('PHP 5.2+ is required');
+}
+
+/**
+  * Backward compatibility for PHP 5.2
+  */
+if (!defined('E_DEPRECATED')) {
+    define('E_DEPRECATED', 8192);
 }
 
 /**
@@ -198,7 +206,7 @@ unset($key, $value, $variables_whitelist);
  * ... main form elments ...
  * <input type="submit" name="main_action" value="submit form" />
  * </form>
- * </code
+ * </code>
  *
  * so we now check if a subform is submitted
  */
@@ -232,9 +240,7 @@ if (isset($_POST['usesubform'])) {
 // end check if a subform is submitted
 
 // remove quotes added by php
-// (get_magic_quotes_gpc() is deprecated in PHP 5.3, but compare with 5.2.99
-// to be able to test with 5.3.0-dev)
-if (function_exists('get_magic_quotes_gpc') && -1 == version_compare(PHP_VERSION, '5.2.99') && get_magic_quotes_gpc()) {
+if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
     PMA_arrayWalkRecursive($_GET, 'stripslashes', true);
     PMA_arrayWalkRecursive($_POST, 'stripslashes', true);
     PMA_arrayWalkRecursive($_COOKIE, 'stripslashes', true);
@@ -802,6 +808,8 @@ if (! defined('PMA_MINIMUM_COMMON')) {
          */
         require_once './libraries/database_interface.lib.php';
 
+        require_once './libraries/logging.lib.php';
+
         // Gets the authentication library that fits the $cfg['Server'] settings
         // and run authentication
 
@@ -862,7 +870,8 @@ if (! defined('PMA_MINIMUM_COMMON')) {
 
             // Ejects the user if banished
             if ($allowDeny_forbidden) {
-               PMA_auth_fails();
+                PMA_log_user($cfg['Server']['user'], 'allow-denied');
+                PMA_auth_fails();
             }
             unset($allowDeny_forbidden); //Clean up after you!
         } // end if
@@ -870,15 +879,17 @@ if (! defined('PMA_MINIMUM_COMMON')) {
         // is root allowed?
         if (!$cfg['Server']['AllowRoot'] && $cfg['Server']['user'] == 'root') {
             $allowDeny_forbidden = true;
+            PMA_log_user($cfg['Server']['user'], 'root-denied');
             PMA_auth_fails();
             unset($allowDeny_forbidden); //Clean up after you!
         }
 
-        // is root without password allowed?
-        if (!$cfg['Server']['AllowNoPasswordRoot'] && $cfg['Server']['user'] == 'root' && $cfg['Server']['password'] == '') {
-            $allowDeny_forbidden = true;
+        // is a login without password allowed?
+        if (!$cfg['Server']['AllowNoPassword'] && $cfg['Server']['password'] == '') {
+            $login_without_password_is_forbidden = true;
+            PMA_log_user($cfg['Server']['user'], 'empty-denied');
             PMA_auth_fails();
-            unset($allowDeny_forbidden); //Clean up after you!
+            unset($login_without_password_is_forbidden); //Clean up after you!
         }
 
         // Try to connect MySQL with the control user profile (will be used to
@@ -898,6 +909,9 @@ if (! defined('PMA_MINIMUM_COMMON')) {
         if (! $controllink) {
             $controllink = $userlink;
         }
+
+        /* Log success */
+        PMA_log_user($cfg['Server']['user']);
 
         /**
          * with phpMyAdmin 3 we support MySQL >=5

@@ -4,7 +4,7 @@
  *
  * @author Brian Peterson
  *
- * $Id: gpg_module_header.php,v 1.10 2004/01/09 18:27:15 brian Exp $
+ * $Id: gpg_module_header.php 1638 2009-04-02 02:35:58Z haeber $
  */
 if (!defined ('SM_PATH')){
     if (file_exists('./gpg_functions.php')){

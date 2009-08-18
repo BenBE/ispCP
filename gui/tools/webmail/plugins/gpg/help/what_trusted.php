@@ -39,7 +39,7 @@ echo "<p />\n"
      . '<br>'
      . _("You can only have one trusted key at any given time.");
 /**
- * $Id: what_trusted.php,v 1.7 2003/11/21 19:20:10 brian Exp $
+ * $Id: what_trusted.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * $Log: what_trusted.php,v $
  * Revision 1.7  2003/11/21 19:20:10  brian

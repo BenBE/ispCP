@@ -18,8 +18,8 @@
  *
  * Also view plugins/README.plugins for more information.
  *
- * @version $Id: options.php 11140 2006-05-15 16:10:41Z tokul $
- * @copyright (c) 1999-2006 The SquirrelMail Project Team
+ * @version $Id: options.php 1813 2009-05-22 21:14:24Z benedikt $
+ * @copyright (c) 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package plugins
  * @subpackage filters
@@ -79,7 +79,7 @@ if (sqgetGlobalVar('filter_submit',$filter_submit,SQ_POST)) {
     }
 
     if ($complete_post) {
-        $filter_what = str_replace(',', ' ', $filter_what);
+        $filter_what = str_replace(',', '###COMMA###', $filter_what);
         $filter_what = str_replace("\\\\", "\\", $filter_what);
         $filter_what = str_replace("\\\"", '"', $filter_what);
         $filter_what = str_replace('"', '&quot;', $filter_what);

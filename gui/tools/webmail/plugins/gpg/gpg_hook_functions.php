@@ -13,7 +13,7 @@
  * @author Aaron van Meerten
  *
  *
- * $Id: gpg_hook_functions.php,v 1.88 2007/07/07 20:02:53 brian Exp $
+ * $Id: gpg_hook_functions.php 1638 2009-04-02 02:35:58Z haeber $
  *
  */
 if (!defined ('SM_PATH')){

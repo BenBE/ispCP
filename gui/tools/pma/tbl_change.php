@@ -5,7 +5,8 @@
  *
  * register_globals_save (mark this file save for disabling register globals)
  *
- * @version $Id: tbl_change.php 12164 2009-01-01 21:44:37Z lem9 $
+ * @version $Id: tbl_change.php 12587 2009-06-20 12:08:34Z lem9 $
+ * @package phpMyAdmin
  */
 
 /**
@@ -392,9 +393,11 @@ foreach ($rows as $row_id => $vrow) {
         }
 
         $unnullify_trigger = $chg_evt_handler . "=\"return unNullify('"
-            . PMA_escapeJsString($field['Field_html']) . "', '"
+            . PMA_escapeJsString($field['Field_md5']) . "', '"
             . PMA_escapeJsString($jsvkey) . "')\"";
-        $field_name_appendix =  $vkey . '[' . $field['Field_html'] . ']';
+
+        // Use an MD5 as an array index to avoid having special characters in the name atttibute (see bug #1746964 )
+        $field_name_appendix =  $vkey . '[' . $field['Field_md5'] . ']';
         $field_name_appendix_md5 = $field['Field_md5'] . $vkey . '[]';
 
 
@@ -408,7 +411,10 @@ foreach ($rows as $row_id => $vrow) {
         }
         ?>
         <tr class="<?php echo $odd_row ? 'odd' : 'even'; ?>">
-            <td <?php echo ($cfg['LongtextDoubleTextarea'] && strstr($field['True_Type'], 'longtext') ? 'rowspan="2"' : ''); ?> align="center"><?php echo $field['Field_title']; ?></td>
+            <td <?php echo ($cfg['LongtextDoubleTextarea'] && strstr($field['True_Type'], 'longtext') ? 'rowspan="2"' : ''); ?> align="center">
+                <?php echo $field['Field_title']; ?>
+                <input type="hidden" name="fields_name<?php echo $field_name_appendix; ?>" value="<?php echo $field['Field_html']; ?>"/>
+            </td>
             <td align="center"<?php echo $field['wrap']; ?>>
                 <?php echo $field['pma_type']; ?>
             </td>
@@ -432,10 +438,10 @@ foreach ($rows as $row_id => $vrow) {
             } else {
                 // loic1: special binary "characters"
                 if ($field['is_binary'] || $field['is_blob']) {
-                    $vrow[$field['Field']] = PMA_replace_binary_contents($vrow[$field['Field']]); 
+                    $vrow[$field['Field']] = PMA_replace_binary_contents($vrow[$field['Field']]);
                 } // end if
                 $special_chars   = htmlspecialchars($vrow[$field['Field']]);
-		
+
 		//We need to duplicate the first \n or otherwise we will lose the first newline entered in a VARCHAR or TEXT column
 	        $special_chars_encoded = PMA_duplicateFirstNewline($special_chars);
 
@@ -458,11 +464,12 @@ foreach ($rows as $row_id => $vrow) {
                 $data                     = $field['Default'];
             }
             if ($field['True_Type'] == 'bit') {
-                $special_chars = PMA_printable_bit_value($field['Default'], $extracted_fieldspec['spec_in_brackets']); 
+                $special_chars = PMA_printable_bit_value($field['Default'], $extracted_fieldspec['spec_in_brackets']);
             } else {
                 $special_chars = htmlspecialchars($field['Default']);
             }
             $backup_field  = '';
+            $special_chars_encoded = PMA_duplicateFirstNewline($special_chars);
         }
 
         $idindex  = ($o_rows * $fields_cnt) + $i + 1;
@@ -743,11 +750,7 @@ foreach ($rows as $row_id => $vrow) {
                     echo '<input type="radio" name="field_' . $field_name_appendix_md5 . '"';
                     echo ' value="' . $enum_value['html'] . '"';
                     echo ' id="field_' . ($idindex) . '_3_'  . $j . '"';
-                    echo ' onclick="';
-                    echo "if (typeof(document.forms['insertForm'].elements['fields_null"
-                        . $field_name_appendix . "']) != 'undefined') {document.forms['insertForm'].elements['fields_null"
-                        . $field_name_appendix . "'].checked = false}";
-                    echo '"';
+                    echo $unnullify_trigger;
                     if ($data == $enum_value['plain']
                      || ($data == ''
                       && (! isset($primary_key) || $field['Null'] != 'YES')
@@ -851,8 +854,8 @@ foreach ($rows as $row_id => $vrow) {
 
                     if ($bs_reference_exists)
                     {
-                        echo '<input type="hidden" name="remove_blob_ref_' . $field['Field_html'] . $vkey . '" value="' . $data . '" />';
-                        echo '<input type="checkbox" name="remove_blob_repo_' . $field['Field_html'] . $vkey . '" /> ' . $strBLOBRepositoryRemove . "<br />";
+                        echo '<input type="hidden" name="remove_blob_ref_' . $field['Field_md5'] . $vkey . '" value="' . $data . '" />';
+                        echo '<input type="checkbox" name="remove_blob_repo_' . $field['Field_md5'] . $vkey . '" /> ' . $strBLOBRepositoryRemove . "<br />";
                         echo PMA_BS_CreateReferenceLink($data, $db);
                         echo "<br />";
                     }
@@ -935,7 +938,7 @@ foreach ($rows as $row_id => $vrow) {
                                         if (!empty($bs_tables) && strlen($db) > 0)
                                         {
                                             $bs_tables = $bs_tables[$db];
-                                
+
                                             // check if reference to BLOBStreaming tables exists
                                             if (isset($bs_tables))
                                             {
@@ -952,7 +955,7 @@ foreach ($rows as $row_id => $vrow) {
                                                 if ($allBSTablesExist)
                                                 {
                                                     echo '<br />';
-                                                    echo '<input type="checkbox" name="upload_blob_repo_' . $field['Field_html'] . $vkey . '" /> ' . $strBLOBRepositoryUpload;
+                                                    echo '<input type="checkbox" name="upload_blob_repo_' . $field['Field_md5'] . $vkey . '" /> ' . $strBLOBRepositoryUpload;
                                                 }   // end if ($allBSTablesExist)
                                             }   // end if (isset($bs_tables)
                                         }   // end if (!empty($bs_tables) && strlen ($db) > 0)
@@ -964,7 +967,7 @@ foreach ($rows as $row_id => $vrow) {
                 }
 
                 echo '<br />';
-                echo '<input type="file" name="fields_upload_' . $field['Field_html'] . $vkey . '" class="textfield" id="field_' . $idindex . '_3" size="10" />&nbsp;';
+                echo '<input type="file" name="fields_upload_' . $field['Field_md5'] . $vkey . '" class="textfield" id="field_' . $idindex . '_3" size="10" />&nbsp;';
 
                 // find maximum upload size, based on field type
                 /**
@@ -997,7 +1000,7 @@ foreach ($rows as $row_id => $vrow) {
                 } elseif (!empty($files)) {
                     echo "<br />\n";
                     echo '    <i>' . $strOr . '</i>' . ' ' . $strWebServerUploadDirectory . ':<br />' . "\n";
-                    echo '        <select size="1" name="fields_uploadlocal_' . $field['Field_html'] . $vkey . '">' . "\n";
+                    echo '        <select size="1" name="fields_uploadlocal_' . $field['Field_md5'] . $vkey . '">' . "\n";
                     echo '            <option value="" selected="selected"></option>' . "\n";
                     echo $files;
                     echo '        </select>' . "\n";
@@ -1044,11 +1047,13 @@ foreach ($rows as $row_id => $vrow) {
                     <?php
                 }
                 if ($field['pma_type'] == 'date' || $field['pma_type'] == 'datetime' || substr($field['pma_type'], 0, 9) == 'timestamp') {
+                    // the _3 suffix points to the date field
+                    // the _2 suffix points to the corresponding NULL checkbox
                     ?>
                     <script type="text/javascript">
                     //<![CDATA[
                     document.write('<a title="<?php echo $strCalendar;?>"');
-                    document.write(' href="javascript:openCalendar(\'<?php echo PMA_generate_common_url();?>\', \'insertForm\', \'field_<?php echo ($idindex); ?>_3\', \'<?php echo (substr($field['pma_type'], 0, 9) == 'timestamp') ? 'datetime' : substr($field['pma_type'], 0, 9); ?>\')">');
+                    document.write(' href="javascript:openCalendar(\'<?php echo PMA_generate_common_url();?>\', \'insertForm\', \'field_<?php echo ($idindex); ?>_3\', \'<?php echo (substr($field['pma_type'], 0, 9) == 'timestamp') ? 'datetime' : substr($field['pma_type'], 0, 9); ?>\', \'field_<?php echo ($idindex); ?>_2\')">');
                     document.write('<img class="calendar"');
                     document.write(' src="<?php echo $pmaThemeImage; ?>b_calendar.png"');
                     document.write(' alt="<?php echo $strCalendar; ?>"/></a>');

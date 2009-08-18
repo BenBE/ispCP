@@ -7,9 +7,9 @@
  *
  * This file is included from compose.php
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: addrbook_search_html.php 12726 2007-10-07 03:01:49Z jangliss $
+ * @version $Id: addrbook_search_html.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  * @subpackage addressbook
  */
@@ -83,7 +83,7 @@ function addr_display_result($res, $includesource = true) {
 
     if (sizeof($res) <= 0) return;
 
-    echo addForm($PHP_SELF, 'POST', 'addrbook').
+    echo addForm($PHP_SELF, 'POST', 'addrbook', '', '', '', TRUE).
          addHidden('html_addr_search_done', 'true');
     addr_insert_hidden();
     $line = 0;
@@ -308,7 +308,7 @@ else {
 if ($addrquery == '' || sizeof($res) == 0) {
     /* printf('<center><form method="post" name="k" action="compose.php">'."\n", $PHP_SELF); */
     echo '<center>'.
-        addForm('compose.php','POST','k');
+        addForm('compose.php','POST','k', '', '', '', TRUE);
     addr_insert_hidden();
     echo '<input type="submit" value="' . _("Return") . '" name="return" />' . "\n" .
          '</form></center></nobr>';

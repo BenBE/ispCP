@@ -9,7 +9,7 @@
  * @package gpg
  * @author Walter Torres
  *
- * $Id: gpg_help_base.php,v 1.15 2006/08/18 20:57:25 ke Exp $
+ * $Id: gpg_help_base.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * @todo check help file include for security breach in gpg_help_base.php
  */

@@ -6,9 +6,9 @@
  * Does the actual renaming of files on the IMAP server.
  * Called from the folders.php
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: folders_rename_do.php 12537 2007-07-14 18:34:04Z kink $
+ * @version $Id: folders_rename_do.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -35,7 +35,13 @@ sqgetGlobalVar('onetimepad',$onetimepad,    SQ_SESSION);
 sqgetGlobalVar('orig',      $orig,          SQ_POST);
 sqgetGlobalVar('old_name',  $old_name,      SQ_POST);
 sqgetGlobalVar('new_name',  $new_name,      SQ_POST);
+if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
+    $submitted_token = '';
+}
 /* end globals */
+
+// first, validate security token
+sm_validate_security_token($submitted_token, 3600, TRUE);
 
 $new_name = trim($new_name);
 

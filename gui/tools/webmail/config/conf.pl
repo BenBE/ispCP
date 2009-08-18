@@ -1,12 +1,12 @@
 #!/usr/bin/env perl
 # conf.pl
 #
-# Copyright (c) 1999-2007 The SquirrelMail Project Team
+# Copyright (c) 1999-2009 The SquirrelMail Project Team
 # Licensed under the GNU GPL. For full terms see COPYING.
 #
 # A simple configure script to configure SquirrelMail
 #
-# $Id: conf.pl 13290 2008-09-28 13:45:49Z kink $
+# $Id: conf.pl 13820 2009-08-12 08:32:10Z pdontthink $
 ############################################################              
 $conf_pl_version = "1.4.0";
 
@@ -140,7 +140,7 @@ if ( -e "config.php" ) {
         print "  should get the 'config_default.php' that matches the version\n";
         print "  of SquirrelMail that you are running. You can get this from\n";
         print "  the SquirrelMail web page by going to the following URL:\n";
-        print "      http://www.squirrelmail.org.\n";
+        print "      http://squirrelmail.org.\n";
         print "\n";
         print "Continue loading with old config_default.php (a bad idea) [y/N]? ";
         $ctu = <STDIN>;
@@ -298,7 +298,7 @@ $delete_folder = "false"               if ( !$delete_folder );
 $noselect_fix_enable = "false"         if ( !$noselect_fix_enable );
 $frame_top = "_top"                    if ( !$frame_top );
 
-$provider_uri = "http://www.squirrelmail.org/" if ( !$provider_uri );
+$provider_uri = "http://squirrelmail.org/" if ( !$provider_uri );
 $provider_name = "SquirrelMail"        if ( !$provider_name );
 
 $edit_identity = "true"                if ( !$edit_identity );
@@ -346,15 +346,19 @@ if ( !$sendmail_args && $sendmail_path =~ /qmail-inject/ ) {
 }
 
 # Added in 1.4.11
-$smtp_sitewide_user = ''				if ( !$smtp_sitewide_user );
-$smtp_sitewide_pass = ''				if ( !$smtp_sitewide_pass );
+$smtp_sitewide_user = ''                if ( !$smtp_sitewide_user );
+$smtp_sitewide_pass = ''                if ( !$smtp_sitewide_pass );
 
 # Added in 1.4.9
 $abook_global_file_listing = 'true'     if ( !$abook_global_file_listing );
 $abook_file_line_length = 2048          if ( !$abook_file_line_length );
 
 # Added in 1.4.16
-$only_secure_cookies = 'true'     if ( !$only_secure_cookies );
+$only_secure_cookies = 'true'           if ( !$only_secure_cookies );
+
+# Added in 1.4.20RC1
+$disable_security_tokens = 'false'      if ( !$disable_security_tokens );
+$check_referrer = ''                    if ( !$check_referrer );
 
 if ( $ARGV[0] eq '--install-plugin' ) {
     print "Activating plugin " . $ARGV[1] . "\n";
@@ -396,7 +400,7 @@ $list_supported_imap_servers =
 
 #####################################################################################
 if ( $config_use_color == 1 ) {
-    $WHT = "\x1B[37;1m";
+    $WHT = "\x1B[1m";
     $NRM = "\x1B[0m";
 } else {
     $WHT              = "";
@@ -549,6 +553,8 @@ while ( ( $command ne "q" ) && ( $command ne "Q" ) ) {
         print "14. PHP session name             : $WHT$session_name$NRM\n";
         print "15. Location base                : $WHT$config_location_base$NRM\n";
         print "16. Only secure cookies if poss. : $WHT$only_secure_cookies$NRM\n";
+        print "17. Disable secure forms         : $WHT$disable_security_tokens$NRM\n";
+        print "18. Page referal requirement     : $WHT$check_referrer$NRM\n";
         print "\n";
         print "R   Return to Main Menu\n";
     } elsif ( $menu == 5 ) {
@@ -681,7 +687,7 @@ while ( ( $command ne "q" ) && ( $command ne "Q" ) ) {
             $NRM              = "";
         } else {
             $config_use_color = 1;
-            $WHT              = "\x1B[37;1m";
+            $WHT              = "\x1B[1m";
             $NRM              = "\x1B[0m";
         }
     } elsif ( $command eq "d" && $menu == 0 ) {
@@ -766,6 +772,8 @@ while ( ( $command ne "q" ) && ( $command ne "Q" ) ) {
             elsif ( $command == 14 ) { $session_name             = command314(); }
             elsif ( $command == 15 ) { $config_location_base     = command_config_location_base(); }
             elsif ( $command == 16 ) { $only_secure_cookies      = command316(); }
+            elsif ( $command == 17 ) { $disable_security_tokens  = command317(); }
+            elsif ( $command == 18 ) { $check_referrer           = command318(); }
         } elsif ( $menu == 5 ) {
             if ( $command == 1 ) { command41(); }
             elsif ( $command == 2 ) { $theme_css = command42(); }
@@ -842,7 +850,7 @@ sub command2 {
     print "    to use the default logo, use ../images/sm_logo.png\n";
     print "  - To specify a logo defined outside the SquirrelMail source tree\n";
     print "    use the absolute URL the webserver would use to include the file\n";
-    print "    e.g. http://www.example.com/images/mylogo.gif or /images/mylogo.jpg\n";
+    print "    e.g. http://example.com/images/mylogo.gif or /images/mylogo.jpg\n";
     print "\n";
     print "[$WHT$org_logo$NRM]: $WHT";
     $new_org_logo = <STDIN>;
@@ -940,12 +948,12 @@ sub command6 {
 # Default link to provider
 sub command7 {
     print "Here you can set the link on the right of the page.\n";
-    print "The default is 'http://www.squirrelmail.org/'\n";
+    print "The default is 'http://squirrelmail.org/'\n";
     print "\n";
     print "[$WHT$provider_uri$NRM]: $WHT";
     $new_provider_uri = <STDIN>;
     if ( $new_provider_uri eq "\n" ) {
-        $new_provider_uri = 'http://www.squirrelmail.org/';
+        $new_provider_uri = 'http://squirrelmail.org/';
     } else {
         $new_provider_uri =~ s/[\r|\n]//g;
         $new_provider_uri =~ s/^\s+$//g;
@@ -1498,17 +1506,22 @@ sub command113 {
 
 # $encode_header_key
 sub command114{
-    print "Encryption key allows to hide SquirrelMail Received: headers\n";
-    print "in outbound messages. Interface uses encryption key to encode\n";
-    print "username, remote address and proxied address, then stores encoded\n";
-    print "information in X-Squirrel-* headers.\n";
+    print "This encryption key allows the hiding of SquirrelMail Received:\n";
+    print "headers in outbound messages.  SquirrelMail uses the encryption\n";
+    print "key to encode the username, remote address, and proxied address\n";
+    print "and then stores that encoded information in X-Squirrel-* headers.\n";
     print "\n";
-    print "Warning: used encryption function is not bulletproof. When used\n";
-    print "with static encryption keys, it provides only minimal security\n";
-    print "measures and information can be decoded quickly.\n";
+    print "Warning: the encryption function used to accomplish this is not\n";
+    print "bulletproof. When used with a static encryption key as it is here,\n";
+    print "it provides only minimal security and the encoded user information\n";
+    print "in the X-Squirrel-* headers can be decoded quickly by a skilled\n";
+    print "attacker.\n";
     print "\n";
-    print "Encoded information can be decoded with decrypt_headers.php script\n";
-    print "from SquirrelMail contrib/ directory.\n";
+    print "When you need to inspect an email sent from your system with the\n";
+    print "X-Squirrel-* headers, you can decode the user information therein\n";
+    print "by using the decrypt_headers.php script found in the SquirrelMail\n";
+    print "contrib/ directory. You'll need the encryption key that you\n";
+    print "defined here when doing so.\n";
     print "\n";
     print "Enter encryption key: ";
     $new_encode_header_key = <STDIN>;
@@ -2227,9 +2240,13 @@ sub command38 {
 }
 
 sub command39 {
-    print "This allows you to prevent the editing of the user's name and ";
-    print "email address. This is mainly useful when used with the ";
-    print "retrieveuserdata plugin\n";
+    print "In loosely managed environments, you may want to allow users\n";
+    print "to edit their full name and email address. In strictly managed\n";
+    print "environments, you may want to force users to use the name\n";
+    print "and email address assigned to them.\n";
+    print "\n";
+    print "'y' - allow a user to edit their full name and email address,\n";
+    print "'n' - users must use the assigned values.\n";
     print "\n";
 
     if ( lc($edit_identity) eq "true" ) {
@@ -2252,8 +2269,9 @@ sub command39 {
 }
 
 sub command39a {
-    print "As a follow-up, this option allows you to choose if the user ";
-    print "can edit their full name even when you don't want them to ";
+    print $NRM;
+    print "\nAs a follow-up, this option allows you to choose if the user\n";
+    print "can edit their full name even when you don't want them to\n";
     print "change their username\n";
     print "\n";
 
@@ -2273,14 +2291,22 @@ sub command39a {
 }
 
 sub command39b {
-    print "SquirrelMail adds username information to every sent email.";
-    print "It is done in order to prevent possible sender forging when ";
-    print "end users are allowed to change their email and name ";
-    print "information.\n";
+    print $NRM;
+    print "\nSquirrelMail adds username information to every outgoing\n";
+    print "email in order to prevent possible sender forging when\n";
+    print "users are allowed to change their email and/or full name.\n";
     print "\n";
-    print "You can disable this header, if you think that it violates ";
-    print "user's privacy or security. Please note, that setting will ";
-    print "work only when users are not allowed to change their identity.\n";
+    print "You can remove user information from this header (y) if you\n";
+    print "think that it violates privacy or security.\n";
+    print "\n";
+    print "Note: SquirrelMail will refuse to remove that information\n";
+    print "from the email headers if users are allowed to change their\n";
+    print "identities, regardless of what you have set here.\n";
+    print "\n";
+    print "Note: If you have defined a header encryption key in your SMTP\n";
+    print "or Sendmail settings (see the \"Server Settings\" option page),\n";
+    print "this setting is ignored because all user information in outgoing\n";
+    print "messages is encoded.\n";
     print "\n";
 
     if ( lc($hide_auth_header) eq "true" ) {
@@ -2433,6 +2459,63 @@ sub command316 {
         $only_secure_cookies = 'false';
     }
     return $only_secure_cookies;
+}
+
+
+
+# disable_security_tokens (since 1.4.20RC1)
+sub command317 {
+    print "This option allows you to turn off the security checks in the forms\n";
+    print "that SquirrelMail generates.  It is NOT RECOMMENDED that you disable\n";
+    print "this feature - otherwise, your users may be exposed to phishing and\n";
+    print "other attacks.\n";
+    print "Unless you know what you are doing, you should leave this set to \"NO\".\n";
+    print "\n";
+
+    if ( lc($disable_security_tokens) eq 'true' ) {
+        $default_value = "y";
+    } else {
+        $default_value = "n";
+    }
+    print "Disable secure forms? (y/n) [$WHT$default_value$NRM]: $WHT";
+    $disable_security_tokens = <STDIN>;
+    if ( ( $disable_security_tokens =~ /^y\n/i ) || ( ( $disable_security_tokens =~ /^\n/ ) && ( $default_value eq "y" ) ) ) {
+        $disable_security_tokens = 'true';
+    } else {
+        $disable_security_tokens = 'false';
+    }
+    return $disable_security_tokens;
+}
+
+
+
+# check_referrer (since 1.4.20RC1)
+sub command318 {
+    print "This option allows you to enable referal checks for all page requests\n";
+    print "made to SquirrelMail.  This can help ensure that page requests came\n";
+    print "from the same server and not from an attacker's site (usually the\n";
+    print "result of a XSS or phishing attack).  To enable referal checking,\n";
+    print "this setting can be set to the domain where your SquirrelMail is\n";
+    print "being hosted (usually the same as the Domain setting under Server\n";
+    print "Settings).  For example, it could be \"example.com\", or if you\n";
+    print "use a plugin (such as Login Manager) to host SquirrelMail on more\n";
+    print "than one domain, you can set this to \"###DOMAIN###\" to tell it\n";
+    print "to use the current domain.\n";
+    print "\n";
+    print "However, in some cases (where proxy servers are in use, etc.), the\n";
+    print "domain might be different.\n";
+    print "\n";
+    print "NOTE that referal checks are not foolproof - they can be spoofed by\n";
+    print "browsers, and some browsers intentionally don't send referal\n";
+    print "information (in which case, the check is silently bypassed)\n";
+    print "\n";
+
+    print "Referal requirement? [$WHT$check_referrer$NRM]: $WHT";
+    $new_check_referrer = <STDIN>;
+    chomp($new_check_referrer);
+    $check_referrer = $new_check_referrer;
+
+    return $check_referrer;
 }
 
 
@@ -2605,7 +2688,7 @@ sub command42 {
     print "    to use the themes directory, use ../themes/css/newdefault.css\n";
     print "  - To specify a css file defined outside the SquirrelMail source tree\n";
     print "    use the absolute URL the webserver would use to include the file\n";
-    print "    e.g. http://www.example.com/css/mystyle.css or /css/mystyle.css\n";
+    print "    e.g. http://example.com/css/mystyle.css or /css/mystyle.css\n";
     print "\n";
     print "[$WHT$theme_css$NRM]: $WHT";
     $new_theme_css = <STDIN>;
@@ -3484,10 +3567,14 @@ sub save_data {
         print CF "\$session_name = '$session_name';\n";
 
     # boolean
-        print CF "\$only_secure_cookies   = $only_secure_cookies;\n";
+        print CF "\$only_secure_cookies     = $only_secure_cookies;\n";
+        print CF "\$disable_security_tokens = $disable_security_tokens;\n";
+
+    # string
+        print CF "\$check_referrer          = '$check_referrer';\n";
 
         print CF "\n";
-        print CF "\$config_location_base     = '$config_location_base';\n";
+        print CF "\$config_location_base    = '$config_location_base';\n";
 
         print CF "\n";
         print CF "\@include SM_PATH . 'config/config_local.php';\n";
@@ -3694,12 +3781,13 @@ sub set_defaults {
 # the SM directory tree, the SM_PATH variable will be 
 # prepended to the path, if not, then the path will be
 # converted to an absolute path, e.g.
-#   '../images/logo.gif'      --> SM_PATH . 'images/logo.gif'
-#   '../../someplace/data'    --> '/absolute/path/someplace/data'
-#   'images/logo.gif'         --> SM_PATH . 'config/images/logo.gif'
-#   '/absolute/path/logo.gif' --> '/absolute/path/logo.gif'
-#   'http://whatever/'        --> 'http://whatever'
-#   $some_var/path            --> "$some_var/path"
+#   '../images/logo.gif'        --> SM_PATH . 'images/logo.gif'
+#   '../../someplace/data'      --> '/absolute/path/someplace/data'
+#   'images/logo.gif'           --> SM_PATH . 'config/images/logo.gif'
+#   '/absolute/path/logo.gif'   --> '/absolute/path/logo.gif'
+#   'C:\absolute\path\logo.gif' --> 'C:\absolute\path\logo.gif'
+#   'http://whatever/'          --> 'http://whatever'
+#   $some_var/path              --> "$some_var/path"
 sub change_to_SM_path() {
     my ($old_path) = @_;
     my $new_path = '';
@@ -3710,7 +3798,7 @@ sub change_to_SM_path() {
     # If the path is absolute, don't bother.
     return "\'" . $old_path . "\'"  if ( $old_path eq '');
     return "\'" . $old_path . "\'"  if ( $old_path =~ /^(\/|http)/ );
-    return "\'" . $old_path . "\'"  if ( $old_path =~ /^\w:\// );
+    return "\'" . $old_path . "\'"  if ( $old_path =~ /^\w:(\\|\/)/ );
     return $old_path                if ( $old_path =~ /^\'(\/|http)/ );
     return $old_path                if ( $old_path =~ /^\'\w:\// );
     return $old_path                if ( $old_path =~ /^SM_PATH/);

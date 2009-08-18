@@ -2,10 +2,10 @@
    /** 
     **  spamcop.php -- SpamCop plugin           
     **
-    **  Copyright (c) 1999-2006 The SquirrelMail Project Team
+    **  Copyright (c) 1999-2009 The SquirrelMail Project Team
     **  Licensed under the GNU GPL. For full terms see the file COPYING.
     **  
-    **  $Id: spamcop.php 12601 2007-08-27 03:06:10Z pdontthink $                                                         
+    **  $Id: spamcop.php 1813 2009-05-22 21:14:24Z benedikt $                                                         
     **/
 
 define('SM_PATH','../../');

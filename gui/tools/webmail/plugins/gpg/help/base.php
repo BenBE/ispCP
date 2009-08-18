@@ -62,7 +62,7 @@ echo '<ul>';
 echo '</ul>';
 
 /**
- * $Id: base.php,v 1.7 2004/01/18 15:25:35 brian Exp $
+ * $Id: base.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * $Log: base.php,v $
  * Revision 1.7  2004/01/18 15:25:35  brian

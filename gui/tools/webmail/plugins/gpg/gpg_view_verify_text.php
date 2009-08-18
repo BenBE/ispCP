@@ -9,7 +9,7 @@
  * A SINGLE FREAKING COMMENT IN! Whoever is responsible for this,
  * be very ashamed.
  *
- * $Id: gpg_view_verify_text.php,v 1.3 2005/07/27 14:07:49 brian Exp $
+ * $Id: gpg_view_verify_text.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 /* Path for SquirrelMail required files. */

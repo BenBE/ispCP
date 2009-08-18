@@ -9,7 +9,7 @@
  *
  * @author Aaron van Meerten
  *
- * $Id: passpop.mod,v 1.23 2005/11/10 16:36:22 ke Exp $
+ * $Id: passpop.mod 1638 2009-04-02 02:35:58Z haeber $
  */
 if (!defined ('SM_PATH')){
     if (file_exists('./gpg_functions.php')){

@@ -12,7 +12,7 @@
  * @author Joshua Vermette
  * @author Brian Peterson
  *
- * $Id: gpg_options_header.php,v 1.8 2005/07/27 14:07:49 brian Exp $
+ * $Id: gpg_options_header.php 1638 2009-04-02 02:35:58Z haeber $
  *
  */
 /*********************************************************************/

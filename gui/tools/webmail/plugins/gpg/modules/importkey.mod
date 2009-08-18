@@ -9,7 +9,7 @@
 * Licensed under the GNU GPL. For full terms see the file COPYING.
 *
 *
-* $Id: importkey.mod,v 1.5 2003/11/04 21:41:01 brian Exp $
+* $Id: importkey.mod 1638 2009-04-02 02:35:58Z haeber $
 */
 /*********************************************************************/
 

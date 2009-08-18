@@ -12,7 +12,7 @@
  * @author Tyler Allison
  * @author Brian Peterson
  *
- * $Id: gpg_pop_functions.php,v 1.17 2005/07/27 14:07:49 brian Exp $
+ * $Id: gpg_pop_functions.php 1638 2009-04-02 02:35:58Z haeber $
  */
 
 /*********************************************************************/

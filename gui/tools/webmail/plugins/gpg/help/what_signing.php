@@ -22,7 +22,7 @@ echo "<p />\n"
     . '<br>';
 
 /**
- * $Id: what_signing.php,v 1.10 2005/11/11 18:02:14 ke Exp $
+ * $Id: what_signing.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * $Log: what_signing.php,v $
  * Revision 1.10  2005/11/11 18:02:14  ke

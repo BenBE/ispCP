@@ -8,7 +8,7 @@
     **
     **  Redirects to the login page.
     **
-    **  $Id: index.php,v 1.1.1.1 2002/12/05 16:47:55 brian Exp $
+    **  $Id: index.php 1638 2009-04-02 02:35:58Z haeber $
     **/
 
    header("Location:../../../src/login.php\n\n");

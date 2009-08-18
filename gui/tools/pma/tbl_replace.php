@@ -5,7 +5,7 @@
  *
  * usally called as form action from tbl_change.php to insert or update table rows
  *
- * @version $Id: tbl_replace.php 11495 2008-08-20 17:04:37Z lem9 $
+ * @version $Id: tbl_replace.php 12651 2009-07-15 09:46:45Z lem9 $
  *
  * @todo 'edit_next' tends to not work as expected if used ... at least there is no order by
  *       it needs the original query and the row number and than replace the LIMIT clause
@@ -36,6 +36,7 @@
  * @uses    $GLOBALS['goto']
  * @uses    $GLOBALS['sql_query']
  * @uses    PMA_File::getRecentBLOBReference()
+ * @package phpMyAdmin
  */
 
 /**
@@ -159,6 +160,8 @@ $func_no_param = array(
     'RAND',
     'USER',
     'LAST_INSERT_ID',
+    'UUID',
+    'CURRENT_USER',
 );
 
 foreach ($loop_array as $rowcount => $primary_key) {
@@ -175,6 +178,10 @@ foreach ($loop_array as $rowcount => $primary_key) {
         isset($_REQUEST['fields']['multi_edit'][$rowcount])
         ? $_REQUEST['fields']['multi_edit'][$rowcount]
         : array();
+    $me_fields_name =
+        isset($_REQUEST['fields_name']['multi_edit'][$rowcount])
+        ? $_REQUEST['fields_name']['multi_edit'][$rowcount]
+        : null;
     $me_fields_prev =
         isset($_REQUEST['fields_prev']['multi_edit'][$rowcount])
         ? $_REQUEST['fields_prev']['multi_edit'][$rowcount]
@@ -202,7 +209,19 @@ foreach ($loop_array as $rowcount => $primary_key) {
 
 	$primary_field = PMA_BS_GetPrimaryField($GLOBALS['db'], $GLOBALS['table']);
 
+    // Fetch the current values of a row to use in case we have a protected field
+    // @todo possibly move to ./libraries/tbl_replace_fields.inc.php
+    if ($is_insert && $using_key && isset($me_fields_type) &&
+        is_array($me_fields_type) && isset($primary_key)) {
+        $prot_result = PMA_DBI_query('SELECT * FROM ' .
+                PMA_backquote($table) . ' WHERE ' . $primary_key . ';');
+        $prot_row = PMA_DBI_fetch_assoc($prot_result);
+        PMA_DBI_free_result($prot_result);
+        unset($prot_result);
+    }
     foreach ($me_fields as $key => $val) {
+
+        // Note: $key is an md5 of the fieldname. The actual fieldname is available in $me_fields_name[$key]
 
         require './libraries/tbl_replace_fields.inc.php';
 
@@ -234,7 +253,7 @@ foreach ($loop_array as $rowcount => $primary_key) {
 				$val = "'" . PMA_sqlAddslashes($bs_reference) . "'";
 		}
 	}
-        
+
         if (empty($me_funcs[$key])) {
             $cur_value = $val;
         } elseif ('UNIX_TIMESTAMP' === $me_funcs[$key] && $val != "''") {
@@ -252,7 +271,7 @@ foreach ($loop_array as $rowcount => $primary_key) {
                 $query_values[] = $cur_value;
                 // first inserted row so prepare the list of fields
                 if (empty($value_sets)) {
-                    $query_fields[] = PMA_backquote($key);
+                    $query_fields[] = PMA_backquote($me_fields_name[$key]);
                 }
             }
 
@@ -261,7 +280,7 @@ foreach ($loop_array as $rowcount => $primary_key) {
          && !isset($me_fields_null[$key])) {
             // field had the null checkbox before the update
             // field no longer has the null checkbox
-            $query_values[] = PMA_backquote($key) . ' = ' . $cur_value;
+            $query_values[] = PMA_backquote($me_fields_name[$key]) . ' = ' . $cur_value;
         } elseif (empty($me_funcs[$key])
          && isset($me_fields_prev[$key])
          && ("'" . PMA_sqlAddslashes($me_fields_prev[$key]) . "'" == $val)) {
@@ -273,7 +292,7 @@ foreach ($loop_array as $rowcount => $primary_key) {
             //  field still has the null checkbox)
             if (!(! empty($me_fields_null_prev[$key])
              && isset($me_fields_null[$key]))) {
-                $query_values[] = PMA_backquote($key) . ' = ' . $cur_value;
+                 $query_values[] = PMA_backquote($me_fields_name[$key]) . ' = ' . $cur_value;
             }
         }
     } // end foreach ($me_fields as $key => $val)
@@ -284,12 +303,12 @@ foreach ($loop_array as $rowcount => $primary_key) {
         } else {
             // build update query
             $query[] = 'UPDATE ' . PMA_backquote($GLOBALS['db']) . '.' . PMA_backquote($GLOBALS['table'])
-                    . ' SET ' . implode(', ', $query_values) . ' WHERE ' . $primary_key . ' LIMIT 1';
+                . ' SET ' . implode(', ', $query_values) . ' WHERE ' . $primary_key . ' LIMIT 1';
 
         }
     }
 } // end foreach ($loop_array as $primary_key)
-unset($me_fields_prev, $me_funcs, $me_fields_type, $me_fields_null, $me_fields_null_prev,
+unset($me_fields_name, $me_fields_prev, $me_funcs, $me_fields_type, $me_fields_null, $me_fields_null_prev,
     $me_auto_increment, $cur_value, $key, $val, $loop_array, $primary_key, $using_key,
     $func_no_param);
 
@@ -324,6 +343,10 @@ if (! empty($GLOBALS['sql_query'])) {
     $return_to_sql_query = $GLOBALS['sql_query'];
 }
 $GLOBALS['sql_query'] = implode('; ', $query) . ';';
+// to ensure that the query is displayed in case of 
+// "insert as new row" and then "insert another new row"
+$GLOBALS['display_query'] = $GLOBALS['sql_query'];
+
 $total_affected_rows = 0;
 $last_messages = array();
 $warning_messages = array();
@@ -397,7 +420,23 @@ $GLOBALS['js_include'][] = 'functions.js';
 $GLOBALS['js_include'][] = 'mootools.js';
 
 $active_page = $goto_include;
+
+/**
+ * If user asked for "and then Insert another new row" we have to remove
+ * primary key information so that tbl_change.php does not go back
+ * to the current record
+ */
+if (isset($_REQUEST['after_insert']) && 'new_insert' == $_REQUEST['after_insert']) {
+        unset($_REQUEST['primary_key']);
+}
+
+/**
+ * Load header.
+ */
 require_once './libraries/header.inc.php';
+/**
+ * Load target page.
+ */
 require './' . PMA_securePath($goto_include);
 exit;
 ?>

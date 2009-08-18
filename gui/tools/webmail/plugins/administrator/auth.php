@@ -5,9 +5,9 @@
  * This function tell other modules what users have access
  * to the plugin.
  *
- * @version $Id: auth.php 12805 2007-12-06 19:09:41Z pdontthink $
+ * @version $Id: auth.php 1813 2009-05-22 21:14:24Z benedikt $
  * @author Philippe Mingo
- * @copyright (c) 1999-2006 The SquirrelMail Project Team
+ * @copyright (c) 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package plugins
  * @subpackage administrator

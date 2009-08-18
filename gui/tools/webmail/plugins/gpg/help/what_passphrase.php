@@ -30,7 +30,7 @@ echo    _("Your secret passphrase should be as long as possible and easy for you
 
 
 /**
- * $Id: what_passphrase.php,v 1.6 2003/11/03 19:46:49 brian Exp $
+ * $Id: what_passphrase.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * $Log: what_passphrase.php,v $
  * Revision 1.6  2003/11/03 19:46:49  brian

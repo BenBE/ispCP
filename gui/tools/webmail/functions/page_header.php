@@ -5,9 +5,9 @@
  *
  * Prints the page header (duh)
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: page_header.php 13289 2008-09-28 13:19:08Z kink $
+ * @version $Id: page_header.php 13537 2009-04-13 16:52:57Z jervfors $
  * @package squirrelmail
  *
  * @modified by ispCP Omega Team http://isp-control.net
@@ -256,8 +256,8 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
         $shortBoxName = _("INBOX");
     }
     //
-	// Modified by ispCP Omega - http://isp-control.net
-	//
+    // Modified by ispCP Omega - http://isp-control.net
+    //
     echo "<a name=\"pagetop\"></a>\n"
     /**** commented out
         . html_tag( 'table', '', '', $color[4], 'border="0" width="100%" cellspacing="0" cellpadding="2"' ) ."\n"
@@ -326,7 +326,7 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
     if (!$hide_sm_attributions)
     {
         echo html_tag( 'td', '', 'right' ) ."\n";
-        if (!isset($provider_uri)) $provider_uri= 'http://www.squirrelmail.org/';
+        if (!isset($provider_uri)) $provider_uri= 'http://squirrelmail.org/';
         if (!isset($provider_name)) $provider_name= 'SquirrelMail';
         echo '<a href="'.$provider_uri.'" target="_blank">'.$provider_name.'</a>';
         echo "</td>\n";
@@ -358,10 +358,7 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
 	// Modified by ispCP Omega - http://isp-control.net
 	//
 	echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n
-		    <tr>\n
-			  <td class=\"top_left_bar_handle\" width=\"5px\">\n
-	            <div align=\"right\"><img src=\"".$base_uri."images/blank.png\"></div>\n
-			</td>\n";
+		    <tr>\n";
 	if ( $shortBoxName <> '' && strtolower( $shortBoxName ) <> 'none' ) {
         echo "      <td align=\"left\" class=\"inbox_bar_header\">" . _("Current Folder") . ": <b>$shortBoxName&nbsp;</b></td>\n";
     } else {
@@ -374,7 +371,7 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
 	// End Modification
 	//
 	echo "   </tr>\n
-		  </table><br>\n\n";
+		  </table>\n\n";
 }
 
 /* blatently copied/truncated/modified from the above function */
@@ -446,3 +443,4 @@ function compose_Header($color, $mailbox) {
 
     echo "<body text=\"$color[8]\" bgcolor=\"$color[4]\" link=\"$color[7]\" vlink=\"$color[7]\" alink=\"$color[7]\" $onload>\n\n";
 }
+

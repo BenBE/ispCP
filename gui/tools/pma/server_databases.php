@@ -2,7 +2,8 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: server_databases.php 11580 2008-09-09 17:05:58Z lem9 $
+ * @version $Id: server_databases.php 12242 2009-02-20 09:22:20Z lem9 $
+ * @package phpMyAdmin
  */
 
 /**
@@ -162,7 +163,7 @@ if ($databases_count > 0) {
     echo '<table id="tabledatabases" class="data">' . "\n"
        . '<thead>' . "\n"
        . '<tr>' . "\n"
-       . ($is_superuser || $cfg['AllowUserDropDatabase'] ? '        <th>&nbsp;</th>' . "\n" : '')
+       . ($is_superuser || $cfg['AllowUserDropDatabase'] ? '        <th></th>' . "\n" : '')
        . '    <th><a href="./server_databases.php' . PMA_generate_common_url($_url_params) . '">' . "\n"
        . '            ' . $strDatabase . "\n"
        . ($sort_by == 'SCHEMA_NAME' ? '                <img class="icon" src="' . $pmaThemeImage . 's_' . $sort_order . '.png" width="11" height="9"  alt="' . ($sort_order == 'asc' ? $strAscending : $strDescending) . '" />' . "\n" : '')
@@ -187,7 +188,7 @@ if ($databases_count > 0) {
         }
     }
     if ($is_superuser) {
-        echo '    <th>' . ($cfg['PropertiesIconic'] ? '&nbsp;' : $strAction) . "\n"
+        echo '    <th>' . ($cfg['PropertiesIconic'] ? '' : $strAction) . "\n"
            . '    </th>' . "\n";
     }
     echo '</tr>' . "\n"
@@ -211,7 +212,7 @@ if ($databases_count > 0) {
         }
         echo '    <td class="name">' . "\n"
            . '        <a onclick="'
-           . 'if (window.parent.openDb && window.parent.openDb(\'' . PMA_jsFormat($current['SCHEMA_NAME'], false) . '\')) return false;'
+           . 'if (window.parent.openDb &amp;&amp; window.parent.openDb(\'' . PMA_jsFormat($current['SCHEMA_NAME'], false) . '\')) return false;'
            . '" href="index.php?' . $url_query . '&amp;db='
            . urlencode($current['SCHEMA_NAME']) . '" title="'
            . sprintf($strJumpToDB, htmlspecialchars($current['SCHEMA_NAME']))
@@ -249,10 +250,9 @@ if ($databases_count > 0) {
 
         if ($is_superuser) {
             echo '    <td class="tool">' . "\n"
-               . '        <a onclick="
-                    // <![CDATA[
-                    if (window.parent.setDb) window.parent.setDb(\'' . PMA_jsFormat($current['SCHEMA_NAME']) . '\');
-                    // ]]>" href="./server_privileges.php?' . $url_query
+               . '        <a onclick="'
+               . 'if (window.parent.setDb) window.parent.setDb(\'' . PMA_jsFormat($current['SCHEMA_NAME']) . '\');'
+               . '" href="./server_privileges.php?' . $url_query
                . '&amp;checkprivs=' . urlencode($current['SCHEMA_NAME'])
                . '" title="' . sprintf($strCheckPrivsLong, htmlspecialchars($current['SCHEMA_NAME']))
                . '">'. "\n"
@@ -268,7 +268,7 @@ if ($databases_count > 0) {
 
     echo '<tr>' . "\n";
     if ($is_superuser || $cfg['AllowUserDropDatabase']) {
-        echo '    <th>&nbsp;</th>' . "\n";
+        echo '    <th></th>' . "\n";
     }
     echo '    <th>' . $strTotalUC . ': ' . $databases_count . '</th>' . "\n";
     foreach ($column_order as $stat_name => $stat) {
@@ -295,7 +295,7 @@ if ($databases_count > 0) {
         }
     }
     if ($is_superuser) {
-        echo '    <th>&nbsp;</th>' . "\n";
+        echo '    <th></th>' . "\n";
     }
     echo '</tr>' . "\n";
     echo '</tbody>' . "\n"

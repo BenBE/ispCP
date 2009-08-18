@@ -11,7 +11,7 @@
  *
  * @package gpg
  *
- * $Id: gpg_pop_init.php,v 1.15 2007/07/07 14:19:04 brian Exp $
+ * $Id: gpg_pop_init.php 1638 2009-04-02 02:35:58Z haeber $
  *
  */
 if (!defined ('SM_PATH')){

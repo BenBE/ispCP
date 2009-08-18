@@ -3,10 +3,10 @@
 /**
  * setup.php
  *
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
- * @version $Id: setup.php 12256 2007-02-13 07:54:18Z jervfors $
+ * @version $Id: setup.php 1813 2009-05-22 21:14:24Z benedikt $
  * @package plugins
  * @subpackage translate
  */

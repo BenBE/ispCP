@@ -6,7 +6,7 @@
 // Distributed under the same terms as HTMLArea itself.
 // This notice MUST stay intact for use (see license.txt).
 //
-// $Id: css.js,v 1.5 2005/01/20 17:49:03 mishoo Exp $
+// $Id: css.js 1638 2009-04-02 02:35:58Z haeber $
 
 function CSS(editor, params) {
 	this.editor = editor;

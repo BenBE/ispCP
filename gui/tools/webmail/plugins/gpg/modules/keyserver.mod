@@ -10,7 +10,7 @@
  * Unfortunately, we use HTTP screen scraping to look up keys.
  * Ideally, we would use HKS or LDAP to look up keys.
  *
- * $Id: keyserver.mod,v 1.28 2006/01/08 02:47:20 ke Exp $
+ * $Id: keyserver.mod 1638 2009-04-02 02:35:58Z haeber $
  *
  * $Author: ke $
  * $Date: 2006/01/08 02:47:20 $

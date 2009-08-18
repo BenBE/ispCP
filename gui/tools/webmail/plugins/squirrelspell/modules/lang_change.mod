@@ -4,14 +4,14 @@
  * ----------------
  * Squirrelspell module
  *
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This module changes the international dictionaries selection
  * for the user. Called after LANG_SETUP module.
  *
  * @author Konstantin Riabitsev <icon@duke.edu>
- * @version $Id: lang_change.mod 12578 2007-08-09 06:53:57Z pdontthink $
+ * @version $Id: lang_change.mod 1813 2009-05-22 21:14:24Z benedikt $
  * @package plugins
  * @subpackage squirrelspell
  */

@@ -10,7 +10,7 @@
 // Version 3.0 developed by Mihai Bazon.
 //   http://dynarch.com/mishoo
 //
-// $Id: dialog.js,v 1.7 2005/01/20 17:49:04 mishoo Exp $
+// $Id: dialog.js 1638 2009-04-02 02:35:58Z haeber $
 
 // Though "Dialog" looks like an object, it isn't really an object.  Instead
 // it's just namespace for protecting global symbols.

@@ -4,14 +4,14 @@
  *
  * Main wrapper for the pop-up.
  *
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This is a main wrapper for the pop-up window interface of
  * SquirrelSpell.
  *
  * @author Konstantin Riabitsev <icon@duke.edu>
- * @version $Id: sqspell_interface.php 11491 2006-08-09 07:07:21Z tokul $
+ * @version $Id: sqspell_interface.php 1813 2009-05-22 21:14:24Z benedikt $
  * @package plugins
  * @subpackage squirrelspell
  */

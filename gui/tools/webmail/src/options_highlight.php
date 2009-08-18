@@ -5,9 +5,9 @@
  *
  * Displays message highlighting options
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: options_highlight.php 12537 2007-07-14 18:34:04Z kink $
+ * @version $Id: options_highlight.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  * @subpackage prefs
  */
@@ -40,6 +40,9 @@ sqGetGlobalVar('color_type', $color_type);
 sqGetGlobalVar('match_type', $match_type);
 sqGetGlobalVar('value', $value);
 
+if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
+    $submitted_token = '';
+}
 /* end of get globals */
  
 function oh_opt( $val, $sel, $tit ) {
@@ -59,6 +62,10 @@ if (! isset($message_highlight_list)) {
 if (isset($theid) && ($action == 'delete') ||
                      ($action == 'up')     ||
                      ($action == 'down')) {
+
+    // security check
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     $new_rules = array();
     switch($action) {
         case('delete'):
@@ -92,6 +99,9 @@ if (isset($theid) && ($action == 'delete') ||
     header( 'Location: options_highlight.php' );
     exit;
 } else if ($action == 'save') {
+
+    // security check
+    sm_validate_security_token($submitted_token, 3600, TRUE);
 
     if ($color_type == 1) $newcolor = $newcolor_choose;
     elseif ($color_type == 2) $newcolor = $newcolor_input;
@@ -364,7 +374,7 @@ if ($action == 'edit' || $action == 'add') {
     else if ($selected_choose == '')
         $selected_input = TRUE;
 
-    echo addForm('options_highlight.php', 'POST', 'f').
+    echo addForm('options_highlight.php', 'POST', 'f', '', '', '', TRUE).
          addHidden('action', 'save');
     if($action == 'edit') {
         echo addHidden('theid', (isset($theid)?$theid:''));
@@ -412,6 +422,7 @@ if ($action == 'edit' || $action == 'add') {
         addInput('newcolor_input',
             (($selected_input && isset($theid)) ? $message_highlight_list[$theid]['color'] : ''),
             '7');
+    // i18n: This is an example on how to write a color in RGB, literally meaning "For example: 63aa7f".
     echo _("Ex: 63aa7f")."<br />\n";
     echo "      </td>\n";
     echo "   </tr>\n";

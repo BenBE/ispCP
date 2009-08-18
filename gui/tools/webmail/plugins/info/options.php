@@ -1,7 +1,7 @@
 <?php
 
 /* options page for IMAP info plugin 
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *   
  * This is where it all happens :)
@@ -9,7 +9,7 @@
  * Written by: Jason Munro 
  * jason@stdbev.com
  * 
- * $Id: options.php 11199 2006-06-12 13:31:55Z kink $
+ * $Id: options.php 1813 2009-05-22 21:14:24Z benedikt $
  * 
  */
 

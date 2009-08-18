@@ -3,9 +3,9 @@
 /**
  * functions to create a event for calendar.
  *
- * @copyright &copy; 2002-2006 The SquirrelMail Project Team
+ * @copyright &copy; 2002-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: event_create.php 11118 2006-05-06 07:52:19Z tokul $
+ * @version $Id: event_create.php 1894 2009-08-11 20:16:14Z scitech $
  * @package plugins
  * @subpackage calendar
  */

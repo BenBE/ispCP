@@ -1,5 +1,5 @@
 #! /usr/bin/perl -w
-# $Id: make-release.pl,v 1.4 2005/01/24 18:28:07 itools Exp $
+# $Id: make-release.pl 1638 2009-04-02 02:35:58Z haeber $
 # Script for creating a distribution archive.
 
 # Original version created by Mihai Bazon, http://dynarch.com/mishoo

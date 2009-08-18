@@ -3,12 +3,19 @@
 /**
  *
  *
- * @version $Id: Config.class.php 12197 2009-01-19 17:32:29Z lem9 $
+ * @version $Id: Config.class.php 12764 2009-08-09 20:58:35Z lem9 $
+ * @package phpMyAdmin
  */
+
+/**
+ * Load vendor configuration.
+ */
+require_once('./libraries/vendor_config.php');
 
 /**
  * Configuration class
  *
+ * @package phpMyAdmin
  */
 class PMA_Config
 {
@@ -85,7 +92,7 @@ class PMA_Config
      */
     function checkSystem()
     {
-        $this->set('PMA_VERSION', '3.1.2');
+        $this->set('PMA_VERSION', '3.2.1');
         /**
          * @deprecated
          */
@@ -297,7 +304,8 @@ class PMA_Config
      */
     function __wakeup()
     {
-        if (! $this->checkConfigSource()
+        if (SKIP_MTIME_CONFIG_CHECK
+          || ! $this->checkConfigSource()
           || $this->source_mtime !== filemtime($this->getSource())
           || $this->default_source_mtime !== filemtime($this->default_source)
           || $this->error_config_file
@@ -401,6 +409,8 @@ class PMA_Config
         //$this->checkPmaAbsoluteUri();
         $this->settings = PMA_array_merge_recursive($this->settings, $cfg);
 
+        $this->checkPermissions();
+
         // Handling of the collation must be done after merging of $cfg
         // (from config.inc.php) so that $cfg['DefaultConnectionCollation']
         // can have an effect. Note that the presence of collation
@@ -475,6 +485,15 @@ class PMA_Config
             die('Existing configuration file (' . $this->getSource() . ') is not readable.');
         }
 
+        return true;
+    }
+
+    /**
+     * verifies the permissions on config file (if asked by configuration) 
+     * (must be called after config.inc.php has been merged)
+     */
+    function checkPermissions()
+    {
         // Check for permissions (on platforms that support it):
         if ($this->get('CheckConfigurationPermissions')) {
             $perms = @fileperms($this->getSource());
@@ -487,8 +506,6 @@ class PMA_Config
                 }
             }
         }
-
-        return true;
     }
 
     /**
@@ -586,9 +603,10 @@ class PMA_Config
 
                 // Host and port
                 if (PMA_getenv('HTTP_HOST')) {
-                    if (strpos(PMA_getenv('HTTP_HOST'), ':') !== false) {
-                        list($url['host'], $url['port']) =
-                            explode(':', PMA_getenv('HTTP_HOST'));
+                    // Prepend the scheme before using parse_url() since this is not part of the RFC2616 Host request-header
+                    $parsed_url = parse_url($url['scheme'] . '://' . PMA_getenv('HTTP_HOST'));
+                    if (!empty($parsed_url['host'])) {
+                        $url = $parsed_url;
                     } else {
                         $url['host'] = PMA_getenv('HTTP_HOST');
                     }

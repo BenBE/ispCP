@@ -10,7 +10,7 @@
  *
  * Copyright (c) 2002-2005 Braverock Ventures
  *
- * $Id: setup.php,v 1.82 2005/11/20 18:06:53 ke Exp $
+ * $Id: setup.php 1638 2009-04-02 02:35:58Z haeber $
  *
  * The gpg_version function required by the SM Plugin quidelines is
  * defined in gpg_pref_functions.php.
