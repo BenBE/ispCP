@@ -53,7 +53,7 @@ install:
 	if [ $(RELEASE) = 'dapper' ] ; then \
 		cp ./proftpd.conf $(ROOT_CONF) ; \
 		cp ./proftpd.conf $(SYSTEM_CONF)/proftpd ; \
-	elif [ $(RELEASE) = 'interpid' ] ; then \
+	elif [ $(RELEASE) = 'interpid' ] || [ $(RELEASE) = 'jaunty' ] || [ $(RELEASE) = 'karmic' ]; then \
 		cp ./proftpd1.3.conf.interpid $(SYSTEM_CONF)/proftpd/proftpd.conf ; \
 		cp ./proftpd1.3.conf.interpid $(ROOT_CONF)/proftpd/proftpd.conf ; \
 	else \
