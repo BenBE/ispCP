@@ -3,8 +3,7 @@
 /**
  * Produce a PDF report (export) from a query
  *
- * @package phpMyAdmin-Export-PDF
- * @version $Id: pdf.php 11986 2008-11-24 11:05:40Z nijel $
+ * @version $Id: pdf.php 11365 2008-07-01 19:21:28Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -36,10 +35,8 @@ if (isset($plugin_list)) {
 define('PMA_PDF_FONT', 'DejaVuSans');
 require_once './libraries/tcpdf/tcpdf.php';
 
-/**
- * Adapted from a LGPL script by Philip Clarke
- * @package phpMyAdmin-Export-PDF
- */
+// Adapted from a LGPL script by Philip Clarke
+
 class PMA_PDF extends TCPDF
 {
     var $tablewidths;
@@ -295,7 +292,7 @@ class PMA_PDF extends TCPDF
                 }
             }
 
-            // loop through the data; any column whose contents
+            // loop through the data; any column whose contents 
             // is greater than the column size is resized
             /**
               * @todo force here a LIMIT to avoid reading all rows

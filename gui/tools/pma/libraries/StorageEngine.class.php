@@ -3,8 +3,7 @@
 /**
  * Library for extracting information about the available storage engines
  *
- * @version $Id: StorageEngine.class.php 11992 2008-11-24 11:14:37Z nijel $
- * @package phpMyAdmin
+ * @version $Id: StorageEngine.class.php 11665 2008-10-19 10:51:12Z lem9 $
  */
 
 /**
@@ -22,7 +21,6 @@ define('PMA_ENGINE_DETAILS_TYPE_BOOLEAN',   3); // 'ON' or 'OFF'
 
 /**
  * base Storage Engine Class
- * @package phpMyAdmin
  */
 class PMA_StorageEngine
 {
@@ -142,7 +140,7 @@ class PMA_StorageEngine
      * @static
      * @uses    PMA_StorageEngine::getStorageEngines()
      * @param   string  $engine name of engine
-     * @return  boolean whether $engine is valid or not
+     * @reutrn  boolean whether $engine is valid or not
      */
     static public function isValid($engine)
     {

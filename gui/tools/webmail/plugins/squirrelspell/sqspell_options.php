@@ -4,11 +4,11 @@
  *
  * Main wrapper for the options interface.
  *
- * Copyright (c) 1999-2009 The SquirrelMail Project Team
+ * Copyright (c) 1999-2006 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * @author Konstantin Riabitsev <icon@duke.edu>
- * @version $Id: sqspell_options.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: sqspell_options.php 11491 2006-08-09 07:07:21Z tokul $
  * @package plugins
  * @subpackage squirrelspell
  */

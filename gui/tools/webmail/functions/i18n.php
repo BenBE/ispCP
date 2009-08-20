@@ -9,9 +9,9 @@
  * Internally the output character set is used. Other characters are
  * encoded using Unicode entities according to HTML 4.0.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2008 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: i18n.php 13800 2009-07-29 02:21:06Z pdontthink $
+ * @version $Id: i18n.php 13309 2008-10-27 23:11:38Z pdontthink $
  * @package squirrelmail
  * @subpackage i18n
  */
@@ -35,7 +35,7 @@ require_once(SM_PATH . 'functions/global.php');
  * @param string $domain_name The name of the text domain
  *                            (usually the plugin name, or
  *                            "squirrelmail") being switched to.
- * @param string $directory   The directory that contains
+ * @param string $directory   The directory that contains 
  *                            all translations for the domain
  *                            (OPTIONAL; default is SquirrelMail
  *                            locale directory).
@@ -44,12 +44,12 @@ require_once(SM_PATH . 'functions/global.php');
  *                *BEFORE* it is changed herein - NOTE that
  *                this differs from PHP's textdomain()
  *
- * @since 1.4.10 and 1.5.2
+ * @since 1.5.2 and 1.4.10
  */
 function sq_change_text_domain($domain_name, $directory='') {
+
     global $use_gettext;
     static $domains_already_seen = array();
-
     $return_value = textdomain(NULL);
 
     // empty domain defaults to "squirrelmail"
@@ -66,7 +66,7 @@ function sq_change_text_domain($domain_name, $directory='') {
 
     $domains_already_seen[] = $domain_name;
 
-    if (empty($directory)) $directory = SM_PATH . 'locale/';
+    if (empty($directory)) $directory = SM_PATH . 'locale/'; 
 
     sq_bindtextdomain($domain_name, $directory);
     textdomain($domain_name);
@@ -77,21 +77,20 @@ function sq_change_text_domain($domain_name, $directory='') {
 /**
  * Gettext bindtextdomain wrapper.
  *
- * Wrapper solves differences between php versions in order to provide
- * ngettext support. Should be used if translation uses ngettext
- * functions.
- *
- * This also provides a bind_textdomain_codeset call to make sure the
+ * This provides a bind_textdomain_codeset call to make sure the
  * domain's encoding will not be overridden.
  *
- * @since 1.4.10 and 1.5.1
+ * @since 1.4.10
+ *
  * @param string $domain gettext domain name
  * @param string $dir directory that contains all translations (OPTIONAL;
  *                    if not specified, defaults to SquirrelMail locale
  *                    directory)
+ *
  * @return string path to translation directory
  */
 function sq_bindtextdomain($domain,$dir='') {
+
     global $languages, $sm_notAlias;
 
     if (empty($dir)) $dir = SM_PATH . 'locale/';
@@ -99,10 +98,12 @@ function sq_bindtextdomain($domain,$dir='') {
     $dir = bindtextdomain($domain, $dir);
 
     // set codeset in order to avoid gettext charset conversions
+    //
     if (function_exists('bind_textdomain_codeset')
      && isset($languages[$sm_notAlias]['CHARSET'])) {
 
         // Japanese translation uses different internal charset
+        //
         if ($sm_notAlias == 'ja_JP') {
             bind_textdomain_codeset ($domain, 'EUC-JP');
         } else {
@@ -125,8 +126,8 @@ function sq_bindtextdomain($domain,$dir='') {
  *     (LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME)
  * @param mixed $locale option contains array with possible locales or string with one locale
  * @return string name of set locale or false, if all locales fail.
- * @since 1.4.5 and 1.5.1
- * @see http://php.net/setlocale
+ * @since 1.5.1 and 1.4.5
+ * @see http://www.php.net/setlocale
  */
 function sq_setlocale($category,$locale) {
     if (is_string($locale)) {
@@ -149,7 +150,7 @@ function sq_setlocale($category,$locale) {
     if (preg_match("/^.*\/.*\/.*\/.*\/.*\/.*$/",$ret)) {
         /**
          * Welcome to We-Don't-Follow-Own-Fine-Manual department
-         * OpenBSD 3.8, 3.9-current and maybe later versions
+         * OpenBSD 3.8, 3.9-current and maybe later versions 
          * return invalid response to setlocale command.
          * SM bug report #1427512.
          */
@@ -170,9 +171,9 @@ function sq_setlocale($category,$locale) {
  * @param string $charset
  * @param string $string Text to be decoded
  * @param boolean $force_decode converts string to html without $charset!=$default_charset check.
- * Argument is available since 1.4.5 and 1.5.1.
- * @param boolean $save_html disables htmlspecialchars() in order to preserve
- *  html formating. Use with care. Available since 1.4.6 and 1.5.1
+ * Argument is available since 1.5.1 and 1.4.5.
+ * @param boolean $save_html disables htmlspecialchars() in order to preserve 
+ *  html formating. Use with care. Available since 1.5.1 and 1.4.6
  * @return string decoded string
  */
 function charset_decode ($charset, $string, $force_decode=false, $save_html=false) {
@@ -187,7 +188,7 @@ function charset_decode ($charset, $string, $force_decode=false, $save_html=fals
     if (! $save_html) $string = htmlspecialchars ($string);
     $charset = strtolower($charset);
 
-    set_my_charset();
+    set_my_charset() ;
 
     // Don't do conversion if charset is the same.
     if ( ! $force_decode && $charset == strtolower($default_charset) )
@@ -215,7 +216,7 @@ function charset_decode ($charset, $string, $force_decode=false, $save_html=fals
  * @param string $string
  * @param string $charset
  * @param boolean $htmlencode keep htmlspecialchars encoding
- * @return string
+ * @param string
  */
 function charset_encode($string,$charset,$htmlencode=true) {
     global $default_charset;
@@ -240,12 +241,13 @@ function charset_encode($string,$charset,$htmlencode=true) {
     /**
      * Undo html special chars, some places (like compose form) have
      * own sanitizing functions and don't need html symbols.
-     * Undo chars only after encoding in order to prevent conversion of
+     * Undo chars only after encoding in order to prevent conversion of 
      * html entities in plain text emails.
      */
     if (! $htmlencode ) {
         $ret = str_replace(array('&amp;','&gt;','&lt;','&quot;'),array('&','>','<','"'),$ret);
     }
+
     return( $ret );
 }
 
@@ -271,27 +273,23 @@ function charset_convert($in_charset,$string,$out_charset,$htmlencode=true) {
  * Makes charset name suitable for decoding cycles
  *
  * ks_c_5601_1987, x-euc-* and x-windows-* charsets are supported
- * since 1.4.6 and 1.5.1.
- *
- * @since 1.4.4 and 1.5.0
+ * since 1.5.1/1.4.6
  * @param string $charset Name of charset
  * @return string $charset Adjusted name of charset
+ * @since 1.5.1 and 1.4.4
  */
 function fixcharset($charset) {
-
-    /* Remove minus and characters that might be used in paths from charset
+    /* remove minus and characters that might be used in paths from charset
      * name in order to be able to use it in function names and include calls.
-     * Also make sure it's in lower case (ala "UTF" --> "utf")
      */
-    $charset=preg_replace("/[-:.\/\\\]/",'_', strtolower($charset));
+    $charset=preg_replace("/[-:.\/\\\]/",'_',$charset);
 
-    // OE ks_c_5601_1987 > cp949
+    // OE ks_c_5601_1987 > cp949 
     $charset=str_replace('ks_c_5601_1987','cp949',$charset);
     // Moz x-euc-tw > euc-tw
     $charset=str_replace('x_euc','euc',$charset);
     // Moz x-windows-949 > cp949
     $charset=str_replace('x_windows_','cp',$charset);
-
     // windows-125x and cp125x charsets
     $charset=str_replace('windows_','cp',$charset);
 
@@ -305,33 +303,17 @@ function fixcharset($charset) {
     return $charset;
 }
 
-/**
+/*
  * Set up the language to be output
  * if $do_search is true, then scan the browser information
  * for a possible language that we know
- *
- * Function sets system locale environment (LC_ALL, LANG, LANGUAGE),
- * gettext translation bindings and html header information.
- *
- * Function returns error codes, if there is some fatal error.
- *  0 = no error,
- *  1 = mbstring support is not present,
- *  2 = mbstring support is not present, user's translation reverted to en_US.
- *
- * @param string $sm_language  Translation used by user's interface
- * @param bool   $do_search    Use browser's preferred language detection functions.
- *                             Defaults to false.
- * @param bool   $default      Set $sm_language to $squirrelmail_default_language if
- *                             language detection fails or language is not set.
- *                             Defaults to false.
- * @return int function execution error codes.
- *
  */
 function set_up_language($sm_language, $do_search = false, $default = false) {
 
     static $SetupAlready = 0;
-    global $use_gettext, $languages, $squirrelmail_language,
-           $squirrelmail_default_language, $default_charset, $sm_notAlias;
+    global $use_gettext, $languages,
+           $squirrelmail_language, $squirrelmail_default_language, 
+           $default_charset, $sm_notAlias;
 
     if ($SetupAlready) {
         return;
@@ -341,33 +323,20 @@ function set_up_language($sm_language, $do_search = false, $default = false) {
     sqgetGlobalVar('HTTP_ACCEPT_LANGUAGE',  $accept_lang, SQ_SERVER);
 
     /**
-     * If function is asked to detect preferred language
-     *  OR SquirrelMail default language is set to empty string
-     *    AND
-     * SquirrelMail language ($sm_language) is empty string
-     * (not set in user's prefs and no cookie with language info)
-     *    AND
-     * browser provides list of preferred languages
-     *  THEN
-     * get preferred language from HTTP_ACCEPT_LANGUAGE header
+     * detect preferred language from header when SquirrelMail asks for
+     * it or when default language is set to empty string.
      */
     if (($do_search || empty($squirrelmail_default_language)) &&
         ! $sm_language &&
         isset($accept_lang)) {
-        // TODO: use more than one language, if first language is not available
-        // FIXME: function assumes that string contains two or more characters.
-        // FIXME: some languages use 5 chars
         $sm_language = substr($accept_lang, 0, 2);
     }
 
     /**
-     * If language preference is not set OR script asks to use default language
-     *  AND
-     * default SquirrelMail language is not set to empty string
-     *  THEN
-     * use default SquirrelMail language value from configuration.
+     * Use default language when it is not detected or when script
+     * asks to use default language.
      */
-    if ((!$sm_language||$default) &&
+    if ((!$sm_language||$default) && 
         ! empty($squirrelmail_default_language)) {
         $squirrelmail_language = $squirrelmail_default_language;
         $sm_language = $squirrelmail_default_language;
@@ -378,9 +347,11 @@ function set_up_language($sm_language, $do_search = false, $default = false) {
 
     $sm_notAlias = $sm_language;
 
-    // Catching removed translation
-    // System reverts to English translation if user prefs contain translation
-    // that is not available in $languages array
+    /**
+     * Catch removed translation
+     * System reverts to English translation if user prefs contain translation
+     * that is not available in $languages array
+     */
     if (!isset($languages[$sm_notAlias])) {
         $sm_notAlias="en_US";
     }
@@ -446,10 +417,10 @@ function set_up_language($sm_language, $do_search = false, $default = false) {
 
                 // don't display mbstring warning when user isn't logged
                 // in because the user may not be using SM for Japanese;
-                // also don't display on webmail page so user has the
+                // also don't display on webmail page so user has the 
                 // chance to go back and revert their language setting
                 // until admin can get their act together
-                if (sqGetGlobalVar('user_is_logged_in', $user_is_logged_in, SQ_SESSION)
+                if (sqGetGlobalVar('user_is_logged_in', $user_is_logged_in, SQ_SESSION) 
                  && $user_is_logged_in && PAGE_NAME != 'webmail') {
                     echo _("You need to have PHP installed with the multibyte string function enabled (using configure option --enable-mbstring).");
                     // Revert to English link has to be added.
@@ -467,22 +438,8 @@ function set_up_language($sm_language, $do_search = false, $default = false) {
         } else {
             header( 'Content-Type: text/html; charset=' . $languages[$sm_notAlias]['CHARSET'] );
         }
-        /**
-         * mbstring.func_overload fix (#929644).
-         *
-         * php mbstring extension can replace standard string functions with their multibyte
-         * equivalents. See http://php.net/ref.mbstring#mbstring.overload. This feature
-         * was added in php v.4.2.0
-         *
-         * Some SquirrelMail functions work with 8bit strings in bytes. If interface is forced
-         * to use mbstring functions and mbstring internal encoding is set to multibyte charset,
-         * interface can't trust regular string functions. Due to mbstring overloading design
-         * limits php scripts can't control this setting.
-         *
-         * This hack should fix some issues related to 8bit strings in passwords. Correct fix is
-         * to disable mbstring overloading. Japanese translation uses different internal encoding.
-         */
-        if ($squirrelmail_language != 'ja_JP' &&
+        // mbstring.func_overload<>0 fix. See cvs HEAD comments.
+        if ($squirrelmail_language != 'ja_JP' && 
             function_exists('mb_internal_encoding') &&
             check_php_version(4,2,0) &&
             (int)ini_get('mbstring.func_overload')!=0) {
@@ -492,13 +449,11 @@ function set_up_language($sm_language, $do_search = false, $default = false) {
 }
 
 /**
- * Sets default_charset variable according to the one that is used by user's
- * translations.
+ * Sets default_charset variable according to the one that is used by user's translations.
  *
- * Function changes global $default_charset variable in order to be sure, that
- * it contains charset used by user's translation. Sanity of
- * $squirrelmail_language and $default_charset combination provided in the
- * SquirrelMail configuration is also tested.
+ * Function changes global $default_charset variable in order to be sure, that it
+ * contains charset used by user's translation. Sanity of $squirrelmail_language
+ * and $default_charset combination provided in SquirrelMail config is also tested.
  *
  * There can be a $default_charset setting in the
  * config.php file, but the user may have a different language
@@ -555,9 +510,9 @@ function is_conversion_safe($input_charset) {
     switch ($default_charset) {
     case "windows-1251":
         if ( $input_charset == "iso-8859-5" ||
-                $input_charset == "koi8-r" ||
-                $input_charset == "koi8-u" ) {
-            return true;
+           $input_charset == "koi8-r" ||
+           $input_charset == "koi8-u" ) {
+        return true;
         } else {
             return false;
         }
@@ -644,38 +599,38 @@ function japanese_charset_xtra() {
             $ret = mb_strimwidth($ret, 0, $width, '...');
             break;
         case 'encodeheader':
-            /**
-             * First argument ($ret) contains header string.
-             * SquirrelMail ja_JP translation uses euc-jp as internal encoding.
-             * euc-jp stores Japanese letters in 0xA1-0xFE block (source:
-             * JIS X 0208 unicode.org mapping. see euc_jp.php in extra decoding
-             * library). Standard SquirrelMail 8bit test should detect if text
-             * is in euc or in ascii.
-             */
-            if (sq_is8bit($ret)) {
-                /**
-                 * Minimize dependency on mb_mime_encodeheader(). PHP 4.4.1 bug
-                 * and maybe other bugs.
-                 *
-                 * Convert text from euc-jp (internal encoding) to iso-2022-jp
-                 * (commonly used Japanese encoding) with mbstring functions.
-                 *
-                 * Use SquirrelMail internal B encoding function. 'encodeheader'
-                 * XTRA_CODE is executed in encodeHeader() function, so
-                 * functions/mime.php (encodeHeaderBase64) and functions/strings.php
-                 * (sq_is8bit) are already loaded.
-                 */
-                $ret = encodeHeaderBase64(mb_convert_encoding($ret,'ISO-2022-JP','EUC-JP'),
-                                          'iso-2022-jp');
+            $result = '';
+            if (strlen($ret) > 0) {
+                $tmpstr = mb_substr($ret, 0, 1);
+                $prevcsize = strlen($tmpstr);
+                for ($i = 1; $i < mb_strlen($ret); $i++) {
+                    $tmp = mb_substr($ret, $i, 1);
+                    if (strlen($tmp) == $prevcsize) {
+                        $tmpstr .= $tmp;
+                    } else {
+                        if ($prevcsize == 1) {
+                            $result .= $tmpstr;
+                        } else {
+                            $result .= str_replace(' ', '',
+                                                   mb_encode_mimeheader($tmpstr,'iso-2022-jp','B',''));
+                        }
+                        $tmpstr = $tmp;
+                        $prevcsize = strlen($tmp);
+                    }
+                }
+                if (strlen($tmpstr)) {
+                    if (strlen(mb_substr($tmpstr, 0, 1)) == 1)
+                        $result .= $tmpstr;
+                    else
+                        $result .= str_replace(' ', '',
+                                               mb_encode_mimeheader($tmpstr,'iso-2022-jp','B',''));
+                }
             }
-            /**
-             * if text is in ascii, we leave it unchanged. If some ASCII
-             * chars must be encoded, add code here in else statement.
-             */
+            $ret = $result;
             break;
         case 'decodeheader':
             $ret = str_replace("\t", "", $ret);
-            if (preg_match('/=\?([^?]+)\?(q|b)\?([^?]+)\?=/', $ret))
+            if (eregi('=\\?([^?]+)\\?(q|b)\\?([^?]+)\\?=', $ret))
                 $ret = @mb_decode_mimeheader($ret);
             $ret = @mb_convert_encoding($ret, 'EUC-JP', 'AUTO');
             break;
@@ -769,6 +724,7 @@ function korean_charset_xtra() {
     return $ret;
 }
 
+
 /* ------------------------------ main --------------------------- */
 
 global $squirrelmail_language, $languages, $use_gettext;
@@ -777,41 +733,18 @@ if (! sqgetGlobalVar('squirrelmail_language',$squirrelmail_language,SQ_COOKIE)) 
     $squirrelmail_language = '';
 }
 
-/**
- * This array specifies the available translations.
- *
- * Structure of array:
- * $languages['language']['variable'] = 'value'
- *
- * Possible 'variable' names:
- *  NAME      - Translation name in English
- *  CHARSET   - Encoding used by translation
- *  ALIAS     - used when 'language' is only short name and 'value' should provide long language name
- *  ALTNAME   - Native translation name. Any 8bit symbols must be html encoded.
- *  LOCALE    - Full locale name (in xx_XX.charset format). It can use array with more than one locale name since 1.4.5 and 1.5.1
- *  DIR       - Text direction. Used to define Right-to-Left languages. Possible values 'rtl' or 'ltr'. If undefined - defaults to 'ltr'
- *  XTRA_CODE - translation uses special functions. See http://squirrelmail.org/docs/devel/devel-3.html
- *
- * Each 'language' definition requires NAME+CHARSET or ALIAS variables.
- *
- * @name $languages
- * @global array $languages
- */
+/* This array specifies the available languages. */
+
 $languages['bg_BG']['NAME']    = 'Bulgarian';
 $languages['bg_BG']['CHARSET'] = 'windows-1251';
 $languages['bg_BG']['LOCALE']  = 'bg_BG.CP1251';
 $languages['bg']['ALIAS']      = 'bg_BG';
 
-$languages['bn_BD']['NAME']    = 'Bengali (Bangladesh)';
-//$languages['bn_BD']['ALTNAME'] = 'Bangla';
-$languages['bn_BD']['ALTNAME'] = '&#x09AC;&#x09BE;&#x0982;&#x09B2;&#x09BE;';
-$languages['bn_BD']['CHARSET'] = 'utf-8';
-$languages['bn_BD']['LOCALE']  = array('bn_BD.UTF-8', 'bn_BD.UTF8', 'bn_BD', 'bn.UTF-8', 'bn.UTF8', 'bn');
-$languages['bn']['ALIAS'] = 'bn_BD';
-
-$languages['bn_IN']['NAME']    = 'Bengali (India)';
+$languages['bn_IN']['NAME']    = 'Bengali';
 $languages['bn_IN']['CHARSET'] = 'utf-8';
-$languages['bn_IN']['LOCALE']  = array('bn_IN.UTF-8', 'bn_IN.UTF8');
+$languages['bn_IN']['LOCALE']  = 'bn_IN.UTF-8';
+$languages['bn_BD']['ALIAS'] = 'bn_IN';
+$languages['bn']['ALIAS'] = 'bn_IN';
 
 $languages['ca_ES']['NAME']    = 'Catalan';
 $languages['ca_ES']['CHARSET'] = 'iso-8859-1';
@@ -819,9 +752,8 @@ $languages['ca_ES']['LOCALE']  = array('ca_ES.ISO8859-1','ca_ES.ISO-8859-1','ca_
 $languages['ca']['ALIAS']      = 'ca_ES';
 
 $languages['cs_CZ']['NAME']    = 'Czech';
-$languages['cs_CZ']['ALTNAME'] = '&#268;e&scaron;tina';
-$languages['cs_CZ']['CHARSET'] = 'utf-8';
-$languages['cs_CZ']['LOCALE']  = array('cs_CZ.UTF-8', 'cs_CZ.UTF8', 'cs_CZ');
+$languages['cs_CZ']['CHARSET'] = 'iso-8859-2';
+$languages['cs_CZ']['LOCALE']  = array('cs_CZ.ISO8859-2','cs_CZ.ISO-8859-2','cs_CZ');
 $languages['cs']['ALIAS']      = 'cs_CZ';
 
 $languages['cy_GB']['NAME']    = 'Welsh';
@@ -834,8 +766,7 @@ $languages['da_DK']['CHARSET'] = 'iso-8859-1';
 $languages['da_DK']['LOCALE']  = array('da_DK.ISO8859-1','da_DK.ISO-8859-1','da_DK');
 $languages['da']['ALIAS']      = 'da_DK';
 
-$languages['de_DE']['NAME']    = 'German';
-$languages['de_DE']['ALTNAME'] = 'Deutsch';
+$languages['de_DE']['NAME']    = 'Deutsch';
 $languages['de_DE']['CHARSET'] = 'iso-8859-1';
 $languages['de_DE']['LOCALE']  = array('de_DE.ISO8859-1','de_DE.ISO-8859-1','de_DE');
 $languages['de']['ALIAS']      = 'de_DE';
@@ -845,14 +776,9 @@ $languages['el_GR']['CHARSET'] = 'iso-8859-7';
 $languages['el_GR']['LOCALE']  = array('el_GR.ISO8859-7','el_GR.ISO-8859-7','el_GR');
 $languages['el']['ALIAS']      = 'el_GR';
 
-/* This translation is disabled because it contains less than 50%
- * translated strings. In those cases where British and American English are
- * spelled the same, the translation should indicate that by copy the "msgid" to
- * the "msgstr" instead of leaving the "msgstr" blank.
 $languages['en_GB']['NAME']    = 'British';
 $languages['en_GB']['CHARSET'] = 'iso-8859-15';
 $languages['en_GB']['LOCALE']  = array('en_GB.ISO8859-15','en_GB.ISO-8859-15','en_GB');
-*/
 
 $languages['en_US']['NAME']    = 'English';
 $languages['en_US']['CHARSET'] = 'iso-8859-1';
@@ -891,7 +817,7 @@ $languages['fr']['ALIAS']      = 'fr_FR';
 
 $languages['fy']['NAME']       = 'Frisian';
 $languages['fy']['CHARSET']    = 'utf-8';
-$languages['fy']['LOCALE']     = array('fy.UTF-8', 'fy.UTF8', 'fy_NL.UTF-8', 'fy_NL.UTF8');
+$languages['fy']['LOCALE']     = array('fy.UTF-8','fy_NL.UTF-8');
 
 $languages['hr_HR']['NAME']    = 'Croatian';
 $languages['hr_HR']['CHARSET'] = 'iso-8859-2';
@@ -899,9 +825,8 @@ $languages['hr_HR']['LOCALE']  = array('hr_HR.ISO8859-2','hr_HR.ISO-8859-2','hr_
 $languages['hr']['ALIAS']      = 'hr_HR';
 
 $languages['hu_HU']['NAME']    = 'Hungarian';
-$languages['hu_HU']['ALTNAME'] = 'Magyar';
-$languages['hu_HU']['CHARSET'] = 'utf-8';
-$languages['hu_HU']['LOCALE']  = array('hu_HU.UTF-8', 'hu_HU.UTF8', 'hu_HU');
+$languages['hu_HU']['CHARSET'] = 'iso-8859-2';
+$languages['hu_HU']['LOCALE']  = array('hu_HU.ISO8859-2','hu_HU.ISO-8859-2','hu_HU');
 $languages['hu']['ALIAS']      = 'hu_HU';
 
 $languages['id_ID']['NAME']    = 'Bahasa Indonesia';
@@ -915,9 +840,8 @@ $languages['is_IS']['LOCALE']  = array('is_IS.ISO8859-1','is_IS.ISO-8859-1','is_
 $languages['is']['ALIAS']      = 'is_IS';
 
 $languages['it_IT']['NAME']    = 'Italian';
-$languages['it_IT']['ALTNAME'] = 'Italiano';
-$languages['it_IT']['CHARSET'] = 'utf-8';
-$languages['it_IT']['LOCALE']  = array('it_IT.UTF-8','it_IT-UTF8','it_IT');
+$languages['it_IT']['CHARSET'] = 'iso-8859-1';
+$languages['it_IT']['LOCALE']  = array('it_IT.ISO8859-1','it_IT.ISO-8859-1','it_IT');
 $languages['it']['ALIAS']      = 'it_IT';
 
 $languages['ja_JP']['NAME']    = 'Japanese';
@@ -927,14 +851,8 @@ $languages['ja']['ALIAS']      = 'ja_JP';
 
 $languages['ka']['NAME']       = 'Georgian';
 $languages['ka']['CHARSET']    = 'utf-8';
-$languages['ka']['LOCALE']     = array('ka_GE.UTF-8', 'ka_GE.UTF8', 'ka_GE', 'ka');
+$languages['ka']['LOCALE']     = array('ka_GE.UTF-8','ka_GE','ka');
 $languages['ka_GE']['ALIAS']   = 'ka';
-
-$languages['km']['NAME']       = 'Khmer';
-$languages['km']['ALTNAME']    = '&#6017;&#6098;&#6040;&#6082;&#6042;';
-$languages['km']['CHARSET']    = 'utf-8';
-$languages['km']['LOCALE']     = array('km.UTF-8', 'km.UTF8', 'km_KH.UTF-8', 'km_KH.UTF8', 'km', 'km_KH');
-$languages['km_KH']['ALIAS']   = 'km';
 
 $languages['ko_KR']['NAME']    = 'Korean';
 $languages['ko_KR']['CHARSET'] = 'euc-KR';
@@ -945,17 +863,17 @@ $languages['ko']['ALIAS']      = 'ko_KR';
 $languages['lv_LV']['NAME']    = 'Latvian';
 $languages['lv_LV']['ALTNAME'] = 'Latvi&#371;';
 $languages['lv_LV']['CHARSET'] = 'utf-8';
-$languages['lv_LV']['LOCALE'] = array('lv_LV.UTF-8', 'lv_LV.UTF8');
+$languages['lv_LV']['LOCALE'] = 'lv_LV.UTF-8';
 $languages['lv']['ALIAS'] = 'lv_LV';
 
 $languages['lt_LT']['NAME']    = 'Lithuanian';
 $languages['lt_LT']['CHARSET'] = 'utf-8';
-$languages['lt_LT']['LOCALE']  = array('lt_LT.UTF-8', 'lt_LT.UTF8');
+$languages['lt_LT']['LOCALE']  = 'lt_LT.UTF-8';
 $languages['lt']['ALIAS']      = 'lt_LT';
 
 $languages['mk']['NAME']       = 'Macedonian';
 $languages['mk']['CHARSET']    = 'utf-8';
-$languages['mk']['LOCALE']     = array('mk.UTF-8', 'mk.UTF8', 'mk_MK.UTF-8', 'mk_MK.UTF8');
+$languages['mk']['LOCALE']     = array('mk.UTF-8','mk_MK.UTF-8');
 
 $languages['ms_MY']['NAME']    = 'Bahasa Melayu';
 $languages['ms_MY']['CHARSET'] = 'iso-8859-1';
@@ -969,7 +887,7 @@ $languages['nl']['ALIAS']      = 'nl_NL';
 
 $languages['nb_NO']['NAME']    = 'Norwegian (Bokm&aring;l)';
 $languages['nb_NO']['CHARSET'] = 'utf-8';
-$languages['nb_NO']['LOCALE']  = array('nb_NO.UTF-8', 'nb_NO.UTF8', 'nb_NO');
+$languages['nb_NO']['LOCALE']  = array('nb_NO.UTF-8','nb_NO');
 $languages['nb']['ALIAS']      = 'nb_NO';
 
 $languages['nn_NO']['NAME']    = 'Norwegian (Nynorsk)';
@@ -992,33 +910,17 @@ $languages['pt_BR']['LOCALE']  = array('pt_BR.ISO8859-1','pt_BR.ISO-8859-1','pt_
 
 $languages['ro_RO']['NAME']    = 'Romanian';
 $languages['ro_RO']['CHARSET'] = 'utf-8';
-$languages['ro_RO']['LOCALE']  = array('ro_RO.UTF-8', 'ro_RO.UTF8', 'ro_RO');
+$languages['ro_RO']['LOCALE']  = array('ro_RO.UTF-8','ro_RO');
 $languages['ro']['ALIAS']      = 'ro_RO';
 
 $languages['ru_RU']['NAME']    = 'Russian';
 $languages['ru_RU']['CHARSET'] = 'utf-8';
-$languages['ru_RU']['LOCALE']  = array('ru_RU.UTF-8', 'ru_RU.UTF8');
+$languages['ru_RU']['LOCALE']  = 'ru_RU.UTF-8';
 $languages['ru']['ALIAS']      = 'ru_RU';
-
-/* This translation is disabled because it is supposedly
- * Russian slang and is in need of updating.
-$languages['ru_UA']['NAME']    = 'Russian (Ukrainian)';
-$languages['ru_UA']['CHARSET'] = 'koi8-r';
-$languages['ru_UA']['LOCALE']  = 'ru_UA.KOI8-R';
-*/
-
-/* This translation is disabled because it contains less than 50%
- * translated strings
-$languages['si_LK']['NAME']    = 'Sinhala';
-$languages['si_LK']['ALTNAME'] = '&#3523;&#3538;&#3458;&#3524;&#3517;';
-$languages['si_LK']['CHARSET'] = 'utf-8';
-$languages['si_LK']['LOCALE']  = array('si_LK.UTF-8', 'si_LK.UTF8');
-$languages['si']['ALIAS'] = 'si_LK';
-*/
 
 $languages['sk_SK']['NAME']    = 'Slovak';
 $languages['sk_SK']['CHARSET'] = 'utf-8';
-$languages['sk_SK']['LOCALE']  = array('sk_SK.UTF-8', 'sk_SK.UTF8', 'sk_SK');
+$languages['sk_SK']['LOCALE']  = array('sk_SK.UTF-8','sk_SK');
 $languages['sk']['ALIAS']      = 'sk_SK';
 
 $languages['sl_SI']['NAME']    = 'Slovenian';
@@ -1033,29 +935,15 @@ $languages['sr']['ALIAS']      = 'sr_YU';
 
 $languages['sv_SE']['NAME']    = 'Swedish';
 $languages['sv_SE']['CHARSET'] = 'utf-8';
-$languages['sv_SE']['LOCALE']  = array('sv_SE.UTF-8', 'sv_SE.UTF8', 'sv_SE');
+$languages['sv_SE']['LOCALE']  = array('sv_SE.UTF-8','sv_SE');
 $languages['sv']['ALIAS']      = 'sv_SE';
 
-$languages['ta_LK']['NAME']    = 'Tamil';
-$languages['ta_LK']['ALTNAME'] = '&#2980;&#2990;&#3007;&#2996;&#3021;';
-$languages['ta_LK']['CHARSET'] = 'utf-8';
-$languages['ta_LK']['LOCALE']  = array('ta_LK.UTF-8', 'ta_LK.UTF8', 'ta_LK', 'ta.UTF-8', 'ta.UTF8', 'ta');
-$languages['ta']['ALIAS'] = 'ta_LK';
-
-/* This translation is disabled because it contains less than 50%
+/* translation is disabled because it contains less than 50%
  * translated strings
 $languages['th_TH']['NAME']    = 'Thai';
 $languages['th_TH']['CHARSET'] = 'tis-620';
 $languages['th_TH']['LOCALE']  = 'th_TH.TIS-620';
 $languages['th']['ALIAS'] = 'th_TH';
-*/
-
-/* This translation is disabled because it contains less than 50%
- * translated strings
-$languages['tl_PH']['NAME']    = 'Tagalog';
-$languages['tl_PH']['CHARSET'] = 'iso-8859-1';
-$languages['tl_PH']['LOCALE']  = array('tl_PH.ISO8859-1','tl_PH.ISO-8859-1','tl_PH');
-$languages['tl']['ALIAS'] = 'tl_PH';
 */
 
 $languages['tr_TR']['NAME']    = 'Turkish';
@@ -1065,7 +953,7 @@ $languages['tr']['ALIAS']      = 'tr_TR';
 
 $languages['zh_TW']['NAME']    = 'Chinese Trad';
 $languages['zh_TW']['CHARSET'] = 'utf-8';
-$languages['zh_TW']['LOCALE']  = array('zh_TW.UTF-8', 'zh_TW.UTF8');
+$languages['zh_TW']['LOCALE']  = 'zh_TW.UTF-8';
 $languages['tw']['ALIAS']      = 'zh_TW';
 
 $languages['zh_CN']['NAME']    = 'Chinese Simp';
@@ -1075,7 +963,7 @@ $languages['cn']['ALIAS']      = 'zh_CN';
 
 $languages['uk_UA']['NAME']    = 'Ukrainian';
 $languages['uk_UA']['CHARSET'] = 'utf-8';
-$languages['uk_UA']['LOCALE']  = array('uk_UA.UTF-8', 'uk_UA.UTF8', 'uk_UA', 'uk');
+$languages['uk_UA']['LOCALE']  = array('uk_UA.UTF-8','uk_UA','uk');
 $languages['uk']['ALIAS'] = 'uk_UA';
 
 $languages['vi_VN']['NAME']    = 'Vietnamese';
@@ -1091,7 +979,7 @@ $languages['ar']['DIR']     = 'rtl';
 $languages['fa_IR']['NAME']    = 'Persian';
 $languages['fa_IR']['CHARSET'] = 'utf-8';
 $languages['fa_IR']['DIR']     = 'rtl';
-$languages['fa_IR']['LOCALE']  = array('fa_IR.UTF-8', 'fa_IR.UTF8');
+$languages['fa_IR']['LOCALE']  = 'fa_IR.UTF-8';
 $languages['fa']['ALIAS']      = 'fa_IR';
 
 $languages['he_IL']['NAME']    = 'Hebrew';
@@ -1126,28 +1014,16 @@ elseif ($gettext_flags == 0) {
 } else {
     /* Uh-ho.  A weird install */
     if (! $gettext_flags & 1) {
-      /**
-       * Function is used as replacement in broken installs
-       * @ignore
-       */
         function _($str) {
             return $str;
         }
     }
     if (! $gettext_flags & 2) {
-      /**
-       * Function is used as replacement in broken installs
-       * @ignore
-       */
         function bindtextdomain() {
             return;
         }
     }
     if (! $gettext_flags & 4) {
-      /**
-       * Function is used as replacemet in broken installs
-       * @ignore
-       */
         function textdomain() {
             return;
         }

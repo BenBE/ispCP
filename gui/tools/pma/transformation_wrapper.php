@@ -2,8 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: transformation_wrapper.php 11994 2008-11-24 11:22:44Z nijel $
- * @package phpMyAdmin
+ * @version $Id: transformation_wrapper.php 11233 2008-05-06 08:45:08Z cybot_tm $
  */
 
 /**

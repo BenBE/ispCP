@@ -1,29 +1,41 @@
-/* for printview */
+/* For printview */
 body {
-	font:				10px Verdana, Arial,	Helvetica, sans-serif;
-	color:				#000000;
-	background-color:	#ffffff;
+    font-family:       Verdana, Arial, Helvetica, sans-serif;
+    font-size:         10px;
+    color:             #000000;
+    background-color:  #ffffff;
 }
 h1 {
-	font:				bold 16px Verdana, Arial, Helvetica,	sans-serif;
-	color:				#000000;
+    font-family:       Verdana, Arial, Helvetica, sans-serif;
+    font-size:         16px;
+    font-weight:       bold;
+    color:             #000000;
 }
 table {
-	border:				1px solid #000000;
-	border-collapse:	collapse;
-	border-spacing:		0;
+    border-width:      1px;
+    border-color:      #000000;
+    border-style:      solid;
+    border-collapse:   collapse;
+    border-spacing:    0;
 }
 th {
-	font:				bold 10px Verdana, Arial, Helvetica,	sans-serif;
-	color:				#000000;
-	background-color:	#e5e5e5;
-	border:				1px solid #000000;
-	padding:			2px;
+    font-family:       Verdana, Arial, Helvetica, sans-serif;
+    font-size:         10px;
+    font-weight:       bold;
+    color:             #000000;
+    background-color:  #e5e5e5;
+    border-width:      1px;
+    border-color:      #000000;
+    border-style:      solid;
+    padding:           2px;
 }
 td {
-	font:				10px Verdana, Arial,	Helvetica, sans-serif;
-	color:				#000000;
-	background-color:	#ffffff;
-	border:				1px solid #000000;
-	padding:			2px;
+    font-family:       Verdana, Arial, Helvetica, sans-serif;
+    font-size:         10px;
+    color:             #000000;
+    background-color:  #ffffff;
+    border-width:      1px;
+    border-color:      #000000;
+    border-style:      solid;
+    padding:           2px;
 }

@@ -3,7 +3,7 @@
 /**
  * newmail.php
  *
- * Copyright (c) 1999-2009 The SquirrelMail Project Team
+ * Copyright (c) 1999-2006 The SquirrelMail Project Team
  * Copyright (c) 2000 by Michael Huttinger
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
@@ -22,7 +22,7 @@
  * This was tested with IE5.0 - but I hear Netscape works well,
  * too (with a plugin).
  *
- * @version $Id: setup.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: setup.php 12727 2007-10-07 05:06:52Z jangliss $
  * @package plugins
  * @subpackage new_mail
  */

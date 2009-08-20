@@ -4,7 +4,6 @@
  * the navigation frame - displays server, db and table selection tree
  *
  * @version $Id: navigation.php 12022 2008-11-28 14:35:17Z nijel $
- * @package phpMyAdmin
  * @uses $GLOBALS['pma']->databases
  * @uses $GLOBALS['server']
  * @uses $GLOBALS['db']
@@ -48,11 +47,11 @@
 require_once './libraries/common.inc.php';
 
 /**
- * finish and cleanup navigation.php script execution, only to be used in navigation.php
+ * finish and cleanup navigation.php script execution
  *
  * @uses $GLOBALS['controllink'] to close it
  * @uses $GLOBALS['userlink'] to close it
- * @access private
+ * @access private only to be used in navigation.php
  */
 function PMA_exitNavigationFrame()
 {
@@ -142,27 +141,27 @@ require_once './libraries/header_http.inc.php';
     var image_plus = '<?php echo $GLOBALS['pmaThemeImage']; ?>b_plus.png';
 
     // INIT PMA_setFrameSize
-    var onloadCnt = 0;
-    var onLoadHandler = window.onload;
+    var onloadCnt = 0; 
+    var onLoadHandler = window.onload;  
     var resizeHandler = window.onresize;
     window.document.onresize  = resizeHandler;
     window.onload = function() {
         if (onloadCnt == 0) {
-            if (typeof(onLoadHandler) == "function") {
-                onLoadHandler();
+            if (typeof(onLoadHandler) == "function") { 
+                onLoadHandler(); 
             }
-            if (typeof(PMA_setFrameSize) != 'undefined' && typeof(PMA_setFrameSize) == 'function') {
-                PMA_setFrameSize();
+            if (typeof(PMA_setFrameSize) != 'undefined' && typeof(PMA_setFrameSize) == 'function') { 
+                PMA_setFrameSize(); 
             }
             onloadCnt++;
         }
     };
     window.onresize = function() {
-        if (typeof(resizeHandler) == "function") {
-            resizeHandler();
+        if (typeof(resizeHandler) == "function") { 
+            resizeHandler(); 
         }
-        if (typeof(PMA_saveFrameSize) != 'undefined' && typeof(PMA_saveFrameSize) == 'function') {
-            PMA_saveFrameSize();
+        if (typeof(PMA_saveFrameSize) != 'undefined' && typeof(PMA_saveFrameSize) == 'function') { 
+            PMA_saveFrameSize(); 
         }
     };
     // ]]>
@@ -261,7 +260,7 @@ $element_counter = 0;
 if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
     $table_list = PMA_getTableList($GLOBALS['db']);
     $table_count = count($table_list);
-
+    
     // show selected databasename as link to DefaultTabDatabase-page
     // with table count in ()
     $common_url_query = PMA_generate_common_url($GLOBALS['db']);
@@ -312,7 +311,7 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
               'db' => $GLOBALS['db']
             );
             PMA_listNavigator($table_count, $tpos, $_url_params, 'navigation.php', 'frame_navigation', $GLOBALS['cfg']['MaxTableList']);
-        }
+        } 
         PMA_displayTableList($table_list, true, '', $GLOBALS['db']);
         // lower table list paginator
         if (count($table_list) <= $GLOBALS['cfg']['MaxTableList'] && $table_count > $GLOBALS['cfg']['MaxTableList']) {
@@ -347,12 +346,12 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
  * @uses    PMA_generate_common_url()
  * @uses    PMA_getTableList()
  * @uses    PMA_displayTableList()
- * @global  integer $element_counter
- * @global  string $img_minus
- * @global  string $img_plus
- * @global  string $href_left
- * @global  string $db_start
- * @global  string $common_url_query
+ * @global  $element_counter
+ * @global  $img_minus
+ * @global  $img_plus
+ * @global  $href_left
+ * @global  $db_start
+ * @global  $common_url_query
  * @param   array   $ext_dblist extended db list
  * @param   integer $offset
  * @param   integer $count

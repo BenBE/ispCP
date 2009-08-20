@@ -3,8 +3,7 @@
 /**
  * SQL import plugin for phpMyAdmin
  *
- * @version $Id: sql.php 12623 2009-07-04 19:00:39Z lem9 $
- * @package phpMyAdmin-Import
+ * @version $Id: sql.php 11387 2008-07-14 15:28:58Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -36,17 +35,6 @@ if (isset($plugin_list)) {
                     'Server_SQL_mode',
                 ),
             ),
-            array(
-                'type' => 'bool', 
-                'name' => 'no_auto_value_on_zero', 
-                'text' => 'strDoNotAutoIncrementZeroValues',
-                'doc'       => array(
-                    'manual_MySQL_Database_Administration',
-                    'Server_SQL_mode',
-                    'sqlmode_no_auto_value_on_zero'
-                ),
-
-            ),
         );
     }
 
@@ -61,8 +49,6 @@ $start_pos = 0;
 $i = 0;
 $len= 0;
 $big_value = 2147483647;
-$delimiter_keyword = 'DELIMITER '; // include the space because it's mandatory
-$length_of_delimiter_keyword = strlen($delimiter_keyword);
 
 if (isset($_POST['sql_delimiter'])) {
     $sql_delimiter = $_POST['sql_delimiter'];
@@ -70,18 +56,10 @@ if (isset($_POST['sql_delimiter'])) {
     $sql_delimiter = ';';
 }
 
-// Handle compatibility options
-$sql_modes = array();
-if (isset($_REQUEST['sql_compatibility']) && 'NONE' != $_REQUEST['sql_compatibility']) {
-    $sql_modes[] = $_REQUEST['sql_compatibility'];
+// Handle compatibility option
+if (isset($_REQUEST['sql_compatibility'])) {
+    PMA_DBI_try_query('SET SQL_MODE="' . $_REQUEST['sql_compatibility'] . '"');
 }
-if (isset($_REQUEST['sql_no_auto_value_on_zero'])) {
-    $sql_modes[] = 'NO_AUTO_VALUE_ON_ZERO';
-}
-if (count($sql_modes) > 0) {
-    PMA_DBI_try_query('SET SQL_MODE="' . implode(',', $sql_modes) . '"');
-}
-unset($sql_modes);
 
 /**
  * will be set in PMA_importGetNextChunk()
@@ -110,7 +88,7 @@ while (!($GLOBALS['finished'] && $i >= $len) && !$error && !$timeout_passed) {
     }
     // Current length of our buffer
     $len = strlen($buffer);
-
+    
     // Grab some SQL queries out of it
     while ($i < $len) {
         $found_delimiter = false;
@@ -118,8 +96,8 @@ while (!($GLOBALS['finished'] && $i >= $len) && !$error && !$timeout_passed) {
         $old_i = $i;
         // this is about 7 times faster that looking for each sequence i
         // one by one with strpos()
-        if (preg_match('/(\'|"|#|-- |\/\*|`|(?i)' . $delimiter_keyword . ')/', $buffer, $matches, PREG_OFFSET_CAPTURE, $i)) {
-            // in $matches, index 0 contains the match for the complete
+        if (preg_match('/(\'|"|#|-- |\/\*|`|(?i)DELIMITER)/', $buffer, $matches, PREG_OFFSET_CAPTURE, $i)) {
+            // in $matches, index 0 contains the match for the complete 
             // expression but we don't use it
             $first_position = $matches[1][1];
         } else {
@@ -221,8 +199,6 @@ while (!($GLOBALS['finished'] && $i >= $len) && !$error && !$timeout_passed) {
             }
             // Skip the rest
             $j = $i;
-            // do not use PHP_EOL here instead of "\n", because the export 
-            // file might have been produced on a different system
             $i = strpos($buffer, $ch == '/' ? '*/' : "\n", $i);
             // didn't we hit end of string?
             if ($i === FALSE) {
@@ -259,16 +235,12 @@ while (!($GLOBALS['finished'] && $i >= $len) && !$error && !$timeout_passed) {
             }
         }
         // Change delimiter, if redefined, and skip it (don't send to server!)
-        if (strtoupper(substr($buffer, $i, $length_of_delimiter_keyword)) == $delimiter_keyword
-         && ($i + $length_of_delimiter_keyword < $len)) {
-             // look for EOL on the character immediately after 'DELIMITER '
-             // (see previous comment about PHP_EOL)
-           $new_line_pos = strpos($buffer, "\n", $i + $length_of_delimiter_keyword);
-           // it might happen that there is no EOL
-           if (FALSE === $new_line_pos) {
-               $new_line_pos = $len;
-           }
-           $sql_delimiter = substr($buffer, $i + $length_of_delimiter_keyword, $new_line_pos - $i - $length_of_delimiter_keyword);
+        if (strtoupper(substr($buffer, $i, 9)) == "DELIMITER"
+         && ($buffer[$i + 9] <= ' ')
+         && ($i < $len - 11)
+         && strpos($buffer, "\n", $i + 11) !== FALSE) {
+           $new_line_pos = strpos($buffer, "\n", $i + 10);
+           $sql_delimiter = substr($buffer, $i + 10, $new_line_pos - $i - 10);
            $i = $new_line_pos + 1;
            // Next query part will start here
            $start_pos = $i;

@@ -58,7 +58,7 @@ function ftp_openconnection() {
 	}
 
 // Login with username and password
-	$login_result = @ftp_login($conn_id, $net2ftp_globals["username"], $net2ftp_password);
+	$login_result = ftp_login($conn_id, $net2ftp_globals["username"], $net2ftp_password);
 	if ($login_result == false) { 
 		$errormessage = __("Unable to login to FTP server <b>%1\$s</b> with username <b>%2\$s</b>.<br /><br />Are you sure your username and password are correct? Please contact your ISP helpdesk or system administrator for help.<br />", $net2ftp_globals["ftpserver"], $net2ftp_globals["username"]);
 		setErrorVars(false, $errormessage, debug_backtrace(), __FILE__, __LINE__);
@@ -126,7 +126,7 @@ function ftp_openconnection2() {
 	}
 
 // Login with username and password
-	$login_result = @ftp_login($conn_id, $net2ftp_globals["username2"], $net2ftp_globals["password2"]);
+	$login_result = ftp_login($conn_id, $net2ftp_globals["username2"], $net2ftp_globals["password2"]);
 	if ($login_result == false) { 
 		$errormessage = __("Unable to login to the second (target) FTP server <b>%1\$s</b> with username <b>%2\$s</b>.<br /><br />Are you sure your username and password are correct? Please contact your ISP helpdesk or system administrator for help.<br />", $net2ftp_globals["ftpserver2"], $net2ftp_globals["username2"]);
 		setErrorVars(false, $errormessage, debug_backtrace(), __FILE__, __LINE__);
@@ -1953,31 +1953,6 @@ function ftp_unziptransferfiles($archivesArray) {
 // -------------------------------------------------------------------------
 
 // ------------------------------
-// Check list of files to see if there are any malicious filenames
-// ------------------------------
-		if ($archive_type == "zip") {
-			$zip = new PclZip($archive_file);
-			$list_to_check = $zip->listContent();
-		}
-		elseif ($archive_type == "tar" || $archive_type == "tgz" || $archive_type == "gz") { 
-			$list_to_check = PclTarList($archive_file);
-		}
-
-		if ($list_to_check <= 0) { 
-			$net2ftp_output["ftp_unziptransferfiles"][] = __("Unable to extract the files and directories from the archive");
-			continue;
-		}
-
-		for ($i=0; $i<sizeof($list_to_check); $i++) {
-			$source = trim($list_to_check[$i]["filename"]);
-			if (strpos($source, "../") !== false || strpos($source, "..\\") !== false) { 
-				$errormessage = __("Archive contains filenames with ../ or ..\\ - aborting the extraction");
-				setErrorVars(false, $errormessage, debug_backtrace(), __FILE__, __LINE__);
-				return false;
-			}
-		}
-
-// ------------------------------
 // Generate random directory
 // ------------------------------
 		$tempdir = tempdir2($net2ftp_globals["application_tempdir"], "unzip__", "");
@@ -1994,9 +1969,8 @@ function ftp_unziptransferfiles($archivesArray) {
 			$list = PclTarExtract($archive_file, $tempdir);
 		}
 
-// This code is not needed any more - see above: if ($list_to_check <= 0)
 		if ($list <= 0) { 
-//			$net2ftp_output["ftp_unziptransferfiles"][] = __("Unable to extract the files and directories from the archive");
+			$net2ftp_output["ftp_unziptransferfiles"][] = __("Unable to extract the files and directories from the archive");
 			continue;
 		}
 
@@ -2744,7 +2718,7 @@ function htmlEncode2($string) {
 
 // --------------
 // This function HTML-encodes a string with *htmlspecialchars* to print it on a page.
-// Only some special characters are encoded, otherwise special characters (e.g. ï¿½) appear encoded (&eacute).
+// Only some special characters are encoded, otherwise special characters (e.g. é) appear encoded (&eacute).
 // --------------
 
 	$isocode = __("iso-8859-1");

@@ -661,8 +661,12 @@ function validateSkin($skin) {
 		return $_COOKIE["net2ftpcookie_skin"];
 	}
 	else {
-		if (isset($skinArray[$net2ftp_settings["default_skin"]]) == true){ return $net2ftp_settings["default_skin"]; }
-		else                                        { return "omega"; }
+		if     (defined("_VALID_MOS")      == true) { return "mambo"; }
+		elseif (defined("CACHE_PERMANENT") == true) { return "drupal"; }
+		elseif (defined("XOOPS_ROOT_PATH") == true) { return "xoops"; }
+		elseif (getBrowser("platform") == "Mobile") { return "mobile"; }
+		elseif (isset($skinArray[$net2ftp_settings["default_skin"]]) == true){ return $net2ftp_settings["default_skin"]; }
+		else                                        { return "india"; }
 	}
 
 } // end validateSkin

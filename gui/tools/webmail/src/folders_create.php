@@ -6,9 +6,9 @@
  * Creates folders on the IMAP server.
  * Called from folders.php
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: folders_create.php 1904 2009-08-17 12:36:07Z benedikt $
+ * @version $Id: folders_create.php 12537 2007-07-14 18:34:04Z kink $
  * @package squirrelmail
  */
 
@@ -37,13 +37,7 @@ sqgetGlobalVar('subfolder',    $subfolder,     SQ_POST);
 if (! sqgetGlobalVar('contain_subs', $contain_subs,  SQ_POST)) {
     unset($contain_subs);
 }
-if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
-    $submitted_token = '';
-}
 /* end of get globals */
-
-// first, validate security token
-sm_validate_security_token($submitted_token, 3600, TRUE);
 
 $folder_name = trim($folder_name);
 

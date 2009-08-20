@@ -3,8 +3,7 @@
 /**
  * file upload functions
  *
- * @version $Id: File.class.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: File.class.php 11536 2008-09-02 17:35:48Z nijel $
  */
 
 /**
@@ -12,8 +11,8 @@
  * @todo replace error messages with localized string
  * @todo when uploading a file into a blob field, should we also consider using
  *       chunks like in import? UPDATE `table` SET `field` = `field` + [chunk]
- * @package phpMyAdmin
  */
+
 class PMA_File
 {
     /**
@@ -156,6 +155,7 @@ class PMA_File
      * @access  public
      * @uses    PMA_File::$_name
      * @param   string  $name   file name
+     * @access  public
      */
     function setName($name)
     {
@@ -1231,7 +1231,7 @@ class PMA_File
     /**
      * sets reference to most recent BLOB repository reference
      *
-     * @access  public
+     * @access  static public
      * @param   string - BLOB repository reference
     */
     static function setRecentBLOBReference($ref)
@@ -1242,7 +1242,7 @@ class PMA_File
     /**
      * retrieves reference to most recent BLOB repository reference
      *
-     * @access  public
+     * @access  static public
      * @return  string - most recent BLOB repository reference
     */
     static function getRecentBLOBReference()

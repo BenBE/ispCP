@@ -3,8 +3,7 @@
 /**
  * Code for displaying language selection
  *
- * @version $Id: display_select_lang.lib.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: display_select_lang.lib.php 11449 2008-08-01 19:00:36Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;

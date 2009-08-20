@@ -6,9 +6,9 @@
  * Displays the options page. Pulls from proper user preference files
  * and config.php. Displays preferences as selected and other options.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: options.php 1904 2009-08-17 12:36:07Z benedikt $
+ * @version $Id: options.php 13241 2008-07-20 20:46:37Z pdontthink $
  * @package squirrelmail
  * @subpackage prefs
  */
@@ -143,9 +143,6 @@ sqgetGlobalVar('delimiter', $delimiter,     SQ_SESSION);
 sqgetGlobalVar('optpage',     $optpage);
 sqgetGlobalVar('optmode',     $optmode,      SQ_FORM);
 sqgetGlobalVar('optpage_data',$optpage_data, SQ_POST);
-if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
-    $submitted_token = '';
-}
 /* end of getting globals */
 
 /* Make sure we have an Option Page set. Default to main. */
@@ -228,12 +225,6 @@ if ( !@is_file( $optpage_file ) ) {
 /***********************************************************/
 /*** Next, process anything that needs to be processed. ***/
 /***********************************************************/
-
-// security check before saving anything...
-//FIXME: what about SMOPT_MODE_LINK??
-if ($optmode == SMOPT_MODE_SUBMIT) {
-   sm_validate_security_token($submitted_token, 3600, TRUE);
-}
 
 // set empty error message
 $optpage_save_error=array();
@@ -329,8 +320,7 @@ if ($optpage == SMOPT_PAGE_MAIN) {
             echo '<b>' . _("Some of your preference changes were not applied.") . "</b><br />\n";
         } else {
             /* Display a message indicating a successful save. */
-            // i18n: The %s represents the name of the option page saving the options
-            echo '<b>' . sprintf(_("Successfully Saved Options: %s"), $optpage_name) . "</b><br />\n";
+            echo '<b>' . _("Successfully Saved Options") . ": $optpage_name</b><br />\n";
         }
 
         /* If $max_refresh != SMOPT_REFRESH_NONE, provide a refresh link. */
@@ -435,7 +425,7 @@ if ($optpage == SMOPT_PAGE_MAIN) {
 /* If we are not looking at the main option page, display the page here. */
 /*************************************************************************/
 } else {
-    echo addForm('options.php', 'POST', 'f', '', '', '', TRUE)
+    echo addForm('options.php', 'POST', 'f')
        . create_optpage_element($optpage)
        . create_optmode_element(SMOPT_MODE_SUBMIT)
        . html_tag( 'table', '', '', '', 'width="100%" cellpadding="2" cellspacing="0" border="0"' ) . "\n"

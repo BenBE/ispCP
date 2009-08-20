@@ -3,9 +3,9 @@
 /**
  * abook_local_file.php
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: abook_local_file.php 13814 2009-08-10 23:19:04Z pdontthink $
+ * @version $Id: abook_local_file.php 13188 2008-06-20 07:58:39Z pdontthink $
  * @package squirrelmail
  * @subpackage addressbook
  */
@@ -254,7 +254,6 @@ class abook_local_file extends addressbook_backend {
           return $this->set_error($this->filename . ':' . _("Unable to update"));
         }
         @unlink($this->filename . '.tmp');
-        @chmod($this->filename, 0600);
         $this->unlock();
         $this->open(true);
         return true;
@@ -295,8 +294,8 @@ class abook_local_file extends addressbook_backend {
                 die('</body></html>');
             } else {
                 $line = join(' ', $row);
-                // errors on preg_match call are suppressed in order to prevent display of regexp compilation errors
-                if(@preg_match('/' . $expr . '/i', $line)) {
+                // errors on eregi call are suppressed in order to prevent display of regexp compilation errors
+                if(@eregi($expr, $line)) {
                     array_push($res, array('nickname'  => $row[0],
                                            'name'      => $row[1] . ' ' . $row[2],
                                            'firstname' => $row[1],
@@ -418,8 +417,7 @@ class abook_local_file extends addressbook_backend {
                 $this->quotevalue((!empty($userdata['label'])?$userdata['label']:''));
 
         /* Strip linefeeds */
-		$nl_str = array("\r","\n");
-		$data = str_replace($nl_str, ' ', $data);
+        $data = ereg_replace("[\r\n]", ' ', $data);
 
         /**
          * Make sure that entry fits into allocated record space.
@@ -574,7 +572,7 @@ class abook_local_file extends addressbook_backend {
     function quotevalue($value) {
         /* Quote the field if it contains | or ". Double quotes need to
          * be replaced with "" */
-        if(stristr($value, '"') || stristr($value, '|')) {
+        if(ereg("[|\"]", $value)) {
             $value = '"' . str_replace('"', '""', $value) . '"';
         }
         return $value;

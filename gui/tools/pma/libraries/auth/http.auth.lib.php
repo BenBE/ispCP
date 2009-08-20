@@ -4,8 +4,7 @@
  * Set of functions used to run http authentication.
  * NOTE: Requires PHP loaded as a Apache module.
  *
- * @package phpMyAdmin-Auth-HTTP
- * @version $Id: http.auth.lib.php 11972 2008-11-24 09:14:31Z nijel $
+ * @version $Id: http.auth.lib.php 11468 2008-08-08 16:15:16Z lem9 $
  */
 
 

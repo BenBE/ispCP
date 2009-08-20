@@ -7,9 +7,9 @@
  * A SINGLE FREAKING COMMENT IN! Whoever is responsible for this,
  * be very ashamed.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: view_text.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: view_text.php 12581 2007-08-12 19:08:47Z kink $
  * @package squirrelmail
  */
 

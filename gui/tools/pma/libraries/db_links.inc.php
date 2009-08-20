@@ -3,7 +3,6 @@
 /**
  *
  * @version $Id: db_links.inc.php 12163 2009-01-01 21:39:21Z lem9 $
- * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -130,7 +129,6 @@ if (! $db_is_information_schema) {
 }
 
 $url_params['db'] = $db;
-
 echo PMA_getTabs($tabs, $url_params);
 unset($tabs);
 

@@ -1,17 +1,11 @@
 <?php
 /**
- * Config file management and generation
- *
- * @author     Piotr Przybylski <piotrprz@gmail.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: ConfigFile.class.php 12589 2009-06-21 22:49:57Z helmo $
- * @package    phpMyAdmin-setup
- */
-
-/**
  * Config file management and generation class
  *
  * @package    phpMyAdmin-setup
+ * @author     Piotr Przybylski <piotrprz@gmail.com>
+ * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
+ * @version    $Id: ConfigFile.class.php 11582 2008-09-10 16:53:28Z lem9 $
  */
 class ConfigFile
 {
@@ -286,10 +280,9 @@ class ConfigFile
         if ($this->getServerCount() > 0) {
             $ret .= "/* Servers configuration */$crlf\$i = 0;" . $crlf . $crlf;
             foreach ($c['Servers'] as $id => $server) {
-                $ret .= '/* Server: ' . strtr($this->getServerName($id), '*/', '-') . " [$id] */" . $crlf
+                $ret .= '/* Server: ' . $this->getServerName($id) . " [$id] */" . $crlf
                     . '$i++;' . $crlf;
                 foreach ($server as $k => $v) {
-                    $k = preg_replace('/[^A-Za-z0-9_]/', '_', $k);
                     $ret .= "\$cfg['Servers'][\$i]['$k'] = "
                         . var_export($v, true) . ';' . $crlf;
                 }
@@ -302,7 +295,6 @@ class ConfigFile
         // other settings
         $persistKeys = $this->persistKeys;
         foreach ($c as $k => $v) {
-            $k = preg_replace('/[^A-Za-z0-9_]/', '_', $k);
             $ret .= "\$cfg['$k'] = " . var_export($v, true) . ';' . $crlf;
             if (isset($persistKeys[$k])) {
                 unset($persistKeys[$k]);
@@ -311,7 +303,6 @@ class ConfigFile
         // keep 1d array keys which are present in $persist_keys (config_info.inc.php)
         foreach (array_keys($persistKeys) as $k) {
             if (strpos($k, '/') === false) {
-                $k = preg_replace('/[^A-Za-z0-9_]/', '_', $k);
                 $ret .= "\$cfg['$k'] = " . var_export($this->getDefault($k), true) . ';' . $crlf;
             }
         }

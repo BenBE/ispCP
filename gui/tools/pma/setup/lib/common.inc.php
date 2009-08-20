@@ -5,13 +5,12 @@
  * @package    phpMyAdmin-setup
  * @author     Piotr Przybylski <piotrprz@gmail.com>
  * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: common.inc.php 12195 2009-01-18 18:55:00Z crackpl $
+ * @version    $Id: common.inc.php 11741 2008-11-03 16:32:38Z crackpl $
  */
 
-/**
- * Do not include full common.
- * @ignore
- */
+// TODO: remove
+error_reporting(E_ALL | E_STRICT);
+
 define('PMA_MINIMUM_COMMON', TRUE);
 define('PMA_SETUP', TRUE);
 chdir('..');
@@ -20,8 +19,11 @@ require_once './libraries/common.inc.php';
 require_once './libraries/url_generating.lib.php';
 require_once './setup/lib/ConfigFile.class.php';
 
-// use default error handler
+// TODO: remove
 restore_error_handler();
+if ($error_handler->countErrors() > 0) {
+    $error_handler->dispAllErrors();
+}
 
 // Save current language in a cookie, required since we use PMA_MINIMUM_COMMON
 PMA_setCookie('pma_lang', $GLOBALS['lang']);
@@ -202,7 +204,7 @@ function PMA_lang_desc($canonical_path)
 }
 
 /**
- * Wraps link in &lt;a&gt; tags and replaces argument separator in internal links
+ * Wraps link in <a> tags and replaces argument separator in internal links
  * to the one returned by PMA_get_arg_separator()
  *
  * @param string $link

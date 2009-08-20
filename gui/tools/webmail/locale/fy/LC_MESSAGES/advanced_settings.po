@@ -1,7 +1,8 @@
-# Frisian (fy) advanced_settings Translation (SquirrelMail plugin)
-# Copyright (c) 1999-2009 The SquirrelMail Project Team
-# This file is distributed under the same license as the SquirrelMail package.
+# translation of advanced_settings.po to Frisian
 # Rinse de Vries <rinsedevries@kde.nl>, 2007.
+# LANGUAGE (xx_XX) advanced_settings Translation (SquirrelMail plugin)
+# Copyright (c) 1999-2006 The SquirrelMail Project Team
+# This file is distributed under the same license as the SquirrelMail package.
 # $Id: advanced_settings.pot 11068 2006-04-20 23:31:04Z jervfors $
 msgid ""
 msgstr ""

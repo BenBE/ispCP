@@ -9,9 +9,9 @@
  *       addrbook_search_html.html -- If you change one,
  *       change the other one too!
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: addrbook_search.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: addrbook_search.php 12537 2007-07-14 18:34:04Z kink $
  * @package squirrelmail
  * @subpackage addressbook
  */

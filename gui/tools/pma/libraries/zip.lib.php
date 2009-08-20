@@ -2,8 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: zip.lib.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: zip.lib.php 10240 2007-04-01 11:02:46Z cybot_tm $
  */
 
 /**
@@ -24,7 +23,6 @@
  * Official ZIP file format: http://www.pkware.com/appnote.txt
  *
  * @access  public
- * @package phpMyAdmin
  */
 class zipfile
 {

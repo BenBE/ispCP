@@ -19,7 +19,6 @@
  * @uses    mb_internal_encoding()
  * @uses    defined()
  * @todo a .lib filename should not have code in main(), split or rename file
- * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -32,9 +31,7 @@ if ($GLOBALS['PMA_allow_mbstr']) {
     mb_internal_encoding($GLOBALS['charset']);
 }
 
-/**
- * Load proper code for handling input.
- */
+// This is for handling input better
 if (defined('PMA_MULTIBYTE_ENCODING') || $GLOBALS['PMA_allow_mbstr']) {
     $GLOBALS['PMA_strpos']      = 'mb_strpos';
     $GLOBALS['PMA_substr']      = 'mb_substr';
@@ -45,9 +42,6 @@ if (defined('PMA_MULTIBYTE_ENCODING') || $GLOBALS['PMA_allow_mbstr']) {
     require './libraries/string_native.lib.php';
 }
 
-/**
- * Load ctype handler.
- */
 if ($GLOBALS['PMA_allow_ctype']) {
     $GLOBALS['PMA_STR_isAlnum'] = 'ctype_alnum';
     $GLOBALS['PMA_STR_isDigit'] = 'ctype_digit';

@@ -1,16 +1,16 @@
-$Id: README 12764 2009-08-09 20:58:35Z lem9 $
+$Id: README 12197 2009-01-19 17:32:29Z lem9 $
 
 phpMyAdmin - Readme
 ===================
 
   A set of PHP-scripts to manage MySQL over the web.
 
-  Version 3.2.1
+  Version 3.1.2
   -------------
   http://www.phpmyadmin.net/
 
     Copyright (C) 1998-2000 Tobias Ratschiller <tobias_at_ratschiller.com>
-    Copyright (C) 2001-2009 Marc Delisle <marc_at_infomarc.info>
+    Copyright (C) 2001-2007 Marc Delisle <Marc.Delisle_at_cegepsherbrooke.qc.ca>
                             Olivier Müller <om_at_omnis.ch>
                             Robin Johnson <robbat2_at_users.sourceforge.net>
                             Alexander M. Turek <me_at_derrabus.de>

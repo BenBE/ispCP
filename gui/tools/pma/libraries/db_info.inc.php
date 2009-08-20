@@ -31,8 +31,7 @@
  * @uses    strnatcasecmp()
  * @uses    count()
  * @uses    addslashes()
- * @version $Id: db_info.inc.php 12142 2008-12-16 17:13:12Z lem9 $
- * @package phpMyAdmin
+ * @version $Id: db_info.inc.php 11602 2008-09-21 13:02:41Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -197,36 +196,13 @@ if (true === $cfg['SkipLockedTables']) {
 }
 
 if (! isset($sot_ready)) {
-
-    // Set some sorting defaults
-    $sort = 'Name';
-    $sort_order = 'ASC';
-
-    if (isset($_REQUEST['sort'])) {
-        $sortable_name_mappings = array(
-            'table'     => 'Name',
-            'records'   => 'Rows',
-            'type'      => 'Engine',
-            'collation' => 'Collation',
-            'size'      => 'Data_length',
-            'overhead'  => 'Data_free'
-        );
-
-        // Make sure the sort type is implemented
-        if ($sort = $sortable_name_mappings[$_REQUEST['sort']]) {
-            if ($_REQUEST['sort_order'] == 'DESC') {
-                $sort_order = 'DESC';
-            }
-        }
-    }
-
     if (! empty($tbl_group) && ! $cfg['ShowTooltipAliasTB']) {
         // only tables for selected group
-        $tables = PMA_DBI_get_tables_full($db, $tbl_group, true, null, 0, false, $sort, $sort_order);
+        $tables = PMA_DBI_get_tables_full($db, $tbl_group, true);
     } elseif (! empty($tbl_group) && $cfg['ShowTooltipAliasTB']) {
         // only tables for selected group,
         // but grouping is done on comment ...
-        $tables = PMA_DBI_get_tables_full($db, $tbl_group, 'comment', null, 0, false, $sort, $sort_order);
+        $tables = PMA_DBI_get_tables_full($db, $tbl_group, 'comment');
     } else {
         // all tables in db
         // - get the total number of tables
@@ -241,10 +217,10 @@ if (! isset($sot_ready)) {
              *
              * @todo Page selector for table names?
              */
-            $tables = PMA_DBI_get_tables_full($db, false, false, null, 0, false, $sort, $sort_order);
+            $tables = PMA_DBI_get_tables_full($db, false, false, null, 0, false);
         } else {
             // fetch the details for a possible limited subset
-            $tables = PMA_DBI_get_tables_full($db, false, false, null, $pos, true, $sort, $sort_order);
+            $tables = PMA_DBI_get_tables_full($db, false, false, null, $pos, true);
         }
     }
 

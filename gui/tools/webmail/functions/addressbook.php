@@ -5,9 +5,9 @@
  *
  * Functions require SM_PATH and support of forms.php functions
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: addressbook.php 13802 2009-07-29 03:32:23Z pdontthink $
+ * @version $Id: addressbook.php 13298 2008-10-07 09:39:20Z pdontthink $
  * @package squirrelmail
  * @subpackage addressbook
  */
@@ -65,7 +65,6 @@ function addressbook_init($showerr = true, $onlylocal = false) {
         /* File */
         $filename = getHashedFile($username, $data_dir, "$username.abook");
         $r = $abook->add_backend('local_file', Array('filename' => $filename,
-                                                     'umask' => 0077,
                                                      'line_length' => $abook_file_line_length,
                                                      'create'   => true));
         if(!$r && $showerr) {
@@ -353,26 +352,12 @@ class AddressBook {
     function full_address($row) {
         global $data_dir, $username;
         $addrsrch_fullname = getPref($data_dir, $username, 'addrsrch_fullname', 'fullname');
-
-        // allow multiple addresses in one row (poor person's grouping - bah)
-        // (separate with commas)
-        //
-        $return = '';
-        $addresses = explode(',', $row['email']);
-        foreach ($addresses as $address) {
-
-            if (!empty($return)) $return .= ', ';
-
-            if ($addrsrch_fullname == 'fullname')
-                $return .= '"' . $row['name'] . '" <' . trim($address) . '>';
-            else if ($addrsrch_fullname == 'nickname')
-                $return .= '"' . $row['nickname'] . '" <' . trim($address) . '>';
-            else // "noprefix"
-                $return .= trim($address);
-
-        }
-
-        return $return;
+        if ($addrsrch_fullname == 'fullname')
+            return $row['name'] . ' <' . trim($row['email']) . '>';
+        else if ($addrsrch_fullname == 'nickname')
+            return $row['nickname'] . ' <' . trim($row['email']) . '>';
+        else // "noprefix"
+            return trim($row['email']);
     }
 
     /*
@@ -520,7 +505,7 @@ class AddressBook {
             $userdata['nickname'] = $userdata['email'];
         }
 
-        if (preg_match('/[ :|#"!]/', $userdata['nickname'])) {
+        if (eregi('[ \\:\\|\\#\\"\\!]', $userdata['nickname'])) {
             $this->error = _("Nickname contains illegal characters");
             return false;
         }
@@ -604,7 +589,7 @@ class AddressBook {
             return false;
         }
 
-        if (preg_match('/[: |#"!]/', $userdata['nickname'])) {
+        if (eregi('[\\: \\|\\#"\\!]', $userdata['nickname'])) {
             $this->error = _("Nickname contains illegal characters");
             return false;
         }

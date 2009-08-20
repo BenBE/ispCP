@@ -1,15 +1,15 @@
 # LANGUAGE (xx_XX) SquirrelMail Translation
-# Copyright (c) 1999-2009 The SquirrelMail Project Team
+# Copyright (c) 1999-2008 The SquirrelMail Project Team
 # This file is distributed under the same license as the SquirrelMail package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# $Id: squirrelmail.pot 13772 2009-05-29 10:55:17Z jervfors $
+# $Id: squirrelmail.pot 13150 2008-05-16 04:48:31Z jervfors $
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SquirrelMail STABLE\n"
 "Report-Msgid-Bugs-To: SquirrelMail Internationalization <squirrelmail-"
 "i18n@lists.sourceforge.net>\n"
-"POT-Creation-Date: 2009-05-29 12:50+0200\n"
+"POT-Creation-Date: 2008-05-16 06:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <squirrelmail-i18n@lists.sourceforge.net>\n"
@@ -533,7 +533,6 @@ msgstr ""
 msgid "Other:"
 msgstr ""
 
-#. i18n: This is an example on how to write a color in RGB, literally meaning "For example: 63aa7f".
 msgid "Ex: 63aa7f"
 msgstr ""
 
@@ -619,9 +618,7 @@ msgstr ""
 msgid "Some of your preference changes were not applied."
 msgstr ""
 
-#. i18n: The %s represents the name of the option page saving the options
-#, php-format
-msgid "Successfully Saved Options: %s"
+msgid "Successfully Saved Options"
 msgstr ""
 
 msgid "Refresh Folder List"
@@ -863,82 +860,6 @@ msgid "Viewing a text attachment"
 msgstr ""
 
 msgid "View Unsafe Images"
-msgstr ""
-
-msgid "Email delivery error"
-msgstr ""
-
-#, php-format
-msgid "Can't execute command '%s'."
-msgstr ""
-
-msgid "Can't open SMTP stream."
-msgstr ""
-
-msgid "Service not available, closing channel"
-msgstr ""
-
-msgid "A password transition is needed"
-msgstr ""
-
-msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
-
-msgid "Requested action aborted: error in processing"
-msgstr ""
-
-msgid "Requested action not taken: insufficient system storage"
-msgstr ""
-
-msgid "Temporary authentication failure"
-msgstr ""
-
-msgid "Syntax error; command not recognized"
-msgstr ""
-
-msgid "Syntax error in parameters or arguments"
-msgstr ""
-
-msgid "Command not implemented"
-msgstr ""
-
-msgid "Bad sequence of commands"
-msgstr ""
-
-msgid "Command parameter not implemented"
-msgstr ""
-
-msgid "Authentication required"
-msgstr ""
-
-msgid "Authentication mechanism is too weak"
-msgstr ""
-
-msgid "Authentication failed"
-msgstr ""
-
-msgid "Encryption required for requested authentication mechanism"
-msgstr ""
-
-msgid "Requested action not taken: mailbox unavailable"
-msgstr ""
-
-msgid "User not local; please try forwarding"
-msgstr ""
-
-msgid "Requested mail action aborted: exceeding storage allocation"
-msgstr ""
-
-msgid "Requested action not taken: mailbox name not allowed"
-msgstr ""
-
-msgid "Transaction failed"
-msgstr ""
-
-msgid "Unknown response"
-msgstr ""
-
-msgid "(no subject)"
 msgstr ""
 
 msgid ""
@@ -1322,6 +1243,9 @@ msgstr ""
 msgid "Invalid mailbox name: %s"
 msgstr ""
 
+msgid "(no subject)"
+msgstr ""
+
 msgid "Unknown Sender"
 msgstr ""
 
@@ -1340,7 +1264,6 @@ msgstr ""
 msgid "Unknown date"
 msgstr ""
 
-#. i18n: "A" is short for "Answered". Make sure that two icon strings aren't translated to the same character (only in 1.5).
 msgid "A"
 msgstr ""
 
@@ -1457,6 +1380,79 @@ msgid "Error creating directory %s."
 msgstr ""
 
 msgid "Could not create hashed directory structure!"
+msgstr ""
+
+msgid "Email delivery error"
+msgstr ""
+
+#, php-format
+msgid "Can't execute command '%s'."
+msgstr ""
+
+msgid "Can't open SMTP stream."
+msgstr ""
+
+msgid "Service not available, closing channel"
+msgstr ""
+
+msgid "A password transition is needed"
+msgstr ""
+
+msgid "Requested mail action not taken: mailbox unavailable"
+msgstr ""
+
+msgid "Requested action aborted: error in processing"
+msgstr ""
+
+msgid "Requested action not taken: insufficient system storage"
+msgstr ""
+
+msgid "Temporary authentication failure"
+msgstr ""
+
+msgid "Syntax error; command not recognized"
+msgstr ""
+
+msgid "Syntax error in parameters or arguments"
+msgstr ""
+
+msgid "Command not implemented"
+msgstr ""
+
+msgid "Bad sequence of commands"
+msgstr ""
+
+msgid "Command parameter not implemented"
+msgstr ""
+
+msgid "Authentication required"
+msgstr ""
+
+msgid "Authentication mechanism is too weak"
+msgstr ""
+
+msgid "Authentication failed"
+msgstr ""
+
+msgid "Encryption required for requested authentication mechanism"
+msgstr ""
+
+msgid "Requested action not taken: mailbox unavailable"
+msgstr ""
+
+msgid "User not local; please try forwarding"
+msgstr ""
+
+msgid "Requested mail action aborted: exceeding storage allocation"
+msgstr ""
+
+msgid "Requested action not taken: mailbox name not allowed"
+msgstr ""
+
+msgid "Transaction failed"
+msgstr ""
+
+msgid "Unknown response"
 msgstr ""
 
 msgid "General Display Options"
@@ -1820,6 +1816,15 @@ msgid "Use Signature"
 msgstr ""
 
 msgid "Prefix Signature with '-- ' Line"
+msgstr ""
+
+msgid "Take Address"
+msgstr ""
+
+msgid "Address Book Take:"
+msgstr ""
+
+msgid "Try to verify addresses"
 msgstr ""
 
 msgid "Config File Version"
@@ -2530,6 +2535,15 @@ msgstr ""
 msgid "FREE, for now - Not Just Another Blacklist - Dial-up IPs."
 msgstr ""
 
+msgid "FREE - Distributed Sender Boycott List - Confirmed Relays"
+msgstr ""
+
+msgid "FREE - Distributed Sender Boycott List - Confirmed Multi-stage Relays"
+msgstr ""
+
+msgid "FREE - Distributed Sender Boycott List - UN-Confirmed Relays"
+msgstr ""
+
 msgid "WARNING! You must enter something to search for."
 msgstr ""
 
@@ -2793,7 +2807,7 @@ msgstr ""
 msgid "Server does not support UIDL."
 msgstr ""
 
-msgid "Leaving messages on server..."
+msgid "Leaving mail on server..."
 msgstr ""
 
 msgid "Deleting messages from server..."
@@ -2953,7 +2967,7 @@ msgstr ""
 msgid "Save Message"
 msgstr ""
 
-msgid "View Message Details"
+msgid "View Message details"
 msgstr ""
 
 msgid "New Mail Notification"

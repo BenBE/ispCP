@@ -3,8 +3,7 @@
 /**
  * Set of functions used with the relation and pdf feature
  *
- * @version $Id: transformations.lib.php 11994 2008-11-24 11:22:44Z nijel $
- * @package phpMyAdmin
+ * @version $Id: transformations.lib.php 11192 2008-04-09 00:22:06Z lem9 $
  */
 
 /**

@@ -1,7 +1,8 @@
-# Frisian (fy) naguser Translation (SquirrelMail plugin)
-# Copyright (c) 1999-2009 The SquirrelMail Project Team
-# This file is distributed under the same license as the SquirrelMail package.
+# translation of naguser.po to Frisian
 # Rinse de Vries <rinsedevries@kde.nl>, 2007.
+# LANGUAGE (xx_XX) naguser Translation (SquirrelMail plugin)
+# Copyright (c) 1999-2006 The SquirrelMail Project Team
+# This file is distributed under the same license as the SquirrelMail package.
 # $Id: naguser.pot 10886 2006-03-05 09:15:30Z jervfors $
 msgid ""
 msgstr ""

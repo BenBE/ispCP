@@ -6,9 +6,9 @@
  * This is the code for the left bar. The left bar shows the folders
  * available, and has cookie information.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: left_main.php 1904 2009-08-17 12:36:07Z benedikt $
+ * @version $Id: left_main.php 13243 2008-07-20 21:17:38Z pdontthink $
  * @package squirrelmail
  *
  * @modified by ispCP Omega Team http://isp-control.net
@@ -48,7 +48,7 @@ function formatMailboxName($imapConnection, $box_array) {
     $mailboxURL = urlencode($real_box);
 
     /* Strip down the mailbox name. */
-    if (preg_match('/^( *)([^ ]*)$/', $mailbox, $regs)) {
+    if (ereg("^( *)([^ ]*)$", $mailbox, $regs)) {
         $mailbox = $regs[2];
     }
     $unseen = 0;
@@ -558,7 +558,7 @@ for ($i = 0; $i < count($boxes); $i++) {
             } else {
                 $line .= "<font color=\"$color[15]\">";
             }
-            if (preg_match('/^( *)([^ ]*)/', $mailbox, $regs)) {
+            if (ereg("^( *)([^ ]*)", $mailbox, $regs)) {
                 $mailbox = str_replace('&nbsp;','',$mailbox);
                 $line .= str_replace(' ', '&nbsp;', $mailbox);
             }

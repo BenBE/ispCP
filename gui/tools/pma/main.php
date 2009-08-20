@@ -2,8 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: main.php 12323 2009-03-25 08:32:33Z nijel $
- * @package phpMyAdmin
+ * @version $Id: main.php 11668 2008-10-22 17:03:22Z lem9 $
  */
 
 /**
@@ -231,7 +230,7 @@ echo '<h2>phpMyAdmin</h2>';
 echo '<ul>';
 PMA_printListItem($strVersionInformation . ': ' . PMA_VERSION, 'li_pma_version');
 PMA_printListItem($strDocu, 'li_pma_docs', 'Documentation.html', null, '_blank');
-PMA_printListItem($strWiki, 'li_pma_wiki', 'http://wiki.phpmyadmin.net', null, '_blank');
+PMA_printListItem($strWiki, 'li_pma_wiki', 'http://wiki.cihar.com', null, '_blank');
 
 // does not work if no target specified, don't know why
 PMA_printListItem($strHomepageOfficial, 'li_pma_homepage', 'http://www.phpMyAdmin.net/', null, '_blank');
@@ -287,45 +286,11 @@ if (! @extension_loaded('mbstring')) {
 }
 
 /**
- * Check whether session.gc_maxlifetime limits session validity.
- */
-$gc_time = (int)@ini_get('session.gc_maxlifetime');
-if ($gc_time < $GLOBALS['cfg']['LoginCookieValidity'] ) {
-    trigger_error(PMA_Message::decodeBB($strSessionGCWarning), E_USER_WARNING);
-}
-
-/**
  * Check if user does not have defined blowfish secret and it is being used.
  */
 if (!empty($_SESSION['auto_blowfish_secret']) &&
         empty($GLOBALS['cfg']['blowfish_secret'])) {
     trigger_error($strSecretRequired, E_USER_WARNING);
-}
-
-/**
- * Check for existence of config directory which should not exist in
- * production environment.
- */
-if (file_exists('./config')) {
-    trigger_error($strConfigDirectoryWarning, E_USER_WARNING);
-}
-
-/**
- * Check whether relations are supported.
- */
-if ($server > 0) {
-    require_once './libraries/relation.lib.php';
-    $cfgRelation = PMA_getRelationsParam();
-    if(!$cfgRelation['allworks'] && $cfg['PmaNoRelation_DisableWarning'] == false) {
-        $message = PMA_Message::notice('strRelationNotWorking');
-        $message->addParam('<a href="' . $cfg['PmaAbsoluteUri'] . 'chk_rel.php?' . $common_url_query . '">', false);
-        $message->addParam('</a>', false);
-        /* Show error if user has configured something, notice elsewhere */
-        if (!empty($cfg['Servers'][$server]['pmadb'])) {
-            $message->isError(true);
-        }
-        $message->display();
-    } // end if
 }
 
 /**

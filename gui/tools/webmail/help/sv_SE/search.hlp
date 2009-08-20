@@ -1,67 +1,67 @@
 <chapter>
    <title>
-      SÃ¶k
+      Sök
    </title>
    <summary>
-      SÃ¶k bland meddelanden i mappen.
+      Sök bland meddelanden i mappen.
    </summary>
    <description>
       <p>
-      Du kan enkelt hitta de meddelanden som uppfyller sÃ¶kkriterierna.
+      Du kan enkelt hitta de meddelanden som uppfyller sökkriterierna.
       </p>
    </description>
 </chapter>
 
 <section>
    <title>
-      AllmÃ¤nt
+      Allmänt
    </title>
    <description>
       <p>
-      VÃ¤lj mapp, skriv in text och vÃ¤lj frÃ¥n vilka fÃ¤lt man skall leta.
-      NÃ¤r du klickar pÃ¥ SÃ¶k-knappen visas listan pÃ¥ meddelanden som
-      uppfyller sÃ¶kkriterierna. Du kan klicka pÃ¥ meddelandet och lÃ¤sa det
+      Välj mapp, skriv in text och välj från vilka fält man skall leta.
+      När du klickar på Sök-knappen visas listan på meddelanden som
+      uppfyller sökkriterierna. Du kan klicka på meddelandet och läsa det
       som vanligt.
       </p>
       <p>
-      Observera att den aktiva mappen Ã¤r den som sÃ¶kningen utfÃ¶rs pÃ¥ om du
-      inte vÃ¤ljer nÃ¥gon annan mapp.
+      Observera att den aktiva mappen är den som sökningen utförs på om du
+      inte väljer någon annan mapp.
       </p>
    </description>
 </section>
 
 <section>
    <title>
-      Var skall man sÃ¶ka
+      Var skall man söka
    </title>
    <description>
       <p>
-      PÃ¥ hÃ¶gra sidan av textrutan finns knappen man kan anvÃ¤nda att vÃ¤lja
-      vilka fÃ¤lt som sÃ¶kningen gÃ¤ller. Du kan vÃ¤lja mellan texten i
-      meddelandet, samtliga fÃ¤lt, Ã¤mne, FrÃ¥n, Cc eller Till mottagare.
+      På högra sidan av textrutan finns knappen man kan använda att välja
+      vilka fält som sökningen gäller. Du kan välja mellan texten i
+      meddelandet, samtliga fält, ämne, Från, Cc eller Till mottagare.
       </p>
       <p>
-      <b>Text</b> - SÃ¶kningen gÃ¶rs i texten i meddelandet.
+      <b>Text</b> - Sökningen görs i texten i meddelandet.
       </p>
       <p>
-      <b>Alla fÃ¤lt</b> - Hela meddelandet sÃ¶ks, inklusive rubrikerna.
-      Om du inte vet var du skall sÃ¶ka, vÃ¤lj detta.
+      <b>Alla fält</b> - Hela meddelandet söks, inklusive rubrikerna.
+      Om du inte vet var du skall söka, välj detta.
       </p>
       <p>
-      <b>Ã„mne</b> - Bara rubriken Ã„mne (subject) genomsÃ¶ks.
+      <b>Ämne</b> - Bara rubriken Ämne (subject) genomsöks.
       </p>
       <p>
-      <b>FrÃ¥n</b> - FrÃ¥n rubrikerna genomsÃ¶ks. Observera att detta kan vara
-      mer Ã¤n det som visas. En vanlig FrÃ¥n rubrik innehÃ¥ller bÃ¥de ett namn
-      och adressen. SquirrelMail visar ofta bara namnet, men sÃ¶kningen
-      gÃ¶rs pÃ¥ hela informationen.
+      <b>Från</b> - Från rubrikerna genomsöks. Observera att detta kan vara
+      mer än det som visas. En vanlig Från rubrik innehåller både ett namn
+      och adressen. SquirrelMail visar ofta bara namnet, men sökningen
+      görs på hela informationen.
       </p>
       <p>
-      <b>Till</b> - Till (to)i rubriken genomsÃ¶ks.
-      Ett meddelande kan ha flera mottagare, samtliga genomsÃ¶ks.
+      <b>Till</b> - Till (to)i rubriken genomsöks.
+      Ett meddelande kan ha flera mottagare, samtliga genomsöks.
       </p>
       <p>
-      <b>Cc</b> - Som Till, men fÃ¶r rubriken Cc.
+      <b>Cc</b> - Som Till, men för rubriken Cc.
       </p>
    </description>
 </section>

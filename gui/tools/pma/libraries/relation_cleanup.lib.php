@@ -3,8 +3,7 @@
 /**
  * Set of functions used for cleaning up phpMyAdmin tables
  *
- * @version $Id: relation_cleanup.lib.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: relation_cleanup.lib.php 11336 2008-06-21 15:01:27Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -29,7 +28,7 @@ require_once './libraries/relation.lib.php';
 function PMA_relationsCleanupColumn($db, $table, $column)
 {
     $cfgRelation = PMA_getRelationsParam();
-
+    
     if ($cfgRelation['commwork']) {
         $remove_query = 'DELETE FROM ' . PMA_backquote($cfgRelation['db']) . '.' . PMA_backquote($cfgRelation['column_info'])
                     . ' WHERE db_name  = \'' . PMA_sqlAddslashes($db) . '\''

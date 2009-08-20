@@ -3,9 +3,9 @@
 /**
  * Other calendar plugin functions.
  *
- * @copyright &copy; 2002-2009 The SquirrelMail Project Team
+ * @copyright &copy; 2002-2006 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: functions.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: functions.php 11118 2006-05-06 07:52:19Z tokul $
  * @package plugins
  * @subpackage calendar
  */

@@ -3,8 +3,7 @@
 /**
  * query by example the whole database
  *
- * @version $Id: db_qbe.php 12190 2009-01-13 22:55:44Z lem9 $
- * @package phpMyAdmin
+ * @version $Id: db_qbe.php 11498 2008-08-21 16:32:39Z lem9 $
  */
 
 /**
@@ -167,8 +166,8 @@ function showColumnSelectCell($columns, $column_number, $selected = '')
 }
 
 ?>
-<form action="db_qbe.php" method="post">
 <fieldset>
+<form action="db_qbe.php" method="post">
 <table class="data" style="width: 100%;">
 <tr class="odd noclick">
     <th><?php echo $strField; ?>:</th>

@@ -46,9 +46,8 @@
  * @uses    array_intersect()
  * @uses    sprintf()
  * @uses    in_array()
- * @version $Id: db_search.php 12192 2009-01-17 22:22:52Z lem9 $
+ * @version $Id: db_search.php 11115 2008-02-10 13:04:35Z lem9 $
  * @author  Thomas Chaumeny <chaume92 at aol.com>
- * @package phpMyAdmin
  */
 
 /**
@@ -313,8 +312,8 @@ $choices = array(
     '2' => $GLOBALS['strSearchOption2'] . PMA_showHint($GLOBALS['strSplitWordsWithSpace']),
     '3' => $GLOBALS['strSearchOption3'],
     '4' => $GLOBALS['strSearchOption4'] . ' ' . PMA_showMySQLDocu('Regexp', 'Regexp')
-);
-// 4th parameter set to true to add line breaks
+); 
+// 4th parameter set to false to add line breaks
 // 5th parameter set to false to avoid htmlspecialchars() escaping in the label
 //  since we have some HTML in some labels
 PMA_generate_html_radio('search_option', $choices, $search_option, true, false);
@@ -350,7 +349,7 @@ $alter_select =
         </td>
     </tr>
     <tr><td align="right" valign="bottom">
-            <?php echo $alter_select; ?></td>
+            <?php echo $alter_select; ?></td></tr>
     </tr>
     <tr><td align="right">
             <?php echo $GLOBALS['strSearchInField']; ?></td>

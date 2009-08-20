@@ -1,13 +1,11 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * @version $Id: pbxt.lib.php 11981 2008-11-24 10:18:44Z nijel $
- * @package phpMyAdmin-Engines
+ * @version $Id: pbxt.lib.php 11582 2008-09-10 16:53:28Z lem9 $
  */
 
 /**
  * the MyISAM storage engine
- * @package phpMyAdmin-Engines
  */
 class PMA_StorageEngine_pbxt extends PMA_StorageEngine
 {

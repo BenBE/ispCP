@@ -4,8 +4,7 @@
  * CSV import plugin for phpMyAdmin
  *
  * @todo    add an option for handling NULL values
- * @version $Id: csv.php 12600 2009-06-27 11:41:51Z lem9 $
- * @package phpMyAdmin-Import
+ * @version $Id: csv.php 11336 2008-06-21 15:01:27Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -51,11 +50,11 @@ if (strlen($csv_terminated) != 1) {
     $message = PMA_Message::error('strInvalidCSVParameter');
     $message->addParam('strFieldsTerminatedBy', false);
     $error = TRUE;
-    // The default dialog of MS Excel when generating a CSV produces a
-    // semi-colon-separated file with no chance of specifying the
-    // enclosing character. Thus, users who want to import this file
-    // tend to remove the enclosing character on the Import dialog.
-    // I could not find a test case where having no enclosing characters
+    // The default dialog of MS Excel when generating a CSV produces a 
+    // semi-colon-separated file with no chance of specifying the 
+    // enclosing character. Thus, users who want to import this file 
+    // tend to remove the enclosing character on the Import dialog. 
+    // I could not find a test case where having no enclosing characters 
     // confuses this script.
     // But the parser won't work correctly with strings so we allow just
     // one character.
@@ -96,8 +95,7 @@ if (empty($csv_columns)) {
         if (count($fields) > 0) {
             $sql_template .= ', ';
         }
-        /* Trim also `, if user already included backquoted fields */
-        $val = trim($val, " \t\r\n\0\x0B`");
+        $val = trim($val);
         $found = FALSE;
         foreach ($tmp_fields as $id => $field) {
             if ($field['Field'] == $val) {
@@ -318,7 +316,7 @@ while (!($finished && $i >= $len) && !$error && !$timeout_passed) {
 PMA_importRunQuery();
 
 if (count($values) != 0 && !$error) {
-    $message = PMA_Message::error('strInvalidCSVFormat');
+    $message = PMA_Message::error('$strInvalidCSVFormat');
     $message->addParam($line);
     $error = TRUE;
 }

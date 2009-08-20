@@ -8,9 +8,9 @@
  * other PHP scripts? The only SM-specific thing is $sm_language, I think.
  *
  * @link http://www.php.net/gettext Original php gettext manual
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: gettext.php 13789 2009-07-27 01:40:44Z jangliss $
+ * @version $Id: gettext.php 12932 2008-02-10 16:49:47Z kink $
  * @since 1.1.2
  * @package squirrelmail
  * @subpackage i18n
@@ -96,7 +96,7 @@ function gettext_php_load_strings() {
             $SkipRead = false;
         }
         
-        if (preg_match('/^msgid "(.*)"$/', $line, $match)) {
+        if (ereg('^msgid "(.*)"$', $line, $match)) {
             if ($match[1] == '') {
                 /*
                  * Potential multi-line
@@ -106,7 +106,7 @@ function gettext_php_load_strings() {
                  */
                 $key = '';
                 $line = trim(fgets($file, 4096));
-                while (preg_match('/^[ ]*"(.*)"[ ]*$/', $line, $match)) {
+                while (ereg('^[ ]*"(.*)"[ ]*$', $line, $match)) {
                     $key .= $match[1];
                     $line = trim(fgets($file, 4096));
                 }
@@ -115,7 +115,7 @@ function gettext_php_load_strings() {
                 /* msgid "string string" */
                 $key = $match[1];
             }
-        } elseif (preg_match('/^msgstr "(.*)"$/', $line, $match)) {
+        } elseif (ereg('^msgstr "(.*)"$', $line, $match)) {
             if ($match[1] == '') {
                 /*
                  * Potential multi-line
@@ -125,7 +125,7 @@ function gettext_php_load_strings() {
                  */
                 $gettext_php_translateStrings[$key] = '';
                 $line = trim(fgets($file, 4096));
-                while (preg_match('/^[ ]*"(.*)"[ ]*$/', $line, $match)) {
+                while (ereg('^[ ]*"(.*)"[ ]*$', $line, $match)) {
                     $gettext_php_translateStrings[$key] .= $match[1];
                     $line = trim(fgets($file, 4096));
                 }

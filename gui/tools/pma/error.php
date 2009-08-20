@@ -3,13 +3,10 @@
 /**
  * phpMyAdmin fatal error display page
  *
- * @version $Id: error.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: error.php 10289 2007-04-16 13:32:45Z cybot_tm $
  */
 
-/**
- * Input sanitizing.
- */
+/* Input sanitizing */
 require_once './libraries/sanitizing.lib.php';
 
 /* Get variables */

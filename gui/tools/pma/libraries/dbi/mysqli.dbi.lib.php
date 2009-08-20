@@ -3,18 +3,13 @@
 /**
  * Interface to the improved MySQL extension (MySQLi)
  *
- * @package phpMyAdmin-DBI-MySQLi
- * @version $Id: mysqli.dbi.lib.php 12283 2009-03-03 16:20:41Z nijel $
+ * @version $Id: mysqli.dbi.lib.php 11435 2008-07-26 15:18:59Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;
 }
 
-require_once './libraries/logging.lib.php';
-
-/**
- * MySQL client API
- */
+// MySQL client API
 if (!defined('PMA_MYSQL_CLIENT_API')) {
     $client_api = explode('.', mysqli_get_client_info());
     define('PMA_MYSQL_CLIENT_API', (int)sprintf('%d%02d%02d', $client_api[0], $client_api[1], intval($client_api[2])));
@@ -99,7 +94,6 @@ function PMA_DBI_connect($user, $password, $is_controluser = false)
             trigger_error($GLOBALS['strControluserFailed'], E_USER_WARNING);
             return false;
         }
-        PMA_log_user($user, 'mysql-denied');
         PMA_auth_fails();
     } // end if
 
@@ -184,7 +178,7 @@ function PMA_DBI_try_query($query, $link = null, $options = 0)
 
         $trace = array();
         foreach (debug_backtrace() as $trace_step) {
-            $trace[] = PMA_Error::relPath($trace_step['file']) . '#'
+            $trace[] = PMA_Error::relPath($trace_step['file']) . '#' 
                 . $trace_step['line'] . ': '
                 . (isset($trace_step['class']) ? $trace_step['class'] : '')
                 //. (isset($trace_step['object']) ? get_class($trace_step['object']) : '')
@@ -581,9 +575,9 @@ function PMA_DBI_field_name($result, $i)
  * @uses    MYSQLI_PRI_KEY_FLAG
  * @uses    MYSQLI_NOT_NULL_FLAG
  * @uses    MYSQLI_TYPE_BLOB
- * @uses    MYSQLI_TYPE_MEDIUM_BLOB
- * @uses    MYSQLI_TYPE_LONG_BLOB
- * @uses    MYSQLI_TYPE_VAR_STRING
+ * @uses    MYSQLI_TYPE_MEDIUM_BLOB  
+ * @uses    MYSQLI_TYPE_LONG_BLOB 
+ * @uses    MYSQLI_TYPE_VAR_STRING  
  * @uses    MYSQLI_TYPE_STRING
  * @uses    mysqli_fetch_field_direct()
  * @param   object mysqli result    $result

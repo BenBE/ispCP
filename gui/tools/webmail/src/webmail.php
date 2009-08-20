@@ -7,9 +7,9 @@
  * shown can be given as parameters. If the user is not logged in
  * this file will verify username and password.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: webmail.php 13676 2009-05-11 22:48:03Z pdontthink $
+ * @version $Id: webmail.php 13290 2008-09-28 13:45:49Z kink $
  * @package squirrelmail
  */
 
@@ -25,6 +25,8 @@ define('SM_PATH','../');
 /* SquirrelMail required files. */
 require_once(SM_PATH . 'include/validate.php');
 require_once(SM_PATH . 'functions/imap.php');
+
+$base_uri = sqm_baseuri();
 
 sqgetGlobalVar('username', $username, SQ_SESSION);
 sqgetGlobalVar('delimiter', $delimiter, SQ_SESSION);

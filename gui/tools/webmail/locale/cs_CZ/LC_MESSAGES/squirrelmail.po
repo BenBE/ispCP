@@ -1,30 +1,31 @@
 # Czech (cs_CZ) SquirrelMail Translation
-# Copyright (c) 1999-2009 The SquirrelMail Project Team
+# Copyright (c) 1999-2006 The SquirrelMail Project Team
 # This file is distributed under the same license as the SquirrelMail package.
-# Lucie Fischerov√° <lucka@globe.cz>, 2000.
-# Tom√°≈° Zvala <tomas@zvala.cz>, 2003.
+# Lucie Fischerov· <lucka@globe.cz>, 2000.
+# Tomas Zvala, 2003.
+# Tomas Drbohlav <tomas.drbohlav@mff.cuni.cz>, 2005.
 # Daniel Kahoun <squirrel@dan.idk.cz>, 2006.
-# Tom√°≈° Drbohlav <tomas.drbohlav@mff.cuni.cz>, 2005-2008.
-# $Id: squirrelmail.po 13712 2009-05-16 11:49:04Z jervfors $
+# Tomas Drbohlav <tomas.drbohlav@mff.cuni.cz>, 2006.
+# $Id: squirrelmail.po 11328 2006-06-30 06:46:47Z jervfors $
 msgid ""
 msgstr ""
 "Project-Id-Version: SquirrelMail HEAD\n"
 "Report-Msgid-Bugs-To: SquirrelMail Internationalization <squirrelmail-"
 "i18n@lists.sourceforge.net>\n"
-"POT-Creation-Date: 2009-04-17 14:35+0200\n"
-"PO-Revision-Date: 2009-05-01 15:51+0200\n"
-"Last-Translator: Tom√°≈° Drbohlav <tomas.drbohlav@mff.cuni.cz>\n"
+"POT-Creation-Date: 2006-06-28 12:49+0200\n"
+"PO-Revision-Date: 2006-06-30 08:35+0200\n"
+"Last-Translator: Tomas Drbohlav <tomas.drbohlav@mff.cuni.cz>\n"
 "Language-Team: Czech <squirrelmail-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgid "Address Book"
-msgstr "Adres√°≈ô"
+msgstr "Adres·¯"
 
 msgid "All"
-msgstr "V≈°echny"
+msgstr "Vπechny"
 
 msgid "To"
 msgstr "Komu"
@@ -33,7 +34,7 @@ msgid "Cc"
 msgstr "Kopie"
 
 msgid "Name"
-msgstr "Jm√©no"
+msgstr "JmÈno"
 
 msgid "E-mail"
 msgstr "E-mail"
@@ -45,16 +46,16 @@ msgid "Source"
 msgstr "Zdroj"
 
 msgid "Bcc"
-msgstr "Skryt√° kopie"
+msgstr "Skryt· kopie"
 
 msgid "Use Addresses"
-msgstr "Pou≈æ√≠t adres√°≈ô"
+msgstr "PouæÌt adres·¯"
 
 msgid "Cancel"
-msgstr "Zru≈°it"
+msgstr "Zruπit"
 
 msgid "Address Book Search"
-msgstr "Hledat v adres√°≈ôi"
+msgstr "Hledat v adres·¯i"
 
 msgid "Search for"
 msgstr "Hledat"
@@ -63,56 +64,56 @@ msgid "in"
 msgstr "v"
 
 msgid "All address books"
-msgstr "V≈°echny adres√°≈ôe"
+msgstr "Vπechny adres·¯e"
 
 msgid "Search"
 msgstr "Hledat"
 
 msgid "List all"
-msgstr "Zobrazit v≈°e"
+msgstr "Zobrazit vπe"
 
 #, php-format
 msgid "Unable to list addresses from %s"
 msgstr "Nelze zobrazit adresy z %s"
 
 msgid "Your search failed with the following error(s)"
-msgstr "Va≈°e hled√°n√≠ probƒõhlo ne√∫spƒõ≈°nƒõ d√≠ky tƒõmto chyb√°m"
+msgstr "Vaπe hled·nÌ probÏhlo ne˙spÏπnÏ dÌky tÏmto chyb·m"
 
 msgid "No persons matching your search were found"
-msgstr "Hledan√° osoba nenalezena"
+msgstr "Hledan· osoba nenalezena"
 
 msgid "Return"
-msgstr "Zpƒõt"
+msgstr "ZpÏt"
 
 msgid "Close"
-msgstr "Zav≈ô√≠t"
+msgstr "Zav¯Ìt"
 
 msgid "Nickname"
-msgstr "P≈ôezd√≠vka"
+msgstr "P¯ezdÌvka"
 
 msgid "Must be unique"
-msgstr "Mus√≠ b√Ωt jedineƒçn√°"
+msgstr "MusÌ b˝t jedineËn·"
 
 msgid "E-mail address"
-msgstr "E-mailov√° adresa"
+msgstr "E-mailov· adresa"
 
 msgid "Last name"
-msgstr "P≈ô√≠jmen√≠"
+msgstr "P¯ÌjmenÌ"
 
 msgid "First name"
-msgstr "Jm√©no"
+msgstr "JmÈno"
 
 msgid "Additional info"
-msgstr "Dal≈°√≠ informace"
+msgstr "DalπÌ informace"
 
 msgid "Add to:"
-msgstr "P≈ôidat do:"
+msgstr "P¯idat do:"
 
 msgid "No personal address book is defined. Contact administrator."
-msgstr "Nen√≠ definov√°n ≈æ√°dn√Ω osobn√≠ adres√°≈ô. Kontaktujte spr√°vce."
+msgstr "NenÌ definov·n æ·dn˝ osobnÌ adres·¯. Kontaktujte spr·vce."
 
 msgid "You can only edit one address at the time"
-msgstr "Nelze upravovat v√≠ce adres najednou"
+msgstr "Nelze upravovat vÌce adres najednou"
 
 msgid "Update address"
 msgstr "Aktualizovat adresu"
@@ -124,32 +125,29 @@ msgid "Please select address that you want to edit"
 msgstr "Vyberte adresu, kterou chcete upravit"
 
 msgid "Add address"
-msgstr "P≈ôidat adresu"
+msgstr "P¯idat adresu"
 
 msgid "Edit selected"
-msgstr "Upravit vybran√© polo≈æky"
+msgstr "Upravit vybranÈ poloæky"
 
 msgid "Delete selected"
-msgstr "Odstranit vybran√© polo≈æky"
-
-msgid "Compose to selected"
-msgstr "Nov√° zpr√°va pro vybran√© polo≈æky"
+msgstr "Odstranit vybranÈ poloæky"
 
 msgid "sort by nickname"
-msgstr "≈ôadit dle p≈ôezd√≠vky"
+msgstr "¯adit dle p¯ezdÌvky"
 
 msgid "sort by name"
-msgstr "≈ôadit dle jm√©na"
+msgstr "¯adit dle jmÈna"
 
 msgid "sort by email"
-msgstr "≈ôadit dle adresy"
+msgstr "¯adit dle adresy"
 
 msgid "sort by info"
-msgstr "≈ôadit dle informace"
+msgstr "¯adit dle informace"
 
 #, php-format
 msgid "Add to %s"
-msgstr "P≈ôidat do %s"
+msgstr "P¯idat do %s"
 
 #, php-format
 msgid "%s wrote:"
@@ -166,7 +164,7 @@ msgid "On %s, %s wrote:"
 msgstr "Dne %s, %s napsal(a):"
 
 msgid "Subject"
-msgstr "P≈ôedmƒõt"
+msgstr "P¯edmÏt"
 
 msgid "From"
 msgstr "Od"
@@ -175,108 +173,93 @@ msgid "Date"
 msgstr "Datum"
 
 msgid "Original Message"
-msgstr "P≈Øvodn√≠ zpr√°va"
+msgstr "P˘vodnÌ zpr·va"
 
 msgid "Draft Email Saved"
-msgstr "Zpr√°va ulo≈æena do Koncept≈Ø"
+msgstr "Zpr·va uloæena do Koncept˘"
 
 msgid "Could not move/copy file. File not attached"
-msgstr "Nelze p≈ôesunout/zkop√≠rovat soubor. Soubor nen√≠ p≈ôilo≈æen"
+msgstr "Nelze p¯esunout/zkopÌrovat soubor. Soubor nenÌ p¯iloæen"
 
-msgid "Your draft has been saved."
-msgstr "Koncept byl ulo≈æen."
+msgid "Draft Saved"
+msgstr "Zpr·va uloæena do Koncept˘"
 
-msgid "Your mail has been sent."
-msgstr "Zpr√°va byla odesl√°na."
+msgid "Your Message has been sent."
+msgstr "Zpr·va byla odesl·na."
 
 msgid "From:"
 msgstr "Od:"
-
-msgid "To:"
-msgstr "Komu:"
-
-msgid "Cc:"
-msgstr "Kopie:"
-
-msgid "Bcc:"
-msgstr "Skryt√° kopie:"
-
-msgid "Subject:"
-msgstr "P≈ôedmƒõt:"
 
 msgid "Send"
 msgstr "Odeslat"
 
 msgid "Attach:"
-msgstr "P≈ôilo≈æit soubor:"
+msgstr "P¯iloæit soubor:"
 
 msgid "Add"
-msgstr "P≈ôilo≈æit"
+msgstr "P¯iloæit"
 
 msgid "Delete selected attachments"
-msgstr "Odstranit vybran√© p≈ôilo≈æen√© soubory"
+msgstr "Odstranit vybranÈ p¯iloæenÈ soubory"
 
 msgid ""
 "Because PHP file uploads are turned off, you can not attach files to this "
 "message. Please see your system administrator for details."
 msgstr ""
-"Jeliko≈æ je v PHP vypnuto nahr√°v√°n√≠ soubor≈Ø na server, nem≈Ø≈æete p≈ôipojit "
-"soubory k t√©to zpr√°vƒõ. Pros√≠m spojte se se sv√Ωm spr√°vcem syst√©mu."
+"Jelikoæ je v PHP vypnuto nahr·v·nÌ soubor˘ na server, nem˘æete p¯ipojit "
+"soubory k tÈto zpr·vÏ. ProsÌm spojte se se sv˝m spr·vcem systÈmu."
 
 msgid "Priority"
 msgstr "Priorita"
 
 msgid "High"
-msgstr "Vysok√°"
+msgstr "Vysok·"
 
 msgid "Normal"
-msgstr "Norm√°ln√≠"
+msgstr "Norm·lnÌ"
 
 msgid "Low"
-msgstr "N√≠zk√°"
+msgstr "NÌzk·"
 
 msgid "Receipt"
-msgstr "Doruƒçenka"
+msgstr "DoruËenka"
 
 msgid "On Read"
-msgstr "P≈ôi p≈ôeƒçten√≠"
+msgstr "P¯i p¯eËtenÌ"
 
 msgid "On Delivery"
-msgstr "P≈ôi doruƒçen√≠"
+msgstr "P¯i doruËenÌ"
 
 msgid "Signature"
 msgstr "Podpis"
 
 msgid "Addresses"
-msgstr "Adres√°≈ô"
+msgstr "Adres·¯"
 
 msgid "Save Draft"
-msgstr "Ulo≈æit Koncept"
+msgstr "Uloæit Koncept"
 
 msgid "You have not filled in the \"To:\" field."
-msgstr "Nezadali jste adres√°ta."
+msgstr "Nezadali jste adres·ta."
 
 #, php-format
 msgid "Error: Draft folder %s does not exist."
-msgstr "Slo≈æka koncepty %s neexistuje."
-
-msgid "Message not sent."
-msgstr "Zpr√°va neodesl√°na."
+msgstr "Sloæka koncepty %s neexistuje."
 
 msgid "Server replied:"
-msgstr "Odpovƒõƒè serveru:"
+msgstr "OdpovÏÔ serveru:"
 
 msgid "Illegal folder name. Please select a different name."
-msgstr "Neplatn√Ω n√°zev slo≈æky. Vyberte pros√≠m jin√Ω n√°zev."
+msgstr "Neplatn˝ n·zev sloæky. Vyberte prosÌm jin˝ n·zev."
 
 msgid "Click here to go back"
-msgstr "Kliknƒõte zde pro n√°vrat zpƒõt"
+msgstr "KliknÏte zde pro n·vrat zpÏt"
 
 msgid "You have not selected a folder to delete. Please do so."
-msgstr "Neoznaƒçil jste slo≈æku ke smaz√°n√≠."
+msgstr "NeoznaËil jste sloæku ke smaz·nÌ."
 
 msgid "Delete Folder"
-msgstr "Odstranit slo≈æku"
+msgstr "Odstranit sloæku"
 
 #, php-format
 msgid "Are you sure you want to delete %s?"
@@ -289,152 +272,152 @@ msgid "No"
 msgstr "Ne"
 
 msgid "Folders"
-msgstr "Slo≈æky"
+msgstr "Sloæky"
 
 msgid "Subscribed successfully."
-msgstr "P≈ôihl√°≈°en√≠ probƒõhlo √∫spƒõ≈°nƒõ."
+msgstr "P¯ihl·πenÌ probÏhlo ˙spÏπnÏ."
 
 msgid "Unsubscribed successfully."
-msgstr "Odhl√°≈°en√≠ probƒõhlo √∫spƒõ≈°nƒõ."
+msgstr "Odhl·πenÌ probÏhlo ˙spÏπnÏ."
 
 msgid "Deleted folder successfully."
-msgstr "Slo≈æka byla √∫spƒõ≈°nƒõ smaz√°na."
+msgstr "Sloæka byla ˙spÏπnÏ smaz·na."
 
 msgid "Created folder successfully."
-msgstr "Slo≈æka byla √∫spƒõ≈°nƒõ vytvo≈ôena."
+msgstr "Sloæka byla ˙spÏπnÏ vytvo¯ena."
 
 msgid "Renamed successfully."
-msgstr "√öspƒõ≈°nƒõ p≈ôejmenov√°no."
+msgstr "⁄spÏπnÏ p¯ejmenov·no."
 
 msgid "Subscription Unsuccessful - Folder does not exist."
-msgstr "P≈ôihl√°≈°en√≠ ne√∫spƒõ≈°n√© - Slo≈æka neexistuje."
+msgstr "P¯ihl·πenÌ ne˙spÏπnÈ - Sloæka neexistuje."
 
 msgid "refresh folder list"
-msgstr "aktualizovat seznam slo≈æek"
+msgstr "aktualizovat seznam sloæek"
 
 msgid "Create Folder"
-msgstr "Vytvo≈ôit slo≈æku"
+msgstr "Vytvo¯it sloæku"
 
 msgid "as a subfolder of"
-msgstr "jako podslo≈æku"
+msgstr "jako podsloæku"
 
 msgid "None"
 msgstr "Nic"
 
 msgid "Let this folder contain subfolders"
-msgstr "Slo≈æka m≈Ø≈æe obsahovat podslo≈æku"
+msgstr "Sloæka m˘æe obsahovat podsloæku"
 
 msgid "Create"
-msgstr "Vytvo≈ôit"
+msgstr "Vytvo¯it"
 
 msgid "Rename a Folder"
-msgstr "P≈ôejmenovat slo≈æku"
+msgstr "P¯ejmenovat sloæku"
 
 msgid "Select a folder"
-msgstr "Vybrat slo≈æku"
+msgstr "Vybrat sloæku"
 
 msgid "Rename"
-msgstr "P≈ôejmenovat"
+msgstr "P¯ejmenovat"
 
 msgid "No folders found"
-msgstr "Nebyla nalezena ≈æ√°dn√° slo≈æka"
+msgstr "Nebyla nalezena æ·dn· sloæka"
 
 msgid "Delete"
 msgstr "Odstranit"
 
 msgid "Unsubscribe"
-msgstr "Odhl√°sit"
+msgstr "Odhl·sit"
 
 msgid "Subscribe"
-msgstr "P≈ôihl√°sit"
+msgstr "P¯ihl·sit"
 
 msgid "No folders were found to unsubscribe from!"
-msgstr "Nebyly nalezeny ≈æ√°dn√© slo≈æky, ze kter√Ωch se lze odhl√°sit!"
+msgstr "Nebyly nalezeny æ·dnÈ sloæky, ze kter˝ch se lze odhl·sit!"
 
 msgid "No folders were found to subscribe to!"
-msgstr "Nebyly nalezeny ≈æ√°dn√© slo≈æky k p≈ôihl√°≈°en√≠"
+msgstr "Nebyly nalezeny æ·dnÈ sloæky k p¯ihl·πenÌ"
 
 msgid "Subscribe to:"
-msgstr "P≈ôihl√°sit:"
+msgstr "P¯ihl·sit:"
 
 msgid "You have not selected a folder to rename. Please do so."
-msgstr "Neoznaƒçil jste slo≈æku k p≈ôejmenov√°n√≠."
+msgstr "NeoznaËil jste sloæku k p¯ejmenov·nÌ."
 
 msgid "Rename a folder"
-msgstr "P≈ôejmenovat slo≈æku"
+msgstr "P¯ejmenovat sloæku"
 
 msgid "New name:"
-msgstr "Nov√Ω n√°zev:"
+msgstr "Nov˝ n·zev:"
 
 msgid "Submit"
 msgstr "Odeslat"
 
 msgid "ERROR: Help files are not in the right format!"
-msgstr "CHYBA: ≈†patn√Ω form√°t soubor≈Ø n√°povƒõdy"
+msgstr "CHYBA: ©patn˝ form·t soubor˘ n·povÏdy"
 
 msgid "Help"
-msgstr "N√°povƒõda"
+msgstr "N·povÏda"
 
 msgid ""
 "Help is not available in the selected language. It will be displayed in "
 "English instead."
 msgstr ""
-"N√°povƒõda nen√≠ p≈ôelo≈æena do zvolen√©ho jazyka. Bude zobrazena v angliƒçtinƒõ."
+"N·povÏda nenÌ p¯eloæena do zvolenÈho jazyka. Bude zobrazena v angliËtinÏ."
 
 msgid ""
 "Help is not available. Please contact your system administrator for "
 "assistance."
-msgstr "N√°povƒõda nen√≠ k dispozici. Pros√≠m nahlaste tuto chybu spr√°vci syst√©mu."
+msgstr "N·povÏda nenÌ k dispozici. ProsÌm nahlaste tuto chybu spr·vci systÈmu."
 
 msgid ""
 "This chapter is not available in the selected language. It will be displayed "
 "in English instead."
 msgstr ""
-"Tato ƒç√°st n√°povƒõdy nen√≠ p≈ôelo≈æena do zvolen√©ho jazyka. Bude zobrazena v "
-"angliƒçtinƒõ."
+"Tato Ë·st n·povÏdy nenÌ p¯eloæena do zvolenÈho jazyka. Bude zobrazena v "
+"angliËtinÏ."
 
 msgid "This chapter is missing"
-msgstr "Tato kapitola chyb√≠"
+msgstr "Tato kapitola chybÌ"
 
 #, php-format
 msgid "For some reason, chapter %s is not available."
-msgstr "Kapitola %s nen√≠ k dispozici."
+msgstr "Kapitola %s nenÌ k dispozici."
 
 msgid "Table of Contents"
 msgstr "Obsah"
 
 msgid "Previous"
-msgstr "P≈ôedchoz√≠"
+msgstr "P¯edchozÌ"
 
 msgid "Next"
-msgstr "Dal≈°√≠"
+msgstr "DalπÌ"
 
 msgid "Top"
 msgstr "Nahoru"
 
 msgid "Viewing an image attachment"
-msgstr "N√°hled p≈ôilo≈æen√©ho obr√°zku"
+msgstr "N·hled p¯iloæenÈho obr·zku"
 
 msgid "View message"
-msgstr "Zobrazit zpr√°vu"
+msgstr "Zobrazit zpr·vu"
 
 msgid "Download this as a file"
-msgstr "Ulo≈æit jako soubor"
+msgstr "Uloæit jako soubor"
 
 msgid "INBOX"
-msgstr "Doruƒçen√° po≈°ta"
+msgstr "DoruËen· poπta"
 
 msgid "Purge"
 msgstr "Vysypat"
 
 msgid "Last Refresh"
-msgstr "Posledn√≠ zobrazen√≠"
+msgstr "PoslednÌ zobrazenÌ"
 
 msgid "Check mail"
-msgstr "Zkontrolovat po≈°tu"
+msgstr "Zkontrolovat poπtu"
 
 msgid "Login"
-msgstr "P≈ôihl√°sit"
+msgstr "P¯ihl·sit"
 
 #, php-format
 msgid "%s Logo"
@@ -445,29 +428,29 @@ msgid "SquirrelMail version %s"
 msgstr "SquirrelMail verze %s"
 
 msgid "By the SquirrelMail Project Team"
-msgstr "Vytvo≈ôeno t√Ωmem SquirrelMail"
+msgstr "Vytvo¯eno t˝mem SquirrelMail"
 
 #, php-format
 msgid "%s Login"
-msgstr "%s P≈ôihl√°sit"
+msgstr "%s P¯ihl·sit"
 
 msgid "Name:"
-msgstr "Jm√©no:"
+msgstr "JmÈno:"
 
 msgid "Password:"
 msgstr "Heslo:"
 
 msgid "No messages were selected."
-msgstr "Nebyly vybr√°ny ≈æ√°dn√© zpr√°vy."
+msgstr "Nebyly vybr·ny æ·dnÈ zpr·vy."
 
 msgid "Options"
-msgstr "Mo≈ænosti"
+msgstr "Moænosti"
 
 msgid "Message Highlighting"
-msgstr "Zv√Ωraz≈àov√°n√≠ zpr√°v"
+msgstr "Zv˝razÚov·nÌ zpr·v"
 
 msgid "New"
-msgstr "Nov√°"
+msgstr "Nov·"
 
 msgid "Done"
 msgstr "Hotovo"
@@ -476,7 +459,7 @@ msgid "To or Cc"
 msgstr "Komu nebo Kopie"
 
 msgid "subject"
-msgstr "p≈ôedmƒõt"
+msgstr "p¯edmÏt"
 
 msgid "Edit"
 msgstr "Editovat"
@@ -485,110 +468,110 @@ msgid "Up"
 msgstr "Nahoru"
 
 msgid "Down"
-msgstr "Dol≈Ø"
+msgstr "Dol˘"
 
 msgid "No highlighting is defined"
-msgstr "Nen√≠ nadefinov√°no ≈æ√°dn√© zv√Ωraznƒõn√≠"
+msgstr "NenÌ nadefinov·no æ·dnÈ zv˝raznÏnÌ"
 
 msgid "Identifying name"
-msgstr "Identifikaƒçn√≠ jm√©no"
+msgstr "IdentifikaËnÌ jmÈno"
 
 msgid "Color"
 msgstr "Barva"
 
 msgid "Dark Blue"
-msgstr "Tmavomodr√°"
+msgstr "Tmavomodr·"
 
 msgid "Dark Green"
-msgstr "Tmavozelen√°"
+msgstr "Tmavozelen·"
 
 msgid "Dark Yellow"
-msgstr "Tmavo≈ælut√°"
+msgstr "Tmavoælut·"
 
 msgid "Dark Cyan"
-msgstr "Tmavotyrkysov√°"
+msgstr "Tmavotyrkysov·"
 
 msgid "Dark Magenta"
-msgstr "Tmavofialov√°"
+msgstr "Tmavofialov·"
 
 msgid "Light Blue"
-msgstr "Svƒõtlemodr√°"
+msgstr "SvÏtlemodr·"
 
 msgid "Light Green"
-msgstr "Svƒõtlezelen√°"
+msgstr "SvÏtlezelen·"
 
 msgid "Light Yellow"
-msgstr "Svƒõtle≈ælut√°"
+msgstr "SvÏtleælut·"
 
 msgid "Light Cyan"
-msgstr "Svƒõtletyrkysov√°"
+msgstr "SvÏtletyrkysov·"
 
 msgid "Light Magenta"
-msgstr "Svƒõtlefialov√°"
+msgstr "SvÏtlefialov·"
 
 msgid "Dark Gray"
-msgstr "Tmavo≈°ed√°"
+msgstr "Tmavoπed·"
 
 msgid "Medium Gray"
-msgstr "St≈ôedn√≠ ≈°ed√°"
+msgstr "St¯ednÌ πed·"
 
 msgid "Light Gray"
-msgstr "Svƒõtle≈°ed√°"
+msgstr "SvÏtleπed·"
 
 msgid "White"
-msgstr "B√≠l√°"
+msgstr "BÌl·"
 
 msgid "Other:"
-msgstr "Jin√°:"
+msgstr "Jin·:"
 
 msgid "Ex: 63aa7f"
-msgstr "P≈ô.: 63aa7f"
+msgstr "P¯.: 63aa7f"
 
 msgid "Matches"
-msgstr "Odpov√≠d√°"
+msgstr "OdpovÌd·"
 
 msgid "Editing identities is disabled."
-msgstr "Zmƒõna osobn√≠ch √∫daj≈Ø nen√≠ povolena."
+msgstr "ZmÏna osobnÌch ˙daj˘ nenÌ povolena."
 
 msgid "Default Identity"
-msgstr "Z√°kladn√≠/nastaven√° identita"
+msgstr "Z·kladnÌ/nastaven· identita"
 
 #, php-format
 msgid "Alternate Identity %d"
-msgstr "Alternativn√≠ identita %d"
+msgstr "AlternativnÌ identita %d"
 
 msgid "Add a New Identity"
-msgstr "P≈ôidej novou identitu"
+msgstr "P¯idej novou identitu"
 
 msgid "Advanced Identities"
-msgstr "Roz≈°√≠≈ôen√© identity"
+msgstr "RozπÌ¯enÈ identity"
 
 msgid "Full Name"
-msgstr "Cel√© jm√©no"
+msgstr "CelÈ jmÈno"
 
 msgid "E-Mail Address"
-msgstr "E-mailov√° adresa"
+msgstr "E-mailov· adresa"
 
 msgid "Reply To"
-msgstr "Odpov√≠dat na adresu"
+msgstr "OdpovÌdat na adresu"
 
 msgid "Save / Update"
-msgstr "Ulo≈æ/Aktualizuj"
+msgstr "Uloæ/Aktualizuj"
 
 msgid "Make Default"
-msgstr "Vytvo≈ô nastaven√≠"
+msgstr "Vytvo¯ nastavenÌ"
 
 msgid "Move Up"
-msgstr "P≈ôesun nahoru"
+msgstr "P¯esun nahoru"
 
 msgid "Index Order"
-msgstr "Po≈ôad√≠ v seznamu"
+msgstr "Po¯adÌ v seznamu"
 
 msgid "Checkbox"
-msgstr "Za≈°krt√°vac√≠ pole"
+msgstr "Zaπkrt·vacÌ pole"
 
 msgid "Flags"
-msgstr "P≈ô√≠znaky zpr√°vy"
+msgstr "P¯Ìznaky zpr·vy"
 
 msgid "Size"
 msgstr "Velikost"
@@ -598,87 +581,87 @@ msgid ""
 "index. You can add, remove, and move columns around to customize them to fit "
 "your needs."
 msgstr ""
-"Po≈ôad√≠ seznamu zpr√°v je po≈ôad√≠, v jak√©m jsou uspo≈ô√°d√°ny sloupce ve v√Ωpisu "
-"zpr√°v.  M≈Ø≈æete p≈ôid√°vat, odeb√≠rat a p≈ôesouvat jednotliv√© sloupce podle "
-"vlastn√≠ pot≈ôeby."
+"Po¯adÌ seznamu zpr·v je po¯adÌ, v jakÈm jsou uspo¯·d·ny sloupce ve v˝pisu "
+"zpr·v.  M˘æete p¯id·vat, odebÌrat a p¯esouvat jednotlivÈ sloupce podle "
+"vlastnÌ pot¯eby."
 
 msgid "up"
 msgstr "nahoru"
 
 msgid "down"
-msgstr "dol≈Ø"
+msgstr "dol˘"
 
 msgid "remove"
 msgstr "odstranit"
 
 msgid "Return to options page"
-msgstr "N√°vrat na str√°nku s nastaven√≠m"
+msgstr "N·vrat na str·nku s nastavenÌm"
 
 msgid "Personal Information"
-msgstr "Osobn√≠ informace"
+msgstr "OsobnÌ informace"
 
 msgid "Display Preferences"
-msgstr "Vzhled - mo≈ænosti"
+msgstr "Vzhled - moænosti"
 
 msgid "Folder Preferences"
-msgstr "Slo≈æky - mo≈ænosti"
+msgstr "Sloæky - moænosti"
 
 msgid "Error(s) occurred while saving your options"
-msgstr "Vznikly pot√≠≈æe p≈ôi ukl√°d√°n√≠ nastaven√≠"
+msgstr "Vznikly potÌæe p¯i ukl·d·nÌ nastavenÌ"
 
 msgid "Some of your preference changes were not applied."
-msgstr "Nƒõkter√° z va≈°ich nastaven√≠ nebyla aplikov√°na."
+msgstr "NÏkter· z vaπich nastavenÌ nebyla aplikov·na."
 
 msgid "Successfully Saved Options"
-msgstr "Nastaven√≠ bylo √∫spƒõ≈°nƒõ ulo≈æeno"
+msgstr "NastavenÌ bylo ˙spÏπnÏ uloæeno"
 
 msgid "Refresh Folder List"
-msgstr "Obnovit seznam slo≈æek"
+msgstr "Obnovit seznam sloæek"
 
 msgid "Refresh Page"
-msgstr "Aktualizovat str√°nku"
+msgstr "Aktualizovat str·nku"
 
 msgid ""
 "This contains personal information about yourself such as your name, your "
 "email address, etc."
 msgstr ""
-"Obsahuje Va≈°e osobn√≠ informace, nap≈ô. Va≈°e jm√©no, e-mailovou adresu atd."
+"Obsahuje Vaπe osobnÌ informace, nap¯. Vaπe jmÈno, e-mailovou adresu atd."
 
 msgid ""
 "You can change the way that SquirrelMail looks and displays information to "
 "you, such as the colors, the language, and other settings."
 msgstr ""
-"M≈Ø≈æete mƒõnit vzhled a zp≈Øsob zobrazen√≠ informac√≠, nap≈ô. barvy, jazyk a jin√° "
-"nastaven√≠."
+"M˘æete mÏnit vzhled a zp˘sob zobrazenÌ informacÌ, nap¯. barvy, jazyk a jin· "
+"nastavenÌ."
 
 msgid ""
 "Based upon given criteria, incoming messages can have different background "
 "colors in the message list. This helps to easily distinguish who the "
 "messages are from, especially for mailing lists."
 msgstr ""
-"Na z√°kladƒõ uveden√Ωch krit√©ri√≠ mohou m√≠t p≈ô√≠choz√≠ zpr√°vy v seznamu r≈Øznou "
-"barvu pozad√≠. Tato funkce umo≈æ≈àuje snadno rozli≈°it odes√≠latele zpr√°v, "
-"zvl√°≈°tƒõ pak e-mailov√© konference."
+"Na z·kladÏ uveden˝ch kritÈriÌ mohou mÌt p¯ÌchozÌ zpr·vy v seznamu r˘znou "
+"barvu pozadÌ. Tato funkce umoæÚuje snadno rozliπit odesÌlatele zpr·v, "
+"zvl·πtÏ pak e-mailovÈ konference."
 
 msgid ""
 "These settings change the way your folders are displayed and manipulated."
 msgstr ""
-"Tato nastaven√≠ zmƒõn√≠ zp≈Øsob, kter√Ωm se budou slo≈æky zobrazovat a jak s nimi "
-"budete zach√°zet."
+"Tato nastavenÌ zmÏnÌ zp˘sob, kter˝m se budou sloæky zobrazovat a jak s nimi "
+"budete zach·zet."
 
 msgid ""
 "The order of the message index can be rearranged and changed to contain the "
 "headers in any order you want."
-msgstr "Po≈ôad√≠ sloupc≈Ø v seznamu zpr√°v m≈Ø≈æe b√Ωt upraveno podle va≈°ich pot≈ôeb."
+msgstr "Po¯adÌ sloupc˘ v seznamu zpr·v m˘æe b˝t upraveno podle vaπich pot¯eb."
 
 msgid "Message not printable"
-msgstr "Zpr√°vu nelze tisknout"
+msgstr "Zpr·vu nelze tisknout"
 
 msgid "Attachments:"
-msgstr "P≈ô√≠lohy:"
+msgstr "P¯Ìlohy:"
 
 msgid "Unknown sender"
-msgstr "Nezn√°m√Ω odes√≠latel"
+msgstr "Nezn·m˝ odesÌlatel"
 
 msgid "Info:"
 msgstr "Informace:"
@@ -690,7 +673,7 @@ msgid "Type:"
 msgstr "Typ:"
 
 msgid "Invalid URL"
-msgstr "Neplatn√© URL"
+msgstr "NeplatnÈ URL"
 
 msgid "Printer Friendly"
 msgstr "Verze pro tisk"
@@ -702,87 +685,84 @@ msgid "View Printable Version"
 msgstr "Zobrazit verzi pro tisk"
 
 msgid "Read:"
-msgstr "P≈ôeƒçtena:"
+msgstr "P¯eËtena:"
 
 msgid "Your message"
-msgstr "Va≈°e zpr√°va"
+msgstr "Vaπe zpr·va"
 
 msgid "Sent"
-msgstr "Odesl√°no"
+msgstr "Odesl·no"
 
 #, php-format
 msgid "Was displayed on %s"
 msgstr "Byla zobrazena %s"
 
 msgid "less"
-msgstr "m√©nƒõ"
+msgstr "mÈnÏ"
 
 msgid "more"
-msgstr "v√≠ce"
+msgstr "vÌce"
 
 msgid "Mailer"
-msgstr "Po≈°tovn√≠ klient"
+msgstr "PoπtovnÌ klient"
 
 msgid "Read receipt"
-msgstr "Doruƒçenka p≈ôeƒçten√≠"
+msgstr "DoruËenka p¯eËtenÌ"
 
 msgid "sent"
 msgstr "odeslat"
 
 msgid "requested"
-msgstr "vy≈æadov√°na"
+msgstr "vyæadov·na"
 
 msgid ""
 "The message sender has requested a response to indicate that you have read "
 "this message. Would you like to send a receipt?"
 msgstr ""
-"Odes√≠latel zpr√°vy si p≈ôeje vƒõdƒõt zda-li jste tuto zpr√°vu p≈ôeƒçetli.  P≈ôejete "
-"si odeslat potvrzen√≠?"
+"OdesÌlatel zpr·vy si p¯eje vÏdÏt zda-li jste tuto zpr·vu p¯eËetli.  P¯ejete "
+"si odeslat potvrzenÌ?"
 
 msgid "Send read receipt now"
-msgstr "Odeslat potvrzen√≠ p≈ôeƒçten√≠ nyn√≠"
+msgstr "Odeslat potvrzenÌ p¯eËtenÌ nynÌ"
 
 msgid "Search Results"
-msgstr "V√Ωsledky hled√°n√≠"
+msgstr "V˝sledky hled·nÌ"
 
 msgid "Message List"
-msgstr "Seznam zpr√°v"
+msgstr "Seznam zpr·v"
 
 msgid "Resume Draft"
-msgstr "Pokraƒçovat v psan√≠ zpr√°vy"
+msgstr "PokraËovat v psanÌ zpr·vy"
 
 msgid "Edit Message as New"
-msgstr "Pou≈æ√≠t jako p≈ôedlohu pro novou zpr√°vu"
+msgstr "PouæÌt jako p¯edlohu pro novou zpr·vu"
 
 msgid "View Message"
-msgstr "Zobrazit zpr√°vu"
+msgstr "Zobrazit zpr·vu"
 
 msgid "Forward"
-msgstr "P≈ôeposlat d√°l"
+msgstr "P¯eposlat d·l"
 
 msgid "Forward as Attachment"
-msgstr "P≈ôeposlat jako p≈ô√≠lohu"
+msgstr "P¯eposlat jako p¯Ìlohu"
 
 msgid "Reply"
-msgstr "Odpovƒõdƒõt"
+msgstr "OdpovÏdÏt"
 
 msgid "Reply All"
-msgstr "Odpovƒõdƒõt v≈°em"
+msgstr "OdpovÏdÏt vπem"
 
 msgid "View Full Header"
-msgstr "Zobrazit celou hlaviƒçku"
+msgstr "Zobrazit celou hlaviËku"
 
 msgid "Attachments"
-msgstr "P≈ô√≠lohy"
+msgstr "P¯Ìlohy"
 
 msgid "You must be logged in to access this page."
-msgstr "Pro p≈ô√≠stup k t√©to str√°nce mus√≠te b√Ωt p≈ôihl√°≈°en."
+msgstr "Pro p¯Ìstup k tÈto str·nce musÌte b˝t p¯ihl·πen."
 
 msgid "Folder:"
-msgstr "Slo≈æka:"
-
-msgid "Saved Searches"
-msgstr "Ulo≈æen√° hled√°n√≠"
+msgstr "Sloæka:"
 
 msgid "edit"
 msgstr "editovat"
@@ -794,190 +774,172 @@ msgid "delete"
 msgstr "odstranit"
 
 msgid "Recent Searches"
-msgstr "Posledn√≠ hled√°n√≠"
+msgstr "PoslednÌ hled·nÌ"
 
 msgid "save"
-msgstr "ulo≈æit"
+msgstr "uloæit"
 
 msgid "forget"
 msgstr "zapomenout"
 
 msgid "Current Search"
-msgstr "Aktu√°ln√≠ Hled√°n√≠"
+msgstr "Aktu·lnÌ Hled·nÌ"
 
 msgid "All Folders"
-msgstr "V≈°echny slo≈æky"
+msgstr "Vπechny sloæky"
 
 msgid "Body"
-msgstr "Tƒõlo zpr√°vy"
+msgstr "TÏlo zpr·vy"
 
 msgid "Everywhere"
-msgstr "V≈°ude"
+msgstr "Vπude"
 
 msgid "No Messages Found"
-msgstr "Nebyly nalezeny ≈æ√°dn√© zpr√°vy"
-
-msgid "Please enter something to search for"
-msgstr "Pros√≠m zadejte hledan√Ω v√Ωraz"
+msgstr "Nebyly nalezeny æ·dnÈ zpr·vy"
 
 msgid "Signout"
-msgstr "Odhl√°sit se"
+msgstr "Odhl·sit se"
 
 msgid "Sign Out"
-msgstr "Odhl√°sit se"
+msgstr "Odhl·sit se"
 
 msgid "You have been successfully signed out."
-msgstr "Odhl√°≈°en√≠ probƒõhlo √∫spƒõ≈°nƒõ."
+msgstr "Odhl·πenÌ probÏhlo ˙spÏπnÏ."
 
 msgid "Click here to log back in."
-msgstr "Pro nov√© p≈ôihl√°≈°en√≠ kliknƒõte zde."
+msgstr "Pro novÈ p¯ihl·πenÌ kliknÏte zde."
 
 msgid "Viewing a Business Card"
-msgstr "Zobrazen√≠ vizitky"
+msgstr "ZobrazenÌ vizitky"
 
 #, php-format
 msgid ""
 "vCard Version %s is not supported. Some information might not be converted "
 "correctly."
 msgstr ""
-"vCard verze %s nen√≠ podporov√°na. Nƒõkter√© informace mohou b√Ωt p≈ôevedeny "
-"nespr√°vnƒõ."
+"vCard verze %s nenÌ podporov·na. NÏkterÈ informace mohou b˝t p¯evedeny "
+"nespr·vnÏ."
 
 msgid "Title"
 msgstr "Pozice"
 
 msgid "Web Page"
-msgstr "Webov√° str√°nka"
+msgstr "Webov· str·nka"
 
 msgid "Organization / Department"
-msgstr "Organizace / Oddƒõlen√≠"
+msgstr "Organizace / OddÏlenÌ"
 
 msgid "Address"
 msgstr "Adresa"
 
 msgid "Work Phone"
-msgstr "Telefon (pr√°ce)"
+msgstr "Telefon (pr·ce)"
 
 msgid "Home Phone"
-msgstr "Telefon (dom≈Ø)"
+msgstr "Telefon (dom˘)"
 
 msgid "Cellular Phone"
-msgstr "Telefon (mobiln√≠)"
+msgstr "Telefon (mobilnÌ)"
 
 msgid "Fax"
 msgstr "Fax"
 
 msgid "Note"
-msgstr "Pozn√°mka"
+msgstr "Pozn·mka"
 
 msgid "Add to address book"
-msgstr "P≈ôidat do adres√°≈ôe"
+msgstr "P¯idat do adres·¯e"
 
 msgid "Title &amp; Org. / Dept."
-msgstr "Funkce &amp; Firma / Oddƒõlen√≠"
+msgstr "Funkce &amp; Firma / OddÏlenÌ"
 
 msgid "Viewing Full Header"
-msgstr "Zobrazen√≠ cel√© hlaviƒçky"
+msgstr "ZobrazenÌ celÈ hlaviËky"
 
 msgid "Viewing a text attachment"
-msgstr "N√°hled p≈ôilo≈æen√©ho souboru"
-
-msgid "View Unsafe Images"
-msgstr "Zobrazit nebezpeƒçn√© obr√°zky"
+msgstr "N·hled p¯iloæenÈho souboru"
 
 msgid ""
 "Could not include PEAR database functions required for the database backend."
-msgstr "Pot≈ôebn√° datab√°zov√° funkce z PEAR nen√≠ dostupn√°."
+msgstr "Pot¯ebn· datab·zov· funkce z PEAR nenÌ dostupn·."
 
 #, php-format
 msgid "Is PEAR installed, and is the include path set correctly to find %s?"
-msgstr "Je instalov√°no PEAR a je spr√°vnƒõ nastavena cesta pro hled√°n√≠ %s?"
+msgstr "Je instalov·no PEAR a je spr·vnÏ nastavena cesta pro hled·nÌ %s?"
 
 msgid "Please contact your system administrator and report this error."
-msgstr "Pros√≠m nahlaste tuto chybu spr√°vci syst√©mu."
+msgstr "ProsÌm nahlaste tuto chybu spr·vci systÈmu."
 
 msgid "Personal address book"
-msgstr "Osobn√≠ adres√°≈ô"
+msgstr "OsobnÌ adres·¯"
 
 #, php-format
 msgid "Database error: %s"
-msgstr "Chyba datab√°ze: %s"
+msgstr "Chyba datab·ze: %s"
 
-msgid "Address book is read-only"
-msgstr "Adres√°≈ô pouze ke ƒçten√≠"
+msgid "Addressbook is read-only"
+msgstr "Adres·¯ pouze ke ËtenÌ"
 
-#. i18n: don't use html formating in translation
 #, php-format
 msgid "User \"%s\" already exists"
-msgstr "U≈æivatel \"%s\" ji≈æ existuje"
+msgstr "Uæivatel \"%s\" jiæ existuje"
 
-#. i18n: don't use html formating in translation
 #, php-format
 msgid "User \"%s\" does not exist"
-msgstr "U≈æivatel \"%s\" neexistuje"
-
-#, php-format
-msgid "User '%s' already exist."
-msgstr "U≈æivatel '%s' ji≈æ existuje"
+msgstr "Uæivatel \"%s\" neexistuje"
 
 msgid "Not a file name"
-msgstr "Nen√≠ n√°zev souboru"
+msgstr "NenÌ n·zev souboru"
 
 msgid "No such file or directory"
-msgstr "Nebyl nalezen ≈æ√°dn√Ω soubor ani adres√°≈ô"
+msgstr "Nebyl nalezen æ·dn˝ soubor ani adres·¯"
 
 msgid "Open failed"
-msgstr "Otev√≠r√°n√≠ probƒõhlo ne√∫spƒõ≈°nƒõ"
+msgstr "OtevÌr·nÌ probÏhlo ne˙spÏπnÏ"
 
 msgid "Write failed"
-msgstr "Z√°pis probƒõhl ne√∫spƒõ≈°nƒõ"
+msgstr "Z·pis probÏhl ne˙spÏπnÏ"
 
 msgid "Unable to update"
-msgstr "Aktualizace nebyla mo≈æn√°"
-
-msgid "Address book is corrupted. Required fields are missing."
-msgstr "Adres√°≈ô je po≈°kozen. Povinn√° pole chyb√≠."
-
-msgid "Address book entry is too big"
-msgstr "Polo≈æka adres√°≈ôe je p≈ô√≠li≈° velk√°"
+msgstr "Aktualizace nebyla moæn·"
 
 msgid "Could not lock datafile"
 msgstr "Nelze uzamknout soubor s daty"
 
-msgid "Write to address book failed"
-msgstr "Z√°pis do adres√°≈ôe se nezda≈ôil"
+msgid "Write to addressbook failed"
+msgstr "Z·pis do adres·¯e probÏhl ne˙spÏπnÏ"
 
-msgid "Error initializing address book database."
-msgstr "Chyba p≈ôi inicializaci datab√°ze kontakt≈Ø."
+msgid "Error initializing addressbook database."
+msgstr "Chyba p¯i inicializaci datab·ze kontakt˘."
 
 #, php-format
 msgid "Error opening file %s"
-msgstr "Chyba p≈ôi otev√≠r√°n√≠ souboru %s"
+msgstr "Chyba p¯i otevÌr·nÌ souboru %s"
 
 msgid "Global address book"
-msgstr "Centr√°ln√≠ adres√°≈ô kontakt≈Ø"
+msgstr "Centr·lnÌ adres·¯ kontakt˘"
 
-msgid "Error initializing global address book."
-msgstr "Chyba p≈ôi inicializaci centr√°ln√≠ datab√°ze kontakt≈Ø."
+msgid "Error initializing global addressbook."
+msgstr "Chyba p¯i inicializaci centr·lnÌ datab·ze kontakt˘."
 
 #, php-format
 msgid "Error initializing LDAP server %s:"
-msgstr "Chyba p≈ôi inicializaci LDAP serveru %s"
+msgstr "Chyba p¯i inicializaci LDAP serveru %s"
 
 msgid "Click here to change the sorting of the address list"
-msgstr "Klepnƒõte zde pro zmƒõnu ≈ôazen√≠ seznamu adres"
+msgstr "KlepnÏte zde pro zmÏnu ¯azenÌ seznamu adres"
 
 msgid "Invalid input data"
-msgstr "Neplatn√° vstupn√≠ data"
+msgstr "Neplatn· vstupnÌ data"
 
 msgid "Name is missing"
-msgstr "Chyb√≠ jm√©no"
+msgstr "ChybÌ jmÈno"
 
 msgid "E-mail address is missing"
-msgstr "Chyb√≠ e-mailov√° adresa"
+msgstr "ChybÌ e-mailov· adresa"
 
 msgid "Nickname contains illegal characters"
-msgstr "P≈ôezd√≠vka obsahuje nedovolen√© znaky"
+msgstr "P¯ezdÌvka obsahuje nedovolenÈ znaky"
 
 msgid "View"
 msgstr "Zobrazit"
@@ -985,27 +947,23 @@ msgstr "Zobrazit"
 msgid "View Business Card"
 msgstr "Zobrazit vizitku"
 
-msgid "Your session has expired, but will be resumed after logging in again."
-msgstr ""
-"Va≈°e p≈ôihl√°≈°en√≠ vypr≈°elo, ale po opƒõtovn√©m zalogov√°n√≠ bude opƒõt obnoveno."
-
 msgid "Sunday"
-msgstr "Nedƒõle"
+msgstr "NedÏle"
 
 msgid "Monday"
-msgstr "Pondƒõl√≠"
+msgstr "PondÏlÌ"
 
 msgid "Tuesday"
-msgstr "√öter√Ω"
+msgstr "⁄ter˝"
 
 msgid "Wednesday"
-msgstr "St≈ôeda"
+msgstr "St¯eda"
 
 msgid "Thursday"
-msgstr "ƒåtvrtek"
+msgstr "»tvrtek"
 
 msgid "Friday"
-msgstr "P√°tek"
+msgstr "P·tek"
 
 msgid "Saturday"
 msgstr "Sobota"
@@ -1017,16 +975,16 @@ msgid "Mon"
 msgstr "Po"
 
 msgid "Tue"
-msgstr "√öt"
+msgstr "⁄t"
 
 msgid "Wed"
 msgstr "St"
 
 msgid "Thu"
-msgstr "ƒåt"
+msgstr "»t"
 
 msgid "Fri"
-msgstr "P√°"
+msgstr "P·"
 
 msgid "Sat"
 msgstr "So"
@@ -1035,31 +993,31 @@ msgid "January"
 msgstr "Leden"
 
 msgid "February"
-msgstr "√önor"
+msgstr "⁄nor"
 
 msgid "March"
-msgstr "B≈ôezen"
+msgstr "B¯ezen"
 
 msgid "April"
 msgstr "Duben"
 
 msgid "May"
-msgstr "Kvƒõten"
+msgstr "KvÏten"
 
 msgid "June"
-msgstr "ƒåerven"
+msgstr "»erven"
 
 msgid "July"
-msgstr "ƒåervenec"
+msgstr "»ervenec"
 
 msgid "August"
 msgstr "Srpen"
 
 msgid "September"
-msgstr "Z√°≈ô√≠"
+msgstr "Z·¯Ì"
 
 msgid "October"
-msgstr "≈ò√≠jen"
+msgstr "ÿÌjen"
 
 msgid "November"
 msgstr "Listopad"
@@ -1071,31 +1029,31 @@ msgid "Jan"
 msgstr "Led"
 
 msgid "Feb"
-msgstr "√öno"
+msgstr "⁄no"
 
 msgid "Mar"
-msgstr "B≈ôe"
+msgstr "B¯e"
 
 msgid "Apr"
 msgstr "Dub"
 
 msgid "Ma&#121;"
-msgstr "Kvƒõ"
+msgstr "KvÏ"
 
 msgid "Jun"
-msgstr "ƒåvn"
+msgstr "»vn"
 
 msgid "Jul"
-msgstr "ƒåvc"
+msgstr "»vc"
 
 msgid "Aug"
 msgstr "Srp"
 
 msgid "Sep"
-msgstr "Z√°≈ô"
+msgstr "Z·¯"
 
 msgid "Oct"
-msgstr "≈ò√≠j"
+msgstr "ÿÌj"
 
 msgid "Nov"
 msgstr "Lis"
@@ -1126,449 +1084,431 @@ msgstr "D, H:i"
 
 #, php-format
 msgid "Preference database error (%s). Exiting abnormally"
-msgstr "Chyba datab√°ze nastaven√≠ (%s). Abnorm√°ln√≠ ukonƒçen√≠"
+msgstr "Chyba datab·ze nastavenÌ (%s). Abnorm·lnÌ ukonËenÌ"
 
 #, php-format
 msgid "Click here to return to %s"
-msgstr "Pro n√°vrat do %s kliknƒõte zde"
+msgstr "Pro n·vrat do %s kliknÏte zde"
 
 msgid "Go to the login page"
-msgstr "Jdi na p≈ôihla≈°ovac√≠ str√°nku"
+msgstr "Jdi na p¯ihlaπovacÌ str·nku"
 
 #, php-format
 msgid ""
 "Preference file, %s, does not exist. Log out, and log back in to create a "
 "default preference file."
 msgstr ""
-"Soubor s nastaven√≠m, %s, neexistuje. Odhlaste se a p≈ôihlaste se zpƒõt, abyste "
-"vytvo≈ôili v√Ωchoz√≠ soubor s nastaven√≠m."
+"Soubor s nastavenÌm, %s, neexistuje. Odhlaste se a p¯ihlaste se zpÏt, abyste "
+"vytvo¯ili v˝chozÌ soubor s nastavenÌm."
 
 #, php-format
 msgid ""
 "Preference file, %s, could not be opened. Contact your system administrator "
 "to resolve this issue."
 msgstr ""
-"Soubor s nastaven√≠m, %s, nemohl b√Ωt otev≈ôen. Kontaktujte spr√°vce webmailu."
+"Soubor s nastavenÌm, %s, nemohl b˝t otev¯en. Kontaktujte spr·vce webmailu."
 
 #, php-format
 msgid ""
 "Preference file, %s, could not be written. Contact your system administrator "
 "to resolve this issue."
 msgstr ""
-"Soubor s nastaven√≠m, %s, nemohl b√Ωt otev≈ôen. Kontaktujte spr√°vce webmailu."
+"Soubor s nastavenÌm, %s, nemohl b˝t otev¯en. Kontaktujte spr·vce webmailu."
 
 #, php-format
 msgid ""
 "Preference file, %s, could not be copied from temporary file, %s. Contact "
 "your system administrator to resolve this issue."
 msgstr ""
-"Soubor s nastaven√≠m, %s, nemohl b√Ωt zkop√≠rov√°n z doƒçasn√©ho adres√°≈ôe, %s. "
-"Kontaktujte spr√°vce."
+"Soubor s nastavenÌm, %s, nemohl b˝t zkopÌrov·n z doËasnÈho adres·¯e, %s. "
+"Kontaktujte spr·vce."
 
 #, php-format
 msgid "Error opening %s"
-msgstr "Chyba p≈ôi otev√≠r√°n√≠ %s"
+msgstr "Chyba p¯i otevÌr·nÌ %s"
 
 msgid "Default preference file not found or not readable!"
-msgstr "Soubor s implicitn√≠m nastaven√≠m nenalezen"
+msgstr "Soubor s implicitnÌm nastavenÌm nenalezen"
 
 msgid "Could not create initial preference file!"
-msgstr "Nemohu vytvo≈ôit poƒç√°teƒçn√≠ soubor s preferencemi!"
+msgstr "Nemohu vytvo¯it poË·teËnÌ soubor s preferencemi!"
 
 #, php-format
 msgid "%s should be writable by user %s"
-msgstr "Soubor %s by mƒõl b√Ωt zapsateln√Ω u≈æivatelem %s"
+msgstr "Soubor %s by mÏl b˝t zapsateln˝ uæivatelem %s"
 
 msgid "Signature is too big."
-msgstr "Podpis je p≈ô√≠li≈° dlouh√Ω."
+msgstr "Podpis je p¯Ìliπ dlouh˝."
 
 #, php-format
 msgid ""
 "Signature file, %s, could not be opened. Contact your system administrator "
 "to resolve this issue."
 msgstr ""
-"Soubor s podpisy, %s, nemohl b√Ωt otev≈ôen. Oznamte tuto chybu "
-"administr√°torovi syst√©mu."
+"Soubor s podpisy, %s, nemohl b˝t otev¯en. Oznamte tuto chybu "
+"administr·torovi systÈmu."
 
 #, php-format
 msgid ""
 "Signature file, %s, could not be written. Contact your system administrator "
 "to resolve this issue."
 msgstr ""
-"Soubor s podpisy, %s, nemohl b√Ωt otev≈ôen. Oznamte tuto chybu "
-"administr√°torovi syst√©mu."
+"Soubor s podpisy, %s, nemohl b˝t otev¯en. Oznamte tuto chybu "
+"administr·torovi systÈmu."
 
 #, php-format
 msgid ""
 "Signature file, %s, could not be copied from temporary file, %s. Contact "
 "your system administrator to resolve this issue."
 msgstr ""
-"Soubor s podpisy, %s, nemohl b√Ωt zkop√≠rov√°n z doƒçasn√©ho souboru %s. Oznamte "
-"tuto chybu administr√°torovi syst√©mu."
+"Soubor s podpisy, %s, nemohl b˝t zkopÌrov·n z doËasnÈho souboru %s. Oznamte "
+"tuto chybu administr·torovi systÈmu."
 
 msgid ""
 "You need to have PHP installed with the multibyte string function enabled "
 "(using configure option --enable-mbstring)."
-msgstr "Je nutn√© m√≠t PHP nainstalov√°no s parametrem --with-mbstring."
+msgstr "Je nutnÈ mÌt PHP nainstalov·no s parametrem --with-mbstring."
 
 msgid "ERROR: No available IMAP stream."
-msgstr "Chyba: Nen√≠ k dispozici ≈æ√°dn√© p≈ôipojeni k IMAP serveru."
+msgstr "Chyba: NenÌ k dispozici æ·dnÈ p¯ipojeni k IMAP serveru."
 
 msgid "ERROR: Connection dropped by IMAP server."
-msgstr "Chyba: Spojen√≠ s IMAP serverem bylo p≈ôeru≈°eno."
+msgstr "Chyba: SpojenÌ s IMAP serverem bylo p¯eruπeno."
 
 msgid "ERROR: Could not complete request."
-msgstr "Chyba: Po≈æadavek nelze dokonƒçit."
+msgstr "Chyba: Poæadavek nelze dokonËit."
 
 msgid "Query:"
 msgstr "Dotaz:"
 
 msgid "Reason Given:"
-msgstr "Od≈Øvodnƒõn√≠:"
+msgstr "Od˘vodnÏnÌ:"
 
 msgid "ERROR: Bad or malformed request."
-msgstr "Chyba: ≈†patn√Ω nebo ≈°patnƒõ zadan√Ω po≈æadavek."
+msgstr "Chyba: ©patn˝ nebo πpatnÏ zadan˝ poæadavek."
 
 msgid "Server responded:"
-msgstr "Odpovƒõƒè serveru:"
+msgstr "OdpovÏÔ serveru:"
 
 msgid "ERROR: IMAP server closed the connection."
-msgstr "Chyba: IMAP server ukonƒçil spojen√≠."
+msgstr "Chyba: IMAP server ukonËil spojenÌ."
 
 msgid "ERROR: Unknown IMAP response."
-msgstr "Chyba: nezn√°m√° odpovƒõƒè IMAP serveru."
+msgstr "Chyba: nezn·m· odpovÏÔ IMAP serveru."
 
 #, php-format
 msgid "Error connecting to IMAP server: %s."
-msgstr "Chyba v p≈ôipojov√°n√≠ k IMAP serveru: %s."
+msgstr "Chyba v p¯ipojov·nÌ k IMAP serveru: %s."
 
 msgid "The IMAP server is reporting that plain text logins are disabled."
-msgstr "IMAP server odm√≠tl ne≈°ifrovan√© (plain text) p≈ôihl√°≈°en√≠."
+msgstr "IMAP server odmÌtl neπifrovanÈ (plain text) p¯ihl·πenÌ."
 
 msgid "Using CRAM-MD5 or DIGEST-MD5 authentication instead may work."
-msgstr "Pou≈æit√≠ p≈ôihl√°≈°en√≠ CRAM-MD5 nebo DIGEST-MD5 by mohlo fungovat."
+msgstr "PouæitÌ p¯ihl·πenÌ CRAM-MD5 nebo DIGEST-MD5 by mohlo fungovat."
 
 msgid "Also, the use of TLS may allow SquirrelMail to login."
-msgstr "Tak√© pou≈æit√≠ TLS m≈Ø≈æe pomoci SquirrelMailu p≈ôi p≈ôihla≈°ov√°n√≠."
+msgstr "TakÈ pouæitÌ TLS m˘æe pomoci SquirrelMailu p¯i p¯ihlaπov·nÌ."
 
 #, php-format
 msgid "Bad request: %s"
-msgstr "≈†patnƒõ zadan√Ω po≈æadovan√Ω √∫kol: %s"
+msgstr "©patnÏ zadan˝ poæadovan˝ ˙kol: %s"
 
 #, php-format
 msgid "Unknown error: %s"
-msgstr "Nezn√°m√° chyba: %s"
+msgstr "Nezn·m· chyba: %s"
 
 msgid "Read data:"
-msgstr "Naƒçten√≠ dat:"
+msgstr "NaËtenÌ dat:"
 
 msgid "Unknown user or password incorrect."
-msgstr "Nezn√°m√Ω u≈æivatel nebo neplatn√© heslo."
+msgstr "Nezn·m˝ uæivatel nebo neplatnÈ heslo."
 
 msgid "ERROR: Could not append message to"
-msgstr "Chyba: Zpr√°vu nelze p≈ôipojit k"
+msgstr "Chyba: Zpr·vu nelze p¯ipojit k"
 
 msgid "Solution:"
-msgstr "N√°vrh ≈ôe≈°en√≠:"
+msgstr "N·vrh ¯eπenÌ:"
 
 msgid ""
 "Remove unneccessary messages from your folders. Start with your Trash folder."
-msgstr "Sma≈æte nepot≈ôebn√© soubory z va≈°√≠ schr√°nky. M≈Ø≈æete zaƒç√≠t ve slo≈æce Ko≈°."
-
-#, php-format
-msgid "Invalid mailbox name: %s"
-msgstr "Neplatn√Ω n√°zev slo≈æky: %s"
+msgstr "Smaæte nepot¯ebnÈ soubory z vaπÌ schr·nky. M˘æete zaËÌt ve sloæce Koπ."
 
 msgid "(no subject)"
-msgstr "(≈æ√°dn√Ω p≈ôedmƒõt)"
+msgstr "(æ·dn˝ p¯edmÏt)"
 
 msgid "Unknown Sender"
-msgstr "Nezn√°m√Ω Odes√≠latel"
+msgstr "Nezn·m˝ OdesÌlatel"
 
 msgid "Unknown response from IMAP server:"
-msgstr "Nezn√°m√° odpovƒõƒè IMAP serveru:"
+msgstr "Nezn·m· odpovÏÔ IMAP serveru:"
 
 msgid "The server couldn't find the message you requested."
-msgstr "Server nemohl naj√≠t po≈æadovanou zpr√°vu."
+msgstr "Server nemohl najÌt poæadovanou zpr·vu."
 
 msgid ""
 "Most probably your message list was out of date and the message has been "
 "moved away or deleted (perhaps by another program accessing the same "
 "mailbox)."
 msgstr ""
-"Pravdƒõpodobnƒõ jste mƒõl star√Ω seznam zpr√°v a zpr√°va byla mezit√≠m smaz√°na."
+"PravdÏpodobnÏ jste mÏl star˝ seznam zpr·v a zpr·va byla mezitÌm smaz·na."
 
 msgid "Unknown date"
-msgstr "Nezn√°m√© datum"
+msgstr "Nezn·mÈ datum"
 
 msgid "A"
 msgstr "O"
 
 msgid "Thread sorting is not supported by your IMAP server."
-msgstr "IMAP server nepodporuje t≈ô√≠dƒõn√≠ zpr√°v podle vl√°ken."
+msgstr "IMAP server nepodporuje t¯ÌdÏnÌ zpr·v podle vl·ken."
 
 msgid "Server-side sorting is not supported by your IMAP server."
-msgstr "IMAP server nepodporuje ≈ôazen√≠ zpr√°v."
+msgstr "IMAP server nepodporuje ¯azenÌ zpr·v."
 
 msgid "THIS FOLDER IS EMPTY"
-msgstr "TATO SLO≈ΩKA JE PR√ÅZDN√Å"
+msgstr "TATO SLOÆKA JE PR¡ZDN¡"
 
 msgid "Move Selected To"
-msgstr "P≈ôesunout vybran√© polo≈æky do"
+msgstr "P¯esunout vybranÈ poloæky do"
 
 msgid "Transform Selected Messages"
-msgstr "Operace s oznaƒçen√Ωmi zpr√°vami"
+msgstr "Operace s oznaËen˝mi zpr·vami"
 
 msgid "Move"
-msgstr "P≈ôesunout"
+msgstr "P¯esunout"
 
 msgid "Expunge"
 msgstr "Vysypat"
 
 msgid "Read"
-msgstr "P≈ôeƒçten√©"
+msgstr "P¯eËtenÈ"
 
 msgid "Unread"
-msgstr "Nep≈ôeƒçten√©"
+msgstr "Nep¯eËtenÈ"
 
 msgid "Unthread View"
-msgstr "Vypnout ≈ôazen√≠ podle konverzace"
+msgstr "Vypnout ¯azenÌ podle konverzace"
 
 msgid "Thread View"
-msgstr "≈òazen√≠ podle konverzace"
+msgstr "ÿazenÌ podle konverzace"
 
 msgid "Toggle All"
-msgstr "Zmƒõnit oznaƒçen√≠ v≈°ech"
+msgstr "ZmÏnit oznaËenÌ vπech"
 
 msgid "Unselect All"
-msgstr "Odznaƒçit v≈°e"
+msgstr "OdznaËit vπe"
 
 msgid "Select All"
-msgstr "Oznaƒçit v≈°e"
+msgstr "OznaËit vπe"
 
 #, php-format
 msgid "Viewing Messages: %s to %s (%s total)"
-msgstr "Zobrazen√≠ zpr√°v: %s a≈æ %s (%s celkem)"
+msgstr "ZobrazenÌ zpr·v: %s aæ %s (%s celkem)"
 
 #, php-format
 msgid "Viewing Message: %s (%s total)"
-msgstr "Zobrazen√≠ zpr√°vy: %s (%s celkem)"
+msgstr "ZobrazenÌ zpr·vy: %s (%s celkem)"
 
 msgid "Paginate"
-msgstr "Po str√°nk√°ch"
+msgstr "Po str·nk·ch"
 
 msgid "Show All"
-msgstr "Zobraz v≈°e"
+msgstr "Zobraz vπe"
 
 msgid "SquirrelMail could not decode the bodystructure of the message"
-msgstr "Form√°t zpr√°vy nebyl rozpozn√°n"
+msgstr "Form·t zpr·vy nebyl rozpozn·n"
 
 msgid "The bodystructure provided by your IMAP server:"
-msgstr "Struktura zpr√°vy z IMAP serveru:"
+msgstr "Struktura zpr·vy z IMAP serveru:"
 
 msgid ""
 "Body retrieval error. The reason for this is most probably that the message "
 "is malformed."
-msgstr "Chyba p≈ôi otev√≠ran√≠ tƒõla zpr√°vy. Zpr√°va je pravdƒõpodobnƒõ po≈°kozena."
+msgstr "Chyba p¯i otevÌranÌ tÏla zpr·vy. Zpr·va je pravdÏpodobnÏ poπkozena."
 
 msgid "Command:"
-msgstr "P≈ô√≠kaz:"
+msgstr "P¯Ìkaz:"
 
 msgid "Response:"
-msgstr "Odpovƒõƒè:"
+msgstr "OdpovÏÔ:"
 
 msgid "Message:"
-msgstr "Zpr√°va:"
+msgstr "Zpr·va:"
 
 msgid "FETCH line:"
-msgstr "FETCH ≈ô√°dek:"
+msgstr "FETCH ¯·dek:"
 
 msgid "Hide Unsafe Images"
-msgstr "Schovat nebezpeƒçn√© obr√°zky"
+msgstr "Schovat nebezpeËnÈ obr·zky"
+
+msgid "View Unsafe Images"
+msgstr "Zobrazit nebezpeËnÈ obr·zky"
 
 msgid "Download"
-msgstr "St√°hnout"
+msgstr "St·hnout"
 
 msgid "sec_remove_eng.png"
 msgstr "sec_remove_cs_CZ.png"
 
 msgid "This external link will open in a new window"
-msgstr "Odkaz se otev≈ôe v nov√©m oknƒõ"
+msgstr "Odkaz se otev¯e v novÈm oknÏ"
 
 #, php-format
 msgid "Option Type '%s' Not Found"
 msgstr "Volba typu '%s' nenalezena"
 
-msgid "Delete Selected"
-msgstr "Odstranit vybran√© polo≈æky"
-
-#, php-format
-msgid "Edit List Layout Type '%s' Not Found"
-msgstr "Volba vzhledu seznamu '%s' nenalezena"
-
 msgid "Current Folder"
-msgstr "Aktu√°ln√≠ slo≈æka"
+msgstr "Aktu·lnÌ sloæka"
 
 msgid "Compose"
-msgstr "Nov√° zpr√°va"
+msgstr "Nov· zpr·va"
 
 #, php-format
 msgid "Error creating directory %s."
-msgstr "Chyba p≈ôi otev√≠r√°n√≠ souboru %s."
+msgstr "Chyba p¯i otevÌr·nÌ souboru %s."
 
 msgid "Could not create hashed directory structure!"
-msgstr "Nemohu vytvo≈ôit strukturu adres√°≈ô≈Ø s hashem!"
-
-msgid "Email delivery error"
-msgstr "Chyba p≈ôi doruƒçov√°n√≠ zpr√°vy"
-
-#, php-format
-msgid "Can't execute command '%s'."
-msgstr "P≈ô√≠kaz '%s' nelze spustit."
-
-msgid "Can't open SMTP stream."
-msgstr "Nejde otev≈ô√≠t komunikaƒçn√≠ kan√°l pro SMTP."
+msgstr "Nemohu vytvo¯it strukturu adres·¯˘ s hashem!"
 
 msgid "Service not available, closing channel"
-msgstr "Slu≈æba nedostupn√°, zav√≠r√°m kan√°l"
+msgstr "Sluæba nedostupn·, zavÌr·m kan·l"
 
 msgid "A password transition is needed"
-msgstr "P≈ôemƒõna hesla je nutn√°"
+msgstr "P¯emÏna hesla je nutn·"
 
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Po≈æadovan√° operace nebyla provedena: schr√°nka nedostupn√°"
+msgstr "Poæadovan· operace nebyla provedena: schr·nka nedostupn·"
 
 msgid "Requested action aborted: error in processing"
-msgstr "Po≈æadovan√° akce byla p≈ôeru≈°ena: chyba p≈ôi prov√°dƒõn√≠"
+msgstr "Poæadovan· akce byla p¯eruπena: chyba p¯i prov·dÏnÌ"
 
 msgid "Requested action not taken: insufficient system storage"
-msgstr "Po≈æadovan√° akce nebyla provedena: nedostatek m√≠sta"
+msgstr "Poæadovan· akce nebyla provedena: nedostatek mÌsta"
 
 msgid "Temporary authentication failure"
-msgstr "Doƒçasn√° chyba autentifikace selhala"
+msgstr "DoËasn· chyba autentifikace selhala"
 
 msgid "Syntax error; command not recognized"
-msgstr "Chyba syntaxe; nezn√°m√Ω p≈ô√≠kaz"
+msgstr "Chyba syntaxe; nezn·m˝ p¯Ìkaz"
 
 msgid "Syntax error in parameters or arguments"
 msgstr "Chyba syntaxe v parametrech nebo argumentech"
 
 msgid "Command not implemented"
-msgstr "P≈ô√≠kaz nebyl implementov√°n"
+msgstr "P¯Ìkaz nebyl implementov·n"
 
 msgid "Bad sequence of commands"
-msgstr "≈†patn√° posloupnost p≈ô√≠kaz≈Ø"
+msgstr "©patn· posloupnost p¯Ìkaz˘"
 
 msgid "Command parameter not implemented"
-msgstr "Parametr p≈ô√≠kazu nebyl implementov√°n"
+msgstr "Parametr p¯Ìkazu nebyl implementov·n"
 
 msgid "Authentication required"
-msgstr "autentifikace je nutn√°"
+msgstr "autentifikace je nutn·"
 
 msgid "Authentication mechanism is too weak"
-msgstr "P≈ô√≠li≈° nedokonal√° metoda autentifikace"
+msgstr "P¯Ìliπ nedokonal· metoda autentifikace"
 
 msgid "Authentication failed"
 msgstr "Autentikace selhala"
 
 msgid "Encryption required for requested authentication mechanism"
-msgstr "Pro pou≈æit√≠ t√©to autentifikaƒçn√≠ metody je nutn√© pou≈æ√≠t ≈°ifrov√°n√≠"
+msgstr "Pro pouæitÌ tÈto autentifikaËnÌ metody je nutnÈ pouæÌt πifrov·nÌ"
 
 msgid "Requested action not taken: mailbox unavailable"
-msgstr "Nebylo mo≈æn√© prov√©st po≈æadovanou operaci: schr√°nka je nedostupn√°"
+msgstr "Nebylo moænÈ provÈst poæadovanou operaci: schr·nka je nedostupn·"
 
 msgid "User not local; please try forwarding"
-msgstr "U≈æivatel nen√≠ m√≠stn√≠; pros√≠m zkuste p≈ôeposl√°n√≠"
+msgstr "Uæivatel nenÌ mÌstnÌ; prosÌm zkuste p¯eposl·nÌ"
 
 msgid "Requested mail action aborted: exceeding storage allocation"
-msgstr "Po≈æadovan√° akce byla p≈ôeru≈°ena: limit velikosti schr√°nky p≈ôekroƒçen"
+msgstr "Poæadovan· akce byla p¯eruπena: limit velikosti schr·nky p¯ekroËen"
 
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr "Po≈æadovan√° akce nebyla provedena: nepovolen√© jm√©no schr√°nky"
+msgstr "Poæadovan· akce nebyla provedena: nepovolenÈ jmÈno schr·nky"
 
 msgid "Transaction failed"
-msgstr "Transakce se nezda≈ôila"
+msgstr "Transakce se nezda¯ila"
 
 msgid "Unknown response"
-msgstr "Nezn√°m√° odpovƒõƒè"
+msgstr "Nezn·m· odpovÏÔ"
 
 msgid "General Display Options"
-msgstr "Obecn√© volby zobrazen√≠"
+msgstr "ObecnÈ volby zobrazenÌ"
 
 msgid "Theme"
-msgstr "Sch√©ma"
+msgstr "SchÈma"
 
 msgid "Default"
-msgstr "Implicitn√≠"
+msgstr "ImplicitnÌ"
 
 msgid "Custom Stylesheet"
-msgstr "Vlastn√≠ CSS styl"
+msgstr "VlastnÌ CSS styl"
 
 msgid "Language"
 msgstr "Jazyk"
 
 msgid "Use Javascript"
-msgstr "Pou≈æ√≠vat JavaScript"
+msgstr "PouæÌvat JavaScript"
 
 msgid "Autodetect"
 msgstr "Autodetekce"
 
 msgid "Always"
-msgstr "V≈ædy"
+msgstr "Vædy"
 
 msgid "Never"
 msgstr "Nikdy"
 
 msgid "Mailbox Display Options"
-msgstr "Volby zobrazen√≠ slo≈æky"
+msgstr "Volby zobrazenÌ sloæky"
 
 msgid "Number of Messages per Page"
-msgstr "Poƒçet zpr√°v na str√°nce"
+msgstr "PoËet zpr·v na str·nce"
 
 msgid "Enable Alternating Row Colors"
-msgstr "Pou≈æ√≠t st≈ô√≠daj√≠c√≠ se barvy ≈ô√°dk≈Ø"
+msgstr "PouæÌt st¯ÌdajÌcÌ se barvy ¯·dk˘"
 
 msgid "Enable Page Selector"
-msgstr "Zapnout Str√°nkovaƒç"
+msgstr "Zapnout Str·nkovaË"
 
 msgid "Maximum Number of Pages to Show"
-msgstr "Maxim√°ln√≠ zobrazen√Ω poƒçet str√°nek"
+msgstr "Maxim·lnÌ zobrazen˝ poËet str·nek"
 
 msgid "Always Show Full Date"
-msgstr "V≈ædy zobrazovat cel√© datum"
+msgstr "Vædy zobrazovat celÈ datum"
 
 msgid "Length of From/To Field (0 for full)"
-msgstr "Velikost pole Od/Komu (0 bez omezen√≠)"
+msgstr "Velikost pole Od/Komu (0 bez omezenÌ)"
 
 msgid "Length of Subject Field (0 for full)"
-msgstr "Velikost pole P≈ôedmƒõt (0 bez omezen√≠)"
+msgstr "Velikost pole P¯edmÏt (0 bez omezenÌ)"
 
 msgid "Message Display and Composition"
-msgstr "Zobrazen√≠ a psan√≠ zpr√°v"
+msgstr "ZobrazenÌ a psanÌ zpr·v"
 
 msgid "Wrap Incoming Text At"
-msgstr "Zalomit p≈ô√≠choz√≠ zpr√°vu na"
+msgstr "Zalomit p¯ÌchozÌ zpr·vu na"
 
 msgid "Width of Editor Window"
-msgstr "≈†√≠≈ôka editaƒçn√≠ho boxu"
+msgstr "©Ì¯ka editaËnÌho boxu"
 
 msgid "Height of Editor Window"
-msgstr "V√Ω≈°ka editaƒçn√≠ho boxu"
+msgstr "V˝πka editaËnÌho boxu"
 
 msgid "Location of Buttons when Composing"
-msgstr "Um√≠stƒõn√≠ tlaƒç√≠tek p≈ôi psan√≠ nov√© zpr√°vy"
+msgstr "UmÌstÏnÌ tlaËÌtek p¯i psanÌ novÈ zpr·vy"
 
 msgid "Before headers"
-msgstr "P≈ôed hlaviƒçkou zpr√°vy"
+msgstr "P¯ed hlaviËkou zpr·vy"
 
 msgid "Between headers and message body"
-msgstr "Mezi hlaviƒçkou a tƒõlem zpr√°vy"
+msgstr "Mezi hlaviËkou a tÏlem zpr·vy"
 
 msgid "After message body"
-msgstr "Za tƒõlem zpr√°vy"
+msgstr "Za tÏlem zpr·vy"
 
-msgid "Address Book Display Format"
-msgstr "Form√°t zobrazen√≠ adres√°≈ôe"
+msgid "Addressbook Display Format"
+msgstr "Form·t zobrazenÌ adres·¯e"
 
 msgid "Javascript"
 msgstr "JavaScript"
@@ -1576,104 +1516,95 @@ msgstr "JavaScript"
 msgid "HTML"
 msgstr "HTML"
 
-msgid "Format of Addresses Added From Address Book"
-msgstr "Form√°t adresy doplnƒõn√© z adres√°≈ôe"
-
-msgid "No prefix/Address only"
-msgstr "Bez prefixu/Pouze adresa"
-
-msgid "Nickname and address"
-msgstr "P≈ôezd√≠vka a e-mailov√° adresa"
-
-msgid "Full name and address"
-msgstr "Cel√© jm√©no a e-mailov√° adresa"
-
 msgid "Show HTML Version by Default"
-msgstr "Implicitnƒõ zobrazovat HTML verzi"
+msgstr "ImplicitnÏ zobrazovat HTML verzi"
 
 msgid "Enable Forward as Attachment"
-msgstr "Povolit funkci \"P≈ôeposlat jako p≈ô√≠lohu\""
+msgstr "Povolit funkci \"P¯eposlat jako p¯Ìlohu\""
+
+msgid "Include CCs when Forwarding Messages"
+msgstr "P¯i p¯eposÌl·nÌ zahrnout i adresy v poloæce Kopie"
 
 msgid "Include Me in CC when I Reply All"
-msgstr "Zahr≈à mou adresu do polo≈æky kopie kdy≈æ d√°m 'Odpovƒõdƒõt v≈°em'"
+msgstr "ZahrÚ mou adresu do poloæky kopie kdyæ d·m 'OdpovÏdÏt vπem'"
 
 msgid "Enable Mailer Display"
-msgstr "Zobrazovat po≈°tovn√≠ho klienta p≈ô√≠choz√≠ch zpr√°v"
+msgstr "Zobrazovat poπtovnÌho klienta p¯ÌchozÌch zpr·v"
 
 msgid "Display Attached Images with Message"
-msgstr "Zobrazovat p≈ôilo≈æen√© obr√°zky ve zpr√°vƒõ"
+msgstr "Zobrazovat p¯iloæenÈ obr·zky ve zpr·vÏ"
 
 msgid "Enable Printer Friendly Clean Display"
-msgstr "Zapnout zobrazen√≠ pro tisk"
+msgstr "Zapnout zobrazenÌ pro tisk"
 
 msgid "Enable Mail Delivery Notification"
-msgstr "Zapnout oznamov√°n√≠ o doruƒçen√≠ zpr√°v"
+msgstr "Zapnout oznamov·nÌ o doruËenÌ zpr·v"
 
 msgid "Compose Messages in New Window"
-msgstr "V≈ædy ps√°t zpr√°vu v nov√©m oknƒõ"
+msgstr "Vædy ps·t zpr·vu v novÈm oknÏ"
 
 msgid "Width of Compose Window"
-msgstr "≈†√≠≈ôka okna pro novou zpr√°vu"
+msgstr "©Ì¯ka okna pro novou zpr·vu"
 
 msgid "Height of Compose Window"
-msgstr "V√Ω≈°ka okna pro novou zpr√°vu"
+msgstr "V˝πka okna pro novou zpr·vu"
 
 msgid "Prepend Signature before Reply/Forward Text"
-msgstr "P≈ôipojit podpis p≈ôed text u odpovƒõd√≠ a p≈ôepos√≠lan√Ωch zpr√°v"
+msgstr "P¯ipojit podpis p¯ed text u odpovÏdÌ a p¯eposÌlan˝ch zpr·v"
 
 msgid "Prefix for Original Message when Replying"
-msgstr "Odsazen√≠ p≈Øvodn√≠ho dopisu v odpovƒõdi"
+msgstr "OdsazenÌ p˘vodnÌho dopisu v odpovÏdi"
 
 msgid "Cursor Position when Replying"
-msgstr "Zaƒç√≠t Odpov√≠d√°n√≠ v"
+msgstr "ZaËÌt OdpovÌd·nÌ v"
 
 msgid "To: field"
 msgstr "poli Komu:"
 
 msgid "Focus in body"
-msgstr "tƒõle zpr√°vy"
+msgstr "tÏle zpr·vy"
 
 msgid "Select body"
-msgstr "tƒõle zpr√°vy (vybrat text)"
+msgstr "tÏle zpr·vy (vybrat text)"
 
 msgid "No focus"
-msgstr "neurƒçeno"
+msgstr "neurËeno"
 
 msgid "Sort by Received Date"
-msgstr "≈òadit podle data p≈ôijet√≠"
+msgstr "ÿadit podle data p¯ijetÌ"
 
 msgid "Enable Thread Sort by References Header"
-msgstr "Povolit t≈ô√≠dƒõn√≠ podle konverzace s pou≈æit√≠m √∫daj≈Ø v hlaviƒçce"
+msgstr "Povolit t¯ÌdÏnÌ podle konverzace s pouæitÌm ˙daj˘ v hlaviËce"
 
 msgid "Special Folder Options"
-msgstr "Nastaven√≠ speci√°ln√≠ch slo≈æek"
+msgstr "NastavenÌ speci·lnÌch sloæek"
 
 msgid "Folder Path"
-msgstr "Cesta slo≈æky"
+msgstr "Cesta sloæky"
 
 msgid "Do not use Trash"
-msgstr "Nepou≈æ√≠vat Ko≈°"
+msgstr "NepouæÌvat Koπ"
 
 msgid "Trash Folder"
-msgstr "Ko≈°"
+msgstr "Koπ"
 
 msgid "Do not use Drafts"
-msgstr "Nepou≈æ√≠vat Koncepty"
+msgstr "NepouæÌvat Koncepty"
 
 msgid "Draft Folder"
 msgstr "Koncepty"
 
 msgid "Do not use Sent"
-msgstr "Nepou≈æ√≠vat slo≈æku Odeslan√° po≈°ta"
+msgstr "NepouæÌvat sloæku Odeslan· poπta"
 
 msgid "Sent Folder"
-msgstr "Odeslan√° po≈°ta"
+msgstr "Odeslan· poπta"
 
 msgid "Folder List Options"
-msgstr "Nastaven√≠ v√Ωpisu slo≈æek"
+msgstr "NastavenÌ v˝pisu sloæek"
 
 msgid "Location of Folder List"
-msgstr "Um√≠stƒõn√≠ seznamu slo≈æek"
+msgstr "UmÌstÏnÌ seznamu sloæek"
 
 msgid "Left"
 msgstr "Vlevo"
@@ -1682,10 +1613,10 @@ msgid "Right"
 msgstr "Vpravo"
 
 msgid "pixels"
-msgstr "bod≈Ø"
+msgstr "bod˘"
 
 msgid "Width of Folder List"
-msgstr "≈†√≠≈ôka seznamu slo≈æek"
+msgstr "©Ì¯ka seznamu sloæek"
 
 msgid "Minutes"
 msgstr "Minuty"
@@ -1697,131 +1628,122 @@ msgid "Minute"
 msgstr "Minuta"
 
 msgid "Auto Refresh Folder List"
-msgstr "Automatick√© obnovov√°n√≠ seznamu slo≈æek"
+msgstr "AutomatickÈ obnovov·nÌ seznamu sloæek"
 
 msgid "Enable Unread Message Notification"
-msgstr "Zapnout oznamov√°n√≠ o nep≈ôeƒçten√Ωch zpr√°v√°ch"
+msgstr "Zapnout oznamov·nÌ o nep¯eËten˝ch zpr·v·ch"
 
 msgid "No Notification"
-msgstr "Bez ozn√°men√≠"
+msgstr "Bez ozn·menÌ"
 
 msgid "Only INBOX"
-msgstr "Pouze slo≈æka Doruƒçen√° po≈°ta"
+msgstr "Pouze sloæka DoruËen· poπta"
 
 msgid "Unread Message Notification Type"
-msgstr "Typ ozn√°men√≠ o nep≈ôeƒçten√Ωch zpr√°v√°ch"
+msgstr "Typ ozn·menÌ o nep¯eËten˝ch zpr·v·ch"
 
 msgid "Only Unseen"
-msgstr "Pouze nep≈ôeƒçten√©"
+msgstr "Pouze nep¯eËtenÈ"
 
 msgid "Unseen and Total"
-msgstr "Nep≈ôeƒçten√© a Celkem"
+msgstr "Nep¯eËtenÈ a Celkem"
 
 msgid "Enable Collapsable Folders"
-msgstr "Zapnout rozbalovateln√© slo≈æky"
+msgstr "Zapnout rozbalovatelnÈ sloæky"
 
 msgid "Enable Cumulative Unread Message Notification"
-msgstr "Zapnout oznamov√°n√≠ o nep≈ôeƒçten√Ωch zpr√°v√°ch"
+msgstr "Zapnout oznamov·nÌ o nep¯eËten˝ch zpr·v·ch"
 
 msgid "Show Clock on Folders Panel"
-msgstr "Zobraz ƒças na panelu Slo≈æek"
+msgstr "Zobraz Ëas na panelu Sloæek"
 
 msgid "International date and time"
-msgstr "Mezin√°rodn√≠ datum a ƒças"
+msgstr "Mezin·rodnÌ datum a Ëas"
 
 msgid "American date and time"
-msgstr "Americk√© datum a ƒças"
+msgstr "AmerickÈ datum a Ëas"
 
 msgid "European date and time"
-msgstr "Evropsk√© datum a ƒças"
+msgstr "EvropskÈ datum a Ëas"
 
 msgid "Show weekday and time"
-msgstr "Zobrazit den t√Ωdne a ƒças"
+msgstr "Zobrazit den t˝dne a Ëas"
 
 msgid "Show time with seconds"
-msgstr "Zobrazit ƒças vƒç. sekund"
+msgstr "Zobrazit Ëas vË. sekund"
 
 msgid "Show time"
-msgstr "Zobrazit ƒças"
+msgstr "Zobrazit Ëas"
 
 msgid "No Clock"
-msgstr "≈Ω√°dn√Ω ƒças"
+msgstr "Æ·dn˝ Ëas"
 
 msgid "Hour Format"
-msgstr "Form√°t hodin"
+msgstr "Form·t hodin"
 
 msgid "12-hour clock"
-msgstr "12ti hodinov√Ω ƒças"
+msgstr "12ti hodinov˝ Ëas"
 
 msgid "24-hour clock"
-msgstr "24ti hodinov√Ω ƒças"
+msgstr "24ti hodinov˝ Ëas"
 
 msgid "Memory Search"
-msgstr "Pamƒõ≈• hled√°n√≠"
+msgstr "PamÏª hled·nÌ"
 
 msgid "Disabled"
 msgstr "Vypnuto"
 
 msgid "Folder Selection Options"
-msgstr "Mo≈ænosti - V√Ωbƒõr slo≈æek"
+msgstr "Moænosti - V˝bÏr sloæek"
 
 msgid "Selection List Style"
-msgstr "V√Ωbƒõr stylu"
+msgstr "V˝bÏr stylu"
 
 msgid "Long:"
-msgstr "D√©lka:"
+msgstr "DÈlka:"
 
 msgid "Folder"
-msgstr "Slo≈æka"
+msgstr "Sloæka"
 
 msgid "Subfolder"
-msgstr "Podslo≈æka"
+msgstr "Podsloæka"
 
 msgid "Indented:"
-msgstr "Odsazen√≠:"
+msgstr "OdsazenÌ:"
 
 msgid "Delimited:"
-msgstr "Oddƒõlovaƒç:"
-
-msgid "You can't select INBOX as Trash folder."
-msgstr "Slo≈æku Doruƒçen√° po≈°ta nen√≠ mo≈æn√© vybrat jako Ko≈°."
-
-msgid "You can't select INBOX as Sent folder."
-msgstr "Slo≈æku Doruƒçen√° po≈°ta nen√≠ mo≈æn√© vybrat jako Odeslanou po≈°tu."
-
-msgid "You can't select INBOX as Draft folder."
-msgstr "Slo≈æku Doruƒçen√° po≈°ta nen√≠ mo≈æn√© vybrat jako Koncepty."
+msgstr "OddÏlovaË:"
 
 msgid "Name and Address Options"
-msgstr "Mo≈ænosti - Jm√©no a e-mailov√° adresa"
+msgstr "Moænosti - JmÈno a e-mailov· adresa"
 
 msgid "E-mail Address"
-msgstr "E-mailov√° adresa"
+msgstr "E-mailov· adresa"
 
 msgid "Edit Advanced Identities"
-msgstr "Edituj roz≈°√≠≈ôen√© identity"
+msgstr "Edituj rozπÌ¯enÈ identity"
 
 msgid "(discards changes made on this form so far)"
-msgstr "(sma≈æe doposud uƒçinƒõn√© zmƒõny v tomto formul√°≈ôi)"
+msgstr "(smaæe doposud uËinÏnÈ zmÏny v tomto formul·¯i)"
 
 msgid "Multiple Identities"
-msgstr "V√≠cen√°sobn√© identity"
+msgstr "VÌcen·sobnÈ identity"
 
 msgid "Same as server"
-msgstr "Stejn√© jako server"
+msgstr "StejnÈ jako server"
 
 msgid "Error opening timezone config, contact administrator."
 msgstr ""
-"Nelze otev≈ô√≠t soubor s nastaven√≠m ƒçasov√Ωch z√≥n, kontaktujte spr√°vce webmailu."
+"Nelze otev¯Ìt soubor s nastavenÌm Ëasov˝ch zÛn, kontaktujte spr·vce webmailu."
 
 msgid "Timezone Options"
-msgstr "ƒåasov√© p√°smo"
+msgstr "»asovÈ p·smo"
 
 msgid "Your current timezone"
-msgstr "Aktu√°ln√≠ ƒçasov√° z√≥na"
+msgstr "Aktu·lnÌ Ëasov· zÛna"
 
 msgid "Reply Citation Options"
-msgstr "Nastaven√≠ citace v odpovƒõdi"
+msgstr "NastavenÌ citace v odpovÏdi"
 
 msgid "Reply Citation Style"
 msgstr "Styl citace"
@@ -1839,25 +1761,34 @@ msgid "Quote Who XML"
 msgstr "XML Citace"
 
 msgid "User-Defined"
-msgstr "Vlastn√≠"
+msgstr "VlastnÌ"
 
 msgid "User-Defined Citation Start"
-msgstr "Zaƒç√°tek vlastn√≠ citace"
+msgstr "ZaË·tek vlastnÌ citace"
 
 msgid "User-Defined Citation End"
-msgstr "Konec vlastn√≠ citace"
+msgstr "Konec vlastnÌ citace"
 
 msgid "Signature Options"
-msgstr "Mo≈ænosti podpisu"
+msgstr "Moænosti podpisu"
 
 msgid "Use Signature"
-msgstr "Pou≈æ√≠vat podpis?"
+msgstr "PouæÌvat podpis?"
 
 msgid "Prefix Signature with '-- ' Line"
-msgstr "Vlo≈æit p≈ôed podpis '-- ' ?"
+msgstr "Vloæit p¯ed podpis '-- ' ?"
+
+msgid "Take Address"
+msgstr "VzÌt Adresu"
+
+msgid "Address Book Take:"
+msgstr "AutomatickÈ p¯id·v·nÌ adres·t˘ do adres·¯e:"
+
+msgid "Try to verify addresses"
+msgstr "Snaæit se ovÏ¯it adresy"
 
 msgid "Config File Version"
-msgstr "Verze konfiguraƒçn√≠ho souboru"
+msgstr "Verze konfiguraËnÌho souboru"
 
 msgid "SquirrelMail Version"
 msgstr "SquirrelMail Verze"
@@ -1866,40 +1797,40 @@ msgid "PHP Version"
 msgstr "PHP Verze"
 
 msgid "Organization Preferences"
-msgstr "Nastaven√≠ organizace"
+msgstr "NastavenÌ organizace"
 
 msgid "Organization Name"
-msgstr "N√°zev organizace"
+msgstr "N·zev organizace"
 
 msgid "Organization Logo"
 msgstr "Logo organizace"
 
 msgid "Organization Logo Width"
-msgstr "≈†√≠≈ôka loga"
+msgstr "©Ì¯ka loga"
 
 msgid "Organization Logo Height"
-msgstr "V√Ω≈°ka organizace"
+msgstr "V˝πka organizace"
 
 msgid "Organization Title"
-msgstr "Hlaviƒçka organizace"
+msgstr "HlaviËka organizace"
 
 msgid "Signout Page"
-msgstr "Str√°nka po odhl√°≈°en√≠"
+msgstr "Str·nka po odhl·πenÌ"
 
 msgid "Provider Link URI"
 msgstr "URI Poskytovatele"
 
 msgid "Provider Name"
-msgstr "N√°zev poskytovatele: "
+msgstr "N·zev poskytovatele: "
 
 msgid "Top Frame"
-msgstr "Horn√≠ r√°m"
+msgstr "HornÌ r·m"
 
 msgid "Server Settings"
-msgstr "Nastaven√≠ serveru"
+msgstr "NastavenÌ serveru"
 
 msgid "Mail Domain"
-msgstr "Po≈°tovn√≠ dom√©na"
+msgstr "PoπtovnÌ domÈna"
 
 msgid "IMAP Server Address"
 msgstr "Adresa IMAP serveru"
@@ -1928,47 +1859,38 @@ msgstr "Mac OS X Mailserver"
 msgid "hMailServer IMAP server"
 msgstr "hMailServer IMAP server"
 
-msgid "Mercury/32 IMAP server"
-msgstr "Mercury/32 IMAP server"
-
 msgid "Binc IMAP server"
 msgstr "Binc IMAP server"
 
-msgid "Dovecot IMAP server"
-msgstr "Dovecot IMAP server"
-
 msgid "Not one of the above servers"
-msgstr "≈Ω√°dn√Ω z p≈ôedch√°zej√≠c√≠ch"
+msgstr "Æ·dn˝ z p¯edch·zejÌcÌch"
 
 msgid "IMAP Folder Delimiter"
-msgstr "Oddƒõlovaƒç slo≈æek"
+msgstr "OddÏlovaË sloæek"
 
 msgid "Use &quot;detect&quot; to auto-detect."
-msgstr "Pou≈æijte &quot;detect&quot; pro autodetekci."
+msgstr "Pouæijte &quot;detect&quot; pro autodetekci."
 
 msgid "Use TLS for IMAP Connections"
-msgstr "Pou≈æ√≠vat TLS pro IMAP spojen√≠"
+msgstr "PouæÌvat TLS pro IMAP spojenÌ"
 
 msgid "Requires PHP 4.3.x! Experimental."
-msgstr "Vy≈æaduje PHP 4.3.x! Experiment√°ln√≠ verze."
+msgstr "Vyæaduje PHP 4.3.x! Experiment·lnÌ verze."
 
 msgid "IMAP Authentication Type"
-msgstr "autentifikace se nezda≈ôila"
+msgstr "autentifikace se nezda¯ila"
 
 msgid "IMAP login"
-msgstr "U≈æivatelsk√© jm√©no na IMAP serveru"
+msgstr "UæivatelskÈ jmÈno na IMAP serveru"
 
 msgid "Use Sendmail Binary"
-msgstr "Pou≈æ√≠vat Sendmail"
+msgstr "PouæÌvat Sendmail"
 
 msgid "Choose &quot;no&quot; for SMTP"
 msgstr "Zvolte &quot;no&quot; pro SMTP"
 
 msgid "Sendmail Path"
 msgstr "Cesta k Sendmailu"
-
-msgid "Sendmail Arguments"
-msgstr "Paramtery Sendmailu"
 
 msgid "SMTP Server Address"
 msgstr "Adresa SMTP Serveru"
@@ -1977,7 +1899,7 @@ msgid "SMTP Server Port"
 msgstr "Port SMTP Serveru"
 
 msgid "Use TLS for SMTP Connections"
-msgstr "Pou≈æ√≠vat TLS v p≈ô√≠stupu na SMTP server"
+msgstr "PouæÌvat TLS v p¯Ìstupu na SMTP server"
 
 msgid "SMTP Authentication Type"
 msgstr "Typ SMTP autentifikace"
@@ -1986,214 +1908,205 @@ msgid "No SMTP auth"
 msgstr "Bez SMTP autentikace"
 
 msgid "Login (plain text)"
-msgstr "Ne≈°ifrovan√© (plain text) p≈ôihl√°≈°en√≠"
-
-msgid "Custom SMTP AUTH username"
-msgstr "Glob√°ln√≠ u≈æivatel pro SMTP autorizaci."
-
-msgid "Custom SMTP AUTH password"
-msgstr "Heslo glob√°ln√≠ho u≈æivatele pro SMTP autorizaci."
+msgstr "NeπifrovanÈ (plain text) p¯ihl·πenÌ"
 
 msgid "POP3 Before SMTP?"
-msgstr "POP3 P≈ôed SMTP?"
+msgstr "POP3 P¯ed SMTP?"
 
 msgid "Header Encryption Key"
-msgstr "≈†ifrovac√≠ kl√≠ƒç pro hlaviƒçku"
+msgstr "©ifrovacÌ klÌË pro hlaviËku"
 
 msgid "Invert Time"
-msgstr "P≈ôehodit ƒças"
+msgstr "P¯ehodit Ëas"
 
 msgid "Folders Defaults"
-msgstr "Implicitn√≠ nastaven√≠ slo≈æky"
+msgstr "ImplicitnÌ nastavenÌ sloæky"
 
 msgid "Default Folder Prefix"
-msgstr "Implicitn√≠ p≈ôedpona slo≈æky"
+msgstr "ImplicitnÌ p¯edpona sloæky"
 
 msgid "Show Folder Prefix Option"
-msgstr "Zobrazit nastaven√≠ p≈ôedpony slo≈æky"
+msgstr "Zobrazit nastavenÌ p¯edpony sloæky"
 
 msgid "By default, move to trash"
-msgstr "Implicitnƒõ odstra≈àovat do ko≈°e"
+msgstr "ImplicitnÏ odstraÚovat do koπe"
 
 msgid "By default, move to sent"
-msgstr "Implicitnƒõ ukl√°dat odeslanou po≈°tu"
+msgstr "ImplicitnÏ ukl·dat odeslanou poπtu"
 
 msgid "By default, save as draft"
-msgstr "Implicitnƒõ ukl√°dat koncepty"
+msgstr "ImplicitnÏ ukl·dat koncepty"
 
 msgid "List Special Folders First"
-msgstr "Zobrazovat nap≈ôed speci√°ln√≠ slo≈æky"
+msgstr "Zobrazovat nap¯ed speci·lnÌ sloæky"
 
 msgid "Show Special Folders Color"
-msgstr "Odli≈°it speci√°ln√≠ slo≈æky barevnƒõ"
+msgstr "Odliπit speci·lnÌ sloæky barevnÏ"
 
 msgid "Auto Expunge"
-msgstr "Automaticky vysyp√°vat ko≈°"
+msgstr "Automaticky vysyp·vat koπ"
 
 msgid "Default Sub. of INBOX"
-msgstr "Implicitn√≠ podslo≈æka Doruƒçen√© po≈°ty"
+msgstr "ImplicitnÌ podsloæka DoruËenÈ poπty"
 
 msgid "Show 'Contain Sub.' Option"
-msgstr "Zobrazit volbu 'Obsahuje podslo≈æky'"
+msgstr "Zobrazit volbu 'Obsahuje podsloæky'"
 
 msgid "Default Unseen Notify"
-msgstr "Implicitn√≠ zobrazen√≠ nep≈ôeƒçten√Ωch zpr√°v"
+msgstr "ImplicitnÌ zobrazenÌ nep¯eËten˝ch zpr·v"
 
 msgid "Default Unseen Type"
-msgstr "Implicitn√≠ nastaven√≠ zobrazen√≠ nep≈ôeƒçten√Ωch zpr√°v"
+msgstr "ImplicitnÌ nastavenÌ zobrazenÌ nep¯eËten˝ch zpr·v"
 
 msgid "Auto Create Special Folders"
-msgstr "Automaticky vytv√°≈ôet Speci√°ln√≠ slo≈æky"
+msgstr "Automaticky vytv·¯et Speci·lnÌ sloæky"
 
 msgid "Auto delete folders"
-msgstr "Automaticky odstra≈àovat slo≈æky"
+msgstr "Automaticky odstraÚovat sloæky"
 
 msgid "Enable /NoSelect folder fix"
 msgstr "Zapnout opravu chyby s /NoSelect"
 
 msgid "General Options"
-msgstr "Obecn√© nastaven√≠"
+msgstr "ObecnÈ nastavenÌ"
 
 msgid "Data Directory"
-msgstr "Adres√°≈ô s daty"
+msgstr "Adres·¯ s daty"
 
 msgid "Temp Directory"
-msgstr "Adres√°≈ô s doƒçasn√Ωmi soubory"
+msgstr "Adres·¯ s doËasn˝mi soubory"
 
 msgid "Hash Level"
-msgstr "√örove≈à hashe"
+msgstr "⁄roveÚ hashe"
 
 msgid "Hash Disabled"
-msgstr "Nepou≈æ√≠vat hash"
+msgstr "NepouæÌvat hash"
 
 msgid "Moderate"
-msgstr "Ni≈æ≈°√≠"
+msgstr "NiæπÌ"
 
 msgid "Medium"
-msgstr "St≈ôedn√≠"
+msgstr "St¯ednÌ"
 
 msgid "Default Left Size"
-msgstr "Implicitn√≠ velikost lev√©ho r√°mu"
+msgstr "ImplicitnÌ velikost levÈho r·mu"
 
 msgid "Usernames in Lowercase"
-msgstr "U≈æivatelsk√° jm√©na mal√Ωmi p√≠smeny"
+msgstr "Uæivatelsk· jmÈna mal˝mi pÌsmeny"
 
 msgid "Allow use of priority"
-msgstr "Povolit pou≈æ√≠van√≠ priority"
+msgstr "Povolit pouæÌvanÌ priority"
 
 msgid "Hide SM attributions"
-msgstr "Schovat zvl√°≈°tn√≠ p≈ô√≠znaky SM"
+msgstr "Schovat zvl·πtnÌ p¯Ìznaky SM"
 
 msgid "Enable use of delivery receipts"
-msgstr "Povolit pou≈æ√≠van√≠ ozn√°men√≠ o doruƒçen√≠"
+msgstr "Povolit pouæÌvanÌ ozn·menÌ o doruËenÌ"
 
 msgid "Allow editing of identities"
-msgstr "Povolit zmƒõny v identit√°ch"
+msgstr "Povolit zmÏny v identit·ch"
 
 msgid "Allow editing of full name"
-msgstr "Povolit zmƒõnu cel√©ho jm√©na"
+msgstr "Povolit zmÏnu celÈho jmÈna"
 
 msgid "Remove username from headers"
-msgstr "Odstranit jm√©no u≈æivatele z hlaviƒçek"
+msgstr "Odstranit jmÈno uæivatele z hlaviËek"
 
 msgid "Used only when identities can't be modified"
-msgstr "Pou≈æito pouze p≈ôi nemo≈ænosti upravit identitu"
+msgstr "Pouæito pouze p¯i nemoænosti upravit identitu"
 
 msgid "Use server-side sorting"
-msgstr "Pou≈æ√≠vat ≈ôazen√≠ na serveru"
+msgstr "PouæÌvat ¯azenÌ na serveru"
 
 msgid "Use server-side thread sorting"
-msgstr "Pou≈æ√≠vat t≈ô√≠dƒõn√≠ podle vl√°ken na serveru"
+msgstr "PouæÌvat t¯ÌdÏnÌ podle vl·ken na serveru"
 
 msgid "Allow server charset search"
-msgstr "Povolit hled√°n√≠ s pou≈æit√≠m znakov√© sady"
+msgstr "Povolit hled·nÌ s pouæitÌm znakovÈ sady"
 
 msgid "UID support"
 msgstr "Podpora UID"
 
 msgid "PHP session name"
-msgstr "N√°zev PHP session"
-
-msgid "Location base"
-msgstr "Location base"
+msgstr "N·zev PHP session"
 
 msgid "Message of the Day"
-msgstr "Zpr√°va dne"
+msgstr "Zpr·va dne"
 
 msgid "Database"
-msgstr "Datab√°ze"
+msgstr "Datab·ze"
 
 msgid "Address book DSN"
-msgstr "DSN Adres√°≈ôe"
+msgstr "DSN Adres·¯e"
 
 msgid "Address book table"
-msgstr "Tabulka adres√°≈ôe"
+msgstr "Tabulka adres·¯e"
 
 msgid "Preferences DSN"
-msgstr "Nastaven√≠ DSN"
+msgstr "NastavenÌ DSN"
 
 msgid "Preferences table"
-msgstr "Tabulka Nastaven√≠"
+msgstr "Tabulka NastavenÌ"
 
 msgid "Preferences username field"
-msgstr "Pol√≠ƒçko s u≈æivatelsk√Ωm jm√©nem v tabulce nastaven√≠"
+msgstr "PolÌËko s uæivatelsk˝m jmÈnem v tabulce nastavenÌ"
 
 msgid "Preferences key field"
-msgstr "Pol√≠ƒçko s n√°zvem v tabulce nastaven√≠"
+msgstr "PolÌËko s n·zvem v tabulce nastavenÌ"
 
 msgid "Preferences value field"
-msgstr "Pol√≠ƒçko s hodnotou v tabulce nastaven√≠"
+msgstr "PolÌËko s hodnotou v tabulce nastavenÌ"
 
 msgid "Global address book DSN"
-msgstr "DSN centr√°ln√≠ho adres√°≈ôe kontakt≈Ø"
+msgstr "DSN centr·lnÌho adres·¯e kontakt˘"
 
 msgid "Global address book table"
-msgstr "Tabulka centr√°ln√≠ho adres√°≈ôe kontakt≈Ø"
+msgstr "Tabulka centr·lnÌho adres·¯e kontakt˘"
 
 msgid "Allow writing into global address book"
-msgstr "Povolit modifikaci centr√°ln√≠ho adres√°≈ôe kontakt≈Ø"
+msgstr "Povolit modifikaci centr·lnÌho adres·¯e kontakt˘"
 
 msgid "Allow listing of global address book"
-msgstr "Povolit prohl√≠≈æen√≠ centr√°ln√≠ho adres√°≈ôe kontakt≈Ø"
+msgstr "Povolit prohlÌæenÌ centr·lnÌho adres·¯e kontakt˘"
 
 msgid "Language settings"
-msgstr "Jazykov√° nastaven√≠"
+msgstr "Jazykov· nastavenÌ"
 
 msgid "Default Language"
-msgstr "Implicitn√≠ jazyk"
+msgstr "ImplicitnÌ jazyk"
 
 msgid "Default Charset"
-msgstr "Implicitn√≠ znakov√° sada"
+msgstr "ImplicitnÌ znakov· sada"
 
 msgid "Enable lossy encoding"
-msgstr "Povolit ztr√°tov√© k√≥dov√°n√≠"
+msgstr "Povolit ztr·tovÈ kÛdov·nÌ"
 
 msgid "Address Books"
-msgstr "Adres√°≈ôe"
+msgstr "Adres·¯e"
 
 msgid "Default Javascript Addressbook"
-msgstr "Implicitnƒõ JavaScriptov√Ω adres√°≈ô"
+msgstr "ImplicitnÏ JavaScriptov˝ adres·¯"
 
 msgid "Global address book file"
-msgstr "Soubor centr√°ln√≠ho adres√°≈ôe kontakt≈Ø"
+msgstr "Soubor centr·lnÌho adres·¯e kontakt˘"
 
 msgid "Allow writing into global address book file"
-msgstr "Povolit modifikaci souboru s centr√°ln√≠m adres√°≈ôem kontakt≈Ø"
+msgstr "Povolit modifikaci souboru s centr·lnÌm adres·¯em kontakt˘"
 
 msgid "Themes"
-msgstr "Sch√©mata"
+msgstr "SchÈmata"
 
 msgid "Style Sheet URL (css)"
 msgstr "URL souboru se styly (css)"
 
 msgid "Default theme"
-msgstr "Implicitn√≠ barevn√© sch√©ma"
+msgstr "ImplicitnÌ barevnÈ schÈma"
 
 msgid "Use index number of theme"
-msgstr "Pou≈æ√≠vat ƒç√≠slo indexu u barevn√Ωch t√©mat"
+msgstr "PouæÌvat ËÌslo indexu u barevn˝ch tÈmat"
 
 msgid "Configuration Administrator"
-msgstr "Administr√°tor konfigurace"
+msgstr "Administr·tor konfigurace"
 
 msgid ""
 "Note: it is recommended that you configure your system using conf.pl, and "
@@ -2201,38 +2114,38 @@ msgid ""
 "purpose of variables and appropriate values, as well as additional "
 "verification steps."
 msgstr ""
-"Pozn√°mka: je doporuƒçeno prov√°dƒõt konfiguraci pomoc√≠ conf.pl a ne t√≠mto "
-"modulem. conf.pl obsahuje dal≈°√≠ pot≈ôebn√© informace o v√Ωznamu a hodnot√°ch "
-"promƒõnn√Ωch a ovƒõ≈ôen√≠ spr√°vnosti konfigurace."
+"Pozn·mka: je doporuËeno prov·dÏt konfiguraci pomocÌ conf.pl a ne tÌmto "
+"modulem. conf.pl obsahuje dalπÌ pot¯ebnÈ informace o v˝znamu a hodnot·ch "
+"promÏnn˝ch a ovÏ¯enÌ spr·vnosti konfigurace."
 
 msgid ""
 "Run or consult conf.pl should you run into difficulty with your "
 "configuration."
 msgstr ""
-"Spus≈•te nebo se pod√≠vejte do conf.pl, pokud se dostanete do nesn√°z√≠ s "
-"konfigurac√≠."
+"Spusªte nebo se podÌvejte do conf.pl, pokud se dostanete do nesn·zÌ s "
+"konfiguracÌ."
 
 msgid "Theme Name"
-msgstr "N√°zev sch√©ma"
+msgstr "N·zev schÈma"
 
 msgid "Theme Path"
-msgstr "Cesta ke sch√©mat≈Øm"
+msgstr "Cesta ke schÈmat˘m"
 
 msgid "Plugins"
 msgstr "Pluginy"
 
 #, php-format
 msgid "Plugin directory could not be found: %s"
-msgstr "Adres√°≈ô s pluginy nebyl nalezen: %s"
+msgstr "Adres·¯ s pluginy nebyl nalezen: %s"
 
 msgid "Change Settings"
-msgstr "Zmƒõnit nastaven√≠"
+msgstr "ZmÏnit nastavenÌ"
 
 msgid "Test Configuration"
 msgstr "Kontrola konfigurace"
 
 msgid "Config file can't be opened. Please check config.php."
-msgstr "Nelze otev≈ô√≠t konfiguraƒçn√≠ soubor. Zkontrolujte config.php."
+msgstr "Nelze otev¯Ìt konfiguraËnÌ soubor. Zkontrolujte config.php."
 
 msgid "Administration"
 msgstr "Administrace"
@@ -2240,53 +2153,50 @@ msgstr "Administrace"
 msgid ""
 "This module allows administrators to manage SquirrelMail main configuration "
 "remotely."
-msgstr "Tento modul umo≈æ≈àuje administr√°tor≈Øm nastavovat SM vzd√°lenƒõ."
-
-msgid "Plugin is not enabled"
-msgstr "Z√°suvn√Ω modul nen√≠ povolen"
+msgstr "Tento modul umoæÚuje administr·tor˘m nastavovat SM vzd·lenÏ."
 
 msgid "Submit a Bug Report"
-msgstr "Hl√°≈°en√≠ chyb"
+msgstr "Hl·πenÌ chyb"
 
 msgid ""
 "Before you send your bug report, please make sure to check this checklist "
 "for any common problems."
 msgstr ""
-"P≈ôed posl√°n√≠m Hl√°≈°en√≠ chyby, pros√≠m projdƒõte tento seznam s nejƒçastƒõj≈°√≠mi "
-"probl√©my."
+"P¯ed posl·nÌm Hl·πenÌ chyby, prosÌm projdÏte tento seznam s nejËastÏjπÌmi "
+"problÈmy."
 
 #, php-format
 msgid ""
 "Make sure that you are running the most recent copy of %s. You are currently "
 "using version %s."
 msgstr ""
-"Ujistƒõte se, ≈æe spou≈°t√≠te aktu√°ln√≠ kopii %s. Aktu√°lnƒõ pou≈æ√≠v√°te verzi %s."
+"UjistÏte se, æe spouπtÌte aktu·lnÌ kopii %s. Aktu·lnÏ pouæÌv·te verzi %s."
 
 #, php-format
 msgid ""
 "Check to see if your bug is already listed in the %sBug List%s on "
 "SourceForge. If it is, we already know about it and are trying to fix it."
 msgstr ""
-"Ovƒõ≈ôte, zda ji≈æ nen√≠ chyba uvedena v %sseznamu chyb%s na SourceForge. Pokud "
-"je, ji≈æ o t√©to chybƒõ v√≠me a sna≈æ√≠me se ji odstranit."
+"OvÏ¯te, zda jiæ nenÌ chyba uvedena v %sseznamu chyb%s na SourceForge. Pokud "
+"je, jiæ o tÈto chybÏ vÌme a snaæÌme se ji odstranit."
 
 msgid ""
 "Try to make sure that you can repeat it. If the bug happens sporatically, "
 "try to document what you did when it happened. If it always occurs when you "
 "view a specific message, keep that message around so maybe we can see it."
 msgstr ""
-"Pokuste se provƒõ≈ôit, zda dok√°≈æete chybu zopakovat. Pokud se vyskytuje pouze "
-"sporadicky, zkuste popsat, co jste dƒõlal(a), kdy≈æ chyba vznikla. Pokud je "
-"v√Ωskyt chyby v√°z√°n na konkr√©tn√≠ zpr√°vu, uchovejte si ji pro p≈ô√≠pad, ≈æe "
-"bychom ji chtƒõli vidƒõt."
+"Pokuste se provÏ¯it, zda dok·æete chybu zopakovat. Pokud se vyskytuje pouze "
+"sporadicky, zkuste popsat, co jste dÏlal(a), kdyæ chyba vznikla. Pokud je "
+"v˝skyt chyby v·z·n na konkrÈtnÌ zpr·vu, uchovejte si ji pro p¯Ìpad, æe "
+"bychom ji chtÏli vidÏt."
 
 #, php-format
 msgid ""
 "If there were warnings displayed above, try to resolve them yourself. Read "
 "the guides in the %s directory where SquirrelMail was installed."
 msgstr ""
-"Pokud se zobrazila varov√°n√≠, zkuste je sami vy≈ôe≈°it. P≈ôeƒçtƒõte si pokyny ve "
-"slo≈æce %s, kde je SquirrelMail instalov√°n."
+"Pokud se zobrazila varov·nÌ, zkuste je sami vy¯eπit. P¯eËtÏte si pokyny ve "
+"sloæce %s, kde je SquirrelMail instalov·n."
 
 msgid ""
 "Pressing the button below will start a mail message to the developers of "
@@ -2295,11 +2205,11 @@ msgid ""
 "prompt you for information. Just fill out the sections at the top. If you "
 "like, you can scroll down in the message to see what else is being sent."
 msgstr ""
-"Stisknut√≠m tlaƒç√≠tka (n√≠≈æe) sestav√≠te zpr√°vu v√Ωvoj√°≈ô≈Øm SquirrelMailu, bude "
-"obsahovat mno≈æstv√≠ informac√≠ o va≈°em syst√©mu, prohl√≠≈æeƒçi, nastaven√≠ "
-"SquirrelMailu a IMAP serveru. Tak√© budete dot√°z√°ni na dal≈°√≠ podrobnosti. "
-"Staƒç√≠ vyplnit sekce v horn√≠ ƒç√°sti. Pokud chcete, m≈Ø≈æete se pak posunout "
-"n√≠≈æe, kde je vidƒõt, co v≈°echno se bude odes√≠lat."
+"StisknutÌm tlaËÌtka (nÌæe) sestavÌte zpr·vu v˝voj·¯˘m SquirrelMailu, bude "
+"obsahovat mnoæstvÌ informacÌ o vaπem systÈmu, prohlÌæeËi, nastavenÌ "
+"SquirrelMailu a IMAP serveru. TakÈ budete dot·z·ni na dalπÌ podrobnosti. "
+"StaËÌ vyplnit sekce v hornÌ Ë·sti. Pokud chcete, m˘æete se pak posunout "
+"nÌæe, kde je vidÏt, co vπechno se bude odesÌlat."
 
 msgid ""
 "Please make sure to fill out as much information as you possibly can to give "
@@ -2307,70 +2217,70 @@ msgid ""
 "like this will not have it automatically added to the bug list on "
 "SourceForge, but someone who gets your message may add it for you."
 msgstr ""
-"Pros√≠me, urƒçitƒõ vypl≈àte co nejv√≠ce informac√≠, abyste usnadnili nalezen√≠ a "
-"odstranƒõn√≠ chyby. Odesl√°n√≠m zpr√°vy o chybƒõ se chyba neza≈ôad√≠ automaticky do "
-"seznamu chyb, ale nƒõkdo ji obdr≈æ√≠ a m≈Ø≈æe ji s√°m za≈ôadit."
+"ProsÌme, urËitÏ vyplÚte co nejvÌce informacÌ, abyste usnadnili nalezenÌ a "
+"odstranÏnÌ chyby. Odesl·nÌm zpr·vy o chybÏ se chyba neza¯adÌ automaticky do "
+"seznamu chyb, ale nÏkdo ji obdræÌ a m˘æe ji s·m za¯adit."
 
 msgid "This bug involves:"
-msgstr "Tato chyba se t√Ωk√°:"
+msgstr "Tato chyba se t˝k·:"
 
 msgid "the general program"
 msgstr "programu"
 
 msgid "a specific plugin"
-msgstr "urƒçit√©ho pluginu"
+msgstr "urËitÈho pluginu"
 
 msgid "Start Bug Report Form"
-msgstr "Formul√°≈ô hl√°≈°en√≠ o chybƒõ"
+msgstr "Formul·¯ hl·πenÌ o chybÏ"
 
 msgid "Bug"
 msgstr "Chyba"
 
-msgid "Bug Reports"
-msgstr "Hl√°≈°en√≠ chyb"
+msgid "Bug Reports:"
+msgstr "Hl·πenÌ chyb:"
 
 msgid "Show button in toolbar"
-msgstr "Zobrazit tlaƒç√≠tko na li≈°tƒõ"
+msgstr "Zobrazit tlaËÌtko na liπtÏ"
 
 #, php-format
 msgid "Could not write calendar file %s"
-msgstr "Nelze zapsat soubor s kalend√°≈ôem %s"
+msgstr "Nelze zapsat soubor s kalend·¯em %s"
 
 msgid "TODAY"
 msgstr "DNES"
 
 msgid "Go"
-msgstr "P≈ôej√≠t"
+msgstr "P¯ejÌt"
 
 msgid "l, F j Y"
 msgstr "l, j F Y"
 
 msgid "ADD"
-msgstr "P≈òIDEJ"
+msgstr "PÿIDEJ"
 
 msgid "EDIT"
-msgstr "ZMƒö≈á"
+msgstr "ZMÃ“"
 
 msgid "DEL"
-msgstr "SMA≈Ω"
+msgstr "SMAÆ"
 
 msgid "Start time:"
-msgstr "Poƒç√°teƒçn√≠ ƒças:"
+msgstr "PoË·teËnÌ Ëas:"
 
 msgid "Length:"
-msgstr "D√©lka:"
+msgstr "DÈlka:"
 
 msgid "Priority:"
 msgstr "Priorita:"
 
 msgid "Title:"
-msgstr "N√°zev:"
+msgstr "N·zev:"
 
 msgid "Set Event"
-msgstr "Nastav ud√°lost"
+msgstr "Nastav ud·lost"
 
 msgid "Event Has been added!"
-msgstr "Ud√°lost byla p≈ôid√°na!"
+msgstr "Ud·lost byla p¯id·na!"
 
 msgid "Date:"
 msgstr "Datum:"
@@ -2379,34 +2289,34 @@ msgid "m/d/Y"
 msgstr "m/d/R"
 
 msgid "Time:"
-msgstr "ƒåas:"
+msgstr "»as:"
 
 msgid "Day View"
-msgstr "N√°hled na den"
+msgstr "N·hled na den"
 
 msgid "Do you really want to delete this event?"
-msgstr "Opravdu chcete smazat tuto ud√°lost?"
+msgstr "Opravdu chcete smazat tuto ud·lost?"
 
 msgid "Event deleted!"
-msgstr "Ud√°lost smaz√°na!"
+msgstr "Ud·lost smaz·na!"
 
 msgid "Nothing to delete!"
-msgstr "Nic ke smaz√°n√≠!"
+msgstr "Nic ke smaz·nÌ!"
 
 msgid "Update Event"
-msgstr "Aktualizovat ud√°lost"
+msgstr "Aktualizovat ud·lost"
 
 msgid "Do you really want to change this event from:"
-msgstr "Opravdu chcete tuto ud√°lost zmƒõnit z:"
+msgstr "Opravdu chcete tuto ud·lost zmÏnit z:"
 
 msgid "to:"
 msgstr "na:"
 
 msgid "Event updated!"
-msgstr "Ud√°lost aktualizov√°na!"
+msgstr "Ud·lost aktualizov·na!"
 
 msgid "Month View"
-msgstr "N√°hled na mƒõs√≠c"
+msgstr "N·hled na mÏsÌc"
 
 msgid "0 min."
 msgstr "0 min."
@@ -2448,25 +2358,25 @@ msgid "6 hr."
 msgstr "6 hod."
 
 msgid "Calendar"
-msgstr "Kalend√°≈ô"
+msgstr "Kalend·¯"
 
 msgid "Delete &amp; Prev"
-msgstr "Odstranit a p≈ôedch√°zej√≠c√≠"
+msgstr "Odstranit a p¯edch·zejÌcÌ"
 
 msgid "Delete &amp; Next"
-msgstr "Odstranit a n√°sleduj√≠c√≠"
+msgstr "Odstranit a n·sledujÌcÌ"
 
 msgid "Move to:"
-msgstr "P≈ôesunout do:"
+msgstr "P¯esunout do:"
 
 msgid "Delete/Move/Next Buttons:"
-msgstr "Tlaƒç√≠tka Smazat/P≈ôesunout/Dal≈°√≠:"
+msgstr "TlaËÌtka Smazat/P¯esunout/DalπÌ:"
 
 msgid "Display at top"
-msgstr "Zobraz naho≈ôe"
+msgstr "Zobraz naho¯e"
 
 msgid "with move option"
-msgstr "s mo≈ænost√≠ p≈ôesouv√°n√≠"
+msgstr "s moænostÌ p¯esouv·nÌ"
 
 msgid "Display at bottom"
 msgstr "Zobraz dole"
@@ -2475,137 +2385,144 @@ msgid ""
 "COMMERCIAL - This list contains servers that are verified spam senders. It "
 "is a pretty reliable list to scan spam from."
 msgstr ""
-"KOMERƒåN√ç - Tento seznam obsahuje servery, u kter√Ωch bylo ovƒõ≈ôeno ≈æe "
-"rozes√≠laj√≠ spam. Je to velmi spolehliv√Ω seznam, proti kter√©mu lze "
-"kontrolovat zpr√°vy."
+"KOMER»NÕ - Tento seznam obsahuje servery, u kter˝ch bylo ovÏ¯eno æe "
+"rozesÌlajÌ spam. Je to velmi spolehliv˝ seznam, proti kterÈmu lze "
+"kontrolovat zpr·vy."
 
 msgid ""
 "COMMERCIAL - Servers that are configured (or misconfigured) to allow spam to "
 "be relayed through their system will be banned with this. Another good one "
 "to use."
 msgstr ""
-"KOMERƒåN√ç - Servery, kter√© nevhodnou konfigurac√≠ dovoluj√≠ rozes√≠l√°n√≠ spamu. "
-"Dal≈°√≠ dobr√Ω seznam."
+"KOMER»NÕ - Servery, kterÈ nevhodnou konfiguracÌ dovolujÌ rozesÌl·nÌ spamu. "
+"DalπÌ dobr˝ seznam."
 
 msgid ""
 "COMMERCIAL - Dial-up users are often filtered out since they should use "
 "their ISP's mail servers to send mail. Spammers typically get a dial-up "
 "account and send spam directly from there."
 msgstr ""
-"KOMERƒåN√ç - U≈æivatel√© vyt√°ƒçen√Ωch p≈ôipojen√≠ jsou velmi ƒçasto filtrov√°ni, "
-"proto≈æe by mƒõli pou≈æ√≠vat po≈°tovn√≠ server sv√©ho poskytovatele. Spamme≈ôi velmi "
-"ƒçasto vyu≈æ√≠vaj√≠ vyt√°ƒçen√° p≈ôipojen√≠ k rozes√≠l√°n√≠ nevy≈æ√°dan√© po≈°ty."
+"KOMER»NÕ - UæivatelÈ vyt·Ëen˝ch p¯ipojenÌ jsou velmi Ëasto filtrov·ni, "
+"protoæe by mÏli pouæÌvat poπtovnÌ server svÈho poskytovatele. Spamme¯i velmi "
+"Ëasto vyuæÌvajÌ vyt·Ëen· p¯ipojenÌ k rozesÌl·nÌ nevyæ·danÈ poπty."
 
 msgid "COMMERCIAL - RBL+ Blackhole entries."
-msgstr "KOMERƒåN√ç - RBL a Blackhole z√°znamy."
+msgstr "KOMER»NÕ - RBL a Blackhole z·znamy."
 
 msgid "COMMERCIAL - RBL+ OpenRelay entries."
-msgstr "KOMERƒåN√ç - RBL a OpenRelay z√°znamy."
+msgstr "KOMER»NÕ - RBL a OpenRelay z·znamy."
 
 msgid "COMMERCIAL - RBL+ Dial-up entries."
-msgstr "KOMERƒåN√ç - RBL a Dial-up z√°znamy."
+msgstr "KOMER»NÕ - RBL a Dial-up z·znamy."
+
+msgid ""
+"FREE - ORDB was born when ORBS went off the air. It seems to have fewer "
+"false positives than ORBS did though."
+msgstr ""
+"ZDARMA - ORDB vzniklo v dobÏ z·niku ORBS. Zd· se æe pracuje p¯esnÏji neæli "
+"ORBS."
 
 msgid "FREE - Five-Ten-sg.com - Direct SPAM sources."
-msgstr "ZDARMA - Five-Ten-sg.com - P≈ô√≠m√© zdroje SPAMu."
+msgstr "ZDARMA - Five-Ten-sg.com - P¯ÌmÈ zdroje SPAMu."
 
 msgid "FREE - Five-Ten-sg.com - Dial-up lists - includes some DSL IPs."
 msgstr ""
-"ZDARMA - Five-Ten-sg.com - Seznam vyt√°ƒçen√Ωch p≈ôipojen√≠. Obsahuje nƒõkter√° DSL "
-"p≈ôipojen√≠."
+"ZDARMA - Five-Ten-sg.com - Seznam vyt·Ëen˝ch p¯ipojenÌ. Obsahuje nÏkter· DSL "
+"p¯ipojenÌ."
 
 msgid "FREE - Five-Ten-sg.com - Bulk mailers that do not use confirmed opt-in."
 msgstr ""
-"ZDARMA - Five-Ten-sg.com - Diskusn√≠ skupiny, etc. kter√© nepo≈æaduj√≠ potvrzen√≠ "
-"identity pro za≈ôazen√≠ adresy."
+"ZDARMA - Five-Ten-sg.com - DiskusnÌ skupiny, etc. kterÈ nepoæadujÌ potvrzenÌ "
+"identity pro za¯azenÌ adresy."
 
 msgid "FREE - Five-Ten-sg.com - Other misc. servers."
-msgstr "ZDARMA - Five-Ten-sg.com - Ostatn√≠ servery."
+msgstr "ZDARMA - Five-Ten-sg.com - OstatnÌ servery."
 
 msgid "FREE - Five-Ten-sg.com - Single Stage servers."
 msgstr ""
-"ZDARMA - Five-Ten-sg.com - Nevhodnƒõ nakonfigurovan√© servery umo≈æ≈àuj√≠c√≠ "
-"rozes√≠l√°n√≠ spamu t≈ôet√≠m stran√°m."
+"ZDARMA - Five-Ten-sg.com - NevhodnÏ nakonfigurovanÈ servery umoæÚujÌcÌ "
+"rozesÌl·nÌ spamu t¯etÌm stran·m."
 
 msgid "FREE - Five-Ten-sg.com - SPAM Support servers."
-msgstr "ZDARMA - Five-Ten-sg.com - Servery podporuj√≠c√≠ SPAMov√°n√≠."
+msgstr "ZDARMA - Five-Ten-sg.com - Servery podporujÌcÌ SPAMov·nÌ."
 
 msgid "FREE - Five-Ten-sg.com - Web Form IPs."
 msgstr ""
-"ZDARMA - Five-Ten-sg.com - IP adresy nezabezpeƒçen√Ωch webov√Ωch formul√°≈ô≈Ø."
+"ZDARMA - Five-Ten-sg.com - IP adresy nezabezpeËen˝ch webov˝ch formul·¯˘."
 
 msgid ""
 "FREE - Dorkslayers appears to include only really bad open relays outside "
 "the US to avoid being sued. Interestingly enough, their website recommends "
 "you NOT use their service."
 msgstr ""
-"ZDARMA - Dorkslayers. Seznam obsahuj√≠c√≠ pouze hodnƒõ zneu≈æ√≠van√© servery mimo "
-"USA.Str√°nka Dorkslayers nedoporuƒçuje vyu≈æ√≠vat jejich slu≈æby."
+"ZDARMA - Dorkslayers. Seznam obsahujÌcÌ pouze hodnÏ zneuæÌvanÈ servery mimo "
+"USA.Str·nka Dorkslayers nedoporuËuje vyuæÌvat jejich sluæby."
 
 msgid "FREE - SPAMhaus - A list of well-known SPAM sources."
-msgstr "ZDARMA - SPAMhaus - Seznam dob≈ôe zn√°m√Ωch zdroj≈Ø SPAMu."
+msgstr "ZDARMA - SPAMhaus - Seznam dob¯e zn·m˝ch zdroj˘ SPAMu."
 
 msgid ""
 "FREE, for now - SpamCop - An interesting solution that lists servers that "
 "have a very high spam to legit email ratio (85 percent or more)."
 msgstr ""
-"ZDARMA, prozat√≠m - SPAMCOP - Zaj√≠mavƒõ ≈ôe≈°en√Ω seznam SPAM server≈Ø, kter√© maj√≠ "
-"vysok√Ω pomƒõr SPAMu k norm√°ln√≠m e-mail≈Øm (85% a v√≠ce)."
+"ZDARMA, prozatÌm - SPAMCOP - ZajÌmavÏ ¯eπen˝ seznam SPAM server˘, kterÈ majÌ "
+"vysok˝ pomÏr SPAMu k norm·lnÌm e-mail˘m (85% a vÌce)."
 
 msgid "FREE - dev.null.dk - I don't have any detailed info on this list."
-msgstr "ZDARMA - dev.null.dk - Prozat√≠m nejsou k dispozici bli≈æ≈°√≠ informace."
+msgstr "ZDARMA - dev.null.dk - ProzatÌm nejsou k dispozici bliæπÌ informace."
 
 msgid "FREE - visi.com - Relay Stop List. Very conservative OpenRelay List."
 msgstr ""
-"ZDARMA - visi.com - Velmi konzervativn√≠ seznam obsahuj√≠c√≠ ≈°patnƒõ "
-"nakonfigurovan√© servery."
+"ZDARMA - visi.com - Velmi konzervativnÌ seznam obsahujÌcÌ πpatnÏ "
+"nakonfigurovanÈ servery."
 
 msgid "FREE - ahbl.org Open Relays - Another list of Open Relays."
 msgstr ""
-"ZDARMA - anbl.org Open Relays - Dal≈°√≠ seznam nevhodnƒõ nakonfigurovan√Ωch "
-"server≈Ø."
+"ZDARMA - anbl.org Open Relays - DalπÌ seznam nevhodnÏ nakonfigurovan˝ch "
+"server˘."
 
 msgid "FREE - ahbl.org SPAM Source - List of Direct SPAM Sources."
-msgstr "ZDARMA - anbl.org SPAM Source - Seznam zdroj≈Ø spamu."
+msgstr "ZDARMA - anbl.org SPAM Source - Seznam zdroj˘ spamu."
 
 msgid "FREE - ahbl.org SPAM ISPs - List of SPAM-friendly ISPs."
 msgstr ""
-"ZDARMA - anbl.org SPAM ISPs - Seznam poskytovatel≈Ø kte≈ô√≠ podporuj√≠ spammery."
+"ZDARMA - anbl.org SPAM ISPs - Seznam poskytovatel˘ kte¯Ì podporujÌ spammery."
 
 msgid ""
 "FREE - Leadmon DUL - Another list of Dial-up or otherwise dynamically "
 "assigned IPs."
 msgstr ""
-"ZDARMA - Leadmon DUL - Dal≈°√≠ seznam Vyt√°ƒçen√Ωch p≈ôipojen√≠ a dynamicky "
-"p≈ôidƒõlovan√Ωch IP adres."
+"ZDARMA - Leadmon DUL - DalπÌ seznam Vyt·Ëen˝ch p¯ipojenÌ a dynamicky "
+"p¯idÏlovan˝ch IP adres."
 
 msgid ""
 "FREE - Leadmon SPAM Source - List of IPs Leadmon.net has received SPAM "
 "directly from."
 msgstr ""
-"ZDARMA - Leadmon SPAM Source - Seznam IP adres ze kter√Ωch Leadmon.net p≈ô√≠mo "
-"p≈ôijal spam."
+"ZDARMA - Leadmon SPAM Source - Seznam IP adres ze kter˝ch Leadmon.net p¯Ìmo "
+"p¯ijal spam."
 
 msgid ""
 "FREE - Leadmon Bulk Mailers - Bulk mailers that do not require confirmed opt-"
 "in or that have allowed known spammers to become clients and abuse their "
 "services."
 msgstr ""
-"ZDARMA - Leadmon Bulk Mailers - Seznam diskusn√≠ch skupin kter√© nevy≈æaduj√≠ "
-"ovƒõ≈ôen√≠ identity pro za≈ôazen√≠."
+"ZDARMA - Leadmon Bulk Mailers - Seznam diskusnÌch skupin kterÈ nevyæadujÌ "
+"ovÏ¯enÌ identity pro za¯azenÌ."
 
 msgid ""
 "FREE - Leadmon Open Relays - Single Stage Open Relays that are not listed on "
 "other active RBLs."
 msgstr ""
-"ZDARMA - Leadmon Open Relays - Seznam nevhodnƒõ nakonfigurovan√Ωch server≈Ø, "
-"kter√© nejsou v jin√Ωch seznamech."
+"ZDARMA - Leadmon Open Relays - Seznam nevhodnÏ nakonfigurovan˝ch server˘, "
+"kterÈ nejsou v jin˝ch seznamech."
 
 msgid ""
 "FREE - Leadmon Multi-stage - Multi-Stage Open Relays that are not listed on "
 "other active RBLs and that have sent SPAM to Leadmon.net."
 msgstr ""
-"ZDARMA - Leadmon Multi-stage - Seznam spr√°vnƒõ nakonfigurovan√Ωch server≈Ø, "
-"kter√© v≈°ak rozes√≠laj√≠ spam z nevhodnƒõ nakonfigurovan√Ωch server≈Ø."
+"ZDARMA - Leadmon Multi-stage - Seznam spr·vnÏ nakonfigurovan˝ch server˘, "
+"kterÈ vπak rozesÌlajÌ spam z nevhodnÏ nakonfigurovan˝ch server˘."
 
 msgid ""
 "FREE - Leadmon SpamBlock - Sites on this listing have sent Leadmon.net "
@@ -2613,109 +2530,109 @@ msgid ""
 "mappings. It's a list of BLOCKS of IPs being used by people who have SPAMmed "
 "Leadmon.net."
 msgstr ""
-"ZDARMA - Leadmon SpamBlock - Zdroje spamu, kde cel√Ω blok IP adres nem√° DNS "
-"z√°znamy."
+"ZDARMA - Leadmon SpamBlock - Zdroje spamu, kde cel˝ blok IP adres nem· DNS "
+"z·znamy."
 
 msgid ""
 "FREE, for now - Not Just Another Blacklist - Both Open Relays and Direct "
 "SPAM Sources."
 msgstr ""
-"ZDARMA, prozat√≠m - Not Just Another Blacklist - Seznam nevhodnƒõ "
-"nakonfigurovan√Ωch server≈Ø a p≈ô√≠m√Ωch zdroj≈Ø spamu."
+"ZDARMA, prozatÌm - Not Just Another Blacklist - Seznam nevhodnÏ "
+"nakonfigurovan˝ch server˘ a p¯Ìm˝ch zdroj˘ spamu."
 
 msgid "FREE, for now - Not Just Another Blacklist - Dial-up IPs."
-msgstr "ZDARMA, prozat√≠m - Not Just Another Blacklist - Vyt√°ƒçen√° p≈ôipojen√≠."
+msgstr "ZDARMA, prozatÌm - Not Just Another Blacklist - Vyt·Ëen· p¯ipojenÌ."
 
 msgid "FREE - Distributed Sender Boycott List - Confirmed Relays"
 msgstr ""
-"ZDARMA - Distributed Sender Boycott List - Ovƒõ≈ôen√© nevhodnƒõ nakonfigurovan√© "
+"ZDARMA - Distributed Sender Boycott List - OvÏ¯enÈ nevhodnÏ nakonfigurovanÈ "
 "servery"
 
 msgid "FREE - Distributed Sender Boycott List - Confirmed Multi-stage Relays"
 msgstr ""
-"ZDARMA - Distributed Sender Boycott List - Ovƒõ≈ôen√© servery rozes√≠laj√≠c√≠ "
-"spamy pro nevhodnƒõ nakonfigurovan√© servery"
+"ZDARMA - Distributed Sender Boycott List - OvÏ¯enÈ servery rozesÌlajÌcÌ "
+"spamy pro nevhodnÏ nakonfigurovanÈ servery"
 
 msgid "FREE - Distributed Sender Boycott List - UN-Confirmed Relays"
 msgstr ""
-"ZDARMA - Distributed Sender Boycott List - Neovƒõ≈ôen√© nevhodnƒõ "
-"nakonfigurovan√© servery"
+"ZDARMA - Distributed Sender Boycott List - NeovÏ¯enÈ nevhodnÏ "
+"nakonfigurovanÈ servery"
 
 msgid "WARNING! You must enter something to search for."
-msgstr "VAROV√ÅN√ç! Mus√≠te zadat hledan√Ω v√Ωraz."
+msgstr "VAROV¡NÕ! MusÌte zadat hledan˝ v˝raz."
 
 msgid ""
 "WARNING! Header filters should be of the format &quot;Header: value&quot;"
 msgstr ""
-"VAROV√ÅN√ç! Filtry hlaviƒçek by mƒõly b√Ωt ve form√°tu &quot;Hlaviƒçka: "
+"VAROV¡NÕ! Filtry hlaviËek by mÏly b˝t ve form·tu &quot;HlaviËka: "
 "hodnota&quot;"
 
 msgid "Saved Scan type"
-msgstr "V√Ωbƒõr ulo≈æen"
+msgstr "V˝bÏr uloæen"
 
 msgid "Message Filtering"
-msgstr "Filtrov√°n√≠ zpr√°v"
+msgstr "Filtrov·nÌ zpr·v"
 
 msgid "What to Scan:"
 msgstr "Filtrovat: "
 
 msgid "All messages"
-msgstr "V≈°echny zpr√°vy"
+msgstr "Vπechny zpr·vy"
 
 msgid "Only unread messages"
-msgstr "Jen nep≈ôeƒçten√©"
+msgstr "Jen nep¯eËtenÈ"
 
 msgid "Save"
-msgstr "Ulo≈æit"
+msgstr "Uloæit"
 
 msgid "Match:"
-msgstr "Odpov√≠d√°:"
+msgstr "OdpovÌd·:"
 
 msgid "Header"
-msgstr "Hlaviƒçka"
+msgstr "HlaviËka"
 
 msgid "Contains:"
 msgstr "Obsahuje:"
 
 #, php-format
 msgid "If %s contains %s then move to %s"
-msgstr "Pokud %s obsahuje %s pak zpr√°vu p≈ôesu≈à do %s"
+msgstr "Pokud %s obsahuje %s pak zpr·vu p¯esuÚ do %s"
 
 msgid "Message Filters"
-msgstr "Filtrov√°n√≠ zpr√°v"
+msgstr "Filtrov·nÌ zpr·v"
 
 msgid ""
 "Filtering enables messages with different criteria to be automatically "
 "filtered into different folders for easier organization."
 msgstr ""
-"Filtrov√°n√≠ zpr√°v umo≈æ≈àuje automaticky p≈ôesunovat zpr√°vy podle r≈Øzn√Ωch "
-"kriteri√≠ do podslo≈æek."
+"Filtrov·nÌ zpr·v umoæÚuje automaticky p¯esunovat zpr·vy podle r˘zn˝ch "
+"kriteriÌ do podsloæek."
 
 msgid "SPAM Filters"
-msgstr "Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty"
+msgstr "Filtrov·nÌ nevyæ·danÈ poπty"
 
 msgid ""
 "SPAM filters allow you to select from various DNS based blacklists to detect "
 "junk email in your INBOX and move it to another folder (like Trash)."
 msgstr ""
-"Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty v√°m umo≈æ≈àuj√≠ filtrovat nevy≈æ√°danou po≈°tu ze "
-"slo≈æky doruƒçen√° po≈°ta a p≈ôesouvat j√≠ do jin√© slo≈æky (nap≈ô√≠klad Ko≈°)."
+"Filtrov·nÌ nevyæ·danÈ poπty v·m umoæÚujÌ filtrovat nevyæ·danou poπtu ze "
+"sloæky doruËen· poπta a p¯esouvat jÌ do jinÈ sloæky (nap¯Ìklad Koπ)."
 
 msgid "You must select a spam folder."
-msgstr "Mus√≠te vybrat slo≈æku pro spam."
+msgstr "MusÌte vybrat sloæku pro spam."
 
 msgid "You must select a scan type."
-msgstr "Mus√≠te vybrat typ hled√°n√≠."
+msgstr "MusÌte vybrat typ hled·nÌ."
 
 msgid "Spam Filtering"
-msgstr "Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty"
+msgstr "Filtrov·nÌ nevyæ·danÈ poπty"
 
 #, php-format
 msgid "WARNING! Tell the administrator to set the %s variable."
-msgstr "VAROV√ÅN√ç! Po≈æ√°dejte spr√°vce va≈°eho syst√©mu, aby nastavil promƒõnnou %s."
+msgstr "VAROV¡NÕ! Poæ·dejte spr·vce vaπeho systÈmu, aby nastavil promÏnnou %s."
 
 msgid "Move spam to:"
-msgstr "P≈ôesunout nevy≈æ√°danou po≈°tu do:"
+msgstr "P¯esunout nevyæ·danou poπtu do:"
 
 msgid ""
 "Moving spam directly to the trash may not be a good idea at first, since "
@@ -2724,13 +2641,13 @@ msgid ""
 "periodically, so that you don't have an excessively large mailbox hanging "
 "around."
 msgstr ""
-"P≈ôesouv√°n√≠ nevy≈æ√°dan√© po≈°ty p≈ô√≠mo do ko≈°e nemus√≠ b√Ωt v≈ædy to nejlep≈°√≠ "
-"≈ôe≈°en√≠. Nƒõkter√© zpr√°vy mohou b√Ωti nedopat≈ôen√≠m vyhodnoceny jako nevy≈æ√°dan√° "
-"po≈°ta. A≈• zde nastav√≠te cokoliv, dbejte na vymaz√°v√°n√≠ nevy≈æ√°dan√© po≈°ty, aby "
-"se nestalo, ≈æe va≈°e schr√°nka p≈ôeteƒçe."
+"P¯esouv·nÌ nevyæ·danÈ poπty p¯Ìmo do koπe nemusÌ b˝t vædy to nejlepπÌ "
+"¯eπenÌ. NÏkterÈ zpr·vy mohou b˝ti nedopat¯enÌm vyhodnoceny jako nevyæ·dan· "
+"poπta. Aª zde nastavÌte cokoliv, dbejte na vymaz·v·nÌ nevyæ·danÈ poπty, aby "
+"se nestalo, æe vaπe schr·nka p¯eteËe."
 
 msgid "Unread messages only"
-msgstr "Pouze nov√© zpr√°vy"
+msgstr "Pouze novÈ zpr·vy"
 
 msgid ""
 "The more messages scanned, the longer it takes. It's recommended to scan "
@@ -2740,21 +2657,21 @@ msgid ""
 "applied and even the spam you didn't catch with the old filters will be "
 "scanned."
 msgstr ""
-"ƒå√≠m v√≠ce zpr√°v kontrolujete, t√≠m d√©le kontrola trv√°. Doporuƒçujeme v√°m proto "
-"kontrolu pouze nov√Ωch zpr√°v. Pokud zmƒõn√≠te nastaven√≠ filtr≈Ø, je dobr√© "
-"nastavit je na v≈°echny zpr√°vy, otev≈ô√≠t slo≈æku doruƒçen√° po≈°ta a pot√© v≈°e "
-"nastavit zpƒõt na filtrov√°n√≠ pouze nov√Ωch zpr√°v."
+"»Ìm vÌce zpr·v kontrolujete, tÌm dÈle kontrola trv·. DoporuËujeme v·m proto "
+"kontrolu pouze nov˝ch zpr·v. Pokud zmÏnÌte nastavenÌ filtr˘, je dobrÈ "
+"nastavit je na vπechny zpr·vy, otev¯Ìt sloæku doruËen· poπta a potÈ vπe "
+"nastavit zpÏt na filtrov·nÌ pouze nov˝ch zpr·v."
 
 #, php-format
 msgid "Spam is sent to %s."
-msgstr "Nevy≈æ√°dan√° po≈°ta bude p≈ôesunuta do slo≈æky %s."
+msgstr "Nevyæ·dan· poπta bude p¯esunuta do sloæky %s."
 
 msgid "not set yet"
 msgstr "nenastaveno"
 
 #, php-format
 msgid "Spam scan is limited to %s."
-msgstr "Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty je omezeno na %s."
+msgstr "Filtrov·nÌ nevyæ·danÈ poπty je omezeno na %s."
 
 msgid "ON"
 msgstr "ZAP"
@@ -2767,16 +2684,16 @@ msgid "%s is not found."
 msgstr "%s nenalezen."
 
 msgid "Today's Fortune"
-msgstr "≈†tƒõst√≠ƒçko"
+msgstr "©tÏstÌËko"
 
-msgid "Fortunes"
-msgstr "≈†tƒõst√≠ƒçka"
+msgid "Fortunes:"
+msgstr "©tÏstÌËka:"
 
 msgid "Show fortunes at top of mailbox"
-msgstr "Zobrazovat ≈°tƒõst√≠ƒçka nad doruƒçenou po≈°tou"
+msgstr "Zobrazovat πtÏstÌËka nad doruËenou poπtou"
 
 msgid "Plugin is disabled."
-msgstr "Z√°suvn√Ω modul je deaktivov√°n."
+msgstr "Z·suvn˝ modul je deaktivov·n."
 
 msgid "IMAP server information"
 msgstr "Informace o IMAP serveru"
@@ -2785,38 +2702,38 @@ msgid ""
 "Run some test IMAP commands, displaying both the command and the result. "
 "These tests use the SquirrelMail IMAP commands and your current SquirrelMail "
 "configuration. Custom command strings can be used."
-msgstr "Provede nƒõkter√© zku≈°ebn√≠ p≈ô√≠kazy IMAPu, zobrazuj√≠c p≈ô√≠kaz i v√Ωsledek."
+msgstr "Provede nÏkterÈ zkuπebnÌ p¯Ìkazy IMAPu, zobrazujÌc p¯Ìkaz i v˝sledek."
 
 #, php-format
 msgid ""
 "This will send a message to %s requesting help for this list. You will "
 "receive an emailed response at the address below."
 msgstr ""
-"T√≠mto ode≈°lete zpr√°vu na %s s po≈æadavkem na pomoc s t√≠mto seznamem. Odpovƒõƒè "
-"dostanete na adresu uvedenou n√≠≈æe."
+"TÌmto odeπlete zpr·vu na %s s poæadavkem na pomoc s tÌmto seznamem. OdpovÏÔ "
+"dostanete na adresu uvedenou nÌæe."
 
 #, php-format
 msgid ""
 "This will send a message to %s requesting that you will be subscribed to "
 "this list. You will be subscribed with the address below."
 msgstr ""
-"T√≠mto ode≈°lete zpr√°vu na %s s po≈æadavkem na p≈ôihl√°≈°en k odbƒõru tohoto "
-"seznamu Bude za≈ôazena adresa uveden√° n√≠≈æe."
+"TÌmto odeπlete zpr·vu na %s s poæadavkem na p¯ihl·πen k odbÏru tohoto "
+"seznamu Bude za¯azena adresa uveden· nÌæe."
 
 #, php-format
 msgid ""
 "This will send a message to %s requesting that you will be unsubscribed from "
 "this list. It will try to unsubscribe the adress below."
 msgstr ""
-"T√≠mto ode≈°lete zpr√°vu na %s s po≈æadavkem na odhl√°≈°en√≠ z tohoto seznamu. "
-"Odhl√°≈°en√≠ bude provedeno s pou≈æit√≠m n√≠≈æe uveden√© adresy."
+"TÌmto odeπlete zpr·vu na %s s poæadavkem na odhl·πenÌ z tohoto seznamu. "
+"Odhl·πenÌ bude provedeno s pouæitÌm nÌæe uvedenÈ adresy."
 
 #, php-format
 msgid "Unknown action: %s"
-msgstr "Nezn√°m√° akce: %s"
+msgstr "Nezn·m· akce: %s"
 
 msgid "Mailinglist"
-msgstr "Diskusn√≠ skupina"
+msgstr "DiskusnÌ skupina"
 
 msgid "Send Mail"
 msgstr "Odeslat"
@@ -2825,64 +2742,106 @@ msgid "Post to List"
 msgstr "Odeslat do skupiny"
 
 msgid "Reply to List"
-msgstr "Odpovƒõdƒõt do skupiny"
+msgstr "OdpovÏdÏt do skupiny"
 
 msgid "List Archives"
-msgstr "Seznam arch√≠v≈Ø"
+msgstr "Seznam archÌv˘"
 
 msgid "Contact Listowner"
 msgstr "Kontaktovat majitele skupiny"
 
 msgid "Mailing List"
-msgstr "Diskusn√≠ skupina"
+msgstr "DiskusnÌ skupina"
+
+msgid "POP3 connect:"
+msgstr "P¯ipojenÌ POP3:"
 
 msgid "No server specified"
-msgstr "Nebyl specifikov√°n ≈æ√°dn√Ω server"
+msgstr "Nebyl specifikov·n æ·dn˝ server"
 
 msgid "Error "
 msgstr "Chyba "
 
+msgid "POP3 user:"
+msgstr "Uæivatel na POP3 serveru:"
+
 msgid "no login ID submitted"
-msgstr "nezadali jste ≈æ√°dn√© u≈æivatelsk√© jm√©no"
+msgstr "nezadali jste æ·dnÈ uæivatelskÈ jmÈno"
 
 msgid "connection not established"
-msgstr "p≈ôipojen√≠ nemohlo b√Ωt nav√°z√°no"
+msgstr "p¯ipojenÌ nemohlo b˝t nav·z·no"
+
+msgid "POP3 pass:"
+msgstr "Heslo na POP3 serveru:"
 
 msgid "No password submitted"
-msgstr "Nezadali jste ≈æ√°dn√© heslo"
+msgstr "Nezadali jste æ·dnÈ heslo"
+
+msgid "POP3 apop:"
+msgstr "POP3 apop:"
 
 msgid "No connection to server"
-msgstr "Nelze se p≈ôipojit k serveru"
+msgstr "Nelze se p¯ipojit k serveru"
 
 msgid "No login ID submitted"
-msgstr "nezadali jste ≈æ√°dn√© u≈æivatelsk√© jm√©no"
+msgstr "nezadali jste æ·dnÈ uæivatelskÈ jmÈno"
 
 msgid "No server banner"
-msgstr "Chyb√≠ uv√≠t√°n√≠ na serveru"
+msgstr "ChybÌ uvÌt·nÌ na serveru"
 
 msgid "abort"
-msgstr "zru≈°it"
+msgstr "zruπit"
 
 msgid "apop authentication failed"
 msgstr "apop autentifikace selhala"
 
+msgid "POP3 login:"
+msgstr "UæivatelskÈ jmÈno na POP3 serveru:"
+
+msgid "POP3 top:"
+msgstr "POP3 top:"
+
+msgid "POP3 pop_list:"
+msgstr "POP3 pop_list:"
+
 msgid "Premature end of list"
-msgstr "Neoƒçek√°van√Ω konec seznamu"
+msgstr "NeoËek·van˝ konec seznamu"
+
+msgid "POP3 get:"
+msgstr "POP3 get:"
+
+msgid "POP3 last:"
+msgstr "POP3 last:"
+
+msgid "POP3 reset:"
+msgstr "POP3 reset:"
+
+msgid "POP3 send_cmd:"
+msgstr "POP3 send_cmd:"
 
 msgid "Empty command string"
-msgstr "Pr√°zdn√Ω p≈ô√≠kaz"
+msgstr "Pr·zdn˝ p¯Ìkaz"
+
+msgid "POP3 quit:"
+msgstr "POP3 quit:"
 
 msgid "connection does not exist"
-msgstr "p≈ôipojen√≠ neexistuje"
+msgstr "p¯ipojenÌ neexistuje"
+
+msgid "POP3 uidl:"
+msgstr "POP3 uidl:"
+
+msgid "POP3 delete:"
+msgstr "POP3 delete:"
 
 msgid "No msg number submitted"
-msgstr "Nebylo odesl√°no ƒç√≠slo zpr√°vy"
+msgstr "Nebylo odesl·no ËÌslo zpr·vy"
 
 msgid "Command failed "
-msgstr "P≈ô√≠kaz ne√∫spƒõ≈°n√Ω "
+msgstr "P¯Ìkaz ne˙spÏπn˝ "
 
 msgid "Remote POP server Fetching Mail"
-msgstr "Stahuji po≈°tu z POP3 serveru"
+msgstr "Stahuji poπtu z POP3 serveru"
 
 msgid "Select Server:"
 msgstr "Vyberte Server:"
@@ -2891,81 +2850,81 @@ msgid "Password for"
 msgstr "Heslo pro"
 
 msgid "Fetch Mail"
-msgstr "St√°hnout po≈°tu"
+msgstr "St·hnout poπtu"
 
 msgid "Fetching from "
-msgstr "Stahuji po≈°tu "
+msgstr "Stahuji poπtu "
 
 msgid "Oops, "
 msgstr "Ouha, "
 
 msgid "Opening IMAP server"
-msgstr "Navazuji spojen√≠ s IMAP serverem"
+msgstr "Navazuji spojenÌ s IMAP serverem"
 
 msgid "Opening POP server"
-msgstr "Navazuji spojen√≠ s POP3 serverem"
+msgstr "Navazuji spojenÌ s POP3 serverem"
 
 msgid "Login Failed:"
-msgstr "P≈ôihl√°≈°en√≠ se nezda≈ôilo:"
+msgstr "P¯ihl·πenÌ se nezda¯ilo:"
 
 msgid "Login OK: No new messages"
-msgstr "P≈ôihl√°≈°en√≠ se zda≈ôilo. Nem√°te v≈°ak ≈æ√°dn√© nov√© zpr√°vy"
+msgstr "P¯ihl·πenÌ se zda¯ilo. Nem·te vπak æ·dnÈ novÈ zpr·vy"
 
 msgid "Login OK: Inbox EMPTY"
-msgstr "P≈ôihl√°≈°en√≠ se zda≈ôilo. Slo≈æka doruƒçen√© po≈°ty je v≈°ak pr√°zdn√°"
+msgstr "P¯ihl·πenÌ se zda¯ilo. Sloæka doruËenÈ poπty je vπak pr·zdn·"
 
 #, php-format
 msgid "Login OK: Inbox contains %s messages"
-msgstr "P≈ôihl√°≈°eni se zda≈ôilo. Slo≈æka doruƒçen√© po≈°ty obsahuje %s zpr√°v"
+msgstr "P¯ihl·πeni se zda¯ilo. Sloæka doruËenÈ poπty obsahuje %s zpr·v"
 
 msgid "Fetching UIDL..."
-msgstr "Z√≠sk√°v√°m UIDL..."
+msgstr "ZÌsk·v·m UIDL..."
 
 msgid "Server does not support UIDL."
 msgstr "Server nepodporuje UIDL."
 
-msgid "Leaving messages on server..."
-msgstr "Nech√°v√°m zpr√°vy na serveru..."
+msgid "Leaving mail on server..."
+msgstr "Nech·v·m zpr·vy na serveru..."
 
 msgid "Deleting messages from server..."
-msgstr "Ma≈æu zpr√°vy ze serveru..."
+msgstr "Maæu zpr·vy ze serveru..."
 
 msgid "Fetching message "
-msgstr "Stahuji zpr√°vu "
+msgstr "Stahuji zpr·vu "
 
 msgid "Server error. Disconnect"
 msgstr "Chyba serveru. Odpojeno"
 
 msgid "Reconnect from dead connection"
-msgstr "Znovu otev√≠r√°m nefunkƒçn√≠ p≈ôipojen√≠"
+msgstr "Znovu otevÌr·m nefunkËnÌ p¯ipojenÌ"
 
 msgid "Saving UIDL"
-msgstr "Ukl√°d√°m UIDL"
+msgstr "Ukl·d·m UIDL"
 
 msgid "Refetching message "
-msgstr "Znovu stahuji zpr√°vu"
+msgstr "Znovu stahuji zpr·vu"
 
 msgid "Error Appending Message!"
-msgstr "Chyba p≈ôi p≈ôid√°v√°n√≠ zpr√°vy"
+msgstr "Chyba p¯i p¯id·v·nÌ zpr·vy"
 
 msgid "Closing POP"
-msgstr "Zav√≠r√°m spojen√≠ s POP3 serverem"
+msgstr "ZavÌr·m spojenÌ s POP3 serverem"
 
 msgid "Logging out from IMAP"
-msgstr "Odhla≈°uji se z IMAP serveru"
+msgstr "Odhlaπuji se z IMAP serveru"
 
 msgid "Message appended to mailbox"
-msgstr "Zpr√°va p≈ôid√°na do schr√°nky"
+msgstr "Zpr·va p¯id·na do schr·nky"
 
 #, php-format
 msgid "Message %d deleted from remote server!"
-msgstr "Zpr√°va %d smaz√°na ze vzd√°len√©ho serveru!"
+msgstr "Zpr·va %d smaz·na ze vzd·lenÈho serveru!"
 
 msgid "Delete failed:"
-msgstr "Maz√°n√≠ selhalo:"
+msgstr "Maz·nÌ selhalo:"
 
 msgid "Remote POP server settings"
-msgstr "Nastaven√≠ vzd√°len√©ho POP3 serveru"
+msgstr "NastavenÌ vzd·lenÈho POP3 serveru"
 
 msgid ""
 "You should be aware that the encryption used to store your password is not "
@@ -2973,19 +2932,19 @@ msgid ""
 "encryption anyway. Additionally, the encryption that we do to save it on the "
 "server can be undone by a hacker reading the source to this file."
 msgstr ""
-"Mƒõjte pros√≠m na pamƒõti, ≈æe ≈°ifra pou≈æit√° pro ulo≈æen√≠ hesla nen√≠ stoprocentnƒõ "
-"bezpeƒçn√°. Nav√≠c, pokud pou≈æ√≠v√°te POP3, nen√≠ ≈æ√°dn√© ≈°ifrov√°n√≠ k dispozici."
+"MÏjte prosÌm na pamÏti, æe πifra pouæit· pro uloæenÌ hesla nenÌ stoprocentnÏ "
+"bezpeËn·. NavÌc, pokud pouæÌv·te POP3, nenÌ æ·dnÈ πifrov·nÌ k dispozici."
 
 msgid "If you leave password empty, it will be asked when you fetch mail."
 msgstr ""
-"Pokud nech√°te heslo pr√°zdn√©, budete ho muset zadat p≈ôi ka≈æd√©m stahov√°n√≠ "
-"po≈°ty."
+"Pokud nech·te heslo pr·zdnÈ, budete ho muset zadat p¯i kaædÈm stahov·nÌ "
+"poπty."
 
 msgid "Encrypt passwords (informative only)"
-msgstr "≈†ifrovat hesla (pouze informaƒçnƒõ)"
+msgstr "©ifrovat hesla (pouze informaËnÏ)"
 
 msgid "Add Server"
-msgstr "P≈ôidat server"
+msgstr "P¯idat server"
 
 msgid "Server:"
 msgstr "Server:"
@@ -2997,80 +2956,80 @@ msgid "Alias:"
 msgstr "Alias:"
 
 msgid "Username:"
-msgstr "U≈æivatelsk√© jm√©no:"
+msgstr "UæivatelskÈ jmÈno:"
 
 msgid "Store in Folder:"
-msgstr "Ukl√°dat do slo≈æky:"
+msgstr "Ukl·dat do sloæky:"
 
 msgid "Leave mail on server"
-msgstr "Nech√°vat po≈°tu na serveru"
+msgstr "Nech·vat poπtu na serveru"
 
 msgid "Check mail at login"
-msgstr "Kontrolovat novou po≈°tu p≈ôi p≈ôihl√°≈°en√≠"
+msgstr "Kontrolovat novou poπtu p¯i p¯ihl·πenÌ"
 
 msgid "Check mail at folder refresh"
-msgstr "Kontrolovat novou po≈°tu p≈ôi obnoven√≠ slo≈æky"
+msgstr "Kontrolovat novou poπtu p¯i obnovenÌ sloæky"
 
 msgid "Modify Server"
-msgstr "Zmƒõnit nastaven√≠ serveru"
+msgstr "ZmÏnit nastavenÌ serveru"
 
 msgid "Server Name:"
-msgstr "N√°zev serveru:"
+msgstr "N·zev serveru:"
 
 msgid "Modify"
-msgstr "Zmƒõnit"
+msgstr "ZmÏnit"
 
 msgid "No servers known."
-msgstr "Nejsou zn√°my ≈æ√°dn√© servery."
+msgstr "Nejsou zn·my æ·dnÈ servery."
 
 msgid "Fetching Servers"
 msgstr "Stahuji servery"
 
 msgid "Confirm Deletion of a Server"
-msgstr "Potvrƒète smaz√°n√≠ serveru"
+msgstr "PotvrÔte smaz·nÌ serveru"
 
 msgid "Selected Server:"
-msgstr "Vybran√Ω server:"
+msgstr "Vybran˝ server:"
 
 msgid "Confirm delete of selected server?"
-msgstr "Potvrdit vymaz√°n√≠ vybran√©ho serveru?"
+msgstr "Potvrdit vymaz·nÌ vybranÈho serveru?"
 
 msgid "Confirm Delete"
-msgstr "Potvrdit Smaz√°n√≠"
+msgstr "Potvrdit Smaz·nÌ"
 
 msgid "Leave Mail on Server"
-msgstr "Nech√°vat po≈°tu na serveru"
+msgstr "Nech·vat poπtu na serveru"
 
 msgid "Undefined Function"
-msgstr "Nedefinovan√° funkce"
+msgstr "Nedefinovan· funkce"
 
 msgid "The function you requested is unknown."
-msgstr "Po≈æadovan√° funkce nen√≠ zn√°ma."
+msgstr "Poæadovan· funkce nenÌ zn·ma."
 
 msgid "Fetch"
-msgstr "St√°hnout"
+msgstr "St·hnout"
 
 msgid "Warning, "
-msgstr "Varov√°n√≠, "
+msgstr "Varov·nÌ, "
 
 msgid "Mail Fetch Result:"
-msgstr "V√Ωsledek stahov√°n√≠ po≈°ty:"
+msgstr "V˝sledek stahov·nÌ poπty:"
 
 msgid "POP3 Fetch Mail"
-msgstr "Jednoduch√Ω stahovaƒç POP3"
+msgstr "Jednoduch˝ stahovaË POP3"
 
 msgid ""
 "This configures settings for downloading email from a POP3 mailbox to your "
 "account on this server."
 msgstr ""
-"Zde m≈Ø≈æete nastavit stahov√°n√≠ po≈°ty z va≈°√≠ POP3 schr√°nky do schr√°nky na "
+"Zde m˘æete nastavit stahov·nÌ poπty z vaπÌ POP3 schr·nky do schr·nky na "
 "tomto serveru."
 
 msgid "Message Details"
-msgstr "Detaily zpr√°vy"
+msgstr "Detaily zpr·vy"
 
 msgid "Bodystructure"
-msgstr "Tƒõlo zpr√°vy"
+msgstr "TÏlo zpr·vy"
 
 msgid "Entity"
 msgstr "Entita"
@@ -3079,44 +3038,44 @@ msgid "Content-Type"
 msgstr "Typ obsahu (Content-Type)"
 
 msgid "Encoding"
-msgstr "K√≥dov√°n√≠"
+msgstr "KÛdov·nÌ"
 
 msgid "RFC822 Message body"
-msgstr "RFC822 tƒõlo zpr√°vy"
+msgstr "RFC822 tÏlo zpr·vy"
 
 msgid "Close Window"
-msgstr "Zav≈ô√≠t okno"
+msgstr "Zav¯Ìt okno"
 
 msgid "Save Message"
-msgstr "Ulo≈æit zpr√°vu"
+msgstr "Uloæit zpr·vu"
 
 msgid "View Message details"
-msgstr "Zobrazit detaily zpr√°vy"
+msgstr "Zobrazit detaily zpr·vy"
 
 msgid "New Mail Notification"
-msgstr "Ozn√°men√≠ o nov√© po≈°tƒõ"
+msgstr "Ozn·menÌ o novÈ poπtÏ"
 
 #, php-format
 msgid ""
 "The %s option will check ALL of your folders for unseen mail, not just the "
 "inbox for notification."
 msgstr ""
-"Volba %s zapne kontrolu V≈†ECH va≈°ich slo≈æek na nep≈ôeƒçtenou po≈°tu, ne jen "
-"pouh√© oznamov√°n√≠ slo≈æky Doruƒçen√° po≈°ta."
+"Volba %s zapne kontrolu V©ECH vaπich sloæek na nep¯eËtenou poπtu, ne jen "
+"pouhÈ oznamov·nÌ sloæky DoruËen· poπta."
 
 msgid "Check all boxes, not just INBOX"
-msgstr "Kontrolovat v≈°echny slo≈æky"
+msgstr "Kontrolovat vπechny sloæky"
 
 #, php-format
 msgid ""
 "Selecting the %s option will enable the showing of a popup window when "
 "unseen mail is in your folders (requires JavaScript)."
 msgstr ""
-"Volba %s zapne zobrazov√°n√≠ okna, kter√© v√°s upozorn√≠ na novou zpr√°vu, "
-"vy≈æaduje prohl√≠≈æeƒç se zapnutou podporou JavaScriptu."
+"Volba %s zapne zobrazov·nÌ okna, kterÈ v·s upozornÌ na novou zpr·vu, "
+"vyæaduje prohlÌæeË se zapnutou podporou JavaScriptu."
 
 msgid "Show popup window on new mail"
-msgstr "Zobrazit okno s ozn√°men√≠m"
+msgstr "Zobrazit okno s ozn·menÌm"
 
 #, php-format
 msgid ""
@@ -3125,25 +3084,26 @@ msgid ""
 "\"viewed\" or checked yet. This can prevent being continuously annoyed by "
 "sounds or popups for unseen mail."
 msgstr ""
-"Volba %s uprav√≠ chov√°n√≠ kontroly tak, aby se upozornƒõn√≠ zobrazovalo pouze u "
-"nep≈ôeƒçten√Ωch a zat√≠m neoznaƒçen√Ωch zpr√°v. T√≠m se p≈ôedejde trval√©mu oznamov√°n√≠ "
-"zvukem nebo oznamovac√≠m oknem u nep≈ôeƒçten√Ωch zpr√°v."
+"Volba %s upravÌ chov·nÌ kontroly tak, aby se upozornÏnÌ zobrazovalo pouze u "
+"nep¯eËten˝ch a zatÌm neoznaËen˝ch zpr·v. TÌm se p¯edejde trvalÈmu oznamov·nÌ "
+"zvukem nebo oznamovacÌm oknem u nep¯eËten˝ch zpr·v."
 
 msgid "Count only messages that are RECENT"
-msgstr "Pouze nov√©"
+msgstr "Pouze novÈ"
 
 #, php-format
 msgid ""
 "Selecting the %s option will change the title in some browsers to let you "
-"know when you have new mail (requires JavaScript). This will always tell you "
-"if you have new mail, even if you have %s enabled."
+"know when you have new mail (requires JavaScript, and only works in IE but "
+"you won't see errors with other browsers). This will always tell you if you "
+"have new mail, even if you have %s enabled."
 msgstr ""
-"Volba %s zmƒõn√≠ popisek okna tak aby zobrazoval poƒçet nov√Ωch zpr√°v ve va≈°√≠ "
-"schr√°nce. (Vy≈æaduje JavaScript a funguje jen v nƒõkter√Ωch prohl√≠≈æeƒç√≠ch.) "
-"Popisek v√°m bude v≈ædy zobrazovat nov√© zpr√°vy, i kdy≈æ m√°te vybr√°nu volbu %s."
+"Volba %s zmÏnÌ popisek okna tak aby zobrazoval poËet nov˝ch zpr·v ve vaπÌ "
+"schr·nce. (Vyæaduje JavaScript a funguje jen v nÏkter˝ch prohlÌæeËÌch.) "
+"Popisek v·m bude vædy zobrazovat novÈ zpr·vy, i kdyæ m·te vybr·nu volbu %s."
 
 msgid "Change title on supported browsers"
-msgstr "Zmƒõnit popisek okna u podporovan√Ωch prohl√≠≈æeƒç≈Ø"
+msgstr "ZmÏnit popisek okna u podporovan˝ch prohlÌæeË˘"
 
 #, php-format
 msgid ""
@@ -3151,19 +3111,19 @@ msgid ""
 "folders. When enabled, you can specify the media file to play in the "
 "provided file box."
 msgstr ""
-"V p≈ô√≠padƒõ, ≈æe si zapnete %s, si m≈Ø≈æete vybrat zvukov√Ω soubor, kter√Ω m√° b√Ωt "
-"p≈ôehr√°n v p≈ô√≠padƒõ, ≈æe se ve va≈°√≠ schr√°nce objev√≠ nov√° po≈°ta."
+"V p¯ÌpadÏ, æe si zapnete %s, si m˘æete vybrat zvukov˝ soubor, kter˝ m· b˝t "
+"p¯ehr·n v p¯ÌpadÏ, æe se ve vaπÌ schr·nce objevÌ nov· poπta."
 
 msgid "Enable Media Playing"
-msgstr "P≈ôehr√°v√°n√≠ zvuku"
+msgstr "P¯ehr·v·nÌ zvuku"
 
 #, php-format
 msgid ""
 "Select from the list of %s the media file to play when new mail arrives. If "
 "no file is specified, %s, no sound will be used."
 msgstr ""
-"Ze %s si m≈Ø≈æete vybrat, kter√Ω zvuk bude p≈ôehr√°n, kdy≈æ p≈ôijde nov√° zpr√°va. "
-"Neurƒç√≠te-li ≈æ√°dn√Ω zvuk, %s, ≈æ√°dn√Ω zvuk se nepou≈æije."
+"Ze %s si m˘æete vybrat, kter˝ zvuk bude p¯ehr·n, kdyæ p¯ijde nov· zpr·va. "
+"NeurËÌte-li æ·dn˝ zvuk, %s, æ·dn˝ zvuk se nepouæije."
 
 msgid "Select server file"
 msgstr "Vyberte soubor na serveru"
@@ -3172,79 +3132,74 @@ msgid "(none)"
 msgstr "(nic)"
 
 msgid "requires JavaScript to work"
-msgstr "vy≈æaduje JavaScript"
-
-msgid "Width of popup window:"
-msgstr "≈†√≠≈ôka vyskakovac√≠ho okna:"
-
-msgid "If set to 0, reverts to default value"
-msgstr "0 resetuje na v√Ωchoz√≠ hodnotu"
-
-msgid "Height of popup window:"
-msgstr "V√Ω≈°ka vyskakovac√≠ho okna:"
+msgstr "vyæaduje JavaScript"
 
 msgid "Try"
-msgstr "Vyzkou≈°et"
+msgstr "Vyzkouπet"
 
 msgid "Current File:"
-msgstr "Aktu√°ln√≠ soubor:"
+msgstr "Aktu·lnÌ soubor:"
 
 msgid "New Mail"
-msgstr "Nov√° po≈°ta"
+msgstr "Nov· poπta"
 
 msgid "SquirrelMail Notice:"
-msgstr "Pozn√°mka:"
+msgstr "Pozn·mka:"
 
-#, php-format
+#, fuzzy, php-format
 msgid "You have %s new message"
-msgstr "M√°te %s novou zpr√°vu"
+msgid_plural "You have %s new messages"
+msgstr[0] "M·te %s nov˝ch zprav"
+msgstr[1] "M·te %s nov˝ch zprav"
 
 #, php-format
 msgid "You have %s new messages"
-msgstr "M√°te %s nov√Ωch zpr√°v"
+msgstr ": %s"
 
 msgid "NewMail Options"
-msgstr "Mo≈ænosti ozn√°men√≠ o nov√Ωch zpr√°v√°ch"
+msgstr "Moænosti ozn·menÌ o nov˝ch zpr·v·ch"
 
 msgid ""
 "This configures settings for playing sounds and/or showing popup windows "
 "when new mail arrives."
-msgstr "Zde si m≈Ø≈æete nakonfigurovat ozn√°men√≠ o nov√Ωch zpr√°v√°ch."
+msgstr "Zde si m˘æete nakonfigurovat ozn·menÌ o nov˝ch zpr·v·ch."
 
 #, php-format
 msgid "%s New Messages"
-msgstr "%s nov√Ωch zpr√°v"
+msgstr "%s nov˝ch zpr·v"
 
-#, php-format
+#, fuzzy, php-format
 msgid "%s New Message"
-msgstr "%s nov√° zpr√°va"
+msgid_plural "%s New Messages"
+msgstr[0] "%s nov· zpr·va"
+msgstr[1] "%s nov· zpr·va"
 
 msgid "Test Sound"
-msgstr "Vyzkou≈°et zvuk"
+msgstr "Vyzkouπet zvuk"
 
 msgid "No sound specified"
-msgstr "Nebyl specifikov√°n ≈æ√°dn√Ω zvuk"
+msgstr "Nebyl specifikov·n æ·dn˝ zvuk"
 
 msgid "Loading the sound..."
-msgstr "Nahr√°v√°m zvuk..."
+msgstr "Nahr·v·m zvuk..."
 
 msgid "Sent Subfolders Options"
-msgstr "Mo≈ænosti - Podslo≈æky Odeslan√© po≈°ty"
+msgstr "Moænosti - Podsloæky OdeslanÈ poπty"
 
 msgid "Use Sent Subfolders"
-msgstr "Pou≈æ√≠vat podslo≈æky Odeslan√© po≈°ty"
+msgstr "PouæÌvat podsloæky OdeslanÈ poπty"
 
 msgid "Monthly"
-msgstr "Mƒõs√≠ƒçnƒõ"
+msgstr "MÏsÌËnÏ"
 
 msgid "Quarterly"
-msgstr "ƒåtvrtletnƒõ"
+msgstr "»tvrtletnÏ"
 
 msgid "Yearly"
-msgstr "Roƒçnƒõ"
+msgstr "RoËnÏ"
 
 msgid "Base Sent Folder"
-msgstr "Z√°kladn√≠ slo≈æka Odeslan√© po≈°ty"
+msgstr "Z·kladnÌ sloæka OdeslanÈ poπty"
 
 msgid "Enabled"
 msgstr "Zapnuto"
@@ -3256,40 +3211,40 @@ msgid "Enable it"
 msgstr "Zapnout"
 
 msgid "Spam reporting"
-msgstr "Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty"
+msgstr "Filtrov·nÌ nevyæ·danÈ poπty"
 
 msgid "SpamCop link is:"
 msgstr "SpamCop odkaz:"
 
 msgid "Delete spam when reported:"
-msgstr "Odstranit spam p≈ôi ozn√°men√≠:"
+msgstr "Odstranit spam p¯i ozn·menÌ:"
 
 msgid "Only works with email-based reporting"
-msgstr "Funguje pouze s ohla≈°ov√°n√≠m zalo≈æen√©m na e-mailu"
+msgstr "Funguje pouze s ohlaπov·nÌm zaloæenÈm na e-mailu"
 
 msgid "Spam Reporting Method:"
-msgstr "Hl√°≈°en√≠ nevy≈æ√°dan√© po≈°ty:"
+msgstr "Hl·πenÌ nevyæ·danÈ poπty:"
 
 msgid "Quick email-based reporting"
-msgstr "Rychl√© e-mailov√© hl√°≈°en√≠"
+msgstr "RychlÈ e-mailovÈ hl·πenÌ"
 
 msgid "Thorough email-based reporting"
-msgstr "√öpln√© e-mailov√© hl√°≈°en√≠"
+msgstr "⁄plnÈ e-mailovÈ hl·πenÌ"
 
 msgid "Web-based form"
-msgstr "Online formul√°≈ô"
+msgstr "Online formul·¯"
 
 msgid "Save Method"
-msgstr "Ulo≈æit metodu"
+msgstr "Uloæit metodu"
 
 msgid "Your SpamCop authorization code:"
-msgstr "V√°≈° autorizaƒçn√≠ kl√≠ƒç SpamCop:"
+msgstr "V·π autorizaËnÌ klÌË SpamCop:"
 
 msgid "see below"
-msgstr "viz n√≠≈æe"
+msgstr "viz nÌæe"
 
 msgid "Save ID"
-msgstr "Ulo≈æit kl√≠ƒç"
+msgstr "Uloæit klÌË"
 
 msgid "About SpamCop"
 msgstr "O SpamCopu"
@@ -3298,19 +3253,19 @@ msgid ""
 "SpamCop is a free service that greatly assists in finding the true source of "
 "the spam and helps in letting the proper people know about the abuse."
 msgstr ""
-"SpamCop je bezplatn√° slu≈æba, kter√© pom√°h√° p≈ôi hled√°n√≠ prav√©ho zdroje "
-"nevy≈æ√°dan√© po≈°ty a p≈ôi oznamov√°n√≠ spr√°vn√Ωm lidem o tomto zneu≈æit√≠."
+"SpamCop je bezplatn· sluæba, kterÈ pom·h· p¯i hled·nÌ pravÈho zdroje "
+"nevyæ·danÈ poπty a p¯i oznamov·nÌ spr·vn˝m lidem o tomto zneuæitÌ."
 
 #, php-format
 msgid ""
 "To use it, you must get a SpamCop authorization code. There is a free %ssign "
 "up page%s so you can use SpamCop."
 msgstr ""
-"Abyste mohli pou≈æ√≠t SpamCop, mus√≠te nejd≈ô√≠ve z√≠skat autorizaƒçn√≠ kl√≠ƒç. K "
-"dispozici je bezplatn√© %sp≈ôihl√°≈°en√≠%s ke slu≈æbƒõ."
+"Abyste mohli pouæÌt SpamCop, musÌte nejd¯Ìve zÌskat autorizaËnÌ klÌË. K "
+"dispozici je bezplatnÈ %sp¯ihl·πenÌ%s ke sluæbÏ."
 
 msgid "Before you sign up, be warned"
-msgstr "P≈ôed p≈ôihl√°≈°en√≠m pros√≠m vƒõnujte pozornost"
+msgstr "P¯ed p¯ihl·πenÌm prosÌm vÏnujte pozornost"
 
 #, php-format
 msgid ""
@@ -3322,13 +3277,13 @@ msgid ""
 "forwarder somewhere (%s has a %slist of places%s) so that messages from "
 "system administrators and what not can be sent to you."
 msgstr ""
-"Nƒõkte≈ô√≠ u≈æivatel√© ozn√°mili, ≈æe e-mailov√° adresa pou≈æit√° pro SpamCop se "
-"ocitla na seznamu spammer≈Ø. Pro zaji≈°tƒõn√≠ bezpeƒçnosti zva≈æte vytvo≈ôen√≠ "
-"po≈°tovn√≠ho √∫ƒçtu slou≈æ√≠c√≠ho pouze pro p≈ôesmƒõrov√°n√≠ a n√°sledn√© pos√≠l√°n√≠ "
-"report≈Ø pro SpamCop. Bude-li tento √∫ƒçet zaplaven spamem, postaƒç√≠ pouze √∫ƒçet "
-"zru≈°it bez rizika ztr√°ty re√°ln√© adresy. Pouze vytvo≈ôte p≈ôesmƒõrov√°n√≠ nƒõkde (%"
-"s has a %slist of places%s), pro syst√©mov√© zpr√°vy a zpr√°vy o "
-"nedoruƒçitelnosti."
+"NÏkte¯Ì uæivatelÈ ozn·mili, æe e-mailov· adresa pouæit· pro SpamCop se "
+"ocitla na seznamu spammer˘. Pro zajiπtÏnÌ bezpeËnosti zvaæte vytvo¯enÌ "
+"poπtovnÌho ˙Ëtu slouæÌcÌho pouze pro p¯esmÏrov·nÌ a n·slednÈ posÌl·nÌ "
+"report˘ pro SpamCop. Bude-li tento ˙Ëet zaplaven spamem, postaËÌ pouze ˙Ëet "
+"zruπit bez rizika ztr·ty re·lnÈ adresy. Pouze vytvo¯te p¯esmÏrov·nÌ nÏkde (%"
+"s has a %slist of places%s), pro systÈmovÈ zpr·vy a zpr·vy o "
+"nedoruËitelnosti."
 
 msgid ""
 "Once you have signed up with SpamCop and have received your SpamCop "
@@ -3340,17 +3295,17 @@ msgid ""
 "Confirming that you want the spam report sent will do different things with "
 "different reporting methods."
 msgstr ""
-"Jakmile se p≈ôihl√°s√≠te ke SpamCopu a obdr≈æ√≠te autorizaƒçn√≠ k√≥dy, budete "
-"pot≈ôebovat zapnout tento plugin kliknut√≠m na odkaz n√≠≈æe. Jakmile bude "
-"povolen, dƒõlejte si, co uzn√°te za vhodn√©. Pokud dostanete spam do sv√© "
-"po≈°tovn√≠ p≈ôihr√°dky, tak se na nƒõj pod√≠vejte. Na prav√© stranƒõ, pobl√≠≈æ vr≈°ku "
-"zobrazen√© zpr√°vy,  uvid√≠te odkaz na reportov√°n√≠ zpr√°vy jako spamu. Kliknut√≠m "
-"na tento odkaz se zobraz√≠ str√°nka s po≈æadavkem na potvrzen√≠ akce. Va≈°√≠m "
-"potvrzen√≠m, ≈æe jde skuteƒçnƒõ o spam, se provedou r≈Øzn√© vƒõci r≈Øzn√Ωmi "
-"oznamovac√≠mi metodami."
+"Jakmile se p¯ihl·sÌte ke SpamCopu a obdræÌte autorizaËnÌ kÛdy, budete "
+"pot¯ebovat zapnout tento plugin kliknutÌm na odkaz nÌæe. Jakmile bude "
+"povolen, dÏlejte si, co uzn·te za vhodnÈ. Pokud dostanete spam do svÈ "
+"poπtovnÌ p¯ihr·dky, tak se na nÏj podÌvejte. Na pravÈ stranÏ, poblÌæ vrπku "
+"zobrazenÈ zpr·vy,  uvidÌte odkaz na reportov·nÌ zpr·vy jako spamu. KliknutÌm "
+"na tento odkaz se zobrazÌ str·nka s poæadavkem na potvrzenÌ akce. VaπÌm "
+"potvrzenÌm, æe jde skuteËnÏ o spam, se provedou r˘znÈ vÏci r˘zn˝mi "
+"oznamovacÌmi metodami."
 
 msgid "Email-based reporting"
-msgstr "E-mailov√© hl√°≈°en√≠"
+msgstr "E-mailovÈ hl·πenÌ"
 
 msgid ""
 "Pressing the button forwards the message to the SpamCop service and will "
@@ -3360,24 +3315,24 @@ msgid ""
 "Open it up, click on the appropriate link at the top, and a new browser "
 "window will open."
 msgstr ""
-"Stisknut√≠m tlaƒç√≠tka p≈ôed√°te zpr√°vu slu≈æbƒõ SpamCop a volitelnƒõ zpr√°vu i "
-"odstran√≠te. Odsud m≈Ø≈æete j√≠t do slo≈æky do≈°l√© po≈°ty a brzy by mƒõla p≈ôij√≠t "
-"zpr√°va od SpamCop. (Bude odesl√°na na d≈ô√≠ve registrovan√Ω √∫ƒçet, ujistƒõte se, "
-"≈æe p≈ôesmƒõrov√°n√≠ po≈°ty do va≈°√≠ schr√°nky je funkƒçn√≠!) Zpr√°vu otev≈ôete, "
-"klepnƒõte na p≈ô√≠slu≈°n√Ω odkaz na zaƒç√°tku zpr√°vy a otev≈ôe se nov√© okno "
-"prohl√≠≈æeƒçe."
+"StisknutÌm tlaËÌtka p¯ed·te zpr·vu sluæbÏ SpamCop a volitelnÏ zpr·vu i "
+"odstranÌte. Odsud m˘æete jÌt do sloæky doπlÈ poπty a brzy by mÏla p¯ijÌt "
+"zpr·va od SpamCop. (Bude odesl·na na d¯Ìve registrovan˝ ˙Ëet, ujistÏte se, "
+"æe p¯esmÏrov·nÌ poπty do vaπÌ schr·nky je funkËnÌ!) Zpr·vu otev¯ete, "
+"klepnÏte na p¯Ìsluπn˝ odkaz na zaË·tku zpr·vy a otev¯e se novÈ okno "
+"prohlÌæeËe."
 
 msgid ""
 "Currently, the quick reporting just forwards the request to the thorough "
 "reporting. Also, it appears that this is for members (non-free) only. "
 "Hopefully this will change soon."
 msgstr ""
-"V souƒçasn√© dobƒõ je rychl√Ωm reportov√°n√≠m samotn√© p≈ôesmƒõrov√°n√≠ po≈æadavku do "
-"reportovac√≠ho syst√©mu. Je v≈°ak dostupn√© pouze pro ƒçleny (nen√≠ zdarma). "
-"Doufejme, ≈æe se to brzo zmƒõn√≠."
+"V souËasnÈ dobÏ je rychl˝m reportov·nÌm samotnÈ p¯esmÏrov·nÌ poæadavku do "
+"reportovacÌho systÈmu. Je vπak dostupnÈ pouze pro Ëleny (nenÌ zdarma). "
+"Doufejme, æe se to brzo zmÏnÌ."
 
 msgid "Web-based reporting"
-msgstr "Hl√°≈°en√≠ p≈ôes www"
+msgstr "Hl·πenÌ p¯es www"
 
 msgid ""
 "When you press the button on the confirmation page, this will pop open a new "
@@ -3385,10 +3340,10 @@ msgid ""
 "will not be deleted (working on that part), but you won't need to wait for a "
 "response email to start the spam reporting."
 msgstr ""
-"Jakmile stisknete tlaƒç√≠tko na potvrzovac√≠ str√°nce, otev≈ôe se nov√© okno "
-"prohl√≠≈æeƒçe se slu≈æbou SpamCop. Zpr√°va nebude smaz√°na (na tom se pracuje), "
-"ale p≈ôesto nemus√≠te ƒçekat na odpovƒõdn√≠ zpr√°vu, aby byl zah√°jen proces "
-"reportov√°n√≠."
+"Jakmile stisknete tlaËÌtko na potvrzovacÌ str·nce, otev¯e se novÈ okno "
+"prohlÌæeËe se sluæbou SpamCop. Zpr·va nebude smaz·na (na tom se pracuje), "
+"ale p¯esto nemusÌte Ëekat na odpovÏdnÌ zpr·vu, aby byl zah·jen proces "
+"reportov·nÌ."
 
 msgid ""
 "The SpamCop service will display information as it finds it, so scroll down "
@@ -3397,51 +3352,51 @@ msgid ""
 "Close the browser window. Press Cancel or click on the appropriate mail "
 "folder to see messages and/or delete the spam."
 msgstr ""
-"Slu≈æba SpamCop zobraz√≠ informace tak, jak je dostane, zobrazen√Ω text posu≈àte "
-"dol≈Ø, dokud neuvid√≠te tlaƒç√≠tko formul√°≈ôe. To v√°s m≈Ø≈æe brzdit, dokud se "
-"informace nenajde, buƒète tedy trpƒõliv√≠. P≈ôeƒçtƒõte si, co ve zpr√°vƒõ stoj√≠, a "
-"ode≈°lete spam. Zav≈ôete okno prohl√≠≈æeƒçe. Klepnƒõte na tlaƒç√≠tko Storno nebo "
-"klepnƒõte na p≈ô√≠slu≈°nou po≈°tovn√≠ slo≈æku, jej√≠≈æ zpr√°vy chcete prohl√≠≈æet nebo v "
-"n√≠ mazat spam."
+"Sluæba SpamCop zobrazÌ informace tak, jak je dostane, zobrazen˝ text posuÚte "
+"dol˘, dokud neuvidÌte tlaËÌtko formul·¯e. To v·s m˘æe brzdit, dokud se "
+"informace nenajde, buÔte tedy trpÏlivÌ. P¯eËtÏte si, co ve zpr·vÏ stojÌ, a "
+"odeπlete spam. Zav¯ete okno prohlÌæeËe. KlepnÏte na tlaËÌtko Storno nebo "
+"klepnÏte na p¯Ìsluπnou poπtovnÌ sloæku, jejÌæ zpr·vy chcete prohlÌæet nebo v "
+"nÌ mazat spam."
 
 msgid "SpamCop service type"
-msgstr "Typ slu≈æby SpamCop"
+msgstr "Typ sluæby SpamCop"
 
 msgid ""
 "Service type option allows selecting which SpamCop services you are using. "
 "Member services use different web reporting forms and does not display nags. "
 "You can purchase these services, if you want to support SpamCop."
 msgstr ""
-"Nastaven√≠ typu slu≈æby umo≈æ≈àuje v√Ωbƒõr typu slu≈æby SpamCop, kter√Ω pou≈æ√≠v√°te. "
-"ƒålenov√© slu≈æby pou≈æ√≠vaj√≠ jin√Ω reportovac√≠ formul√°≈ô. M≈Ø≈æete si tuto slu≈æbu "
-"koupit, pokud chcete podpo≈ôit t√Ωm SpamCop."
+"NastavenÌ typu sluæby umoæÚuje v˝bÏr typu sluæby SpamCop, kter˝ pouæÌv·te. "
+"»lenovÈ sluæby pouæÌvajÌ jin˝ reportovacÌ formul·¯. M˘æete si tuto sluæbu "
+"koupit, pokud chcete podpo¯it t˝m SpamCop."
 
 msgid "More information"
-msgstr "Dal≈°√≠ informace"
+msgstr "DalπÌ informace"
 
 #, php-format
 msgid ""
 "For more information about SpamCop, it's services, spam in general, and many "
 "related topics, try reading through SpamCop's %sHelp and Feedback%s section."
 msgstr ""
-"Pro dal≈°√≠ informace o SpamCop, o jejich slu≈æb√°ch, o spamu obecnƒõ a o mnoha "
-"dal≈°√≠ch p≈ô√≠buzn√Ωch t√©matech si zkuste p≈ôeƒç√≠st ƒçl√°nek %sHelp and Feedback%s "
+"Pro dalπÌ informace o SpamCop, o jejich sluæb·ch, o spamu obecnÏ a o mnoha "
+"dalπÌch p¯Ìbuzn˝ch tÈmatech si zkuste p¯eËÌst Ël·nek %sHelp and Feedback%s "
 "na SpamCopu."
 
 msgid "Report as Spam"
-msgstr "Nahl√°sit jako nevy≈æ√°danou po≈°tu"
+msgstr "Nahl·sit jako nevyæ·danou poπtu"
 
 msgid "SpamCop - Spam Reporting"
-msgstr "SpamCop - Hl√°≈°en√≠ nevy≈æ√°dan√© po≈°ty"
+msgstr "SpamCop - Hl·πenÌ nevyæ·danÈ poπty"
 
 msgid ""
 "Help fight the battle against unsolicited email. SpamCop reads the spam "
 "email and determines the correct addresses to send complaints to. Quite "
 "fast, really smart, and easy to use."
 msgstr ""
-"Umo≈æ≈àuje bojovat proti nevy≈æ√°dan√© po≈°tƒõ. SpamCop ƒçte zpr√°vy a vyhodnocuje "
-"spr√°vn√© adresy, kam je nutn√© pos√≠lat st√≠≈ænosti. Rychl√©, chytr√© a jednodu≈°e "
-"ovladateln√©. Bohu≈æel jen anglicky."
+"UmoæÚuje bojovat proti nevyæ·danÈ poπtÏ. SpamCop Ëte zpr·vy a vyhodnocuje "
+"spr·vnÈ adresy, kam je nutnÈ posÌlat stÌænosti. RychlÈ, chytrÈ a jednoduπe "
+"ovladatelnÈ. Bohuæel jen anglicky."
 
 msgid ""
 "Sending this spam report will give you back a reply with URLs that you can "
@@ -3449,32 +3404,32 @@ msgid ""
 "This is a free service. By pressing the \"Send Spam Report\" button, you "
 "agree to follow SpamCop's rules/terms of service/etc."
 msgstr ""
-"Odesl√°n√≠m tohoto reportu dostanete zp√°tky odpovƒõƒè s URL, na kter√© m≈Ø≈æete "
-"kliknout, abyste t√≠m potvrdili, ≈æe jste skuteƒçnƒõ report odeslali. Tato "
-"slu≈æba je zdarma. Stisknut√≠m tlaƒç√≠tka \"Poslat hl√°≈°en√≠ nevy≈æ√°dan√© po≈°ty\" "
-"souhlas√≠te s n√°sleduj√≠c√≠mi pravidly slu≈æby atd."
+"Odesl·nÌm tohoto reportu dostanete zp·tky odpovÏÔ s URL, na kterÈ m˘æete "
+"kliknout, abyste tÌm potvrdili, æe jste skuteËnÏ report odeslali. Tato "
+"sluæba je zdarma. StisknutÌm tlaËÌtka \"Poslat hl·πenÌ nevyæ·danÈ poπty\" "
+"souhlasÌte s n·sledujÌcÌmi pravidly sluæby atd."
 
 msgid "Cancel / Done"
-msgstr "Zru≈°it / Ukonƒçit"
+msgstr "Zruπit / UkonËit"
 
 msgid "Send Spam Report"
-msgstr "Poslat hl√°≈°en√≠ nevy≈æ√°dan√© po≈°ty"
+msgstr "Poslat hl·πenÌ nevyæ·danÈ poπty"
 
 msgid "SpellChecker Options"
-msgstr "Mo≈ænosti kontroly pravopisu"
+msgstr "Moænosti kontroly pravopisu"
 
 msgid ""
 "Here you may set up how your personal dictionary is stored, edit it, or "
 "choose which languages should be available to you when spell-checking."
 msgstr ""
-"Zde si m≈Ø≈æete nastavit jak bude ulo≈æen v√°≈° osobn√≠ slovn√≠k, upravovat ho, "
-"nebo si vybrat, kter√© jazyky chcete pou≈æ√≠vat."
+"Zde si m˘æete nastavit jak bude uloæen v·π osobnÌ slovnÌk, upravovat ho, "
+"nebo si vybrat, kterÈ jazyky chcete pouæÌvat."
 
 msgid "Check Spelling"
 msgstr "Pravopis"
 
 msgid "Back to &quot;SpellChecker Options&quot; page"
-msgstr "Zpƒõt na str√°nku &quot;Mo≈ænosti kontroly pravopisu&quot;"
+msgstr "ZpÏt na str·nku &quot;Moænosti kontroly pravopisu&quot;"
 
 msgid "ATTENTION:"
 msgstr "POZOR:"
@@ -3489,102 +3444,105 @@ msgid ""
 "This is also true if you don't remember your old password -- without it, the "
 "encrypted data is no longer accessible."
 msgstr ""
-"SquirrelSpell nemohl roz≈°ifrovat v√°≈° osobn√≠ slovn√≠k. Nejpravdƒõpodobnƒõj≈°√≠ "
-"p≈ô√≠ƒçinou m≈Ø≈æe b√Ωt zmƒõna va≈°eho hesla. Pokud jste si zmƒõnili heslo, zadejte "
-"pros√≠m va≈°e star√© heslo a slovn√≠k bude znovu za≈°ifrov√°n s va≈°√≠m nov√Ωm "
-"heslem. Pokud v√°≈° slovn√≠k nebyl za≈°ifrovan√Ω, do≈°lo pravdƒõpodobnƒõ k po≈°kozen√≠ "
-"dat a budete muset zaƒç√≠t znovu. Sma≈æte sv≈Øj star√Ω slovn√≠k a vytvo≈ôte si "
-"pros√≠m nov√Ω."
+"SquirrelSpell nemohl rozπifrovat v·π osobnÌ slovnÌk. NejpravdÏpodobnÏjπÌ "
+"p¯ÌËinou m˘æe b˝t zmÏna vaπeho hesla. Pokud jste si zmÏnili heslo, zadejte "
+"prosÌm vaπe starÈ heslo a slovnÌk bude znovu zaπifrov·n s vaπÌm nov˝m "
+"heslem. Pokud v·π slovnÌk nebyl zaπifrovan˝, doπlo pravdÏpodobnÏ k poπkozenÌ "
+"dat a budete muset zaËÌt znovu. Smaæte sv˘j star˝ slovnÌk a vytvo¯te si "
+"prosÌm nov˝."
 
 msgid "Delete my dictionary and start a new one"
-msgstr "Sma≈æ m≈Øj slovn√≠k a vytvo≈ô nov√Ω"
+msgstr "Smaæ m˘j slovnÌk a vytvo¯ nov˝"
 
 msgid "Decrypt my dictionary with my old password:"
-msgstr "Roz≈°ifruj m≈Øj slovn√≠k m√Ωm star√Ωm heslem:"
+msgstr "Rozπifruj m˘j slovnÌk m˝m star˝m heslem:"
 
 msgid "Proceed"
-msgstr "Pokraƒçovat"
+msgstr "PokraËovat"
 
 msgid "You must make a choice"
-msgstr "Mus√≠te si vybrat"
+msgstr "MusÌte si vybrat"
 
 msgid ""
 "You can either delete your dictionary or type in the old password. Not both."
-msgstr "M≈Ø≈æete buƒè smazat sv≈Øj slovn√≠k nebo vlo≈æit star√© heslo. Ne oboj√≠!"
+msgstr "M˘æete buÔ smazat sv˘j slovnÌk nebo vloæit starÈ heslo. Ne obojÌ!"
 
 msgid "This will delete your personal dictionary file. Proceed?"
-msgstr "T√≠mto sma≈æete sv≈Øj osobn√≠ slovn√≠k. Pokraƒçovat?"
+msgstr "TÌmto smaæete sv˘j osobnÌ slovnÌk. PokraËovat?"
 
 msgid "Error Decrypting Dictionary"
-msgstr "Chyba p≈ôi roz≈°ifrov√°v√°n√≠ slovn√≠ku"
+msgstr "Chyba p¯i rozπifrov·v·nÌ slovnÌku"
+
+msgid "Cute."
+msgstr "Bezva."
 
 #, php-format
 msgid "Could not run the spellchecker command (%s)."
-msgstr "Nen√≠ mo≈æn√© spustit p≈ô√≠kaz kontroly pravopisu (%s)."
+msgstr "NenÌ moænÈ spustit p¯Ìkaz kontroly pravopisu (%s)."
 
 msgid "Error while writing to pipe."
-msgstr "Chyba p≈ôi p≈ôed√°v√°n√≠ dat jin√©mu procesu."
+msgstr "Chyba p¯i p¯ed·v·nÌ dat jinÈmu procesu."
 
 #, php-format
 msgid "Could not open temporary file '%s'."
-msgstr "Nelze otev≈ô√≠t doƒçasn√Ω soubor '%s'."
+msgstr "Nelze otev¯Ìt doËasn˝ soubor '%s'."
 
 #, php-format
 msgid "Error while writing to temporary file '%s'."
-msgstr "Chyba p≈ôi z√°pisu do doƒçasn√©ho souboru '%s'."
+msgstr "Chyba p¯i z·pisu do doËasnÈho souboru '%s'."
 
 #, php-format
 msgid "I tried to execute '%s', but it returned:"
-msgstr "Pokusil jsem se pustit '%s', ale on mi vr√°til:"
+msgstr "Pokusil jsem se pustit '%s', ale on mi vr·til:"
 
 msgid "SquirrelSpell is misconfigured."
-msgstr "SquirrelSpell je ≈°patnƒõ nakonfigurov√°n."
+msgstr "SquirrelSpell je πpatnÏ nakonfigurov·n."
 
 msgid "Spellcheck completed. Commit changes?"
-msgstr "Kontrola pravopisu dokonƒçena. Prov√©st zmƒõny?"
+msgstr "Kontrola pravopisu dokonËena. ProvÈst zmÏny?"
 
 msgid "No changes were made."
-msgstr "Nebyly provedeny ≈æ√°dn√© zmƒõny."
+msgstr "Nebyly provedeny æ·dnÈ zmÏny."
 
 msgid "Now saving your personal dictionary... Please wait."
-msgstr "Nyn√≠ ukl√°d√°m v√°≈° osobn√≠ slovn√≠k...  Pros√≠m ƒçekejte."
+msgstr "NynÌ ukl·d·m v·π osobnÌ slovnÌk...  ProsÌm Ëekejte."
 
 msgid "SquirrelSpell Results"
-msgstr "SquirrelSpell V√Ωsledky"
+msgstr "SquirrelSpell V˝sledky"
 
 #, php-format
 msgid "Found %s errors"
 msgstr "Nalezeno %s chyb"
 
 msgid "Line with an error:"
-msgstr "≈ò√°dka s chybou:"
+msgstr "ÿ·dka s chybou:"
 
 msgid "Error:"
 msgstr "Chyba:"
 
 msgid "Suggestions:"
-msgstr "N√°vrhy:"
+msgstr "N·vrhy:"
 
 msgid "Suggestions"
-msgstr "N√°vrhy"
+msgstr "N·vrhy"
 
 msgid "Change to:"
-msgstr "Zmƒõnit na:"
+msgstr "ZmÏnit na:"
 
 msgid "Occurs times:"
-msgstr "Poƒçet v√Ωskyt≈Ø:"
+msgstr "PoËet v˝skyt˘:"
 
 msgid "Change this word"
-msgstr "Zmƒõnit toto slovo"
+msgstr "ZmÏnit toto slovo"
 
 msgid "Change"
-msgstr "Zmƒõnit"
+msgstr "ZmÏnit"
 
 msgid "Change ALL occurances of this word"
-msgstr "Zmƒõnit V≈†ECHNY v√Ωskyty tohoto slova"
+msgstr "ZmÏnit V©ECHNY v˝skyty tohoto slova"
 
 msgid "Change All"
-msgstr "Zmƒõnit v≈°e"
+msgstr "ZmÏnit vπe"
 
 msgid "Ignore this word"
 msgstr "Ignorovat toto slovo"
@@ -3593,113 +3551,113 @@ msgid "Ignore"
 msgstr "Ignorovat"
 
 msgid "Ignore ALL occurances this word"
-msgstr "Ignorovat v≈°echny v√Ωskyty tohoto slova"
+msgstr "Ignorovat vπechny v˝skyty tohoto slova"
 
 msgid "Ignore All"
-msgstr "Ignorovat V≈†E"
+msgstr "Ignorovat V©E"
 
 msgid "Add this word to your personal dictionary"
-msgstr "P≈ôidat toto slovo do osobn√≠ho slovn√≠ku"
+msgstr "P¯idat toto slovo do osobnÌho slovnÌku"
 
 msgid "Add to Dic"
-msgstr "P≈ôidat polo≈æku do slovn√≠ku"
+msgstr "P¯idat poloæku do slovnÌku"
 
 msgid "Close and Commit"
-msgstr "Zav≈ô√≠t a potvrdit"
+msgstr "Zav¯Ìt a potvrdit"
 
 msgid "The spellcheck is not finished. Really close and commit changes?"
-msgstr "Kontrola pravopisu nebyla dokonƒçena. Opravdu prov√©st zmƒõny a zav≈ô√≠t?"
+msgstr "Kontrola pravopisu nebyla dokonËena. Opravdu provÈst zmÏny a zav¯Ìt?"
 
 msgid "Close and Cancel"
-msgstr "Zav≈ô√≠t a zru≈°it"
+msgstr "Zav¯Ìt a zruπit"
 
 msgid "The spellcheck is not finished. Really close and discard changes?"
-msgstr "Kontrola pravopisu nebyla dokonƒçena. Opravdu zav≈ô√≠t a zahodit zmƒõny?"
+msgstr "Kontrola pravopisu nebyla dokonËena. Opravdu zav¯Ìt a zahodit zmÏny?"
 
 msgid "No errors found"
-msgstr "Nebyla nalezena ≈æ√°dn√° chyba"
+msgstr "Nebyla nalezena æ·dn· chyba"
 
 msgid "Your personal dictionary was erased."
-msgstr "V√°≈° osobn√≠ slovn√≠k byl smaz√°n."
+msgstr "V·π osobnÌ slovnÌk byl smaz·n."
 
 msgid "Dictionary Erased"
-msgstr "Slovn√≠k smaz√°n"
+msgstr "SlovnÌk smaz·n"
 
 msgid ""
 "Your personal dictionary was erased. Please close this window and click "
 "\"Check Spelling\" button again to start your spellcheck over."
-msgstr "Osobn√≠ slovn√≠k byl smaz√°n."
+msgstr "OsobnÌ slovnÌk byl smaz·n."
 
 msgid "Close this Window"
-msgstr "Zav≈ô√≠t okno"
+msgstr "Zav¯Ìt okno"
 
 msgid ""
 "Your personal dictionary was re-encrypted successfully. Now return to the "
 "&quot;SpellChecker options&quot; menu and make your selection again."
-msgstr "V√°≈° slovn√≠k byl znovu za≈°ifrov√°n."
+msgstr "V·π slovnÌk byl znovu zaπifrov·n."
 
 msgid "Successful re-encryption"
-msgstr "Opƒõtovn√© za≈°ifrov√°n√≠ √∫spƒõ≈°n√©"
+msgstr "OpÏtovnÈ zaπifrov·nÌ ˙spÏπnÈ"
 
 msgid ""
 "Your personal dictionary was re-encrypted successfully. Please close this "
 "window and click \"Check Spelling\" button again to start your spellcheck "
 "over."
-msgstr "V√°≈° slovn√≠k byl znovu za≈°ifrov√°n."
+msgstr "V·π slovnÌk byl znovu zaπifrov·n."
 
 msgid "Dictionary re-encrypted"
-msgstr "Slovn√≠k byl znovu za≈°ifrov√°n"
+msgstr "SlovnÌk byl znovu zaπifrov·n"
 
 msgid ""
 "Your personal dictionary has been encrypted and is now stored in an "
 "encrypted format."
-msgstr "V√°≈° osobn√≠ slovn√≠k byl za≈°ifrov√°n a za≈°ifrovan√Ω ulo≈æen."
+msgstr "V·π osobnÌ slovnÌk byl zaπifrov·n a zaπifrovan˝ uloæen."
 
 msgid ""
 "Your personal dictionary has been decrypted and is now stored as plain text."
-msgstr "V√°≈° osobn√≠ slovn√≠k byl roz≈°ifrov√°n a neza≈°ifrovan√Ω ulo≈æen."
+msgstr "V·π osobnÌ slovnÌk byl rozπifrov·n a nezaπifrovan˝ uloæen."
 
 msgid "No action requested."
-msgstr "Nebyly po≈æadov√°ny ≈æ√°dn√© zmƒõny."
+msgstr "Nebyly poæadov·ny æ·dnÈ zmÏny."
 
 msgid "Personal Dictionary Crypto Settings"
-msgstr "Nastaven√≠ ≈°ifrov√°n√≠ osobn√≠ho slovn√≠ku"
+msgstr "NastavenÌ πifrov·nÌ osobnÌho slovnÌku"
 
 msgid "Personal Dictionary"
-msgstr "Osobn√≠ slovn√≠k"
+msgstr "OsobnÌ slovnÌk"
 
 msgid "No words in your personal dictionary."
-msgstr "V osobn√≠m slovn√≠ku nejsou ≈æ√°dn√° slova."
+msgstr "V osobnÌm slovnÌku nejsou æ·dn· slova."
 
 msgid "Please check any words you wish to delete from your dictionary."
-msgstr "Pros√≠m oznaƒçte slova, kter√© chcete odstranit z osobn√≠ho slovn√≠ku."
+msgstr "ProsÌm oznaËte slova, kterÈ chcete odstranit z osobnÌho slovnÌku."
 
 #, php-format
 msgid "%s dictionary"
-msgstr "%s slovn√≠k"
+msgstr "%s slovnÌk"
 
 msgid "Delete checked words"
-msgstr "Odstranit vybran√© slova"
+msgstr "Odstranit vybranÈ slova"
 
 msgid "Edit your Personal Dictionary"
-msgstr "Editovat osobn√≠ slovn√≠k"
+msgstr "Editovat osobnÌ slovnÌk"
 
 msgid "Please make your selection first."
-msgstr "Pros√≠m nejprve proveƒète volbu"
+msgstr "ProsÌm nejprve proveÔte volbu"
 
 msgid ""
 "This will encrypt your personal dictionary and store it in an encrypted "
 "format. Proceed?"
-msgstr "T√≠mto za≈°ifrujete sv≈Øj slovn√≠k. Pokraƒçovat?"
+msgstr "TÌmto zaπifrujete sv˘j slovnÌk. PokraËovat?"
 
 msgid ""
 "This will decrypt your personal dictionary and store it in a plain text "
 "format. Proceed?"
 msgstr ""
-"T√≠mto roz≈°ifrujete sv≈Øj slovn√≠k a ulo≈æ√≠te ho neza≈°ifrovan√Ω. Pokraƒçovat?"
+"TÌmto rozπifrujete sv˘j slovnÌk a uloæÌte ho nezaπifrovan˝. PokraËovat?"
 
 msgid "Your personal dictionary is currently encrypted."
-msgstr "V√°≈° osobn√≠ slovn√≠k je nyn√≠ za≈°ifrov√°n."
+msgstr "V·π osobnÌ slovnÌk je nynÌ zaπifrov·n."
 
 msgid ""
 "This helps protect your privacy in case the web-mail system gets compromized "
@@ -3707,10 +3665,10 @@ msgid ""
 "the password you use to access your mailbox, making it hard for anyone to "
 "see what is stored in your personal dictionary."
 msgstr ""
-"Toto pom√°h√° chr√°nit va≈°e soukrom√≠ v p≈ô√≠padƒõ nabouran√Ωch po≈°tovn√≠ch syst√©m≈Ø s "
-"webov√Ωm rozhran√≠m. V souƒçasn√© dobƒõ je osobn√≠ slovn√≠k ≈°ifrov√°n heslem, kter√© "
-"pou≈æ√≠v√°te pro p≈ôihl√°≈°en√≠ a kter√© znesnad≈àuje komukoliv prohl√≠≈æet informace "
-"ulo≈æen√© v slovn√≠ku."
+"Toto pom·h· chr·nit vaπe soukromÌ v p¯ÌpadÏ nabouran˝ch poπtovnÌch systÈm˘ s "
+"webov˝m rozhranÌm. V souËasnÈ dobÏ je osobnÌ slovnÌk πifrov·n heslem, kterÈ "
+"pouæÌv·te pro p¯ihl·πenÌ a kterÈ znesnadÚuje komukoliv prohlÌæet informace "
+"uloæenÈ v slovnÌku."
 
 msgid ""
 "If you forget your password, your personal dictionary will become "
@@ -3718,19 +3676,19 @@ msgid ""
 "mailbox password, SquirrelSpell will recognize it and prompt you for your "
 "old password in order to re-encrypt the dictionary with a new key."
 msgstr ""
-"Pokud zapomenete svoje heslo, v√°≈° osobn√≠ slovn√≠k se znep≈ô√≠stupn√≠, pokud "
-"nebude opƒõt od≈°ifrov√°n. Pokud zmƒõn√≠te heslo, SquirrelSpell to rozpozn√° a "
-"vyzve v√°s k zad√°n√≠ p≈Øvodn√≠ho hesla, kter√Ωm se p≈ôe≈°ifruje slovn√≠k."
+"Pokud zapomenete svoje heslo, v·π osobnÌ slovnÌk se znep¯ÌstupnÌ, pokud "
+"nebude opÏt odπifrov·n. Pokud zmÏnÌte heslo, SquirrelSpell to rozpozn· a "
+"vyzve v·s k zad·nÌ p˘vodnÌho hesla, kter˝m se p¯eπifruje slovnÌk."
 
 msgid ""
 "Please decrypt my personal dictionary and store it in a clear-text format."
-msgstr "Pros√≠m roz≈°ifruj m≈Øj osobn√≠ slovn√≠k a ulo≈æ ho v neza≈°ifrovan√© podobƒõ."
+msgstr "ProsÌm rozπifruj m˘j osobnÌ slovnÌk a uloæ ho v nezaπifrovanÈ podobÏ."
 
 msgid "Change crypto settings"
-msgstr "Zmƒõnit nastaven√≠ ≈°ifrov√°n√≠"
+msgstr "ZmÏnit nastavenÌ πifrov·nÌ"
 
 msgid "Your personal dictionary is currently not encrypted."
-msgstr "V√°≈° osobn√≠ slovn√≠k je nyn√≠ neza≈°ifrov√°n."
+msgstr "V·π osobnÌ slovnÌk je nynÌ nezaπifrov·n."
 
 msgid ""
 "You may wish to encrypt your personal dictionary to protect your privacy in "
@@ -3738,11 +3696,11 @@ msgid ""
 "gets stolen. When encrypted, the file's contents look garbled and are hard "
 "to decrypt without knowing the correct key (which is your mailbox password)."
 msgstr ""
-"M≈Ø≈æete si p≈ô√°t za≈°ifrovat sv≈Øj osobn√≠ slovn√≠k, abyste tak chr√°nili sv√© "
-"soukrom√≠ pro p≈ô√≠pad, ≈æe bude napadeno po≈°tovn√≠ webov√© rozhran√≠ ciz√≠m "
-"√∫toƒçn√≠kem. Pokud je slovn√≠ za≈°ifrov√°n, obsah souboru slovn√≠ku vypad√° jako "
-"rozsypan√Ω ƒçaj a je obt√≠≈æn√© bez znalosti ≈°ifrovac√≠ho kl√≠ƒçe (heslo do po≈°ty) "
-"obsah p≈ôeƒç√≠st."
+"M˘æete si p¯·t zaπifrovat sv˘j osobnÌ slovnÌk, abyste tak chr·nili svÈ "
+"soukromÌ pro p¯Ìpad, æe bude napadeno poπtovnÌ webovÈ rozhranÌ cizÌm "
+"˙toËnÌkem. Pokud je slovnÌ zaπifrov·n, obsah souboru slovnÌku vypad· jako "
+"rozsypan˝ Ëaj a je obtÌænÈ bez znalosti πifrovacÌho klÌËe (heslo do poπty) "
+"obsah p¯eËÌst."
 
 msgid ""
 "If you decide to encrypt your personal dictionary, you must remember that it "
@@ -3753,1392 +3711,1478 @@ msgid ""
 "but you still have the old password at hand, you will be able to enter the "
 "old key to re-encrypt the dictionary with the new value."
 msgstr ""
-"Pokud se rozhodnete za≈°ifrovat osobn√≠ slovn√≠k, pamatujte, ≈æe bude z√°visl√Ω na "
-"va≈°em p≈ôihla≈°ovac√≠m hesle. Pokud zapomenete svoje heslo a spr√°vce v√°m "
-"p≈ôidƒõl√≠ jin√©, slovn√≠k nebude mo≈æn√© pou≈æ√≠t a budete si muset vytvo≈ôit nov√Ω. "
-"Nicm√©nƒõ, pokud si zmƒõn√≠te heslo (nebo to provede spr√°vce), ale p≈Øvodn√≠ heslo "
-"si st√°le pamatujete, m≈Ø≈æete zadat p≈Øvodn√≠ heslo a slovn√≠k bude znovu "
-"za≈°ifrov√°n, nyn√≠ u≈æ s nov√Ωm heslem."
+"Pokud se rozhodnete zaπifrovat osobnÌ slovnÌk, pamatujte, æe bude z·visl˝ na "
+"vaπem p¯ihlaπovacÌm hesle. Pokud zapomenete svoje heslo a spr·vce v·m "
+"p¯idÏlÌ jinÈ, slovnÌk nebude moænÈ pouæÌt a budete si muset vytvo¯it nov˝. "
+"NicmÈnÏ, pokud si zmÏnÌte heslo (nebo to provede spr·vce), ale p˘vodnÌ heslo "
+"si st·le pamatujete, m˘æete zadat p˘vodnÌ heslo a slovnÌk bude znovu "
+"zaπifrov·n, nynÌ uæ s nov˝m heslem."
 
 msgid ""
 "Please encrypt my personal dictionary and store it in an encrypted format."
-msgstr "Pros√≠m za≈°ifruj m≈Øj osobn√≠ slovn√≠k a ulo≈æ ho za≈°ifrovan√Ω."
+msgstr "ProsÌm zaπifruj m˘j osobnÌ slovnÌk a uloæ ho zaπifrovan˝."
 
 #, php-format
 msgid "Deleting the following entries from %s dictionary:"
-msgstr "Maz√°n√≠ n√°sleduj√≠c√≠ch polo≈æek z %s slovn√≠ku:"
+msgstr "Maz·nÌ n·sledujÌcÌch poloæek z %s slovnÌku:"
 
 msgid "All done!"
-msgstr "V≈°e hotovo!"
+msgstr "Vπe hotovo!"
 
 msgid "Personal Dictionary Updated"
-msgstr "Osobn√≠ slovn√≠k aktualizov√°n"
+msgstr "OsobnÌ slovnÌk aktualizov·n"
 
 msgid "No changes requested."
-msgstr "Nebyly po≈æadov√°ny ≈æ√°dn√© zmƒõny."
+msgstr "Nebyly poæadov·ny æ·dnÈ zmÏny."
 
 msgid "Please wait, communicating with the server..."
-msgstr "Pros√≠m ƒçekejte, komunikuji se serverem..."
+msgstr "ProsÌm Ëekejte, komunikuji se serverem..."
 
 msgid ""
 "Please choose which dictionary you would like to use to spellcheck this "
 "message:"
-msgstr "Pros√≠m vyberte slovn√≠k ke kontrole t√©to zpr√°vy:"
+msgstr "ProsÌm vyberte slovnÌk ke kontrole tÈto zpr·vy:"
 
 msgid "SquirrelSpell Initiating"
 msgstr "SquirrelSpell se inicializuje"
 
-msgid ", "
-msgstr ", "
-
 #, php-format
 msgid "Settings adjusted to: %s with %s as default dictionary."
-msgstr "Nastaven√≠ zmƒõnƒõno na: %s s %s jako implicitn√≠ slovn√≠k."
+msgstr "NastavenÌ zmÏnÏno na: %s s %s jako implicitnÌ slovnÌk."
 
 #, php-format
 msgid "Using %s dictionary (system default) for spellcheck."
-msgstr "Pou≈æ√≠v√° se %s slovn√≠k (implicitn√≠) pro kontrolu pravopisu."
+msgstr "PouæÌv· se %s slovnÌk (implicitnÌ) pro kontrolu pravopisu."
 
 msgid "International Dictionaries Preferences Updated"
-msgstr "Nastaven√≠ mezin√°rodn√≠ch slovn√≠k≈Ø aktualizov√°no"
+msgstr "NastavenÌ mezin·rodnÌch slovnÌk˘ aktualizov·no"
 
 msgid ""
 "Please check any available international dictionaries which you would like "
 "to use when spellchecking:"
 msgstr ""
-"Pros√≠m vyberte si z dostupn√Ωch slovn√≠k≈Ø ty, kter√© chcete pou≈æ√≠vat p≈ôi "
+"ProsÌm vyberte si z dostupn˝ch slovnÌk˘ ty, kterÈ chcete pouæÌvat p¯i "
 "kontrole pravopisu:"
 
 msgid "Make this dictionary my default selection:"
-msgstr "Nastavit tento slovn√≠k jako implicitn√≠:"
+msgstr "Nastavit tento slovnÌk jako implicitnÌ:"
 
 msgid "Make these changes"
-msgstr "Prov√©st zmƒõny"
+msgstr "ProvÈst zmÏny"
 
 msgid "Add International Dictionaries"
-msgstr "P≈ôidat mezin√°rodn√≠ slovn√≠k"
+msgstr "P¯idat mezin·rodnÌ slovnÌk"
 
 msgid "Please choose which options you wish to set up:"
-msgstr "Pros√≠m vyberte jak√© nastaven√≠ chcete mƒõnit:"
+msgstr "ProsÌm vyberte jakÈ nastavenÌ chcete mÏnit:"
 
 msgid "Edit your personal dictionary"
-msgstr "Editovat osobn√≠ slovn√≠k"
+msgstr "Editovat osobnÌ slovnÌk"
 
 msgid "Set up international dictionaries"
-msgstr "Nastaven√≠ mezin√°rodn√≠ch slovn√≠k≈Ø"
+msgstr "NastavenÌ mezin·rodnÌch slovnÌk˘"
 
 msgid "Encrypt or decrypt your personal dictionary"
-msgstr "Za≈°ifrovat/roz≈°ifrovat osobn√≠ slovn√≠k"
+msgstr "Zaπifrovat/rozπifrovat osobnÌ slovnÌk"
 
 msgid "Personal dictionary encryption options are not available"
-msgstr "Nastaven√≠ ≈°ifrov√°n√≠ osobn√≠ho slovn√≠ku nejsou k dispozici"
+msgstr "NastavenÌ πifrov·nÌ osobnÌho slovnÌku nejsou k dispozici"
 
 msgid "SquirrelSpell Options Menu"
-msgstr "SquirrelSpell - Nastaven√≠"
+msgstr "SquirrelSpell - NastavenÌ"
 
 msgid "Translator"
-msgstr "P≈ôekladaƒç"
+msgstr "P¯ekladaË"
 
 msgid "Saved Translation Options"
-msgstr "Nastaven√≠ p≈ôekladaƒçe bylo ulo≈æeno"
+msgstr "NastavenÌ p¯ekladaËe bylo uloæeno"
 
 msgid "Your server options are as follows:"
-msgstr "Mo≈ænosti va≈°eho serveru jsou tyto:"
+msgstr "Moænosti vaπeho serveru jsou tyto:"
 
 msgid "Maximum of 150 words translated, powered by Systran"
-msgstr "Pou≈æit√≠m slu≈æby Systran je mo≈æn√© p≈ôelo≈æit nanejv√Ω≈° 150 slov"
+msgstr "PouæitÌm sluæby Systran je moænÈ p¯eloæit nanejv˝π 150 slov"
 
 #, php-format
 msgid "Number of supported language pairs: %s"
-msgstr "Poƒçet podporovan√Ωch jazykov√Ωch p√°r≈Ø: %s"
+msgstr "PoËet podporovan˝ch jazykov˝ch p·r˘: %s"
 
 msgid "No known limits, powered by Systran"
-msgstr "Bez n√°m zn√°m√Ωch omezen√≠, vyu≈æ√≠v√° slu≈æby Systran"
+msgstr "Bez n·m zn·m˝ch omezenÌ, vyuæÌv· sluæby Systran"
 
 msgid "No known limits, powered by Translation Experts' InterTran"
-msgstr "Bez n√°m zn√°m√Ωch omezen√≠, vyu≈æ√≠v√° slu≈æby Translation Experts' InterTran"
+msgstr "Bez n·m zn·m˝ch omezenÌ, vyuæÌv· sluæby Translation Experts' InterTran"
 
 #, php-format
 msgid "Number of supported languages: %s"
-msgstr "Poƒçet podporovan√Ωch jazyk≈Ø: %s"
+msgstr "PoËet podporovan˝ch jazyk˘: %s"
 
 msgid "Hellenic translations, no known limits, powered by Systran"
-msgstr "≈òeck√© p≈ôeklady, bez n√°m zn√°m√Ωch omezen√≠, vyu≈æ√≠v√° slu≈æby Systran"
+msgstr "ÿeckÈ p¯eklady, bez n·m zn·m˝ch omezenÌ, vyuæÌv· sluæby Systran"
 
 msgid "Russian translations, maximum of 500 characters translated"
-msgstr "Rusk√© p≈ôeklady, maxim√°lnƒõ 500 znak≈Ø k p≈ôekladu"
+msgstr "RuskÈ p¯eklady, maxim·lnÏ 500 znak˘ k p¯ekladu"
 
 msgid ""
 "You also decide if you want the translation box displayed, and where it will "
 "be located."
-msgstr "Mus√≠te se rozhodnout, jestli a kde m√° b√Ωt p≈ôekladov√Ω r√°m zobrazen."
+msgstr "MusÌte se rozhodnout, jestli a kde m· b˝t p¯ekladov˝ r·m zobrazen."
 
 msgid "Select your translator:"
-msgstr "Vyberte si p≈ôekladovou slu≈æbu:"
+msgstr "Vyberte si p¯ekladovou sluæbu:"
 
 msgid "When reading:"
-msgstr "P≈ôi ƒçten√≠:"
+msgstr "P¯i ËtenÌ:"
 
 msgid "Show translation box"
-msgstr "Zobrazit p≈ôekladov√Ω r√°m"
+msgstr "Zobrazit p¯ekladov˝ r·m"
 
 msgid "to the left"
 msgstr "vlevo"
 
 msgid "in the center"
-msgstr "uprost≈ôed"
+msgstr "veprost¯ed"
 
 msgid "to the right"
 msgstr "vpravo"
 
 msgid "Translate inside the SquirrelMail frames"
-msgstr "P≈ôekl√°dat v hlavn√≠m oknƒõ SquirrelMailu"
+msgstr "P¯ekl·dat v hlavnÌm oknÏ SquirrelMailu"
 
 msgid "Translation Options"
-msgstr "Mo≈ænosti p≈ôekladu"
+msgstr "Moænosti p¯ekladu"
 
 msgid ""
 "Which translator should be used when you get messages in a different "
 "language?"
 msgstr ""
-"Kter√Ω p≈ôekladaƒç m√°m pou≈æ√≠t v p≈ô√≠padƒõ ≈æe dostanete zpr√°vu v ciz√≠m jazyce? "
+"Kter˝ p¯ekladaË m·m pouæÌt v p¯ÌpadÏ æe dostanete zpr·vu v cizÌm jazyce? "
 
 #, php-format
 msgid "%s to %s"
 msgstr "z %s do %s"
 
 msgid "Chinese, Simplified"
-msgstr "ƒå√≠n≈°tina, zjednodu≈°en√°"
+msgstr "»Ìnπtina, zjednoduπen·"
 
 msgid "English"
-msgstr "Angliƒçtina"
+msgstr "AngliËtina"
 
 msgid "Chinese, Traditional"
-msgstr "ƒå√≠n≈°tina, tradiƒçn√≠"
+msgstr "»Ìnπtina, tradiËnÌ"
 
 msgid "Dutch"
-msgstr "Holand≈°tina"
+msgstr "Holandπtina"
 
 msgid "French"
-msgstr "Francouz≈°tina"
+msgstr "Francouzπtina"
 
 msgid "German"
-msgstr "Nƒõmƒçina"
+msgstr "NÏmËina"
 
 msgid "Greek"
-msgstr "≈òeƒçtina"
+msgstr "ÿeËtina"
 
 msgid "Italian"
-msgstr "Ital≈°tina"
+msgstr "Italπtina"
 
 msgid "Japanese"
-msgstr "Japon≈°tina"
+msgstr "Japonπtina"
 
 msgid "Korean"
-msgstr "Korej≈°tina"
+msgstr "Korejπtina"
 
 msgid "Portuguese"
-msgstr "Portugal≈°tina"
+msgstr "Portugalπtina"
 
 msgid "Russian"
-msgstr "Ru≈°tina"
+msgstr "Ruπtina"
 
 msgid "Spanish"
-msgstr "≈†panƒõl≈°tina"
+msgstr "©panÏlπtina"
 
 msgid "Translate"
-msgstr "P≈ôelo≈æit"
+msgstr "P¯eloæit"
 
 msgid "Brazilian Portuguese"
-msgstr "Brazilsk√° portugal≈°tina"
+msgstr "Brazilsk· portugalπtina"
 
 msgid "Bulgarian"
-msgstr "Bulhar≈°tina"
+msgstr "Bulharπtina"
 
 msgid "Croatian"
-msgstr "Chorvat≈°tina"
+msgstr "Chorvatπtina"
 
 msgid "Czech"
-msgstr "ƒåe≈°tina"
+msgstr "»eπtina"
 
 msgid "Danish"
-msgstr "D√°n≈°tina"
+msgstr "D·nπtina"
 
 msgid "Filipino (Tagalog)"
 msgstr "Filipino (Tagalog)"
 
 msgid "Finnish"
-msgstr "Fin≈°tina"
+msgstr "Finπtina"
 
 msgid "Hungarian"
-msgstr "Maƒèar≈°tina"
+msgstr "MaÔarπtina"
 
 msgid "Icelandic"
-msgstr "Island≈°tina"
+msgstr "Islandπtina"
 
 msgid "Latin"
 msgstr "Latina"
 
 msgid "Latin American Spanish"
-msgstr "Latinsko-americk√° ≈°panƒõl≈°tina"
+msgstr "Latinsko-americk· πpanÏlπtina"
 
 msgid "Norwegian"
-msgstr "Nor≈°tina"
+msgstr "Norπtina"
 
 msgid "Polish"
-msgstr "Pol≈°tina"
+msgstr "Polπtina"
 
 msgid "Romanian"
-msgstr "Rumun≈°tina"
+msgstr "Rumunπtina"
 
 msgid "Serbian"
-msgstr "Srb≈°tina"
+msgstr "Srbπtina"
 
 msgid "Slovenian"
-msgstr "Sloven≈°tina"
+msgstr "Slovenπtina"
 
 msgid "Swedish"
-msgstr "≈†v√©d≈°tina"
+msgstr "©vÈdπtina"
 
 msgid "Turkish"
-msgstr "Tureƒçtina"
+msgstr "TureËtina"
 
 msgid "Welsh"
-msgstr "Vel≈°tina"
+msgstr "Velπtina"
 
 msgid "Indonesian"
-msgstr "Indon√©z≈°tina"
+msgstr "IndonÈzπtina"
 
 msgid "to English"
-msgstr "do Angliƒçtiny"
+msgstr "do AngliËtiny"
 
 msgid "from English"
-msgstr "z Angliƒçtiny"
+msgstr "z AngliËtiny"
 
 msgid "Interface language"
-msgstr "Jazykov√© prost≈ôed√≠"
+msgstr "JazykovÈ prost¯edÌ"
 
 msgid "Translation direction"
-msgstr "Smƒõr p≈ôekladu"
+msgstr "SmÏr p¯ekladu"
 
-msgid "Arabic"
-msgstr "Arabsk√Ω"
+#, fuzzy, php-format
+msgid "About SquirrelMail %s"
+msgstr "SquirrelMail Verze"
+
+msgid ""
+"SquirrelMail is the name of the program that provides access to your email "
+"via the web."
+msgstr ""
+
+#, php-format
+msgid ""
+"If you have questions about or problems with your mail account, passwords, "
+"abuse etc, please refer to your system administrator or provider%s."
+msgstr ""
+
+#, php-format
+msgid ""
+"They can assist you adequately with these issues. The SquirrelMail Project "
+"Team cannot help you with that. The %shelp system%s provides answers to "
+"frequently asked questions."
+msgstr ""
+
+#, php-format
+msgid ""
+"SquirrelMail is a feature rich, standards compliant webmail application "
+"written in PHP. It was made by a group of volunteers united in the "
+"SquirrelMail Project Team and is released as open source, free software "
+"under the %sGNU General Public License%s."
+msgstr ""
+
+#, php-format
+msgid ""
+"For more information about SquirrelMail and the SquirrelMail Project Team, "
+"see %sthe SquirrelMail website%s."
+msgstr ""
+
+#, fuzzy
+msgid "System information"
+msgstr "DalπÌ informace"
+
+#, fuzzy, php-format
+msgid "You are using SquirrelMail version: %s"
+msgstr "SquirrelMail verze %s"
+
+msgid "The administrator installed the following plugins:"
+msgstr ""
+
+msgid "none installed"
+msgstr ""
+
+#, fuzzy
+msgid "Nothing to search"
+msgstr "Nic ke smaz·nÌ!"
+
+#, fuzzy
+msgid "No folders were found to unsubscribe from."
+msgstr "Nebyly nalezeny æ·dnÈ sloæky, ze kter˝ch se lze odhl·sit!"
+
+#, fuzzy
+msgid "No folders were found to subscribe to."
+msgstr "Nebyly nalezeny æ·dnÈ sloæky k p¯ihl·πenÌ"
+
+#, fuzzy
+msgid "SquirrelMail Webmail Application"
+msgstr "SquirrelMail Verze"
+
+#, fuzzy
+msgid "Received"
+msgstr "DoruËenka"
+
+#, fuzzy
+msgid "Compose Preferences"
+msgstr "Sloæky - moænosti"
+
+msgid ""
+"Control the behaviour and layout of writing new mail messages, replying to "
+"and forwarding messages."
+msgstr ""
+
+#, fuzzy
+msgid "View as plain text"
+msgstr "NeπifrovanÈ (plain text) p¯ihl·πenÌ"
+
+msgid "View as HTML"
+msgstr ""
+
+#, fuzzy
+msgid "As Attachment"
+msgstr "P¯Ìlohy"
+
+msgid "Bypass Trash"
+msgstr ""
+
+msgid "Copy"
+msgstr ""
+
+#, fuzzy
+msgid "Please enter something to search for"
+msgstr "VAROV¡NÕ! MusÌte zadat hledan˝ v˝raz."
+
+msgid "There must be at least one criteria to search for"
+msgstr ""
+
+#, fuzzy
+msgid "Error in criteria argument"
+msgstr "Chyba syntaxe v parametrech nebo argumentech"
+
+msgid "(Illegal date)"
+msgstr ""
+
+msgid "(Wrong date)"
+msgstr ""
+
+#, fuzzy
+msgid "In"
+msgstr "Informace"
+
+msgid "(Missing argument)"
+msgstr ""
+
+msgid "(Spurious argument)"
+msgstr ""
+
+#, fuzzy
+msgid "Fold"
+msgstr "Sloæka"
+
+#, fuzzy
+msgid "Unfold"
+msgstr "Informace"
+
+#, fuzzy
+msgid "Saved Searches"
+msgstr "PoslednÌ hled·nÌ"
+
+msgid "Missing"
+msgstr ""
+
+msgid "and&nbsp;subfolders:"
+msgstr ""
+
+msgid "Exclude Criteria:"
+msgstr ""
+
+#, fuzzy
+msgid "Search Criteria"
+msgstr "Hledat"
+
+#, fuzzy
+msgid "Add New Criteria"
+msgstr "P¯idat server"
+
+msgid "Remove Excluded Criteria"
+msgstr ""
+
+msgid "Remove All Criteria"
+msgstr ""
+
+#, fuzzy
+msgid "Not"
+msgstr "Pozn·mka"
+
+msgid "Answered"
+msgstr ""
+
+#, fuzzy
+msgid "Before"
+msgstr "zapomenout"
+
+#, fuzzy
+msgid "Message Body"
+msgstr "RFC822 tÏlo zpr·vy"
+
+#, fuzzy
+msgid "Deleted"
+msgstr "Odstranit"
+
+#, fuzzy
+msgid "Draft"
+msgstr "Uloæit Koncept"
+
+#, fuzzy
+msgid "Flagged"
+msgstr "P¯Ìznaky zpr·vy"
+
+#, fuzzy
+msgid "Sent By"
+msgstr "Odesl·no"
+
+#, fuzzy
+msgid "Header Field"
+msgstr "HlaviËka"
+
+msgid "Keyword"
+msgstr ""
+
+msgid "Larger Than"
+msgstr ""
+
+msgid "Old"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+#, fuzzy
+msgid "Recent"
+msgstr "DoruËenka"
+
+#, fuzzy
+msgid "Seen"
+msgstr "Odeslat"
+
+#, fuzzy
+msgid "Sent Before"
+msgstr "Odeslan· poπta"
+
+#, fuzzy
+msgid "Sent On"
+msgstr "Odesl·no"
+
+msgid "Sent Since"
+msgstr ""
+
+#, fuzzy
+msgid "Since"
+msgstr "Velikost"
+
+msgid "Smaller Than"
+msgstr ""
+
+#, fuzzy
+msgid "Subject Contains"
+msgstr "Obsahuje:"
+
+msgid "Header and Body"
+msgstr ""
+
+#, fuzzy
+msgid "Sent To"
+msgstr "Odesl·no"
+
+msgid "And In"
+msgstr ""
+
+msgid "Or In"
+msgstr ""
+
+#, fuzzy
+msgid "And"
+msgstr "P¯iloæit"
+
+msgid "Or"
+msgstr ""
+
+msgid "Standard search"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+#, fuzzy
+msgid "Folder List"
+msgstr "Sloæky"
+
+#, fuzzy
+msgid "Address book is read-only"
+msgstr "Adres·¯ pouze ke ËtenÌ"
+
+#, fuzzy, php-format
+msgid "User '%s' already exist."
+msgstr "Uæivatel \"%s\" jiæ existuje"
+
+msgid "PHP install does not have LDAP support."
+msgstr ""
+
+#, fuzzy
+msgid "Write to address book failed"
+msgstr "Z·pis do adres·¯e probÏhl ne˙spÏπnÏ"
+
+#, fuzzy
+msgid "Removing entry from address book failed"
+msgstr "Z·pis do adres·¯e probÏhl ne˙spÏπnÏ"
+
+msgid "LDAP rename is not supported by used protocol version"
+msgstr ""
+
+msgid ""
+"LDAP rename is not supported by used LDAP library. You can't change nickname"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP rename failed"
+msgstr "Maz·nÌ selhalo:"
+
+msgid "Unable to remove some field values"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Unable to rename user \"%s\" to \"%s\""
+msgstr "Nelze zobrazit adresy z %s"
+
+msgid "Address book is corrupted. Required fields are missing."
+msgstr ""
+
+#, fuzzy
+msgid "Address book entry is too big"
+msgstr "Tabulka adres·¯e"
+
+#, fuzzy
+msgid "Error initializing address book database."
+msgstr "Chyba p¯i inicializaci datab·ze kontakt˘."
+
+#, fuzzy
+msgid "Error initializing global address book."
+msgstr "Chyba p¯i inicializaci centr·lnÌ datab·ze kontakt˘."
+
+#, fuzzy
+msgid "Error initializing other address books."
+msgstr "Chyba p¯i inicializaci centr·lnÌ datab·ze kontakt˘."
+
+msgid "Illegal folder name."
+msgstr ""
+
+#, php-format
+msgid "The name may not contain any of the following: %s"
+msgstr ""
+
+#, fuzzy
+msgid "Please select a different name."
+msgstr "Neplatn˝ n·zev sloæky. Vyberte prosÌm jin˝ n·zev."
+
+#, fuzzy
+msgid "You have not selected a folder to subscribe. Please do so."
+msgstr "NeoznaËil jste sloæku k p¯ejmenov·nÌ."
+
+#, fuzzy
+msgid "You have not selected a folder to unsubscribe. Please do so."
+msgstr "NeoznaËil jste sloæku k p¯ejmenov·nÌ."
+
+msgid "Possible reason:"
+msgstr ""
+
+msgid "ERROR: Bad function call."
+msgstr ""
+
+#, fuzzy
+msgid "Reason:"
+msgstr "OdpovÏÔ:"
+
+msgid ""
+"TLS is enabled, but this version of PHP does not support TLS sockets, or is "
+"missing the openssl extension."
+msgstr ""
+
+msgid ""
+"IMAP STARTTLS is enabled in SquirrelMail configuration, but used IMAP server "
+"does not support STARTTLS."
+msgstr ""
+
+#, fuzzy
+msgid "Unable to start TLS."
+msgstr "Aktualizace nebyla moæn·"
+
+msgid ""
+"IMAP STARTTLS is enabled in SquirrelMail configuration, but used PHP version "
+"does not support functions that allow to enable encryption on open socket."
+msgstr ""
+
+msgid ""
+"Your mailbox is not located at this server. Try a different server or "
+"consult your system administrator"
+msgstr ""
+
+#, fuzzy
+msgid "Trash"
+msgstr "TureËtina"
+
+#, fuzzy
+msgid "Drafts"
+msgstr "Uloæit Koncept"
+
+#, fuzzy
+msgid "Unknown recipient"
+msgstr "Nezn·m· odpovÏÔ"
+
+msgid "Unflag"
+msgstr ""
+
+#, fuzzy
+msgid "Flag"
+msgstr "P¯Ìznaky zpr·vy"
+
+msgid "Undelete"
+msgstr "Obnovit"
+
+msgid "Viewing HTML formatted email"
+msgstr ""
+
+msgid "unavailable"
+msgstr ""
+
+#, fuzzy
+msgid "Error"
+msgstr "Chyba:"
+
+msgid "Terminating SquirrelMail due to a fatal error"
+msgstr ""
+
+#, fuzzy
+msgid "Email delivery error"
+msgstr "Zpr·va o chybÏ"
+
+#, php-format
+msgid "Can't execute command '%s'."
+msgstr ""
+
+msgid ""
+"Secure SMTP (TLS) is enabled in SquirrelMail configuration, but used PHP "
+"version does not support it."
+msgstr ""
+
+msgid "Can't open SMTP stream."
+msgstr ""
+
+msgid "TLS session is already activated."
+msgstr ""
+
+msgid ""
+"SMTP STARTTLS is enabled in SquirrelMail configuration, but used SMTP server "
+"does not support it"
+msgstr ""
+
+msgid ""
+"SMTP STARTTLS is enabled in SquirrelMail configuration, but used PHP version "
+"does not support functions that allow to enable encryption on open socket."
+msgstr ""
+
+msgid ""
+"Run \"configure\", choose option 4 (General options) and set option 10 "
+"(Disable server thread sort) to true)."
+msgstr ""
+
+msgid ""
+"Run \"configure\", choose option 4 (General options) and set option 11 "
+"(Disable server-side sorting) to true."
+msgstr ""
+
+#, fuzzy
+msgid "Your used charset is not supported by your IMAP server."
+msgstr "IMAP server nepodporuje t¯ÌdÏnÌ zpr·v podle vl·ken."
+
+msgid ""
+"Run \"configure\", choose option 4 (General options) and set option 12 "
+"(Allow server charset search) to false) or choose option 10 (Language "
+"settings) and set option 2 (Default charset) to a charset supported by your "
+"IMAP server."
+msgstr ""
+
+msgid "Out of quota error."
+msgstr ""
+
+msgid ""
+"An error occured when SquirrelMail appended a message to the mailbox as "
+"listed in this message."
+msgstr ""
+
+msgid "Your IMAP server returned an error."
+msgstr ""
+
+#, fuzzy
+msgid "IMAP server closed the connection."
+msgstr "Chyba: IMAP server ukonËil spojenÌ."
+
+#, fuzzy
+msgid "General Message Composition"
+msgstr "ZobrazenÌ a psanÌ zpr·v"
+
+#, fuzzy
+msgid "Replying and Forwarding Messages"
+msgstr "P¯i p¯eposÌl·nÌ zahrnout i adresy v poloæce Kopie"
+
+#, fuzzy
+msgid "Strip signature when replying"
+msgstr "ZaËÌt OdpovÌd·nÌ v"
+
+#, fuzzy
+msgid "Template"
+msgstr "SchÈma"
+
+#, fuzzy
+msgid "Default font style"
+msgstr "Z·kladnÌ/nastaven· identita"
+
+#, fuzzy
+msgid "Font style"
+msgstr "nenastaveno"
+
+#, fuzzy
+msgid "Font size"
+msgstr "N·hled na mÏsÌc"
+
+#, fuzzy
+msgid "Default font size"
+msgstr "ImplicitnÌ velikost levÈho r·mu"
+
+#, fuzzy
+msgid "Icon Theme"
+msgstr "SchÈma"
+
+msgid "Enable Fancy Row Mouseover Highlighting"
+msgstr ""
+
+msgid "Show Flag / Unflag Buttons"
+msgstr ""
+
+#, fuzzy
+msgid "Enable Message Copy Buttons"
+msgstr "Zapnout oznamov·nÌ o nep¯eËten˝ch zpr·v·ch"
+
+#, fuzzy
+msgid "Use Compact Page Selector"
+msgstr "Zapnout Str·nkovaË"
+
+#, fuzzy
+msgid "Message Display Options"
+msgstr "ObecnÈ volby zobrazenÌ"
+
+msgid "Height of inline frame"
+msgstr ""
+
+#, fuzzy
+msgid "Show 'Delete &amp; Prev/Next' Links"
+msgstr "Odstranit a p¯edch·zejÌcÌ"
+
+#, fuzzy
+msgid "Translate Special Folders"
+msgstr "Automaticky vytv·¯et Speci·lnÌ sloæky"
+
+#, fuzzy
+msgid "Save Replies with Original Message"
+msgstr "P˘vodnÌ zpr·va"
+
+#, fuzzy, php-format
+msgid "%d Minute"
+msgid_plural "%d Minutes"
+msgstr[0] "Minuta"
+msgstr[1] "Minuta"
+
+msgid "Show only subscribed folders"
+msgstr ""
+
+#, fuzzy
+msgid "Template Default"
+msgstr "Vytvo¯ nastavenÌ"
+
+msgid "XP"
+msgstr ""
+
+#, fuzzy
+msgid "Mercury/32 IMAP server"
+msgstr "Cyrus IMAP server"
+
+msgid "IMAP Connection Security"
+msgstr ""
+
+msgid "Plain text connection"
+msgstr ""
+
+#, fuzzy
+msgid "Secure IMAP (TLS) connection"
+msgstr "PouæÌvat TLS pro IMAP spojenÌ"
+
+msgid "IMAP STARTTLS connection"
+msgstr ""
+
+msgid ""
+"Requires higher PHP version and special functions. See SquirrelMail "
+"documentation."
+msgstr ""
+
+#, fuzzy
+msgid "Sendmail Arguments"
+msgstr "Cesta k Sendmailu"
+
+msgid "SMTP Connection Security"
+msgstr ""
+
+#, fuzzy
+msgid "Disable server-side sorting"
+msgstr "PouæÌvat ¯azenÌ na serveru"
+
+#, fuzzy
+msgid "Disable server-side thread sorting"
+msgstr "PouæÌvat t¯ÌdÏnÌ podle vl·ken na serveru"
+
+#, fuzzy
+msgid "Search functions"
+msgstr "Hledat"
+
+msgid "Only basic search"
+msgstr ""
+
+msgid "Only advanced search"
+msgstr ""
+
+msgid "Both search functions"
+msgstr ""
+
+#, fuzzy
+msgid "Time Zone Configuration"
+msgstr "Kontrola konfigurace"
+
+msgid "Standard GNU C time zones"
+msgstr ""
+
+#, fuzzy
+msgid "Strict time zones"
+msgstr "PoË·teËnÌ Ëas:"
+
+msgid "Custom GNU C time zones"
+msgstr ""
+
+msgid "Custom strict time zones"
+msgstr ""
+
+#, fuzzy
+msgid "Size of username field"
+msgstr "PolÌËko s uæivatelsk˝m jmÈnem v tabulce nastavenÌ"
+
+#, fuzzy
+msgid "Size of key field"
+msgstr "PolÌËko s n·zvem v tabulce nastavenÌ"
+
+#, fuzzy
+msgid "Size of value field"
+msgstr "PolÌËko s hodnotou v tabulce nastavenÌ"
+
+msgid "Show alternative language names"
+msgstr ""
+
+#, fuzzy
+msgid "Enable aggressive decoding"
+msgstr "Povolit ztr·tovÈ kÛdov·nÌ"
+
+msgid "Tweaks"
+msgstr ""
+
+#, fuzzy
+msgid "Use icons"
+msgstr "Sekund"
+
+msgid "Use inline frames with HTML mails"
+msgstr ""
+
+msgid "Use PHP recode functions"
+msgstr ""
+
+msgid "Use PHP iconv functions"
+msgstr ""
+
+#, fuzzy
+msgid "Allow remote configuration test"
+msgstr "Kontrola konfigurace"
+
+#, fuzzy
+msgid "Address book file line length"
+msgstr "Tabulka adres·¯e"
+
+#, fuzzy
+msgid "Templates"
+msgstr "SchÈmata"
+
+#, fuzzy
+msgid "Default font set"
+msgstr "ImplicitnÌ velikost levÈho r·mu"
+
+#, fuzzy
+msgid "Default template"
+msgstr "ImplicitnÌ barevnÈ schÈma"
+
+msgid "Show System Specifications"
+msgstr ""
+
+msgid "my email account"
+msgstr ""
+
+#, fuzzy
+msgid "Bug Reports"
+msgstr "Hl·πenÌ chyb:"
+
+msgid "You must type in a new password."
+msgstr ""
+
+msgid "You must also type in your new password in the verify box."
+msgstr ""
+
+msgid "Your new password does not match the verify password."
+msgstr ""
+
+msgid "You must type in your current password."
+msgstr ""
+
+#, fuzzy
+msgid "Your current password is not correct."
+msgstr "Nezn·m˝ uæivatel nebo neplatnÈ heslo."
+
+#, php-format
+msgid "Your new password should be %s to %s characters long."
+msgstr ""
+
+#, fuzzy
+msgid "Your new password contains invalid characters."
+msgstr "P¯ezdÌvka obsahuje nedovolenÈ znaky"
+
+#, fuzzy
+msgid "Change Password"
+msgstr "ZmÏnit toto slovo"
+
+#, fuzzy
+msgid "Current Password:"
+msgstr "Heslo:"
+
+#, fuzzy
+msgid "New Password:"
+msgstr "Heslo:"
+
+#, fuzzy
+msgid "Verify New Password:"
+msgstr "Heslo:"
+
+msgid "Use this to change your email password."
+msgstr ""
+
+#, fuzzy
+msgid "User's Password"
+msgstr "Heslo:"
+
+msgid "Current configuration requires LDAP support in PHP."
+msgstr ""
+
+msgid "Plugin is not configured correctly."
+msgstr ""
+
+#, php-format
+msgid "Setting of LDAP connection option %s to value %s failed."
+msgstr ""
+
+#, php-format
+msgid "Incorrect LDAP connection option: %s"
+msgstr ""
+
+msgid ""
+"Current PHP LDAP extension does not allow use of ldap_set_option() function."
+msgstr ""
+
+#, fuzzy
+msgid "Unable to use TLS."
+msgstr "Aktualizace nebyla moæn·"
+
+#, fuzzy, php-format
+msgid "Error: %s"
+msgstr "Chyba "
+
+msgid "Unable to use LDAP TLS in current setup."
+msgstr ""
+
+msgid "Unable to bind to LDAP server."
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Server replied: %s"
+msgstr "OdpovÏÔ serveru:"
+
+msgid "Unable to find user's password attribute."
+msgstr ""
+
+msgid "Unable to rebind to LDAP server."
+msgstr ""
+
+msgid "LDAP server uses different attribute to store user's password."
+msgstr ""
+
+#, fuzzy
+msgid "Unable to connect to LDAP server."
+msgstr "Nelze se p¯ipojit k serveru"
+
+msgid "Unable to find user's DN."
+msgstr ""
+
+#, fuzzy
+msgid "Search error."
+msgstr "Hledat"
+
+msgid "Multiple userid matches found."
+msgstr ""
+
+msgid "ldap_get_dn error."
+msgstr ""
+
+#, php-format
+msgid "Unsupported crypto: %s"
+msgstr ""
+
+msgid "PHP mhash extension is missing or does not support selected crypto."
+msgstr ""
+
+msgid "System crypt library doesn't support standard DES crypt."
+msgstr ""
+
+msgid "System crypt library doesn't have MD5 support."
+msgstr ""
+
+msgid "System crypt library doesn't support extended DES crypt."
+msgstr ""
+
+msgid "System crypt library doesn't have Blowfish support."
+msgstr ""
+
+#, fuzzy
+msgid "unknown"
+msgstr "Nezn·mÈ datum"
+
+msgid "Unable to validate user's password."
+msgstr ""
+
+msgid "Blowfish is not supported by webserver's system crypt library."
+msgstr ""
+
+msgid "MD5 is not supported by webserver's system crypt library."
+msgstr ""
+
+msgid ""
+"Extended DES crypt is not supported by webserver's system crypt library."
+msgstr ""
+
+msgid ""
+"Standard DES crypt is not supported by webserver's system crypt library."
+msgstr ""
+
+msgid "PHP Curl extension is NOT available! Unable to change password!"
+msgstr ""
+
+msgid "Cannot change password! (Is user 'Self Configurable User' ?) (401)"
+msgstr ""
+
+#, fuzzy
+msgid "Cannot change password!"
+msgstr "ZmÏnit toto slovo"
+
+msgid "Cannot connect to Database Server, please try later!"
+msgstr ""
+
+msgid "Database not found on server"
+msgstr ""
+
+msgid "SQL call failed, try again later."
+msgstr ""
+
+msgid "Duplicate login entries detected, cannot change password!"
+msgstr ""
+
+msgid "Password change was not successful!"
+msgstr ""
+
+msgid ""
+"Plugin is unable to use PHP Pear DB libraries. PHP Pear includes must be "
+"available in your PHP include_path setting."
+msgstr ""
+
+msgid "Required change password backend configuration options are missing."
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Connection error: %s"
+msgstr "Nezn·m· chyba: %s"
+
+#, php-format
+msgid "Invalid table name: %s"
+msgstr ""
+
+msgid "User table is empty."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid uid field."
+msgstr "Neplatn· vstupnÌ data"
+
+#, fuzzy
+msgid "Invalid password field"
+msgstr "Nezadali jste æ·dnÈ heslo"
+
+#, fuzzy
+msgid "Invalid domain field"
+msgstr "Neplatn· vstupnÌ data"
+
+#, fuzzy, php-format
+msgid "Query failed: %s"
+msgstr "Maz·nÌ selhalo:"
+
+msgid "Unable to find user in user table."
+msgstr ""
+
+msgid "Too many matches found in user table."
+msgstr ""
+
+msgid "Unable to detect password crypto algorithm."
+msgstr ""
+
+msgid "Unable to encrypt new password."
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Unable to set new password: %s"
+msgstr "Nelze zobrazit adresy z %s"
+
+msgid "Unable to use digest-md5 crypto."
+msgstr ""
+
+msgid "Closing Connection"
+msgstr ""
+
+#, fuzzy
+msgid "Connecting to Password Server"
+msgstr "Nelze se p¯ipojit k serveru"
+
+msgid "No valid backend defined."
+msgstr ""
+
+msgid "Incorrent path to vmail.inc file."
+msgstr ""
+
+msgid "Invalid or corrupted vmail.inc file."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid user."
+msgstr "NeplatnÈ URL"
+
+#, fuzzy
+msgid "Empty domain"
+msgstr "Pr·zdn˝ p¯Ìkaz"
+
+#, fuzzy
+msgid "Empty domain password"
+msgstr "Pr·zdn˝ p¯Ìkaz"
+
+#, fuzzy
+msgid "Empty username"
+msgstr "UæivatelskÈ jmÈno:"
+
+msgid "Empty new password"
+msgstr ""
+
+#, fuzzy
+msgid "Server Capability response:"
+msgstr "OdpovÏÔ serveru:"
+
+msgid ""
+"Select the IMAP commands you would like to run. Most commands require a "
+"selected mailbox so the select command is already setup. You can clear all "
+"the commands and test your own IMAP command strings. The commands are "
+"executed in order. The default values are simple IMAP commands using your "
+"default_charset and folder_prefix from SquirrelMail when needed."
+msgstr ""
+
+msgid ""
+"NOTE: These commands are live, any changes made will effect your current "
+"email account."
+msgstr ""
+
+#, fuzzy
+msgid "Select"
+msgstr "OznaËit vπe"
+
+#, fuzzy
+msgid "Test Name"
+msgstr "N·zev schÈma"
+
+#, fuzzy
+msgid "IMAP command string"
+msgstr "Pr·zdn˝ p¯Ìkaz"
+
+#, fuzzy
+msgid "Request:"
+msgstr "vyæadov·na"
+
+msgid "Execution time:"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "%s ms"
+msgstr "z %s do %s"
+
+#, fuzzy
+msgid "Command failed"
+msgstr "P¯Ìkaz ne˙spÏπn˝ "
+
+#, fuzzy
+msgid "No POP3 servers configured yet."
+msgstr "Nebyl specifikov·n æ·dn˝ server"
+
+#, fuzzy
+msgid "Click here to go to the options page."
+msgstr "Pro novÈ p¯ihl·πenÌ kliknÏte zde."
+
+#, fuzzy, php-format
+msgid "Fetching from %s"
+msgstr "Stahuji poπtu "
+
+#, fuzzy, php-format
+msgid "Login OK: Inbox contains %s message"
+msgid_plural "Login OK: Inbox contains %s messages"
+msgstr[0] "P¯ihl·πeni se zda¯ilo. Sloæka doruËenÈ poπty obsahuje %s zpr·v"
+msgstr[1] "P¯ihl·πeni se zda¯ilo. Sloæka doruËenÈ poπty obsahuje %s zpr·v"
+
+#, fuzzy, php-format
+msgid "Fetching message %s."
+msgstr "Stahuji zpr·vu "
+
+#, fuzzy, php-format
+msgid "Refetching message %s."
+msgstr "Znovu stahuji zpr·vu"
+
+#, fuzzy
+msgid "Warning:"
+msgstr "Varov·nÌ, "
+
+msgid ""
+"The NewMail plugin will follow the Folder Preferences option &quot;Enable "
+"Unread Message Notification&quot;"
+msgstr ""
+
+#, fuzzy
+msgid "Follow folder preferences"
+msgstr "Sloæky - moænosti"
+
+#, fuzzy
+msgid "All folders"
+msgstr "Vπechny sloæky"
+
+#, fuzzy
+msgid "Special folders"
+msgstr "NastavenÌ speci·lnÌch sloæek"
+
+#, fuzzy
+msgid "Regular folders"
+msgstr "P¯ejmenovat sloæku"
+
+#, fuzzy
+msgid "Check for new messages in:"
+msgstr ": %s"
+
+#, fuzzy
+msgid "Width of popup window:"
+msgstr "©Ì¯ka okna pro novou zpr·vu"
+
+msgid "If set to 0, reverts to default value"
+msgstr ""
+
+#, fuzzy
+msgid "Height of popup window:"
+msgstr "V˝πka okna pro novou zpr·vu"
+
+msgid "uploaded media file"
+msgstr ""
+
+#, fuzzy
+msgid "none"
+msgstr "(nic)"
+
+msgid "Upload Media File:"
+msgstr ""
+
+msgid "Uploaded Media File:"
+msgstr ""
+
+#, php-format
+msgid "Media file %s will be removed, if you upload other media file."
+msgstr ""
+
+#, fuzzy, php-format
+msgid "%s notice:"
+msgstr "%s napsal(a):"
+
+#, fuzzy
+msgid "Warning"
+msgstr "Varov·nÌ, "
+
+msgid "There are some restrictions in Sent Subfolder options."
+msgstr ""
+
+#, fuzzy
+msgid "Sent Subfolders plugin is misconfigured."
+msgstr "SquirrelSpell je πpatnÏ nakonfigurov·n."
+
+msgid "Save emails submitted to SpamCop:"
+msgstr ""
+
+#, fuzzy
+msgid "Spam Service Type:"
+msgstr "Typ sluæby SpamCop"
+
+#, fuzzy
+msgid "Free reporting"
+msgstr "Hl·πenÌ p¯es www"
+
+msgid "Member services"
+msgstr ""
+
+#, fuzzy
+msgid "Save Service Type"
+msgstr "Typ sluæby SpamCop"
+
+#, fuzzy
+msgid "SpamCop reporting"
+msgstr "Filtrov·nÌ nevyæ·danÈ poπty"
+
+#, php-format
+msgid ""
+"Your %s dictionary is encrypted with password that differs from your current "
+"password."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid SquirrelSpell module."
+msgstr "SquirrelSpell V˝sledky"
+
+#, fuzzy, php-format
+msgid "Found %d error"
+msgid_plural "Found %d errors"
+msgstr[0] "Nalezeno %s chyb"
+msgstr[1] "Nalezeno %s chyb"
+
+#, fuzzy, php-format
+msgid "Using %s dictionary for spellcheck."
+msgstr "PouæÌv· se %s slovnÌk (implicitnÌ) pro kontrolu pravopisu."
+
+#, fuzzy
+msgid "Translation Theme:"
+msgstr "SmÏr p¯ekladu"
+
+msgid ""
+"Selected translation engine is disabled. Please update your translation "
+"preferences."
+msgstr ""
+
+#, fuzzy
+msgid "Translation Preferences"
+msgstr "NastavenÌ organizace"
+
+#, fuzzy
+msgid "Maximum of 25 kilobytes translated, powered by Systran"
+msgstr "PouæitÌm sluæby Systran je moænÈ p¯eloæit nanejv˝π 150 slov"
+
+#, fuzzy
+msgid "No known limits, powered by GPLTrans (free, open source)"
+msgstr "Bez n·m zn·m˝ch omezenÌ, vyuæÌv· sluæby Systran"
+
+msgid "Transliterate unknown words:"
+msgstr ""
+
+#, fuzzy
+msgid "When composing:"
+msgstr "P¯i ËtenÌ:"
+
+msgid "Not yet functional, currently does nothing"
+msgstr ""
+
+msgid "D"
+msgstr ""
+
+msgid "F"
+msgstr ""
+
+#, fuzzy
+msgid "SquirrelMail notice messages"
+msgstr "Pozn·mka:"
+
+msgid "Category:"
+msgstr ""
+
+#, fuzzy
+msgid "Tip:"
+msgstr "»as:"
+
+#, fuzzy
+msgid "More info:"
+msgstr "DalπÌ informace"
+
+#, fuzzy
+msgid "Message Flags"
+msgstr "Filtrov·nÌ zpr·v"
+
+#, fuzzy
+msgid "Attachment"
+msgstr "P¯Ìlohy"
+
+#, fuzzy
+msgid "Click here to change the sorting of the message list"
+msgstr "KlepnÏte zde pro zmÏnu ¯azenÌ seznamu adres"
 
 msgid "Delivery error report"
-msgstr "Zpr√°va o chybƒõ"
+msgstr "Zpr·va o chybÏ"
 
 msgid "Undelivered Message Headers"
-msgstr "Hlaviƒçky nedoruƒçen√Ωch zpr√°v"
+msgstr "HlaviËky nedoruËen˝ch zpr·v"
 
 msgid "This image has been removed for security reasons"
-msgstr "Obr√°zek byl z bezpeƒçnostn√≠ch d≈Øvodu odstranƒõn"
-
-#, fuzzy
-#~ msgid "About SquirrelMail %s"
-#~ msgstr "SquirrelMail Verze"
-
-#, fuzzy
-#~ msgid "System information"
-#~ msgstr "Dal≈°√≠ informace"
-
-#, fuzzy
-#~ msgid "You are using SquirrelMail version: %s"
-#~ msgstr "SquirrelMail verze %s"
-
-#, fuzzy
-#~ msgid "Nothing to search"
-#~ msgstr "Nic ke smaz√°n√≠!"
-
-#, fuzzy
-#~ msgid "SquirrelMail Webmail"
-#~ msgstr "SquirrelMail Verze"
-
-#, fuzzy
-#~ msgid "The %s logo"
-#~ msgstr "%s Logo"
-
-#, fuzzy
-#~ msgid "Add New Identity"
-#~ msgstr "P≈ôidej novou identitu"
-
-#, fuzzy
-#~ msgid "Received"
-#~ msgstr "Doruƒçenka"
-
-#, fuzzy
-#~ msgid "Compose Preferences"
-#~ msgstr "Slo≈æky - mo≈ænosti"
-
-#, fuzzy
-#~ msgid "Accessibility Preferences"
-#~ msgstr "Vzhled - mo≈ænosti"
-
-#, fuzzy
-#~ msgid "Read Receipt"
-#~ msgstr "Doruƒçenka p≈ôeƒçten√≠"
-
-#, fuzzy
-#~ msgid "deleted"
-#~ msgstr "odstranit"
-
-#, fuzzy
-#~ msgid "draft"
-#~ msgstr "Ulo≈æit Koncept"
-
-#, fuzzy
-#~ msgid "flagged"
-#~ msgstr "P≈ô√≠znaky zpr√°vy"
-
-#, fuzzy
-#~ msgid "Status"
-#~ msgstr "So"
-
-#, fuzzy
-#~ msgid "View as plain text"
-#~ msgstr "Ne≈°ifrovan√© (plain text) p≈ôihl√°≈°en√≠"
-
-#, fuzzy
-#~ msgid "Error in criteria argument"
-#~ msgstr "Chyba syntaxe v parametrech nebo argumentech"
-
-#, fuzzy
-#~ msgid "In"
-#~ msgstr "Informace"
-
-#, fuzzy
-#~ msgid "Standard Search"
-#~ msgstr "Ulo≈æen√° hled√°n√≠"
-
-#, fuzzy
-#~ msgid "Advanced search"
-#~ msgstr "Ulo≈æen√° hled√°n√≠"
-
-#, fuzzy
-#~ msgid "Add New Criteria"
-#~ msgstr "P≈ôidat server"
-
-#, fuzzy
-#~ msgid "Not"
-#~ msgstr "Pozn√°mka"
-
-#, fuzzy
-#~ msgid "Before"
-#~ msgstr "zapomenout"
-
-#, fuzzy
-#~ msgid "Message Body"
-#~ msgstr "RFC822 tƒõlo zpr√°vy"
-
-#, fuzzy
-#~ msgid "Deleted"
-#~ msgstr "Odstranit"
-
-#, fuzzy
-#~ msgid "Draft"
-#~ msgstr "Ulo≈æit Koncept"
-
-#, fuzzy
-#~ msgid "Flagged"
-#~ msgstr "P≈ô√≠znaky zpr√°vy"
-
-#, fuzzy
-#~ msgid "Sent By"
-#~ msgstr "Odesl√°no"
-
-#, fuzzy
-#~ msgid "Header Field"
-#~ msgstr "Hlaviƒçka"
-
-#, fuzzy
-#~ msgid "Recent"
-#~ msgstr "Doruƒçenka"
-
-#, fuzzy
-#~ msgid "Seen"
-#~ msgstr "Odeslat"
-
-#, fuzzy
-#~ msgid "Sent Before"
-#~ msgstr "Odeslan√° po≈°ta"
-
-#, fuzzy
-#~ msgid "Sent On"
-#~ msgstr "Odesl√°no"
-
-#, fuzzy
-#~ msgid "Sent Since"
-#~ msgstr "Odesl√°no"
-
-#, fuzzy
-#~ msgid "Since"
-#~ msgstr "Velikost"
-
-#, fuzzy
-#~ msgid "Subject Contains"
-#~ msgstr "Obsahuje:"
-
-#, fuzzy
-#~ msgid "Sent To"
-#~ msgstr "Odesl√°no"
-
-#, fuzzy
-#~ msgid "And In"
-#~ msgstr "P≈ôilo≈æit"
-
-#, fuzzy
-#~ msgid "And"
-#~ msgstr "P≈ôilo≈æit"
-
-#, fuzzy
-#~ msgid "No RPC action given"
-#~ msgstr "Bez citace"
-
-#, fuzzy
-#~ msgid "Personal Address Book"
-#~ msgstr "Osobn√≠ adres√°≈ô"
-
-#, fuzzy
-#~ msgid "Unknown field name: %s"
-#~ msgstr "Nezn√°m√° akce: %s"
-
-#, fuzzy
-#~ msgid "Removing entry from address book failed"
-#~ msgstr "Z√°pis do adres√°≈ôe probƒõhl ne√∫spƒõ≈°nƒõ"
-
-#, fuzzy
-#~ msgid "LDAP rename failed"
-#~ msgstr "Maz√°n√≠ selhalo:"
-
-#, fuzzy
-#~ msgid "Unable to rename user \"%s\" to \"%s\""
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Global Address Book"
-#~ msgstr "Centr√°ln√≠ adres√°≈ô kontakt≈Ø"
-
-#, fuzzy
-#~ msgid "Error initializing other address books."
-#~ msgstr "Chyba p≈ôi inicializaci centr√°ln√≠ datab√°ze kontakt≈Ø."
-
-#, fuzzy
-#~ msgid "Unknown address book backend"
-#~ msgstr "Z√°pis do adres√°≈ôe se nezda≈ôil"
-
-#, fuzzy
-#~ msgid "%s %s"
-#~ msgstr "z %s do %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "Could not open temporary file to store attachment. Contact your system "
-#~ "administrator to resolve this issue."
-#~ msgstr ""
-#~ "Soubor s podpisy, %s, nemohl b√Ωt zkop√≠rov√°n z doƒçasn√©ho souboru %s. "
-#~ "Oznamte tuto chybu administr√°torovi syst√©mu."
-
-#, fuzzy
-#~ msgid "%s should be writable by user %s."
-#~ msgstr "Soubor %s by mƒõl b√Ωt zapsateln√Ω u≈æivatelem %s"
-
-#, fuzzy
-#~ msgid "Please select a different name."
-#~ msgstr "Neplatn√Ω n√°zev slo≈æky. Vyberte pros√≠m jin√Ω n√°zev."
-
-#, fuzzy
-#~ msgid "You have not selected a folder to subscribe. Please do so."
-#~ msgstr "Neoznaƒçil jste slo≈æku k p≈ôejmenov√°n√≠."
-
-#, fuzzy
-#~ msgid "You have not selected a folder to unsubscribe. Please do so."
-#~ msgstr "Neoznaƒçil jste slo≈æku k p≈ôejmenov√°n√≠."
-
-#, fuzzy
-#~ msgid "Reason:"
-#~ msgstr "Odpovƒõƒè:"
-
-#, fuzzy
-#~ msgid "Unable to start TLS."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "Trash"
-#~ msgstr "Tureƒçtina"
-
-#, fuzzy
-#~ msgid "Drafts"
-#~ msgstr "Ulo≈æit Koncept"
-
-#, fuzzy
-#~ msgid "Unknown recipient"
-#~ msgstr "Nezn√°m√° odpovƒõƒè"
-
-#, fuzzy
-#~ msgid "Flag"
-#~ msgstr "P≈ô√≠znaky zpr√°vy"
-
-#, fuzzy
-#~ msgid "Unflag"
-#~ msgstr "Informace"
-
-#~ msgid "Undelete"
-#~ msgstr "Obnovit"
-
-#, fuzzy
-#~ msgid "Error"
-#~ msgstr "Chyba:"
-
-#, fuzzy
-#~ msgid "Your used charset is not supported by your IMAP server."
-#~ msgstr "IMAP server nepodporuje t≈ô√≠dƒõn√≠ zpr√°v podle vl√°ken."
-
-#, fuzzy
-#~ msgid "IMAP server closed the connection."
-#~ msgstr "Chyba: IMAP server ukonƒçil spojen√≠."
-
-#, fuzzy
-#~ msgid "Not used"
-#~ msgstr "Pozn√°mka"
-
-#, fuzzy
-#~ msgid "Show All/Paginate"
-#~ msgstr "Po str√°nk√°ch"
-
-#, fuzzy
-#~ msgid "Thread View/Unthreaded View"
-#~ msgstr "Vypnout ≈ôazen√≠ podle konverzace"
-
-#, fuzzy
-#~ msgid "Move To"
-#~ msgstr "P≈ôesunout do:"
-
-#, fuzzy
-#~ msgid "Toggle Selected"
-#~ msgstr "Odstranit vybran√© polo≈æky"
-
-#, fuzzy
-#~ msgid "As Attachment"
-#~ msgstr "P≈ô√≠lohy"
-
-#, fuzzy
-#~ msgid "Attach"
-#~ msgstr "P≈ôilo≈æit soubor:"
-
-#, fuzzy
-#~ msgid "Delete Selected Attachments"
-#~ msgstr "Odstranit vybran√© p≈ôilo≈æen√© soubory"
-
-#, fuzzy
-#~ msgid "Refresh/Check Mail"
-#~ msgstr "Zkontrolovat po≈°tu"
-
-#, fuzzy
-#~ msgid "Purge Trash"
-#~ msgstr "Vysypat"
-
-#, fuzzy
-#~ msgid "General Message Composition"
-#~ msgstr "Zobrazen√≠ a psan√≠ zpr√°v"
-
-#, fuzzy
-#~ msgid "Pop-up window"
-#~ msgstr "≈†√≠≈ôka vyskakovac√≠ho okna:"
-
-#, fuzzy
-#~ msgid "Replying and Forwarding Messages"
-#~ msgstr "P≈ôi p≈ôepos√≠l√°n√≠ zahrnout i adresy v polo≈æce Kopie"
-
-#, fuzzy
-#~ msgid "Strip signature when replying"
-#~ msgstr "Zaƒç√≠t Odpov√≠d√°n√≠ v"
-
-#, fuzzy
-#~ msgid "Skin"
-#~ msgstr "v"
-
-#, fuzzy
-#~ msgid "Icon Theme"
-#~ msgstr "Sch√©ma"
-
-#, fuzzy
-#~ msgid "Default font style"
-#~ msgstr "Z√°kladn√≠/nastaven√° identita"
-
-#, fuzzy
-#~ msgid "Font style"
-#~ msgstr "nenastaveno"
-
-#, fuzzy
-#~ msgid "Font size"
-#~ msgstr "N√°hled na mƒõs√≠c"
-
-#, fuzzy
-#~ msgid "Default font size"
-#~ msgstr "Implicitn√≠ velikost lev√©ho r√°mu"
-
-#, fuzzy
-#~ msgid "Enable Message Copy Buttons"
-#~ msgstr "Zapnout oznamov√°n√≠ o nep≈ôeƒçten√Ωch zpr√°v√°ch"
-
-#, fuzzy
-#~ msgid "Use Compact Page Selector"
-#~ msgstr "Zapnout Str√°nkovaƒç"
-
-#, fuzzy
-#~ msgid "Message Display Options"
-#~ msgstr "Obecn√© volby zobrazen√≠"
-
-#, fuzzy
-#~ msgid "Show 'Delete &amp; Prev/Next' Links"
-#~ msgstr "Odstranit a p≈ôedch√°zej√≠c√≠"
-
-#, fuzzy
-#~ msgid "Address Book Display Options"
-#~ msgstr "Form√°t zobrazen√≠ adres√°≈ôe"
-
-#, fuzzy
-#~ msgid "Number of Addresses per Page"
-#~ msgstr "Poƒçet zpr√°v na str√°nce"
-
-#, fuzzy
-#~ msgid "Translate Special Folders"
-#~ msgstr "Automaticky vytv√°≈ôet Speci√°ln√≠ slo≈æky"
-
-#, fuzzy
-#~ msgid "Save Replies with Original Message"
-#~ msgstr "P≈Øvodn√≠ zpr√°va"
-
-#, fuzzy
-#~ msgid "%d Minute"
-#~ msgid_plural "%d Minutes"
-#~ msgstr[0] "Minuta"
-#~ msgstr[1] "Minuta"
-
-#, fuzzy
-#~ msgid "Secure IMAP (TLS) connection"
-#~ msgstr "Pou≈æ√≠vat TLS pro IMAP spojen√≠"
-
-#, fuzzy
-#~ msgid "IMAP STARTTLS connection"
-#~ msgstr "Pou≈æ√≠vat TLS pro IMAP spojen√≠"
-
-#, fuzzy
-#~ msgid "Disable server-side sorting"
-#~ msgstr "Pou≈æ√≠vat ≈ôazen√≠ na serveru"
-
-#, fuzzy
-#~ msgid "Disable server-side thread sorting"
-#~ msgstr "Pou≈æ√≠vat t≈ô√≠dƒõn√≠ podle vl√°ken na serveru"
-
-#, fuzzy
-#~ msgid "Search functions"
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "Both search functions"
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "Time Zone Configuration"
-#~ msgstr "Kontrola konfigurace"
-
-#, fuzzy
-#~ msgid "Standard GNU C time zones"
-#~ msgstr "Poƒç√°teƒçn√≠ ƒças:"
-
-#, fuzzy
-#~ msgid "Strict time zones"
-#~ msgstr "Poƒç√°teƒçn√≠ ƒças:"
-
-#, fuzzy
-#~ msgid "Custom GNU C time zones"
-#~ msgstr "Poƒç√°teƒçn√≠ ƒças:"
-
-#, fuzzy
-#~ msgid "Custom strict time zones"
-#~ msgstr "Poƒç√°teƒçn√≠ ƒças:"
-
-#, fuzzy
-#~ msgid "Size of username field"
-#~ msgstr "Pol√≠ƒçko s u≈æivatelsk√Ωm jm√©nem v tabulce nastaven√≠"
-
-#, fuzzy
-#~ msgid "Size of key field"
-#~ msgstr "Pol√≠ƒçko s n√°zvem v tabulce nastaven√≠"
-
-#, fuzzy
-#~ msgid "Size of value field"
-#~ msgstr "Pol√≠ƒçko s hodnotou v tabulce nastaven√≠"
-
-#, fuzzy
-#~ msgid "Enable aggressive decoding"
-#~ msgstr "Povolit ztr√°tov√© k√≥dov√°n√≠"
-
-#, fuzzy
-#~ msgid "Use icons"
-#~ msgstr "Sekund"
-
-#, fuzzy
-#~ msgid "Use PHP recode functions"
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "Use PHP iconv functions"
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "Allow remote configuration test"
-#~ msgstr "Kontrola konfigurace"
-
-#, fuzzy
-#~ msgid "Address book file line length"
-#~ msgstr "Tabulka adres√°≈ôe"
-
-#, fuzzy
-#~ msgid "Templates"
-#~ msgstr "Sch√©mata"
-
-#, fuzzy
-#~ msgid "Default font set"
-#~ msgstr "Implicitn√≠ velikost lev√©ho r√°mu"
-
-#, fuzzy
-#~ msgid "Default template"
-#~ msgstr "Implicitn√≠ barevn√© sch√©ma"
-
-#, fuzzy
-#~ msgid "Fallback template"
-#~ msgstr "Implicitn√≠ barevn√© sch√©ma"
-
-#, fuzzy
-#~ msgid "Show System Specifications"
-#~ msgstr "Dal≈°√≠ informace"
-
-#, fuzzy
-#~ msgid "Your new password does not match the verify password."
-#~ msgstr "P≈ôezd√≠vka obsahuje nedovolen√© znaky"
-
-#, fuzzy
-#~ msgid "Your current password is not correct."
-#~ msgstr "Nezn√°m√Ω u≈æivatel nebo neplatn√© heslo."
-
-#, fuzzy
-#~ msgid "Your new password should be %s to %s characters long."
-#~ msgstr "P≈ôezd√≠vka obsahuje nedovolen√© znaky"
-
-#, fuzzy
-#~ msgid "Your new password contains invalid characters."
-#~ msgstr "P≈ôezd√≠vka obsahuje nedovolen√© znaky"
-
-#, fuzzy
-#~ msgid "Change Password"
-#~ msgstr "Zmƒõnit toto slovo"
-
-#, fuzzy
-#~ msgid "Current Password:"
-#~ msgstr "Heslo:"
-
-#, fuzzy
-#~ msgid "New Password:"
-#~ msgstr "Heslo:"
-
-#, fuzzy
-#~ msgid "Verify New Password:"
-#~ msgstr "Heslo:"
-
-#, fuzzy
-#~ msgid "User's Password"
-#~ msgstr "Heslo:"
-
-#, fuzzy
-#~ msgid "Plugin is not configured correctly."
-#~ msgstr "Z√°suvn√Ω modul nen√≠ povolen"
-
-#, fuzzy
-#~ msgid "Unable to use TLS."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "Error: %s"
-#~ msgstr "Chyba "
-
-#, fuzzy
-#~ msgid "Unable to use LDAP TLS in current setup."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "Unable to bind to LDAP server."
-#~ msgstr "Nelze se p≈ôipojit k serveru"
-
-#, fuzzy
-#~ msgid "Server replied: %s"
-#~ msgstr "Odpovƒõƒè serveru:"
-
-#, fuzzy
-#~ msgid "Unable to find user's password attribute."
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Unable to rebind to LDAP server."
-#~ msgstr "Nelze se p≈ôipojit k serveru"
-
-#, fuzzy
-#~ msgid "Unable to connect to LDAP server."
-#~ msgstr "Nelze se p≈ôipojit k serveru"
-
-#, fuzzy
-#~ msgid "Unable to find user's DN."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "Search error."
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "unknown"
-#~ msgstr "Nezn√°m√© datum"
-
-#, fuzzy
-#~ msgid "Unable to validate user's password."
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Cannot change password!"
-#~ msgstr "Zmƒõnit toto slovo"
-
-#, fuzzy
-#~ msgid "Connection error: %s"
-#~ msgstr "Nezn√°m√° chyba: %s"
-
-#, fuzzy
-#~ msgid "Invalid table name: %s"
-#~ msgstr "Neplatn√Ω n√°zev slo≈æky: %s"
-
-#, fuzzy
-#~ msgid "Invalid uid field."
-#~ msgstr "Neplatn√° vstupn√≠ data"
-
-#, fuzzy
-#~ msgid "Invalid password field"
-#~ msgstr "Nezadali jste ≈æ√°dn√© heslo"
-
-#, fuzzy
-#~ msgid "Invalid domain field"
-#~ msgstr "Neplatn√° vstupn√≠ data"
-
-#, fuzzy
-#~ msgid "Query failed: %s"
-#~ msgstr "Maz√°n√≠ selhalo:"
-
-#, fuzzy
-#~ msgid "Unable to detect password crypto algorithm."
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Unable to encrypt new password."
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Unable to set new password: %s"
-#~ msgstr "Nelze zobrazit adresy z %s"
-
-#, fuzzy
-#~ msgid "Unable to use digest-md5 crypto."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "Connecting to Password Server"
-#~ msgstr "Nelze se p≈ôipojit k serveru"
-
-#, fuzzy
-#~ msgid "No valid backend defined."
-#~ msgstr "Neplatn√° vstupn√≠ data"
-
-#, fuzzy
-#~ msgid "Invalid or corrupted vmail.inc file."
-#~ msgstr "Neplatn√° vstupn√≠ data"
-
-#, fuzzy
-#~ msgid "Invalid user."
-#~ msgstr "Neplatn√© URL"
-
-#, fuzzy
-#~ msgid "Empty domain"
-#~ msgstr "Pr√°zdn√Ω p≈ô√≠kaz"
-
-#, fuzzy
-#~ msgid "Empty domain password"
-#~ msgstr "Pr√°zdn√Ω p≈ô√≠kaz"
-
-#, fuzzy
-#~ msgid "Empty username"
-#~ msgstr "U≈æivatelsk√© jm√©no:"
-
-#, fuzzy
-#~ msgid "Empty new password"
-#~ msgstr "Pr√°zdn√Ω p≈ô√≠kaz"
-
-#, fuzzy
-#~ msgid "Unable to execute \"%s\"."
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#~ msgid "Fortunes:"
-#~ msgstr "≈†tƒõst√≠ƒçka:"
-
-#, fuzzy
-#~ msgid "Server Capability response:"
-#~ msgstr "Odpovƒõƒè serveru:"
-
-#, fuzzy
-#~ msgid "Select"
-#~ msgstr "Oznaƒçit v≈°e"
-
-#, fuzzy
-#~ msgid "Test Name"
-#~ msgstr "N√°zev sch√©ma"
-
-#, fuzzy
-#~ msgid "IMAP command string"
-#~ msgstr "Pr√°zdn√Ω p≈ô√≠kaz"
-
-#, fuzzy
-#~ msgid "Request:"
-#~ msgstr "vy≈æadov√°na"
-
-#, fuzzy
-#~ msgid "%s ms"
-#~ msgstr "z %s do %s"
-
-#, fuzzy
-#~ msgid "Mailing Lists"
-#~ msgstr "Diskusn√≠ skupina"
-
-#, fuzzy
-#~ msgid "No POP3 servers configured yet."
-#~ msgstr "Nebyl specifikov√°n ≈æ√°dn√Ω server"
-
-#, fuzzy
-#~ msgid "Click here to go to the options page."
-#~ msgstr "Pro nov√© p≈ôihl√°≈°en√≠ kliknƒõte zde."
-
-#, fuzzy
-#~ msgid "Fetching from %s"
-#~ msgstr "Stahuji po≈°tu "
-
-#, fuzzy
-#~ msgid "Fetching list of messages..."
-#~ msgstr "Stahuji zpr√°vu "
-
-#, fuzzy
-#~ msgid "Login OK: Inbox contains %s message"
-#~ msgid_plural "Login OK: Inbox contains %s messages"
-#~ msgstr[0] "P≈ôihl√°≈°eni se zda≈ôilo. Slo≈æka doruƒçen√© po≈°ty obsahuje %s zpr√°v"
-#~ msgstr[1] "P≈ôihl√°≈°eni se zda≈ôilo. Slo≈æka doruƒçen√© po≈°ty obsahuje %s zpr√°v"
-
-#, fuzzy
-#~ msgid "Fetching message %s."
-#~ msgstr "Stahuji zpr√°vu "
-
-#, fuzzy
-#~ msgid "Warning:"
-#~ msgstr "Varov√°n√≠, "
-
-#, fuzzy
-#~ msgid "Authentication type:"
-#~ msgstr "autentifikace se nezda≈ôila"
-
-#, fuzzy
-#~ msgid "Connection type:"
-#~ msgstr "Nezn√°m√° chyba: %s"
-
-#, fuzzy
-#~ msgid "Plain text"
-#~ msgstr "Po str√°nk√°ch"
-
-#, fuzzy
-#~ msgid "Use StartTLS"
-#~ msgstr "Aktualizace nebyla mo≈æn√°"
-
-#, fuzzy
-#~ msgid "View Message Details"
-#~ msgstr "Zobrazit detaily zpr√°vy"
-
-#, fuzzy
-#~ msgid "New Mail Options"
-#~ msgstr "Mo≈ænosti ozn√°men√≠ o nov√Ωch zpr√°v√°ch"
-
-#, fuzzy
-#~ msgid ""
-#~ "Selecting the %s option will enable the showing of a popup window when "
-#~ "unseen mail is in one of your folders (requires JavaScript)."
-#~ msgstr ""
-#~ "Volba %s zapne zobrazov√°n√≠ okna, kter√© v√°s upozorn√≠ na novou zpr√°vu, "
-#~ "vy≈æaduje prohl√≠≈æeƒç se zapnutou podporou JavaScriptu."
-
-#, fuzzy
-#~ msgid ""
-#~ "Selecting the %s option will change the browser title bar to let you know "
-#~ "when you have new mail (requires JavaScript and may only work in some "
-#~ "browsers). This will always tell you if you have new mail, even if you "
-#~ "have %s enabled."
-#~ msgstr ""
-#~ "Volba %s zmƒõn√≠ popisek okna tak aby zobrazoval poƒçet nov√Ωch zpr√°v ve va≈°√≠ "
-#~ "schr√°nce. (Vy≈æaduje JavaScript a funguje jen v nƒõkter√Ωch prohl√≠≈æeƒç√≠ch.) "
-#~ "Popisek v√°m bude v≈ædy zobrazovat nov√© zpr√°vy, i kdy≈æ m√°te vybr√°nu volbu %"
-#~ "s."
-
-#, fuzzy
-#~ msgid "Follow folder preferences"
-#~ msgstr "Slo≈æky - mo≈ænosti"
-
-#, fuzzy
-#~ msgid "All folders"
-#~ msgstr "V≈°echny slo≈æky"
-
-#, fuzzy
-#~ msgid "Special folders"
-#~ msgstr "Nastaven√≠ speci√°ln√≠ch slo≈æek"
-
-#, fuzzy
-#~ msgid "Regular folders"
-#~ msgstr "P≈ôejmenovat slo≈æku"
-
-#, fuzzy
-#~ msgid "Check for new messages in:"
-#~ msgstr ": %s"
-
-#, fuzzy
-#~ msgid "none"
-#~ msgstr "(nic)"
-
-#, fuzzy
-#~ msgid "%s notice:"
-#~ msgstr "%s napsal(a):"
-
-#, fuzzy
-#~ msgid "Warning"
-#~ msgstr "Varov√°n√≠, "
-
-#, fuzzy
-#~ msgid "Sent subfolders options are misconfigured."
-#~ msgstr "SquirrelSpell je ≈°patnƒõ nakonfigurov√°n."
-
-#, fuzzy
-#~ msgid "SpamCop reporting"
-#~ msgstr "Filtrov√°n√≠ nevy≈æ√°dan√© po≈°ty"
-
-#, fuzzy
-#~ msgid "Invalid SquirrelSpell module."
-#~ msgstr "SquirrelSpell V√Ωsledky"
-
-#, fuzzy
-#~ msgid "Unknown error"
-#~ msgstr "Nezn√°m√° chyba: %s"
-
-#, fuzzy
-#~ msgid "SquirrelSpell error."
-#~ msgstr "SquirrelSpell V√Ωsledky"
-
-#, fuzzy
-#~ msgid "Found %d error"
-#~ msgid_plural "Found %d errors"
-#~ msgstr[0] "Nalezeno %s chyb"
-#~ msgstr[1] "Nalezeno %s chyb"
-
-#, fuzzy
-#~ msgid "Using %s dictionary for spellcheck."
-#~ msgstr "Pou≈æ√≠v√° se %s slovn√≠k (implicitn√≠) pro kontrolu pravopisu."
-
-#, fuzzy
-#~ msgid "Translation Theme:"
-#~ msgstr "Smƒõr p≈ôekladu"
-
-#, fuzzy
-#~ msgid "Translation Preferences"
-#~ msgstr "Nastaven√≠ organizace"
-
-#, fuzzy
-#~ msgid "Maximum of 25 kilobytes translated, powered by Systran"
-#~ msgstr "Pou≈æit√≠m slu≈æby Systran je mo≈æn√© p≈ôelo≈æit nanejv√Ω≈° 150 slov"
-
-#, fuzzy
-#~ msgid "No known limits, powered by GPLTrans (free, open source)"
-#~ msgstr "Bez n√°m zn√°m√Ωch omezen√≠, vyu≈æ√≠v√° slu≈æby Systran"
-
-#, fuzzy
-#~ msgid "When composing:"
-#~ msgstr "P≈ôi ƒçten√≠:"
-
-#, fuzzy
-#~ msgid "Update Address"
-#~ msgstr "Aktualizovat adresu"
-
-#, fuzzy
-#~ msgid "Add to Address Book"
-#~ msgstr "P≈ôidat do adres√°≈ôe"
-
-#, fuzzy
-#~ msgid "Add Address"
-#~ msgstr "P≈ôidat adresu"
-
-#, fuzzy
-#~ msgid "Address book is empty"
-#~ msgstr "Adres√°≈ô pouze ke ƒçten√≠"
-
-#, fuzzy
-#~ msgid "Compose To"
-#~ msgstr "Nov√° zpr√°va"
-
-#, fuzzy
-#~ msgid "Address book search"
-#~ msgstr "Hledat v adres√°≈ôi"
-
-#, fuzzy
-#~ msgid "New attachment"
-#~ msgstr "P≈ô√≠lohy"
-
-#, fuzzy
-#~ msgid "Receipts"
-#~ msgstr "Doruƒçenka"
-
-#, fuzzy
-#~ msgid "SquirrelMail notice messages"
-#~ msgstr "Pozn√°mka:"
-
-#, fuzzy
-#~ msgid "Tip:"
-#~ msgstr "ƒåas:"
-
-#, fuzzy
-#~ msgid "More info:"
-#~ msgstr "Dal≈°√≠ informace"
-
-#, fuzzy
-#~ msgid "No folders were found to unsubscribe from."
-#~ msgstr "Nebyly nalezeny ≈æ√°dn√© slo≈æky, ze kter√Ωch se lze odhl√°sit!"
-
-#, fuzzy
-#~ msgid "No folders were found to subscribe to."
-#~ msgstr "Nebyly nalezeny ≈æ√°dn√© slo≈æky k p≈ôihl√°≈°en√≠"
-
-#, fuzzy
-#~ msgid "Check Mail"
-#~ msgstr "Zkontrolovat po≈°tu"
-
-#, fuzzy
-#~ msgid "Message Flags"
-#~ msgstr "Filtrov√°n√≠ zpr√°v"
-
-#, fuzzy
-#~ msgid "Attachment"
-#~ msgstr "P≈ô√≠lohy"
-
-#, fuzzy
-#~ msgid "Click here to change the sorting of the message list"
-#~ msgstr "Klepnƒõte zde pro zmƒõnu ≈ôazen√≠ seznamu adres"
-
-#, fuzzy
-#~ msgid "Add/Edit"
-#~ msgstr "Editovat"
-
-#, fuzzy
-#~ msgid "Rule Conditions"
-#~ msgstr "Obsahuje:"
-
-#, fuzzy
-#~ msgid "Identifying Name"
-#~ msgstr "Identifikaƒçn√≠ jm√©no"
-
-#, fuzzy
-#~ msgid "To or cc"
-#~ msgstr "Komu nebo Kopie"
-
-#, fuzzy
-#~ msgid "Other"
-#~ msgstr "Jin√°:"
-
-#, fuzzy
-#~ msgid "Save Changes"
-#~ msgstr "Ulo≈æit zpr√°vu"
-
-#, fuzzy
-#~ msgid "Requested"
-#~ msgstr "vy≈æadov√°na"
-
-#, fuzzy
-#~ msgid "Send Read Receipt Now"
-#~ msgstr "Odeslat potvrzen√≠ p≈ôeƒçten√≠ nyn√≠"
-
-#, fuzzy
-#~ msgid "Delete &amp; Previous"
-#~ msgstr "Odstranit a p≈ôedch√°zej√≠c√≠"
-
-#, fuzzy
-#~ msgid "and subfolders"
-#~ msgstr "jako podslo≈æku"
-
-#, fuzzy
-#~ msgid "Fold"
-#~ msgstr "Slo≈æka"
-
-#, fuzzy
-#~ msgid "Unfold"
-#~ msgstr "Informace"
-
-#, fuzzy
-#~ msgid "Forget"
-#~ msgstr "zapomenout"
-
-#, fuzzy
-#~ msgid "Email"
-#~ msgstr "E-mail"
-
-#, fuzzy
-#~ msgid "Additional Info"
-#~ msgstr "Dal≈°√≠ informace"
-
-#, fuzzy
-#~ msgid "Folder List"
-#~ msgstr "Slo≈æky"
-
-#, fuzzy
-#~ msgid "Open All"
-#~ msgstr "Otev√≠r√°n√≠ probƒõhlo ne√∫spƒõ≈°nƒõ"
-
-#, fuzzy
-#~ msgid "Close All"
-#~ msgstr "Zav≈ô√≠t"
-
-#, fuzzy
-#~ msgid "The SquirrelMail logo"
-#~ msgstr "SquirrelMail Verze"
-
-#, fuzzy
-#~ msgid "Reset"
-#~ msgstr "Doruƒçenka"
-
-#, fuzzy
-#~ msgid "Add an index"
-#~ msgstr "P≈ôidat adresu"
-
-#, fuzzy
-#~ msgid "Expand Header"
-#~ msgstr "Hlaviƒçka"
-
-#, fuzzy
-#~ msgid "Message Preview"
-#~ msgstr "Seznam zpr√°v"
-
-#~ msgid "Take Address"
-#~ msgstr "Vz√≠t Adresu"
-
-#~ msgid "Address Book Take:"
-#~ msgstr "Automatick√© p≈ôid√°v√°n√≠ adres√°t≈Ø do adres√°≈ôe:"
-
-#~ msgid "Try to verify addresses"
-#~ msgstr "Sna≈æit se ovƒõ≈ôit adresy"
-
-#~ msgid "Draft Saved"
-#~ msgstr "Zpr√°va ulo≈æena do Koncept≈Ø"
-
-#~ msgid "Addressbook is read-only"
-#~ msgstr "Adres√°≈ô pouze ke ƒçten√≠"
-
-#~ msgid "Write to addressbook failed"
-#~ msgstr "Z√°pis do adres√°≈ôe probƒõhl ne√∫spƒõ≈°nƒõ"
-
-#~ msgid "Error initializing addressbook database."
-#~ msgstr "Chyba p≈ôi inicializaci datab√°ze kontakt≈Ø."
-
-#~ msgid "Error initializing global addressbook."
-#~ msgstr "Chyba p≈ôi inicializaci centr√°ln√≠ datab√°ze kontakt≈Ø."
-
-#~ msgid "Include CCs when Forwarding Messages"
-#~ msgstr "P≈ôi p≈ôepos√≠l√°n√≠ zahrnout i adresy v polo≈æce Kopie"
-
-#~ msgid "Bug Reports:"
-#~ msgstr "Hl√°≈°en√≠ chyb:"
-
-#~ msgid ""
-#~ "FREE - ORDB was born when ORBS went off the air. It seems to have fewer "
-#~ "false positives than ORBS did though."
-#~ msgstr ""
-#~ "ZDARMA - ORDB vzniklo v dobƒõ z√°niku ORBS. Zd√° se ≈æe pracuje p≈ôesnƒõji "
-#~ "ne≈æli ORBS."
-
-#~ msgid "POP3 connect:"
-#~ msgstr "P≈ôipojen√≠ POP3:"
-
-#~ msgid "POP3 user:"
-#~ msgstr "U≈æivatel na POP3 serveru:"
-
-#~ msgid "POP3 pass:"
-#~ msgstr "Heslo na POP3 serveru:"
-
-#~ msgid "POP3 apop:"
-#~ msgstr "POP3 apop:"
-
-#~ msgid "POP3 login:"
-#~ msgstr "U≈æivatelsk√© jm√©no na POP3 serveru:"
-
-#~ msgid "POP3 top:"
-#~ msgstr "POP3 top:"
-
-#~ msgid "POP3 pop_list:"
-#~ msgstr "POP3 pop_list:"
-
-#~ msgid "POP3 get:"
-#~ msgstr "POP3 get:"
-
-#~ msgid "POP3 last:"
-#~ msgstr "POP3 last:"
-
-#~ msgid "POP3 reset:"
-#~ msgstr "POP3 reset:"
-
-#~ msgid "POP3 send_cmd:"
-#~ msgstr "POP3 send_cmd:"
-
-#~ msgid "POP3 quit:"
-#~ msgstr "POP3 quit:"
-
-#~ msgid "POP3 uidl:"
-#~ msgstr "POP3 uidl:"
-
-#~ msgid "POP3 delete:"
-#~ msgstr "POP3 delete:"
-
-#~ msgid "Cute."
-#~ msgstr "Bezva."
-
-#, fuzzy
-#~ msgid "Search Criteria"
-#~ msgstr "Hledat"
-
-#, fuzzy
-#~ msgid "Template"
-#~ msgstr "Sch√©ma"
-
-#, fuzzy
-#~ msgid "Template Default"
-#~ msgstr "Vytvo≈ô nastaven√≠"
-
-#, fuzzy
-#~ msgid "Command failed"
-#~ msgstr "P≈ô√≠kaz ne√∫spƒõ≈°n√Ω "
-
-#, fuzzy
-#~ msgid "Refetching message %s."
-#~ msgstr "Znovu stahuji zpr√°vu"
-
-#, fuzzy
-#~ msgid "Spam Service Type:"
-#~ msgstr "Typ slu≈æby SpamCop"
-
-#, fuzzy
-#~ msgid "Free reporting"
-#~ msgstr "Hl√°≈°en√≠ p≈ôes www"
-
-#, fuzzy
-#~ msgid "Save Service Type"
-#~ msgstr "Typ slu≈æby SpamCop"
+msgstr "Obr·zek byl z bezpeËnostnÌch d˘vodu odstranÏn"

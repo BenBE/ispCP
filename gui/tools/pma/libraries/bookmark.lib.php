@@ -3,12 +3,11 @@
 /**
  * Set of functions used with the bookmark feature
  *
- * @version $Id: bookmark.lib.php 11982 2008-11-24 10:32:56Z nijel $
- * @package phpMyAdmin
+ * @version $Id: bookmark.lib.php 11453 2008-08-01 20:35:32Z lem9 $
  */
 
 /**
- *
+ * 
  */
 require_once './libraries/relation.lib.php';
 
@@ -26,11 +25,11 @@ require_once './libraries/relation.lib.php';
 function PMA_Bookmark_getParams()
 {
     static $cfgBookmark = null;
-
+    
     if (null !== $cfgBookmark) {
         return $cfgBookmark;
     }
-
+    
     $cfgRelation = PMA_getRelationsParam();
 
     if ($cfgRelation['bookmarkwork']) {
@@ -42,7 +41,7 @@ function PMA_Bookmark_getParams()
     } else {
         $cfgBookmark = false;
     }
-
+    
     return $cfgBookmark;
 } // end of the 'PMA_Bookmark_getParams()' function
 
@@ -59,14 +58,14 @@ function PMA_Bookmark_getParams()
  *
  * @param   string    the current database name
  *
- * @return  array     the bookmarks list (key as index, label as value)
+ * @return  array     the bookmarks list (key as index, label as value) 
  *
  * @access  public
  */
 function PMA_Bookmark_getList($db)
 {
     global $controllink;
-
+    
     $cfgBookmark = PMA_Bookmark_getParams();
 
     if (empty($cfgBookmark)) {
@@ -103,13 +102,13 @@ function PMA_Bookmark_getList($db)
 function PMA_Bookmark_get($db, $id, $id_field = 'id', $action_bookmark_all = FALSE)
 {
     global $controllink;
-
+    
     $cfgBookmark = PMA_Bookmark_getParams();
 
     if (empty($cfgBookmark)) {
         return '';
     }
-
+    
     $query = 'SELECT query FROM ' . PMA_backquote($cfgBookmark['db']) . '.' . PMA_backquote($cfgBookmark['table'])
         . ' WHERE dbase = \'' . PMA_sqlAddslashes($db) . '\''
         . ($action_bookmark_all? '' : ' AND (user = \'' . PMA_sqlAddslashes($cfgBookmark['user']) . '\''
@@ -138,13 +137,13 @@ function PMA_Bookmark_get($db, $id, $id_field = 'id', $action_bookmark_all = FAL
 function PMA_Bookmark_save($fields, $all_users = false)
 {
     global $controllink;
-
+    
     $cfgBookmark = PMA_Bookmark_getParams();
 
     if (empty($cfgBookmark)) {
         return false;
     }
-
+    
     $query = 'INSERT INTO ' . PMA_backquote($cfgBookmark['db']) . '.' . PMA_backquote($cfgBookmark['table'])
            . ' (id, dbase, user, query, label) VALUES (NULL, \'' . PMA_sqlAddslashes($fields['dbase']) . '\', \'' . ($all_users ? '' : PMA_sqlAddslashes($fields['user'])) . '\', \'' . PMA_sqlAddslashes(urldecode($fields['query'])) . '\', \'' . PMA_sqlAddslashes($fields['label']) . '\')';
     return PMA_DBI_query($query, $controllink);
@@ -168,13 +167,13 @@ function PMA_Bookmark_save($fields, $all_users = false)
 function PMA_Bookmark_delete($db, $id)
 {
     global $controllink;
-
+    
     $cfgBookmark = PMA_Bookmark_getParams();
 
     if (empty($cfgBookmark)) {
         return false;
     }
-
+    
     $query  = 'DELETE FROM ' . PMA_backquote($cfgBookmark['db']) . '.' . PMA_backquote($cfgBookmark['table'])
             . ' WHERE (user = \'' . PMA_sqlAddslashes($cfgBookmark['user']) . '\''
             . '        OR user = \'\')'

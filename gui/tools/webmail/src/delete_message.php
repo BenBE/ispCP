@@ -5,9 +5,9 @@
  *
  * Deletes a meesage from the IMAP server
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: delete_message.php 1894 2009-08-11 20:16:14Z scitech $
+ * @version $Id: delete_message.php 12537 2007-07-14 18:34:04Z kink $
  * @package squirrelmail
  */
 
@@ -54,7 +54,7 @@ $imapConnection = sqimap_login($username, $key, $imapServerAddress, $imapPort, 0
 
 sqimap_mailbox_select($imapConnection, $mailbox);
 
-sqimap_msgs_list_delete($imapConnection, $mailbox, $message);
+sqimap_messages_delete($imapConnection, $message, $message, $mailbox);
 if ($auto_expunge) {
     sqimap_mailbox_expunge($imapConnection, $mailbox, true);
 }
@@ -75,10 +75,7 @@ if (isset($where) && isset($what)) {
            '&what=' . $what . '&mailbox=' . urlencode($mailbox));
 } else {
     if (!empty($saved_draft) || !empty($mail_sent)) {
-          if ($compose_new_win == '1')
-              header("Location: $location/compose.php?mail_sent=$mail_sent&saved_draft=$saved_draft");
-          else
-              header("Location: $location/right_main.php?mail_sent=$mail_sent&saved_draft=$saved_draft");
+          header("Location: $location/compose.php?mail_sent=$mail_sent&saved_draft=$saved_draft");
     }
     else {
         header("Location: $location/right_main.php?sort=$sort&startMessage=$startMessage&mailbox=" .

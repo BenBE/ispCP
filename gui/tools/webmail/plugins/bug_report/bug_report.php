@@ -8,12 +8,12 @@
  * a button to show the bug report mail message in order to actually
  * send it.
  *
- * Copyright (c) 1999-2009 The SquirrelMail Project Team
+ * Copyright (c) 1999-2008 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This is a standard Squirrelmail-1.2 API for plugins.
  *
- * @version $Id: bug_report.php 13537 2009-04-13 16:52:57Z jervfors $
+ * @version $Id: bug_report.php 13029 2008-03-11 05:07:17Z pdontthink $
  * @package plugins
  * @subpackage bug_report
  */
@@ -180,7 +180,7 @@ echo "</big></p>\n";
 
 echo '<ul>';
 echo '<li>';
-printf(_("Make sure that you are running the most recent copy of %s. You are currently using version %s."), '<a href="http://squirrelmail.org/" target="_blank">SquirrelMail</a>', $version);
+printf(_("Make sure that you are running the most recent copy of %s. You are currently using version %s."), '<a href="http://www.squirrelmail.org/" target="_blank">SquirrelMail</a>', $version);
 echo "</li>\n";
 
 echo '<li>';

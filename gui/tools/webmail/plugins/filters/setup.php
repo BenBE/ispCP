@@ -18,8 +18,8 @@
  *
  * Also view plugins/README.plugins for more information.
  *
- * @version $Id: setup.php 13549 2009-04-15 22:00:49Z jervfors $
- * @copyright (c) 1999-2009 The SquirrelMail Project Team
+ * @version $Id: setup.php 10633 2006-02-03 22:27:56Z jervfors $
+ * @copyright (c) 1999-2006 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package plugins
  * @subpackage filters

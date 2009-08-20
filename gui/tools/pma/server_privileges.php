@@ -2,8 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: server_privileges.php 12629 2009-07-06 19:52:47Z lem9 $
- * @package phpMyAdmin
+ * @version $Id: server_privileges.php 12167 2009-01-04 20:26:23Z lem9 $
  */
 
 /**
@@ -52,7 +51,7 @@ if (isset($dbname)) {
     $db_and_table = '*.*';
 }
 
-// check if given $dbname is a wildcard or not
+// check if given $dbanem is a wildcard or not
 if (isset($dbname)) {
     //if (preg_match('/\\\\(?:_|%)/i', $dbname)) {
     if (preg_match('/(?<!\\\\)(?:_|%)/i', $dbname)) {
@@ -85,10 +84,10 @@ if (!$is_superuser) {
  * no escaping (for example test_db) but in mysql.db you'll see test\_db
  * for a db-specific privilege.
  *
- * @param   string   $db_and_table
+ * @param   string   $db_and_table 
  * @param   string   $dbname
  * @param   string   $tablename
- * @return  string   the escaped (if necessary) $db_and_table
+ * @return  string   the escaped (if necessary) $db_and_table 
  */
 function PMA_WildcardEscapeForGrant($db_and_table, $dbname, $tablename) {
 
@@ -348,7 +347,7 @@ function PMA_displayPrivTable($db = '*', $table = '*', $submit = TRUE)
         unset($row['Table_priv'], $current_grant, $av_grants, $users_grants);
 
         // get collumns
-        $res = PMA_DBI_try_query('SHOW COLUMNS FROM ' . PMA_backquote(PMA_unescape_mysql_wildcards($db)) . '.' . PMA_backquote($table) . ';');
+        $res = PMA_DBI_try_query('SHOW COLUMNS FROM `' . PMA_unescape_mysql_wildcards($db) . '`.`' . $table . '`;');
         $columns = array();
         if ($res) {
             while ($row1 = PMA_DBI_fetch_row($res)) {
@@ -682,7 +681,7 @@ function PMA_displayLoginInformationFields($mode = 'new')
         . $username_length . '" title="' . $GLOBALS['strUserName'] . '"'
         . (empty($GLOBALS['username'])
             ? ''
-            : ' value="' . htmlspecialchars(isset($GLOBALS['new_username'])
+            : ' value="' . (isset($GLOBALS['new_username'])
                 ? $GLOBALS['new_username']
                 : $GLOBALS['username']) . '"')
         . ' onchange="pred_username.value = \'userdefined\';" />' . "\n"
@@ -747,10 +746,9 @@ function PMA_displayLoginInformationFields($mode = 'new')
        . '</span>' . "\n"
        . '<input type="text" name="hostname" maxlength="'
         . $hostname_length . '" value="'
-        . htmlspecialchars(isset($GLOBALS['hostname']) ? $GLOBALS['hostname'] : '')
+        . (isset($GLOBALS['hostname']) ? $GLOBALS['hostname'] : '')
         . '" title="' . $GLOBALS['strHost']
         . '" onchange="pred_hostname.value = \'userdefined\';" />' . "\n"
-       . PMA_showHint($GLOBALS['strHostTableExplanation'])
        . '</div>' . "\n"
        . '<div class="item">' . "\n"
        . '<label for="select_pred_password">' . "\n"
@@ -784,6 +782,7 @@ function PMA_displayLoginInformationFields($mode = 'new')
        . '</label>' . "\n"
        . '<span class="options">' . "\n"
        . '    <input type="button" id="button_generate_password" value="' . $GLOBALS['strGenerate'] . '" onclick="suggestPassword()" />' . "\n"
+       . '    <input type="button" id="button_copy_password" value="' . $GLOBALS['strCopy'] . '" onclick="suggestPasswordCopy(this.form)" />' . "\n"
        . '</span>' . "\n"
        . '<input type="text" name="generated_pw" id="generated_pw" />' . "\n"
        . '</div>' . "\n"
@@ -934,7 +933,6 @@ if (isset($_REQUEST['adduser_submit']) || isset($_REQUEST['change_copy'])) {
 
             switch (PMA_ifSetOr($_REQUEST['createdb'], '0')) {
                 case '1' :
-                    // Create database with same name and grant all privileges
                     $q = 'CREATE DATABASE IF NOT EXISTS '
                         . PMA_backquote(PMA_sqlAddslashes($username)) . ';';
                     $sql_query .= $q;
@@ -954,23 +952,12 @@ if (isset($_REQUEST['adduser_submit']) || isset($_REQUEST['change_copy'])) {
                     }
                     break;
                 case '2' :
-                    // Grant all privileges on wildcard name (username\_%)
                     $q = 'GRANT ALL PRIVILEGES ON '
                         . PMA_backquote(PMA_sqlAddslashes($username) . '\_%') . '.* TO \''
                         . PMA_sqlAddslashes($username) . '\'@\'' . $hostname . '\';';
                     $sql_query .= $q;
                     if (! PMA_DBI_try_query($q)) {
                         $message = PMA_Message::rawError(PMA_DBI_getError());
-                    }
-					break;
-                case '3' :
-                    // Grant all privileges on the specified database to the new user
-                    $q = 'GRANT ALL PRIVILEGES ON '
-                    . PMA_backquote(PMA_sqlAddslashes($dbname)) . '.* TO \''
-                    . PMA_sqlAddslashes($username) . '\'@\'' . $hostname . '\';';
-                    $sql_query .= $q;
-                    if (! PMA_DBI_try_query($q)) {
-                    $message = PMA_Message::rawError(PMA_DBI_getError());
                     }
                     break;
                 case '0' :
@@ -1009,7 +996,7 @@ if (isset($_REQUEST['change_copy'])) {
     while ($row = PMA_DBI_fetch_assoc($res)) {
         $queries[] =
             'GRANT ' . join(', ', PMA_extractPrivInfo($row))
-            .' ON ' . PMA_backquote($row['Db']) . '.*'
+            .' ON `' . $row['Db'] . '`.*'
             .' TO \'' . PMA_sqlAddslashes($username) . '\'@\'' . $hostname . '\''
             . ($row['Grant_priv'] == 'Y' ? ' WITH GRANT OPTION;' : ';');
     }
@@ -1073,8 +1060,8 @@ if (isset($_REQUEST['change_copy'])) {
         unset($tmp_privs2);
         $queries[] =
             'GRANT ' . join(', ', $tmp_privs1)
-            . ' ON ' . PMA_backquote($row['Db']) . '.' . PMA_backquote($row['Table_name'])
-            . ' TO \'' . PMA_sqlAddslashes($username) . '\'@\'' . $hostname . '\''
+            . ' ON `' . $row['Db'] . '`.`' . $row['Table_name']
+            . '` TO \'' . PMA_sqlAddslashes($username) . '\'@\'' . $hostname . '\''
             . (in_array('Grant', explode(',', $row['Table_priv'])) ? ' WITH GRANT OPTION;' : ';');
     }
 }
@@ -1167,9 +1154,8 @@ if (isset($_REQUEST['revokeall'])) {
     $sql_query1 =
         'REVOKE GRANT OPTION ON ' . $db_and_table
         . ' FROM \'' . $username . '\'@\'' . $hostname . '\';';
-
     PMA_DBI_query($sql_query0);
-    if (! PMA_DBI_try_query($sql_query1)) {
+    if (!PMA_DBI_try_query($sql_query1)) {
         // this one may fail, too...
         $sql_query1 = '';
     }
@@ -1220,16 +1206,17 @@ if (isset($_REQUEST['change_pw'])) {
  * Deletes users
  *   (Changes / copies a user, part IV)
  */
+$user_host_separator = chr(27);
 
 if (isset($_REQUEST['delete']) || (isset($_REQUEST['change_copy']) && $_REQUEST['mode'] < 4)) {
     if (isset($_REQUEST['change_copy'])) {
-        $selected_usr = array($old_username . '&amp;#27;' . $old_hostname);
+        $selected_usr = array($old_username . $user_host_separator . $old_hostname);
     } else {
         $selected_usr = $_REQUEST['selected_usr'];
         $queries = array();
     }
     foreach ($selected_usr as $each_user) {
-        list($this_user, $this_host) = explode('&amp;#27;', $each_user);
+        list($this_user, $this_host) = explode($user_host_separator, $each_user);
         $queries[] = '# ' . sprintf($GLOBALS['strDeleting'], '\'' . $this_user . '\'@\'' . $this_host . '\'') . ' ...';
         $queries[] = 'DROP USER \'' . PMA_sqlAddslashes($this_user) . '\'@\'' . $this_host . '\';';
 
@@ -1373,8 +1360,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                 // a automatic repair feature soon.
                 $raw = 'Your privilege table structure seems to be older than'
                     . ' this MySQL version!<br />'
-                    . 'Please run the <tt>mysql_upgrade</tt> command'
-                    . '(<tt>mysql_fix_privilege_tables</tt> on older systems)'
+                    . 'Please run the script <tt>mysql_fix_privilege_tables</tt>'
                     . ' that should be included in your MySQL server distribution'
                     . ' to solve this problem!';
                 PMA_Message::rawError($raw)->display();
@@ -1473,14 +1459,14 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                    . PMA_generate_common_hidden_inputs('', '')
                    . '    <table id="tableuserrights" class="data">' . "\n"
                    . '    <thead>' . "\n"
-                   . '        <tr><th></th>' . "\n"
+                   . '        <tr><td></td>' . "\n"
                    . '            <th>' . $GLOBALS['strUser'] . '</th>' . "\n"
                    . '            <th>' . $GLOBALS['strHost'] . '</th>' . "\n"
                    . '            <th>' . $GLOBALS['strPassword'] . '</th>' . "\n"
                    . '            <th>' . $GLOBALS['strGlobalPrivileges'] . ' '
                    . PMA_showHint($GLOBALS['strEnglishPrivileges']) . '</th>' . "\n"
                    . '            <th>' . $GLOBALS['strGrantOption'] . '</th>' . "\n"
-                   . '            <th>' . ($GLOBALS['cfg']['PropertiesIconic'] ? '' : $GLOBALS['strAction']) . '</th>' . "\n";
+                   . '            ' . ($GLOBALS['cfg']['PropertiesIconic'] ? '<td></td>' : '<th>' . $GLOBALS['strAction'] . '</th>') . "\n";
                 echo '        </tr>' . "\n";
                 echo '    </thead>' . "\n";
                 echo '    <tbody>' . "\n";
@@ -1494,7 +1480,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                         echo '        <tr class="' . ($odd_row ? 'odd' : 'even') . '">' . "\n"
                            . '            <td><input type="checkbox" name="selected_usr[]" id="checkbox_sel_users_'
                             . $index_checkbox . '" value="'
-                            . htmlspecialchars($host['User'] . '&amp;#27;' . $host['Host'])
+                            . str_replace(chr(27), '&#27;', htmlspecialchars($host['User'] . $user_host_separator . $host['Host']))
                             . '"'
                             . (empty($GLOBALS['checkall']) ?  '' : ' checked="checked"')
                             . ' /></td>' . "\n"
@@ -1561,8 +1547,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                    . '    </fieldset>' . "\n"
                    . '    <fieldset id="fieldset_delete_user_footer" class="tblFooters">' . "\n"
                    . '        <input type="submit" name="delete" value="' . $GLOBALS['strGo'] . '" id="buttonGo" />' . "\n"
-                   . '    </fieldset>' . "\n"
-                   . '</form>' . "\n";
+                   . '    </fieldset>' . "\n";
             } else {
 
                 unset ($row);
@@ -1572,6 +1557,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                    . '            ' . $GLOBALS['strAddUser'] . '</a>' . "\n"
                    . '    </fieldset>' . "\n";
             } // end if (display overview)
+            echo '</form>' . "\n";
             $flushnote = new PMA_Message('strFlushPrivilegesNote', PMA_Message::NOTICE);
             $flushnote->addParam('<a href="server_privileges.php?' . $GLOBALS['url_query'] . '&amp;flush_privileges=1">', false);
             $flushnote->addParam('</a>', false);
@@ -1585,34 +1571,31 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
 
         echo '<h2>' . "\n"
            . PMA_getIcon('b_usredit.png')
-           . $GLOBALS['strEditPrivileges'] . ': '
-           . $GLOBALS['strUser'] ;
-
+           . $GLOBALS['strUser'] . ' <i><a href="server_privileges.php?'
+           . $GLOBALS['url_query'] . '&amp;username=' . urlencode($username)
+           . '&amp;hostname=' . urlencode($hostname) . '">\''
+           . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname)
+           . '\'</a></i>' . "\n";
         if (isset($dbname)) {
-            echo ' <i><a href="server_privileges.php?'
-                . $GLOBALS['url_query'] . '&amp;username=' . urlencode($username)
-                . '&amp;hostname=' . urlencode($hostname) . '&amp;dbname=&amp;tablename=">\''
-                . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname)
-                . '\'</a></i>' . "\n";
-            $url_dbname = urlencode(str_replace(array('\_', '\%'), array('_', '%'), $dbname));
-
-            echo ' - ' . ($dbname_is_wildcard ? $GLOBALS['strDatabases'] : $GLOBALS['strDatabase'] );
-            if (isset($tablename)) {
-                echo ' <i><a href="server_privileges.php?' . $GLOBALS['url_query']
-                    . '&amp;username=' . urlencode($username) . '&amp;hostname=' . urlencode($hostname)
-                    . '&amp;dbname=' . $url_dbname . '&amp;tablename=">' . htmlspecialchars($dbname) . '</a></i>';
-                echo ' - ' . $GLOBALS['strTable'] . ' <i>' . htmlspecialchars($tablename) . '</i>';
+            if ($dbname_is_wildcard) {
+                echo '    - ' . $GLOBALS['strDatabases'];
             } else {
-                echo ' <i>' . htmlspecialchars($dbname) . '</i>';
+                echo '    - ' . $GLOBALS['strDatabase'];
             }
-
-        } else {
-            echo ' <i>\'' . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname)
-                . '\'</i>' . "\n";
-
+            $url_dbname = urlencode(str_replace('\_', '_', $dbname));
+            echo ' <i><a href="' . $GLOBALS['cfg']['DefaultTabDatabase'] . '?'
+                . $GLOBALS['url_query'] . '&amp;db=' . $url_dbname . '&amp;reload=1">'
+                . htmlspecialchars($dbname) . '</a></i>' . "\n";
+            if (isset($tablename)) {
+                echo '    - ' . $GLOBALS['strTable'] . ' <i><a href="'
+                    . $GLOBALS['cfg']['DefaultTabTable'] . '?' . $GLOBALS['url_query']
+                    . '&amp;db=' . $url_dbname . '&amp;table=' . urlencode($tablename)
+                    . '&amp;reload=1">' . htmlspecialchars($tablename) . '</a></i>'
+                    . "\n";
+            }
+            unset($url_dbname);
         }
-        echo '</h2>' . "\n";
-
+        echo ' : ' . $GLOBALS['strEditPrivileges'] . '</h2>' . "\n";
 
         $sql = "SELECT '1' FROM `mysql`.`user`"
             . " WHERE `User` = '" . PMA_sqlAddslashes($username) . "'"
@@ -1857,9 +1840,15 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
 
             if (! isset($dbname)) {
 
-                // no database name was given, display select db
+                // no database name was give, display select db
 
-                $pred_db_array =PMA_DBI_fetch_result('SHOW DATABASES;');
+                if (! empty($found_rows)) {
+                    $pred_db_array = array_diff(
+                        PMA_DBI_fetch_result('SHOW DATABASES;'),
+                        $found_rows);
+                } else {
+                    $pred_db_array =PMA_DBI_fetch_result('SHOW DATABASES;');
+                }
 
                 echo '    <label for="text_dbname">' . $GLOBALS['strAddPrivilegesOnDb'] . ':</label>' . "\n";
                 if (!empty($pred_db_array)) {
@@ -1867,14 +1856,8 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                        . '        <option value="" selected="selected">' . $GLOBALS['strUseTextField'] . ':</option>' . "\n";
                     foreach ($pred_db_array as $current_db) {
                         $current_db = PMA_escape_mysql_wildcards($current_db);
-                        // cannot use array_diff() once, outside of the loop,
-                        // because the list of databases has special characters
-                        // already escaped in $found_rows, 
-                        // contrary to the output of SHOW DATABASES
-                        if (empty($found_rows) || ! in_array($current_db, $found_rows)) {
-                            echo '        <option value="' . htmlspecialchars($current_db) . '">'
-                                . htmlspecialchars($current_db) . '</option>' . "\n";
-                        }
+                        echo '        <option value="' . htmlspecialchars($current_db) . '">'
+                            . htmlspecialchars($current_db) . '</option>' . "\n";
                     }
                     echo '    </select>' . "\n";
                 }
@@ -1910,25 +1893,6 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                . '    <input type="submit" value="' . $GLOBALS['strGo'] . '" />'
                . '</fieldset>' . "\n"
                . '</form>' . "\n";
-
-		}
-
-		// Provide a line with links to the relevant database and table
-        if (isset($dbname) && empty($dbname_is_wildcard)) {
-            echo '[ ' . $GLOBALS['strDatabase']
-                . ' <a href="' . $GLOBALS['cfg']['DefaultTabDatabase'] . '?'
-                . $GLOBALS['url_query'] . '&amp;db=' . $url_dbname . '&amp;reload=1">'
-                . htmlspecialchars($dbname) . ': ' . PMA_getTitleForTarget($GLOBALS['cfg']['DefaultTabDatabase']) . "</a> ]\n";
-
-            if (isset($tablename)) {
-                echo ' [ ' . $GLOBALS['strTable'] . ' <a href="'
-                    . $GLOBALS['cfg']['DefaultTabTable'] . '?' . $GLOBALS['url_query']
-                    . '&amp;db=' . $url_dbname . '&amp;table=' . urlencode($tablename)
-                    . '&amp;reload=1">' . htmlspecialchars($tablename) . ': '
-                    . PMA_getTitleForTarget($GLOBALS['cfg']['DefaultTabTable'])
-                    . "</a> ]\n";
-            }
-            unset($url_dbname);
         }
 
         if (! isset($dbname) && ! $user_does_not_exists) {
@@ -1971,24 +1935,12 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
     echo '<fieldset id="fieldset_add_user_database">' . "\n"
         . '<legend>' . $GLOBALS['strCreateUserDatabase'] . '</legend>' . "\n";
 
-    $default_choice = 0;
     $choices = array(
         '0' => $GLOBALS['strCreateUserDatabaseNone'],
         '1' => $GLOBALS['strCreateUserDatabaseName'],
         '2' => $GLOBALS['strCreateUserDatabaseWildcard']);
-
-    if ( !empty($dbname) ) {
-        $choices['3'] = sprintf($GLOBALS['strCreateUserDatabasePrivileges'], htmlspecialchars($dbname));
-        $default_choice = 3;
-        echo '<input type="hidden" name="dbname" value="' . htmlspecialchars($dbname) . '" />' . "\n";
-    }
-
-    // 4th parameter set to true to add line breaks
-    // 5th parameter set to false to avoid htmlspecialchars() escaping in the label
-    //  since we have some HTML in some labels
-    PMA_generate_html_radio('createdb', $choices, $default_choice, true, false);
+    PMA_generate_html_radio('createdb', $choices, '0', true);
     unset($choices);
-    unset($default_choice);
 
     echo '</fieldset>' . "\n";
     PMA_displayPrivTable('*', '*', FALSE);
@@ -2147,14 +2099,6 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
     }
     echo '</tbody>' . "\n"
        . '</table>' . "\n";
-
-    // Offer to create a new user for the current database
-    echo '<fieldset id="fieldset_add_user">' . "\n"
-       . '    <a href="server_privileges.php?' . $GLOBALS['url_query'] . '&amp;adduser=1&amp;dbname=' . $checkprivs .'">' . "\n"
-       . PMA_getIcon('b_usradd.png')
-       . '        ' . $GLOBALS['strAddUser'] . '</a>' . "\n"
-       . '</fieldset>' . "\n";
-
 } // end if (empty($_REQUEST['adduser']) && empty($checkprivs)) ... elseif ... else ...
 
 

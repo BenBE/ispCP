@@ -5,16 +5,13 @@
  * @package    phpMyAdmin-setup
  * @author     Piotr Przybylski <piotrprz@gmail.com>
  * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: config.inc.php 12348 2009-04-14 10:19:02Z nijel $
+ * @version    $Id: config.inc.php 11650 2008-10-14 10:31:07Z crackpl $
  */
 
 if (!defined('PHPMYADMIN')) {
     exit;
 }
 
-/**
- * Core libraries.
- */
 require_once './setup/lib/FormDisplay.class.php';
 require_once './setup/lib/index.lib.php';
 
@@ -24,7 +21,7 @@ $config_exists = false;
 check_config_rw($config_readable, $config_writable, $config_exists);
 ?>
 <h2><?php echo $GLOBALS['strSetupConfigurationFile'] ?></h2>
-<?php display_form_top('config.php'); ?>
+<?php display_form_top('config.php?type=post'); ?>
 <input type="hidden" name="eol" value="<?php echo htmlspecialchars(PMA_ifSetOr($_GET['eol'], 'unix')) ?>" />
 <?php display_fieldset_top('', '', null, array('class' => 'simple')); ?>
 <tr>
@@ -38,6 +35,8 @@ check_config_rw($config_readable, $config_writable, $config_exists);
     <td class="lastrow" style="text-align: left">
         <input type="submit" name="submit_download" value="<?php echo $GLOBALS['strSetupDownload'] ?>" class="green" />
         <input type="submit" name="submit_save" value="<?php echo $GLOBALS['strSave'] ?>"<?php if (!$config_writable) echo ' disabled="disabled"' ?> />
+        &nbsp; &nbsp;
+        <input type="reset" value="<?php echo $GLOBALS['strReset'] ?>" />
     </td>
 </tr>
 <?php

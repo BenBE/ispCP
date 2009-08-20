@@ -2,8 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: mult_submits.inc.php 11986 2008-11-24 11:05:40Z nijel $
- * @package phpMyAdmin
+ * @version $Id: mult_submits.inc.php 11649 2008-10-13 13:01:10Z lem9 $
  */
 if (! defined('PHPMYADMIN')) {
     exit;

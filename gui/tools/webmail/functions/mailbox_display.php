@@ -6,9 +6,9 @@
  * This contains functions that display mailbox information, such as the
  * table row that has sender, date, subject, etc...
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: mailbox_display.php 13818 2009-08-12 08:29:53Z pdontthink $
+ * @version $Id: mailbox_display.php 12932 2008-02-10 16:49:47Z kink $
  * @package squirrelmail
  */
 
@@ -261,7 +261,6 @@ function printMessageInfo($imapConnection, $t, $not_last=true, $key, $mailbox,
                 $td_str = "<b><small>";
 
                 if (isset($msg['FLAG_ANSWERED']) && $msg['FLAG_ANSWERED'] == true) {
-                    // i18n: "A" is short for "Answered". Make sure that two icon strings aren't translated to the same character (only in 1.5).
                     $td_str .= _("A");
                     $stuff = true;
                 }
@@ -514,7 +513,6 @@ function showMessagesForMailbox($imapConnection, $mailbox, $num_msgs,
     $safe_name = preg_replace("/[^0-9A-Za-z_]/", '_', $mailbox);
     $form_name = "FormMsgs" . $safe_name;
     echo '<form name="' . $form_name . '" method="post" action="move_messages.php">' ."\n" .
-        '<input type="hidden" name="smtoken" value="'.sm_generate_security_token().'">' . "\n" .
         '<input type="hidden" name="mailbox" value="'.htmlspecialchars($mailbox).'">' . "\n" .
         '<input type="hidden" name="startMessage" value="'.htmlspecialchars($start_msg).'">' . "\n";
     

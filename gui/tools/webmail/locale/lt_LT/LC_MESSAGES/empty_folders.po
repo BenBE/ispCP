@@ -1,8 +1,8 @@
 # Lithuanian translation of SquirrelMail
 # empty_folders plugin.
-# Copyright (c) 2004-2009 The SquirrelMail Project Team
+# Copyright (C) 2004 SquirrelMail development team
 # Tomas Kuliavas <tokul@users.sourceforge.net>, 2004.
-# $Id: empty_folders.po 13696 2009-05-14 06:27:08Z jervfors $
+# $Id: empty_folders.po 10345 2005-11-12 15:13:46Z tokul $
 msgid ""
 msgstr ""
 "Project-Id-Version: empty_folders 1.1\n"

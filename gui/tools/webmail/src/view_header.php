@@ -5,9 +5,9 @@
  *
  * This is the code to view the message header.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2007 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: view_header.php 1904 2009-08-17 12:36:07Z benedikt $
+ * @version $Id: view_header.php 12537 2007-07-14 18:34:04Z kink $
  * @package squirrelmail
  */
 
@@ -48,17 +48,16 @@ function parse_viewheader($imapConnection,$id, $passed_ent_id) {
     for ($i=1; $i < count($read); $i++) {
         $line = htmlspecialchars($read[$i]);
         switch (true) {
-            case (preg_match('/^&gt;/i', $line)):
+            case (eregi("^&gt;", $line)):
                 $second[$i] = $line;
                 $first[$i] = '&nbsp;';
                 $cnum++;
                 break;
-// FIXME: is the pipe character below a mistake?  I think the original author might have thought it carried special meaning in the character class, which it does not... but then again, I am not currently trying to understand what this code actually does
-            case (preg_match('/^[ |\t]/', $line)):
+            case (eregi("^[ |\t]", $line)):
                 $second[$i] = $line;
                 $first[$i] = '';
                 break;
-            case (preg_match('/^([^:]+):(.+)/', $line, $regs)):
+            case (eregi("^([^:]+):(.+)", $line, $regs)):
                 $first[$i] = $regs[1] . ':';
                 $second[$i] = $regs[2];
                 $cnum++;
