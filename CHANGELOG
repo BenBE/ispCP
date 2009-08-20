@@ -1,4 +1,4 @@
-ispCP ω 1.0.2 Changelog
+ispCP ω 1.0.1 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 2009-08-20 Benedikt Heintel
@@ -8,9 +8,11 @@ ispCP ω 1.0.2 Changelog
 		* Updated Net2FTP version 0.98 to build 45
 
 2009-08-18 Benedikt Heintel
-	- RELEASE ispCP ω Omega 1.0.1
+	- RELEASE ispCP ω Omega 1.0.1 (revoked)
 	- TOOLS:
 		* Updated SquirrelMail to version 1.4.20RC1
+		* Updated Net2FTP version 0.98 to build 44
+		* Updated PHPmyAdmin to version 3.2.1
 
 2009-02-25 Daniel Andreca
 	- LANGUAGES:
