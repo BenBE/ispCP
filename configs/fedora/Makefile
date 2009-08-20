@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# ispCP ω (OMEGA) a Virtual Hosting Control Panel
+# ispCP œâ (OMEGA) a Virtual Hosting Control Panel
 # Copyright (c) 2001-2006 by moleSoftware GmbH
 # http://www.molesoftware.com
 # Copyright (c) 2006-2009 by isp Control Panel
@@ -25,7 +25,7 @@
 #    http://www.mozilla.org/MPL/MPL-1.1.html
 #
 #
-# The ispCP ω Home Page is at:
+# The ispCP œâ Home Page is at:
 #
 #    http://isp-control.net
 #
@@ -62,3 +62,4 @@ uninstall:
 		(cd ./proftpd && $(MAKE) uninstall &); \
 		(cd ./logrotate && $(MAKE) uninstall &); \
 	fi
+

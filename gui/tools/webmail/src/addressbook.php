@@ -5,9 +5,9 @@
  *
  * Manage personal address book.
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: addressbook.php 13173 2008-06-09 19:04:14Z pdontthink $
+ * @version $Id: addressbook.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  * @subpackage addressbook
  */
@@ -31,6 +31,9 @@ require_once(SM_PATH . 'functions/html.php');
 require_once(SM_PATH . 'functions/forms.php');
 
 /** lets get the global vars we may need */
+if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
+    $submitted_token = '';
+}
 sqgetGlobalVar('key',       $key,           SQ_COOKIE);
 
 sqgetGlobalVar('username',  $username,      SQ_SESSION);
@@ -180,6 +183,9 @@ $form_url = 'addressbook.php';
 /* Handle user's actions */
 if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'POST') {
 
+    // first, validate security token
+    sm_validate_security_token($submitted_token, 3600, TRUE);
+
     /**************************************************
      * Add new address                                *
      **************************************************/
@@ -194,7 +200,7 @@ if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'P
         if (!$r) {
             /* Remove backend name from error string */
             $errstr = $abook->error;
-            $errstr = ereg_replace('^\[.*\] *', '', $errstr);
+            $errstr = preg_replace('/^\[.*\] */', '', $errstr);
 
             $formerror = $errstr;
             $showaddrlist = false;
@@ -216,7 +222,7 @@ if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'P
             $delfailed = false;
 
             for ($i = 0 ; (($i < sizeof($sel)) && !$delfailed) ; $i++) {
-                list($sbackend, $snick) = explode(':', $sel[$i]);
+                list($sbackend, $snick) = explode(':', $sel[$i], 2);
 
                 /* When we get to a new backend, process addresses in *
                  * previous one.                                      */
@@ -262,7 +268,7 @@ if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'P
             $send_to = '';
 
             for ($i = 0 ; (($i < sizeof($sel)) && !$lookup_failed) ; $i++) {
-                list($sbackend, $snick) = explode(':', $sel[$i]);
+                list($sbackend, $snick) = explode(':', $sel[$i], 2);
 
                 $data = $abook->lookup($snick, $sbackend);
 
@@ -309,11 +315,11 @@ if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'P
                         $defselected = $sel;
                     } else {
                         $abortform = true;
-                        list($ebackend, $enick) = explode(':', $sel[0]);
+                        list($ebackend, $enick) = explode(':', $sel[0], 2);
                         $olddata = $abook->lookup($enick, $ebackend);
 
                         /* Display the "new address" form */
-                        echo addForm($form_url, 'post').
+                        echo addForm($form_url, 'post', '', '', '', '', TRUE).
                             html_tag( 'table',
                                     html_tag( 'tr',
                                         html_tag( 'td',
@@ -345,7 +351,7 @@ if(sqgetGlobalVar('REQUEST_METHOD', $req_method, SQ_SERVER) && $req_method == 'P
                                        'center', '', 'width="100%"' );
 
                         /* Display the "new address" form again */
-                        echo addForm($form_url, 'post').
+                        echo addForm($form_url, 'post', '', '', '', '', TRUE).
                             html_tag( 'table',
                                 html_tag( 'tr',
                                     html_tag( 'td',
@@ -426,7 +432,7 @@ if ($showaddrlist) {
 
     /* List addresses */
     if (count($alist) > 0) {
-        echo addForm($form_url, 'post', 'address_book_form');
+        echo addForm($form_url, 'post', 'address_book_form', '', '', '', TRUE);
         if ($abook->add_extra_field) {
             $abook_fields = 6;
         } else {
@@ -573,7 +579,7 @@ if ($showaddrlist) {
 
 /* Display the "new address" form */
 echo '<a name="AddAddress"></a>' . "\n" .
-    addForm($form_url, 'post', 'f_add').
+    addForm($form_url, 'post', 'f_add', '', '', '', TRUE).
     html_tag( 'table',  
         html_tag( 'tr',
             html_tag( 'td', "\n". '<strong>' . sprintf(_("Add to %s"), $abook->localbackendname) . '</strong>' . "\n",

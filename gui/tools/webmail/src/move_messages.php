@@ -5,9 +5,9 @@
  *
  * Enables message moving between folders on the IMAP server.
  *
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: move_messages.php 12542 2007-07-16 21:04:37Z kink $
+ * @version $Id: move_messages.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  */
 
@@ -138,7 +138,13 @@ sqgetGlobalVar('markUnread',      $markUnread,      SQ_POST);
 sqgetGlobalVar('attache',         $attache,         SQ_POST);
 sqgetGlobalVar('location',        $location,        SQ_POST);
 
+if (!sqgetGlobalVar('smtoken',$submitted_token, SQ_POST)) {
+    $submitted_token = '';
+}
 /* end of get globals */
+
+// security check
+sm_validate_security_token($submitted_token, 3600, TRUE);
 
 $imapConnection = sqimap_login($username, $key, $imapServerAddress, $imapPort, 0);
 $mbx_response=sqimap_mailbox_select($imapConnection, $mailbox);
@@ -231,7 +237,7 @@ if(isset($expungeButton)) {
     if (count($id)) {
         // move messages only when target mailbox is not the same as source mailbox
         if ($mailbox!=$targetMailbox) {
-            sqimap_msgs_list_copy($imapConnection,$id,$targetMailbox);
+            sqimap_msgs_list_move($imapConnection,$id,$targetMailbox);
             if ($auto_expunge) {
                 $cnt = sqimap_mailbox_expunge($imapConnection, $mailbox, true);
             } else {

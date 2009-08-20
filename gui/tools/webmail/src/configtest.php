@@ -3,9 +3,9 @@
 /**
  * SquirrelMail configtest script
  *
- * @copyright &copy; 2003-2007 The SquirrelMail Project Team
+ * @copyright &copy; 2003-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: configtest.php 13238 2008-07-19 07:31:43Z pdontthink $
+ * @version $Id: configtest.php 1904 2009-08-17 12:36:07Z benedikt $
  * @package squirrelmail
  * @subpackage config
  */
@@ -91,6 +91,15 @@ echo $IND . 'PHP version ' . PHP_VERSION . " OK.<br />\n";
 echo $IND . 'display_errors: ' . ini_get('display_errors') . "<br />\n";
 
 echo $IND . 'error_reporting: ' . ini_get('error_reporting') . "<br />\n";
+
+if ((bool) ini_get('session.auto_start') && ini_get('session.auto_start') != 'off') {
+    $msg = 'session.auto_start is turned on in your PHP configuration, but SquirrelMail'
+         . ' 1.4.x will not work with it (otherwise valid logins will usually'
+         . ' result in "You must be logged in to access this page" errors).'
+         . ' You can disable session.auto_start only in the squirrelmail directory' 
+         . ' if you need to leave it turned on for other applications.';
+    do_err($msg, true);
+}
 
 $safe_mode = ini_get('safe_mode');
 if ($safe_mode) {

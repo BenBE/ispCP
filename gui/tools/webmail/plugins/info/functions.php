@@ -1,7 +1,7 @@
 <?php
 
 /* functions for info plugin
- * Copyright (c) 1999-2008 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * Here are two functions for the info plugin
@@ -11,7 +11,7 @@
  * to options.php.
  * by: Jason Munro jason@stdbev.com
  *
- * $Id: functions.php 12918 2008-02-05 17:53:29Z jervfors $ 
+ * $Id: functions.php 13549 2009-04-15 22:00:49Z jervfors $ 
  *
  */
 

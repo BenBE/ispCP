@@ -31,7 +31,8 @@
 #
 
 ROOT_APACHE_CONF=$(ROOT_CONF)/apache2
-RELEASE=`cat /etc/debian_version | awk '{print $1}'`
+
+RELEASE=`lsb_release -c | awk '{print $$2}' | tr -d "\n"`
 
 export
 
@@ -53,11 +54,11 @@ install:
 	cp ./httpd.conf $(SYSTEM_CONF)/apache/working/ispcp.conf
 	cp ./httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
 
-	# Debian 4.0 "Etch"?
-	if [[ $(RELEASE) = '4.0' ]] || [[ $(RELEASE) = '5.0' ]] || [[ $(RELEASE) = 'lenny/sid' ]]; then \
-		cp ./fastcgi2.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf ; \
-	else \
+	# greater equal Debian 4.0 "Etch"?
+	if [ $(RELEASE) = 'sarge' ]; then \
 		cp ./fastcgi.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf ; \
+	elif [ $(RELEASE) = 'etch' ] || [ $(RELEASE) = 'lenny' ] || [ $(RELEASE) = 'squeeze' ]; then \
+		cp ./fastcgi2.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf ; \
 	fi
 	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/working/fcgid_ispcp.conf
 

@@ -4,9 +4,9 @@
  * Administrator plugin - Option definitions
  *
  * @author Philippe Mingo
- * @copyright &copy; 1999-2007 The SquirrelMail Project Team
+ * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: defines.php 12508 2007-07-07 05:43:28Z jangliss $
+ * @version $Id: defines.php 13549 2009-04-15 22:00:49Z jervfors $
  * @package plugins
  * @subpackage administrator
  */

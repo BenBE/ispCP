@@ -1,7 +1,9 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * Sample export to Texy! text.
+ * Export to Texy! text.
+ *
+ * @package phpMyAdmin-Export-Texy
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -287,7 +289,7 @@ function PMA_exportStructure($db, $table, $crlf, $error_url, $do_relation = fals
             $strAttribute = 'UNSIGNED ZEROFILL';
         }
         if (!isset($row['Default'])) {
-            if ($row['Null'] != '') {
+            if ($row['Null'] != 'NO') {
                 $row['Default'] = 'NULL';
             }
         } else {
@@ -306,7 +308,7 @@ function PMA_exportStructure($db, $table, $crlf, $error_url, $do_relation = fals
         }
         $text_output .= '|' . $fmt_pre . htmlspecialchars($row['Field']) . $fmt_post;
         $text_output .= '|' . htmlspecialchars($type);
-        $text_output .= '|' . htmlspecialchars($row['Null'] == '' ? $GLOBALS['strNo'] : $GLOBALS['strYes']);
+        $text_output .= '|' . htmlspecialchars(($row['Null'] == '' || $row['Null'] == 'NO') ? $GLOBALS['strNo'] : $GLOBALS['strYes']);
         $text_output .= '|' . htmlspecialchars(isset($row['Default']) ? $row['Default'] : '');
 
         $field_name = $row['Field'];

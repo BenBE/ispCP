@@ -4,7 +4,7 @@
  * -------------
  * Squirrelspell module.
  *
- * Copyright (c) 1999-2006 The SquirrelMail Project Team
+ * Copyright (c) 1999-2009 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This module is the main workhorse of SquirrelSpell. It submits
@@ -12,7 +12,7 @@
  * the interface window.
  *
  * @author Konstantin Riabitsev <icon@duke.edu>
- * @version $Id: check_me.mod 12340 2007-03-19 13:44:39Z avel $
+ * @version $Id: check_me.mod 13549 2009-04-15 22:00:49Z jervfors $
  * @package plugins
  * @subpackage squirrelspell
  */

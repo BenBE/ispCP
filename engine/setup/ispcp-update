@@ -52,7 +52,8 @@ use constant {
         RC4		=> 5,
         RC5		=> 6,
         RC6		=> 7,
-		RC7		=> 8
+		RC7		=> 8,
+		ispcp100	=> 9
 	};
 
 ################################################################################
@@ -164,6 +165,7 @@ sub welcome_note {
 		"\t(6) ispCP OMEGA 1.0.0 RC5\n".
 		"\t(7) ispCP OMEGA 1.0.0 RC6\n".
 		"\t(8) ispCP OMEGA 1.0.0 RC7\n".
+		"\t(9) ispCP OMEGA 1.0.0 or above\n".
 		"\t(0) abort\n";
 
 
@@ -173,7 +175,7 @@ sub welcome_note {
 	$rdata = readline(\*STDIN);
 	chop($rdata);
 
-	while ( !($rdata =~ /^\d+$/) || $rdata < 0 || $rdata > 8) {
+	while ( !($rdata =~ /^\d+$/) || $rdata < 0 || $rdata > 9) {
 		print STDOUT "\tPlease select an item mentioned above: ";
 		$rdata = readline(\*STDIN);
 		chop($rdata);
@@ -1281,6 +1283,7 @@ sub prepare_update {
 		elsif ($main::ua{'update'} == RC7) {
 			$rs = patch_ispcp_rc7();
 		}
+		# ispCP 1.0.0 nothing to do!
 
 		if ($rs != 0) {
     		print STDOUT "\t Update failed!\n";

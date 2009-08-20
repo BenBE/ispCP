@@ -30,29 +30,46 @@
 #    http://isp-control.net
 #
 
+ROOT_APACHE_CONF=$(ROOT_CONF)/apache2
+
+RELEASE=`lsb_release -c | awk '{print $$2}' | tr -d "\n"`
+
 export
 
 install:
 
-	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/init.d
-	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/default
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/apache
+	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)
+	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)/sites-available
+	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)/mods-available
+	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)/ispcp
 
-	cp ispcp_daemon $(ROOT_CONF)/init.d
-	cp ispcp_network $(ROOT_CONF)/init.d
+	cp ./httpd.conf $(SYSTEM_CONF)/apache
+	cp ./00_master.conf $(SYSTEM_CONF)/apache
+	cp ./01_awstats.conf $(SYSTEM_CONF)/apache
+	cp -R ./backup $(SYSTEM_CONF)/apache
+	cp -R ./parts $(SYSTEM_CONF)/apache
+	cp -R ./working $(SYSTEM_CONF)/apache
 
-	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon
-	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon
+	cp ./httpd.conf $(SYSTEM_CONF)/apache/working/ispcp.conf
+	cp ./httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
 
-	if [[ -f ispcp_daemon.default ]]; then \
-		cp -p ispcp_daemon.default $(ROOT_CONF)/default/ispcp_daemon ; \
+	# greater equal Debian 4.0 "Etch"?
+	if [ $(RELEASE) = 'sarge' ]; then \
+		cp ./fastcgi.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf ; \
+	elif [ $(RELEASE) = 'etch' ] || [ $(RELEASE) = 'lenny' ] || [ $(RELEASE) = 'squeeze' ]; then \
+		cp ./fastcgi2.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf ; \
 	fi
-	if [[ -f ispcp_network.default ]]; then \
-		cp -p ispcp_network.default $(ROOT_CONF)/default/ispcp_network ; \
-	fi
+	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/working/fcgid_ispcp.conf
+
+	cp $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf $(ROOT_APACHE_CONF)/mods-available/fastcgi_ispcp.conf
+	cp ./fcgid_ispcp.conf $(ROOT_APACHE_CONF)/mods-available/fcgid_ispcp.conf
 
 uninstall:
 
-	rm -f $(ROOT_CONF)/init.d/ispcp_daemon
-	rm -f $(ROOT_CONF)/init.d/ispcp_network
-	rm -f $(ROOT_CONF)/default/ispcp_daemon
-	rm -f $(ROOT_CONF)/default/ispcp_network
+	rm -rf $(SYSTEM_CONF)/apache
+	rm -f $(APACHE_SITES_DIR)/ispcp.conf
+	rm -f $(APACHE_SITES_DIR)/00_master.conf
+	rm -f $(APACHE_SITES_DIR)/01_awstats.conf
+	rm -f $(APACHE_MODS_DIR)/fastcgi_ispcp.conf
+	rm -f $(APACHE_MODS_DIR)/fcgid_ispcp.conf
