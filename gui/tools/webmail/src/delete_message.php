@@ -7,7 +7,7 @@
  *
  * @copyright &copy; 1999-2009 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: delete_message.php 1894 2009-08-11 20:16:14Z scitech $
+ * @version $Id: delete_message.php 1914 2009-08-19 13:09:15Z benedikt $
  * @package squirrelmail
  */
 

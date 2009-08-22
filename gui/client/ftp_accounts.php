@@ -63,7 +63,7 @@ SQL_QUERY;
 	} else {
 		$tpl->assign('FTP_MESSAGE', '');
 
-		$ftp_accs = split(',', $rs->fields['members']);
+		$ftp_accs = explode(',', $rs->fields['members']);
 		sort($ftp_accs);
 		reset($ftp_accs);
 
