@@ -1,0 +1,60 @@
+/var/log/apache2/users/*.log {
+  weekly
+  missingok
+  rotate 52
+  compress
+  delaycompress
+  notifempty
+  create 640 root adm
+  sharedscripts
+  prerotate
+    /srv/www/ispcp/engine/traffic/ispcp-srv-traff &>/var/log/ispcp/ispcp-srv-traff.log
+  endscript
+  postrotate
+    /etc/init.d/apache2 reload > /dev/null
+  endscript
+}
+
+/var/log/apache2/backup/*.log.perv {
+  size 5M
+  missingok
+  rotate 5
+  compress
+  delaycompress
+  notifempty
+  create 640 root adm
+}
+
+/var/log/proftpd/xferlog {
+  daily
+  rotate 7
+  missingok
+  compress
+  delaycompress
+  postrotate
+    if [ -e /var/run/syslogd.pid ]; then
+      /srv/bin/killall -HUP syslogd
+    elif [ -e /var/run/rsyslogd.pid ]; then
+      /srv/bin/killall -HUP rsyslogd
+    fi
+
+  endscript
+}
+
+/var/log/proftpd/ftp_traff.log {
+  daily
+  rotate 7
+  missingok
+  compress
+  delaycompress
+  prerotate
+    /var/www/ispcp/engine/traffic/ispcp-vrl-traff > /var/log/ispcp/ispcp-vrl-traff.log
+  endscript
+  postrotate
+    if [ -e /var/run/syslogd.pid ]; then
+      /srv/bin/killall -HUP syslogd
+    elif [ -e /var/run/rsyslogd.pid ]; then
+      /srv/bin/killall -HUP rsyslogd
+    fi
+  endscript
+}

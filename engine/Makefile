@@ -1,0 +1,135 @@
+#!/usr/bin/make -f
+#
+# ispCP ω (OMEGA) a Virtual Hosting Control Panel
+# Copyright (c) 2001-2006 by moleSoftware GmbH
+# http://www.molesoftware.com
+# Copyright (c) 2006-2009 by isp Control Panel
+# http://isp-control.net
+#
+#
+# License:
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of the MPL Mozilla Public License
+#    as published by the Free Software Foundation; either version 1.1
+#    of the License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    MPL Mozilla Public License for more details.
+#
+#    You may have received a copy of the MPL Mozilla Public License
+#    along with this program.
+#
+#    An on-line copy of the MPL Mozilla Public License can be found
+#    http://www.mozilla.org/MPL/MPL-1.1.html
+#
+#
+# The ispCP ω Home Page is at:
+#
+#    http://isp-control.net
+#
+
+SYSTEM_ENGINE_ROOT=$(SYSTEM_ROOT)/engine
+
+CMD_CHOWN=/bin/chown
+CMD_RM=/bin/rm -rf
+CMD_INSTALL=/usr/bin/install -m 0700 -o root -g root
+CMD_MAIL_INSTALL=/usr/bin/install -m 0700 -o vmail -g mail
+CMD_DIR_INSTALL=/usr/bin/install -d -o root -g root
+
+export
+
+install:
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)
+	$(CMD_DIR_INSTALL) -m 0755 $(SYSTEM_ENGINE_ROOT)
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/awstats
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/awstats
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/backup
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/backup
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/quota
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/quota
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/traffic
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/traffic
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/messager
+	$(CMD_DIR_INSTALL) -m 0755 $(SYSTEM_ENGINE_ROOT)/messager
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/setup
+
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/tools
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/tools
+
+	cd ./traffic && $(MAKE) install
+
+	$(CMD_INSTALL) ./ispcp_common_code.pl $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp_common_methods.pl $(SYSTEM_ENGINE_ROOT)
+
+	# keys needed for ispCP engine;
+	$(CMD_INSTALL) ./ispcp-db-keys.pl $(SYSTEM_ENGINE_ROOT)
+
+	# one more copy for auto replay system;
+	$(CMD_INSTALL) ./ispcp-db-keys.pl $(SYSTEM_ENGINE_ROOT)/messager
+
+	$(CMD_INSTALL) ./ispcp-apache-logger $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-rqst-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-dmn-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-sub-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-alssub-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-als-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-htusers-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-htaccess-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-htgroups-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-mbox-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-serv-mngr $(SYSTEM_ENGINE_ROOT)
+	$(CMD_INSTALL) ./ispcp-db-passwd $(SYSTEM_ENGINE_ROOT)
+
+	$(CMD_INSTALL) ./awstats/awstats_buildstaticpages.pl $(SYSTEM_ENGINE_ROOT)/awstats
+	$(CMD_INSTALL) ./awstats/awstats_updateall.pl $(SYSTEM_ENGINE_ROOT)/awstats
+
+	$(CMD_INSTALL) ./backup/ispcp-bk-task $(SYSTEM_ENGINE_ROOT)/backup
+	$(CMD_INSTALL) ./backup/ispcp-backup-all $(SYSTEM_ENGINE_ROOT)/backup
+	$(CMD_INSTALL) ./backup/ispcp-backup-ispcp $(SYSTEM_ENGINE_ROOT)/backup
+
+	$(CMD_INSTALL) ./quota/ispcp-dsk-quota $(SYSTEM_ENGINE_ROOT)/quota
+
+	$(CMD_INSTALL) ./messager/ispcp-arpl-msgr $(SYSTEM_ENGINE_ROOT)/messager
+
+	$(CMD_INSTALL) ./setup/set-engine-permissions.sh $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/set-gui-permissions.sh $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/reset-setup $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp-setup $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp-setup-methods.pl $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp-update $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp-uninstall $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/regenerate.sql $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/vhcs2.4.7-ispcp.sql $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/vhcs2.4.8-ispcp.sql $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp1.0.0rc2-ispcp.sql $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp1.0.0rc3-ispcp.sql $(SYSTEM_ENGINE_ROOT)/setup
+	$(CMD_INSTALL) ./setup/ispcp1.0.0rc6-ispcp.sql $(SYSTEM_ENGINE_ROOT)/setup
+
+	$(CMD_INSTALL) ./tools/ispcp-httpd-logs-mngr $(SYSTEM_ENGINE_ROOT)/tools/ispcp-httpd-logs-mngr
+	$(CMD_INSTALL) ./tools/ispcpphptemp.sh $(SYSTEM_ENGINE_ROOT)/tools/ispcpphptemp.sh
+
+	$(CMD_INSTALL) ./traffic/ispcp-srv-traff $(SYSTEM_ENGINE_ROOT)/traffic
+	$(CMD_INSTALL) ./traffic/ispcp-vrl-traff $(SYSTEM_ENGINE_ROOT)/traffic
+	$(CMD_INSTALL) ./traffic/ispcp-vrl-traff-correction $(SYSTEM_ENGINE_ROOT)/traffic
+
+	if test $(HOST_OS) = suse ; then \
+		$(CMD_INSTALL) ./traffic/ispcp-vrl-traff-SUSE $(SYSTEM_ENGINE_ROOT)/traffic; \
+	elif test $(HOST_OS) = opensuse ; then \
+		$(CMD_INSTALL) ./traffic/ispcp-vrl-traff-SUSE $(SYSTEM_ENGINE_ROOT)/traffic; \
+	fi
+
+
+uninstall:
+
+	rm -rf $(SYSTEM_ENGINE_ROOT)
+	rm -rf ./*~
