@@ -526,7 +526,7 @@ SQL_QUERY;
 
 	$ftp_max = $data['domain_ftpacc_limit'];
 
-	$sql_db_current = records_count( 'sql_database', 'domain_id', $user_id);
+	$sql_db_current = records_count('sqld_id', 'sql_database', 'domain_id', $user_id);
 	$sql_db_max = $data['domain_sqld_limit'];
 
 	$sql_user_current = get_domain_running_sqlu_acc_cnt($sql, $user_id);
