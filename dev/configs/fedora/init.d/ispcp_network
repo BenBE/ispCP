@@ -1,0 +1,164 @@
+#!/bin/sh
+# chkconfig: - 85 15
+# description: Starts and stops the ISPCP  networking
+#
+# pidfile: /var/run/ispcp.pid
+# config:  /etc/ispcp/ispcp.conf
+# ispCP ω (OMEGA) a Virtual Hosting Control System
+# Copyright (c) 2007 by ispCP
+# http://www.isp-control.net
+#
+#
+# License:
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of the MPL Mozilla Public License
+#    as published by the Free Software Foundation; either version 1.1
+#    of the License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    MPL Mozilla Public License for more details.
+#
+#    You may have received a copy of the MPL Mozilla Public License
+#    along with this program.
+#
+#    An on-line copy of the MPL Mozilla Public License can be found
+#    http://www.mozilla.org/MPL/MPL-1.1.html
+#
+#
+# The ispCP Home Page is at:
+#
+#    http://www.isp-control.net
+
+# Note: do not modify any of these vars here, use /etc/default/$NAME instead
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DESC="ispCP Network Traffic Logger"
+NAME=ispcp_network
+LFILE=/var/run/$NAME
+IPTABLES=/sbin/iptables
+LOGDIR=/var/log/ispcp
+LOGFILE=${LOGDIR}/${NAME}.log
+ENGINEPATH="/var/www/ispcp/engine"
+ENGINETOOLSPATH=${ENGINEPATH}"/tools"
+NETWORKCARDMANAGER="ispcp-net-interfaces-mngr"
+
+START=1
+
+# To monitor more ports, edit SERVICES variable add your own ports
+# (ftp, proxy, http, etc.)
+SERVICES=(
+	# Web traffic
+		80 	443
+	# Pop 3
+		110
+	# IMAP
+		143
+	# Mail
+		25 587 995 993
+)
+
+# Read config file if it is present.
+if [ -r /etc/default/$NAME ]; then
+	. /etc/default/$NAME
+fi
+
+if [ $START -eq 0 ]; then
+	echo "$DESC: not starting, edit /etc/default/$NAME."
+	exit 0
+fi
+
+add_rules()
+{
+	${IPTABLES} -N ISPCP_INPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -N ISPCP_OUTPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+
+	# All traffic should jump through ISPCP tables before anything else
+	${IPTABLES} -I INPUT -j ISPCP_INPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -I OUTPUT -j ISPCP_OUTPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+
+	# Services from matrix
+	for PORT in ${SERVICES[@]}; do
+		${IPTABLES} -I ISPCP_INPUT  -p tcp --dport "$PORT" 2>> "$LOGFILE"
+		${IPTABLES} -I ISPCP_OUTPUT -p tcp --sport "$PORT" 2>> "$LOGFILE"
+	done
+
+	# Explicit return once done
+	${IPTABLES} -A ISPCP_INPUT -j RETURN
+	${IPTABLES} -A ISPCP_OUTPUT -j RETURN
+
+	# Touch lock file
+	touch $LFILE
+}
+
+remove_rules()
+{
+	${IPTABLES} -D INPUT -j ISPCP_INPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -D OUTPUT -j ISPCP_OUTPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -F ISPCP_INPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -F ISPCP_OUTPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -X ISPCP_INPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+	${IPTABLES} -X ISPCP_OUTPUT 2>> "${LOG_DIR}/${NAME}.err.log"
+
+	# Remove lock file
+	rm $LFILE
+}
+
+add_interfaces(){
+	${ENGINETOOLSPATH}/${NETWORKCARDMANAGER} start &>${LOGDIR}/${NETWORKCARDMANAGER}.log 2>&1
+}
+
+remove_interfaces(){
+	${ENGINETOOLSPATH}/${NETWORKCARDMANAGER} stop &>${LOGDIR}/${NETWORKCARDMANAGER}.log 2>&1
+}
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC:"
+	if [ -e $LFILE ]; then
+	   echo " ${NAME} is already started" >&2
+	   exit 1
+	fi
+	add_interfaces
+	add_rules
+	echo " $NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC:"
+	if [ ! -e $LFILE ]; then
+	   echo "${NAME} is already stopped" >&2
+	   exit 1
+	fi
+	remove_rules
+	remove_interfaces
+	echo " $NAME."
+	;;
+  restart|force-reload)
+	echo -n "Restarting $DESC:"
+	if [ ! -e $LFILE ]; then
+	   echo "${NAME} is already stopped" >&2
+	else
+	   remove_rules
+	   remove_interfaces
+	   sleep 2
+	fi
+	add_interfaces
+	add_rules
+	echo " $NAME."
+	;;
+  status)
+	if [ ! -e $LFILE ]; then
+	   echo "${NAME} is stopped"
+	else
+	   echo "${NAME} is started"
+	   exit 0
+	fi
+	;;
+  *)
+	echo "Usage: /etc/init.d/$NAME {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
