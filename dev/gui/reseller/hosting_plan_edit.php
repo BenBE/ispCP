@@ -146,18 +146,18 @@ function restore_form(&$tpl, &$sql) {
 
 	$tpl->assign(
 			array(
-					'TR_PHP_YES'	=> ($_POST['php'] === '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($_POST['php'] === '_no_') ? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($_POST['cgi'] === '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($_POST['cgi'] === '_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($_POST['dns'] === '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($_POST['dns'] === '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup ==='_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup ==='_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup ==='_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup ==='_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($_POST['status'] == 1) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> ($_POST['status'] != 1) ? 'checked="checked"' : ''
+					'TR_PHP_YES'	=> ($_POST['php'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'		=> ($_POST['php'] == '_no_') ? 'checked="checked"' : '',
+					'TR_CGI_YES'	=> ($_POST['cgi'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'		=> ($_POST['cgi'] == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'	=> ($_POST['dns'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'		=> ($_POST['dns'] == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'	=> ($_POST['status']) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$_POST['status']) ? 'checked="checked"' : ''
 			)
 	);
 
@@ -269,18 +269,18 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 	$tpl->assign(
 			array(
-					'TR_PHP_YES'	=> ($hp_php === '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($hp_php === '_no_')	? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($hp_cgi === '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($hp_cgi === '_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($hp_dns === '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($hp_dns === '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup ==='_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup ==='_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup ==='_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup ==='_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($status == 1) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> ($status != 1) ? 'checked="checked"' : '',
+					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'		=> ($hp_php == '_no_')	? 'checked="checked"' : '',
+					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : '',
 			)
 	);
 } // end of gen_load_ehp_page()

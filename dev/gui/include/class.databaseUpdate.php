@@ -695,6 +695,7 @@ SQL_QUERY;
 	 */
 	 protected function _databaseUpdate_24() {
 
+		$sql = Database::getInstance();
 		$sqlUpd = array();
 
 		/**
@@ -716,7 +717,7 @@ SQL_QUERY;
 
 					$new_props = "$a;$b;$c;$d;$e;$f;$g;$h;$i;$j;_full_;$k";
 	
-				} elseif($l != '_no_' || $l != '_yes_') { // Possible inversion between backup and dns properties
+				} elseif( ($l != '_no_') && ($l != '_yes_') ) { // Possible inversion between backup and dns properties
 
 					$new_props = "$a;$b;$c;$d;$e;$f;$g;$h;$i;$j;$l;$k";
 	

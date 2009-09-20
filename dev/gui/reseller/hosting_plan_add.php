@@ -148,8 +148,8 @@ function gen_empty_ahp_page(&$tpl) {
 					'TR_DNS_YES'			=> '',
 					'TR_DNS_NO'				=> 'checked="checked"',
 					'HP_DISK_VALUE'			=> '',
-					'TR_STATUS_YES'			=> '',
-					'TR_STATUS_NO'			=> 'checked="checked"'
+					'TR_STATUS_YES'			=> 'checked="checked"',
+					'TR_STATUS_NO'			=> ''
 			)
 	);
 	
@@ -189,18 +189,18 @@ function gen_data_ahp_page(&$tpl) {
 
 	$tpl->assign(
 			array(
-					'TR_PHP_YES'	=> ($hp_php === '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($hp_php === '_no_') ? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($hp_cgi === '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($hp_cgi === '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup ==='_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup ==='_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup ==='_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup ==='_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($hp_dns === '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($hp_dns === '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($status == 1) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> ($status != 1)	? 'checked="checked"' : ''
+					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'		=> ($hp_php == '_no_') ? 'checked="checked"' : '',
+					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : ''
 			)
 	);
 

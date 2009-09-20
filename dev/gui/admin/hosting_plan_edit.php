@@ -157,8 +157,8 @@ function restore_form(&$tpl) {
 					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
 					'TR_DNS_YES'	=> ($_POST['dns'] == '_yes_') ? 'checked="checked"' : '',
 					'TR_DNS_NO'		=> ($_POST['dns'] == '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($_POST['status'] == '_yes_') ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> ($_POST['status'] == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'	=> ($_POST['status']) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$_POST['status']) ? 'checked="checked"' : '',
 			)
 	);
 
@@ -259,8 +259,8 @@ SQL_QUERY;
 					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
 					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
 					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($status == '_yes'_) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> ($status == '_no_') ? 'checked="checked"' : ''
+					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : ''
 			)
 	);
 

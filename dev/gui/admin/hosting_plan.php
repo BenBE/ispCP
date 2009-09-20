@@ -158,7 +158,7 @@ SQL_QUERY;
 
 		while (($data = $rs->FetchRow())) {
 			$tpl->assign(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
-			$status = ($data['status'] == 1) ? tr('Enabled') : tr('Disabled');
+			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');
 
 			$tpl->assign(
 				array(
