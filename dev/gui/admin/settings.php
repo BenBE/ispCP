@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: settings.php 1848 2009-06-28 15:42:02Z tomdooley $
+ * @version		SVN: $Id: settings.php 1995 2009-09-19 10:58:31Z benedikt $
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -299,7 +299,7 @@ $tpl->assign(
 		'TR_CREATE_DEFAULT_EMAIL_ADDRESSES' => tr('Create default E-Mail addresses'),
 		'TR_COUNT_DEFAULT_EMAIL_ADDRESSES' => tr('Count default E-Mail addresses'),
 		'TR_HARD_MAIL_SUSPENSION' => tr('E-Mail accounts are hard suspended'),
-		'TR_USER_INITIAL_LANG' => tr('Default language'),
+		'TR_USER_INITIAL_LANG' => tr('Panel default language'),
 		'TR_SUPPORT_SYSTEM' => tr('Support system'),
 		'TR_ENABLED' => tr('Enabled'),
 		'TR_DISABLED' => tr('Disabled'),

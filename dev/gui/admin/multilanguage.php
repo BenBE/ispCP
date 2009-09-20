@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: multilanguage.php 1781 2009-05-13 23:06:44Z haeber $
+ * @version		SVN: $Id: multilanguage.php 1995 2009-09-19 10:58:31Z benedikt $
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -42,28 +42,17 @@ $tpl->assign(
 	)
 );
 
+/**
+ * update_def_language u
+ */
 function update_def_lang() {
 	$sql = Database::getInstance();
 	global $theme;
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'change_language') {
 		if (isset($_POST['default_language']) && !empty($_POST['default_language'])) {
-			$user_id = $_SESSION['user_id'];
-			$user_lang = $_POST['default_language'];
-
-			$query = "SELECT * FROM `user_gui_props` WHERE `user_id` = ?";
-			$rs = exec_query($sql, $query, array($user_id));
-
-			if ($rs->RecordCount() == 0) {
-				$query = "INSERT INTO `user_gui_props` (`user_id`, `lang`, `layout`) VALUES (?, ?, ?)";
-				$rs = exec_query($sql, $query, array($user_id, $user_lang, $theme));
-			} else {
-				$query = "UPDATE `user_gui_props` SET `lang` = ? WHERE `user_id` = ?";
-				$rs = exec_query($sql, $query, array($user_lang, $user_id));
-			}
-
-			$_SESSION['user_def_lang'] = $user_lang;
-			set_page_message(tr('Default language changed!'));
+			setConfig_Value('USER_INITIAL_LANG', $user_initial_lang);
+			set_page_message(tr('Default panel language changed!'));
 		}
 	}
 }
@@ -302,7 +291,7 @@ $tpl->assign(
 		'TR_LANGUAGE'				=> tr('Language'),
 		'TR_MESSAGES'				=> tr('Messages'),
 		'TR_LANG_REV'				=> tr('Date'),
-		'TR_DEFAULT'				=> tr('Default'),
+		'TR_DEFAULT'				=> tr('Panel Default'),
 		'TR_ACTION'					=> tr('Action'),
 		'TR_SAVE'					=> tr('Save'),
 		'TR_INSTALL_NEW_LANGUAGE'	=> tr('Install new language'),

@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: language.php 1740 2009-05-06 22:12:01Z haeber $
+ * @version		SVN: $Id: language.php 1995 2009-09-19 10:58:31Z benedikt $
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -94,7 +94,7 @@ check_permissions($tpl);
 $tpl->assign(
 	array(
 		'TR_LANGUAGE' => tr('Language'),
-		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
+		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose your default language'),
 		'TR_SAVE' => tr('Save'),
 	)
 );

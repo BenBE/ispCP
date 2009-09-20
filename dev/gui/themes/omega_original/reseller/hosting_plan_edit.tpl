@@ -178,9 +178,9 @@
                       <tr>
                         <td>&nbsp;</td>
                         <td class="content2">{TR_STATUS}</td>
-                        <td class="content"><input type="radio" {DISBLED} name="status" value="1" {TR_STATUS_YES} />
+                        <td class="content"><input type="radio" {DISBLED} name="status" value="_yes_" {TR_STATUS_YES} />
                           {TR_YES}
-                          <input type="radio" {DISBLED} name="status" value="0" {TR_STATUS_NO} />
+                          <input type="radio" {DISBLED} name="status" value="_no_" {TR_STATUS_NO} />
                           {TR_NO}</td>
                       </tr>
                       <tr>
