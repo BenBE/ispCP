@@ -1,0 +1,707 @@
+ispCP ω 1.0.3 Changelog
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2009-09-20 Laurent Declercq
+	-GUI:
+		* Fixed 1985 Several problems with the fixes related to #1971 and #1980 ( Introduced in r1986 )
+			- Moved db criticalUpdate 4 && 5 to db databaseUpdate (because the criticalUpdate is performed before)
+			- Added databaseUpdate 24 for the following database fixes:
+				- Added fix for possible missing of backup property in "hosting_plan.props"
+				- Added fix for possible inversion between backup and dns properties in "hosting_plan.props"
+				- Removed the last semicolon in all "hosting_plans.props" (to prevent wrong results with count() function)
+				- Added fix for possible inversion between the values of "domain.allowbackup" and "domain.domain_dns"
+				- Added fix for possible unstripped values ( _yes_|_no_ instead of yes|no ) in "domain.domain_dns"
+				- Added fix for possible missing value in "domain.allowbackup"
+				- Changed the naming convention for option 'domain' in "domain.allowbackup" ( "domain" to "dmn" )
+			- Changed order of "backup" and "dns" variables in all scripts related to hosting plans (admin/reseller)
+			- Added missing variable related to backup hosting plan property in "admin/hosting_plan_add.php"
+			- Removed the last semicolon in all hosting plan properties related variables (to prevent wrong results with count() function)
+		* Cleaning all scripts related to hosting plans (admin/reseller/client) ( code indentation )
+		* Documented "criticalUpdate" and "ispcpUpdate" classes
+
+2009-09-19 Benedikt Heintel
+	- GUI:
+		* Fixed #1693: Internationalisiation
+	- LANGUAGES:
+		* Updated all language files
+
+2009-09-14 Benedikt Heintel
+	- GUI:
+		* Fixed #1983: Show name on removing user
+	⁻ TOOLS:
+		* Fixed #1981: Updated phpMyAdmin to version 3.2.2
+
+2009-09-11 Andreca Daniel
+	- ENGINE:
+		* Fixed #1984: Adding subdomain causes apache restart - not reload
+
+2009-09-10 Andreca Daniel
+	- DOCS:
+		* Missing dependince
+	- GUI:
+		* Fixed #1979: Domain Alias Redirect
+
+2009-09-09 Andreca Daniel
+	- ENGINE:
+		* Fixed #1979: Domain Alias Redirect
+
+2009-09-09 Laurent Declercq
+	- GUI:
+		* Fixed #1971: DNS Entry in Hostingplan not overtaken
+		* Fixed #1980: Per domain backup settings as part of Hosting Plan
+	- ENGINE:
+		* Fixed #1980: Per domain backup settings as part of Hosting Plan
+	- DATABASE:
+		* Changed named convention for domain backup field (related to #1980)
+
+2009-09-08 Laurent Declercq
+	- CONFIGS:
+		* Fixed #1969: The 6th field of a system cron file must be the name of the user that the command will be executed
+
+2009-09-07 Andreca Daniel
+	- TOOLS:
+		* Fixed #1948: Filemanager Config is wrong / ispCP pic is missing
+
+2009-09-06 Laurent Declercq
+	- ENGINE:
+		* Fixed #1976: Deleting a user account by going properly
+
+2009-09-06 Andreca Daniel
+	- LANGUAGES:
+		* Updated Catalan
+		* Updated Danish
+
+2009-09-05 Andreca Daniel
+	- GUI:
+		* Fixed #1975: Error update last version trunk 05/09
+		* Fixed #1974: Reseller properties cannot be edited after working with his domains
+	- LANGUAGES:
+		* Updated Japanese
+
+2009-09-04 Laurent Declercq
+	- DOCS:
+		* Updated OpenSuSE INSTALL file
+		* Added new packages list file for OpenSuSE 11.1
+		* Added repositories install script for OpenSuSE 11.1
+		* Removed SuSE ( SLE ) documentation
+	- DISTS:
+		* Removed SuSE ( SLE ) support
+		* Updated ( OpenSuSE ):
+			- Added support for OpenSuse 11.1
+			- Added postinst script for specific install/update tasks
+			- Added Policyd-Weight and Postgrey packages
+			- Fixed small error during Make process ( cannot overwrite non-directory... )
+			- Fixed #1961: Debian and OpenSuSE provide both programs a2enmod/a2dismod but the implementation differs
+			- Fixed #1961: Conflict between FastCGI modules conffiles
+			- Fixed Postfix: unknown smtps service in master.cf
+			- Fixed Postfix: wrong ispcp-arpl-msgr path in master.cf
+			- Changed Postfix: configuration to run unchrooted (I'll set to run in a chroot jail later)
+			- Fixed suexec wrapper: owner/group and permissions
+			- Removed apache2-mod_cband for 11.1 ( See OpenSuse INSTALL file for more information )
+			- Disabled OpenSuSE Firewall ( ispCP provides its own )
+			- Fixed #1970: Domain error at adding user
+	- SETUP:
+		* Fixed #1961: Debian and OpenSuSE provide both programs a2enmod/a2dismod but the implementation differs
+	- CONFIGS:
+		* Fixed Missing EOL in several files
+
+2009-09-03 Laurent Declercq
+	- DOCS:
+		* Fixed #1972: small spelling error
+
+2009-09-01 Laurent Declercq
+	- DOCS:
+		* Update for OpenSuSE 11.1
+
+2009-08-31 Andreca Daniel
+	- LANGUAGES:
+		* Updated Turkish
+
+2009-08-31 Malte Geierhos
+	- ENGINE:
+		* AGAIN fixing slow setup due to not using pseudo-random
+
+2009-08-30 Andreca Daniel
+	- ENGINE:
+		* Update for ispcp-update
+	- GUI:
+		* Fixed #1959: Bad characters in changeset r1953
+	- LANGUAGES:
+		* Updated languages
+	- CONFIGS:
+		* Fixed #1969: SQL error
+
+2009-08-30 Marc Pujol
+	- ENGINE:
+		* Fixed a race condition bug in the locking code
+		* Improved speed of set-engine-permissions
+	- GUI:
+		* Fixed #1954: GUI/Frontend locking issues
+
+2009-08-28 Andreca Daniel
+	- ENGINE:
+		* Fixed #1958: Gui Permissions Problem
+
+2009-08-28 Benedikt Heintel
+	- TOOLS:
+		* Fixed #1921: phpMyAdmin Error (Only Displayed)
+
+2009-08-27 Malte Geierhos
+	- CONFIGS:
+		* Small Change for Fedora
+
+2009-08-27 Benedikt Heintel
+	- DISTS:
+		* Fixed #1952: Small patch for opensuse
+	- DOCS:
+		* Updates all docs
+
+2009-08-27 Andreca Daniel
+	- CONFIGS:
+		* Update support for Debian Squeeze
+	- ENGINE:
+		* Update for ispcp-update
+
+2009-08-23 Benedikt Heintel
+	- DOCS:
+		* Fixed #1936: Remove Support for older Distribution Versions
+
+2009-08-21 Andreca Daniel
+	- GUI:
+		* Added compatibility for php V5.3
+	- TOOLS
+		* Fixed #1935: Syntax-Error in /etc/init.d/ispcp_network on Ubuntu (thanks lucasgirod)
+
+2009-08-21 Benedikt Heintel
+	- RELEASE ispCP ω Omega 1.0.2
+	- TOOLS:
+		* Updated SquirrelMail to version 1.4.20RC2
+		* Updated Net2FTP version 0.98 to build 45
+		* Added new "modern" skin for Net2FTP
+		* Added new "mobil" skin for Net2FTP
+		* Added new "modern" skin for PHPmyAdmin
+
+2009-08-18 Benedikt Heintel
+	- RELEASE ispCP ω Omega 1.0.1 (revoked)
+
+2009-08-18 Andreca Daniel
+	- GUI:
+		* Fixed #1931: Error when adding/deleting Domain/FTP etc
+
+2009-08-17 Benedikt Heintel
+	- GUI:
+		* Chagend recalc_reseller_c_props with Thomas Partsch's version
+	- TOOLS:
+		* Updated SquirrelMail to version 1.4.20RC1
+
+2009-08-14 Malte Geierhos
+	- SETUP:
+		* Fixed various Bugs preventing RPM Builds ( together with George Machitidze)
+
+2009-08-12 Sebastian Sellmeier
+	- GUI:
+		* Fixed #1922: Creating User with Domain expire 'never' does not work
+
+2009-08-12 Jochen Manz
+	- GUI:
+		* Fixed #1881: Webmail button is not disabled when domain has mail disabled
+
+2009-08-11 Thomas Wacker
+	- GUI:
+		* Fixed #1918: Can't delete an Admin- or Reselleraccount
+
+2009-08-11 Andreca Daniel
+	- TOOLS:
+		* Fixed #1920 Error while installing snapshot 08/11/2009
+		* Fixed #1919 Error in webmail
+
+2009-08-09 Benedikt Heintel
+	- ENGINE:
+		* Added #1889: missing change
+		* Changed messager to messenger
+
+2009-08-09 Thomas Wacker
+	- CONFIGS:
+		* Fixed #1889: Fix fcgi 500 server errors
+
+2009-08-08 Andreca Daniel
+	- TOOLS:
+		* Fixed #1916: class.HTMLPurifier_AttrDef_HTML_Class.php missing
+	- CONFIGS:
+		* Debian Squeeze need dash compatibility
+
+2009-08-08 Benedikt Heintel
+	- DEAMON:
+		* Changed Layout of ispCP Network starter
+	- TOOLS:
+		* Updated HTMLPurifier to version 4.0.0
+		* Updated Squirrelmail to version 1.4.19
+		* Updated NET_DNS to version 1.16
+
+2009-08-05 Thomas Wacker
+	- GUI:
+		* Fixed #1856: DOM 2 style sheets for dns entries
+
+2009-08-04 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #1877: Sending 2 Mails to the Forwarding List.
+	- ENGINE:
+		* Fixed #1861: DNS zone's records
+	- GUI:
+		* Fixed #1913: Error in your SQL syntax -> /gui/client/sql_user_add.php
+		* Fixed #1914: No translation in reseller/gui/domain_edit.php
+
+2009-07-30 Laurent Declercq
+	- CONFIGS:
+		* Fixed #1725: /var/log/rkhunter.log not readable
+
+2009-07-29 Laurent Declercq
+	- CONFIGS:
+		* Fixed AuthOrder: "warning: module 'mod_sql_mysql.c' has no auth handlers"
+	- GUI:
+		* admin/reseller_statistics.tpl - repositioning of the message
+
+2009-07-28 Laurent Declercq
+	- CONFIGS:
+		* Fixed #1906: Fatal: AuthOrder: AuthOrder has already been configured
+
+2009-07-26 Laurent Declercq
+	- SETUP:
+		* Fixed #1908: ask_vhost subroutine - gethostbyaddr() will always fails
+
+2009-07-23 Laurent Declercq
+	- DOCS:
+		* Updated Debian INSTALL
+	- DAEMON:
+		* Fixed warning: "ISO C90 forbids mixed declarations and code" in helo_syntax.c
+
+2009-07-12 Thomas Wacker
+	- GUI:
+		* Fixed #1505: When downgrading account, give error to user if account is less than current usage
+
+2009-07-10 Malte Geierhos
+	- ENGINE:
+		* Imported DNS-TimestampFix (thx to "Blondak")
+	- GUI:
+		* Fix for MANUAL DNS Lines (thx to "Blondak")
+
+2009-07-07 Jochen Manz
+	- ENGINE:
+		* Fixed #1880: Update ISPCP failed
+
+2009-07-05 Thomas Wacker
+	- GUI:
+		* Fixed #1500: Subdomain you are trying to remove has ftp & mail alias accounts
+		* Added improved domain deletion
+
+2009-07-04 Thomas Wacker
+	- TOOLS:
+		* Fixed #1878: Updated phpMyAdmin to version 3.2.0.1
+	- GUI:
+		* Added missing information in order e-mail settings
+
+2009-07-02 Thomas Wacker
+	- GUI:
+		* Fixed #1860: Patch for domain expire date
+
+2009-06-28 Thomas Wacker
+	- GUI:
+		* Fixed #1684: Orderpanel needs coverage
+
+2009-06-21 Thomas Wacker
+	- CONFIGS:
+		* Fixed #1663: controlpanel redirect
+
+2009-06-21 Thomas Wacker
+	- GUI:
+		* Fixed #1811: Problem with translation string
+
+2009-06-16 Benedikt Heintel
+	- TOOLS:
+		* Fixed #1869: Updated phpMyAdmin to version 3.2.0
+
+2009-06-15 Thomas Wacker
+	- GUI:
+		* Fixed #1868: Database update fails
+
+2009-06-13 Thomas Wacker
+	- GUI:
+		* Added backtrace e-mail to admin in case of SQL error
+
+2009-06-12 Thomas Wacker
+	- GUI:
+		* Fixed #1764: Problems in admin/reseller_edit.php
+
+2009-06-12 Benedikt Heintel
+	- DOCS:
+		* Updated Debian INSTALL
+		* Updated Ubuntu INSTALL
+	- GUI:
+		* Fixed #1854: Lost password page reword
+
+2009-06-10 Benedikt Heintel
+	- LANGUAGES:
+		* Added Azerbaijani
+		* Updated Japanese
+		* Updated all .po files
+
+2009-06-09 Thomas Wacker
+	- GUI:
+		* Fixed #1848: Suexecuser on Domain.ltd
+
+2009-05-22 Daniel Andreca
+	- GUI:
+		* Fixed #1847: Manual DNS support us missing in user_add2.php
+
+2009-05-22 Benedikt Heintel
+	- DOCS:
+		* Updated INSTALL files
+	- ENGINE:
+		* Added possible fix for autoresponder with amavis enabled
+	- TOOLS:
+		* Updated Squirrelmail to version 1.4.19
+		* Fixed #1852: Squirrelmail page header modifications missing
+		* Fixed #1853: Webmail Error r1793
+
+2009-05-19 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #1852: Add "AuthOrder" to the proftpd.conf
+	- TOOLS:
+		* Fixed #1838: Updated Squirrelmail to version 1.4.18
+		* Fixed #1850: Updated phpMyAdmin to version 3.1.5
+
+2009-05-15 Daniel Andreca
+	- GUI:
+		* Fixed #1839: Part of DNS JS delete message has undefined var in client/domains_manage.php
+		* Fixed #1840: Variable {ID} not parsed in client/dns_add.php anytime
+
+2009-05-14 Malte Geierhos
+	- ENGINE:
+		* Fixed #1843: Missing Alias for Awstats static icons
+		* Fixed #1844: outdated Centos Packages (thanks to Laurence Alfred Barlow)
+
+2009-05-13 Benedikt Heintel
+	- GUI:
+		* Fixed #1776: translate foreign language comments
+		* Fixed #1812: order e-mail misses link url to admin panel
+
+2009-05-13 Malte Geierhos
+	- ENGINE:
+		* Fixed #1841: (wrong package name in centos packagelist)
+		* Fixed #1842: BASE_SERVER_VHOST_PREFIX missing in dmn_entry.tpl
+
+2009-05-12 Daniel Andreca
+	- GUI:
+		* Fixed #1837: admin/ip_manage.php error
+
+2009-05-03 Daniel Andreca
+	- CONFIGS:
+		* Repaired support for Ubuntu
+	- GUI:
+		* Improve ip management
+		* Fixed #1826: Alias Subdomains aren't deleted from DB
+		* Fixed #1820: Email forward validation missing
+
+2009-05-07 Thomas Häber
+	- LANGUAGES:
+		* added (missing) translation strings
+		* fixed translations for e-mails with {BASE_SERVER_VHOST_PREFIX}
+	- GUI:
+		* code cleanup (some refactoring, coding style ...)
+		* added hint about {BASE_SERVER_VHOST_PREFIX} in table header
+		* added Zend as external repository into include library of ispCP GUI
+
+2009-05-07 Benedikt Heintel
+	- LANGUAGES:
+		* Upated: Catalan
+		* Update: Portugese (Brazil)
+
+2009-05-03 Daniel Andreca
+	- ENGINE:
+		* Added Feature: DNS management support. - thanks to Blondak
+		* Fixed #1814: r1725 raises regression
+		* One more fix to ticket #1499: Where am i?
+	- GUI:
+		* Fixed Double encoding in logs
+
+2009-05-02 Daniel Andreca
+	- ENGINE:
+		* Added Feature: Virtual network cards can be added with addon ip from gui
+	- GUI:
+		* Fixed #1810: bug in admin/server_status.php
+
+2009-04-29 Thomas Häber
+	- GUI:
+		* Added Feature: Show cpu cores in admin system tools - thanks to qisback
+		* Fixed #1721: e-Mail from Supportsystem has problems with special chars. - thanks to Thomas Wacker
+		* Fixed #1689: Support ticket priority in email - big thanks to Thomas Wacker
+
+2009-04-27 Christian Hernmarck
+	- GUI:
+		* Fixed #1499: "where am I?" - highlighting the <tr> line under mouse...
+
+2009-04-27 Benedikt Heintel
+	- DISTS:
+		* Updated: (Ubuntu) Added support for Ubuntu 9.04 Jaunty Jackalope
+
+2009-04-27 Christian Hernmarck
+	- CONFIGS:
+		* Fixed #1806: Typo/Error in: configs/debian/database/database.sql
+		* Added: SMPT-SSL in the db-update script...
+
+2009-04-26 Benedikt Heintel
+	- DISTS:
+		* Fixed #1778: (FreeBSD) Add FreeBSD Patch
+
+2009-04-25 Benedikt Heintel
+	- TOOLS:
+		* Update phpMyAdmin to version 3.1.4
+
+2009-04-24 Jochen Manz
+	- GUI:
+		* missing db updates for per-domain backup #2
+
+2009-04-24 Malte Geierhos
+	- GUI:
+		* Fixed #1803 (wrong link) -> disabled the function
+		* Fixed Image_URL always wrong in Filemanager
+
+2009-04-23 Malte Geierhos
+	- ENGINE:
+		* Added FISA4 backup per domain switch.
+	- GUI:
+		* Added FISA4 backup per domain switch
+		* Fixed #1794 (smtps - missing in serverstatus)
+
+2009-04-23 Thomas Häber
+	- THEMES:
+		* Fixed problem in JavaScript confirmation in client's ticket system, thanks to Thomas Wacker
+
+2009-04-22 Malte Geierhos
+	- ENGINE:
+		* Fixed #1777 (invalid Permissions after Backup Restore)
+
+2009-04-22 Andreca Daniel
+	- CONFIGS:
+		* Add support for Debian Squeeze
+
+2009-04-21 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #1792: Debian Version-Check need an Update for 5.0.1
+	- LANGUAGES:
+		* Fixed #1779: Catalan translation update
+
+2009-04-21 Malte Geierhos
+	- TOOLS:
+		* Fixed #1789: update phpMyAdmin to 3.1.3.2
+		* Fixed #1780: reenabled omega style in filemanager
+
+2009-04-20 Malte Geierhos
+	- CONFIG FILES:
+		* Fixed #1793: Optimize the fcgid Config
+	- ENGINE:
+		* Added specfile for rpmbuild thanks to George Machitidze
+		* Fixed #1752: Adding of domain aliases broken in r1584
+		* Fixed #1775 (changed regex to match imap.log for dovecot as well -> thx Bene)
+	- GUI:
+		* Fixed #1618 (added vhost prefix to allow setting either http:// or https:// )
+		* Fixed #1688 & #1691 Thanks to Andrew Clarke
+
+2009-04-20 Thomas Häber
+	- LANGUAGES:
+		* Fixed #1796: deutsch / englisch BUG in the Stable 1.0
+	- THEMES:
+		* Partially fix for Ticket #1787: Broken layout in IE because of doctype definition
+
+2009-04-19 Thomas Häber
+	- GUI:
+		* Fixed word wrap problem with long descriptions, which results in hugh webpage widths
+		* Fixed syntax bug in admin/hosting_plan_edit.php, thanks to tomdooley
+
+2009-04-16 Thomas Häber
+	- GUI:
+		* Fixed encoding (html replace) problem in mail of client/hosting_plan_update.php
+	- LANGUAGES:
+		* Fixed pathes in translation tool makemsgs
+		* updated po files
+
+2009-04-14 Thomas Häber
+	- GUI:
+		* added and improved highlighting expressions for admin log
+		* Fixed bug in client/hosting_plan_update.php (introduced with r1555)
+		* Fixed #1761: Hosting plan description (to short field description in SQL table hosting_plan)
+
+2009-04-12 Thomas Häber
+	- GUI:
+		* added GUI settings to enable/disable login from external source/website seperated for admin/reseller/client
+		* added missing translation string for "Count default E-Mail addresses"
+
+2009-04-11 Thomas Häber
+	- GUI:
+		* Fixed #1788: captcha fontfile not found (with new implemented font loading and LGPL fonts)
+		* added field revision(-date) for translations in admin panel for administrator
+		* added possibility to translate language names (+ german translations)
+		* added missing translation string "Language was removed!"
+
+2009-04-09 Thomas Häber
+	- GUI:
+		* Fixed #1783: js-errors
+		* code cleanup (coding style, whitespaces ...)
+		* reverted r1557 (which was a part revert of r1550) with modifications
+		* a lot of HTML updates for more valid (X)HTML
+		* fixed wrong HTML size of some icons
+		* hardened input-checks.php::clean_html()
+		* removed svn property "debian" from root folder
+
+2009-04-03 Benedikt Heintel
+	- GUI:
+		* Fixed #918: Mail Management UI improvement
+
+2009-03-29 Thomas Häber
+	- LANGUAGES:
+		* removed unused JavaScript function checkForm()
+		* typo: can not -> cannot
+
+2009-03-28 Thomas Häber
+	- THEMES:
+		* some refactoring of the JavaScript code (better documentation, replace use of eval, delete unused code/functions, merge use of functions, optimized loops ...)
+	- GUI:
+		* translated german php variables to english
+		* optimized loops in GUI PHP code (especially the for loops)
+
+2009-03-26 Thomas Häber
+	- GUI:
+		* Fixed #1745: Trim hostingplan description on overview page
+	- ENGINE:
+		* Fixed #1774: Missing secure Ports in ispcp-vrl-traff
+		* Fixed #1770: Wrong Port in ispcp-srv-traff
+
+2009-03-25 Thomas Häber
+	- GUI:
+		* Fixed #1667: It should be possible to (de)activate the log-comment on logon/password ispcp gui footer.
+		* Fixed #1767: Incorrect table name 'tickets WHERE ' (regression in SQL code)
+		* Fixed #1769: Unknown column ' bytes_in_avail' in 'field list' (regression in SQL code)
+		* Fixed #1768: "Back" Button on Domaindetails has no function
+
+2009-03-24 Thomas Häber
+	- GUI:
+		* Fixed #1762: MySQL Syntax Error (regression)
+		* Fixed #1763: Wrong Harddisk Usage
+
+2009-03-24 Benedikt Heintel
+	- ENGINE:
+		* Fixed #1627: Accented characters in UTF8 encoding Autoreplay message - ispcp-arpl
+	- GUI:
+		* Fixed #678: deleting a mysql database also deletes the user without askint to.
+		* Fixed #1762: MySQL Syntax Error
+
+2009-03-23 Jochen Manz
+	- ENGINE
+		* Added Nathariels ispcp-vrl-traff improvements
+
+2009-03-23 Benedikt Heintel
+	- GUI:
+		* Added new Favicon
+	- TOOLS:
+		* Fixed #1728: update net2ftp to version 0.97
+
+2009-03-22 Thomas Häber
+	- GUI:
+		* Fixed #1758: domain_details.php error.
+
+2009-03-18 Thomas Häber
+	- ENGINE:
+		* Fixed #1668: Add the LZMA compression to the possible backup zipping algorithms (currently only tested with debian lenny)
+
+2009-03-18 Benedikt Heintel
+	- ENGINE:
+		* Fixed #1726: Removing the logs folder from the disk space monitoring
+		* Fixed #1747: awstats new version (Updated AWStats to version 6.9)
+ 	- DISTS:
+		* Fixed #1738 (FreeBSD): Add FreeBSD patch
+
+2009-03-16 Thomas Häber
+	- GUI:
+		* optimization: prevent 2nd gzip compression of GUI files
+
+2009-03-11 Daniel Andreca
+	- ENGINE:
+		* Fixed #1729: Backup restore problem
+
+2009-03-09 Daniel Andreca
+	- GUI:
+		* User cannot delete database
+
+2009-03-06 Thomas Häber
+	- Backend:
+		* Fixed #1724: German to English language description
+
+2009-03-05 Thomas Häber
+	- GUI:
+		* fixed HTML in ftp_choose_dir.tpl
+
+2009-03-05 Daniel Andreca
+	- GUI:
+		* Fixed #1721: e-Mail from Supportsystem has problems with special chars
+		* Fixed #1703: Databeseupdate r1555 don't work correct
+	- DISTS:
+		* Fixed #1714: Correct FreeBSD FastCGI/fcgid config
+
+2009-03-04 Daniel Andreca
+	- GUI:
+		* Gender not displayed for reseller on order display
+
+2009-03-04 Thomas Häber
+	- GUI:
+		* Fixed #1719: Error on hosting_plan_edit.php
+	- Tools
+		* Fixed #1718: tiny CSS bug in omega pma theme
+
+2009-03-03 Benedikt Heintel
+	- DISTS:
+		* Fixed #1704 (FreeBSD): Error in FreeBSD Proftpd Config
+
+2009-03-03 Thomas Häber
+	- GUI:
+		* fixed some invalid (hardcoded) HTML
+		* code cleanup, typos
+		* Fixed #1711: Login page looks wrong
+		* fixed decoding problem in order mails of order panel
+
+2009-03-02 Benedikt Heintel
+	- GUI:
+		* Fixed #1702: update Net_IDNA and separate it from internal source code (updated to v0.6.2)
+
+2009-03-02 Daniel Andreca
+	- GUI:
+		* Restore deleted files
+
+2009-03-01 Daniel Andreca
+	- TOOLS:
+		* Fixed #1620: Request for a new field in "Personal Data": State/Province
+
+2009-03-01 Benedikt Heintel
+		* Updated Copyright in all files (commit follow as other changes are made in this files)
+		* activated $Id$ for all files (commit follow as other changes are made in this files)
+
+2009-03-01 Thomas Häber
+	- TEMPLATES
+		* Removed W3C Logos/Links for valid HTML/CSS from errordocs, they aren't useful here -> less traffic & requests
+		* Updated stable template (part 2: hosting plan sites)
+		* removed unused font "Cocktails", furthermore there is a unexplained copyright status, which may conflict with existing licenses (GPL)
+
+2009-02-28 Daniel Andreca
+	- TOOLS:
+		* Fixed #1699: Update phpMyAdmin to version 3.1.3
+
+2009-02-28 Thomas Häber
+	- LANGUAGES:
+		* Fixed some text strings + german translations
+	- TEMPLATES:
+		* Updated stable template (part 1: login sites)
+	- GUI:
+		* typos/coding style (orderpanel, README ...)
+
+2009-02-25 Benedikt Heintel
+	- DISTROS:
+		* Fixed #1697: FreeBSD Patch
