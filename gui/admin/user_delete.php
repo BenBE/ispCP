@@ -177,6 +177,12 @@ function delete_domain($domain_id) {
 	// Remove support tickets:
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
+	
+	#BEG AppInstaller
+	// Delete AppSoftware:
+	$query = "DELETE FROM `web_software_inst` WHERE `domain_id` = ?";
+	exec_query($sql, $query, array($domain_id));
+	#END AppInstaller
 
 	write_log($_SESSION['user_logged'] .": deletes domain " . $domain_name);
 
@@ -209,6 +215,12 @@ function delete_user($user_id) {
 		// delete hosting plans
 		$query = "DELETE FROM `hosting_plans` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
+		#BEG AppInstaller
+		// delete all softwar
+		delete_reseller_software($user_id);
+		$query = "DELETE FROM `web_software` WHERE `reseller_id` = ?";
+		exec_query($sql, $query, array($user_id));
+		#END AppInstaller
 	}
 
 	// Delete ispcp login:
@@ -220,6 +232,28 @@ function delete_user($user_id) {
 	$_SESSION['ddel'] = '_yes_';
 	user_goto('manage_users.php');
 }
+
+#BEG AppInstaller
+/**
+ * Delete reseller software pakets
+ * @param integer $user_id Reseller ID to delete software pakets
+ */
+function delete_reseller_software($user_id) {
+	global $sql;
+	
+	$query = "SELECT `software_id`, `software_archive` FROM `web_software` WHERE `reseller_id` = ?";
+	$res = exec_query($sql, $query, array($user_id));
+	if ($res->RecordCount() > 0) {
+		while (!$res ->EOF) {
+			$del_path = Config::get('GUI_SOFTWARE_DIR')."/".$user_id."/".$res->fields['software_archive']."-".$res->fields['software_id'].".tar.gz";
+			@unlink($del_path);
+			$res->MoveNext();
+		}
+		$del_dir = Config::get('GUI_SOFTWARE_DIR')."/".$user_id."/";
+		@rmdir($del_dir);
+	}
+}
+#END AppInstaller
 
 /**
  * Validate if delete process is valid

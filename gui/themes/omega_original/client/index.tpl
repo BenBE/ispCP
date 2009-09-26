@@ -117,6 +117,13 @@
             <td width="230" class="content2">{SQL_USERS}</td>
           </tr>
           <!-- EDP: t_sql2_support -->
+		  <!-- BDP: t_software_allowed -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{SW_ALLOWED}</td>
+            <td width="230" class="content2">{SW_MSG}</td>
+          </tr>
+          <!-- EDP: t_software_allowed -->
           <!-- BDP: msg_entry -->
           <td>&nbsp;</td>
             <td colspan="2" class="title"><span class="message">{TR_NEW_MSGS}</span></td>

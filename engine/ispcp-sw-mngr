@@ -1,0 +1,313 @@
+#!/usr/bin/perl
+
+# ISPCP ω (OMEGA) - Virtual Hosting Control System | Omega Version
+# Copyright (c) 2001-2006 by moleSoftware GmbH
+# http://www.molesoftware.com
+# Copyright (c) 2006-2007 by isp Control Panel
+# http://isp-control.net
+#
+#
+# License:
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of the MPL Mozilla Public License
+#    as published by the Free Software Foundation; either version 1.1
+#    of the License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    MPL Mozilla Public License for more details.
+#
+#    You may have received a copy of the MPL Mozilla Public License
+#    along with this program.
+#
+#    An on-line copy of the MPL Mozilla Public License can be found
+#    http://www.mozilla.org/MPL/MPL-1.1.html
+#
+#
+# The ISPCP ω Home Page is at:
+#
+#    http://isp-control.net
+#
+
+
+use FindBin;
+use lib "$FindBin::Bin/";
+require 'ispcp_common_code.pl';
+
+use strict;
+use XML::Parser;
+use warnings;
+
+my $sw_domain_id = $ARGV[0];
+my $sw_software_id = $ARGV[1];
+my $sw_pfad = $ARGV[2];
+my $sw_software_prefix = $ARGV[3];
+my $sw_database = $ARGV[4];
+my $sw_database_user = $ARGV[5];
+my $sw_database_tmp_pwd = $ARGV[6];
+my $sw_install_username = $ARGV[7];
+my $sw_install_password = $ARGV[8];
+my $sw_install_email = $ARGV[9];
+my $sw_status = $ARGV[10];
+my $sw_software_depot = $ARGV[11];
+my $sw_software_master_id = $ARGV[12];
+
+sub sw_mngr_start_up {
+	my ($rs, $rdata) = (undef, undef);
+	push_el(\@main::el, 'sw_mngr_start_up()', 'Starting...');
+	# checking for master process;
+	#$rs = check_master();
+	#return $rs if ($rs != 0);
+	
+	# Let's clear Execution Logs, if any.
+	if (-e $main::ispcp_sw_mngr_el) {
+		$rs = del_file($main::ispcp_sw_mngr_el);
+		return $rs if ($rs != 0);
+	}
+	# config check;
+	$rs = get_conf();
+	return $rs if ($rs != 0);
+	# sql check;
+
+	#
+	# getting initial data also must be done here;
+	#
+
+	my $sql = "
+		SELECT
+			domain_id,
+			domain_name,
+			domain_gid,
+			domain_uid,
+			domain_admin_id,
+			domain_created_id,
+			domain_created,
+			domain_last_modified,
+			domain_mailacc_limit,
+			domain_ftpacc_limit,
+			domain_traffic_limit,
+			domain_sqld_limit,
+			domain_sqlu_limit,
+			domain_status,
+			domain_alias_limit,
+			domain_subd_limit,
+			domain_ip_id,
+			domain_disk_limit,
+			domain_disk_usage,
+			domain_php,
+			domain_cgi
+		FROM
+			domain
+	    LIMIT 0,1
+	";
+	($rs, $rdata) = doSQL($sql);
+	return $rs if ($rs != 0);
+
+	#
+	# getting task id and domain record id;
+	#
+
+	$main::sw_domain_id = $ARGV[0];
+	push_el(\@main::el, 'sw_mngr_start_up()', 'Ending...');
+	return 0;
+}
+
+sub sw_mngr_shut_down {
+	my $rs = undef;
+	push_el(\@main::el, 'sw_mngr_shut_down()', 'Starting...');
+	push_el(\@main::el, 'sw_mngr_shut_down()', 'Ending...');
+	return 0;
+}
+
+#
+# Software add/delete;
+#
+
+sub sw_add_data {
+	push_el(\@main::el, 'sw_add_data()', 'Starting...');
+	my ($sw_software_archive, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $dmn_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_pfad) = @_;
+	my $rs = undef;
+	unless(-d $sw_dest_path."/") {
+		$rs = sys_command_rs("$main::cfg{'CMD_MKDIR'} -p $sw_dest_path/");
+		$rs = sys_command_rs("$main::cfg{'CMD_CHOWN'} $uid:$gid $sw_dest_path/");
+	}
+	$rs = sys_command_rs("$main::cfg{'CMD_MKDIR'} -p $sw_tmp_path/");
+	chdir ("$sw_tmp_path");
+	if($sw_software_depot eq 'yes'){
+		$rs = sys_command_rs("$main::cfg{'CMD_CP'} $sw_src_path-$sw_software_master_id.tar.gz $sw_tmp_path/");
+		$rs = sys_command_rs("$main::cfg{'CMD_TAR'} -xzf $sw_tmp_path/$sw_software_archive-$sw_software_master_id.tar.gz");
+	}else{
+		$rs = sys_command_rs("$main::cfg{'CMD_CP'} $sw_src_path-$sw_software_id.tar.gz $sw_tmp_path/");
+		$rs = sys_command_rs("$main::cfg{'CMD_TAR'} -xzf $sw_tmp_path/$sw_software_archive-$sw_software_id.tar.gz");
+	}
+	$rs = sys_command_rs("$main::cfg{'CMD_CP'} -r $sw_tmp_path/web/* $sw_dest_path/");
+	$rs = sys_command_rs("$main::cfg{'CMD_CHOWN'} -R $uid:$gid $sw_dest_path/*");
+	$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_archive \"install,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_tmp_pwd,$sw_install_username,$sw_install_password,$sw_install_email,$dmn_name,$sw_dest_path,$sw_pfad\"");
+	$rs = sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_tmp_path");
+	return $rs if ($rs != 0);
+	push_el(\@main::el, 'sw_add_data()', 'Ending...');
+	return 0;
+}
+
+sub sw_del_data {
+	push_el(\@main::el, 'sw_del_data()', 'Starting...');
+	my ($sw_software_archive, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $dmn_name, $sw_src_path, $sw_tmp_path, $sw_dest_path) = @_;
+	my $sw_uninstall_xml_file = "$sw_tmp_path/xml/uninstall.xml";
+	my $rs = undef;
+	our ($tag, $data) = "";
+	our %UNINSTALL_DATA = (software_deldirs		=>	'',
+							software_delfiles	=>	''
+							);
+	#Unpack Package at first!
+	$rs = sys_command_rs("$main::cfg{'CMD_MKDIR'} -p $sw_tmp_path/");
+	chdir ("$sw_tmp_path");						
+	if($sw_software_depot eq 'yes'){
+		$rs = sys_command_rs("$main::cfg{'CMD_CP'} $sw_src_path-$sw_software_master_id.tar.gz $sw_tmp_path/");
+		$rs = sys_command_rs("$main::cfg{'CMD_TAR'} -xzf $sw_tmp_path/$sw_software_archive-$sw_software_master_id.tar.gz");
+	}else{
+		$rs = sys_command_rs("$main::cfg{'CMD_CP'} $sw_src_path-$sw_software_id.tar.gz $sw_tmp_path/");
+		$rs = sys_command_rs("$main::cfg{'CMD_TAR'} -xzf $sw_tmp_path/$sw_software_archive-$sw_software_id.tar.gz");
+	}
+		
+	
+	my $parser = new XML::Parser ();
+	$parser->setHandlers (
+						Start   => \&startElement,
+						End     => \&endElement,
+						Char    => \&characterData
+						);
+	$parser->parsefile ($sw_uninstall_xml_file);
+	
+	sub startElement {
+		my ($parseinst, $element, %attrs) = @_;
+		SWITCH: {
+			if ($element eq "software_deldirs") {
+				$tag = "software_deldirs";
+				last SWITCH;
+			}
+			if ($element eq "software_delfiles") {
+				$tag = "software_delfiles";
+				last SWITCH;
+			}
+		}
+	}
+	sub endElement {
+		my( $parseinst, $element ) = @_;
+	}
+	sub characterData {
+		my( $parseinst, $data ) = @_;
+		if (($tag eq "software_deldirs") || ($tag eq "software_delfiles")) {
+			$data =~ s/\n|\t//g;
+			if ($data ne "") {
+				$UNINSTALL_DATA{$tag} .= $data;
+			}
+		}
+	}
+	if ($UNINSTALL_DATA{software_deldirs} ne "" && $UNINSTALL_DATA{software_delfiles} ne "") {
+		my @uninstalldirs=split(",",$UNINSTALL_DATA{software_deldirs});
+		my @uninstallfiles=split(",",$UNINSTALL_DATA{software_delfiles});
+		
+		foreach (@uninstalldirs){
+			$rs .= sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_dest_path/$_");
+		}
+		foreach (@uninstallfiles){
+			$rs .= sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_dest_path/$_");
+		}
+		return $rs if ($rs != 0);
+		if ($sw_software_db != 0) {
+			$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_archive \"delete,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_tmp_pwd,$sw_install_username,$sw_install_password,$sw_install_email,$dmn_name,$sw_dest_path,$sw_pfad\"");
+			$rs = sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_tmp_path");
+			return $rs if ($rs != 0);
+		}
+	}
+	push_el(\@main::el, 'sw_del_data()', 'Ending...');
+	return 0;
+}
+
+%main::cleared = ();
+
+sub sw_mngr_engine {
+	my ($rs, $rows, $rdata) = (undef, undef, undef);
+	push_el(\@main::el, 'sw_mngr_engine()', 'Starting...');
+	my $sql;
+	$sql = <<SQL_QUERY;
+		select
+			reseller_id,
+			software_db,
+			software_archive,
+			software_depot,
+			software_master_id
+		from
+			web_software
+		where
+			software_id = $sw_software_id
+SQL_QUERY
+	($rs, $rows) = doSQL($sql);
+	return $rs if ($rs != 0);
+	$rows = @$rows[0];
+	my ($sw_reseller_id, $sw_software_db, $sw_software_archive, $sw_software_depot, $sw_software_master_id) = (@$rows[0], @$rows[1], @$rows[2], @$rows[3], @$rows[4]);
+	my $query;
+	$query = <<SQL_QUERY;
+		select
+			domain_name,
+			domain_gid,
+			domain_uid
+		from
+			domain
+		where
+			domain_id = $sw_domain_id
+SQL_QUERY
+	($rs, $rows) = doSQL($query);
+	return $rs if ($rs != 0);
+	$rows = @$rows[0];
+	my ($dmn_name, $gid, $uid) = (@$rows[0], @$rows[1], @$rows[2]);
+	my $sw_src_path = "";
+	my $gui_software_dir = $main::cfg{'GUI_SOFTWARE_DIR'};
+	my $gui_software_depot_dir = $main::cfg{'GUI_SOFTWARE_DEPOT_DIR'};
+	my $apache_www_dir = $main::cfg{'APACHE_WWW_DIR'};
+	my $software_tmp_dir = $main::cfg{'SOFTWARE_TMP_DIR'};
+	if ($sw_software_depot eq 'yes') {
+		$sw_src_path = "$gui_software_depot_dir/$sw_software_archive";
+	}else{
+		$sw_src_path = "$gui_software_dir/$sw_reseller_id/$sw_software_archive";
+	}
+	my $sw_tmp_path = "$software_tmp_dir/sw-$sw_domain_id-$sw_software_id";
+	my $sw_dest_path = "$apache_www_dir/$dmn_name$sw_pfad";
+	if ($sw_status eq 'toadd') {
+		my @entry = ($sw_software_archive, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $dmn_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_pfad);
+		$rs = sw_add_data(@entry);
+		if ($rs == 0) {
+            $sql = "update web_software_inst set software_status='ok' where software_id = $sw_software_id AND domain_id = $sw_domain_id";
+			($rs, $rdata) = doSQL($sql);
+			return $rs if ($rs != 0);
+		}
+	}elsif ($sw_status eq 'delete') {
+		my @entry = ($sw_software_archive, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $dmn_name, $sw_src_path, $sw_tmp_path, $sw_dest_path);
+		$rs = sw_del_data(@entry);
+		if ($rs == 0) {
+            $sql = "delete from web_software_inst where software_id = $sw_software_id AND domain_id = $sw_domain_id";
+			($rs, $rdata) = doSQL($sql);
+			return $rs if ($rs != 0);
+		}
+	}
+}
+my $rs = undef;
+$rs = sw_mngr_start_up();
+if ($rs != 0) {
+    dump_el(\@main::el, $main::ispcp_sw_mngr_el);
+    sw_mngr_shut_down();
+    exit 1;
+}
+$rs = sw_mngr_engine();
+if ($rs != 0) {
+    dump_el(\@main::el, $main::ispcp_sw_mngr_el);
+    ws_mngr_shut_down();
+    exit 1;
+}
+$rs = sw_mngr_shut_down();
+if ($rs != 0) {
+    dump_el(\@main::el, $main::ispcp_sw_mngr_el);
+    exit 1;
+}
+exit 0;

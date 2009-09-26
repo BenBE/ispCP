@@ -237,6 +237,9 @@ function add_user_data($reseller_id) {
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
 	global $dns, $backup;
+	#BEG AppInstaller
+	global $software_allowed;
+	#END AppInstaller
 
 	$sql = Database::getInstance();
 
@@ -278,13 +281,17 @@ function add_user_data($reseller_id) {
 			$traff,
 			$disk,
 			$backup,
-			$dns
+			$dns,
+			$software_allowed
 		) = explode(";", $props);
 
 	$php			= preg_replace("/\_/", "", $php);
 	$cgi			= preg_replace("/\_/", "", $cgi);
 	$backup			= preg_replace("/\_/", "", $backup);
 	$dns			= preg_replace("/\_/", "", $dns);
+	#BEG AppInstaller
+	$software_allowed	= preg_replace("/\_/", "", $software_allowed);
+	#END AppInstaller
 	$pure_user_pass	= $inpass;
 	$inpass			= crypt_user_pass($inpass, true);
 	$first_name		= clean_input($first_name, true);
@@ -361,7 +368,8 @@ function add_user_data($reseller_id) {
 			`domain_subd_limit`, `domain_alias_limit`,
 			`domain_ip_id`, `domain_disk_limit`,
 			`domain_disk_usage`, `domain_php`, `domain_cgi`,
-			`allowbackup`, `domain_dns`
+			`allowbackup`, `domain_dns`,
+			`domain_software_allowed`
 		)
 		VALUES (
 			?, ?,
@@ -372,7 +380,8 @@ function add_user_data($reseller_id) {
 			?, ?,
 			?, ?, '0',
 			?, ?,
-			?, ?
+			?, ?,
+			?
 		)
 	";
 
@@ -383,7 +392,7 @@ function add_user_data($reseller_id) {
 								$dmn_name, $record_id,
 								$reseller_id, $mail, $ftp, $traff, $sql_db,
 								$sql_user, $status, $sub, $als, $domain_ip,
-								$disk, $php, $cgi, $backup, $dns
+								$disk, $php, $cgi, $backup, $dns, $software_allowed
 						)
 	);
 								

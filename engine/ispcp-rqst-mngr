@@ -831,7 +831,83 @@ sub mngr_engine {
 	#
 	# Domains data deletion END
 	#
+	
+	#
+	# software installation BEGIN
+	#
 
+	$sql = "select domain_id, software_id, pfad, software_prefix, db, database_user, database_tmp_pwd, install_username, install_password, install_email, software_status, software_depot, software_master_id from web_software_inst where software_status != 'ok' order by domain_id";
+	($rs, $rdata) = doSQL($sql);
+	my $sw_count = @$rdata;
+	if ($sw_count > 0) {
+		foreach (@$rdata) {
+			my $row = $_;
+			my ($sw_domain_id, $sw_software_id, $sw_pfad, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $sw_software_status, $sw_software_depot, $sw_software_master_id) = (@$row[0], @$row[1], @$row[2], @$row[3], @$row[4], @$row[5], @$row[6], @$row[7], @$row[8], @$row[9], @$row[10], @$row[11], @$row[12]);
+			if ($sw_software_status eq "toadd" || $sw_software_status eq "delete") {
+			if ($sw_database ne "not_required") {
+				$sw_database_tmp_pwd = decrypt_db_password($sw_database_tmp_pwd);
+			}
+				$sw_database_tmp_pwd = decrypt_db_password($sw_database_tmp_pwd);
+				push_el(\@main::el, 'mngr_engine()', "processing $sw_domain_id, $sw_software_id, $sw_pfad, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_tmp_pwd, $sw_install_username, $sw_install_password, $sw_install_email, $sw_software_status, $sw_software_depot, $sw_software_master_id.")
+					if (defined($main::engine_debug));
+				$rs = sys_command("$main::ispcp_sw_mngr $sw_domain_id $sw_software_id $sw_pfad $sw_software_prefix $sw_database $sw_database_user $sw_database_tmp_pwd $sw_install_username $sw_install_password $sw_install_email $sw_software_status $sw_software_depot $sw_software_master_id 1>$main::ispcp_sw_mngr_stdout 2>$main::ispcp_sw_mngr_stderr");
+				if ($rs != 0) {
+					if (-e $main::ispcp_sw_mngr_el) {
+						my $rs1 = undef;
+						pop_el(\@main::el); # removing 'sys_command()' error message;
+						($rs1, $rdata) = get_el_error($main::ispcp_sw_mngr_el);
+						return $rs1 if ($rs1 != 0);
+						push_el(\@main::el, $main::ispcp_sw_mngr, $rdata);
+					}
+					if (!defined($main::engine_debug)) {
+						del_file($main::ispcp_sw_mngr_stdout); del_file($main::ispcp_sw_mngr_stderr);
+					}
+					return $rs;
+				}
+				if (!defined($main::engine_debug)) {
+					del_file($main::ispcp_sw_mngr_stdout); del_file($main::ispcp_sw_mngr_stderr);
+				}
+				sys_command_rs("$main::cfg{'CMD_RM'} -rf /tmp/sw-$sw_domain_id-$sw_software_id");
+			}
+		}
+	}
+	
+	$sql = "select software_id, reseller_id, software_archive, software_status, software_depot from web_software where software_status != 'ok' order by reseller_id";
+	($rs, $rdata) = doSQL($sql);
+	$sw_count = @$rdata;
+	if ($sw_count > 0) {
+		foreach (@$rdata) {
+			my $row = $_;
+			my ($sw_software_id, $sw_reseller_id, $sw_software_archive, $sw_software_status, $sw_software_depot) = (@$row[0], @$row[1], @$row[2], @$row[3], @$row[4]);
+			if ($sw_software_status eq "toadd") {
+				push_el(\@main::el, 'mngr_engine()', "processing $sw_software_id, $sw_reseller_id, $sw_software_archive, $sw_software_status, $sw_software_depot.")
+					if (defined($main::engine_debug));
+				$rs = sys_command("$main::ispcp_pkt_mngr $sw_software_id $sw_reseller_id $sw_software_archive $sw_software_status $sw_software_depot 1>$main::ispcp_pkt_mngr_stdout 2>$main::ispcp_pkt_mngr_stderr");
+				if ($rs != 0) {
+					if (-e $main::ispcp_pkt_mngr_el) {
+						my $rs1 = undef;
+						pop_el(\@main::el); # removing 'sys_command()' error message;
+						($rs1, $rdata) = get_el_error($main::ispcp_pkt_mngr_el);
+						return $rs1 if ($rs1 != 0);
+						push_el(\@main::el, $main::ispcp_pkt_mngr, $rdata);
+					}
+					if (!defined($main::engine_debug)) {
+						del_file($main::ispcp_pkt_mngr_stdout); del_file($main::ispcp_pkt_mngr_stderr);
+					}
+					return $rs;
+				}
+				if (!defined($main::engine_debug)) {
+					del_file($main::ispcp_pkt_mngr_stdout); del_file($main::ispcp_pkt_mngr_stderr);
+				}
+				sys_command_rs("$main::cfg{'CMD_RM'} -rf /tmp/sw-$sw_software_archive-$sw_software_id");
+			}
+		}
+	}
+
+	#
+	# software installation END
+	#
+	
 	push_el(\@main::el, 'mngr_engine()', 'Ending...');
 
 	return 0;

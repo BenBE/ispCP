@@ -569,7 +569,36 @@ function update_reseller(&$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
-
+			
+			#BEG AppInstaller
+			$domain_software_allowed = clean_input($_POST['domain_software_allowed']);
+			$domain_softwaredepot_allowed = clean_input($_POST['domain_softwaredepot_allowed']);
+			if($domain_software_allowed == "no"){
+				$query_user = "
+					UPDATE
+						`domain`
+					SET
+						`domain_software_allowed` = ?
+					WHERE
+						`domain_created_id` = ?
+				";
+				$rs = exec_query($sql, $query_user, array($domain_software_allowed, $edit_id));
+			}
+			if ($domain_softwaredepot_allowed == "no") {
+				$query="SELECT `software_id` FROM `web_software` WHERE `software_depot` = 'yes' AND `reseller_id` = ?";
+				$rs = exec_query($sql, $query, array($edit_id));
+				if ($rs->RecordCount() > 0) {
+					while(!$rs->EOF) {
+						$update = "UPDATE `web_software_inst` SET `software_res_del` = 1 WHERE `software_id` = ?";
+						exec_query($sql, $update, array($rs->fields['software_id']));
+						$rs->MoveNext();
+					}
+					$delete_rights = "DELETE FROM `web_software` WHERE `software_depot` = 'yes' AND `reseller_id` = ?";
+					exec_query($sql, $delete_rights, array($edit_id));
+				}
+			}
+			#END AppInstaller
+			
 			$query = "
 				UPDATE
 					`reseller_props`
@@ -584,7 +613,9 @@ function update_reseller(&$sql) {
 					`max_sql_user_cnt` = ?,
 					`max_traff_amnt` = ?,
 					`max_disk_amnt` = ?,
-					`customer_id` = ?
+					`customer_id` = ?,
+					`software_allowed` = ?,
+					`softwaredepot_allowed` = ?
 				WHERE
 					`reseller_id` = ?
 			";
@@ -600,6 +631,8 @@ function update_reseller(&$sql) {
 					$nreseller_max_traffic,
 					$nreseller_max_disk,
 					$customer_id,
+					$domain_software_allowed,
+					$domain_softwaredepot_allowed,
 					$edit_id)
 			);
 
@@ -641,7 +674,7 @@ function get_reseller_prop(&$sql) {
 			`max_mail_cnt`, `current_mail_cnt`, `max_ftp_cnt`,
 			`current_ftp_cnt`, `max_sql_db_cnt`, `current_sql_db_cnt`,
 			`max_sql_user_cnt`, `current_sql_user_cnt`, `max_traff_amnt`,
-			`current_traff_amnt`, `max_disk_amnt`, `current_disk_amnt`,
+			`current_traff_amnt`, `max_disk_amnt`, `current_disk_amnt`, `software_allowed`, `softwaredepot_allowed`,
 			r.`customer_id` AS customer_id, `reseller_ips`, `gender`
 		FROM
 			`admin` AS a,
@@ -693,7 +726,9 @@ function get_reseller_prop(&$sql) {
 		$rs->fields['max_disk_amnt'],
 		$rs->fields['current_disk_amnt'],
 		$rs->fields['customer_id'],
-		$rs->fields['reseller_ips']
+		$rs->fields['reseller_ips'],
+		$rs->fields['software_allowed'],
+		$rs->fields['softwaredepot_allowed']
 	);
 }
 
@@ -719,7 +754,7 @@ list($admin_name, $fname,
 	$max_sql_user_cnt, $current_sql_user_cnt,
 	$max_traff_amnt, $current_traff_amnt,
 	$max_disk_amnt, $current_disk_amnt,
-	$customer_id, $rip_lst
+	$customer_id, $rip_lst, $software_supp, $software_depot
 	) = get_reseller_prop(&$sql);
 
 $reseller_ips = get_servers_IPs($tpl, $sql, $rip_lst);
@@ -764,6 +799,12 @@ $tpl->assign(
 		'TR_LOGO_UPLOAD' => tr('Logo upload'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
+		'TR_SOFTWARE_SUPP' => tr('Software installation'),
+		'TR_SOFTWAREDEPOT_SUPP' => tr('Can use softwaredepot'),
+		'SOFTWARE_YES'	=> ($software_supp == 'yes') ? 'selected="selected"' : '',
+		'SOFTWARE_NO'	=> ($software_supp != 'yes') ? 'selected="selected"' : '',
+		'SOFTWAREDEPOT_YES'	=> ($software_depot == 'yes') ? 'selected="selected"' : '',
+		'SOFTWAREDEPOT_NO'	=> ($software_depot != 'yes') ? 'selected="selected"' : '',
 
 		'TR_RESELLER_IPS' => tr('Reseller IPs'),
 

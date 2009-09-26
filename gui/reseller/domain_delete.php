@@ -174,6 +174,12 @@ function delete_domain($domain_id) {
 	// Remove support tickets:
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
+	
+	#BEG AppInstaller
+	// Remove AppSoftware:
+	$query = "delete from web_software_inst where domain_id = ?";
+	$res = exec_query($sql, $query, array($domain_id));
+	#END AppInstaller
 
 	write_log($_SESSION['user_logged'] .": deletes domain " . $domain_name);
 

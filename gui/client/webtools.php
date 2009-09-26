@@ -28,6 +28,9 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('active_awstats', 'page');
 $tpl->define_dynamic('active_email', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+#BEG AppInstaller
+$tpl->define_dynamic('t_software_support', 'page');
+#END AppInstaller
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -62,6 +65,10 @@ gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl'
 
 gen_logged_from($tpl);
 
+#BEG AppInstaller
+get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+#END AppINstaller
+
 check_permissions($tpl);
 
 $tpl->assign(
@@ -74,7 +81,8 @@ $tpl->assign(
 		'TR_WEBMAIL_TEXT' => tr('Access your mail through the web interface'),
 		'TR_FILEMANAGER_TEXT' => tr('Access your files through the web interface'),
 		'TR_AWSTATS_TEXT' => tr('Access your Awstats statistics'),
-		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups')
+		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups'),
+		'TR_SOFTWARE_SUPPORT' => tr('Install various software with a few *clicks*'),
 	)
 );
 

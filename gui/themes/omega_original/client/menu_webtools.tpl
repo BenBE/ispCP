@@ -64,6 +64,14 @@
     <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
     </tr>
   <!-- EDP: active_awstats -->
+  <!-- BDP: t_software_menu -->
+	<tr>
+    <td><a href="software.php" class="submenu">{TR_SOFTWARE_MENU}</a></td>
+  </tr>
+  <tr>
+    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" /></td>
+  </tr>
+    <!-- EDP: t_software_menu -->
    <tr>
       <td>&nbsp;</td>
     </tr>

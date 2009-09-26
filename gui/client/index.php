@@ -41,6 +41,9 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
 $tpl->define_dynamic('disk_warn', 'page');
 $tpl->define_dynamic('dmn_mngmnt', 'page');
+#BEG AppInstaller
+$tpl->define_dynamic('t_software_support', 'page');
+#END AppInstaller
 
 
 function gen_num_limit_msg($num, $limit) {
@@ -133,7 +136,7 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	}
 }
 
-function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
+function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit, $dmn_software_allowed) {
 	// check if mail accouts available are available for this user
 	if ($dmn_mailacc_limit == -1) {
 		$_SESSION['email_support'] = "no";
@@ -181,6 +184,14 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
 			array('CGI_SUPPORT' => tr('yes')));
 		$tpl->parse('T_CGI_SUPPORT', '.t_cgi_support');
 	}
+	// check if Software Support is available for this user
+    if ($dmn_software_allowed == 'no') {
+        $tpl->assign('T_SOFTWARE_SUPPORT', '');
+    } else {
+        $tpl->assign(
+            array('SOFTWARE_SUPPORT' => tr('yes')));
+        $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
+    }
 }
 
 /**
@@ -293,7 +304,8 @@ list($dmn_id,
 	$dmn_disk_limit,
 	$dmn_disk_usage,
 	$dmn_php,
-	$dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+	$dmn_cgi,
+    $dmn_software_allowed) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 list($sub_cnt,
 	$als_cnt,
@@ -315,7 +327,7 @@ gen_disk_usage($tpl, $dmn_disk_usage, $dmn_disk_limit, 400);
 
 gen_user_messages_label($tpl, $sql, $_SESSION['user_id']);
 
-check_user_permissions($tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $dmn_als_limit, $dmn_mailacc_limit);
+check_user_permissions($tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $dmn_als_limit, $dmn_mailacc_limit, $dmn_software_allowed);
 
 $account_name = decode_idna($_SESSION['user_logged']);
 
@@ -352,6 +364,10 @@ gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_gene
 gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
+
+#BEG AppInstaller
+get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+#END AppInstaller
 
 gen_system_message($tpl, $sql);
 

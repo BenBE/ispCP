@@ -249,6 +249,10 @@ function add_reseller(&$tpl, &$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
+			#BEG AppInstaller
+			$nreseller_software_allowed = clean_input($_POST['nreseller_software_allowed']);
+			$nreseller_softwaredepot_allowed = clean_input($_POST['nreseller_softwaredepot_allowed']);
+			#END AppInstaller
 
 			$query = "
 				INSERT INTO `reseller_props` (
@@ -262,7 +266,8 @@ function add_reseller(&$tpl, &$sql) {
 					`max_sql_user_cnt`, `current_sql_user_cnt`,
 					`max_traff_amnt`, `current_traff_amnt`,
 					`max_disk_amnt`, `current_disk_amnt`,
-					`customer_id`
+					`customer_id`, `software_allowed`,
+					`softwaredepot_allowed`
 				) VALUES (
 					?, ?,
 					?, '0',
@@ -274,6 +279,7 @@ function add_reseller(&$tpl, &$sql) {
 					?, '0',
 					?, '0',
 					?, '0',
+					?, ?,
 					?
 				)
 				";
@@ -288,7 +294,9 @@ function add_reseller(&$tpl, &$sql) {
 					$nreseller_max_sql_user_cnt,
 					$nreseller_max_traffic,
 					$nreseller_max_disk,
-					$customer_id)
+					$customer_id,
+					$nreseller_software_allowed,
+					$nreseller_softwaredepot_allowed)
 			);
 
 			send_add_user_auto_msg($user_id,
@@ -300,7 +308,13 @@ function add_reseller(&$tpl, &$sql) {
 				tr('Reseller'),
 				$gender
 			);
-
+			
+			#BEG AppInstaller
+			@mkdir(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id,0755,true);
+			#@chown(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "vu2000");
+			#@chgrp(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "www-data");
+			#END AppInstaller
+			
 			$_SESSION['reseller_added'] = 1;
 
 			user_goto('manage_users.php');
@@ -333,7 +347,13 @@ function add_reseller(&$tpl, &$sql) {
 					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt']),
 					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt']),
 					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic']),
-					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'])
+					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk']),
+					'SOFTWARE_ALLOWED' => clean_input($_POST['nreseller_software_allowed']),
+					'SOFTWAREDEPOT_ALLOWED' => clean_input($_POST['nreseller_softwaredepot_allowed']),
+					'VL_SOFTWAREY'		=> (($_POST['nreseller_software_allowed'] == 'yes') ? 'checked="checked"' : ''),
+					'VL_SOFTWAREN'		=> (($_POST['nreseller_software_allowed'] != 'yes') ? 'checked="checked"' : ''),
+					'VL_SOFTWAREDEPOTY'		=> (($_POST['nreseller_softwaredepot_allowed'] == 'yes') ? 'checked="checked"' : ''),
+					'VL_SOFTWAREDEPOTN'		=> (($_POST['nreseller_softwaredepot_allowed'] != 'yes') ? 'checked="checked"' : '')
 				)
 			);
 		}
@@ -368,7 +388,11 @@ function add_reseller(&$tpl, &$sql) {
 				'MAX_SQLDB_COUNT' => '',
 				'MAX_SQL_USERS_COUNT' => '',
 				'MAX_TRAFFIC_AMOUNT' => '',
-				'MAX_DISK_AMOUNT' => ''
+				'MAX_DISK_AMOUNT' => '',
+				'SOFTWARE_ALLOWED' => '',
+				'SOFTWAREDEPOT_ALLOWED' => '',
+				'VL_SOFTWAREN' => 'checked="checked"',
+				'VL_SOFTWAREDEPOTY' => 'checked="checked"'
 			)
 		);
 	}
@@ -518,6 +542,8 @@ $tpl->assign(
 		'TR_LOGO_UPLOAD' => tr('Logo upload'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
+		'TR_SOFTWARE_ALLOWED' => tr('Software installation<br><i>(1-click install)</i>'),
+		'TR_SOFTWAREDEPOT_ALLOWED' => tr('Can use softwaredepot'),
 
 		'TR_RESELLER_IPS' => tr('Reseller IPs'),
 

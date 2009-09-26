@@ -31,9 +31,13 @@ $tpl->define_dynamic('def_layout', 'page');
 $tpl->define_dynamic('no_messages', 'page');
 $tpl->define_dynamic('msg_entry', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
+#BEG AppInstaller
+$tpl->define_dynamic('t_software_support', 'page');
+#END AppInstaller
 $tpl->define_dynamic('layout', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
+
 
 // page functions.
 function gen_system_message(&$tpl, &$sql) {
@@ -338,6 +342,10 @@ gen_def_layout($tpl, $user_def_layout);
 
 gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
 gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_general_information.tpl');
+
+#BEG AppInstaller
+get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+#END AppInstaller
 
 gen_system_message($tpl, $sql);
 

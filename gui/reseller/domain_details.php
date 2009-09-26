@@ -25,6 +25,9 @@ check_login(__FILE__);
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
+#BEG AppInstaller
+$tpl->define_dynamic('t_software_support', 'page');
+#END AppInstaller
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -66,6 +69,7 @@ $tpl->assign(
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
 		'TR_BACK'				=> tr('Back'),
 		'TR_EDIT'				=> tr('Edit'),
+		'TR_SOFTWARE_SUPP' 		=> tr('Software installation'),
 	)
 );
 
@@ -78,6 +82,10 @@ gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_
 gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
+
+#BEG AppInstaller
+get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+#END AppInstaller
 
 gen_page_message($tpl);
 // Get user id that comes for manage domain
@@ -280,7 +288,8 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			'VL_SUBDOM_ACCOUNTS_USED'	=> $sub_num_data['sub_num'] + $alssub_num_data['sub_num'],
 			'VL_SUBDOM_ACCOUNTS_LIIT'	=> $sub_dom,
 			'VL_DOMALIAS_ACCOUNTS_USED'	=> $alias_num_data['alias_num'],
-			'VL_DOMALIAS_ACCOUNTS_LIIT'	=> $dom_alias
+			'VL_DOMALIAS_ACCOUNTS_LIIT'	=> $dom_alias,
+			'VL_SOFTWARE_SUPP'			=> ($data['domain_software_allowed'] == 'yes') ? tr('Enabled') : tr('Disabled'),
 		)
 	);
 } // end of load_user_data();

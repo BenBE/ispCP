@@ -126,6 +126,20 @@
                               <td class="content"><input type="text" name="nreseller_max_disk" value="{MAX_DISK_AMOUNT}" style="width:140px" class="textinput" />
                               </td>
                             </tr>
+							<!-- BDP: t_software_menu -->
+							<tr>
+                              <td width="25">&nbsp;</td>
+                              <td class="content2" width="200">{TR_SOFTWARE_ALLOWED}</td>
+							  <td class="content"><input type="radio" name="nreseller_software_allowed" value="yes" {VL_SOFTWAREY} />{TR_YES}<input type="radio" name="nreseller_software_allowed" value="no" {VL_SOFTWAREN} />{TR_NO}
+							  </td>
+							</tr>
+							<tr>
+                              <td width="25">&nbsp;</td>
+                              <td class="content2" width="200">{TR_SOFTWAREDEPOT_ALLOWED}</td>
+							  <td class="content"><input type="radio" name="nreseller_softwaredepot_allowed" value="yes" {VL_SOFTWAREDEPOTY} />{TR_YES}<input type="radio" name="nreseller_softwaredepot_allowed" value="no" {VL_SOFTWAREDEPOTN} />{TR_NO}
+							  </td>
+							</tr>
+							<!-- EDP: t_software_menu -->
                             <tr>
                               <td>&nbsp;</td>
                               <td colspan="2"><table cellpadding="5" cellspacing="5" border="0" width="100%">
