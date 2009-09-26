@@ -816,7 +816,7 @@ SQL_QUERY;
 	 * Required update for application installer attached to ticket #2005
 	 * http://www.isp-control.net/ispcp/ticket/1905.
 	 *
-	 * @author		 <l.declercq@nuxwin.com>
+	 * @author		TheCry (Real Name?)
 	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		@todo
 	 * @since		@todo
