@@ -1,0 +1,239 @@
+#!/usr/bin/perl
+
+package ispcp_apache;
+use strict;
+use warnings;
+
+sub new {
+	my $self  = {};
+
+	$self->{errors}					= '';
+	$self->{last_error}				= '';
+	bless($self);
+	return $self;
+}
+
+sub apache_set_prop{
+	my ($self, $var) = (shift, undef);
+	if (@_) {
+		$var = shift;
+		if (@_) { $self->{$var} = shift; }
+	}
+	return ( defined( $var ) && defined( $self->{$var} ) ) ? $self->{$var} : undef;
+}
+
+sub get_tag(){
+
+}
+
+sub setup_httpd {
+
+	my ($rs, $rdata) = (undef, undef);
+	my $cfg_dir = "$main::cfg{'CONF_DIR'}/apache";
+	my $bk_dir = "$cfg_dir/backup";
+	my $wrk_dir = "$cfg_dir/working";
+	my ($cfg_tpl, $cfg, $cmd) = (undef, undef, undef);
+	my %tag_hash = ();
+
+	if ($main::cfg{'CMD_HTTPD'} ne 'no') {
+		sys_command_rs("$main::cfg{'CMD_HTTPD'} stop &> /tmp/ispcp-setup-services.log");
+	}
+
+	#
+	# Apache Master file
+	#
+
+	($rs, $cfg_tpl) = get_file("$cfg_dir/00_master.conf");
+	return $rs if ($rs != 0);
+
+	%tag_hash = (
+		'{BASE_SERVER_IP}'		=> $main::cfg{'BASE_SERVER_IP'},
+		'{BASE_SERVER_VHOST}'		=> $main::cfg{'BASE_SERVER_VHOST'},
+		'{DEFAULT_ADMIN_ADDRESS}'	=> $main::cfg{'DEFAULT_ADMIN_ADDRESS'},
+		'{ROOT_DIR}'			=> $main::cfg{'ROOT_DIR'},
+		'{APACHE_WWW_DIR}'		=> $main::cfg{'APACHE_WWW_DIR'},
+		'{APACHE_USERS_LOG_DIR}'	=> $main::cfg{'APACHE_USERS_LOG_DIR'},
+		'{APACHE_LOG_DIR}'		=> $main::cfg{'APACHE_LOG_DIR'},
+		'{PHP_STARTER_DIR}'		=> $main::cfg{'PHP_STARTER_DIR'},
+		'{PHP_VERSION}'			=> $main::cfg{'PHP_VERSION'},
+		'{WWW_DIR}'			=> $main::cfg{'ROOT_DIR'},
+		'{DMN_NAME}'			=> 'gui',
+		'{CONF_DIR}'			=> $main::cfg{'CONF_DIR'},
+		'{MR_LOCK_FILE}'		=> $main::cfg{'MR_LOCK_FILE'},
+		'{RKHUNTER_LOG}'		=> $main::cfg{'RKHUNTER_LOG'},
+		'{CHKROOTKIT_LOG}'		=> $main::cfg{'CHKROOTKIT_LOG'},
+		'{PEAR_DIR}'			=> $main::cfg{'PEAR_DIR'},
+		'{OTHER_ROOTKIT_LOG}'		=> $main::cfg{'OTHER_ROOTKIT_LOG'},
+		'{APACHE_SUEXEC_USER_PREF}'	=> $main::cfg{'APACHE_SUEXEC_USER_PREF'},
+		'{APACHE_SUEXEC_MIN_UID}'	=> $main::cfg{'APACHE_SUEXEC_MIN_UID'},
+		'{APACHE_SUEXEC_MIN_GID}'	=> $main::cfg{'APACHE_SUEXEC_MIN_GID'}
+	);
+
+	($rs, $cfg) = prep_tpl(\%tag_hash, $cfg_tpl);
+	return $rs if ($rs != 0);
+
+	$rs = store_file("$main::cfg{'APACHE_SITES_DIR'}/00_master.conf", $cfg, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	return $rs if ($rs != 0);
+
+	($rs, $cfg_tpl) = get_file("$cfg_dir/01_awstats.conf");
+	return $rs if ($rs != 0);
+
+	%tag_hash = (
+		'{AWSTATS_ENGINE_DIR}' 		=> $main::cfg{'AWSTATS_ENGINE_DIR'},
+		'{AWSTATS_WEB_DIR}' 		=> $main::cfg{'AWSTATS_WEB_DIR'}
+	);
+
+	($rs, $cfg) = prep_tpl(\%tag_hash, $cfg_tpl);
+	return $rs if ($rs != 0);
+
+	$rs = store_file("$main::cfg{'APACHE_SITES_DIR'}/01_awstats.conf", $cfg, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	return $rs if ($rs != 0);
+
+	$rs = setfmode("$main::cfg{'APACHE_SITES_DIR'}/01_awstats.conf", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	return $rs if ($rs != 0);
+
+	$rs = add_named_cfg_data($main::cfg{'BASE_SERVER_VHOST'});
+	return $rs if ($rs != 0);
+
+	$rs = add_named_db_data($main::cfg{'BASE_SERVER_IP'}, $main::cfg{'BASE_SERVER_VHOST'});
+	return $rs if ($rs != 0);
+
+	#
+	# Default vhost file
+	#
+
+	($rs, $cfg_tpl) = get_file("$cfg_dir/httpd.conf");
+	return $rs if ($rs != 0);
+
+	%tag_hash = (
+		'{HOST_IP}' => $main::cfg{'BASE_SERVER_IP'}
+	);
+
+	($rs, $cfg) = prep_tpl(\%tag_hash, $cfg_tpl);
+	return $rs if ($rs != 0);
+
+	$rs = store_file("$main::cfg{'APACHE_SITES_DIR'}/ispcp.conf", $cfg, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	return $rs if ($rs != 0);
+
+	#
+	# Enable sites
+	#
+
+	if ( -e "/usr/sbin/a2ensite" ) {
+
+		sys_command_rs("/usr/sbin/a2ensite ispcp.conf &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2ensite 00_master.conf &> /tmp/ispcp-setup-services.log");
+
+		if ($main::cfg{'AWSTATS_ACTIVE'} eq 'yes' && $main::cfg{'AWSTATS_MODE'} eq 0) {
+
+			sys_command_rs("/usr/sbin/a2ensite 01_awstats.conf &> /tmp/ispcp-setup-services.log");
+			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'APACHE_MODS_DIR'}/proxy.conf $bk_dir/proxy.conf";
+			$rs = sys_command($cmd);
+
+			#
+			# Replace the allowed hosts in mod_proxy
+			#
+
+			($rs, $rdata) = get_file("$main::cfg{'APACHE_MODS_DIR'}/proxy.conf");
+			return $rs if ($rs != 0);
+
+			$rdata =~ s/#Allow from .example.com/Allow from 127.0.0.1/gi;
+			$rs = store_file("$main::cfg{'APACHE_MODS_DIR'}/proxy.conf", $rdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+			return $rs if ($rs != 0);
+		}
+	}
+
+	#
+	# Disable default site --> 000-default (if not, ispcp does not work)
+	#
+
+	if (-e "/usr/sbin/a2dissite") {
+		sys_command_rs("/usr/sbin/a2dissite 000-default &> /tmp/ispcp-setup-services.log");
+	}
+
+	#
+	# start fastcgi, suexec and rewrite mod
+	#
+
+	if ( -e "/usr/sbin/a2enmod" ) {
+		sys_command_rs("/usr/sbin/a2enmod cgi &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2enmod actions &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2enmod rewrite &> /tmp/ispcp-setup-services.log");
+		if ($main::cfg{'PHP_FASTCGI'} eq 'fastcgi') {
+			sys_command_rs("/usr/sbin/a2enmod fastcgi_ispcp &> /tmp/ispcp-setup-services.log");
+		} else {
+			sys_command_rs("/usr/sbin/a2enmod fcgid_ispcp &> /tmp/ispcp-setup-services.log");
+		}
+		sys_command_rs("/usr/sbin/a2enmod suexec &> /tmp/ispcp-setup-services.log");
+
+		if ($main::cfg{'AWSTATS_ACTIVE'} eq 'yes' && $main::cfg{'AWSTATS_MODE'} eq 0) {
+			sys_command_rs("/usr/sbin/a2enmod proxy &> /tmp/ispcp-setup-services.log");
+			sys_command_rs("/usr/sbin/a2enmod proxy_http &> /tmp/ispcp-setup-services.log");
+		}
+	}
+
+	#
+	# Disable default fastcgi and mod_php4/5, otherwise FastCgiIpcDir is already defined
+	#
+
+	if (-e "/usr/sbin/a2dismod") {
+		sys_command_rs("/usr/sbin/a2dismod fastcgi &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2dismod fcgid &> /tmp/ispcp-setup-services.log");
+		if ($main::cfg{'PHP_FASTCGI'} eq 'fastcgi') {
+			sys_command_rs("/usr/sbin/a2dismod fcgid_ispcp &> /tmp/ispcp-setup-services.log");
+		} else {
+			sys_command_rs("/usr/sbin/a2dismod fastcgi_ispcp &> /tmp/ispcp-setup-services.log");
+		}
+		sys_command_rs("/usr/sbin/a2dismod php4 &> /tmp/ispcp-setup-services.log");
+		sys_command_rs("/usr/sbin/a2dismod php5 &> /tmp/ispcp-setup-services.log");
+	}
+
+	#
+	# update apache logrotate if AWStats activated
+	# (check for apache, apache2)
+	#
+
+	my @apache_file = ("apache", "apache2");
+	my ($apache_file, $file) = (undef, undef);
+
+	foreach $apache_file (@apache_file) {
+		# check if file exists
+		if (-f "/etc/logrotate.d/".$apache_file) {
+			$file = "/etc/logrotate.d/".$apache_file;
+			#print STDOUT "$file \n";
+
+			# get file
+			($rs, $rdata) = get_file($file);
+			return $rs if ($rs != 0);
+
+			# add code if not exists
+			if ($rdata !~ m/awstats_updateall\.pl/i) {
+				$rdata =~ s/sharedscripts/sharedscripts\n\tprerotate\n\t\t$main::cfg{'AWSTATS_ROOT_DIR'}\/awstats_updateall.pl now -awstatsprog=$main::cfg{'AWSTATS_ENGINE_DIR'}\/awstats.pl &> \/dev\/null\n\tendscript/gi;
+				$rs = store_file($file, $rdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+				return $rs if ($rs != 0);
+			}
+		}
+	}
+
+
+	#
+	# manage some permission;
+	#
+
+	my $gui_root_dir = "$main::cfg{'ROOT_DIR'}/gui";
+
+	$cmd = "$main::cfg{'CMD_CHOWN'} -R $main::cfg{'APACHE_USER'}:$main::cfg{'APACHE_GROUP'} $gui_root_dir";
+	$rs = sys_command($cmd);
+	return $rs if ($rs != 0);
+
+	sleep(5);
+
+	if ($main::cfg{'CMD_HTTPD'} ne 'no') {
+		sys_command_rs("$main::cfg{'CMD_HTTPD'} start &> /tmp/ispcp-setup-services.log");
+	}
+
+	push_el(\@main::el, 'setup_httpd()', 'Ending...');
+	return 0;
+}
+
+1;

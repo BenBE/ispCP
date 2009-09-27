@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+
+package ispcp_common_methods;
+use strict;
+use warnings;
+
+sub new {
+	my $self  = {};
+
+	$self->{errors}		= '';
+	$self->{last_error}	= '';
+	bless($self);
+	return $self;
+}
+
+sub backup_file(){
+	my ( $self, $source, $destination, $cmd, $rs ) = ( shift, shift, shift, undef, undef);
+	$cmd = "$main::cfg{'CMD_CP'} -p $source $destination";
+	$rs = main::sys_command($cmd);
+	return $rs if ($rs != 0);
+}
+
+1;
