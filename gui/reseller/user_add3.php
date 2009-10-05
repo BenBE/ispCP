@@ -31,12 +31,12 @@ $tpl->define_dynamic('ip_entry', 'page');
 $theme_color = Config::get('USER_INITIAL_THEME');
 
 $tpl->assign(
-	array(
-		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
-		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
-	)
+		array(
+				'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
+				'THEME_COLOR_PATH'			=> "../themes/$theme_color",
+				'THEME_CHARSET'				=> tr('encoding'),
+				'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
+		)
 );
 
 /*
@@ -44,43 +44,42 @@ $tpl->assign(
  * static page messages.
  *
  */
-
 gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
-	array(
-		'TR_ADD_USER'			=> tr('Add user'),
-		'TR_CORE_DATA'			=> tr('Core data'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_REP_PASSWORD'		=> tr('Repeat password'),
-		'TR_DMN_IP'				=> tr('Domain IP'),
-		'TR_USREMAIL'			=> tr('Email'),
-		'TR_ADDITIONAL_DATA'	=> tr('Additional data'),
-		'TR_CUSTOMER_ID'		=> tr('Customer ID'),
-		'TR_FIRSTNAME'			=> tr('First name'),
-		'TR_LASTNAME'			=> tr('Last name'),
-		'TR_GENDER'				=> tr('Gender'),
-		'TR_MALE'				=> tr('Male'),
-		'TR_FEMALE'				=> tr('Female'),
-		'TR_UNKNOWN'			=> tr('Unknown'),
-		'TR_COMPANY'			=> tr('Company'),
-		'TR_POST_CODE'			=> tr('Zip/Postal code'),
-		'TR_CITY'				=> tr('City'),
-		'TR_STATE_PROVINCE'		=> tr('State/Province'),
-		'TR_COUNTRY'			=> tr('Country'),
-		'TR_STREET1'			=> tr('Street 1'),
-		'TR_STREET2'			=> tr('Street 2'),
-		'TR_MAIL'				=> tr('Email'),
-		'TR_PHONE'				=> tr('Phone'),
-		'TR_FAX'				=> tr('Fax'),
-		'TR_BTN_ADD_USER'		=> tr('Add user'),
-		'TR_ADD_ALIASES'		=> tr('Add other domains to this account'),
-		'VL_USR_PASS'			=> passgen()
-	)
+		array(
+				'TR_ADD_USER'			=> tr('Add user'),
+				'TR_CORE_DATA'			=> tr('Core data'),
+				'TR_USERNAME'			=> tr('Username'),
+				'TR_PASSWORD'			=> tr('Password'),
+				'TR_REP_PASSWORD'		=> tr('Repeat password'),
+				'TR_DMN_IP'				=> tr('Domain IP'),
+				'TR_USREMAIL'			=> tr('Email'),
+				'TR_ADDITIONAL_DATA'	=> tr('Additional data'),
+				'TR_CUSTOMER_ID'		=> tr('Customer ID'),
+				'TR_FIRSTNAME'			=> tr('First name'),
+				'TR_LASTNAME'			=> tr('Last name'),
+				'TR_GENDER'				=> tr('Gender'),
+				'TR_MALE'				=> tr('Male'),
+				'TR_FEMALE'				=> tr('Female'),
+				'TR_UNKNOWN'			=> tr('Unknown'),
+				'TR_COMPANY'			=> tr('Company'),
+				'TR_POST_CODE'			=> tr('Zip/Postal code'),
+				'TR_CITY'				=> tr('City'),
+				'TR_STATE_PROVINCE'		=> tr('State/Province'),
+				'TR_COUNTRY'			=> tr('Country'),
+				'TR_STREET1'			=> tr('Street 1'),
+				'TR_STREET2'			=> tr('Street 2'),
+				'TR_MAIL'				=> tr('Email'),
+				'TR_PHONE'				=> tr('Phone'),
+				'TR_FAX'				=> tr('Fax'),
+				'TR_BTN_ADD_USER'		=> tr('Add user'),
+				'TR_ADD_ALIASES'		=> tr('Add other domains to this account'),
+				'VL_USR_PASS'			=> passgen()
+		)
 );
 
 if (!init_in_values()) {
@@ -119,7 +118,12 @@ if (Config::get('DUMP_GUI_DEBUG')) {
  * Get data from previous page
  */
 function init_in_values() {
-	global $dmn_name, $dmn_user_name, $hpid;
+
+	global $dmn_name, $dmn_expire, $dmn_user_name, $hpid;
+	
+	if (isset($_SESSION['dmn_expire'])) {
+		$dmn_expire = $_SESSION['dmn_expire'];
+	}
 
 	if (isset($_SESSION['step_one'])) {
 		$step_two = $_SESSION['dmn_name'] . ";" . $_SESSION['dmn_tpl'];
@@ -145,13 +149,15 @@ function init_in_values() {
 		return false;
 	}
 	return true;
+
 } // End of init_in_values()
 
 /**
  * generate page add user 3
  */
 function gen_user_add3_page(&$tpl) {
-	global $dmn_name, $hpid, $dmn_user_name;
+
+	global $dmn_name, $dmn_expire, $hpid, $dmn_user_name;
 	global $user_email, $customer_id, $first_name;
 	global $last_name, $gender, $firm, $zip;
 	global $city, $state, $country, $street_one;
@@ -161,37 +167,39 @@ function gen_user_add3_page(&$tpl) {
 	$dmn_user_name = decode_idna($dmn_user_name);
 	// Fill in the fields
 	$tpl->assign(
-		array(
-			'VL_USERNAME'		=> $dmn_user_name,
-			'VL_USR_PASS'		=> passgen(),
-			'VL_MAIL'			=> $user_email,
-			'VL_USR_ID'			=> $customer_id,
-			'VL_USR_NAME'		=> $first_name,
-			'VL_LAST_USRNAME'	=> $last_name,
-			'VL_USR_FIRM'		=> $firm,
-			'VL_USR_POSTCODE'	=> $zip,
-			'VL_USRCITY'		=> $city,
-			'VL_USRSTATE'		=> $state,
-			'VL_MALE'			=> (($gender == 'M') ? 'selected="selected"' : ''),
-			'VL_FEMALE'			=> (($gender == 'F') ? 'selected="selected"' : ''),
-			'VL_UNKNOWN'		=> ((($gender == 'U') || (empty($gender))) ? 'selected="selected"' : ''),
-			'VL_COUNTRY'		=> $country,
-			'VL_STREET1'		=> $street_one,
-			'VL_STREET2'		=> $street_two,
-			'VL_MAIL'			=> $mail,
-			'VL_PHONE'			=> $phone,
-			'VL_FAX'			=> $fax
-		)
+			array(
+					'VL_USERNAME'		=> $dmn_user_name,
+					'VL_USR_PASS'		=> passgen(),
+					'VL_MAIL'			=> $user_email,
+					'VL_USR_ID'			=> $customer_id,
+					'VL_USR_NAME'		=> $first_name,
+					'VL_LAST_USRNAME'	=> $last_name,
+					'VL_USR_FIRM'		=> $firm,
+					'VL_USR_POSTCODE'	=> $zip,
+					'VL_USRCITY'		=> $city,
+					'VL_USRSTATE'		=> $state,
+					'VL_MALE'			=> ($gender == 'M') ? 'selected="selected"' : '',
+					'VL_FEMALE'			=> ($gender == 'F') ? 'selected="selected"' : '',
+					'VL_UNKNOWN'		=> ($gender == 'U') ? 'selected="selected"' : '',
+					'VL_COUNTRY'		=> $country,
+					'VL_STREET1'		=> $street_one,
+					'VL_STREET2'		=> $street_two,
+					'VL_MAIL'			=> $mail,
+					'VL_PHONE'			=> $phone,
+					'VL_FAX'			=> $fax
+			)
 	);
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
 	$_SESSION['local_data'] = "$dmn_name;$hpid";
+
 } // End of gen_user_add3_page()
 
 /**
  * Init global value with empty values
  */
 function gen_empty_data() {
+
 	global $user_email, $customer_id, $first_name;
 	global $last_name, $gender, $firm, $zip;
 	global $city, $state, $country, $street_one;
@@ -213,21 +221,25 @@ function gen_empty_data() {
 	$mail			= '';
 	$fax			= '';
 	$domain_ip		= '';
+
 } // End of gen_empty_data()
 
 /**
  * Save data for new user in db
  */
 function add_user_data($reseller_id) {
-	$sql = Database::getInstance();
+
 	global $hpid;
-	global $dmn_name, $dmn_user_name, $admin_login;
+	global $dmn_name, $dmn_expire, $dmn_user_name, $admin_login;
 	global $user_email, $customer_id, $first_name;
 	global $last_name, $gender, $firm, $zip;
 	global $city, $state, $country, $street_one;
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
-	global $allowbackup;
+	global $dns, $backup;
+
+	$sql = Database::getInstance();
+
 	// Let's get Desired Hosting Plan Data;
 	$err_msg = '';
 
@@ -240,6 +252,7 @@ function add_user_data($reseller_id) {
 		$props = $_SESSION["ch_hpprops"];
 		unset($_SESSION["ch_hpprops"]);
 	} else {
+
 		if (Config::exists('HOSTING_PLANS_LEVEL')
 			&& strtolower(Config::get('HOSTING_PLANS_LEVEL')) == 'admin') {
 			$query = 'SELECT `props` FROM `hosting_plans` WHERE `id` = ?';
@@ -248,19 +261,30 @@ function add_user_data($reseller_id) {
 			$query = "SELECT `props` FROM `hosting_plans` WHERE `reseller_id` = ? AND `id` = ?";
 			$res = exec_query($sql, $query, array($reseller_id, $hpid));
 		}
+
 		$data = $res->FetchRow();
 		$props = $data['props'];
 	}
 
-	list($php, $cgi, $sub,
-		$als, $mail, $ftp,
-		$sql_db, $sql_user,
-		$traff, $disk, $allowbackup, $dns) = explode(";", $props);
+	list(
+			$php,
+			$cgi,
+			$sub,
+			$als,
+			$mail,
+			$ftp,
+			$sql_db,
+			$sql_user,
+			$traff,
+			$disk,
+			$backup,
+			$dns
+		) = explode(";", $props);
 
 	$php			= preg_replace("/\_/", "", $php);
 	$cgi			= preg_replace("/\_/", "", $cgi);
+	$backup			= preg_replace("/\_/", "", $backup);
 	$dns			= preg_replace("/\_/", "", $dns);
-	$allowbackup	= clean_input($allowbackup, true);
 	$pure_user_pass	= $inpass;
 	$inpass			= crypt_user_pass($inpass, true);
 	$first_name		= clean_input($first_name, true);
@@ -275,6 +299,7 @@ function add_user_data($reseller_id) {
 	$street_one		= clean_input($street_one, true);
 	$street_two		= clean_input($street_two, true);
 	$customer_id	= clean_input($customer_id, true);
+
 	if (!chk_dname($dmn_user_name)) {
 		// set_page_message(tr("Wrong domain name syntax!"));
 		return;
@@ -301,14 +326,18 @@ function add_user_data($reseller_id) {
 		)
 	";
 
-	$res = exec_query($sql, $query, array(
-		$dmn_user_name, $inpass,
-		$reseller_id, $first_name, $last_name,
-		$firm, $zip, $city, $state,
-		$country, $user_email, $phone,
-		$fax, $street_one, $street_two,
-		$customer_id, $gender
-	));
+	$res = exec_query(
+						$sql,
+						$query,
+						array(
+								$dmn_user_name, $inpass,
+								$reseller_id, $first_name, $last_name,
+								$firm, $zip, $city, $state,
+								$country, $user_email, $phone,
+								$fax, $street_one, $street_two,
+								$customer_id, $gender
+						)
+	);
 
 	print $sql->ErrorMsg();
 
@@ -316,10 +345,16 @@ function add_user_data($reseller_id) {
 
 	$status = Config::get('ITEM_ADD_STATUS');
 
+	$expire = $dmn_expire * 2635200; // months * 30.5 days
+
+	if (!empty($expire)) {
+		$expire = time() + $expire;
+ 	}
+
 	$query = "
 		INSERT INTO `domain` (
 			`domain_name`, `domain_admin_id`,
-			`domain_created_id`, `domain_created`,
+			`domain_created_id`, `domain_created`, `domain_expires`,
 			`domain_mailacc_limit`, `domain_ftpacc_limit`,
 			`domain_traffic_limit`, `domain_sqld_limit`,
 			`domain_sqlu_limit`, `domain_status`,
@@ -330,7 +365,7 @@ function add_user_data($reseller_id) {
 		)
 		VALUES (
 			?, ?,
-			?, unix_timestamp(),
+			?, unix_timestamp(), $expire,
 			?, ?,
 			?, ?,
 			?, ?,
@@ -341,9 +376,17 @@ function add_user_data($reseller_id) {
 		)
 	";
 
-	$res = exec_query($sql, $query, array(
-		$dmn_name, $record_id, $reseller_id, $mail, $ftp, $traff, $sql_db,
-		$sql_user, $status, $sub, $als, $domain_ip, $disk, $php, $cgi, $allowbackup, $dns));
+	$res = exec_query(
+						$sql,
+						$query, 
+						array(
+								$dmn_name, $record_id,
+								$reseller_id, $mail, $ftp, $traff, $sql_db,
+								$sql_user, $status, $sub, $als, $domain_ip,
+								$disk, $php, $cgi, $backup, $dns
+						)
+	);
+								
 	$dmn_id = $sql->Insert_ID();
 
 	// Add statistics group
@@ -354,7 +397,13 @@ function add_user_data($reseller_id) {
 		VALUES
 			(?, ?, ?, ?)
 	";
-	$rs = exec_query($sql, $query, array($dmn_id, $dmn_name, crypt_user_pass_with_salt($pure_user_pass), $status));
+
+	$rs = exec_query($sql, $query, 
+					array(
+							$dmn_id, $dmn_name,
+							crypt_user_pass_with_salt($pure_user_pass), $status
+					)
+	);
 
 	$user_id = $sql->Insert_ID();
 
@@ -366,22 +415,27 @@ function add_user_data($reseller_id) {
 		VALUES
 			(?, ?, ?, ?)
 	";
+
 	$rs = exec_query($sql, $query, array($dmn_id, $awstats_auth, $user_id, $status));
 
 	// Create the 3 default addresses if wanted
 	if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
+	{
 		client_mail_add_default_accounts($dmn_id, $user_email, $dmn_name); // 'domain', 0
+	}
 
 	// add_domain_extras($dmn_id, $record_id, $sql);
 	// let's send mail to user
-	send_add_user_auto_msg ($reseller_id,
-		$dmn_user_name,
-		$pure_user_pass,
-		$user_email,
-		$first_name,
-		$last_name,
-		tr('Domain account')
+	send_add_user_auto_msg (
+								$reseller_id,
+								$dmn_user_name,
+								$pure_user_pass,
+								$user_email,
+								$first_name,
+								$last_name,
+								tr('Domain account')
 	);
+
 	// add user into user_gui_props => domain looser needs language and skin too :-)
 	$user_def_lang = $_SESSION['user_def_lang'];
 	$user_theme_color = $_SESSION['user_theme'];
@@ -403,7 +457,7 @@ function add_user_data($reseller_id) {
 	write_log("$admin_login: add user: $dmn_user_name (for domain $dmn_name)");
 	write_log("$admin_login: add domain: $dmn_name");
 
-	au_update_reseller_props($reseller_id, $props);
+	update_reseller_c_props($reseller_id);
 
 	if (UserIO::POST_String('add_alias') === 'on') {
 		// we have to add some aliases for this looser

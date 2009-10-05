@@ -430,7 +430,8 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 			'PMA_TARGET' => Config::get('PMA_TARGET'),
 			'FILEMANAGER_PATH' => Config::get('FILEMANAGER_PATH'),
 			'FILEMANAGER_TARGET' => Config::get('FILEMANAGER_TARGET'),
-			'TR_MENU_ADD_DNS' => tr('Add DNS zone record')
+			'TR_MENU_ADD_DNS' => tr("Add DNS zone's record"),
+			'TR_MENU_SSL_MANAGE'	=> tr('Manage SSL certificate')
 		)
 	);
 
@@ -747,6 +748,8 @@ SQL_QUERY;
 	$query = 'DELETE FROM `sql_user` WHERE `sqlu_id` = ?';
 	exec_query($sql, $query, array($db_user_id));
 
+	update_reseller_c_props(get_reseller_id($dmn_id));
+
 	$db_name = quoteIdentifier($rs->fields['sqld_name']);
 	$db_user_name = $rs->fields['sqlu_name'];
 
@@ -898,7 +901,7 @@ SQL_QUERY;
 	// drop desired database;
 	$query = "DROP DATABASE IF EXISTS $db_name;";
 
-	$rs = exec_query($sql, $query);
+	exec_query($sql, $query);
 
 	write_log($_SESSION['user_logged'] . ": delete SQL database: " . $db_name);
 	// delete desired database from the ispcp sql_database table;
@@ -911,7 +914,9 @@ SQL_QUERY;
 			`sqld_id` = ?
 SQL_QUERY;
 
-	$rs = exec_query($sql, $query, array($dmn_id, $db_id));
+	exec_query($sql, $query, array($dmn_id, $db_id));
+
+	update_reseller_c_props(get_reseller_id($dmn_id));
 }
 
 function get_gender_by_code($code, $nullOnBad = false) {

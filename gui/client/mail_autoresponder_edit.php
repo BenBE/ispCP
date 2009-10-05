@@ -78,7 +78,6 @@ SQL_QUERY;
 	}
 
 	$item_change_status = Config::get('ITEM_CHANGE_STATUS');
-	check_for_lock_file();
 
 	if (UserIO::POST_String('uaction') == 'enable_arsp') {
 		if (UserIO::POST_Memo('arsp_message', true, true) === false) {

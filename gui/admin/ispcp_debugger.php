@@ -446,7 +446,6 @@ $tpl->assign(
 
 if (UserIO::GET_isset('action') && $exec_count > 0) {
 	if (UserIO::GET_String('action') == 'run_engine') {
-		check_for_lock_file();
 		$c = send_request();
 		set_page_message(tr('Daemon returned %d as status code', $c));
 	} else if (UserIO::GET_String('action') == 'change_status' && (

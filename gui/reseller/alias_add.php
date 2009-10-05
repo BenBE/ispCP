@@ -157,9 +157,10 @@ SQL_QUERY;
 		if (!chk_forward_url($forward)) {
 			$err_al = tr("Incorrect forward syntax");
 		}
-		if (!preg_match("/\/$/", $forward)) {
+		/** @todo test and remove if no bugs encounter
+		if (!preg_match("/\/$/", $forward) && !preg_match("/\?/", $forward)) {
 			$forward .= "/";
-		}
+		}*/
 	} else {
 		// now let's fix the mountpoint
 		$mount_point = array_decode_idna($mount_point, true);
@@ -196,6 +197,7 @@ SQL_QUERY;
 
 	$als_id = $sql->Insert_ID();
 
+	update_reseller_c_props(get_reseller_id($cr_user_id));
 
 	$query = 'SELECT `email` FROM `admin` WHERE `admin_id` = ? LIMIT 1';
 	$rs = exec_query($sql, $query, who_owns_this($cr_user_id, 'dmn_id'));

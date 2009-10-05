@@ -209,7 +209,6 @@ function update_email_pass($sql) {
 	} else {
 		$pass=encrypt_db_password($pass);
 		$status = Config::get('ITEM_CHANGE_STATUS');
-		check_for_lock_file();
 		$query = "UPDATE `mail_users` SET `mail_pass` = ?, `status` = ? WHERE `mail_id` = ?";
 		$rs = exec_query($sql, $query, array($pass, $status, $mail_id));
 		write_log($_SESSION['user_logged'] . ": change mail account password: $mail_account");
@@ -276,8 +275,6 @@ function update_email_forward(&$tpl, &$sql) {
 	}
 
 	$status = Config::get('ITEM_CHANGE_STATUS');
-
-	check_for_lock_file();
 
 	$query = "UPDATE `mail_users` SET `mail_forward` = ?, `mail_type` = ?, `status` = ? WHERE `mail_id` = ?";
 

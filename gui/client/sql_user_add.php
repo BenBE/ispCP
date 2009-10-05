@@ -189,6 +189,12 @@ function check_db_user(&$sql, $db_user) {
 	return $rs->fields['cnt'];
 }
 
+/**
+ * @todo
+ * 	* Database user with same name can be added several times
+ *  * If creation of database user fails in MySQL-Table, database user is already
+ * 		in loclal ispcp table -> Error handling
+ */
 function add_sql_user(&$sql, $user_id, $db_id) {
 	if (!UserIO::POST_isset('uaction')) {
 		return;
@@ -298,6 +304,8 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 
 	$rs = exec_query($sql, $query, array($db_id, $db_user, encrypt_db_password($user_pass)));
 
+	update_reseller_c_props(get_reseller_id($dmn_id));
+
 	$query = "
 		SELECT
 			`sqld_name` AS `db_name`
@@ -312,13 +320,10 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 	$rs = exec_query($sql, $query, array($db_id, $dmn_id));
 	$db_name = $rs->fields['db_name'];
 
-	// add user in the mysql system tables;
-
-	$new_db_name = ereg_replace("_", "\\_", $db_name);
-	$query = 'GRANT ALL ON ' . quoteIdentifier($new_db_name) . '.* to ?@\'localhost\' identified by ?';
-	$rs = exec_query($sql, $query, array($db_user, $user_pass));
-	$query = 'GRANT ALL ON ' . quoteIdentifier($new_db_name) . '.* to ?@\'%\' identified by ?';
-	$rs = exec_query($sql, $query, array($db_user, $user_pass));
+	// add user in the mysql system tables
+	$query = "GRANT ALL PRIVILEGES ON ". quoteIdentifier($db_name) .".* TO ?@? IDENTIFIED BY ?";
+	exec_query($sql, $query, array($db_user, "localhost", $user_pass));
+	exec_query($sql, $query, array($db_user, "%", $user_pass));
 
 	write_log($_SESSION['user_logged'] . ": add SQL user: " . $db_user);
 	set_page_message(tr('SQL user successfully added!'));

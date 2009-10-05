@@ -183,9 +183,10 @@ function add_domain_alias(&$sql, &$err_al) {
 		if (!chk_forward_url($forward)) {
 			$err_al = tr("Incorrect forward syntax");
 		}
-		if (!preg_match("/\/$/", $forward)) {
+		/** @todo test and remove if no bugs encounter
+		if (!preg_match("/\/$/", $forward) && !preg_match("/\?/", $forward)) {
 			$forward .= "/";
-		}
+		}*/
 	} else {
 		// now let's fix the mountpoint
 		$mount_point = array_decode_idna($mount_point, true);
@@ -216,7 +217,6 @@ function add_domain_alias(&$sql, &$err_al) {
 
 	// Begin add new alias domain
 	$alias_name = htmlspecialchars($alias_name, ENT_QUOTES, "UTF-8");
-	check_for_lock_file();
 
 	$status = Config::get('ITEM_ORDERED_STATUS');
 
@@ -224,6 +224,8 @@ function add_domain_alias(&$sql, &$err_al) {
 	exec_query($sql, $query, array($cr_user_id, $alias_name, $mount_point, $status, $domain_ip, $forward));
 
 	$als_id = $sql->Insert_ID();
+
+	update_reseller_c_props(get_reseller_id($cr_user_id));
 
 	$admin_login = $_SESSION['user_logged'];
 

@@ -60,14 +60,14 @@ if (UserIO::GET_isset('key')) {
 		if (sendpassword(UserIO::GET_String('key'))) {
 			$tpl->assign(
 				array(
-					'TR_MESSAGE' => tr('Password sent'),
+					'TR_MESSAGE' => tr('Your new password has been sent.'),
 					'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
 				)
 			);
 		} else {
 			$tpl->assign(
 				array(
-					'TR_MESSAGE' => tr('ERROR: Password was not sent'),
+					'TR_MESSAGE' => tr('New password could not been sent.'),
 					'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
 				)
 			);
@@ -89,8 +89,6 @@ if (UserIO::POST_String('uname') != '') {
 	if (isset($_SESSION['image']) && UserIO::POST_String('capcode') != '') {
 		$uname = UserIO::POST_String('uname', true, true);
 		$capcode = UserIO::POST_String('capcode');
-		check_input($uname);
-		check_input($capcode);
 
 		$tpl = new pTemplate();
 		$tpl->define('page', Config::get('LOGIN_TEMPLATE_PATH') . '/lostpassword_message.tpl');
@@ -102,26 +100,17 @@ if (UserIO::POST_String('uname') != '') {
 			)
 		);
 
-		if ($_SESSION['image'] == $capcode) {
-			if (requestpassword($uname)) {
-				$tpl->assign(
-					array(
-						'TR_MESSAGE' => tr('The password was requested'),
-						'TR_LINK' => '<a class="link" href="index.php">' . tr('Back') . '</a>'
-					)
-				);
-			} else {
-				$tpl->assign(
-					array(
-						'TR_MESSAGE' => tr('ERROR: Unknown user'),
-						'TR_LINK' => '<a class="link" href="lostpassword.php">' . tr('Retry') . '</a>'
-					)
-				);
-			}
+		if ($_SESSION['image'] == $capcode && requestpassword($uname)) {
+			$tpl->assign(
+				array(
+					'TR_MESSAGE' => tr('Your password request has been initiated. You will receive an email with instructions to complete the process. This reset request will expire in %s minutes.', Config::get('LOSTPASSWORD_TIMEOUT')),
+					'TR_LINK' => '<a class="link" href="index.php">' . tr('Back') . '</a>'
+				)
+			);
 		} else {
 			$tpl->assign(
 				array(
-					'TR_MESSAGE' => tr('ERROR: Security code was not correct!') . ' ' . $_SESSION['image'],
+					'TR_MESSAGE' => tr('User or security code was incorrect!'),
 					'TR_LINK' => '<a class="link" href="lostpassword.php">' . tr('Retry') . '</a>'
 				)
 			);

@@ -54,8 +54,6 @@ SQL_QUERY;
 		user_goto('domains_manage.php');
 	}
 
-	check_for_lock_file();
-
 	$query = <<<SQL_QUERY
 		UPDATE
 			`subdomain`
@@ -66,6 +64,9 @@ SQL_QUERY;
 SQL_QUERY;
 
 	$rs = exec_query($sql, $query, array($sub_id));
+
+	update_reseller_c_props(get_reseller_id($dmn_id));
+
 	send_request();
 	write_log($_SESSION['user_logged'].": deletes subdomain: ".$sub_name);
 	set_page_message(tr('Subdomain scheduled for deletion!'));

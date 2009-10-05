@@ -275,22 +275,6 @@ function get_cnt_of_user(&$sql, $user_type) {
 	return $admin_cnt;
 }
 
-/**
- * @todo use db prepared statements
- */
-function get_cnt(&$sql, $table, $field, $where, $value) {
-	if ($where != '') {
-		$query = "SELECT COUNT(*) AS cnt FROM $table WHERE $where = ?";
-		$rs = exec_query($sql, $query, array($value));
-	} else {
-		$query = "SELECT COUNT(*) AS cnt FROM $table ";
-		$rs = exec_query($sql, $query, array());
-	}
-
-	$cnt = $rs->fields['cnt'];
-	return $cnt;
-}
-
 function get_sql_user_count($sql) {
 	$query = "SELECT DISTINCT `sqlu_name` FROM `sql_user`";
 
@@ -321,28 +305,28 @@ function get_admin_general_info(&$tpl, &$sql) {
 	);
 
 	// If COUNT_DEFAULT_EMAIL_ADDRESSES = false, admin total emails show [total - default_emails]/[total_emails]
-	$retrieve_total_emails = get_cnt($sql, 'mail_users', 'mail_id', '', '');
+	$retrieve_total_emails = records_count('mail_users', '', '');
 	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES')) {
 		$show_total_emails = $retrieve_total_emails;
 	} else {
-		$retrieve_total_default_emails = get_cnt($sql, 'mail_users', 'mail_id', 'mail_acc', 'abuse');
-		$retrieve_total_default_emails += get_cnt($sql, 'mail_users', 'mail_id', 'mail_acc', 'webmaster');
-		$retrieve_total_default_emails += get_cnt($sql, 'mail_users', 'mail_id', 'mail_acc', 'postmaster');
+		$retrieve_total_default_emails = records_count('mail_users', 'mail_acc', 'abuse');
+		$retrieve_total_default_emails += records_count('mail_users', 'mail_acc', 'webmaster');
+		$retrieve_total_default_emails += records_count('mail_users', 'mail_acc', 'postmaster');
 		$show_total_emails = ($retrieve_total_emails-$retrieve_total_default_emails)."/".$retrieve_total_emails;
 	}
 
 	$tpl->assign(
 		array(
 			'ACCOUNT_NAME' => $_SESSION['user_logged'],
-			'ADMIN_USERS' => get_cnt($sql, 'admin', 'admin_id', 'admin_type', 'admin'),
-			'RESELLER_USERS' => get_cnt($sql, 'admin', 'admin_id', 'admin_type', 'reseller'),
-			'NORMAL_USERS' => get_cnt($sql, 'admin', 'admin_id', 'admin_type', 'user'),
-			'DOMAINS' => get_cnt($sql, 'domain', 'domain_id', '', ''),
-			'SUBDOMAINS' => get_cnt($sql, 'subdomain', 'subdomain_id', '', '') + get_cnt($sql, 'subdomain_alias', 'subdomain_alias_id', '', ''),
-			'DOMAINS_ALIASES' => get_cnt($sql, 'domain_aliasses', 'alias_id', '', ''),
+			'ADMIN_USERS' => records_count('admin', 'admin_type', 'admin'),
+			'RESELLER_USERS' => records_count('admin', 'admin_type', 'reseller'),
+			'NORMAL_USERS' => records_count('admin', 'admin_type', 'user'),
+			'DOMAINS' => records_count('domain', '', ''),
+			'SUBDOMAINS' => records_count('subdomain', '', '') + records_count('subdomain_alias', 'subdomain_alias_id', '', ''),
+			'DOMAINS_ALIASES' => records_count( 'domain_aliasses', '', ''),
 			'MAIL_ACCOUNTS' => $show_total_emails,
-			'FTP_ACCOUNTS' => get_cnt($sql, 'ftp_users', 'userid', '', ''),
-			'SQL_DATABASES' => get_cnt($sql, 'sql_database', 'sqld_id', '', ''),
+			'FTP_ACCOUNTS' => records_count('ftp_users', '', ''),
+			'SQL_DATABASES' => records_count('sql_database', '', ''),
 			'SQL_USERS' => get_sql_user_count($sql)
 		)
 	);
@@ -535,7 +519,13 @@ function gen_reseller_list(&$tpl, &$sql) {
 }
 
 function gen_user_list(&$tpl, &$sql) {
+<<<<<<< .working
 	$start_index = UserIO::GET_Int('psi');
+=======
+	$start_index = 0;
+
+	$disk_space = disk_total_space(dirname(__FILE__));
+>>>>>>> .merge-rechts.r2082
 
 	$disk_space = disk_total_space(dirname(__FILE__));
 	 
@@ -695,12 +685,16 @@ function gen_user_list(&$tpl, &$sql) {
 				} else { 
 					$percent_usage = 0; 
 				}
+<<<<<<< .working
+=======
+
+>>>>>>> .merge-rechts.r2082
 				$tpl->assign(
 					array(
 						'USR_DELETE_SHOW' => '',
 						'DOMAIN_ID' => $rs->fields['domain_id'],
 						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_USR' => "user_delete.php?delete_id=" . $rs->fields['domain_admin_id'] . "&amp;delete_username=" . $rs->fields['domain_name'],
+						'URL_DELETE_USR' => "user_delete.php?domain_id=" . $rs->fields['domain_id'],
 						'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
 						'GO_TO_USER_INTERFACE' => tr('Switch'),
 						'URL_CHANGE_INTERFACE' => "change_user_interface.php?to_id=" . $rs->fields['domain_admin_id'],
@@ -745,15 +739,25 @@ function gen_user_list(&$tpl, &$sql) {
 				$domain_created = date($date_formt, $domain_created);
 			}
 
+			$domain_expires = $rs->fields['domain_expires'];
+
+			if ($domain_expires == 0) {
+				$domain_expires = tr('N/A');
+			} else {
+				$date_formt = Config::get('DATE_FORMAT');
+				$domain_expires = date($date_formt, $domain_expires);
+			}
+
 			$tpl->assign(
 				array(
 					'USR_USERNAME' => $admin_name,
 					'USER_CREATED_ON' => $domain_created,
+					'USER_EXPIRES_ON' => $domain_expires,
 					'USR_CREATED_BY' => $rs2->fields['admin_name'],
 					'USR_OPTIONS' => '',
 					'URL_EDIT_USR' => "admin_edit.php?edit_id=" . $rs->fields['domain_admin_id'],
 					'TR_MESSAGE_CHANGE_STATUS' => tr('Are you sure you want to change the status of domain account?', true),
-					'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete this account?', true),
+					'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
 				)
 			);
 
@@ -780,6 +784,7 @@ function get_admin_manage_users(&$tpl, &$sql) {
 			'TR_USERS' => tr('Users'),
 			'TR_SEARCH' => tr('Search'),
 			'TR_CREATED_ON' => tr('Creation date'),
+			'TR_EXPIRES_ON' => tr('Expire date'),
 			'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
 			'TR_EDIT' => tr("Edit")
 		)
@@ -998,13 +1003,13 @@ function generate_user_props($user_id) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
-	$sub_current = records_count('subdomain_id', 'subdomain', 'domain_id', $user_id);
+	$sub_current = records_count('subdomain', 'domain_id', $user_id);
 	$sub_max = $rs->fields['domain_subd_limit'];
 
-	$als_current = records_count('alias_id', 'domain_aliasses', 'domain_id', $user_id);
+	$als_current = records_count('domain_aliasses', 'domain_id', $user_id);
 	$als_max = $rs->fields['domain_alias_limit'];
 	// Sorry for the strange hack, but it works - RatS
-	$mail_current = records_count('mail_id', 'mail_users', 'mail_type NOT RLIKE \'_catchall\' AND domain_id', $user_id);
+	$mail_current = records_count('mail_users', 'mail_type NOT RLIKE \'_catchall\' AND domain_id', $user_id);
 	$mail_max = $rs->fields['domain_mailacc_limit'];
 
 	$ftp_current = sub_records_rlike_count(	'domain_name', 'domain', 'domain_id', $user_id,
@@ -1018,7 +1023,7 @@ function generate_user_props($user_id) {
 
 	$ftp_max = $rs->fields['domain_ftpacc_limit'];
 
-	$sql_db_current = records_count('sqld_id', 'sql_database', 'domain_id', $user_id);
+	$sql_db_current = records_count('sql_database', 'domain_id', $user_id);
 	$sql_db_max = $rs->fields['domain_sqld_limit'];
 
 	$sql_user_current = sub_records_count(	'sqld_id', 'sql_database', 'domain_id', $user_id,
@@ -1041,7 +1046,7 @@ function generate_user_props($user_id) {
 /**
  * @todo implement check for dynamic table/row in SQL query
  */
-function records_count($field, $table, $where, $value) {
+function records_count($table, $where, $value) {
 	$sql = Database::getInstance();
 
 	if ($where != '') {
@@ -1554,7 +1559,6 @@ function gen_logged_from(&$tpl) {
 }
 
 function change_domain_status(&$sql, $domain_id, $domain_name, $action, $location) {
-	check_for_lock_file();
 
 	if ($action == 'disable') {
 		$new_status = Config::get('ITEM_TODISABLED_STATUS');
@@ -1625,6 +1629,8 @@ function change_domain_status(&$sql, $domain_id, $domain_name, $action, $locatio
 	send_request();
 	// let's get back to user overview after the system changes are finished
 	$user_logged = $_SESSION['user_logged'];
+
+	update_reseller_c_props(get_reseller_id($domain_id));
 
 	if ($action == 'disable') {
 		write_log("$user_logged: suspended domain: $domain_name");
@@ -1953,6 +1959,8 @@ function rm_rf_user_account($id_user) {
 	$query = "UPDATE `domain` SET `domain_status` = ? WHERE `domain_admin_id` = ?";
 	$rs = exec_query($sql, $query, array($delete_status, $id_user));
 
+	update_reseller_c_props($domain_created_id);
+
 	remove_users_common_properties($id_user);
 }
 
@@ -1988,35 +1996,28 @@ function substract_from_reseller_props($reseller_id, $domain_id) {
 		$traff_max, $disk_max
 	) = generate_user_props($domain_id);
 
+	list($tmpval1,
+		$tmpval2,
+		$tmpval3,
+		$tmpval4,
+		$tmpval5,
+		$tmpval16,
+		$traff_current,
+		$disk_current,
+		$tmpval7,
+		$tmpval8
+	) = generate_user_traffic($domain_id);
+
 	$rdmn_current -= 1;
 
-	if ($sub_max != -1) {
-		$rsub_current -= $sub_max;
-	}
-
-	if ($als_max != -1) {
-		$rals_current -= $als_max;
-	}
-
-	if ($mail_max != -1) {
-		$rmail_current -= $mail_max;
-	}
-
-	if ($ftp_max != -1) {
-		$rftp_current -= $ftp_max;
-	}
-
-	if ($sql_db_max != -1) {
-		$rsql_db_current -= $sql_db_max;
-	}
-
-	if ($sql_user_max != -1) {
-		$rsql_user_current -= $sql_user_max;
-	}
-
-	$rtraff_current -= $traff_max;
-
-	$rdisk_current -= $disk_max;
+	$rsub_current -= $sub_current;
+	$rals_current -= $als_current;
+	$rmail_current -= $mail_current;
+	$rftp_current -= $ftp_current;
+	$rsql_db_current -= $sql_db_current;
+	$rsql_user_current -= $sql_user_current;
+	$rtraff_current -= $traff_current;
+	$rdisk_current -= $disk_current;
 
 	$rprops = "$rdmn_current;$rdmn_max;";
 	$rprops .= "$rsub_current;$rsub_max;";

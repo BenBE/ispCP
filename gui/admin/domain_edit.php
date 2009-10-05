@@ -53,6 +53,8 @@ $tpl->assign(
 		'TR_DOMAIN_PROPERTIES'	=> tr('Domain properties'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),
+		'TR_DOMAIN_EXPIRE'		=> tr('Domain expire'),
+		'TR_DOMAIN_NEW_EXPIRE'	=> tr('New expire date'),  
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
@@ -73,7 +75,8 @@ $tpl->assign(
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
 		'TR_CANCEL'				=> tr('Cancel'),
 		'TR_YES'				=> tr('Yes'),
-		'TR_NO'					=> tr('No')
+		'TR_NO'					=> tr('No'),
+		'TR_DMN_EXP_HELP' 		=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.") 
 	)
 );
 
@@ -92,16 +95,26 @@ if (UserIO::POST_String('uaction') == 'sub_data') {
 		user_goto('manage_users.php');
 	}
 
-	if (check_user_data($tpl, $sql, get_reseller_id($editid), $editid)) { // Save data to db
+	$reseller_id = get_reseller_id($editid);
+	if (empty($reseller_id)) {
+		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		user_goto('manage_users.php');
+	}
+	if (check_user_data($tpl, $sql, $reseller_id, $editid)) { // Save data to db
 		$_SESSION['dedit'] = "_yes_";
 		user_goto('manage_users.php');
 	}
-	load_additional_data(get_reseller_id($editid), $editid);
+	load_additional_data($reseller_id, $editid);
 } else {
 	// Get user id that comes for edit
 	$editid = UserIO::GET_Int('edit_id');
 
-	load_user_data(get_reseller_id($editid), $editid);
+	$reseller_id = get_reseller_id($editid);
+	if (empty($reseller_id)) {
+		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		user_goto('manage_users.php');
+	}
+	load_user_data($reseller_id, $editid);
 	$_SESSION['edit_id'] = $editid;
 	$tpl->assign('MESSAGE', "");
 }
@@ -111,40 +124,12 @@ gen_editdomain_page($tpl);
 // Begin function block
 
 /**
- * Get the reseller id of a domain
- */
-function get_reseller_id($domain_id) {
-	$sql = Database::getInstance();
-
-	$query = "
-	SELECT
-		a.`created_by`
-	FROM
-		`domain` d, `admin` a
-	WHERE
-		d.`domain_id` = ?
-	AND
-		d.`domain_admin_id` = a.`admin_id`
-";
-
-	$rs = exec_query($sql, $query, array($domain_id));
-
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
-		user_goto('manage_users.php');
-	}
-
-	$data = $rs->FetchRow();
-	return $data['created_by'];
-}
-
-/**
  * Load data from sql
  */
 function load_user_data($user_id, $domain_id) {
 	$sql = Database::getInstance();
 
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
@@ -184,13 +169,14 @@ function load_user_data($user_id, $domain_id) {
  */
 function load_additional_data($user_id, $domain_id) {
 	$sql = Database::getInstance();
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp, $username, $allowbackup;
 	global $dns_supp;
 	// Get domain data
 	$query = "
 		SELECT
 			`domain_name`,
+			`domain_expires`, 
 			`domain_ip_id`,
 			`domain_php`,
 			`domain_cgi`,
@@ -207,6 +193,17 @@ function load_additional_data($user_id, $domain_id) {
 	$data = $res->FetchRow();
 
 	$domain_name		= $data['domain_name'];
+
+	$domain_expires		= $data['domain_expires'];
+	$_SESSION['domain_expires'] = $domain_expires;
+
+	if ($domain_expires == 0) { 
+ 		$domain_expires = tr('N/A'); 
+ 	} else { 
+ 		$date_formt = Config::get('DATE_FORMAT'); 
+ 		$domain_expires = date($date_formt, $domain_expires); 
+ 	} 
+	
 	$domain_ip_id		= $data['domain_ip_id'];
 	$php_sup			= $data['domain_php'];
 	$cgi_supp			= $data['domain_cgi'];
@@ -250,7 +247,7 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  */
 function gen_editdomain_page(&$tpl) {
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
@@ -263,7 +260,7 @@ function gen_editdomain_page(&$tpl) {
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
 
-	if ($allowbackup === 'domain') {
+	if ($allowbackup === 'dmn') {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => 'selected="selected"',
@@ -311,6 +308,7 @@ function gen_editdomain_page(&$tpl) {
 			'DNS_NO' 				=> ($dns_supp != 'yes') ? 'selected="selected"':'',
 			'VL_DOMAIN_NAME'		=> UserIO::HTML($domain_name),
 			'VL_DOMAIN_IP'			=> $domain_ip,
+			'VL_DOMAIN_EXPIRE' => $domain_expires,
 			'VL_DOM_SUB'			=> $sub,
 			'VL_DOM_ALIAS'			=> $als,
 			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
@@ -329,12 +327,13 @@ function gen_editdomain_page(&$tpl) {
  * Check input data
  */
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
-	global $sub, $als, $mail, $ftp;
+	global $domain_expires, $sub, $als, $mail, $ftp;
 	global $sql_db, $sql_user, $traff;
 	global $disk, $sql, $domain_ip, $domain_php;
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
 
+	$domain_new_expire = UserIO::POST_String('dmn_expire'); 
 	$sub			= UserIO::POST_String('dom_sub');
 	$als			= UserIO::POST_String('dom_alias');
 	$mail			= UserIO::POST_String('dom_mail_acCount');
@@ -344,10 +343,11 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$traff			= UserIO::POST_String('dom_traffic');
 	$disk			= UserIO::POST_String('dom_disk');
 // 	$domain_ip	= UserIO::POST_String('domain_ip');
-	$domain_php		= UserIO::POST_String('domain_php');
-	$domain_cgi		= UserIO::POST_String('domain_cgi');
-	$domain_dns		= UserIO::POST_String('domain_dns');
-	$allowbackup	= UserIO::POST_String('backup');
+	$domain_php		= preg_replace("/\_/", "", UserIO::POST_String('domain_php'));
+	$domain_cgi		= preg_replace("/\_/", "", UserIO::POST_String('domain_cgi'));
+	$domain_dns		= preg_replace("/\_/", "", UserIO::POST_String('domain_dns'));
+	$allowbackup	= preg_replace("/\_/", "", UserIO::POST_String('backup'));
+
 
 	$ed_error = '';
 
@@ -444,7 +444,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			exec_query($sql, $query, array($user_id));
 			$query = "UPDATE `subdomain` SET `subdomain_status` = 'change' WHERE `domain_id` = ?";
 			exec_query($sql, $query, array($user_id));
-			check_for_lock_file();
 			send_request();
 		}
 
@@ -461,6 +460,16 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$user_props .= "$domain_cgi;";
 		$user_props .= "$domain_dns";
 		update_user_props($user_id, $user_props);
+
+		$domain_expires = $_SESSION['domain_expires'];
+
+		if ($domain_expires != 0 && $domain_new_expire != 0) {
+			$domain_new_expire = $domain_expires + ($domain_new_expire * 2635200);
+			update_expire_date($user_id, $domain_new_expire);
+		} elseif ($domain_expires == 0 && $domain_new_expire != 0) {
+			$domain_new_expire = time() + ($domain_new_expire * 2635200);
+			update_expire_date($user_id, $domain_new_expire);
+		}
 
 		$reseller_props = "$rdmn_current;$rdmn_max;";
 		$reseller_props .= "$rsub_current;$rsub_max;";

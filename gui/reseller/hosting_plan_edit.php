@@ -43,45 +43,49 @@ gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_hosting_p
 gen_logged_from($tpl);
 
 $tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Edit hosting plan'),
-		'THEME_COLOR_PATH'					=> "../themes/$theme_color",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
+		array(
+				'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Edit hosting plan'),
+				'THEME_COLOR_PATH'					=> "../themes/$theme_color",
+				'THEME_CHARSET'						=> tr('encoding'),
+				'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
+		)
 );
 
 $tpl->assign(
-	array(
-		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
-		'TR_TEMPLATE_NAME'			=> tr('Template name'),
-		'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_FTP'				=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL'				=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_PHP'					=> tr('PHP'),
-		'TR_CGI'					=> tr('CGI / Perl'),
-		'TR_DNS'					=> tr('Allow adding records to DNS zone'),
-		'TR_BACKUP_RESTORE'			=> tr('Backup and restore'),
-		'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
-		'TR_AWSTATS'				=> tr('AwStats'),
-		'TR_YES'					=> tr('yes'),
-		'TR_NO'						=> tr('no'),
-		'TR_BILLING_PROPS'			=> tr('Billing Settings'),
-		'TR_PRICE'					=> tr('Price'),
-		'TR_SETUP_FEE'				=> tr('Setup fee'),
-		'TR_VALUE'					=> tr('Currency'),
-		'TR_PAYMENT'				=> tr('Payment period'),
-		'TR_STATUS'					=> tr('Available for purchasing'),
-		'TR_TEMPLATE_DESCRIPTON'	=> tr('Description'),
-		'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
-		'TR_EDIT_HOSTING_PLAN'		=> tr('Update plan'),
-		'TR_UPDATE_PLAN'			=> tr('Update plan')
-	)
+		array(
+				'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
+				'TR_TEMPLATE_NAME'			=> tr('Template name'),
+				'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_FTP'				=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_SQL'				=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+				'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
+				'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+				'TR_PHP'					=> tr('PHP'),
+				'TR_CGI'					=> tr('CGI / Perl'),
+				'TR_DNS'					=> tr('Allow adding records to DNS zone'),
+				'TR_BACKUP'					=> tr('Backup'),
+				'TR_BACKUP_DOMAIN'			=> tr('Domain'),
+				'TR_BACKUP_SQL'				=> tr('SQL'),
+				'TR_BACKUP_FULL'			=> tr('Full'),
+				'TR_BACKUP_NO'				=> tr('No'),
+				'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
+				'TR_AWSTATS'				=> tr('AwStats'),
+				'TR_YES'					=> tr('yes'),
+				'TR_NO'						=> tr('no'),
+				'TR_BILLING_PROPS'			=> tr('Billing Settings'),
+				'TR_PRICE'					=> tr('Price'),
+				'TR_SETUP_FEE'				=> tr('Setup fee'),
+				'TR_VALUE'					=> tr('Currency'),
+				'TR_PAYMENT'				=> tr('Payment period'),
+				'TR_STATUS'					=> tr('Available for purchasing'),
+				'TR_TEMPLATE_DESCRIPTON'	=> tr('Description'),
+				'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
+				'TR_EDIT_HOSTING_PLAN'		=> tr('Update plan'),
+				'TR_UPDATE_PLAN'			=> tr('Update plan')
+		)
 );
 
 /*
@@ -146,16 +150,22 @@ function restore_form(&$tpl, &$sql) {
 			'TR_CGI_NO'		=> (UserIO::POST_String('cgi') !== '_yes_')	? 'checked="checked"' : '',
 			'TR_DNS_YES'	=> (UserIO::POST_String('dns') === '_yes_')	? 'checked="checked"' : '',
 			'TR_DNS_NO'		=> (UserIO::POST_String('dns') !== '_yes_')	? 'checked="checked"' : '',
+			'VL_BACKUPD'	=> ($hp_backup == '_dmn_') 					? 'checked="checked"' : '',
+			'VL_BACKUPS'	=> ($hp_backup == '_sql_') 					? 'checked="checked"' : '',
+			'VL_BACKUPF'	=> ($hp_backup == '_full_') 				? 'checked="checked"' : '',
+			'VL_BACKUPN'	=> ($hp_backup == '_no_') 					? 'checked="checked"' : '',
 			'TR_STATUS_YES'	=> (UserIO::POST_Int('status') == 1)		? 'checked="checked"' : '',
 			'TR_STATUS_NO'	=> (UserIO::POST_Int('status') != 1)		? 'checked="checked"' : ''
 		)
 	);
+
 } // end of function restore_form()
 
 /**
  * Generate load data from sql for requested hosting plan
  */
 function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
+
 	$_SESSION['hpid'] = $hpid;
 
 	if (Config::exists('HOSTING_PLANS_LEVEL')
@@ -168,11 +178,13 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			WHERE
 				`id` = ?;
 		";
+
 		$res = exec_query($sql, $query, array($hpid));
 		$readonly = 'readonly="readonly"';
 		$disabled = 'disabled="disabled"';
 		$edit_hp = tr('View hosting plan');
 		$tpl->assign('FORM', "");
+
 	} else {
 		$query = "
 			SELECT
@@ -184,6 +196,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			AND
 				`id` = ?;
 		";
+
 		$res = exec_query($sql, $query, array($admin_id, $hpid));
 		$readonly = '';
 		$disabled = '';
@@ -202,7 +215,23 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 	$value = $data['value'];
 	$payment = $data['payment'];
 	$status = $data['status'];
-	list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_dns) = explode(";", $props);
+	
+	list(
+			$hp_php,
+			$hp_cgi,
+			$hp_sub,
+			$hp_als,
+			$hp_mail,
+			$hp_ftp,
+			$hp_sql_db,
+			$hp_sql_user,
+			$hp_traff,
+			$hp_disk,
+			$hp_backup,
+			$hp_dns
+
+	) = explode(";", $props);
+	
 	$hp_name = $data['name'];
 
 	if ($description == '')
@@ -237,16 +266,20 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 	);
 
 	$tpl->assign(
-		array(
-			'TR_PHP_YES'	=> ($hp_php === '_yes_')	? 'checked="checked"' : '',
-			'TR_PHP_NO'		=> ($hp_php !== '_yes_')	? 'checked="checked"' : '',
-			'TR_CGI_YES'	=> ($hp_cgi === '_yes_')	? 'checked="checked"' : '',
-			'TR_CGI_NO'		=> ($hp_cgi !== '_yes_')	? 'checked="checked"' : '',
-			'TR_DNS_YES'	=> ($hp_dns === '_yes_')	? 'checked="checked"' : '',
-			'TR_DNS_NO'		=> ($hp_dns !== '_yes_')	? 'checked="checked"' : '',
-			'TR_STATUS_YES'	=> ($status == 1)			? 'checked="checked"' : '',
-			'TR_STATUS_NO'	=> ($status != 1)			? 'checked="checked"' : '',
-		)
+			array(
+					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'		=> ($hp_php == '_no_')	? 'checked="checked"' : '',
+					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : '',
+			)
 	);
 } // end of gen_load_ehp_page()
 
@@ -260,7 +293,7 @@ function check_data_iscorrect(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $hpid;
 	global $price, $setup_fee;
-	global $hp_dns;
+	global $hp_backup, $hp_dns;
 
 	$ahp_error		= '_off_';
 	$hp_name		= UserIO::POST_String('hp_name');
@@ -276,21 +309,33 @@ function check_data_iscorrect(&$tpl) {
 	$setup_fee		= UserIO::POST_Float('hp_setupfee');
 
 	if (isset($_SESSION['hpid']))
+	{
 		$hpid = $_SESSION['hpid'];
+	}
 	else
+	{
 		$ahp_error = tr('Undefined reference to data!');
+	}
+	
 	// put hosting plan id into session value
 	$_SESSION['hpid'] = $hpid;
 	
 	// Get values from previous page and check him correction
-	if (UserIO::POST_isset('php'))
+	if (UserIO::POST_isset('php')) {
 		$hp_php = UserIO::POST_String('php');
+	}
 
-	if (UserIO::POST_isset('cgi'))
+	if (UserIO::POST_isset('cgi')) {
 		$hp_cgi = UserIO::POST_String('cgi');
+	}
 
-	if (UserIO::POST_isset('dns'))
+	if (UserIO::POST_isset('dns')) {
 		$hp_dns = UserIO::POST_String('dns');
+	}
+
+    if (UserIO::POST_isset('backup')) {
+    	$hp_backup = UserIO::POST_String('backup');
+    }
 
 	if (!ispcp_limit_check($hp_sub, -1)) {
 		$ahp_error = tr('Incorrect subdomains limit!');
@@ -327,14 +372,16 @@ function check_data_iscorrect(&$tpl) {
  * Add new host plan to DB
  */
 function save_data_to_db() {
-	$sql = Database::getInstance();
+
 	global $tpl;
 	global $hp_name, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk;
 	global $hpid;
-	global $hp_dns;
+	global $hp_backup, $hp_dns;
+	
+	$sql = Database::getInstance();
 
 	$err_msg		= '';
 	$description	= UserIO::POST_String('hp_description');
@@ -344,7 +391,7 @@ function save_data_to_db() {
 	$payment		= UserIO::POST_String('hp_payment');
 	$status			= UserIO::POST_String('status');
 
-	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_dns;";
+	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 
 	$admin_id = $_SESSION['user_id'];
 
@@ -370,12 +417,14 @@ function save_data_to_db() {
 				WHERE
 					`id` = ?
 			";
+
 			$res = exec_query($sql, $query, array($hp_name, $description, $hp_props, $price,
 				$setup_fee, $currency, $payment, $status, $hpid));
 
 			$_SESSION['hp_updated'] = '_yes_';
 			user_goto('hosting_plan.php');
 		}
+
 	} else {
 		set_page_message(tr("Hosting plan values exceed reseller maximum values!"));
 		return false;

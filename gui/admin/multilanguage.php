@@ -42,32 +42,6 @@ $tpl->assign(
 	)
 );
 
-function update_def_lang() {
-	$sql = Database::getInstance();
-	global $theme;
-
-	if (UserIO::POST_String('uaction') == 'change_language') {
-		if (UserIO::POST_String('default_language') != '') {
-			$user_id = $_SESSION['user_id'];
-			$user_lang = UserIO::POST_String('default_language');
-
-			$query = "SELECT * FROM `user_gui_props` WHERE `user_id` = ?";
-			$rs = exec_query($sql, $query, array($user_id));
-
-			if ($rs->RecordCount() == 0) {
-				$query = "INSERT INTO `user_gui_props` (`user_id`, `lang`, `layout`) VALUES (?, ?, ?)";
-				$rs = exec_query($sql, $query, array($user_id, $user_lang, $theme));
-			} else {
-				$query = "UPDATE `user_gui_props` SET `lang` = ? WHERE `user_id` = ?";
-				$rs = exec_query($sql, $query, array($user_lang, $user_id));
-			}
-
-			$_SESSION['user_def_lang'] = $user_lang;
-			set_page_message(tr('Default language changed!'));
-		}
-	}
-}
-
 function install_lang() {
 	$sql = Database::getInstance();
 
@@ -226,24 +200,6 @@ function show_lang(&$tpl, &$sql) {
 
 		$tpl->assign('LANG_CLASS', ($row++ % 2 == 0) ? 'content2' : 'content');
 
-		if ($usr_def_lng[1] == $dat[1]) {
-			$tpl->assign(
-				array(
-					'DEFAULT'		=> tr('yes'),
-					'LANG_RADIO'	=> '',
-				)
-			);
-			$tpl->parse('LANG_DEF', 'lang_def');
-		} else {
-			$tpl->assign(
-				array(
-					'LANG_DEF'		=> '',
-					'LANG_VALUE'	=> 'lang_' . $dat[1],
-				)
-			);
-			$tpl->parse('LANG_RADIO', 'lang_radio');
-		}
-
 		if (Config::get('USER_INITIAL_LANG') == 'lang_' . $dat[1]
 			|| $usr_def_lng[1] == $dat[1]) {
 			$tpl->assign(
@@ -286,8 +242,6 @@ function show_lang(&$tpl, &$sql) {
  *
  */
 
-update_def_lang();
-
 gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
 
@@ -302,7 +256,7 @@ $tpl->assign(
 		'TR_LANGUAGE'				=> tr('Language'),
 		'TR_MESSAGES'				=> tr('Messages'),
 		'TR_LANG_REV'				=> tr('Date'),
-		'TR_DEFAULT'				=> tr('Default'),
+		'TR_DEFAULT'				=> tr('Panel Default'),
 		'TR_ACTION'					=> tr('Action'),
 		'TR_SAVE'					=> tr('Save'),
 		'TR_INSTALL_NEW_LANGUAGE'	=> tr('Install new language'),

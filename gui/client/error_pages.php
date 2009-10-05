@@ -38,7 +38,7 @@ function write_error_page(&$sql, $user_id, $eid) {
 
 	$error = UserIO::POST_Memo('error');
 	$file = '/errors/' . $eid . '.html';
-	$vfs = &new vfs($_SESSION['user_logged'], $sql);
+	$vfs = new vfs($_SESSION['user_logged'], $sql);
 
 	return $vfs->put($file, $error);
 }

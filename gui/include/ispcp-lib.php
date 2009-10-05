@@ -54,7 +54,7 @@ Config::set('IPS_LOGO_PATH', '../themes/user_logos');
 Config::set('PURCHASE_TEMPLATE_PATH', '../' . Config::get('ROOT_TEMPLATE_PATH') . Config::get('USER_INITIAL_THEME') . '/orderpanel');
 
 // Standard Language (if not set)
-Config::set('USER_INITIAL_LANG', 'lang_English');
+Config::set('USER_INITIAL_LANG', 'lang_EnglishBritain');
 
 require_once(INCLUDEPATH . '/system-message.php');
 require_once(INCLUDEPATH . '/ispcp-db-keys.php');
@@ -215,7 +215,7 @@ require_once(INCLUDEPATH . '/htmlpurifier/HTMLPurifier.auto.php');
 // Use HTMLPurifier on every request, if OVERRIDE_PURIFIER is not defined
 if ($_REQUEST && !defined('OVERRIDE_PURIFIER')) {
 	$config = HTMLPurifier_Config::createDefault();
-	$config->set('HTML', 'TidyLevel', 'none'); // XSS cleaning
+	$config->set('HTML.TidyLevel', 'none'); // XSS cleaning
 
 	$purifier = new HTMLPurifier($config);
 	//$purifier = HTMLPurifier::getInstance();

@@ -4,7 +4,7 @@
  *
  * @copyright	2001-2006 by moleSoftware GmbH
  * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id: mail_add.php 1749 2009-05-09 18:18:03Z scitech $
+ * @version		SVN: $Id$
  * @link		http://isp-control.net
  * @author		ispCP Team
  *
@@ -392,8 +392,6 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 		$mail_pass=encrypt_db_password($mail_pass);
 	}
 
-	check_for_lock_file();
-
 	$query = "
 		INSERT INTO `mail_users` (
 			`mail_acc`,
@@ -420,6 +418,8 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 			$mail_auto_respond,
 			$mail_auto_respond_text,
 			$mail_addr));
+
+	update_reseller_c_props(get_reseller_id($domain_id));
 
 	write_log($_SESSION['user_logged'] . ": adds new mail account: " . (isset($mail_addr) ? $mail_addr : $mail_acc));
 	set_page_message(tr('Mail account scheduled for addition!'));

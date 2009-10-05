@@ -269,7 +269,6 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt) {
 	$status_add = Config::get('ITEM_ADD_STATUS');
 
-	check_for_lock_file();
 	if (UserIO::POST_String('dmn_type') == 'als') {
 		$query = "
 			INSERT INTO
@@ -295,6 +294,8 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt)
 	}
 
 	$rs = exec_query($sql, $query, array($domain_id, $sub_name, $sub_mnt_pt, $status_add));
+
+	update_reseller_c_props(get_reseller_id($domain_id));
 
 	$sub_id = $sql->Insert_ID();
 
@@ -354,8 +355,8 @@ function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 			set_page_message(tr('Wrong subdomain syntax!'));
 		} else if (mount_point_exists($dmn_id, array_decode_idna($sub_mnt_pt, true))) {
 			set_page_message(tr('Mount point already in use!'));
-		} else if (!chk_mountp($sub_mnt_pt)) {
-			set_page_message(tr('Incorrect mount point syntax'));
+		} else if (!chk_mountp($sub_mnt_pt, null, 1)) {
+			set_page_message(tr('Incorrect mount point syntax!'));
 		} else {
 			// now let's fix the mountpoint
 			$sub_mnt_pt = array_decode_idna($sub_mnt_pt, true);

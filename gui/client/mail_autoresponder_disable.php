@@ -56,7 +56,6 @@ check_email_user($sql);
 if (UserIO::GET_isset('id') && UserIO::GET_Int('id') !== '') {
 	$mail_id = UserIO::GET_Int('id');
 	$item_change_status = Config::get('ITEM_CHANGE_STATUS');
-	check_for_lock_file();
 
 	$query = "
 		UPDATE

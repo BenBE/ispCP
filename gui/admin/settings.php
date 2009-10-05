@@ -60,6 +60,7 @@ if (UserIO::POST_String('uaction') == 'apply') {
 	$prevent_external_login_admin	= UserIO::POST_String('prevent_external_login_admin');
 	$prevent_external_login_reseller= UserIO::POST_String('prevent_external_login_reseller');
 	$prevent_external_login_client	= UserIO::POST_String('prevent_external_login_client');
+	$custom_orderpanel_id			= clean_input($_POST['coid']);
 
 	// change Loglevel to constant:
 	switch (UserIO::POST_String('log_level')) {
@@ -110,10 +111,12 @@ if (UserIO::POST_String('uaction') == 'apply') {
 		setConfig_Value('PREVENT_EXTERNAL_LOGIN_ADMIN', $prevent_external_login_admin);
 		setConfig_Value('PREVENT_EXTERNAL_LOGIN_RESELLER', $prevent_external_login_reseller);
 		setConfig_Value('PREVENT_EXTERNAL_LOGIN_CLIENT', $prevent_external_login_client);
+		setConfig_Value('CUSTOM_ORDERPANEL_ID', $custom_orderpanel_id);
 		set_page_message(tr('Settings saved !'));
 	}
 }
 
+$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
 $tpl->assign(
 	array(
 		'LOSTPASSWORD_TIMEOUT_VALUE' => Config::get('LOSTPASSWORD_TIMEOUT'),
@@ -122,7 +125,8 @@ $tpl->assign(
 		'BRUTEFORCE_BLOCK_TIME_VALUE' => Config::get('BRUTEFORCE_BLOCK_TIME'),
 		'BRUTEFORCE_BETWEEN_TIME_VALUE' => Config::get('BRUTEFORCE_BETWEEN_TIME'),
 		'BRUTEFORCE_MAX_CAPTCHA' => Config::get('BRUTEFORCE_MAX_CAPTCHA'),
-		'DOMAIN_ROWS_PER_PAGE' => Config::get('DOMAIN_ROWS_PER_PAGE')
+		'DOMAIN_ROWS_PER_PAGE' => Config::get('DOMAIN_ROWS_PER_PAGE'),
+		'CUSTOM_ORDERPANEL_ID' => $coid
 	)
 );
 $language = Config::get('USER_INITIAL_LANG');
@@ -295,7 +299,7 @@ $tpl->assign(
 		'TR_CREATE_DEFAULT_EMAIL_ADDRESSES' => tr('Create default E-Mail addresses'),
 		'TR_COUNT_DEFAULT_EMAIL_ADDRESSES' => tr('Count default E-Mail addresses'),
 		'TR_HARD_MAIL_SUSPENSION' => tr('E-Mail accounts are hard suspended'),
-		'TR_USER_INITIAL_LANG' => tr('Default language'),
+		'TR_USER_INITIAL_LANG' => tr('Panel default language'),
 		'TR_SUPPORT_SYSTEM' => tr('Support system'),
 		'TR_ENABLED' => tr('Enabled'),
 		'TR_DISABLED' => tr('Disabled'),
@@ -315,6 +319,7 @@ $tpl->assign(
 		'TR_PREVENT_EXTERNAL_LOGIN_ADMIN' => tr('Prevent external login for admins'),
 		'TR_PREVENT_EXTERNAL_LOGIN_RESELLER' => tr('Prevent external login for resellers'),
 		'TR_PREVENT_EXTERNAL_LOGIN_CLIENT' => tr('Prevent external login for clients'),
+		'TR_CUSTOM_ORDERPANEL_ID' => tr('Custom orderpanel ID'),
 	)
 );
 

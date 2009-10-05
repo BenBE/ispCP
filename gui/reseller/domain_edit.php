@@ -51,31 +51,42 @@ $tpl->assign(
  */
 $tpl->assign(
 	array(
-		'TR_EDIT_DOMAIN'		=> tr('Edit Domain'),
-		'TR_DOMAIN_PROPERTIES'	=> tr('Domain properties'),
-		'TR_DOMAIN_NAME'		=> tr('Domain name'),
-		'TR_DOMAIN_IP'			=> tr('Domain IP'),
-		'TR_PHP_SUPP'			=> tr('PHP support'),
-		'TR_CGI_SUPP'			=> tr('CGI support'),
-		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
-		'TR_SUBDOMAINS'			=> tr('Max subdomains<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_ALIAS'				=> tr('Max aliases<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAIL_ACCOUNT'		=> tr('Mail accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_FTP_ACCOUNTS'		=> tr('FTP accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_DB'				=> tr('SQL databases limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_USERS'			=> tr('SQL users limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_TRAFFIC'			=> tr('Traffic limit [MB] <br /><i>(0 unlimited)</i>'),
-		'TR_DISK'				=> tr('Disk limit [MB] <br /><i>(0 unlimited)</i>'),
-		'TR_USER_NAME'			=> tr('Username'),
-		'TR_BACKUP'				=> tr('Backup'),
-		'TR_BACKUP_DOMAIN'		=> tr('Domain'),
-		'TR_BACKUP_SQL'			=> tr('SQL'),
-		'TR_BACKUP_FULL'		=> tr('Full'),
-		'TR_BACKUP_NO'			=> tr('No'),
-		'TR_UPDATE_DATA'		=> tr('Submit changes'),
-		'TR_CANCEL'				=> tr('Cancel'),
-		'TR_YES'				=> tr('Yes'),
-		'TR_NO'					=> tr('No')
+		'TR_EDIT_DOMAIN'					=> tr('Edit Domain'),
+		'TR_DOMAIN_PROPERTIES'				=> tr('Domain properties'),
+		'TR_DOMAIN_NAME'					=> tr('Domain name'),
+		'TR_DOMAIN_EXPIRE'					=> tr('Domain expire'),
+		'TR_DOMAIN_NEW_EXPIRE'				=> tr('New expire date'),
+		'TR_DOMAIN_EXPIRE_UNCHANGED'		=> tr('Unchanged'),
+		'TR_DOMAIN_EXPIRE_MIN_1_MONTH'		=> tr('- 1 Month'),
+		'TR_DOMAIN_EXPIRE_PLUS_1_MONTH'		=> tr('+ 1 Month'),
+		'TR_DOMAIN_EXPIRE_PLUS_2_MONTHS'	=> tr('+ 2 Months'),
+		'TR_DOMAIN_EXPIRE_PLUS_3_MONTHS'	=> tr('+ 3 Months'),
+		'TR_DOMAIN_EXPIRE_PLUS_6_MONTHS'	=> tr('+ 6 Months'),
+		'TR_DOMAIN_EXPIRE_PLUS_1_YEAR'		=> tr('+ 1 Year'),
+		'TR_DOMAIN_EXPIRE_PLUS_2_YEARS'		=> tr('+ 2 Years'),
+		'TR_DOMAIN_IP'						=> tr('Domain IP'),
+		'TR_PHP_SUPP'						=> tr('PHP support'),
+		'TR_CGI_SUPP'						=> tr('CGI support'),
+		'TR_DNS_SUPP'						=> tr('Manual DNS support'),
+		'TR_SUBDOMAINS'						=> tr('Max subdomains<br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_ALIAS'							=> tr('Max aliases<br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAIL_ACCOUNT'					=> tr('Mail accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_FTP_ACCOUNTS'					=> tr('FTP accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_SQL_DB'							=> tr('SQL databases limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_SQL_USERS'						=> tr('SQL users limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_TRAFFIC'						=> tr('Traffic limit [MB] <br /><i>(0 unlimited)</i>'),
+		'TR_DISK'							=> tr('Disk limit [MB] <br /><i>(0 unlimited)</i>'),
+		'TR_USER_NAME'						=> tr('Username'),
+		'TR_BACKUP'							=> tr('Backup'),
+		'TR_BACKUP_DOMAIN'					=> tr('Domain'),
+		'TR_BACKUP_SQL'						=> tr('SQL'),
+		'TR_BACKUP_FULL'					=> tr('Full'),
+		'TR_BACKUP_NO'						=> tr('No'),
+		'TR_UPDATE_DATA'					=> tr('Submit changes'),
+		'TR_CANCEL'							=> tr('Cancel'),
+		'TR_YES'							=> tr('Yes'),
+		'TR_NO'								=> tr('No'),
+		'TR_DMN_EXP_HELP'					=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
 	)
 );
 
@@ -87,6 +98,7 @@ gen_logged_from($tpl);
 gen_page_message($tpl);
 
 if (UserIO::POST_isset('uaction') && ('sub_data' === UserIO::POST_String('uaction'))) {
+
 	// Process data
 	if (isset($_SESSION['edit_id'])) {
 		$editid = $_SESSION['edit_id'];
@@ -122,7 +134,7 @@ gen_editdomain_page($tpl);
 function load_user_data($user_id, $domain_id) {
 	$sql = Database::getInstance();
 
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
@@ -165,13 +177,14 @@ function load_user_data($user_id, $domain_id) {
  */
 function load_additional_data($user_id, $domain_id) {
 	$sql = Database::getInstance();
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp, $username, $allowbackup;
 	global $dns_supp;
 	// Get domain data
 	$query = "
 		SELECT
 			`domain_name`,
+			`domain_expires`,
 			`domain_ip_id`,
 			`domain_php`,
 			`domain_cgi`,
@@ -188,6 +201,17 @@ function load_additional_data($user_id, $domain_id) {
 	$data = $res->FetchRow();
 
 	$domain_name		= $data['domain_name'];
+
+	$domain_expires = $data['domain_expires'];
+	$_SESSION['domain_expires'] = $domain_expires;
+
+	if ($domain_expires == 0) {
+		$domain_expires = tr('N/A');
+	} else {
+		$date_formt = Config::get('DATE_FORMAT');
+		$domain_expires = date($date_formt, $domain_expires);
+	}
+
 	$domain_ip_id		= $data['domain_ip_id'];
 	$php_sup			= $data['domain_php'];
 	$cgi_supp			= $data['domain_cgi'];
@@ -233,7 +257,7 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  */
 function gen_editdomain_page(&$tpl) {
-	global $domain_name, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
@@ -246,40 +270,40 @@ function gen_editdomain_page(&$tpl) {
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
 
-	if ($allowbackup === 'domain') {
+	if ($allowbackup === 'dmn') {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => 'selected="selected"',
-				'BACKUP_SQL' => '',
-				'BACKUP_FULL' => '',
-				'BACKUP_NO' => '',
+				'BACKUP_SQL' 	=> '',
+				'BACKUP_FULL' 	=> '',
+				'BACKUP_NO' 	=> '',
 			)
 		);
 	} else if ($allowbackup === 'sql')  {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
-				'BACKUP_SQL' => 'selected="selected"',
-				'BACKUP_FULL' => '',
-				'BACKUP_NO' => '',
+				'BACKUP_SQL' 	=> 'selected="selected"',
+				'BACKUP_FULL' 	=> '',
+				'BACKUP_NO' 	=> '',
 			)
 		);
 	} else if ($allowbackup === 'full')  {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
-				'BACKUP_SQL' => '',
-				'BACKUP_FULL' => 'selected="selected"',
-				'BACKUP_NO' => '',
+				'BACKUP_SQL' 	=> '',
+				'BACKUP_FULL' 	=> 'selected="selected"',
+				'BACKUP_NO' 	=> '',
 			)
 		);
 	} else if ($allowbackup === 'no')  {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
-				'BACKUP_SQL' => '',
-				'BACKUP_FULL' => '',
-				'BACKUP_NO' => 'selected="selected"',
+				'BACKUP_SQL' 	=> '',
+				'BACKUP_FULL' 	=> '',
+				'BACKUP_NO' 	=> 'selected="selected"',
 			)
 		);
 	}
@@ -293,6 +317,7 @@ function gen_editdomain_page(&$tpl) {
 			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"':'',
 			'DNS_NO'				=> ($dns_supp != 'yes') ? 'selected="selected"':'',
 			'VL_DOMAIN_NAME'		=> UserIO::HTML($domain_name),
+			'VL_DOMAIN_EXPIRE'		=> $domain_expires,
 			'VL_DOMAIN_IP'			=> $domain_ip,
 			'VL_DOM_SUB'			=> $sub,
 			'VL_DOM_ALIAS'			=> $als,
@@ -316,20 +341,22 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	global $disk, $sql, $domain_ip, $domain_php;
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
+	global $domain_expires, $domain_new_expire;
 
-	$sub = UserIO::POST_String('dom_sub');
-	$als = UserIO::POST_String('dom_alias');
-	$mail = UserIO::POST_String('dom_mail_acCount');
-	$ftp = UserIO::POST_String('dom_ftp_acCounts');
-	$sql_db = UserIO::POST_String('dom_sqldb');
-	$sql_user = UserIO::POST_String('dom_sql_users');
-	$traff = UserIO::POST_String('dom_traffic');
-	$disk = UserIO::POST_String('dom_disk');
-	// $domain_ip = UserIO::POST_String('domain_ip');
-	$domain_php = UserIO::POST_String('domain_php');
-	$domain_cgi = UserIO::POST_String('domain_cgi');
-	$domain_dns = UserIO::POST_String('domain_dns');
-	$allowbackup = UserIO::POST_String('backup');
+	$domain_new_expire = UserIO::POST_String('dmn_expire');
+	$sub			= UserIO::POST_String('dom_sub');
+	$als			= UserIO::POST_String('dom_alias');
+	$mail			= UserIO::POST_String('dom_mail_acCount');
+	$ftp			= UserIO::POST_String('dom_ftp_acCounts');
+	$sql_db			= UserIO::POST_String('dom_sqldb');
+	$sql_user		= UserIO::POST_String('dom_sql_users');
+	$traff 			= UserIO::POST_String('dom_traffic');
+	$disk 			= UserIO::POST_String('dom_disk');
+	// $domain_ip 	= UserIO::POST_String('domain_ip');
+	$domain_php		= preg_replace("/\_/", "", UserIO::POST_String('domain_php'));
+	$domain_cgi		= preg_replace("/\_/", "", UserIO::POST_String('domain_cgi'));
+	$domain_dns		= preg_replace("/\_/", "", UserIO::POST_String('domain_dns'));
+	$allowbackup	= preg_replace("/\_/", "", UserIO::POST_String('backup'));
 
 	$ed_error = '';
 
@@ -426,7 +453,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			exec_query($sql, $query, array($user_id));
 			$query = "UPDATE `subdomain` SET `subdomain_status` = 'change' WHERE `domain_id` = ?";
 			exec_query($sql, $query, array($user_id));
-			check_for_lock_file();
 			send_request();
 		}
 
@@ -443,6 +469,16 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$user_props .= "$domain_cgi;";
 		$user_props .= "$domain_dns";
 		update_user_props($user_id, $user_props);
+
+		$domain_expires = $_SESSION['domain_expires'];
+
+		if ($domain_expires != 0 && $domain_new_expire != 0) {
+			$domain_new_expire = $domain_expires + ($domain_new_expire * 2635200);
+			update_expire_date($user_id, $domain_new_expire);
+		} elseif ($domain_expires == 0 && $domain_new_expire != 0) {
+			$domain_new_expire = time() + ($domain_new_expire * 2635200);
+			update_expire_date($user_id, $domain_new_expire);
+		}
 
 		$reseller_props = "$rdmn_current;$rdmn_max;";
 		$reseller_props .= "$rsub_current;$rsub_max;";

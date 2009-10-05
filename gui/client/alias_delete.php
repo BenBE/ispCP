@@ -108,8 +108,6 @@ if (UserIO::GET_isset('id') && UserIO::GET_Int('id') !== '') {
 		user_goto('domains_manage.php');
 	}
 
-	check_for_lock_file();
-
 	$query = "
 		UPDATE
 			`domain_aliasses`
@@ -120,6 +118,8 @@ if (UserIO::GET_isset('id') && UserIO::GET_Int('id') !== '') {
 	";
 
 	$rs = exec_query($sql, $query, array($als_id));
+
+	update_reseller_c_props(get_reseller_id($dmn_id));
 
 	send_request();
 	write_log($_SESSION['user_logged'].": delete alias ".$alias_name."!");

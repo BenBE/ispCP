@@ -189,9 +189,10 @@ function check_fwd_data(&$tpl, $alias_id) {
 		if (!chk_forward_url($forward_url)) {
 			$ed_error = tr("Incorrect forward syntax");
 		}
-		if (!preg_match("/\/$/", $forward_url)) {
+		/** @todo test and remove if no bugs encounter
+		if (!preg_match("/\/$/", $forward_url) && !preg_match("/\?/", $forward_url)) {
 			$forward_url .= "/";
-		}
+		}*/
 	}
 
 	if ($ed_error === '_off_') {
@@ -220,7 +221,6 @@ function check_fwd_data(&$tpl, $alias_id) {
 		";
 		exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $alias_id));
 
-		check_for_lock_file();
 		send_request();
 
 		$admin_login = $_SESSION['user_logged'];

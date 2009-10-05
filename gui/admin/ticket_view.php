@@ -240,18 +240,6 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 			(?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	if (UserIO::POST_String('uaction') == 'close') {
-		if ($user_message != '') {
-			$user_message .= "\n\n";
-		}
-		$user_message .= tr("Ticket was closed!");
-	} elseif (UserIO::POST_String('uaction') == 'open') {
-		if ($user_message != '') {
-			$user_message .= "\n\n";
-		}
-		$user_message .= tr("Ticket was reopened!");
-	}
-
 	$rs = exec_query($sql, $query, array($ticket_from, $ticket_to, $ticket_status,
 			$ticket_reply, $urgency, $ticket_date,
 			$subject, $user_message)
@@ -283,6 +271,19 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	}
 
 	set_page_message(tr('Message was sent.'));
+
+	if (UserIO::POST_String('uaction') == "close") {
+		if ($user_message != '') {
+			$user_message .= "\n\n";
+		}
+		$user_message .= tr("Ticket was closed!");
+	} elseif (UserIO::POST_String('uaction') == "open") {
+		if ($user_message != '') {
+			$user_message .= "\n\n";
+		}
+		$user_message .= tr("Ticket was reopened!");
+	}
+
 	send_tickets_msg($ticket_to, $ticket_from, $subject, $user_message, $ticket_reply, $urgency);
 }
 

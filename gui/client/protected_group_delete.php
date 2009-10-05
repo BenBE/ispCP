@@ -92,7 +92,6 @@ while (!$rs->EOF) {
 	$rs->MoveNext();
 }
 
-check_for_lock_file();
 send_request();
 
 write_log($_SESSION['user_logged'].": deletes group ID (protected areas): $group_id");

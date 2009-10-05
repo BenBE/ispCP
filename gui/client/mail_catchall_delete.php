@@ -44,8 +44,6 @@ if (UserIO::GET_isset('id') && UserIO::GET_Int('id') !== '') {
 		user_goto('mail_catchall.php');
 	}
 
-	check_for_lock_file();
-
 	$query = "
 		UPDATE
 			`mail_users`

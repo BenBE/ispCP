@@ -83,6 +83,7 @@ $tpl->assign(
 		'TR_USERNAME' => tr('Username'),
 		'TR_ACTION' => tr('Actions'),
 		'TR_CREATION_DATE' => tr('Creation date'),
+		'TR_EXPIRE_DATE' => tr('Expire date'),
 		'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
 		'TR_BACK' => tr('Back'),
 		'TR_TITLE_BACK' => tr('Return to previous menu'),
@@ -284,11 +285,20 @@ function generate_users_list(&$tpl, $admin_id) {
 
 			$dom_created = $rs->fields['domain_created'];
 
+			$dom_expires = $rs->fields['domain_expires'];
+
 			if ($dom_created == 0) {
 				$dom_created = tr('N/A');
 			} else {
 				$date_formt = Config::get('DATE_FORMAT');
 				$dom_created = date($date_formt, $dom_created);
+			}
+
+			if ($dom_expires == 0) {
+				$dom_expires = tr('N/A');
+			} else {
+				$date_formt = Config::get('DATE_FORMAT');
+				$dom_expires = date($date_formt, $dom_expires);
 			}
 
 			if ($disk_space > 0) {
@@ -299,6 +309,7 @@ function generate_users_list(&$tpl, $admin_id) {
 			$tpl->assign(
 				array(
 					'CREATION_DATE' => $dom_created,
+					'EXPIRE_DATE' => $dom_expires,
 					'DOMAIN_ID' => $rs->fields['domain_id'],
 					'NAME' => UserIO::HTML($admin_name),
 					'ACTION' => tr('Delete'),

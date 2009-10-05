@@ -45,9 +45,7 @@ $tpl->assign(
 );
 
 /*
- *
  * static page messages.
- *
  */
 $tpl->assign(
 	array(
@@ -240,7 +238,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 			FROM
 				`domain`
 			WHERE
-				`domain_id` = ?
+				`domain_id` = :domain_id
 			UNION
 			SELECT
 				`domain_aliasses`.`alias_id`,
@@ -248,10 +246,11 @@ function gen_editdns_page(&$tpl, $edit_id) {
 			FROM
 				`domain_aliasses`
 			WHERE
-				`domain_aliasses`.`domain_id` = ?
+				`domain_aliasses`.`domain_id` = :domain_id
+			AND `alias_status` <> :state
 		";
 
-		$res = exec_query($sql, $query, array($dmn_id, $dmn_id));
+		$res = exec_query($sql, $query, array('domain_id'=>$dmn_id,'state'=>Config::get('ITEM_ORDERED_STATUS')));
 		$sel = '';
 		while ($row = $res->FetchRow()) {
 			$sel.='<option value="'.$row['alias_id'].'">'.UserIO::HTML($row['domain_name']).'</option>';
@@ -590,27 +589,44 @@ function check_fwd_data(&$tpl, $edit_id) {
 			$query = "
 				UPDATE
 					`domain`
-				SET
-					`domain_status` = ?
-				WHERE
-					`domain_id` = ?
-			";
+ 				SET
+					 `domain`.`domain_status` = ?
+ 				WHERE
+    					`domain`.`domain_id` = ?
+   			";
 			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id));
-		} else{
 			$query = "
 				UPDATE
-					`domain_aliasses`
+					`subdomain`
 				SET
-					`alias_status` = ?
-				WHERE
-					`domain_id` = ?
-				AND
-					`alias_id` = ?
+    				`subdomain`.`subdomain_status` = ?
+    			WHERE
+    				`subdomain`.`domain_id` = ?
+				";
+			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id));
+		} else {
+			$query = "
+ 				UPDATE
+ 					`domain_aliasses`
+				SET
+					`domain_aliasses`.`alias_status` = ?
+ 				WHERE
+					`domain_aliasses`.`domain_id` = ?
+				AND	`domain_aliasses`.`alias_id` = ?
 			";
 			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id, $alias_id));
+			
+			$query = "
+ 				UPDATE
+					`subdomain_alias`
+ 				SET
+					`subdomain_alias`.`subdomain_alias_status` = ?
+ 				WHERE
+					`subdomain_alias`.`alias_id` = ?
+			";
+			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $alias_id));
 		}
-
-		check_for_lock_file();
+		
 		send_request();
 
 		$admin_login = $_SESSION['user_logged'];
