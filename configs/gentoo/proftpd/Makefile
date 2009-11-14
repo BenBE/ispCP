@@ -47,7 +47,6 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/proftpd/ispcp;
 	cp ./root_domain.conf $(ROOT_CONF)/proftpd/ispcp;
 
-	cp ./proftpd.conf $(ROOT_CONF)/proftpd
 	cp ./proftpd.conf $(SYSTEM_CONF)/proftpd
 	$(SYSTEM_MAKE_FILE) $(SYSTEM_PROFTPD_LOG)/ftp_traff.log
 
