@@ -47,8 +47,6 @@ install:
 #	MTA Configuration Directories;
 	cp -R ./backup $(SYSTEM_CONF)/courier
 	cp -R ./working $(SYSTEM_CONF)/courier
-	cp ./userdb $(ROOT_AUTHLIB_CONF)
-	chmod 600 $(ROOT_AUTHLIB_CONF)/userdb
 
 uninstall:
 
