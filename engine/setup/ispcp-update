@@ -1,5 +1,5 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
 # Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
@@ -106,7 +106,7 @@ sub update_engine {
 	print STDOUT BOLD GREEN 'Done.';
 
 	# Starting Pre installation script if it exists
-	if(-e "$main::cfg{'root_dir'}/engine/setup/preinst")
+	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst")
 	{
 		print STDOUT "\n\tStarting Preinstallation / update script: ";
 		$rs = preinst('update');
@@ -116,52 +116,52 @@ sub update_engine {
 
 	# Loading old ispCP configuration file
 	print STDOUT "\n\tLoading old ispCP configuration file: ";
-	$rs = load_ispcp_old_cfg();
+	$rs = load_old_ispcp_cfg();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Update ispCP configuration file
 	print STDOUT "\n\tUpdate ispCP configuration file: ";
 	$rs = update_ispcp_cfg();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Update ispCP database schema
 	print STDOUT "\n\tUpdate ispCP database schema: ";
 	$rs = update_database_schema();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Rebuilding all services configuration files
 	print STDOUT "\n\tRebuilding all services configuration files: ";
 	$rs = rebuild_services_cfg();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Rebuilding all gui related configuration files
 	print STDOUT "\n\tRebuilding all gui configuration files: ";
 	$rs = rebuild_gui_cfg();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Rebuilding all customers configuration files
 	print STDOUT "\n\tRebuilding all customers configuration files";
 	print STDOUT "\n\t\tPlease wait, this can take time. ";
 	$rs = rebuild_customers_cfg();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Set engine and gui permissions
 	print STDOUT "\n\tSet engine and gui permission: ";
 	$rs = set_permissions();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Starting services
 	print STDOUT "\n\tStarting services: ";
 	$rs = stop_services();
 	exit_msg('Failed!', $rs) if($rs != 0);
-	print STDOUT BOLD GREEN 'Done.';
+	print STDOUT BOLD GREEN 'Done';
 
 	# Starting Post installation script if it exists
 	if(-e "$main::cfg{'root_dir'}/engine/setup/postinst")
@@ -169,7 +169,7 @@ sub update_engine {
 		print STDOUT "\n\tStarting post installation / update script: ";
 		$rs = postinst('update');
 		exit_msg('Failed!', $rs) if($rs != 0);
-		print STDOUT BOLD GREEN 'Done.';
+		print STDOUT BOLD GREEN 'Done';
 	}
 
 	push_el(\@main::el, 'update_engine()', 'Ending...');
@@ -217,7 +217,7 @@ sub exit_msg {
 	{
 		if($msg eq 'Failed!')
 		{
-			print STDERR BOLD RED "\t$msg\n";
+			print STDERR BOLD RED "$msg\n";
 		}
 		else
 		{
@@ -237,7 +237,7 @@ sub user_dialog {
 
 	welcome_note();
 
-	warn_message();
+	warn_msg();
 
 	push_el(\@main::el, '_user_dialog()', 'Ending...');
 
@@ -295,7 +295,7 @@ sub warn_msg {
 	system 'clear';
 
 	print STDOUT $warning;
-	
+
 	do
 	{
 		if(defined $rdata && $rdata eq '?')
@@ -323,7 +323,7 @@ sub start_services {
 	push_el(\@main::el, '_start_services()', 'Starting...');
 
 	foreach(
-		qw/CMD_ISPCPN CMD_ISPCPD 
+		qw/CMD_ISPCPN CMD_ISPCPD
 		CMD_NAMED
 		CMD_HTTPD CMD_FTPD
 		CMD_MTA CMD_AUTHD
@@ -351,7 +351,7 @@ sub stop_services {
 	push_el(\@main::el, '_stop_services()', 'Starting...');
 
 	foreach(
-		qw/CMD_ISPCPN CMD_ISPCPD 
+		qw/CMD_ISPCPN CMD_ISPCPD
 		CMD_NAMED
 		CMD_HTTPD CMD_FTPD
 		CMD_MTA CMD_AUTHD
@@ -361,7 +361,7 @@ sub stop_services {
 	{
 		if( $main::cfg{$_} !~ /no/i && -e $main::cfg{$_})
 		{
-			sys_command("$main::cfg{$_} stop");
+			sys_command("$main::cfg{$_} stop &>/dev/null");
 			print BOLD BLACK '.';
 			sleep 1;
 		}
@@ -450,7 +450,7 @@ sub update_database_schema {
 
 	$main::db_pwd =~ s/([\'\"])/\\$1/g;
 
-	$cmd = "$php $main::cfg{'ROOT_DIR'}/engine/setup/updDB.php $main::cfg{'GUI_ROOT_DIR'} $main::db_user $main::db_pwd $main::db_name $main::db_host";
+	$cmd = "$php $main::cfg{'ROOT_DIR'}/engine/setup/updDB.php $main::cfg{'GUI_ROOT_DIR'} $main::db_user $main::db_pwd $main::db_name $main::db_host &>/dev/null";
 	$rs = sys_command_rs($cmd);
 	return $rs if($rs !=0);
 
@@ -465,41 +465,50 @@ sub rebuild_services_cfg {
 
 	my $rs = undef;
 
-	$rs = setup_crontab(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Crontab file: ";
+	$rs = setup_crontab(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_named(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Named main configuration file: ";
+	$rs = setup_named(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
-	
-	$rs = setup_php(); # FINISH - No yet tested
-	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_httpd_main_vhost(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP php (fastCGI modules configuration): ";
+	$rs = setup_php(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_awstats_vhost(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Apache main vhost file: ";
+	$rs = setup_httpd_main_vhost(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_mta(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Apache awstats vhost file: ";
+	$rs = setup_awstats_vhost(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_po(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Postfix configuration files: ";
+	$rs = setup_mta(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_ftpd(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Courier-Authentication: ";
+	$rs = setup_po(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
 
-	$rs = setup_ispcp_daemon_network(); # FINISH - No yet tested
+	print STDOUT "\n\t\tIspCP Proftpd configuration file: ";
+	$rs = setup_ftpd(); # FINISH - Tested
 	return $rs if ($rs != 0);
-	print STDOUT BOLD BLACK '.';
+	print STDOUT BOLD GREEN 'Done';
+
+	print STDOUT "\n\t\tIspCP Init scripts: ";
+	$rs = setup_ispcp_daemon_network(); # FINISH - Tested
+	return $rs if ($rs != 0);
+	print STDOUT BOLD GREEN 'Done';
 
 	push_el(\@main::el, '_rebuild_services_config()', 'Ending...');
 
@@ -512,22 +521,26 @@ sub rebuild_gui_cfg {
 	push_el(\@main::el, '_rebuild_gui_config()', 'Starting...');
 
 	my $rs = undef;
-	
+
+	print STDOUT "\n\t\tIspCP GUI named configuration";
 	$rs = setup_gui_named();
 	return $rs if($rs !=0);
-	print BOLD BLACK '.';
+	print BOLD BLACK 'Done';
 
+	print STDOUT "\n\t\tIspCP GUI named fastCGI/php configuration";
 	$rs = setup_gui_php();
 	return $rs if($rs !=0);
-	print BOLD BLACK '.';
+	print BOLD BLACK 'Done';
 
+	print STDOUT "\n\t\tIspCP GUI vhost file";
 	$rs = setup_gui_httpd();
 	return $rs if($rs !=0);
-	print BOLD BLACK '.';
+	print BOLD BLACK 'Done';
 
+	print STDOUT "\n\t\tIspCP PMA configuration file";
 	$rs = setup_gui_pma();
 	return $rs if($rs !=0);
-	print BOLD BLACK '.';
+	print BOLD BLACK 'Done';
 
 	push_el(\@main::el, '_rebuild_gui_config()', 'Ending...');
 
@@ -599,8 +612,6 @@ sub set_permissions {
 
 	0;
 }
-
-
 
 #
 ## Subroutines - End
