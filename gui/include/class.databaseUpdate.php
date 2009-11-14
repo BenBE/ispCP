@@ -39,19 +39,19 @@ class databaseUpdate extends ispcpUpdate {
 
 	/**
 	 * The database variable name for the update version
-	 * @var string 
+	 * @var string
 	 */
 	protected $databaseVariableName = "DATABASE_REVISION";
 
 	/**
 	 * The update functions prefix
-	 * @var string 
+	 * @var string
 	 */
 	protected $functionName = "_databaseUpdate_";
 
 	/**
-	 * Default error message for updates that have failed 
-	 * @var string 
+	 * Default error message for updates that have failed
+	 * @var string
 	 */
 	protected $errorMessage = "Database update %s failed";
 
@@ -405,7 +405,7 @@ class databaseUpdate extends ispcpUpdate {
 	protected function _databaseUpdate_14() {
 
 		$sqlUpd = array();
-	
+
 		$sqlUpd[] = "ALTER TABLE `hosting_plans` CHANGE `description` `description` TEXT";
 
 		return $sqlUpd;
@@ -446,7 +446,7 @@ class databaseUpdate extends ispcpUpdate {
 	protected function _databaseUpdate_16() {
 
 		$sqlUpd = array();
-	
+
 		$sqlUpd[] = "INSERT IGNORE INTO `config` (`name`, `value`) VALUES ('PORT_SMTP-SSL', '465;tcp;SMTP-SSL;1;0;')";
 
 		return $sqlUpd;
@@ -472,7 +472,7 @@ class databaseUpdate extends ispcpUpdate {
 
 		$query	= "SELECT `ticket_id`, `ticket_subject`, `ticket_message`"
 				. " FROM `tickets` ORDER BY `ticket_id`";
-	
+
 		$rs = exec_query($sql, $query);
 
 		if ($rs->RecordCount() != 0) {
@@ -645,7 +645,7 @@ SQL_QUERY;
 	protected function _databaseUpdate_22() {
 
 		$sqlUpd = array();
-	
+
 		$sqlUpd[] = "ALTER TABLE `domain` ADD `domain_expires` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `domain_created`";
 
 		return $sqlUpd;
@@ -687,8 +687,8 @@ SQL_QUERY;
 	 *
 	 * @author		Laurent Declercq <l.declercq@nuxwin.com>
 	 * @copyright	2006-2009 by ispCP | http://isp-control.net
-	 * @version		1.0.0
-	 * @since		r1997
+	 * @version		1.0.2
+	 * @since		r1998
 	 *
 	 * @access		protected
 	 * @return		sql statements to be performed
@@ -711,25 +711,33 @@ SQL_QUERY;
 		{
 			while (!$rs->EOF)
 			{
-				list($a, $b, $c, $d, $e, $f, $g, $h, $i, $j, $k, $l) = explode(';', $rs->fields['props']);
+				list(
+						$a, $b, $c,
+						$d, $e, $f,
+						$g, $h, $i,
+						$j, $k, $l
+					) = explode(';', $rs->fields['props']);
 
-				if($l == '') { // Possible missing of backup property
+				// Possible missing of backup property
+				if($l == '') {
 
 					$new_props = "$a;$b;$c;$d;$e;$f;$g;$h;$i;$j;_full_;$k";
-	
-				} elseif( ($l != '_no_') && ($l != '_yes_') ) { // Possible inversion between backup and dns properties
+
+				// Possible inversion between backup and dns properties
+				} elseif( ($l != '_no_') && ($l != '_yes_') ) {
 
 					$new_props = "$a;$b;$c;$d;$e;$f;$g;$h;$i;$j;$l;$k";
-	
-				} else { // Remove the last semicolon in all "hosting_plans.props"
+
+				// Remove the last semicolon in all "hosting_plans.props"
+				} else {
 
 					$new_props = "$a;$b;$c;$d;$e;$f;$g;$h;$i;$j;$k;$l";
-
 				}
 
-				$sqlUpd[] = "UPDATE `hosting_plans`
-							 SET `props` = '$new_props'
-							 WHERE `id`= '{$rs->fields['id']}';
+				$sqlUpd[] = "
+								UPDATE `hosting_plans`
+								SET `props` = '$new_props'
+								WHERE `id`= '{$rs->fields['id']}';
 				";
 
 				$rs->MoveNext();
@@ -745,34 +753,64 @@ SQL_QUERY;
 		 */
 
 		// Temporary table used by the following SQL statement
-		$sqlUpd[] = "CREATE TEMPORARY TABLE IF NOT EXISTS `upd_ispcp`
-					 AS SELECT
-						`domain_id` AS `tdomain_id`,
-						TRIM(BOTH '_' FROM `allowbackup`) AS `tdomain_dns`,
-						`domain_dns` AS `tallowbackup`
-					 FROM
-						`domain`
-					 WHERE
-						`domain_dns` NOT REGEXP '^[(yes|no)]';
+		$sqlUpd[] = "
+						CREATE TEMPORARY TABLE IF NOT EXISTS `upd_ispcp`
+						AS SELECT
+							`domain_id` AS `tdomain_id`,
+							TRIM(BOTH '_' FROM `allowbackup`) AS `tdomain_dns`,
+							`domain_dns` AS `tallowbackup`
+					 	FROM `domain`
+					 	WHERE `domain_dns` NOT REGEXP '^[(yes|no)]';
 		";
 
 		// Possible inversion between the values of "domain.allowbackup" and "domain.domain_dns
-		$sqlUpd[] = "UPDATE `domain`,`upd_ispcp`
-					 SET
-						`allowbackup`=`tallowbackup`,
-						`domain_dns`=`tdomain_dns`
-					 WHERE
-						`domain_id`=`tdomain_id`;
+		$sqlUpd[] = "
+						UPDATE `domain`,`upd_ispcp`
+						SET `allowbackup`=`tallowbackup`,
+							`domain_dns`=`tdomain_dns`
+						WHERE `domain_id`=`tdomain_id`;
 		";
 
 		// Possible missing value in "domain.allowbackup"
-		$sqlUpd[] = "UPDATE `domain` SET `allowbackup`='full' WHERE `allowbackup`='';";
+		$sqlUpd[] = "
+						UPDATE `domain`
+						SET `allowbackup`='full'
+						WHERE `allowbackup`='';
+		";
 
 		// Change the naming convention for option 'domain' related to the backup feature
-		$sqlUpd[] = "UPDATE `domain` SET `allowbackup` = 'dmn' WHERE `allowbackup` = 'domain';";
-	
-		return $sqlUpd; 
+		$sqlUpd[] = "
+						UPDATE `domain`
+						SET `allowbackup` = 'dmn'
+						WHERE `allowbackup` = 'domain';
+		";
+
+		return $sqlUpd;
 	 }
+
+	/**
+	 * Fixes for ticket #2000 http://www.isp-control.net/ispcp/ticket/1985.
+	 *
+	 * @author		Laurent Declercq <l.declercq@nuxwin.com>
+	 * @copyright	2006-2009 by ispCP | http://isp-control.net
+	 * @version		1.0.2
+	 * @since		r2013
+	 *
+	 * @access		protected
+	 * @return		sql statements to be performed
+	 */
+	protected function _databaseUpdate_25() {
+
+		$sqlUpd = array();
+
+		$sqlUpd[] = "
+						UPDATE `user_gui_props`
+						SET `lang` = 'lang_EnglishBritain'
+						WHERE `lang` = 'lang_English';
+		";
+
+		return $sqlUpd;
+	}
 
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!

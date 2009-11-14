@@ -1,9 +1,182 @@
 ispCP ω 1.0.3 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2009-11-13 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2051: Again ispcp-dsk-quota message
+	- PACKAGE:
+		* Updated License Text
+
+2009-11-11 Sebastian Sellmeier
+	- GUI:
+		* Fixed #2039: Disk Usage in Percent is wrong
+
+2009-11-09 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2034: ispcp-backup error (I hope it's fixed - could not reproduce)
+		* Fixed #2043: Creating similar mail-addresses causes problems
+
+2009-11-05 Laurent Declercq
+	- DISTS:
+		* Fixed openSUSE runlevels
+
+2009-11-04 Christian Hernmarck
+	- CONFIG:
+		* Fixed #2060: increase fastcgi-timeout for user-domains
+
+2009-11-01 Marc Pujol
+	- CONFIGS:
+		* Fixed #2052: SPF registry error
+
+2009-10-23 Laurent Declercq
+	- GUI:
+		* Fixed #2050: Unable to change interface (Admin to reseller) since the client IP address is verified
+
+2009-10-15 Benedikt Heintel
+	- GUI:
+		* Added ipaddr check to prevent session hijacking
+	- ENGINE:
+		* Fixed #2044: ispcp-dsk-quota message (Use of uninitialized value in addition (+))
+	- LANGUAGES:
+		* Updated Russian
+
+2009-10-22 Marc Pujol
+	- ENGINE:
+		* Fixed #2046: ispcpphptemp.sh script fails to read per-domain session.gc_maxlifetime directives
+
+2009-10-20 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2021: Error in backup
+
+2009-10-17 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2033: ispcp-dsk-quota message
+	- GUI:
+		* Fixed #2029: Ispcp debugger doesn't work when there are adresses forward + normal at the same time
+
+2009-10-16 Benedikt Heintel
+	- TOOLS:
+		* Fixed #2031: Updated phpMyAdmin to version 3.2.2.1
+
+2009-10-16 Laurent Declercq
+	- GUI:
+		* Fixed #2035: Review Domain name syntax ( 'a.de' is not allowed - but denic soon allows it )
+
+2009-10-15 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Catalan
+		* Updated Polish
+
+2009-10-11 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese
+		* Updated German (Germany)
+
+2009-10-08 Benedikt Heintel
+	- DOCS:
+		* Fixed Pathes on update
+
+2009-10-06 Laurent Declercq
+	- CONFIGS:
+		* Fixed: PMA - impossible indirect connections with suhosin
+
+2009-10-05 Laurent Declercq
+	- TOOLS:
+		* Fixed #2014: Error when you open pma via link from the customer interface
+
+2009-10-05 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese
+		* Updated Spanish (Spain)
+
+2009-09-30 Daniel Andreca
+	- LANGUAGES:
+		* Updated Finnish
+	- CONFIGS:
+		* Updated database structure
+
+2009-09-30 Laurent Declercq
+	- TOOLS:
+		* Fixed some typo errors in webmail/src/login.php (Thx to Henriks)
+
+2009-09-29 Daniel Andreca
+	- ENGINE:
+		* Fixed #2011: Daily quota script generates errors (missing db in /var/lib/mysql)
+	- LANGUAGES:
+		* Updated Danish
+
+2009-09-29 Laurent Declercq
+	- CONFIG:
+		* Fixed #2002: openSUSE 11.1 - Unable to add mail user
+		* Fixed SASL Authentication failed (openSUSE):
+			- Added smtpd.conf configuration file for postfix/sasl
+			- Added new variables related to MTA/SASL in /etc/ispcp/ispcp.conf (openSUSE)
+	- DISTS:
+		* Fixed postfix warning: "not owned by root: /var/spool/postfix" (openSUSE)
+		* Fixed imapd warning related to famd (See http://www.courier-mta.org/FAQ.html#fam) (openSUSE)
+		* Fixed authdaemond warning related to missing modules: "file not found" (openSUSE)
+	- DOCS:
+		* Updated docs/OpenSuse/install file
+		* Removed support for older versions (only current stable version is supported) (openSUSE)
+
+2009-09-28 Daniel Andreca
+	- LANGUAGES:
+		* Fixed small typo in es_ES.po
+
+2009-09-27 Daniel Andreca
+	- GUI:
+		* Fixed #1974: Reseller properties cannot be edited after working with his domains
+	- ENGINE:
+		* Fixed #2009: Backups do not work
+
+2009-09-27 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2008: Alias + Subdomain: not all placeholders filled
+
+2009-09-25 Christian Hernmarck
+	- GUI:
+		* Fixed Bug: error in counting subdom-aliases
+
+2009-09-25 Blondak <blondak@neser.cz>
+	- GUI:
+		* Fixed #2007: Manual DNS entry should not work when no subdomains
+		* Disallow add manual DNS entry for domain alias on "ordered" state
+
+2009-09-24 Benedikt Heintel
+	- GUI:
+		* Fixed #2006: Delete manual DNS entry on domain aliases
+
+2009-09-23 Benedikt Heintel
+	- GUI:
+		* Fixed #2001: subdomain: hostname length need >= 2 chars
+		* Fixed #2004: PHP Error multilanguage.php on line 54
+		* Fixed #1979: Domain Alias Redirect
+		* Function documentation and small fixes
+
+2009-09-23 Laurent Declercq
+	- GUI:
+		* Small fixes (cleanup regexp in input-checks.php)
+
+2009-09-23 Daniel Andreca
+	- ENGINE:
+		* Fixed #1947: ispcp-uninstall don't remove complete ispCp
+
+2009-09-22 Laurent Declercq
+	- GUI:
+		* Fixed #1989: Failed database updates are silently ignored
+		* Fixed #2000: Wrong default value for 'USER_INITAL_LANG' configuration variable
+			- Added an new db databaseUpdate (25) to fix the 'user_gui_props.lang' value ('lang_EnglishBritain' instead of 'lang_English')
+		* Small fixes
+		* Uninitialized variable ($backup) in "client/hosting_plan_update.php"
+
+2009-09-21 Laurent Declercq
+	- DOCS:
+		* Fixed #1997: Removed "perl-HTML-Entities" in OpenSuSE packages lists because the module "HTML::Entities" is
+		  provided by the package perl-HTML-Parser. The package perl-HTML-Entities in itself does not exist.
+
 2009-09-20 Laurent Declercq
-	-GUI:
-		* Fixed 1985 Several problems with the fixes related to #1971 and #1980 ( Introduced in r1986 )
+	- GUI:
+		* Fixed #1985: Several problems with the fixes related to #1971 and #1980 ( Introduced in r1986 )
 			- Moved db criticalUpdate 4 && 5 to db databaseUpdate (because the criticalUpdate is performed before)
 			- Added databaseUpdate 24 for the following database fixes:
 				- Added fix for possible missing of backup property in "hosting_plan.props"

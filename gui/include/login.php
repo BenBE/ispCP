@@ -146,7 +146,7 @@ SQL_QUERY;
 	$rs = exec_query($sql, $query, array($user_logged, $user_pass, $user_type, $user_id, $sess_id));
 
 	if ($rs->RecordCount() != 1) {
-		write_log("Detected session manipulation on $user_logged's session!");
+		write_log("Detected session manipulation on ".$user_logged."'s session!");
 		unset_user_login_data();
 		return false;
 	}
@@ -258,31 +258,31 @@ function change_user_interface($from_id, $to_id) {
 		if (!isset($allowed_changes[$from_admin_type][$to_admin_type])
 			|| ($to_admin_type == $from_admin_type && $from_admin_type != 'admin')) {
 
-		if (isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] == $to_id) {
-			$index = $allowed_changes[$to_admin_type]['BACK'];
-		} else {
-			set_page_message(tr('You do not have permission to access this interface!'));
-			break;
+			if (isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] == $to_id) {
+				$index = $allowed_changes[$to_admin_type]['BACK'];
+			} else {
+				set_page_message(tr('You do not have permission to access this interface!'));
+				break;
+			}
 		}
-	}
 
-	$index = $index ? $index : $allowed_changes[$from_admin_type][$to_admin_type];
+		$index = $index ? $index : $allowed_changes[$from_admin_type][$to_admin_type];
 
-	unset_user_login_data();
+		unset_user_login_data();
 
-	if (($to_admin_type != 'admin' &&
-		((isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] != $to_id)
-		|| !isset($_SESSION['logged_from_id'])))
-		|| ($from_admin_type == 'admin' && $to_admin_type == 'admin')) {
+		if (($to_admin_type != 'admin' &&
+			((isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] != $to_id)
+			|| !isset($_SESSION['logged_from_id'])))
+			|| ($from_admin_type == 'admin' && $to_admin_type == 'admin')) {
 
-		$_SESSION['logged_from'] = $from_udata['admin_name'];
-		$_SESSION['logged_from_id'] = $from_udata['admin_id'];
+			$_SESSION['logged_from'] = $from_udata['admin_name'];
+			$_SESSION['logged_from_id'] = $from_udata['admin_id'];
 
-	}
-	if ($from_admin_type == 'user') { // Ticket 830 - remove the 'logged_from' if back from user
-		unset($_SESSION['logged_from']); // maybe integrated in the construction above...
-		unset($_SESSION['logged_from_id']);
-	}
+		}
+		if ($from_admin_type == 'user') { // Ticket 830 - remove the 'logged_from' if back from user
+			unset($_SESSION['logged_from']); // maybe integrated in the construction above...
+			unset($_SESSION['logged_from_id']);
+		}
 
 		// we gonna kill all sessions and globals if user get back to admin level
 		unset($_SESSION['admin_name']);
@@ -300,9 +300,9 @@ function change_user_interface($from_id, $to_id) {
 		$_SESSION['user_created_by'] = $to_udata['created_by'];
 		$_SESSION['user_login_time'] = time();
 
-		$query = 'INSERT INTO login (`session_id`, `user_name`, `lastaccess`) VALUES (?, ?, ?)';
+		$query = 'INSERT INTO login (`session_id`, `ipaddr`, `user_name`, `lastaccess`) VALUES (?, ?, ?, ?)';
 
-		exec_query($sql, $query, array(session_id(), $to_udata['admin_name'], $_SESSION['user_login_time']));
+		exec_query($sql, $query, array(session_id(), getipaddr(), $to_udata['admin_name'], $_SESSION['user_login_time']));
 
 		write_log(sprintf("%s changes into %s's interface", decode_idna($from_udata['admin_name']), decode_idna($to_udata['admin_name'])));
 		break;

@@ -1,36 +1,33 @@
 #!/usr/bin/perl
-
+ 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (c) 2001-2006 by moleSoftware GmbH
-# http://www.molesoftware.com
-# Copyright (c) 2006-2009 by isp Control Panel
-# http://isp-control.net
+# Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
+# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
 #
+# Version: $Id$
 #
-# License:
-#    This program is free software; you can redistribute it and/or
-#    modify it under the terms of the MPL Mozilla Public License
-#    as published by the Free Software Foundation; either version 1.1
-#    of the License, or (at your option) any later version.
+# The contents of this file are subject to the Mozilla Public License
+# Version 1.1 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://www.mozilla.org/MPL/
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    MPL Mozilla Public License for more details.
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+# License for the specific language governing rights and limitations
+# under the License.
 #
-#    You may have received a copy of the MPL Mozilla Public License
-#    along with this program.
+# The Original Code is "VHCS - Virtual Hosting Control System".
 #
-#    An on-line copy of the MPL Mozilla Public License can be found
-#    http://www.mozilla.org/MPL/MPL-1.1.html
+# The Initial Developer of the Original Code is moleSoftware GmbH.
+# Portions created by Initial Developer are Copyright (C) 2001-2006
+# by moleSoftware GmbH. All Rights Reserved.
+# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# isp Control Panel. All Rights Reserved.
 #
-#
-# The ispCP ω Home Page is at:
+# The ispCP ω Home Page is:
 #
 #    http://isp-control.net
 #
-
-
 
 use FindBin;
 use lib "$FindBin::Bin/..";
@@ -167,11 +164,15 @@ sub dsk_quota_engine {
 
 sub mysqldb_quota_by_mysql_engine {
 
-	my ($rs, $ref, $rdata, $size) = (undef, undef, undef, undef);
+	my ($rs, $ref, $rdata, $size, $databases) = (undef, undef, undef, undef, undef);
 
 	push_el(\@main::el, 'mysqldb_quota_by_mysql_engine()', 'Starting...');
 
-	my $sql = "SELECT domain_id, domain_name, domain_disk_usage FROM domain WHERE domain_status = 'ok';";
+	my $sql = "SHOW DATABASES;";
+
+	($rs, $databases) = doSQL($sql);
+
+	$sql = "SELECT domain_id, domain_name, domain_disk_usage FROM domain WHERE domain_status = 'ok';";
 
 	($rs, $ref) = doSQL($sql);
 
@@ -182,11 +183,8 @@ sub mysqldb_quota_by_mysql_engine {
 	foreach (@$domain_ids) {
 
 		my $disk_usage  = @$_[2];
-
 		my $domain_name = @$_[1];
-
 		my $domain_id   = @$_[0];
-
 		my $sql = "SELECT sqld_id, sqld_name FROM sql_database WHERE domain_id = '$domain_id';";
 
 		($rs, $ref) = doSQL($sql);
@@ -201,17 +199,17 @@ sub mysqldb_quota_by_mysql_engine {
 			my $sqldb_id     = @$_[0];
 			my $sql = "show table status from `$sqldb_name`;";
 
-			if(-d "$main::cfg{DATABASE_DIR}/$sqldb_name"){
+			if(grep{$$_[0] eq $sqldb_name} @$databases) {
 
 				($rs, $ref) = doSQL($sql);
+				my ($data_length, $index_length) = (0, 0);
 
-				foreach(@$ref){
-
-					my $data_length   = @$_[6];
-					my $index_length  = @$_[8];
+				foreach(@$ref) {
+					# Replace unknown values by 0
+					$data_length  = (@$_[6] =~ /^\d+$/) ? @$_[6] : 0;
+					$index_length = (@$_[8] =~ /^\d+$/) ? @$_[8] : 0;
 
 					$size += $data_length + $index_length;
-
 				}
 			} else {
 
@@ -227,13 +225,11 @@ sub mysqldb_quota_by_mysql_engine {
 			$sql = "UPDATE domain SET domain_disk_usage='$size' WHERE domain_id='$domain_id'";
 
 			($rs, $rdata) = doSQL($sql);
-
 			return $rs if ($rs != 0);
 
 			$sql = "SELECT COUNT(name) AS cnt FROM quotatallies WHERE name = '$domain_name'";
 
 			($rs, $rdata) = doSQL($sql);
-
 			return $rs if ($rs != 0);
 
 			$rdata = @$rdata[0];
@@ -245,7 +241,6 @@ sub mysqldb_quota_by_mysql_engine {
 				$sql = "UPDATE quotatallies SET bytes_in_used = '$size' WHERE name = '$domain_name'";
 
 				($rs, $rdata) = doSQL($sql);
-
 				return $rs if ($rs != 0);
 
 			}
@@ -305,7 +300,7 @@ sub mysqldb_quota_by_dir_engine {
 				$size =~ /^(\d+)/; $size = $1;
 
 			} else {
-	
+
 				$size = `$cmd_du -csb --exclude=*.frm --exclude=db.opt $main::cfg{DATABASE_DIR}/$sqldb_name/* | tail -1`;
 
 				$size =~ /^(\d+)/; $size = $1;
@@ -322,13 +317,11 @@ sub mysqldb_quota_by_dir_engine {
 			$sql = "UPDATE domain SET domain_disk_usage='$size' WHERE domain_id='$domain_id'";
 
 			($rs, $rdata) = doSQL($sql);
-
 			return $rs if ($rs != 0);
 
 			$sql = "SELECT COUNT(name) AS cnt FROM quotatallies WHERE name = '$domain_name'";
 
 			($rs, $rdata) = doSQL($sql);
-
 			return $rs if ($rs != 0);
 
 			$rdata = @$rdata[0];
@@ -340,7 +333,6 @@ sub mysqldb_quota_by_dir_engine {
 				$sql = "UPDATE quotatallies SET bytes_in_used = '$size' WHERE name = '$domain_name'";
 
 				($rs, $rdata) = doSQL($sql);
-
 				return $rs if ($rs != 0);
 
 			}
@@ -364,7 +356,6 @@ if ($rs != 0) {
 	dump_el(\@main::el, $main::ispcp_dsk_quota_el);
 
 	dsk_quota_shut_down();
-
 	exit 1;
 
 }
@@ -377,7 +368,6 @@ if ($rs != 0) {
 	dump_el(\@main::el, $main::ispcp_dsk_quota_el);
 
 	dsk_quota_shut_down();
-
 	exit 1;
 
 }
@@ -389,7 +379,6 @@ if ($rs != 0) {
 	dump_el(\@main::el, $main::ispcp_dsk_quota_el);
 
 	dsk_quota_shut_down();
-
 	exit 1;
 
 }
@@ -400,7 +389,6 @@ $rs = dsk_quota_shut_down();
 if ($rs != 0) {
 
 	dump_el(\@main::el, $main::ispcp_dsk_quota_el);
-
 	exit 1;
 
 }
