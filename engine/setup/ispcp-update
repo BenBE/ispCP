@@ -29,8 +29,6 @@
 #    http://isp-control.net
 #
 
-
-
 #
 # Special note for DevTeam:
 #
@@ -46,7 +44,8 @@
 # activated during the last invocation (eg. awstats).
 
 #
-## WARING : No test has yet been made with this new version
+## WARNING : Thas is the new version of ispcp-update script.
+## No test has yet been made !
 #
 
 use FindBin;

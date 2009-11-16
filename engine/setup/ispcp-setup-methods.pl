@@ -821,7 +821,7 @@ sub setup_crontab {
 		'{CHKROOTKIT}' => $chkrootkit
 	);
 
-	# Replacement tag
+	# Building the new file
 	($rs, $$cfg) = prep_tpl(\%tags_hash, $cfg_tpl);
 	return $rs if ($rs != 0);
 
@@ -844,7 +844,7 @@ sub setup_crontab {
 	$rs = sys_command_rs($cmd);
 	return $rs if ($rs != 0);
 
-	## Storage and installation of new file - End
+	# Storage and installation of new file - End
 
 	push_el(\@main::el, 'setup_crontab()', 'Ending...');
 
@@ -1631,11 +1631,11 @@ sub setup_po {
 		$services_log_path = "/tmp/ispcp-setup-services.log";
 
 		# Saving all system configuration files if they exist
-		foreach ( qw/authdaemonrc userdb/)
+		foreach (qw/authdaemonrc userdb/)
 		{
 			next if(!-e "$main::cfg{'AUTHLIB_CONF_DIR'}/$_");
 
-			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'AUTHLIB_CONF_DIR'}/$_  $bk_dir/$_.system";
+			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'AUTHLIB_CONF_DIR'}/$_ $bk_dir/$_.system";
 			$rs = sys_command_rs($cmd);
 			return $rs if ($rs != 0);
 		}
@@ -1647,12 +1647,12 @@ sub setup_po {
 
 		my $timestamp = time;
 
-		# Saving all system configuration files if they exist
-		foreach ( qw/authdaemonrc userdb/)
+		# Saving all current production files if they exist
+		foreach (qw/authdaemonrc userdb/)
 		{
 			next if(!-e "$main::cfg{'AUTHLIB_CONF_DIR'}/$_");
 
-			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'AUTHLIB_CONF_DIR'}/$_  $bk_dir/$_.$timestamp";
+			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'AUTHLIB_CONF_DIR'}/$_ $bk_dir/$_.$timestamp";
 			$rs = sys_command_rs($cmd);
 			return $rs if ($rs != 0);
 		}
@@ -2308,17 +2308,17 @@ sub setup_gui_named_cfg_data {
 		$entry_e,
 		$entry
 	) = get_tpl(
-						$tpl_dir,
-						'cfg_entry_b.tpl',
-						'cfg_entry_e.tpl',
-						'cfg_entry.tpl'
+					$tpl_dir,
+					'cfg_entry_b.tpl',
+					'cfg_entry_e.tpl',
+					'cfg_entry.tpl'
 	);
 	return $rs if ($rs != 0);
 
 	# Preparation tags
 	my %tags_hash = (
-		'{DMN_NAME}'	=> $base_vhost,
-		'{DB_DIR}'		=> $db_dir
+		'{DMN_NAME}' => $base_vhost,
+		'{DB_DIR}' => $db_dir
 	);
 
 	# Replacement tags
@@ -2329,10 +2329,10 @@ sub setup_gui_named_cfg_data {
 		$entry_e_val,
 		$entry_val
 	) = prep_tpl(
-							\%tags_hash,
-							$entry_b,
-							$entry_e,
-							$entry
+			\%tags_hash,
+			$entry_b,
+			$entry_e,
+			$entry
 	);
 	return $rs if ($rs != 0);
 
@@ -2340,7 +2340,7 @@ sub setup_gui_named_cfg_data {
 	($rs, $cfg) = get_file("$wrk_dir/named.conf");
 	return $rs if ($rs != 0);
 
-	# Building th new configuration file
+	# Building the new configuration file
 	my $entry_repl = "$entry_b_val$entry_val$entry_e_val\n$entry_b$entry_e";
 	($rs, $cfg) = repl_tag($entry_b, $entry_e, $cfg, $entry_repl, "setup_gui_named_cfg_data");
 	return $rs if ($rs != 0);
@@ -2355,16 +2355,16 @@ sub setup_gui_named_cfg_data {
 
 	# Store the new builded file in the working directory
 	$rs = store_file(
-					"$wrk_dir/named.conf",
-					$cfg,
-					$main::cfg{'ROOT_USER'},
-					$main::cfg{'ROOT_GROUP'},
-					0644
+		"$wrk_dir/named.conf",
+		$cfg,
+		$main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'},
+		0644
 	);
 	return $rs if ($rs != 0);
 
 	# Install the new file in the production directory
-	$cmd = "$main::cfg{'CMD_CP'} -p -f $wrk_dir/named.conf $main::cfg{'BIND_CONF_FILE'}";
+	$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/named.conf $main::cfg{'BIND_CONF_FILE'}";
 	$rs = sys_command_rs($cmd);
 	return $rs if ($rs != 0);
 
@@ -2568,7 +2568,7 @@ sub _preinst {
 	($mime_type =~ /(shell|perl|php)/) ||
 		exit_msg('ERROR: Unable to determine the mimetype of preinstallation script.');
 
-	$cmd = "$main::cfg{'CMD_'.uc($1)} postinst $task";
+	$cmd = "$main::cfg{'CMD_'.uc($1)} preinst $task";
 	$rs = sys_command_rs($cmd);
 	return $rs if($rs != 0);
 
