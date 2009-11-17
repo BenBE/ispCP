@@ -4,6 +4,8 @@ ispCP ω 1.0.3 Changelog
 2009-11-17 Laurent Declercq
 	- DATABASE:
 		* The Sql files (database.sql, language.sql) are the same for all distributions. Moved into only one directory to facilitate the maintenances.
+	- ENGINE:
+		* Updates of (dmn|als)_add_named_cfg_data() subroutines in the mngr files. That is required because the management of the main bind configuration file has been unified. This is related to the new version of the install/update script common subroutines. See #2062 for more information about it.
 
 2009-11-16 Benedikt Heintel
 	- GUI:
