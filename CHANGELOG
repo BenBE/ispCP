@@ -4,21 +4,18 @@ ispCP ω 1.0.3 Changelog
 2009-11-18 Laurent Declercq
 	- GUI:
 		* Fixed #1725: /var/log/rkhunter.log not readable (AGAIN)
+	- DATABASE:
+		* The Sql files (database.sql, language.sql) are the same for all distributions. Moved into only one directory to 
+facilitate the maintenances. 
 
 2009-11-17 Benedikt Heintel
-        - GUI:
-                * Corrected spelling mistake
-                * Fixed #2047: domain_dns table, should have an unique index
+	- GUI:
+		* Corrected spelling mistake
+		* Fixed #2047: domain_dns table, should have an unique index
 
 2009-11-17 Laurent Declercq
-        - DATABASE:
-                * The Sql files (database.sql, language.sql) are the same for all distributions. Moved into only one directory to 
-facilitate t$
-        - ENGINE:
-                * Updates of (dmn|als)_add_named_cfg_data() subroutines in the mngr files. That is required because the management of 
-the main$
-        - SETUP:
-                *  Deleting of several sql files that are not longer needed.
+	- SETUP:
+		* Deleted several sql files that are not longer needed
 
 2009-11-16 Benedikt Heintel
 	- GUI:

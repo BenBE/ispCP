@@ -50,8 +50,11 @@ install:
 
 	cp ./httpd.conf $(SYSTEM_CONF)/apache/working/ispcp.conf
 	cp ./httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
-	cp ./fastcgi.conf $(SYSTEM_CONF)/apache/fastcgi_ispcp.conf
-	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/fcgid_ispcp.conf
+	cp ./fastcgi.conf $(SYSTEM_CONF)/apache/working/fastcgi_ispcp.conf
+	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/working/fcgid_ispcp.conf
+
+	cp fastcgi.conf ${ROOT_APACHE_CONF}/mods-available/fastcgi_ispcp.conf
+	cp fcgid_ispcp.conf $(ROOT_APACHE_CONF)/mods-available/fcgid_ispcp.conf
 
 uninstall:
 
@@ -59,3 +62,5 @@ uninstall:
 	rm -f $(APACHE_SITES_DIR)/ispcp.conf
 	rm -f $(APACHE_SITES_DIR)/00_master.conf
 	rm -f $(APACHE_SITES_DIR)/01_awstats.conf
+	rm -f $(APACHE_MODS_DIR)/fastcgi_ispcp.conf
+	rm -f $(APACHE_MODS_DIR)/fcgid_ispcp.conf

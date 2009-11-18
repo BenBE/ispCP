@@ -48,6 +48,7 @@ install:
 #	MTA Configuration Directories;
 	cp -R ./backup $(SYSTEM_CONF)/courier
 	cp -R ./working $(SYSTEM_CONF)/courier
+	cp ./userdb $(ROOT_COURIER_CONF)
 
 uninstall:
 
