@@ -622,6 +622,20 @@ sub set_permissions {
 
 update_startup();
 update_engine();
+
+# Should be modified
+my $rs = setup_rkhunter();
+
+if ($rs != 0) {
+	my $el_data = pop_el(\@main::el);
+	my ($sub_name, $msg) = split(/$main::el_sep/, $el_data);
+
+	print STDERR "$msg\n";
+
+	exit 1;
+}
+
 update_shutdown();
+
 
 exit 0;

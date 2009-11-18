@@ -1,5 +1,5 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
 # Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
@@ -234,11 +234,11 @@ sub setup_host_system {
 	push_el(\@main::el, 'setup_host_system()', 'Starting...');
 
 	my ($rs, $rdata) = (undef, undef);
-	
-	if (!defined($_)) { 
+
+	if (!defined($_)) {
 		$rs = setup_system_users();
 		return $rs if ($rs != 0);
-	}	
+	}
 
 	$rs = setup_system_dirs();
 	return $rs if ($rs != 0);
@@ -252,6 +252,9 @@ sub setup_host_system {
 
 	# Building, store and install the ispCP crontab file
 	$rs = setup_crontab();
+	return $rs if ($rs != 0);
+
+	$rs = setup_rkhunter();
 	return $rs if ($rs != 0);
 
 	$rs = setup_hosts();
@@ -272,7 +275,7 @@ sub setup_host_system {
 	return $rs if ($rs != 0);
 
 	# Deprecated - Replaced by setup_httpd_main_vhost(), setup_awstats_vhost()
-	# $rs = setup_httpd(); 
+	# $rs = setup_httpd();
 	# return $rs if ($rs != 0);
 
 	# Only ispcp.conf Apache main IspCP vhost configuration file and related modules
@@ -325,7 +328,7 @@ sub setup_gui_cfg {
 	return $rs if($rs !=0);
 
 	# Create fcgi directory for the user who's used for the frontend (GUI)
-	# Build, store and install php dedicated configuration files  (php.ini, fastCGI wrapper) 
+	# Build, store and install php dedicated configuration files  (php.ini, fastCGI wrapper)
 	$rs = setup_gui_php();
 	return $rs if($rs !=0);
 
@@ -489,7 +492,7 @@ sub check_host_interface {
 }
 
 # Check the connection to the IspCP database
-# with the login information provided by the user 
+# with the login information provided by the user
 sub check_host_sql {
 
 	push_el(\@main::el, 'check_host_sql()', 'Starting...');
@@ -1045,11 +1048,11 @@ sub setup_hosts {
 system('clear');
 
 my $rs = undef;
-my $uc = 0; 
+my $uc = 0;
 
 if (defined($ARGV[0]) && $ARGV[0] eq "-rpm") {
 	#if in rpm mode, rpm setup will create users
-	$uc = 1; 
+	$uc = 1;
 }
 
 $rs = setup_start_up();
