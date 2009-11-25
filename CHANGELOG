@@ -1,6 +1,23 @@
 ispCP ω 1.0.3 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2009-11-21 Benedikt Heintel
+	- DISTS:
+		* Fixed #2069: [gentoo] /etc/init.d/ispcp_daemon patch
+	- ENGINE:
+		* Fixed: Use of uninitialized value in pattern match (m//) at /var/www/ispcp/engine/quota/ispcp-dsk-quota
+
+2009-11-21 Laurent Declercq
+	- SETUP:
+		* Check of email address: Application of RFCs 2822, 952 and 1123
+	- GUI
+		* Fixed: Directories chooser does not working ('Use of undefined constant VFS_TYPE_DIR')
+		* Fixed: Protected area creation/update - The related data should be stored in database before the backend request
+
+2009-11-20 Laurent Declercq
+	- UTILITIES:
+		* Fixed first-check.sh: 'Fatal error: Class 'Config' not found'
+
 2009-11-19 Laurent Declercq
 	- DATABASE:
 		* Updated database file used for new installations:
@@ -9,6 +26,8 @@ ispCP ω 1.0.3 Changelog
 			- Added svn Id property
 	- LANGUAGES:
 		* Updated Dutch language files
+	- SETUP:
+		* Added code to disable the default "NameVirtualHost *:80" directive. That is to avoid the Apache warn during start / restart.
 
 2009-11-18 Laurent Declercq
 	- GUI:
