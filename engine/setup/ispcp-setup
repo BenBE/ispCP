@@ -54,6 +54,8 @@ sub setup_start_up {
 	# config check; --- Already done in ispcp_common_code.pl
 	#$rs = get_conf();
 	#return $rs if ($rs != 0);
+	
+	stop_services();
 
 	push_el(\@main::el, 'setup_start_up()', 'Ending...');
 
@@ -359,6 +361,8 @@ sub setup_shut_down {
 	$rs = sys_command($cmd);
 
 	return $rs if ($rs != 0);
+	
+	start_services();
 
 	push_el(\@main::el, 'setup_shut_down()', 'Starting...');
 
@@ -1038,6 +1042,58 @@ sub setup_hosts {
 
 }
 
+# Stopping services
+# @TODO: Move it in common methods
+sub stop_services {
+
+	push_el(\@main::el, '_stop_services()', 'Starting...');
+
+	foreach(
+		qw/CMD_ISPCPN CMD_ISPCPD
+		CMD_NAMED
+		CMD_HTTPD CMD_FTPD
+		CMD_MTA CMD_AUTHD
+		CMD_POP CMD_POP_SSL
+		CMD_IMAP CMD_IMAP_SSL/
+	)
+	{
+		if( $main::cfg{$_} !~ /no/i && -e $main::cfg{$_})
+		{
+			sys_command("$main::cfg{$_} stop &>/dev/null");
+			sleep 1;
+		}
+	}
+
+	push_el(\@main::el, '_stop_services()', 'Ending...');
+
+	0;
+}
+# Starting services
+# @TODO: Move it in common methods
+sub start_services {
+
+	push_el(\@main::el, '_start_services()', 'Starting...');
+
+	foreach(
+		qw/CMD_ISPCPN CMD_ISPCPD
+		CMD_NAMED
+		CMD_HTTPD CMD_FTPD
+		CMD_MTA CMD_AUTHD
+		CMD_POP CMD_POP_SSL
+		CMD_IMAP CMD_IMAP_SSL/
+	)
+	{
+		if( $main::cfg{$_} !~ /no/i && -e $main::cfg{$_})
+		{
+			sys_command("$main::cfg{$_} start");
+			sleep 1;
+		}
+	}
+
+	push_el(\@main::el, '_start_services()', 'Ending...');
+
+	0;
+}
 #
 ##  Subroutines - End
 #
