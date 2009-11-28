@@ -1209,7 +1209,7 @@ sub setup_httpd_main_vhost {
 
 	if(-e "/usr/sbin/a2ensite")
 	{
-		sys_command("/usr/sbin/a2enmod ispcp.conf &> $services_log_path");
+		sys_command("/usr/sbin/a2ensite ispcp.conf &> $services_log_path");
 	}
 
 	# Enable main vhost configuration file - End
