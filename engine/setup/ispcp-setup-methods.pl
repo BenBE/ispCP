@@ -2082,6 +2082,8 @@ sub setup_gui_httpd {
 	## Disable the default NameVirtualHost directive - Begin
 	#
 
+	my $rdata = undef;
+
 	if(-e '/etc/apache2/ports.conf')
 	{
 		# Loading the file

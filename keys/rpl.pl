@@ -1,5 +1,5 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
 # Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
@@ -55,7 +55,7 @@ my ($rs, $file) = (undef, undef);
 foreach(@ARGV)
 {
 	# Loading the template file
-	$file = get_file($_);
+	($rs, $file) = get_file($_);
 	die("FATAL: Unable to load the template $_ file") if($rs != 0);
 
 	# Building the new file
