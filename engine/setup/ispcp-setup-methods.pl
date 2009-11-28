@@ -1565,12 +1565,12 @@ sub setup_mta {
 		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/$_ $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/";
 		$rs = sys_command($cmd);
 		return $rs if ($rs != 0);
-
-		# Create / update Btree databases for all lookup tables
-		$cmd = "$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/{aliases,domains,mailboxes,transport,sender-access} &> $services_log_path";
-		$rs = sys_command($cmd);
-		return $rs if ($rs != 0);
 	}
+
+	# Create / update Btree databases for all lookup tables
+	$cmd = "$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/{aliases,domains,mailboxes,transport,sender-access} &> $services_log_path";
+	$rs = sys_command($cmd);
+	return $rs if ($rs != 0);
 
 	# Rebuild the database for the mail aliases file - Begin
 
