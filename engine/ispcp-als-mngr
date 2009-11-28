@@ -176,12 +176,12 @@ sub als_add_named_cfg_data {
 		$entry_e,
 		$entry
 	) = get_tpl(
-			$tpl_dir,
-		'	cfg_dta_b.tpl',
-		'	cfg_dta_e.tpl',
-		'	cfg_entry_b.tpl',
-		'	cfg_entry_e.tpl',
-		'	cfg_entry.tpl'
+		$tpl_dir,
+		'cfg_dta_b.tpl',
+		'cfg_dta_e.tpl',
+		'cfg_entry_b.tpl',
+		'cfg_entry_e.tpl',
+		'cfg_entry.tpl'
 	);
 	return $rs if ($rs != 0);
 
