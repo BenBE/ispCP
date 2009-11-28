@@ -2255,6 +2255,8 @@ sub setup_gui_pma {
 	push_el(\@main::el, 'setup_gui_pma()', 'Starting...');
 
 	push_el(\@main::el, 'setup_gui_pma()', 'Ending...');
+
+	0;
 }
 
 

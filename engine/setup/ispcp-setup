@@ -323,20 +323,20 @@ sub setup_gui_cfg {
 	# - Added cfg data into named main configuration file
 	# - Create named zone file
 	$rs = setup_gui_named();
-	return $rs if($rs !=0);
+	return $rs if($rs != 0);
 
 	# Create fcgi directory for the user who's used for the frontend (GUI)
 	# Built, stores and installs all php dedicated configuration files (php.ini, fastCGI wrapper)
 	$rs = setup_gui_php();
-	return $rs if($rs !=0);
+	return $rs if($rs != 0);
 
 	# Built, stores and installs the GUI related Apache vhost configuration file
 	$rs = setup_gui_httpd();
-	return $rs if($rs !=0);
+	return $rs if($rs != 0);
 
 	# Not yet Implemented
 	$rs = setup_gui_pma();
-	return $rs if($rs !=0);
+	return $rs if($rs != 0);
 
 	push_el(\@main::el, 'setup_gui_cfg()', 'Ending...');
 
