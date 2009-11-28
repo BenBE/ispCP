@@ -2172,7 +2172,7 @@ sub setup_gui_php {
 	# PHP5 Starter script - Begin
 
 	# Loading the template from /etc/ispcp/fcgi/parts/master
-	($rs, $cfg_tpl) = get_tpl("$cfg_dir/parts/master/php5-fcgi-starter.tpl");
+	($rs, $cfg_tpl) = get_file("$cfg_dir/parts/master/php5-fcgi-starter.tpl");
 	return $rs if ($rs != 0);
 
 	# Tags preparation
@@ -2275,7 +2275,7 @@ sub setup_gui_named {
 	$rs = setup_gui_named_db_data($main::cfg{'BASE_SERVER_IP'}, $main::cfg{'BASE_SERVER_VHOST'});
 	return $rs if($rs !=0);
 
-	push_el(\@main::el, 'add_named_cfg_data()', 'Starting...');
+	push_el(\@main::el, 'add_named_cfg_data()', 'Ending...');
 
 	0;
 }
