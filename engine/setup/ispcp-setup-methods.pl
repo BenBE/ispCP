@@ -2268,11 +2268,11 @@ sub setup_gui_named {
 	my $rs = undef;
 
 	# Added GUI named cfg data
-	$rs = setup_gui_named_cfg_data();
+	$rs = setup_gui_named_cfg_data($main::cfg{'BASE_SERVER_VHOST'});
 	return $rs if($rs !=0);
 
 	# Building GUI named dns records file
-	$rs = setup_gui_named_db_data();
+	$rs = setup_gui_named_db_data($main::cfg{'BASE_SERVER_IP'}, $main::cfg{'BASE_SERVER_VHOST'});
 	return $rs if($rs !=0);
 
 	push_el(\@main::el, 'add_named_cfg_data()', 'Starting...');
