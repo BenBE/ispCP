@@ -869,7 +869,7 @@ sub setup_named {
 	if(!defined &update_engine)
 	{
 		# Saving the system main configuration file if it exists
-		if(-e $main::cfg{'BIND_CONF_FILE'})
+		if(-e $main::cfg{'BIND_CONF_FILE'} && !-e "$bk_dir/named.conf.system")
 		{
 			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'BIND_CONF_FILE'} $bk_dir/named.conf.system";
 			$rs = sys_command_rs($cmd);
