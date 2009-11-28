@@ -963,7 +963,7 @@ sub setup_php {
 	my $cfg = \$cfg_tpl;
 
 	# Directories paths
-	my $cfg_dir = "$main::cfg{'CONF_DIR'}/fcgi";
+	my $cfg_dir = "$main::cfg{'CONF_DIR'}/apache";
 	my $bk_dir = "$cfg_dir/backup";
 	my $wrk_dir = "$cfg_dir/working";
 
