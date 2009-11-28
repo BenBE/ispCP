@@ -1084,7 +1084,7 @@ sub setup_php {
 			if ($main::cfg{'PHP_FASTCGI'} eq 'fastcgi')
 			{
 				# Ensures that the unused ispcp fcgid module loader is disabled
-				sys_command_rs("/usr/sbin/a2dissmod ispcp_fcgid &> $services_log_path");
+				sys_command_rs("/usr/sbin/a2dismod ispcp_fcgid &> $services_log_path");
 
 				# Enable fastcgi module
 				sys_command_rs("/usr/sbin/a2enmod fastcgi_ispcp &> $services_log_path");
@@ -1092,14 +1092,14 @@ sub setup_php {
 			else
 			{
 				# Ensures that the unused ispcp fastcgi ispcp module loader is disabled
-				sys_command_rs("/usr/sbin/a2dissmod ispcp_fastcgi &> $services_log_path");
+				sys_command_rs("/usr/sbin/a2dismod ispcp_fastcgi &> $services_log_path");
 
 				# Enable ispcp fastcgi loader
 				sys_command_rs("/usr/sbin/a2enmod fcgid_ispcp &> $services_log_path");
 			}
 
 			# Disable default  fastcgi/fcgid modules loaders to avoid conflicts with ispcp loaders
-			sys_command_rs("/usr/sbin/a2dissmod fastcgi &> $services_log_path");
+			sys_command_rs("/usr/sbin/a2dismod fastcgi &> $services_log_path");
 			sys_command_rs("/usr/sbin/a2enmod fcgid &> $services_log_path");
 
 		}
@@ -2078,6 +2078,8 @@ sub setup_gui_httpd {
 		sys_command_rs("/usr/sbin/a2dissite 000-default &> $services_log_path");
 	}
 
+	# Disable 000-default vhost  - End
+
 	#
 	## Disable the default NameVirtualHost directive - Begin
 	#
@@ -2101,8 +2103,6 @@ sub setup_gui_httpd {
 	#
 	## Disable the default NameVirtualHost directive - End
 	#
-
-	# Disable 000-default vhost  - End
 
 	# Enable GUI vhost - Begin
 
