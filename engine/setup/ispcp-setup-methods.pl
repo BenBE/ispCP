@@ -2409,13 +2409,13 @@ sub setup_gui_named_db_data {
 	my ($rs, $cmd) = (undef, undef);
 
 	# SOA Record - Serial number related data
-	my ($serial, $otime, $ctime, $rev_nbr) = (undef, undef, undef, undef);
+	my ($serial, $otime, $ctime, $rev_nbr) = (undef, '', undef, undef);
 
 	# Directories paths
-	my $cfg_dir = $main::cfg{'CONF_DIR'};
-	my $tpl_dir = "$cfg_dir/bind/parts";
-	my $bk_dir = "$cfg_dir/bind/backup";
-	my $wrk_dir = "$cfg_dir/bind/working";
+	my $cfg_dir = "$main::cfg{'CONF_DIR'}/bind";
+	my $tpl_dir = "$cfg_dir/parts";
+	my $bk_dir = "$cfg_dir/backup";
+	my $wrk_dir = "$cfg_dir/working";
 	my $db_dir = $main::cfg{'BIND_DB_DIR'};
 
 	# Zone file name
@@ -2694,6 +2694,21 @@ sub setup_rkhunter {
 	}
 
 	push_el(\@main::el, 'setup_rkhunter()', 'Ending...');
+
+	0;
+}
+
+sub setup_cleanup {
+
+	push_el(\@main::el, 'setup_cleanup()', 'Ending...');
+
+	my ($rs, $cmd) = (undef, undef);
+
+	$cmd = "$main::cfg{'CMD_RM'} -f $main::cfg{'CONF_DIR'}/*/*/empty-file";
+	$rs = sys_command_rs($cmd);
+	return $rs if($rs != 0);
+
+	push_el(\@main::el, 'setup_cleanup()', 'Ending...');
 
 	0;
 }

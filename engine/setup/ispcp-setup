@@ -351,16 +351,15 @@ sub setup_shut_down {
 	my ($rs, $rdata) = (undef, undef);
 
 	my $cmd = "$main::cfg{'CMD_SHELL'} $main::cfg{'ROOT_DIR'}/engine/setup/set-gui-permissions.sh";
-
 	$rs = sys_command($cmd);
-
 	return $rs if ($rs != 0);
 
 	$cmd = "$main::cfg{'CMD_SHELL'} $main::cfg{'ROOT_DIR'}/engine/setup/set-engine-permissions.sh";
-
 	$rs = sys_command($cmd);
-
 	return $rs if ($rs != 0);
+	
+	$rs = setup_cleanup();
+	return $rs if($rs != 0);
 	
 	start_services();
 
@@ -1085,7 +1084,7 @@ sub start_services {
 	{
 		if( $main::cfg{$_} !~ /no/i && -e $main::cfg{$_})
 		{
-			sys_command("$main::cfg{$_} start");
+			sys_command("$main::cfg{$_} start &>/dev/null");
 			sleep 1;
 		}
 	}

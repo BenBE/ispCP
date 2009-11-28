@@ -180,6 +180,9 @@ sub update_shutdown {
 
 	push_el(\@main::el, 'update_shutdown()', 'Starting...');
 
+	my $rs = setup_cleanup();
+	return $rs if($rs != 0);
+
 	my $shut_down_message = <<MSG;
 
 \tCongratulations!
