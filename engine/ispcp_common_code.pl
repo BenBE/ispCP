@@ -58,7 +58,7 @@ if ($main::db_pass_key eq '{KEY}' || $main::db_pass_iv eq '{IV}') {
 	$rs = sys_command("perl $main::cfg{'ROOT_DIR'}/keys/rpl.pl $main::cfg{'GUI_ROOT_DIR'}/include/ispcp-db-keys.php $main::cfg{'ROOT_DIR'}/engine/ispcp-db-keys.pl $main::cfg{'ROOT_DIR'}/engine/messenger/ispcp-db-keys.pl");
 
 	#return $rs if ($rs != 0); # Bad code because we use 'return' outside a subroutine
-	die('FATAL: Error during database keys generation !');
+	die('FATAL: Error during database keys generation !') if ($rs != 0);
 
 	do 'ispcp-db-keys.pl';
 	# get_conf(); Not needed here
