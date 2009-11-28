@@ -40,7 +40,7 @@ $SIG{'INT'} = 'IGNORE';
 
 die ("Bad number of arguments!") if (scalar(@ARGV) != 3);
 
-map {s/'/\\'/g, chomp}
+map {s/'/\\'/g, chop}
 	my $key = gen_sys_rand_num(32),
 	my $iv = gen_sys_rand_num(8);
 
