@@ -328,12 +328,12 @@ function ispcp_check_local_part($email, $num = 50) {
  * @param boolean $subdname_process NODOC
  * @return boolean TRUE if successful, FALSE otherwize
  */
-function validates_dname($dname, $subdname_process = true) {
+function validates_dname($dname, $subdname_process = false) {
 
 	global $validation_err_msg;
 	$validation_err_msg = tr('Wrong domain name syntax or number of labels');
 
-	$max_labels = ($subdname_process) ? config::get('MAX_DNAMES_LABELS') : 99;
+	$max_labels = ($subdname_process) ? 99 : config::get('MAX_DNAMES_LABELS');
 
 	if(!$subdname_process) {
 
@@ -620,7 +620,7 @@ function _validates_sld($sld) {
 			'q\.(?:com|net)|'.
 			'x\.org|'.
 			'[xz]\.com|'.
-			'[a-z]\.de';
+			'[a-z0-9]\.de';
 
 		// Reserved SLD according RFC 2606
 		$reserved_SLD = 'example\.(?:com|net|org)';
@@ -691,8 +691,8 @@ function isACE($label) {
 	if(strpos($label, 'xn--' ) === 0) {
 
 		$validation_err_msg = tr(
-			'Error, ACE labels are not allowed, please use the <u>ToUnicode equivalent</u>. <br />' .
-			'<small>Example: for the ACE label <b>xn--bcher-kva</b>, type <b>bücher</b> instead</small>.'
+			"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br />".
+			"<small>Example: for ACE label <b>xn--bcher-kva</b> use <b>bücher</b> instead</small>."
 		);
 
 		return true;
