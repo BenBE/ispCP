@@ -1,13 +1,101 @@
 ispCP ω 1.1.0 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2009-12-20 Benedikt Heintel
+	- DISTS:
+		* *BSD: Fixed error on make install
+	- GUI: 
+		* Fixed tool tip issue in admin/settings
+	- LANGUAGES:
+		* Updated Polish
+
+2009-12-19 Laurent Declercq
+	CONFIGS:
+		* Centos - Couldn't to connect to FTP
+		* Centos - Ftp_choose_dir fail (due to the FTP issue ; see above)
+	DOCS:
+		* Updated OpenSuse INSTALL
+	LANGUAGES:
+		* Updated turkish
+
+2009-12-18 Laurent Declercq
+	- GUI:
+		* Fixed some mistakes related to i18n
+	- LANGUAGES:
+		* Updated ispCP pot file
+		* Updated all *. po files
+		* Updated all INI language files
+
+2009-12-17 Benedikt Heintel
+	- DOCS:
+		* Updated all INSTALL
+	- LANGUAGES:
+		* Updated Swedish
+
+2009-12-17 Laurent Declercq
+	- DOCS:
+		* Updated OpenSuse INSTALL
+	- LANGUAGES:
+		* Fixed: Several errors in *.po files
+	- TOOLS:
+		* Added new script (checkPo) to test all *.po files
+		* Added the check process in the translation README file
+
+2009-12-16 Laurent Declercq
+	- LANGUAGES:
+		* Updated French
+
+2009-12-16 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Basque
+		* Added Lithurnian
+
+2009-12-15 Laurent Declercq
+	- DOCS:
+		* Updated Ubuntu INSTALL
+		* Updated: version 1.0.3 to 1.0.4 in all INSTALL files
+
+2009-12-14 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Catalan
+		* Updated Chinese
+		* Updated Galician
+		* Updated German
+		* Updated Italian
+		* Updated Japanese
+
+2009-12-14 Laurent Declercq
+        - DISTS:
+                * Updated OpenSuse 11.1 INSTALL
+                * Updated OpenSuse packages
+                * Added support for OpenSuse 11.2
+
+2009-12-13 Laurent Declercq
+	- GUI:
+		* Fixed #2103: Webtools Error
+
 2009-12-12 Benedikt Heintel
 	- ENGINE:
 		* Fixed #266: Default 404 page when disable domain
 
+2009-12-12 Laurent Declercq
+	- GUI:
+		* Fixed #2094: Redirection to the ispCP tools - Bad regular expression
+
+2009-12-12 Benedikt Heintel
+	- DOCS:
+		* Updated CentOS INSTALL
+
+2009-12-11 Benedikt Bauer
+	- DISTS:
+		* Updated Ubuntu packages
+
 2009-12-11 Laurent Declercq
 	- GUI:
 		* Fixed #2098: Unable to add subdomain linked to an IDN
+		* Orderpanel: Domain name validation - Old error message deleted
+		* Added status of available functionalities (Backup and Manual DNS) in customer overview page
+		* Removed HTML comment related to domain name in domain default page. Reason: All labels with double hyphens in HTML comments causes rendering errors with Firefox. See http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4 for more information about this issue.
 
 2009-12-10 Laurent Declercq
 	- GUI:

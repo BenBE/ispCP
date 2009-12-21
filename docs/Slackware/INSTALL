@@ -16,7 +16,7 @@ Table of Content
 ================================================================================
 1) Version Info
 ---------------
-ispCP ω Version:	1.0.3
+ispCP ω Version: 1.0.4
 INSTALL Script:		1.2
 Maintainer:
 Homepage:			http://www.isp-contol.net
@@ -52,7 +52,6 @@ provides graphic user interfaces for the administrators, resellers and users.
 4) Installation
 ---------------
 Please have a look in the CentOS INSTALL file
-
 
 ================================================================================
 5) Update
