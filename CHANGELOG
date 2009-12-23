@@ -65,10 +65,10 @@ ispCP ω 1.1.0 Changelog
 		* Updated Japanese
 
 2009-12-14 Laurent Declercq
-        - DISTS:
-                * Updated OpenSuse 11.1 INSTALL
-                * Updated OpenSuse packages
-                * Added support for OpenSuse 11.2
+	- DISTS:
+		* Updated OpenSuse 11.1 INSTALL
+		* Updated OpenSuse packages
+		* Added support for OpenSuse 11.2
 
 2009-12-13 Laurent Declercq
 	- GUI:
@@ -80,7 +80,10 @@ ispCP ω 1.1.0 Changelog
 
 2009-12-12 Laurent Declercq
 	- GUI:
+		* Fixed #2099: "unexpected T_IF in /var/www/ispcp/gui/include/input-checks.php on line 261"
+		* Fixed #2101: Clean install Debian Lenny - ispCP 1.1.0 Login Error
 		* Fixed #2094: Redirection to the ispCP tools - Bad regular expression
+		* Fixed #2102: input-checks.php new error
 
 2009-12-12 Benedikt Heintel
 	- DOCS:
@@ -89,6 +92,21 @@ ispCP ω 1.1.0 Changelog
 2009-12-11 Benedikt Bauer
 	- DISTS:
 		* Updated Ubuntu packages
+
+2009-12-12 Laurent Declercq
+	- GUI:
+		* Fixed #2099: "unexpected T_IF in /var/www/ispcp/gui/include/input-checks.php on line 261"
+		* Fixed #2101: Clean install Debian Lenny - ispCP 1.1.0 Login Error
+		* Fixed #2094: Redirection to the ispCP tools - Bad regular expression
+		* Fixed #2102: input-checks.php new error
+
+2009-12-12 Benedikt Heintel
+	- DISTS:
+		* Updated: CentOS INSTALL
+
+2009-12-11 Benedikt Bauer
+	- DISTS:
+		* Updated: Ubuntu packages
 
 2009-12-11 Laurent Declercq
 	- GUI:
