@@ -57,17 +57,20 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/quota
 	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/quota
 
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/traffic
-	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/traffic
-
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/messenger
 	$(CMD_DIR_INSTALL) -m 0755 $(SYSTEM_ENGINE_ROOT)/messenger
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/setup
 
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/software
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/software
+	
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/tools
 	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/tools
+	
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_ENGINE_ROOT)/traffic
+	$(CMD_DIR_INSTALL) -m 0700 $(SYSTEM_ENGINE_ROOT)/traffic
 
 	cd ./traffic && $(MAKE) install
 
@@ -112,6 +115,9 @@ install:
 	$(CMD_INSTALL) ./setup/ispcp-update $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/ispcp-uninstall $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/updDB.php $(SYSTEM_ENGINE_ROOT)/setup
+	
+	$(CMD_INSTALL) ./software/ispcp-pkt-mngr $(SYSTEM_ENGINE_ROOT)/software
+	$(CMD_INSTALL) ./software/ispcp-sw-mngr $(SYSTEM_ENGINE_ROOT)/software
 
 	$(CMD_INSTALL) ./tools/ispcp-httpd-logs-mngr $(SYSTEM_ENGINE_ROOT)/tools/ispcp-httpd-logs-mngr
 	$(CMD_INSTALL) ./tools/ispcpphptemp.sh $(SYSTEM_ENGINE_ROOT)/tools/ispcpphptemp.sh

@@ -188,11 +188,9 @@ function delete_domain($domain_id) {
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
 	
-	#BEG AppInstaller
-	// Delete AppSoftware:
+	// Delete Software installed by Software Installer:
 	$query = "DELETE FROM `web_software_inst` WHERE `domain_id` = ?";
 	exec_query($sql, $query, array($domain_id));
-	#END AppInstaller
 
 	write_log($_SESSION['user_logged'] .": deletes domain " . $domain_name);
 
@@ -222,15 +220,15 @@ function delete_user($user_id) {
 		// delete reseller props
 		$query = "DELETE FROM `reseller_props` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
+		
 		// delete hosting plans
 		$query = "DELETE FROM `hosting_plans` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
-		#BEG AppInstaller
-		// delete all softwar
+		
+		// delete Software
 		delete_reseller_software($user_id);
 		$query = "DELETE FROM `web_software` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
-		#END AppInstaller
 	}
 
 	// Delete ispcp login:
@@ -243,7 +241,6 @@ function delete_user($user_id) {
 	user_goto('manage_users.php');
 }
 
-#BEG AppInstaller
 /**
  * Delete reseller software pakets
  * @param integer $user_id Reseller ID to delete software pakets
@@ -263,7 +260,6 @@ function delete_reseller_software($user_id) {
 		@rmdir($del_dir);
 	}
 }
-#END AppInstaller
 
 /**
  * Validate if delete process is valid

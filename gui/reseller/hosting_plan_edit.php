@@ -36,6 +36,7 @@ $tpl = new pTemplate();
 $tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/hosting_plan_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -81,6 +82,7 @@ $tpl->assign(
 				'TR_BACKUP_SQL'				=> tr('SQL'),
 				'TR_BACKUP_FULL'			=> tr('Full'),
 				'TR_BACKUP_NO'				=> tr('No'),
+				'TR_SOFTWARE_SUPP'			=> tr('Software installation'),
 				'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
 				'TR_AWSTATS'				=> tr('AwStats'),
 				'TR_YES'					=> tr('yes'),
@@ -119,6 +121,7 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	$tpl->assign('MESSAGE', "");
 }
 
+get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
@@ -156,18 +159,20 @@ function restore_form(&$tpl, &$sql) {
 
 	$tpl->assign(
 			array(
-					'TR_PHP_YES'	=> ($_POST['php'] == '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($_POST['php'] == '_no_') ? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($_POST['cgi'] == '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($_POST['cgi'] == '_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($_POST['dns'] == '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($_POST['dns'] == '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($_POST['status']) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> (!$_POST['status']) ? 'checked="checked"' : ''
+					'TR_PHP_YES'		=> ($_POST['php'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'			=> ($_POST['php'] == '_no_') ? 'checked="checked"' : '',
+					'TR_CGI_YES'		=> ($_POST['cgi'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'			=> ($_POST['cgi'] == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'		=> ($_POST['dns'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'			=> ($_POST['dns'] == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'		=> ($_POST['backup'] == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'		=> ($_POST['backup'] == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'		=> ($_POST['backup'] == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'		=> ($_POST['backup']== '_no_') ? 'checked="checked"' : '',
+					'TR_SOFTWARE_YES'	=> ($_POST['software_allowed'] == '_yes_') ? 'checked="checked"' : '',
+					'TR_SOFTWARE_NO'	=> ($_POST['software_allowed'] == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'		=> ($_POST['status']) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'		=> (!$_POST['status']) ? 'checked="checked"' : ''
 			)
 	);
 
@@ -240,8 +245,8 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			$hp_traff,
 			$hp_disk,
 			$hp_backup,
-			$hp_dns
-
+			$hp_dns,
+			$hp_allowsoftware
 	) = explode(";", $props);
 	
 	$hp_name = $data['name'];
@@ -279,18 +284,20 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 	$tpl->assign(
 			array(
-					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($hp_php == '_no_')	? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : '',
+					'TR_PHP_YES'		=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
+					'TR_PHP_NO'			=> ($hp_php == '_no_')	? 'checked="checked"' : '',
+					'TR_CGI_YES'		=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
+					'TR_CGI_NO'			=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
+					'TR_DNS_YES'		=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
+					'TR_DNS_NO'			=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
+					'VL_BACKUPD'		=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+					'VL_BACKUPS'		=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+					'VL_BACKUPF'		=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+					'VL_BACKUPN'		=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'TR_SOFTWARE_YES'	=> ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
+ 					'TR_SOFTWARE_NO'	=> ($hp_allowsoftware == '_no_') ? 'checked="checked"' : '',
+					'TR_STATUS_YES'		=> ($status) ? 'checked="checked"' : '',
+					'TR_STATUS_NO'		=> (!$status) ? 'checked="checked"' : '',
 			)
 	);
 } // end of gen_load_ehp_page()
@@ -306,6 +313,7 @@ function check_data_iscorrect(&$tpl) {
 	global $hpid;
 	global $price, $setup_fee;
 	global $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$ahp_error		= "_off_";
 	$hp_name		= clean_input($_POST['hp_name']);
@@ -320,12 +328,9 @@ function check_data_iscorrect(&$tpl) {
 	$price			= clean_input($_POST['hp_price']);
 	$setup_fee		= clean_input($_POST['hp_setupfee']);
 
-	if (isset($_SESSION['hpid']))
-	{
+	if (isset($_SESSION['hpid'])) {
 		$hpid = $_SESSION['hpid'];
-	}
-	else
-	{
+	} else {
 		$ahp_error = tr('Undefined reference to data!');
 	}
 	
@@ -348,6 +353,12 @@ function check_data_iscorrect(&$tpl) {
     if (isset($_POST['backup'])) {
     	$hp_backup = $_POST['backup'];
     }
+    
+	if (isset($_POST['software_allowed'])) {
+    	$hp_allowsoftware = $_POST['software_allowed'];
+    } else {
+		$hp_allowsoftware = "_no_";
+	}
 
 	if (!ispcp_limit_check($hp_sub, -1)) {
 		$ahp_error = tr('Incorrect subdomains limit!');
@@ -369,6 +380,8 @@ function check_data_iscorrect(&$tpl) {
 		$ahp_error = tr('Price must be a number!');
 	} else if (!is_numeric($setup_fee)) {
 		$ahp_error = tr('Setup fee must be a number!');
+	} else if ($hp_php == "_no_" && $hp_allowsoftware == "_yes_") {
+		$ahp_error = tr('The software installer needs PHP to enable it!');
 	}
 
 	if ($ahp_error == '_off_') {
@@ -392,6 +405,7 @@ function save_data_to_db() {
 	global $hp_traff, $hp_disk;
 	global $hpid;
 	global $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 	
 	$sql = Database::getInstance();
 
@@ -403,7 +417,8 @@ function save_data_to_db() {
 	$payment		= clean_input($_POST['hp_payment']);
 	$status			= clean_input($_POST['status']);
 
-	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
+	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;" .
+			"$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware";
 
 	$admin_id = $_SESSION['user_id'];
 

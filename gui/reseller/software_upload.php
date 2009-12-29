@@ -1,22 +1,4 @@
 <?php
-/**
- * ispCP ω (OMEGA) a Virtual Hosting Control System
- *
- * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2007 by ispCP | http://isp-control.net
- * @link 		http://isp-control.net
- * @author 		ispCP Team (2007)
- *
- * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
- */
-
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__, Config::get('PREVENT_EXTERNAL_LOGIN_RESELLER'));
@@ -88,14 +70,14 @@ if (isset($_POST['Button'])) {
 				INSERT INTO
 					`web_software`
 				(
-					`reseller_id`, `software_name`, `software_version`, `software_type`, `software_db`,
-					`software_archive`, `software_prefix`, `software_link`, `software_desc`, `software_status`
+					`reseller_id`, `software_name`, `software_version`, `software_language`, `software_type`, `software_db`,
+					`software_archive`, `software_installfile`, `software_prefix`, `software_link`, `software_desc`, `software_status`
 				) VALUES (
-					?, ?, ?, ?, ?,
-					?, ?, ?, ?, ?
+					?, ?, ?, ?, ?, ?,
+					?, ?, ?, ?, ?, ?
 				)
 SQL_QUERY;
-		$rs = exec_query($sql, $query, array($user_id, "waiting_for_input", "waiting_for_input", "waiting_for_input", "0", $filename, "waiting_for_input", "waiting_for_input", "waiting_for_input", "toadd"));
+		$rs = exec_query($sql, $query, array($user_id, "waiting_for_input", "waiting_for_input", "waiting_for_input", "waiting_for_input", "0", $filename, "waiting_for_input", "waiting_for_input", "waiting_for_input", "waiting_for_input", "toadd"));
 		$sw_id = $sql->Insert_ID();
 		if ($file == 0) {
 			$dest_dir = Config::get('GUI_SOFTWARE_DIR').'/'.$user_id.'/'.$filename.'-'.$sw_id.$extension;
@@ -114,7 +96,7 @@ SQL_QUERY;
 		if ($file == 1) {
 			$sw_wget = $_POST['sw_wget'];
 			$dest_dir = Config::get('GUI_SOFTWARE_DIR').'/'.$user_id.'/'.$filename.'-'.$sw_id.$extension;
-			//Filegröße auslesen
+			// Reading Filesize
    			$parts = parse_url($sw_wget);
    			$connection = fsockopen($parts['host'],80,$errno,$errstr,30);
    			if($connection) {
@@ -221,6 +203,8 @@ SQL_QUERY;
 					$ordertype = "`software_name` ".$_GET['order'];
 				} elseif ($_GET['sortby'] === "status") {
 					$ordertype = "`software_active` ".$_GET['order'];
+				} elseif ($_GET['sortby'] === "language") {
+					$ordertype = "`software_language` ".$_GET['order'];
 				} elseif ($_GET['sortby'] === "type") {
 					$ordertype = "`software_type` ".$_GET['order'];
 				} else {
@@ -237,6 +221,7 @@ SQL_QUERY;
 				`reseller_id` as resellerid,
 				`software_name` as name,
 				`software_version` as version,
+				`software_language` as language,
 				`software_desc` as description,
 				`software_type` as type,
 				`software_active` as swactive,
@@ -260,7 +245,7 @@ SQL_QUERY;
 						send_new_sw_upload ($user_id,$rs->fields['filename'].".tar.gz",$rs->fields['id']);
 						set_page_message(tr('Packet installed successfuly... Awaiting unblocking from admin!'));
 					}
-					$url = "delete_software.php?id=".$rs->fields['id'];
+					$url = "software_delete.php?id=".$rs->fields['id'];
 					
 					$query2="SELECT
                                 	`domain`.`domain_id` as did,
@@ -306,6 +291,7 @@ SQL_QUERY;
 								'SW_NAME' => $rs->fields['name'],
 								'LINK_COLOR' => '#000000',
 								'SW_VERSION' => $rs->fields['version'],
+								'SW_LANGUAGE' => $rs->fields['language'],
 								'SW_DESCRIPTION' => wordwrap($rs->fields['description'],56,"<br />", true),
 								'SW_TYPE' => $rs->fields['type'],
 								'DELETE' => $url,
@@ -337,38 +323,75 @@ SQL_QUERY;
 					}
 				} else {
 					if($rs->fields['swstatus'] == "toadd") {
+						$url = "software_delete.php?id=".$rs->fields['id'];
 						$tpl->assign(
 								array(
 									'SW_NAME' => tr('Installing your uploaded packet. Please refresh this site.'),
 									'LINK_COLOR' => '#FF0000',
 									'SW_VERSION' => '',
+									'SW_LANGUAGE' => '',
 									'SW_DESCRIPTION' => tr('After your upload the packet will be installed on your systems.<br />Refresh your site to see the new status!'),
 									'SW_TYPE' => '',
-									'DELETE' => '',
-									'TR_DELETE' => '',
+									'DELETE' => $url,
+									'TR_DELETE' => tr('Delete'),
 									'SW_STATUS' => tr('installing'),
 									'SOFTWARE_ICON' => 'disabled'
 								)
 							);
 					} else {
-						$tpl->assign(
-								array(
-									'SW_NAME' => tr('Failure in softwarepacket. Deleting!'),
-									'LINK_COLOR' => '#FF0000',
-									'SW_VERSION' => '',
-									'SW_DESCRIPTION' => tr('Check your softwarepacket. There is an error inside!<br />Refresh your site to see the new status!'),
-									'SW_TYPE' => '',
-									'DELETE' => '',
-									'TR_DELETE' => '',
-									'SW_STATUS' => tr('deleting'),
-									'SOFTWARE_ICON' => 'disabled'
-								)
-							);
+						if($rs->fields['swstatus'] == "delete") {
+							$tpl->assign(
+									array(
+										'SW_NAME' => tr('Failure in softwarepacket. Deleting!'),
+										'LINK_COLOR' => '#FF0000',
+										'SW_VERSION' => '',
+										'SW_LANGUAGE' => '',
+										'SW_DESCRIPTION' => tr('Check your softwarepacket. There is an error inside!<br />Refresh your site to see the new status!'),
+										'SW_TYPE' => '',
+										'DELETE' => '',
+										'TR_DELETE' => '',
+										'SW_STATUS' => tr('deleting'),
+										'SOFTWARE_ICON' => 'disabled'
+									)
+								);
+							set_page_message(tr('Your softwarepacket is corrupt. Please correct it!'));
+						} elseif (preg_match("/double_depot_/i", $rs->fields['swstatus'])) {
+							$tpl->assign(
+									array(
+										'SW_NAME' => tr('Packet already exist in the software depot!'),
+										'LINK_COLOR' => '#FF0000',
+										'SW_VERSION' => '',
+										'SW_LANGUAGE' => '',
+										'SW_DESCRIPTION' => tr('Please contact the administrator!<br />Ask him for the rights to use this package.<br />It is not allowed to upload this packet two times.<br />Refresh your site to see the new status!'),
+										'SW_TYPE' => '',
+										'DELETE' => '',
+										'TR_DELETE' => '',
+										'SW_STATUS' => tr('deleting'),
+										'SOFTWARE_ICON' => 'disabled'
+									)
+								);
+							set_page_message(tr('This packet already exist in the administrator software depot!'));
+						} elseif (preg_match("/double_res_/i", $rs->fields['swstatus'])) {
+							$tpl->assign(
+									array(
+										'SW_NAME' => tr('Packet already exist in your software depot!'),
+										'LINK_COLOR' => '#FF0000',
+										'SW_VERSION' => '',
+										'SW_LANGUAGE' => '',
+										'SW_DESCRIPTION' => tr('Check the your own uploads!<br />Ask the administrator if you don\'t find the packet.<br />It is not allowed to upload this packet two times.<br />Refresh your site to see the new status!'),
+										'SW_TYPE' => '',
+										'DELETE' => '',
+										'TR_DELETE' => '',
+										'SW_STATUS' => tr('deleting'),
+										'SOFTWARE_ICON' => 'disabled'
+									)
+								);
+							set_page_message(tr('This packet already exist in your software depot!'));
+						}
 						$del_path = Config::get('GUI_SOFTWARE_DIR')."/".$rs->fields['resellerid']."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
 						@unlink($del_path);
 						$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
 						$res = exec_query($sql, $delete, array($rs->fields['id']));
-						set_page_message(tr('Your softwarepacket is corrupt. Please correct it!'));
 					}
 				}
 				$tpl->parse('LIST_SOFTWARE', '.list_software');
@@ -415,6 +438,7 @@ $tpl->assign(
 			'TR_UPLOADED_SOFTWARE' => tr('Software available'),
 			'TR_SOFTWARE_NAME' => tr('Software-Synonym'),
 			'TR_SOFTWARE_VERSION' => tr('Software-Version'),
+			'TR_SOFTWARE_LANGUAGE' => tr('Language'),
 			'TR_SOFTWARE_STATUS' => tr('Software status'),
 			'TR_SOFTWARE_TYPE' => tr('Type'),
 			'TR_SOFTWARE_DELETE' => tr('Action'),
@@ -435,7 +459,9 @@ $tpl->assign(
 			'TR_SOFTWARE_TYPE_ASC' => 'software_upload.php?sortby=type&order=asc',
 			'TR_SOFTWARE_TYPE_DESC' => 'software_upload.php?sortby=type&order=desc',
 			'TR_SOFTWARE_STATUS_ASC' => 'software_upload.php?sortby=status&order=asc',
-			'TR_SOFTWARE_STATUS_DESC' => 'software_upload.php?sortby=status&order=desc'
+			'TR_SOFTWARE_STATUS_DESC' => 'software_upload.php?sortby=status&order=desc',
+			'TR_LANGUAGE_ASC' => 'software_upload.php?sortby=language&order=asc',
+			'TR_LANGUAGE_DESC' => 'software_upload.php?sortby=language&order=desc'
 		)
 	);
 

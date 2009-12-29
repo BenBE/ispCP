@@ -196,7 +196,8 @@ function update_user_props($user_id, $props) {
 			`domain_software_allowed` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id, $domain_php, $domain_cgi, $domain_dnsp, $domain_software_allowed));
+	$rs = exec_query($sql, $query, array($user_id, $domain_php, $domain_cgi, 
+			$domain_dns, $domain_software_allowed));
 
 	if ($rs->RecordCount() == 0) {
 		// mama mia, we have to rebuild the system entry for this domain
@@ -248,7 +249,7 @@ function update_user_props($user_id, $props) {
 				$domain_php,
 				$domain_cgi,
 				$domain_dns,
-                $domain_software_allowed,
+       			$domain_software_allowed,
 				$user_id
 			)
 		);
@@ -477,8 +478,7 @@ function unset_messages() {
 	}
 }
 
-#BEG APPInstaller
-function get_client_software_permission (&$tpl,&$sql,$user_id) {
+function get_client_software_permission(&$tpl,&$sql,$user_id) {
 	$query = <<<SQL_QUERY
 		SELECT
 			`domain_software_allowed`,
@@ -489,6 +489,7 @@ function get_client_software_permission (&$tpl,&$sql,$user_id) {
 			`domain_admin_id` = ?
 SQL_QUERY;
 	$rs = exec_query($sql, $query, array($user_id));
+
 	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
 		$tpl->assign(
 				array(
@@ -502,10 +503,10 @@ SQL_QUERY;
 					'TR_INSTALL_EMAIL' => tr('Emailadress'),
 					'SW_MSG' => tr('enabled'),
 					'SW_ALLOWED' => tr('Software installation'),
-					'TR_SOFTWARE_DESCRIPTION' => tr('Software Description')
-					
+					'TR_SOFTWARE_DESCRIPTION' => tr('Software Description')					
 				)
 			);
+
         $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
         $tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
     } else {
@@ -523,7 +524,7 @@ SQL_QUERY;
     }
 }
 
-function get_reseller_software_permission (&$tpl,&$sql,$reseller_id) {
+function get_reseller_software_permission(&$tpl,&$sql,$reseller_id) {
 	$query = <<<SQL_QUERY
 		SELECT
 			`software_allowed`
@@ -534,6 +535,7 @@ function get_reseller_software_permission (&$tpl,&$sql,$reseller_id) {
 SQL_QUERY;
     $rs = exec_query($sql, $query, array($reseller_id));
     $software_allowed = $rs->fields('software_allowed');
+
     if ($software_allowed == 'yes') {
 		$tpl->assign(
 				array(
@@ -554,4 +556,3 @@ SQL_QUERY;
 			);
     }
 }
-#END APPInstaller

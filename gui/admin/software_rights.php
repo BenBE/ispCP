@@ -1,22 +1,4 @@
 <?php
-/**
- * ispCP ω (OMEGA) a Virtual Hosting Control System
- *
- * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2007 by ispCP | http://isp-control.net
- * @link 		http://isp-control.net
- * @author 		ispCP Team (2007)
- *
- * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
- */
-
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
@@ -156,12 +138,12 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 		$software_id = $_POST['id'];
 	} else {
 		set_page_message(tr('Wrong software id.'));
-		header('Location: manage_software.php');
+		header('Location: software_manage.php');
 	}
 
 } else {
 	set_page_message(tr('Wrong software id.'));
-	header('Location: manage_software.php');
+	header('Location: software_manage.php');
 }
 
 $theme_color = Config::get('USER_INITIAL_THEME');
@@ -178,12 +160,12 @@ $tpl->assign(
 $res_cnt = get_reseller_rights (&$tpl, &$sql, $software_id);
 $res_list = get_reseller_list (&$tpl, &$sql, $software_id);
 
-$query = "SELECT `software_name`, `software_version` FROM `web_software` WHERE `software_id` = ?";
+$query = "SELECT `software_name`, `software_version`, `software_language` FROM `web_software` WHERE `software_id` = ?";
 $rs = exec_query($sql, $query, array($software_id));
 $tpl->assign(
 		array(
 			'TR_SOFTWARE_DEPOT' => tr('Softwaredepot'),
-			'TR_SOFTWARE_NAME' => $rs->fields['software_name'].' - (Vers.: '.$rs->fields['software_version'].')',
+			'TR_SOFTWARE_NAME' => tr($rs->fields['software_name'].' - (Version: '.$rs->fields['software_version'].', Language: '.$rs->fields['software_language'].')'),
 			'TR_ADD_RIGHTS' => tr('Add rights for reseller to software:'),
 			'TR_RESELLER' => tr('Reseller'),
 			'TR_REMOVE_RIGHTS' => tr('Remove rights'),

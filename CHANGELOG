@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2009-12-29 Benedikt Heintel
+	- ENGINE & GUI:
+		* Updated Applications Installer to RC1
+
 2009-12-29 Christian Hernmarck
 	- CONFIGS:
 		* Fixed #2136: Port 465 is missing in ispcp_network daemon

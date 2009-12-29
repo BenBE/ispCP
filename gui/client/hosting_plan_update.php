@@ -211,7 +211,8 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$hp_traff,
 				$hp_disk,
 				$hp_backup,
-				$hp_dns
+				$hp_dns,
+				$hp_allowsoftware
 		) = explode(";", $rs->fields['props']);
 
 		$details = '';
@@ -250,6 +251,18 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 			if ($current['domain_dns'] == 'yes') {
 				$warning_msgs[] = tr("You have DNS enabled, but the new hosting plan doesn't has this feature.");
+			}
+		}
+		
+ 		if ($hp_allowsoftware === '_yes_') {
+			$software = "yes";
+			$details .= tr('Software installation: enabled') . "<br />";
+		} else {
+			$software = "no";
+			$details .= tr('Software installation: disabled') . "<br />";
+
+			if ($current['domain_software_allowed'] == 'yes') {
+				$warning_msgs[] = tr("You have the software installation enabled, but the new hosting plan doesn't has this feature.");
 			}
 		}
 
@@ -358,6 +371,8 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				`domain_cgi` = ?
 			AND
 				`domain_dns` = ?
+			AND 
+				`domain_software_allowed` = ?
 		";
 
 		$check = exec_query(
@@ -367,7 +382,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 										$hp_mail, $hp_ftp, $hp_traff,
 										$hp_sql_db, $hp_sql_user,
 										$hp_als, $hp_sub, $hp_disk,
-										$php, $cgi, $dns
+										$php, $cgi, $dns, $software
 								)
 		);
 
@@ -475,7 +490,10 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 
 	$error_msgs = array();
 	$rs = exec_query($sql, $query, array($order_id));
-	list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $rs->fields['props']);
+	list(
+		$hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db,
+		$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware
+	) = explode(";", $rs->fields['props']);
 
 	$traffic = get_user_traffic($domain_id);
 

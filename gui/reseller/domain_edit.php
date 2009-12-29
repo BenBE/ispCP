@@ -37,9 +37,7 @@ $tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_ed
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 $tpl->define_dynamic('logged_from', 'page');
-#BEG AppInstaller
 $tpl->define_dynamic('t_software_support', 'page');
-#END AppInstaller
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -106,12 +104,9 @@ $tpl->assign(
 
 gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 
 gen_logged_from($tpl);
-
-#BEG AppInstaller
-get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
-#END AppInstaller
 
 gen_page_message($tpl);
 
@@ -160,9 +155,7 @@ function load_user_data($user_id, $domain_id) {
 	global $sql_user, $traff, $disk;
 	global $username;
 	global $dns_supp;
-	#BEG AppInstaller
 	global $software_supp;
-	#END AppInstaller
 
 	$query = "
 		SELECT
@@ -290,12 +283,10 @@ function gen_editdomain_page(&$tpl) {
 	global $sql_user, $traff, $disk;
 	global $username, $allowbackup;
 	global $dns_supp;
-	#BEG AppInstaller
 	global $software_supp;
-	#END AppInstaller
+
 	// Fill in the fields
 	$domain_name = decode_idna($domain_name);
-
 	$username = decode_idna($username);
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
@@ -374,9 +365,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
 	global $domain_expires, $domain_new_expire;
-	#BEG AppInstaller
 	global $domain_software_allowed;
-	#END AppInstaller
 
 	$domain_new_expire = clean_input($_POST['dmn_expire']);
 	$sub 			= clean_input($_POST['dom_sub']);
@@ -392,9 +381,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$domain_cgi		= preg_replace("/\_/", "", $_POST['domain_cgi']);
 	$domain_dns		= preg_replace("/\_/", "", $_POST['domain_dns']);
 	$allowbackup	= preg_replace("/\_/", "", $_POST['backup']);
-	#BEG AppInstaller
 	$domain_software_allowed = preg_replace("/\_/", "", $_POST['domain_software_allowed']);
-	#END AppInstaller
 
 	$ed_error = '';
 
@@ -427,6 +414,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	}
 	if (!ispcp_limit_check($disk, null)) {
 		$ed_error .= tr('Incorrect disk quota limit!');
+	}
+	if ($domain_php == "no" && $domain_software_allowed == "yes") {
+		$ed_error .= tr('The software installer needs PHP to enable it!');
 	}
 
 	// $user_props = generate_user_props($user_id);
@@ -502,13 +492,10 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$user_props .= "$usql_user_current;$usql_user_max;";
 		$user_props .= "$utraff_max;";
 		$user_props .= "$udisk_max;";
-		// $user_props .= "$domain_ip;";
 		$user_props .= "$domain_php;";
 		$user_props .= "$domain_cgi;";
 		$user_props .= "$domain_dns;";
-		#BEG AppInstaller
 		$user_props .= "$domain_software_allowed";
-		#END AppInstaller
 		update_user_props($user_id, $user_props);
 
 		$domain_expires = $_SESSION['domain_expires'];

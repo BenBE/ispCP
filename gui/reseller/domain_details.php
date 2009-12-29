@@ -35,9 +35,7 @@ check_login(__FILE__);
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
-#BEG AppInstaller
 $tpl->define_dynamic('t_software_support', 'page');
-#END AppInstaller
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -64,6 +62,7 @@ $tpl->assign(
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support (EXPERIMENTAL)'),
+		'TR_SOFTWARE_SUPP' 		=> tr('Software installation'),
 		'TR_MYSQL_SUPP'			=> tr('MySQL support'),
 		'TR_TRAFFIC'			=> tr('Traffic in MB'),
 		'TR_DISK'				=> tr('Disk in MB'),
@@ -78,8 +77,7 @@ $tpl->assign(
 		'TR_DOMALIAS_ACCOUNTS'	=> tr('Domain aliases'),
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
 		'TR_BACK'				=> tr('Back'),
-		'TR_EDIT'				=> tr('Edit'),
-		'TR_SOFTWARE_SUPP' 		=> tr('Software installation'),
+		'TR_EDIT'				=> tr('Edit')
 	)
 );
 
@@ -90,12 +88,9 @@ if (Config::exists('HOSTING_PLANS_LEVEL')
 
 gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 
 gen_logged_from($tpl);
-
-#BEG AppInstaller
-get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
-#END AppInstaller
 
 gen_page_message($tpl);
 // Get user id that comes for manage domain

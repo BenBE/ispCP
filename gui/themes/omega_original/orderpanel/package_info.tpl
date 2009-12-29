@@ -54,6 +54,12 @@
 		<td class="content">{TR_BACKUP}</td>
 		<td style="white-space:nowrap;" class="content2">{BACKUP}</td>
 	</tr>
+	<!-- BDP: t_software_support -->
+	<tr>
+		<td class="content">{TR_SOFTWARE_SUPPORT}</td>
+		<td style="white-space:nowrap;" class="content2">{SOFTWARE}</td>
+	</tr>
+	<!-- EDP: t_software_support -->
 	<tr>
 		<td class="content">{TR_MAIL_ACCOUNTS}</td>
 		<td style="white-space:nowrap;" class="content2">{MAIL}</td>

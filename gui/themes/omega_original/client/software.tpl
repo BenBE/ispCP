@@ -82,6 +82,7 @@ function action_res_delete(url) {
                     <tr>
                       <td nowrap class="content3"><div style="float:left"><b>{TR_SOFTWARE}</b></div><div style="float:right"><a href="{TR_SOFTWARE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
 					  <td nowrap class="content3" align="center" width="70"><b>{TR_VERSION}</b></td>
+					  <td nowrap class="content3" align="center" width="100"><div style="float:left"><b>{TR_LANGUAGE}</b></div><div style="float:right"><a href="{TR_LANGUAGE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_LANGUAGE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
                       <td nowrap class="content3" align="center" width="70"><div style="float:left"><b>{TR_TYPE}</b></div><div style="float:right"><a href="{TR_TYPE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_TYPE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
 					  <td nowrap class="content3" align="center" width="90"><div style="float:left"><b>{TR_NEED_DATABASE}</b></div><div style="float:right"><a href="{TR_NEED_DATABASE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_NEED_DATABASE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
                       <td nowrap class="content3" align="center" width="90"><b>{TR_STATUS}</b></td>
@@ -92,6 +93,7 @@ function action_res_delete(url) {
                     <tr>
                       <td nowrap class="{ITEM_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/cd.png" width="14" height="14" align="middle" /> <a href="{VIEW_SOFTWARE_SCRIPT}" class="tt">{SOFTWARE_NAME}<span class="tooltip"><span class="top">&nbsp;</span><span class="middle">{SOFTWARE_DESCRIPTION}</span><span class="bottom">&nbsp;</span></span></a></td>
                       <td nowrap class="{ITEM_CLASS}" align="center">{SOFTWARE_VERSION}</td>
+					  <td nowrap class="{ITEM_CLASS}" align="center">{SOFTWARE_LANGUAGE}</td>
 					  <td nowrap class="{ITEM_CLASS}" align="center">{SOFTWARE_TYPE}</td>
 					  <td nowrap class="{ITEM_CLASS}" align="center">{SOFTWARE_NEED_DATABASE}</td>
                       <td nowrap class="{ITEM_CLASS}" align="center">{SOFTWARE_STATUS}</td>
@@ -102,12 +104,12 @@ function action_res_delete(url) {
 					<!-- EDP: t_software_support -->
                     <!-- BDP: no_software_support -->
                     <tr>
-                      <td nowrap colspan="6" class="content">{NO_SOFTWARE_AVAIL}</td>
+                      <td nowrap colspan="7" class="content">{NO_SOFTWARE_AVAIL}</td>
                     </tr>
                     <!-- EDP: no_software_support -->
                     <!-- BDP: software_total -->
                     <tr>
-                      <td colspan="6" align="right" nowrap class="content3">{TR_SOFTWARE_AVAILABLE}:&nbsp;<b>{TOTAL_SOFTWARE_AVAILABLE}</b></td>
+                      <td colspan="7" align="right" nowrap class="content3">{TR_SOFTWARE_AVAILABLE}:&nbsp;<b>{TOTAL_SOFTWARE_AVAILABLE}</b></td>
                     </tr>
                     <!-- EDP: software_total -->
 					<!-- BDP: del_software_support -->

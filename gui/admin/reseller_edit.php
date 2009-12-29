@@ -581,11 +581,10 @@ function update_reseller(&$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
-			
-			#BEG AppInstaller
 			$domain_software_allowed = clean_input($_POST['domain_software_allowed']);
 			$domain_softwaredepot_allowed = clean_input($_POST['domain_softwaredepot_allowed']);
-			if($domain_software_allowed == "no"){
+
+			if ($domain_software_allowed == "no") {
 				$query_user = "
 					UPDATE
 						`domain`
@@ -594,22 +593,35 @@ function update_reseller(&$sql) {
 					WHERE
 						`domain_created_id` = ?
 				";
+
 				$rs = exec_query($sql, $query_user, array($domain_software_allowed, $edit_id));
 			}
+
 			if ($domain_softwaredepot_allowed == "no") {
-				$query="SELECT `software_id` FROM `web_software` WHERE `software_depot` = 'yes' AND `reseller_id` = ?";
+				
+				$query="SELECT `software_id` " .
+						"FROM `web_software` " .
+						"WHERE `software_depot` = 'yes' AND `reseller_id` = ?";
+
 				$rs = exec_query($sql, $query, array($edit_id));
+				
 				if ($rs->RecordCount() > 0) {
 					while(!$rs->EOF) {
-						$update = "UPDATE `web_software_inst` SET `software_res_del` = 1 WHERE `software_id` = ?";
+						$update = "UPDATE `web_software_inst` " .
+								"SET `software_res_del` = 1 " .
+								"WHERE `software_id` = ?";
+
 						exec_query($sql, $update, array($rs->fields['software_id']));
 						$rs->MoveNext();
 					}
-					$delete_rights = "DELETE FROM `web_software` WHERE `software_depot` = 'yes' AND `reseller_id` = ?";
+					
+					$delete_rights = "DELETE FROM `web_software` " .
+									"WHERE `software_depot` = 'yes' " .
+									"AND `reseller_id` = ?";
+
 					exec_query($sql, $delete_rights, array($edit_id));
 				}
 			}
-			#END AppInstaller
 			
 			$query = "
 				UPDATE
@@ -686,7 +698,8 @@ function get_reseller_prop(&$sql) {
 			`max_mail_cnt`, `current_mail_cnt`, `max_ftp_cnt`,
 			`current_ftp_cnt`, `max_sql_db_cnt`, `current_sql_db_cnt`,
 			`max_sql_user_cnt`, `current_sql_user_cnt`, `max_traff_amnt`,
-			`current_traff_amnt`, `max_disk_amnt`, `current_disk_amnt`, `software_allowed`, `softwaredepot_allowed`,
+			`current_traff_amnt`, `max_disk_amnt`, `current_disk_amnt`, 
+			`software_allowed`, `softwaredepot_allowed`,
 			r.`customer_id` AS customer_id, `reseller_ips`, `gender`
 		FROM
 			`admin` AS a,

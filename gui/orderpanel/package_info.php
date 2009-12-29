@@ -37,6 +37,7 @@ $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 /*
  * functions start
@@ -90,7 +91,9 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		user_goto('index.php?user_id=' . $user_id);
 	} else {
 		$props = $rs->fields['props'];
-		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $props);
+		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, 
+			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware
+		) = explode(";", $props);
 
 		$price = $rs->fields['price'];
 		$setup_fee = $rs->fields['setup_fee'];
@@ -129,6 +132,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				'CGI'			=> translate_sse($hp_cgi),
 				'DNS'			=> translate_sse($hp_dns),
 				'BACKUP'		=> translate_sse($hp_backup),
+				'SOFTWARE'		=> translate_sse($hp_allowsoftware),
 				'MAIL'			=> translate_limit_value($hp_mail),
 				'FTP'			=> translate_limit_value($hp_ftp),
 				'SQL_DB'		=> translate_limit_value($hp_sql_db),
@@ -171,6 +175,7 @@ if (isset($_GET['id']) && $bcoid) {
 
 gen_purchase_haf($tpl, $sql, $user_id);
 gen_plan_details($tpl, $sql, $user_id, $plan_id);
+get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 
 gen_page_message($tpl);
 
@@ -196,6 +201,7 @@ $tpl->assign(
 		'TR_PHP_SUPPORT'		=> tr('PHP support'),
 		'TR_CGI_SUPPORT'		=> tr('CGI support'),
 		'TR_DNS_SUPPORT'		=> tr('Manual DNS support'),
+		'TR_SOFTWARE_SUPPORT'	=> tr('Softwareinstaller'),
 		'TR_MYSQL_SUPPORT'		=> tr('SQL support'),
 		'TR_SUBDOMAINS'			=> tr('Subdomains'),
 		'TR_DOMAIN_ALIAS'		=> tr('Domain aliases'),

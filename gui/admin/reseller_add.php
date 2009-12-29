@@ -259,10 +259,8 @@ function add_reseller(&$tpl, &$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
-			#BEG AppInstaller
 			$nreseller_software_allowed = clean_input($_POST['nreseller_software_allowed']);
 			$nreseller_softwaredepot_allowed = clean_input($_POST['nreseller_softwaredepot_allowed']);
-			#END AppInstaller
 
 			$query = "
 				INSERT INTO `reseller_props` (
@@ -319,11 +317,9 @@ function add_reseller(&$tpl, &$sql) {
 				$gender
 			);
 			
-			#BEG AppInstaller
-			@mkdir(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id,0755,true);
+			@mkdir(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, 0755, true);
 			#@chown(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "vu2000");
 			#@chgrp(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "www-data");
-			#END AppInstaller
 			
 			$_SESSION['reseller_added'] = 1;
 
@@ -552,7 +548,7 @@ $tpl->assign(
 		'TR_LOGO_UPLOAD' => tr('Logo upload'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
-		'TR_SOFTWARE_ALLOWED' => tr('Software installation<br><i>(1-click install)</i>'),
+		'TR_SOFTWARE_ALLOWED' => tr('Software installation<br><i>(One-click install)</i>'),
 		'TR_SOFTWAREDEPOT_ALLOWED' => tr('Can use softwaredepot'),
 
 		'TR_RESELLER_IPS' => tr('Reseller IPs'),

@@ -864,9 +864,11 @@ SQL_QUERY;
 					  `reseller_id` int(10) unsigned NOT NULL default '0',
 					  `software_name` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_version` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
+					  `software_language` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_type` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_db` tinyint(1) NOT NULL,
 					  `software_archive` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+					  `software_installfile` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_prefix` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_link` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_desc` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
@@ -881,11 +883,15 @@ SQL_QUERY;
 		$sqlUpd[] = "
 					CREATE TABLE IF NOT EXISTS `web_software_inst` (
 					  `domain_id` int(10) unsigned NOT NULL,
+					  `alias_id` int(10) unsigned NOT NULL default '0',
+					  `subdomain_id` int(10) unsigned NOT NULL default '0',
+					  `subdomain_alias_id` int(10) unsigned NOT NULL default '0',
 					  `software_id` int(10) NOT NULL,
 					  `software_master_id` int(10) unsigned NOT NULL default '0',
 					  `software_res_del` int(1) NOT NULL default '0',
 					  `software_name` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_version` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
+					  `software_language` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `pfad` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
 					  `software_prefix` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
 					  `db` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
@@ -897,7 +903,7 @@ SQL_QUERY;
 					  `software_status` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
 					  `software_depot` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL NOT NULL DEFAULT 'no',
 					  KEY `software_id` (`software_id`)
-					) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;	
+					) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 		";
 
 		$sqlUpd[] = "

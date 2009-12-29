@@ -1,23 +1,4 @@
 <?php
-/**
- *  ispCP (OMEGA) - Virtual Hosting Control System | Omega Version
- *
- *  @copyright 	2001-2006 by moleSoftware GmbH
- *  @copyright 	2006-2007 by ispCP | http://isp-control.net
- *  @link 		http://isp-control.net
- *  @author		ispCP Team (2007)
- *
- *  @license
- *  This program is free software; you can redistribute it and/or modify it under
- *  the terms of the MPL General Public License as published by the Free Software
- *  Foundation; either version 1.1 of the License, or (at your option) any later
- *  version.
- *  You should have received a copy of the MPL Mozilla Public License along with
- *  this program; if not, write to the Open Source Initiative (OSI)
- *  http://opensource.org | osi@opensource.org
- **/
-
-
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
@@ -97,7 +78,7 @@ SQL_QUERY;
 					'SOFTWARE_ACTION_INSTALL' => ''
 				)
 			);
-        return array(tr('Uninstall'), 'delete_software.php?id='.$software_id, 'view_software.php?id='.$software_id, $software_status, $software_icon);
+        return array(tr('Uninstall'), 'software_delete.php?id='.$software_id, 'software_view.php?id='.$software_id, $software_status, $software_icon);
     }else{
 		$tpl->assign(
 				array(
@@ -105,7 +86,7 @@ SQL_QUERY;
 					'SOFTWARE_ACTION_DELETE' => ''
 				)
 			);
-        return array(tr('Install'), 'install_software.php?id='.$software_id, 'view_software.php?id='.$software_id, $software_status, $software_icon);
+        return array(tr('Install'), 'software_install.php?id='.$software_id, 'software_view.php?id='.$software_id, $software_status, $software_icon);
     }
 }
 
@@ -136,7 +117,7 @@ SQL_QUERY;
            		}
 				if($deleted_sw->fields['software_status'] == 'ok') {
 					$delsoftware_status = 'installed';
-					$del_software_action_script="delete_software.php?id=".$deleted_sw->fields['software_id'];
+					$del_software_action_script="software_delete.php?id=".$deleted_sw->fields['software_id'];
 					$tpl->assign(
 								array(
 									'DEL_SOFTWARE_ACTION' => tr('Uninstall'),
@@ -145,7 +126,7 @@ SQL_QUERY;
 							);
 				} elseif($deleted_sw->fields['software_status'] == 'toadd') {
 					$delsoftware_status = 'installing';
-					$del_software_action_script="delete_software.php?id=".$deleted_sw->fields['software_id'];
+					$del_software_action_script="software_delete.php?id=".$deleted_sw->fields['software_id'];
 					$tpl->assign(
 							array(
 								'DEL_SOFTWARE_ACTION' => tr('Uninstall')
@@ -199,6 +180,8 @@ SQL_QUERY;
 					$ordertype = "`software_db` ".$_GET['order'];
 				} elseif ($_GET['sortby'] === "type") {
 					$ordertype = "`software_type` ".$_GET['order'];
+				} elseif ($_GET['sortby'] === "language") {
+					$ordertype = "`software_language` ".$_GET['order'];
 				} else {
 					$ordertype = "`software_active` ASC, `software_type` ASC";
 				}
@@ -210,7 +193,7 @@ SQL_QUERY;
 		}
 		
 		$list_query = "SELECT
-				`software_id`, `software_name`, `software_version`, `software_type`, `software_db`, `software_desc`
+				`software_id`, `software_name`, `software_version`, `software_language`, `software_type`, `software_db`, `software_desc`
 			FROM
 				`web_software`
 			WHERE
@@ -245,6 +228,7 @@ SQL_QUERY;
 								'SOFTWARE_NAME' => $rs -> fields['software_name'],
 								'SOFTWARE_DESCRIPTION' => wordwrap($rs -> fields['software_desc'],56,"<br />",true),
 								'SOFTWARE_VERSION' => $rs -> fields['software_version'],
+								'SOFTWARE_LANGUAGE' => $rs -> fields['software_language'],
 								'SOFTWARE_TYPE' => $rs -> fields['software_type'],
 								'SOFTWARE_STATUS' => $software_status,
 								'SOFTWARE_ACTION' => $software_action,
@@ -359,6 +343,7 @@ $tpl -> assign(
 				'TR_INSTALL_SOFTWARE' => tr('Install software'),
 				'TR_SOFTWARE' => tr('Software'),
 				'TR_VERSION' => tr('Version'),
+				'TR_LANGUAGE' => tr('Language'),
 				'TR_TYPE' => tr('Type'),
 				'TR_NEED_DATABASE' => tr('Database'),
 				'TR_STATUS' => tr('Status'),
@@ -374,7 +359,9 @@ $tpl -> assign(
 				'TR_NEED_DATABASE_ASC' => 'software.php?sortby=database&order=asc',
 				'TR_NEED_DATABASE_DESC' => 'software.php?sortby=database&order=desc',
 				'TR_STATUS_ASC' => 'software.php?sortby=status&order=asc',
-				'TR_STATUS_DESC' => 'software.php?sortby=status&order=desc'
+				'TR_STATUS_DESC' => 'software.php?sortby=status&order=desc',
+				'TR_LANGUAGE_ASC' => 'software.php?sortby=language&order=asc',
+				'TR_LANGUAGE_DESC' => 'software.php?sortby=language&order=desc'
 			)
 		);
 

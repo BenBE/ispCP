@@ -41,6 +41,7 @@ $tpl = new pTemplate();
 $tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 $theme_color = Config::get('USER_INITIAL_THEME');
 
@@ -85,6 +86,7 @@ $tpl->assign(
 				'TR_BACKUP_SQL'				=> tr('SQL'),
 				'TR_BACKUP_FULL'			=> tr('Full'),
 				'TR_BACKUP_NO'				=> tr('No'),
+				'TR_SOFTWARE_SUPP'			=> tr('Software installation'),
 				'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
 				'TR_AWSTATS'				=> tr('AwStats'),
 				'TR_YES'					=> tr('yes'),
@@ -101,27 +103,24 @@ $tpl->assign(
 		)
 );
 
-if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction']))
-{
+if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	// Process data
 	if (check_data_correction($tpl)) {
 		save_data_to_db($tpl, $_SESSION['user_id']);
 	}
 
 	gen_data_ahp_page($tpl);
-}
-else 
-{
+} else {
 	gen_empty_ahp_page($tpl);
 }
 
+get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG'))
-{
+if (Config::get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 
@@ -155,6 +154,8 @@ function gen_empty_ahp_page(&$tpl) {
 					'VL_BACKUPS'			=> '',
 					'VL_BACKUPF'			=> '',
 					'VL_BACKUPN'			=> 'checked="checked"',
+					'VL_SOFTWAREY'			=> '',
+					'VL_SOFTWAREN'			=> 'checked="checked"',
 					'TR_DNS_YES'			=> '',
 					'TR_DNS_NO'				=> 'checked="checked"',
 					'HP_DISK_VALUE'			=> '',
@@ -177,6 +178,7 @@ function gen_data_ahp_page(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$tpl->assign(
 			array(
@@ -207,6 +209,8 @@ function gen_data_ahp_page(&$tpl) {
 					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
 					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
 					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+					'VL_SOFTWAREY'	=> ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
+					'VL_SOFTWAREN'	=> ($hp_allowsoftware == '_no_') ? 'checked="checked"' : '',
 					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
 					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
 					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
@@ -227,6 +231,7 @@ function check_data_correction(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$ahp_error = "_off_";
 
@@ -272,6 +277,10 @@ function check_data_correction(&$tpl) {
 	if (isset($_POST['backup'])) {
 		$hp_backup = $_POST['backup'];
 	}
+	
+	if (isset($_POST['software_allowed'])) {
+		$hp_allowsoftware = $_POST['software_allowed'];
+	}
 
 	if ($hp_name == '') {
 		$ahp_error = tr('Incorrect template name length!');
@@ -289,45 +298,30 @@ function check_data_correction(&$tpl) {
 		$ahp_error = tr('Setup fee must be a number!');
 	}
 
-	if (!ispcp_limit_check($hp_sub, -1))
-	{
+	if (!ispcp_limit_check($hp_sub, -1)) {
 		$ahp_error = tr('Incorrect subdomains limit!');
-	}
-	elseif(!ispcp_limit_check($hp_als, -1))
-	{
+	} elseif(!ispcp_limit_check($hp_als, -1))	{
 		$ahp_error = tr('Incorrect aliases limit!');
-	}
-	elseif (!ispcp_limit_check($hp_mail, -1)) {
+	} elseif (!ispcp_limit_check($hp_mail, -1)) {
 		$ahp_error = tr('Incorrect mail accounts limit!');
-	}
-	elseif(!ispcp_limit_check($hp_ftp, -1))
-	{
+	} elseif(!ispcp_limit_check($hp_ftp, -1)) {
 		$ahp_error = tr('Incorrect FTP accounts limit!');
-	}
-	elseif(!ispcp_limit_check($hp_sql_user, -1))
-	{
+	} elseif(!ispcp_limit_check($hp_sql_user, -1)) {
 		$ahp_error = tr('Incorrect SQL databases limit!');
-	}
-	elseif(!ispcp_limit_check($hp_sql_db, -1))
-	{
+	} elseif(!ispcp_limit_check($hp_sql_db, -1)) {
 		$ahp_error = tr('Incorrect SQL users limit!');
-	}
-	elseif(!ispcp_limit_check($hp_traff, null))
-	{
+	} elseif(!ispcp_limit_check($hp_traff, null)) {
 		$ahp_error = tr('Incorrect traffic limit!');
-	}
-	elseif(!ispcp_limit_check($hp_disk, null))
-	{
+	} elseif(!ispcp_limit_check($hp_disk, null)) {
 		$ahp_error = tr('Incorrect disk quota limit!');
+	} elseif($hp_php == "_no_" && $hp_allowsoftware == "_yes_") {
+		$ahp_error = tr('The software installer needs PHP to enable it!');
 	}
 
-	if ($ahp_error == '_off_')
-	{
+	if ($ahp_error == '_off_') {
 		$tpl->assign('MESSAGE', '');
 		return true;
-	}
-	else
-	{
+	} else {
 		set_page_message($ahp_error);
 		// $tpl->assign('MESSAGE', $ahp_error);
 		return false;
@@ -345,6 +339,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$sql = Database::getInstance();
 	$err_msg = '';
@@ -356,7 +351,8 @@ function save_data_to_db(&$tpl, $admin_id) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
 		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
-		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
+		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;" .
+				"$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware";
 		// this id is just for fake and is not used in reseller_limits_check.
 		$hpid = 0;
 

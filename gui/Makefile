@@ -36,6 +36,8 @@ export
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)/software
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)/software/sw_depot
 
 	cp ./index.php $(SYSTEM_GUI_ROOT)/index.php
 	cp ./lostpassword.php $(SYSTEM_GUI_ROOT)/lostpassword.php

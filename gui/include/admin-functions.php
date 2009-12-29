@@ -211,6 +211,7 @@ function gen_admin_menu(&$tpl, $menu_file) {
 			'TR_MENU_SERVER_STATUS' => tr('Server status'),
 			'TR_MENU_ISPCP_UPDATE' => tr('ispCP updates'),
 			'TR_MENU_ISPCP_DEBUGGER' => tr('ispCP debugger'),
+			'TR_MENU_MANAGE_SOFTWARE' => tr('Software management'),
 			'TR_CUSTOM_MENUS' => tr('Custom menus'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_MANAGE_SESSIONS' => tr('User sessions'),
@@ -223,8 +224,7 @@ function gen_admin_menu(&$tpl, $menu_file) {
 			'TR_SERVERPORTS' => tr('Server ports'),
 			'VERSION' => Config::get('Version'),
 			'BUILDDATE' => Config::get('BuildDate'),
-			'CODENAME' => Config::get('CodeName'),
-			'TR_MENU_MANAGE_SOFTWARE' => tr('Software management')
+			'CODENAME' => Config::get('CodeName')
 		)
 	);
 	$query = "
@@ -1407,7 +1407,6 @@ AUTO_LOG_MSG;
 	}
 }
 
-#BEG AppInstaller
 function send_activated_sw($reseller_id, $file_name, $sw_id) {
 	global $cfg;
 	global $sql;
@@ -1489,7 +1488,8 @@ Please login into your ispCP control panel for more details.
 
 	$mail_result = mail($to_email, $subject, $message, $headers);
 }
-function send_deleted_sw($reseller_id, $file_name, $sw_id, $subjectinput, $messageinput) {
+
+function send_activated_sw($reseller_id, $file_name, $sw_id) {
 	global $cfg;
 	global $sql;
 
@@ -1547,6 +1547,87 @@ SQL_QUERY;
 	$headers = "From: ". $from . "\n";
 	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . $cfg['Version'] . " Service Mailer";
 
+	$subject = tr('{ADMIN} activated your software package');
+
+	$message = tr('
+
+Dear {RESELLER},
+Your uploaded a software package was succesful activated by {ADMIN}.
+
+Details:
+Package Name: {SOFTWARE}
+Package ID: {SOFTWARE_ID}
+
+Please login into your ispCP control panel for more details.
+
+', true);
+
+	$subject = str_replace($search, $replace, $subject);
+	$message = str_replace($search, $replace, $message);
+	
+	$subject = encode($subject);
+
+	$mail_result = mail($to_email, $subject, $message, $headers);
+}
+
+function send_deleted_sw($reseller_id, $file_name, $sw_id, $subjectinput, $messageinput) {
+	global $cfg;
+	global $sql;
+
+	$query=<<<SQL_QUERY
+		SELECT
+			admin_name as reseller,
+			created_by,
+			email as res_email
+		FROM
+			admin
+		WHERE
+			admin_id = ?
+SQL_QUERY;
+
+	$res = exec_query($sql, $query, array($reseller_id));
+
+	$to_name = $res->fields['reseller'];
+	$to_email = $res->fields['res_email'];
+	$admin_id = $res->fields['created_by'];
+
+	$query=<<<SQL_QUERY
+		SELECT
+			email as adm_email,
+			admin_name as admin
+		FROM
+			admin
+		WHERE
+			admin_id = ?
+SQL_QUERY;
+
+	$res = exec_query($sql, $query, array($admin_id));
+
+	$from_name = $res->fields['admin'];
+	$from_email = $res->fields['adm_email'];
+
+	if ($from_name) {
+		$from = "\"" . encode($from_name) . "\" <" . $from_email . ">";
+	} else {
+		$from = $from_email;
+	}
+
+
+	$search = array();
+	$replace = array();
+
+	$search [] = '{ADMIN}';
+	$replace[] = $from_name;
+	$search [] = '{SOFTWARE}';
+ 	$replace[] = $file_name;
+	$search [] = '{SOFTWARE_ID}';
+	$replace[] = $sw_id;
+	$search [] = '{RESELLER}';
+	$replace[] = $to_name;
+
+	$headers = "From: ". $from . "\n";
+	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . $cfg['Version'] . " Service Mailer";
+
 	// lets send mail to the reseller => new order
 	$subject = tr(''.$subjectinput.' was deleted by {ADMIN}!');
 
@@ -1571,7 +1652,6 @@ Message from {ADMIN}:
 
 	$mail_result = mail($to_email, $subject, $message, $headers);
 }
-#END AppInstaller
 
 function send_add_user_auto_msg($admin_id, $uname, $upass, $uemail, $ufname, $ulname, $utype, $gender = '') {
 	$admin_login = $_SESSION['user_logged'];

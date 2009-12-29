@@ -147,11 +147,11 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 }
 
 function check_user_permissions(
-									&$tpl, $dmn_sqld_limit,
-									$dmn_sqlu_limit, $dmn_php,
-									$dmn_cgi,$backup, $dns,
-									$dmn_subd_limit, $als_cnt,
-									$dmn_mailacc_limit, $dmn_software_allowed
+								&$tpl, $dmn_sqld_limit,
+								$dmn_sqlu_limit, $dmn_php,
+								$dmn_cgi,$backup, $dns,
+								$dmn_subd_limit, $als_cnt,
+								$dmn_mailacc_limit, $dmn_software_allowed
 								) {
 
 	// check if mail accouts available are available for this user
@@ -189,16 +189,14 @@ function check_user_permissions(
 	if ($dmn_php == 'no') {
 		$tpl->assign('T_PHP_SUPPORT', '');
 	} else {
-		$tpl->assign(
-			array('PHP_SUPPORT' => tr('yes')));
+		$tpl->assign(array('PHP_SUPPORT' => tr('yes')));
 		$tpl->parse('T_PHP_SUPPORT', '.t_php_support');
 	}
 	// check if CGI Support is available for this user
 	if ($dmn_cgi == 'no') {
 		$tpl->assign('T_CGI_SUPPORT', '');
 	} else {
-		$tpl->assign(
-			array('CGI_SUPPORT' => tr('yes')));
+		$tpl->assign(array('CGI_SUPPORT' => tr('yes')));
 		$tpl->parse('T_CGI_SUPPORT', '.t_cgi_support');
 	}
 
@@ -206,8 +204,7 @@ function check_user_permissions(
 	if ($backup == 'no') {
 		$tpl->assign('T_BACKUP_SUPPORT', '');
 	} else {
-		$tpl->assign(
-		array('BACKUP_SUPPORT' => tr('yes')));
+		$tpl->assign(array('BACKUP_SUPPORT' => tr('yes')));
 		$tpl->parse('T_BACKUP_SUPPORT', '.t_backup_support');
 	}
 
@@ -215,8 +212,7 @@ function check_user_permissions(
 	if ($dns == 'no') {
 		$tpl->assign('T_DNS_SUPPORT', '');
 	} else {
-		$tpl->assign(
-		array('DNS_SUPPORT' => tr('yes')));
+		$tpl->assign(array('DNS_SUPPORT' => tr('yes')));
 		$tpl->parse('T_DNS_SUPPORT', '.t_dns_support');
 	}
 
@@ -224,8 +220,7 @@ function check_user_permissions(
     if ($dmn_software_allowed == 'no') {
         $tpl->assign('T_SOFTWARE_SUPPORT', '');
     } else {
-        $tpl->assign(
-            array('SOFTWARE_SUPPORT' => tr('yes')));
+        $tpl->assign(array('SOFTWARE_SUPPORT' => tr('yes')));
         $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
     }
 
@@ -411,7 +406,7 @@ $tpl->assign(
 
 gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
 gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
-get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+get_client_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
 
 gen_logged_from($tpl);
 

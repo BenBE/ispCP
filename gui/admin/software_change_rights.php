@@ -1,22 +1,4 @@
 <?php
-/**
- * ispCP ω (OMEGA) a Virtual Hosting Control System
- *
- * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2007 by ispCP | http://isp-control.net
- * @link 		http://isp-control.net
- * @author 		ispCP Team (2007)
- *
- * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
- */
-
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
@@ -28,7 +10,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 		$software_id = $_POST['id'];
 	} else {
 		set_page_message(tr('Wrong software id.'));
-		header('Location: manage_software.php');
+		header('Location: software_manage.php');
 	}
 	
 	if(isset($_POST['change']) && $_POST['change'] == "add"){
@@ -41,16 +23,18 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 					`web_software`
 				(
 					`software_master_id`, `reseller_id`, `software_name`, 
-					`software_version`, `software_type`, `software_db`, 
-					`software_archive`, `software_prefix`, `software_link`, 
-					`software_desc`, `software_active`, `software_status`, 
-					`rights_add_by`,`software_depot`
+					`software_version`, `software_language`, `software_type`,
+					`software_db`, `software_archive`, `software_installfile`,
+					`software_prefix`, `software_link`, `software_desc`,
+					`software_active`, `software_status`, `rights_add_by`,
+					`software_depot`
 				) VALUES (
 					?, ?, ?, 
 					?, ?, ?, 
 					?, ?, ?, 
 					?, ?, ?, 
-					?, ?
+					?, ?, ?,
+					?
 				)
 SQL_QUERY;
 		if($reseller_id == "all"){
@@ -75,7 +59,7 @@ SQL_QUERY;
 									`software_master_id` = ?";
 					$rs3 = exec_query($sql, $query3, array($rs2->fields['reseller_id'],$software_id));
 					if ($rs3->RecordCount() === 0){
-						exec_query($sql, $query, array($software_id, $rs2->fields['reseller_id'], $rs->fields['software_name'], $rs->fields['software_version'], $rs->fields['software_type'], $rs->fields['software_db'], $rs->fields['software_archive'], $rs->fields['software_prefix'], $rs->fields['software_link'], $rs->fields['software_desc'], $rs->fields['software_active'], "ok", $user_id, "yes"));
+						exec_query($sql, $query, array($software_id, $rs2->fields['reseller_id'], $rs->fields['software_name'], $rs->fields['software_version'], $rs->fields['software_language'], $rs->fields['software_type'], $rs->fields['software_db'], $rs->fields['software_archive'], $rs->fields['software_installfile'], $rs->fields['software_prefix'], $rs->fields['software_link'], $rs->fields['software_desc'], $rs->fields['software_active'], "ok", $user_id, "yes"));
 					}
 					$rs2->MoveNext();
 				}
@@ -84,7 +68,7 @@ SQL_QUERY;
 				header('Location: software_rights.php?id='.$software_id);
 			}
 		}else{
-			exec_query($sql, $query, array($software_id, $reseller_id, $rs->fields['software_name'], $rs->fields['software_version'], $rs->fields['software_type'], $rs->fields['software_db'], $rs->fields['software_archive'], $rs->fields['software_prefix'], $rs->fields['software_link'], $rs->fields['software_desc'], $rs->fields['software_active'], "ok", $user_id, "yes"));
+			exec_query($sql, $query, array($software_id, $reseller_id, $rs->fields['software_name'], $rs->fields['software_version'], $rs->fields['software_language'], $rs->fields['software_type'], $rs->fields['software_db'], $rs->fields['software_archive'], $rs->fields['software_installfile'], $rs->fields['software_prefix'], $rs->fields['software_link'], $rs->fields['software_desc'], $rs->fields['software_active'], "ok", $user_id, "yes"));
 		}
 		set_page_message(tr('Rights succesfully added.'));
 		header('Location: software_rights.php?id='.$software_id);
@@ -99,6 +83,6 @@ SQL_QUERY;
 	}
 } else {
 	set_page_message(tr('Wrong software id.'));
-	header('Location: manage_software.php');
+	header('Location: software_manage.php');
 }
 ?>

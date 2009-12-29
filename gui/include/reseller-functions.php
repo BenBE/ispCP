@@ -162,6 +162,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
+			'TR_SOFTWARE_MENU' => tr('Software management'),
 			'SUPPORT_SYSTEM_PATH' => Config::get('ISPCP_SUPPORT_SYSTEM_PATH'),
 			'SUPPORT_SYSTEM_TARGET' => Config::get('ISPCP_SUPPORT_SYSTEM_TARGET'),
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
@@ -170,8 +171,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
 			'VERSION' => Config::get('Version'),
 			'BUILDDATE' => Config::get('BuildDate'),
-			'CODENAME' => Config::get('CodeName'),
-			'TR_SOFTWARE_MENU' => tr('Software management')
+			'CODENAME' => Config::get('CodeName')
 		)
 	);
 
@@ -222,7 +222,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 	if (Config::exists('HOSTING_PLANS_LEVEL') && strtolower(Config::get('HOSTING_PLANS_LEVEL')) === 'admin') {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
-	#BEG AppInstaller
+
 	$query = <<<SQL_QUERY
 		SELECT
 			software_allowed
@@ -233,13 +233,13 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 SQL_QUERY;
 	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
 	$software_allowed = $rs->fields('software_allowed');
+
 	if ($software_allowed == 'yes') {
 		$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
 		$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
 	} else {
 		$tpl->assign('T_SOFTWARE_MENU', '');
 	}
-	#END AppInstaller
 
 	$tpl->parse('MENU', 'menu');
 } // end of gen_reseller_menu()
@@ -1629,7 +1629,6 @@ function send_alias_order_email($alias_name) {
 
 }
 
-#BEG AppInstaller
 function send_new_sw_upload($reseller_id, $file_name, $sw_id) {
 	global $cfg;
 	global $sql;
@@ -1690,7 +1689,6 @@ SQL_QUERY;
 	$headers = "From: ". $from . "\n";
 	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . $cfg['Version'] . " Service Mailer";
 
-	// lets send mail to the reseller => new order
 	$subject = tr('{RESELLER} uploaded a new software package');
 
 	$message = tr('
@@ -1714,7 +1712,6 @@ Please login into your ispCP control panel for more details.
 
 	$mail_result = mail($to_email, $subject, $message, $headers);
 }
-#END AppInstaller
 
 /**
  * add the 3 mail accounts/forwardings to a new domain...

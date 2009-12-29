@@ -72,23 +72,25 @@ function action_delete() {
 
                       <tr>
                       <td nowrap class="content3"><div style="float:left"><b>{TR_SOFTWARE_NAME}</b></div><div style="float:right"><a href="{TR_SOFTWARE_NAME_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_NAME_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
-					  <td nowrap class="content3"><b>{TR_SOFTWARE_VERSION}</b></td>
-					  <td nowrap class="content3"><div style="float:left"><b>{TR_SOFTWARE_STATUS}</b></div><div style="float:right"><a href="{TR_SOFTWARE_STATUS_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_STATUS_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
-                      <td nowrap class="content3" width="150"><div style="float:left"><b>{TR_SOFTWARE_TYPE}</b></div><div style="float:right"><a href="{TR_SOFTWARE_TYPE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_TYPE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
+					  <td nowrap class="content3" width="100"><b>{TR_SOFTWARE_VERSION}</b></td>
+					  <td nowrap class="content3" width="130"><div style="float:left"><b>{TR_SOFTWARE_LANGUAGE}</b></div><div style="float:right"><a href="{TR_LANGUAGE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_LANGUAGE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
+					  <td nowrap class="content3" width="130"><div style="float:left"><b>{TR_SOFTWARE_STATUS}</b></div><div style="float:right"><a href="{TR_SOFTWARE_STATUS_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_STATUS_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
+                      <td nowrap class="content3" width="130"><div style="float:left"><b>{TR_SOFTWARE_TYPE}</b></div><div style="float:right"><a href="{TR_SOFTWARE_TYPE_ASC}"><img src="{THEME_COLOR_PATH}/images/icons/asc.gif" width="16" height="16" border="0" /></a><a href="{TR_SOFTWARE_TYPE_DESC}"><img src="{THEME_COLOR_PATH}/images/icons/desc.gif" width="16" height="16" border="0" /></a></div></td>
                       <td nowrap class="content3" align="center" width="100"><b>{TR_SOFTWARE_DELETE}</b></td>
                     </tr>
                     <!-- BDP: no_software_list -->
                     <tr>
-                      <td colspan="5" class="title"><font color="#FF0000">{NO_SOFTWARE}</font></td>
+                      <td colspan="6" class="title"><font color="#FF0000">{NO_SOFTWARE}</font></td>
                     </tr>
                     <!-- EDP: no_software_list -->
                     <!-- BDP: list_software -->
                     <tr>
                       <td nowrap class="content"><img src="{THEME_COLOR_PATH}/images/icons/cd.png" width="16" height="16" align="middle" />&nbsp;<a href="#" class="tt"><font color="{LINK_COLOR}">{SW_NAME}</font><span class="tooltip"><span class="top">&nbsp;</span><span class="middle">{SW_DESCRIPTION}</span><span class="bottom">&nbsp;</span></span></a></td>
-					  <td nowrap class="content" width="150">{SW_VERSION}</td>
+					  <td nowrap class="content">{SW_VERSION}</td>
+					  <td nowrap class="content">{SW_LANGUAGE}</td>
 					  <td nowrap class="content"><a href="#" class="ttlist"><font color="{LINK_COLOR}">{SW_STATUS}</font><span class="tooltip"><span class="top">&nbsp;</span><span class="middle">{SW_INSTALLED}</span><span class="bottom">&nbsp;</span></span></a></td>
-                      <td nowrap class="content" width="150">{SW_TYPE}</td>
-                      <td nowrap class="content" align="center" width="100"><img src="{THEME_COLOR_PATH}/images/icons/{SOFTWARE_ICON}.png" width="16" height="16" border="0" align="middle" /> <a href="{DELETE}" class="link" onclick="return action_delete()">{TR_DELETE}</a></td>
+                      <td nowrap class="content">{SW_TYPE}</td>
+                      <td nowrap class="content" align="center"><img src="{THEME_COLOR_PATH}/images/icons/{SOFTWARE_ICON}.png" width="16" height="16" border="0" align="middle" /> <a href="{DELETE}" class="link" onclick="return action_delete()">{TR_DELETE}</a></td>
                     </tr>
                     <!-- EDP: list_software -->
                     <tr>
