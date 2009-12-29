@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2009 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -34,6 +44,8 @@ $tpl->define_dynamic('t_sql1_support', 'page');
 $tpl->define_dynamic('t_sql2_support', 'page');
 $tpl->define_dynamic('t_php_support', 'page');
 $tpl->define_dynamic('t_cgi_support', 'page');
+$tpl->define_dynamic('t_dns_support', 'page');
+$tpl->define_dynamic('t_backup_support', 'page');
 $tpl->define_dynamic('t_sdm_support', 'page');
 $tpl->define_dynamic('t_alias_support', 'page');
 $tpl->define_dynamic('t_mails_support', 'page');
@@ -41,9 +53,7 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
 $tpl->define_dynamic('disk_warn', 'page');
 $tpl->define_dynamic('dmn_mngmnt', 'page');
-#BEG AppInstaller
 $tpl->define_dynamic('t_software_support', 'page');
-#END AppInstaller
 
 
 function gen_num_limit_msg($num, $limit) {
@@ -136,7 +146,14 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	}
 }
 
-function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit, $dmn_software_allowed) {
+function check_user_permissions(
+									&$tpl, $dmn_sqld_limit,
+									$dmn_sqlu_limit, $dmn_php,
+									$dmn_cgi,$backup, $dns,
+									$dmn_subd_limit, $als_cnt,
+									$dmn_mailacc_limit, $dmn_software_allowed
+								) {
+
 	// check if mail accouts available are available for this user
 	if ($dmn_mailacc_limit == -1) {
 		$_SESSION['email_support'] = "no";
@@ -184,6 +201,25 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
 			array('CGI_SUPPORT' => tr('yes')));
 		$tpl->parse('T_CGI_SUPPORT', '.t_cgi_support');
 	}
+
+	// Check if Backup support is available for this user
+	if ($backup == 'no') {
+		$tpl->assign('T_BACKUP_SUPPORT', '');
+	} else {
+		$tpl->assign(
+		array('BACKUP_SUPPORT' => tr('yes')));
+		$tpl->parse('T_BACKUP_SUPPORT', '.t_backup_support');
+	}
+
+	// Check if Manual DNS support is available for this user
+	if ($dns == 'no') {
+		$tpl->assign('T_DNS_SUPPORT', '');
+	} else {
+		$tpl->assign(
+		array('DNS_SUPPORT' => tr('yes')));
+		$tpl->parse('T_DNS_SUPPORT', '.t_dns_support');
+	}
+
 	// check if Software Support is available for this user
     if ($dmn_software_allowed == 'no') {
         $tpl->assign('T_SOFTWARE_SUPPORT', '');
@@ -192,7 +228,8 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
             array('SOFTWARE_SUPPORT' => tr('yes')));
         $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
     }
-}
+
+} // end check_user_permissions()
 
 /**
  * Calculate the usege traffic/ return array (persent/value)
@@ -224,6 +261,7 @@ function make_traff_usege($domain_id) {
 	}
 
 	return array($pr, $traff);
+
 } // End of make_traff_usege()
 
 function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
@@ -285,38 +323,45 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 	$theme_color = $user_layout;
 }
 
-list($dmn_id,
-	$dmn_name,
-	$dmn_gid,
-	$dmn_uid,
-	$dmn_created_id,
-	$dmn_created,
-	$dmn_last_modified,
-	$dmn_mailacc_limit,
-	$dmn_ftpacc_limit,
-	$dmn_traff_limit,
-	$dmn_sqld_limit,
-	$dmn_sqlu_limit,
-	$dmn_status,
-	$dmn_als_limit,
-	$dmn_subd_limit,
-	$dmn_ip_id,
-	$dmn_disk_limit,
-	$dmn_disk_usage,
-	$dmn_php,
-	$dmn_cgi,
-    $dmn_software_allowed) = get_domain_default_props($sql, $_SESSION['user_id']);
+list(
+		$dmn_id,
+		$dmn_name,
+		$dmn_gid,
+		$dmn_uid,
+		$dmn_created_id,
+		$dmn_created,
+		$dmn_last_modified,
+		$dmn_mailacc_limit,
+		$dmn_ftpacc_limit,
+		$dmn_traff_limit,
+		$dmn_sqld_limit,
+		$dmn_sqlu_limit,
+		$dmn_status,
+		$dmn_als_limit,
+		$dmn_subd_limit,
+		$dmn_ip_id,
+		$dmn_disk_limit,
+		$dmn_disk_usage,
+		$dmn_php,
+		$dmn_cgi,
+		$backup,
+		$dns,
+		$dmn_software_allowed
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
-list($sub_cnt,
-	$als_cnt,
-	$mail_acc_cnt,
-	$ftp_acc_cnt,
-	$sqld_acc_cnt,
-	$sqlu_acc_cnt) = get_domain_running_props_cnt($sql, $dmn_id);
+list(
+		$sub_cnt,
+		$als_cnt,
+		$mail_acc_cnt,
+		$ftp_acc_cnt,
+		$sqld_acc_cnt,
+		$sqlu_acc_cnt
+	) = get_domain_running_props_cnt($sql, $dmn_id);
 
 $dtraff_pr = 0;
 $dmn_traff_usege = 0;
 $dmn_traff_limit = $dmn_traff_limit * 1024 * 1024;
+
 list($dtraff_pr, $dmn_traff_usege) = make_traff_usege($_SESSION['user_id']);
 
 $dmn_disk_limit = $dmn_disk_limit * 1024 * 1024;
@@ -327,7 +372,11 @@ gen_disk_usage($tpl, $dmn_disk_usage, $dmn_disk_limit, 400);
 
 gen_user_messages_label($tpl, $sql, $_SESSION['user_id']);
 
-check_user_permissions($tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php, $dmn_cgi, $dmn_subd_limit, $dmn_als_limit, $dmn_mailacc_limit, $dmn_software_allowed);
+check_user_permissions(
+						$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
+						$dmn_cgi, $backup, $dns, $dmn_subd_limit, $dmn_als_limit,
+						$dmn_mailacc_limit, $dmn_software_allowed
+);
 
 $account_name = decode_idna($_SESSION['user_logged']);
 
@@ -362,12 +411,9 @@ $tpl->assign(
 
 gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
 gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
+get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
 
 gen_logged_from($tpl);
-
-#BEG AppInstaller
-get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
-#END AppInstaller
 
 gen_system_message($tpl, $sql);
 
@@ -380,6 +426,8 @@ $tpl->assign(
 		'TR_MAIN_DOMAIN' => tr('Main domain'),
 		'TR_PHP_SUPPORT' => tr('PHP support'),
 		'TR_CGI_SUPPORT' => tr('CGI support'),
+		'TR_DNS_SUPPORT' => tr('Manual DNS support'),
+		'TR_BACKUP_SUPPORT' => tr('Backup support'),
 		'TR_MYSQL_SUPPORT' => tr('SQL support'),
 		'TR_SUBDOMAINS' => tr('Subdomains'),
 		'TR_DOMAIN_ALIASES' => tr('Domain aliases'),
@@ -387,15 +435,12 @@ $tpl->assign(
 		'TR_FTP_ACCOUNTS' => tr('FTP accounts'),
 		'TR_SQL_DATABASES' => tr('SQL databases'),
 		'TR_SQL_USERS' => tr('SQL users'),
-
 		'TR_MESSAGES' => tr('Support system'),
 		'TR_LANGUAGE' => tr('Language'),
 		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
 		'TR_SAVE' => tr('Save'),
-
 		'TR_LAYOUT' => tr('Layout'),
 		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
-
 		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
 		'TR_DISK_USAGE' => tr('Disk usage')
 	)

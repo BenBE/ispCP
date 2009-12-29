@@ -50,6 +50,10 @@
 		<td class="content">{TR_DNS_SUPPORT}</td>
 		<td nowrap="nowrap" class="content2">{DNS}</td>
 	</tr>
+		<tr>
+		<td class="content">{TR_BACKUP}</td>
+		<td style="white-space:nowrap;" class="content2">{BACKUP}</td>
+	</tr>
 	<tr>
 		<td class="content">{TR_MAIL_ACCOUNTS}</td>
 		<td style="white-space:nowrap;" class="content2">{MAIL}</td>
@@ -79,10 +83,6 @@
 	</tr>
 	<tr>
 		<td class="content">{TR_FILEMANAGER}</td>
-		<td style="white-space:nowrap;" class="content2">{YES}</td>
-	</tr>
-	<tr>
-		<td class="content">{TR_BACKUP}</td>
 		<td style="white-space:nowrap;" class="content2">{YES}</td>
 	</tr>
 	<tr>
@@ -127,7 +127,7 @@
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr align="center">
-		<td colspan="2"><a href="addon.php?coid={CUSTOM_ORDERPANEL_ID}&amp;id={PACK_ID}&amp;user_id={USER_ID}" class="link"><strong style="color:red;">{TR_PURCHASE}</strong></a></td>
+		<td colspan="2"><a href="addon.php?coid={CUSTOM_ORDERPANEL_ID}&amp;id={PACK_ID}&amp;user_id={USER_ID}" class="link"><strong>{TR_PURCHASE}</strong></a></td>
 	</tr>
 </table>
 

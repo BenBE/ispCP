@@ -72,6 +72,20 @@
             <td width="230" class="content2">{CGI_SUPPORT}</td>
           </tr>
           <!-- EDP: t_cgi_support -->
+          <!-- BDP: t_dns_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_DNS_SUPPORT}</td>
+            <td width="230" class="content2">{DNS_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_dns_support -->
+          <!-- BDP: t_backup_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_BACKUP_SUPPORT}</td>
+            <td width="230" class="content2">{BACKUP_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_backup_support -->
           <!-- BDP: t_sql1_support -->
           <tr>
             <td width="25">&nbsp;</td>
@@ -167,15 +181,13 @@
         <td>&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="33"><img src="{THEME_COLOR_PATH}/images/bars/statsbar_left.gif" width="33" height="20" alt="" /></td>
-            <td width="405" class="stats"><table border="0" cellspacing="0" cellpadding="0">
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20"></td>
+            <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="7"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.gif" width="7" height="13" alt="" /></td>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/trans.gif" width="{TRAFFIC_BARS}" height="1" alt="" /></td>
-                <td width="7"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.gif" width="7" height="13" alt="" /></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20"></td>
               </tr>
             </table></td>
-            <td width="33"><img src="{THEME_COLOR_PATH}/images/bars/statsbar_right.gif" width="33" height="20" alt="" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20"></td>
           </tr>
         </table></td>
       </tr>
@@ -215,15 +227,13 @@
         <td>&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="33"><img src="{THEME_COLOR_PATH}/images/bars/statsbar_left.gif" width="33" height="20" alt="" /></td>
-            <td width="405" class="stats"><table border="0" cellspacing="0" cellpadding="0">
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20"></td>
+            <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="7"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.gif" width="7" height="13" alt="" /></td>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/trans.gif" width="{DISK_BARS}" height="1" alt="" /></td>
-                <td width="7"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.gif" width="7" height="13" alt="" /></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{DISK_BARS}" height="20"></td>
               </tr>
             </table></td>
-            <td width="33"><img src="{THEME_COLOR_PATH}/images/bars/statsbar_right.gif" width="33" height="20" alt="" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20"></td>
           </tr>
         </table></td>
       </tr>

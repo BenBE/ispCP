@@ -33,12 +33,14 @@
     <tr>
     <td><a href="error_pages.php" class="submenu">{TR_MENU_ERROR_PAGES}</a></td>
   </tr>
+  <!-- BDP: active_backup -->
   <tr>
     <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
   </tr>
     <tr>
     <td><a href="backup.php" class="submenu">{TR_MENU_DAILY_BACKUP}</a></td>
   </tr>
+<!-- EDP: active_backup -->
   <tr>
     <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
   </tr>
@@ -76,7 +78,7 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td class="logoutbutton"><a href="../index.php?logout"><img src="{THEME_COLOR_PATH}/images/icons/logout_interface.png" width="24" height="24" border="0" alt="" />{TR_MENU_LOGOUT}</a></td>
+      <td class="logoutbutton"><a href="../index.php?logout"><img src="{THEME_COLOR_PATH}/images/icons/logout_interface.png" width="16" height="16" border="0" alt="" /> {TR_MENU_LOGOUT}</a></td>
     </tr>
     <tr>
       <td>&nbsp;</td>

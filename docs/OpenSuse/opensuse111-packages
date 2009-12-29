@@ -27,6 +27,8 @@ glibc-devel
 gzip
 iptables
 lha
+libidn-devel
+lukemftp
 lynx
 lzma
 mailx
@@ -36,6 +38,7 @@ mysql
 mysql-Max
 mysql-client
 mysql-shared
+ncftp
 patch
 perl
 perl-Archive-Tar
@@ -79,6 +82,7 @@ perl-TimeDate
 perl-URI
 perl-Unix-Syslog
 perl-libwww-perl
+perl-YAML
 php5
 php5-exif
 php5-fastcgi
@@ -95,5 +99,6 @@ postgrey
 proftpd
 proftpd-sql-mysql
 rkhunter
+shared-mime-info
 tar
 wget

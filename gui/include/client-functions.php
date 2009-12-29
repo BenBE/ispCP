@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2009 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false) {
@@ -41,6 +51,7 @@ function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false)
 			`domain_disk_usage`,
 			`domain_php`,
 			`domain_cgi`,
+			`allowbackup`,
 			`domain_dns`,
 			`domain_software_allowed`
 		FROM
@@ -73,6 +84,7 @@ SQL_QUERY;
 			$rs->fields['domain_disk_usage'],
 			$rs->fields['domain_php'],
 			$rs->fields['domain_cgi'],
+			$rs->fields['allowbackup'],
 			$rs->fields['domain_dns'],
 			$rs->fields['domain_software_allowed']
 		);
@@ -516,9 +528,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 	$tpl->define_dynamic('menu', $menu_file);
 	$tpl->define_dynamic('custom_buttons', 'menu');
 	$tpl->define_dynamic('isactive_update_hp', 'menu');
-	#BEG AppInstaller
 	$tpl->define_dynamic('t_software_menu', 'menu');
-	#END AppInstaller
 
 	$tpl->assign(
 		array(
@@ -552,6 +562,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 			'TR_MENU_CATCH_ALL_MAIL' => tr('Catch all'),
 			'TR_MENU_ADD_ALIAS' => tr('Add alias'),
 			'TR_MENU_UPDATE_HP' => tr('Update Hosting Package'),
+			'TR_SOFTWARE_MENU' => tr('Software installation'),
 			'SUPPORT_SYSTEM_PATH' => Config::get('ISPCP_SUPPORT_SYSTEM_PATH'),
 			'SUPPORT_SYSTEM_TARGET' => Config::get('ISPCP_SUPPORT_SYSTEM_TARGET'),
 			'WEBMAIL_PATH' => Config::get('WEBMAIL_PATH'),
@@ -562,8 +573,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 			'FILEMANAGER_TARGET' => Config::get('FILEMANAGER_TARGET'),
 			'VERSION' => Config::get('Version'),
 			'BUILDDATE' => Config::get('BuildDate'),
-			'CODENAME' => Config::get('CodeName'),
-			'TR_SOFTWARE_MENU' => tr('Software installation')
+			'CODENAME' => Config::get('CodeName')
 		)
 	);
 
@@ -651,8 +661,7 @@ SQL_QUERY;
 			$tpl->assign('ISACTIVE_UPDATE_HP', '');
 		}
 	}
-#BEG AppInstaller
-$query = <<<SQL_QUERY
+	$query = <<<SQL_QUERY
 		SELECT
 			domain_software_allowed,
 			domain_ftpacc_limit
@@ -661,16 +670,16 @@ $query = <<<SQL_QUERY
 		WHERE
 			domain_admin_id = ?
 SQL_QUERY;
-$rs = exec_query($sql, $query, array($_SESSION['user_id']));
-if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
-	$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
-	$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
+	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+
+	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
+		$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
+		$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
 	} else {
 		$tpl->assign('T_SOFTWARE_MENU', '');
 	}
 	$tpl->parse('MENU', 'menu');
 }
-#END AppInstaller
 
 function get_user_domain_id(&$sql, $user_id) {
 	$query = <<<SQL_QUERY
@@ -843,11 +852,9 @@ function check_permissions(&$tpl) {
 		&& isset($_SESSION['subdomain_support']) && $_SESSION['subdomain_support'] == "no") {
 		$tpl->assign('DMN_MNGMNT', '');
 	}
-	#BEG AppInstaller
 	if (isset($_SESSION['software_support']) && $_SESSION['software_support'] == "no") {
 		$tpl->assign('NO_SOFTWARE', '');
 	}
-	#END AppInstaller
 }
 
 function check_usr_sql_perms(&$sql, $db_user_id) {

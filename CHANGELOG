@@ -1,5 +1,460 @@
-ispCP ω 1.0.3 Changelog
+ispCP ω 1.1.0 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2009-12-29 Christian Hernmarck
+	- CONFIGS:
+		* Fixed #2136: Port 465 is missing in ispcp_network daemon
+
+2009-12-28 Marc Pujol
+	- GUI:
+		* Fixed #2135: open_basedir errors in net2ftp
+
+2009-12-28 Laurent Declercq
+	- GUI:
+		* Fixed PHP Notice: "Undefined offset: 2 in /var/www/ispcp/gui/include/input-checks.php on line 255"
+
+2009-12-24 Michael Johnson
+	- CONFIGS:
+		* Changed BuildDate behavior to SVN Revision
+
+2009-12-24 Benedikt Heintel
+	- RELEASE ispCP ω Omega 1.0.3-1
+
+2009-12-23 Marc Pujol
+	- BACKEND:
+		* Fixed #2122: Critical security bug exploitable by local users
+
+2009-12-23 Laurent Declercq
+	- GUI:
+		* Updated TLDs list
+	- CONFIGS:
+		* The file ispcp.conf should be readable by everyone. (Should be changed in 1.0.4)
+		* Added PMA_USER for recovery process during update
+	- SETUP
+		* Added recovery process for PMA configuration file
+
+2009-12-22 Laurent Declercq
+        - DOCS:
+                * Updated all INSTALL files
+
+2009-12-22 Marc Pujol
+	- GUI:
+		* Tightened default permission settings
+	- BACKEND:
+		* Tightened default permission settings
+
+2009-12-21 Benedikt Heintel
+	- GUI:
+		* Fixed: Password generation in order panel
+		* Fixed: Wrong oder of properties in order panel
+	- LANGUAGES:
+		* Updated Spanish
+		* Updated Turkish
+
+2009-12-21 Peter Ziergöbel
+	- GUI:
+		* Fixed #2108: Small bugs in orderpanel
+
+2009-12-21 Laurent Declercq
+	- PACKAGE:
+		* Updated "Version" in all ispcp.conf
+	- CONFIGS:
+		* CMD_PHP Must be the real path of php5-cli binary to avoid error during update
+	- GUI:
+		* Fixed - Security Fail - The files such as "ispcp.conf" and "ispcp-db-keys.php" should not be readable by other
+
+2009-12-20 Benedikt Heintel
+	- DISTS:
+		* *BSD: Fixed error on make install
+	- GUI:
+		* Fixed tool tip issue in admin/settings
+	- LANGUAGES:
+		* Updated Polish
+		* Updated Turkish
+
+2009-12-19 Jochen Manz
+	- RELEASE ispCP ω Omega 1.0.3
+	- DOCS:
+		* fixed a small typo in centos-packages file
+
+2009-12-19 Laurent Declercq
+	CONFIGS:
+		* Centos - Couldn't to connect to FTP
+		* Centos - Ftp_choose_dir fail (due to the FTP issue ; see above)
+	DOCS:
+		* Updated OpenSuse INSTALL
+	LANGUAGES:
+		* Updated turkish
+
+2009-12-18 Laurent Declercq
+	- GUI:
+		* Fixed some mistakes related to i18n
+	- LANGUAGES:
+		* Updated ispCP pot file
+		* Updated all *. po files
+		* Updated all INI language files
+
+2009-12-17 Benedikt Heintel
+	- DOCS:
+		* Updated all INSTALL
+	- LANGUAGES:
+		* Updated Swedish
+
+2009-12-17 Laurent Declercq
+	- DOCS:
+		* Updated OpenSuse INSTALL
+	- LANGUAGES:
+		* Fixed: Several errors in *.po files
+	- TOOLS:
+		* Added new script (checkPo) to test all *.po files
+		* Added the check process in the translation README file
+
+2009-12-16 Laurent Declercq
+	- LANGUAGES:
+		* Updated French
+
+2009-12-16 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Basque
+		* Added Lithurnian
+
+2009-12-15 Laurent Declercq
+	- DOCS:
+		* Updated Ubuntu INSTALL
+
+2009-12-14 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Catalan
+		* Updated Chinese
+		* Updated Galician
+		* Updated German
+		* Updated Italian
+		* Updated Japanese
+
+2009-12-14 Laurent Declercq
+        - DISTS:
+                * Updated OpenSuse 11.1 INSTALL
+                * Updated OpenSuse packages
+                * Added support for OpenSuse 11.2
+
+2009-12-13 Laurent Declercq
+	- GUI:
+		* Fixed #2103: Webtools Error
+
+2009-12-12 Laurent Declercq
+	- GUI:
+		* Fixed #2099: "unexpected T_IF in /var/www/ispcp/gui/include/input-checks.php on line 261"
+		* Fixed #2101: Clean install Debian Lenny - ispCP 1.1.0 Login Error
+		* Fixed #2094: Redirection to the ispCP tools - Bad regular expression
+		* Fixed #2102: input-checks.php new error
+
+2009-12-12 Benedikt Heintel
+	- DOCS:
+		* Updated CentOS INSTALL
+
+2009-12-11 Benedikt Bauer
+	- DISTS:
+		* Updated Ubuntu packages
+
+2009-12-11 Laurent Declercq
+	- GUI:
+		* Fixed #2098: Unable to add subdomain linked to an IDN
+		* Orderpanel: Domain name validation - Old error message deleted
+		* Added status of available functionalities (Backup and Manual DNS) in customer overview page
+		* Removed HTML comment related to domain name in domain default page. Reason: All labels with double hyphens in HTML comments causes rendering errors with Firefox. See http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.4 for more information about this issue.
+
+2009-12-10 Laurent Declercq
+	- GUI:
+		* Fixed #1995: Client/Daily Backup
+
+2009-12-10 Benedikt Heintel
+	- LANGUAGES:
+		* Updated all .po files
+
+2009-12-09 Benedikt Heintel
+	- GUI:
+		* Fixed some graphical display issues
+
+2009-12-09 Laurent Declercq
+	- GUI:
+		* Fixed: Unable to add new IDN domain name
+		* Fixed: Domains alias - Mount point issue : The dot character should not be replaced by underline
+	- SETUP:
+		* Improvement and cleanup updDB.php script
+		* Updated behavior for 'failed' status on update
+		* Added log file for database, customers and permissions update process
+		* Small fix
+
+2009-12-08 Benedikt Heintel
+	- GUI:
+		* Added help for new domain validation
+	- SETUP:
+		* Fixed some warnings
+
+2009-12-07 Benedikt Heintel
+	- DOCS:
+		* Updated: Update Process
+	- SETUP:
+		* Fixed a small bug
+		* Updated all text strings on update
+
+2009-12-07 Laurent Declercq
+	- GUI:
+		* Fixed: Undefined constant VFS_ASCII
+		* Fixed: ftp_get() expects parameter 4 to be long, string given...
+	- ENGINE:
+		* Fixed: The manual DNS entries are not added in the related db file
+
+2009-12-06 Laurent Declercq
+	- GUI:
+		* Fixed #2085: Call to undefined function chk_dname()
+
+2009-12-05 Benedikt Heintel
+	- GUI:
+		* Fixed two small bugs
+
+2009-12-05 Laurent Declercq
+	- GUI:
+		* Added new admin settings for the domain names / subdomains validation
+		* Added new routines for ACE labels check (Todo: added ASCII range check)
+		* Fixed some issues related to RFC 3490:
+			- Hyphens are now banned in 2nd and 3rd position of input string
+			- ACE labels are no longer allowed as input string
+	- SETUP:
+		* Integration of the new update script and several changes related to it - Must be tested and debugged
+
+2009-12-04 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2080: Re-enable domains works not properly
+	- TOOLS:
+		* Updated PHPmyAdmin to version 3.2.4
+		* Updated SquirrelMail Plugins add_address and compatibility
+
+2009-11-28 Benedikt Heintel
+	- LANGUAGES:
+		* Added: Arabic
+
+2009-11-27 Benedikt Heintel
+	- GUI:
+		* Fixed #2077: Files in GUI is absent
+	- TOOLS:
+		* Fixed Error in Filemanager
+
+2009-11-27 Henrik Schytte
+	- GUI:
+		* Added new Icons
+		* Added three links to system tools on the login page
+
+2009-11-27 Henrik Schytte
+	- GUI:
+		* Graphical adjustments
+
+2009-11-26 Laurent Declercq
+	- GUI:
+		* Fixed #2041: Internationalized domain name - unable to sets a subdomain as Idna label
+		* New routines for the validation of mount points and usernames - The function that checks the mount point should not use the routines related to the validation of user names
+		* Fixed #2076: Login - unable to login with Idna customer domain name
+
+2009-11-26 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2074: Wrong count for mail accounting in dovecot
+
+2009-11-21 Benedikt Heintel
+	- DISTS:
+		* Fixed #2069: [gentoo] /etc/init.d/ispcp_daemon patch
+	- ENGINE:
+		* Fixed: Use of uninitialized value in pattern match (m//) at /var/www/ispcp/engine/quota/ispcp-dsk-quota
+
+2009-11-21 Laurent Declercq
+	- SETUP:
+		* Check of email address: Application of RFCs 2822, 952 and 1123
+	- GUI
+		* Fixed: Directories chooser does not working ('Use of undefined constant VFS_TYPE_DIR')
+		* Fixed: Protected area creation/update - The related data should be stored in database before the backend request
+
+2009-11-20 Laurent Declercq
+	- UTILITIES:
+		* Fixed first-check.sh: 'Fatal error: Class 'Config' not found'
+
+2009-11-19 Laurent Declercq
+	- DATABASE:
+		* Updated database file used for new installations:
+			- Added databaseUpdate 26
+			- Added license header
+			- Added svn Id property
+	- LANGUAGES:
+		* Updated Dutch language files
+	- SETUP:
+		* Added code to disable the default "NameVirtualHost *:80" directive. That is to avoid the Apache warn during start / restart.
+
+2009-11-18 Laurent Declercq
+	- GUI:
+		* Fixed #1725: /var/log/rkhunter.log not readable (AGAIN)
+	- DATABASE:
+		* The Sql files (database.sql, language.sql) are the same for all distributions. Moved into only one directory to
+facilitate the maintenances.
+
+2009-11-17 Benedikt Heintel
+	- GUI:
+		* Corrected spelling mistake
+		* Fixed #2047: domain_dns table, should have an unique index
+
+2009-11-17 Laurent Declercq
+	- SETUP:
+		* Deleted several sql files that are not longer needed
+
+2009-11-16 Benedikt Heintel
+	- GUI:
+		* Modified Database Class
+
+2009-11-16 Laurent Declercq
+	- ENGINE:
+		* Fixed #2061: The sender-access file is not backed-up and has no working copy
+		* Cleanup of the mbox_add_mta_cfg_autorespond_data() subroutine
+		* Cleanup of the mbox_add_sasl_data() subroutine
+		* Cleanup of the mbox_del_sasl_data() subroutine
+
+2009-11-15 Benedikt Heintel
+	- GUI:
+		* Changed class compatibility to PHP5
+	- PACKAGE:
+		* Updated License Text (PHP Files)
+		* Updated License Text (CSS Files)
+		* Updated License Text (JS Files)
+	- TOOLS:
+		* Updated PHPmyAdmin to version 3.2.3
+
+2009-11-15 Laurent Declercq
+	- PACKAGE:
+		* Updated License Text (All Makefile)
+
+2009-11-13 Benedikt Heintel
+        - ENGINE:
+                * Fixed #2051: Again ispcp-dsk-quota message
+	- PACKAGE:
+		* Updated License Text (Engine and Make Files)
+
+2009-11-11 Sebastian Sellmeier
+	- GUI:
+		* Fixed #2039: Disk Usage in Percent is wrong
+
+2009-11-09 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2034: ispcp-backup error (I hope it's fixed - could not reproduce)
+		* Fixed #2043: Creating similar mail-addresses causes problems
+
+2009-11-05 Laurent Declercq
+	- DISTS:
+		* Fixed openSUSE runlevels
+
+2009-11-04 Christian Hernmarck
+	- CONFIG:
+		* Fixed #2060: increase fastcgi-timeout for user-domains
+
+2009-11-01 Marc Pujol
+	- CONFIGS:
+		* Fixed #2052: SPF registry error
+
+2009-10-23 Laurent Declercq
+	- GUI:
+		* Fixed #2050: Unable to change interface (Admin to reseller) since the client IP address is verified
+
+2009-10-15 Benedikt Heintel
+	- GUI:
+		* Added ipaddr check to prevent session hijacking
+	- ENGINE:
+		* Fixed #2044: ispcp-dsk-quota message (Use of uninitialized value in addition (+))
+	- LANGUAGES:
+		* Updated Russian
+
+2009-10-22 Marc Pujol
+	- ENGINE:
+		* Fixed #2046: ispcpphptemp.sh script fails to read per-domain session.gc_maxlifetime directives
+
+2009-10-20 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2021: Error in backup
+
+2009-10-17 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2033: ispcp-dsk-quota message
+	- GUI:
+		* Fixed #2029: Ispcp debugger doesn't work when there are adresses forward + normal at the same time
+
+2009-10-16 Benedikt Heintel
+	- TOOLS:
+		* Fixed #2031: Updated phpMyAdmin to version 3.2.2.1
+
+2009-10-16 Laurent Declercq
+	- GUI:
+		* Fixed #2035: Review Domain name syntax ( 'a.de' is not allowed - but denic soon allows it )
+
+2009-10-15 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Catalan
+		* Updated Polish
+
+2009-10-11 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese
+		* Updated German (Germany)
+
+2009-10-06 Laurent Declercq
+	- CONFIGS:
+		* Fixed: Pma - impossible indirect connections with suhosin
+
+2009-10-05 Laurent Declercq
+	- TOOLS:
+		* Fixed #2014: Error when you open pma via link from the customer interface
+
+2009-10-05 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese
+		* Updated Spanish (Spain)
+
+2009-09-30 Daniel Andreca
+	- LANGUAGES:
+		* Updated Finnish
+	- CONFIGS:
+		* Updated database structure
+
+2009-09-30 Laurent Declercq
+	- TOOLS:
+		* Fixed some typo errors in webmail/src/login.php (Thx to Henriks)
+
+2009-09-29 Daniel Andreca
+	- ENGINE:
+		* Fixed #2011: Daily quota script generates errors (missing db in /var/lib/mysql)
+	- LANGUAGES:
+		* Updated Danish
+
+2009-09-29 Laurent Declercq
+	- CONFIG:
+		* Fixed #2002: openSUSE 11.1 - Unable to add mail user
+		* Fixed SASL Authentication failed (openSUSE):
+			- Added smtpd.conf configuration file for postfix/sasl
+			- Added new variables related to MTA/SASL in /etc/ispcp/ispcp.conf (openSUSE)
+	- DISTS:
+		* Fixed postfix warning: "not owned by root: /var/spool/postfix" (openSUSE)
+		* Fixed imapd warning related to famd (See http://www.courier-mta.org/FAQ.html#fam) (openSUSE)
+		* Fixed authdaemond warning related to missing modules: "file not found" (openSUSE)
+	- DOCS:
+		* Updated docs/OpenSuse/install file
+		* Removed support for older versions (only current stable version is supported) (openSUSE)
+
+2009-09-28 Daniel Andreca
+	- LANGUAGES:
+		* Fixed small typo in es_ES.po
+
+2009-09-27 Daniel Andreca
+	- GUI:
+		* Fixed #1974: Reseller properties cannot be edited after working with his domains
+	- ENGINE:
+		* Fixed #2009: Backups do not work
+
+2009-09-27 Christian Hernmarck
+	- ENGINE:
+		* Fixed #2008: Alias + Subdomain + SubAlias: not all placeholders filled
 
 2009-09-25 Christian Hernmarck
 	- GUI:

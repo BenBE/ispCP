@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -37,6 +47,12 @@ function translate_sse($value) {
 		return tr('Yes');
 	} else if ($value == '_no_') {
 		return tr('No');
+	} else if ($value == '_sql_') {
+		return tr('SQL');
+	} else if ($value == '_full_') {
+		return tr('Full');
+	} else if ($value == '_dmn_') {
+		return tr('Domain');
 	} else {
 		return $value;
 	}
@@ -74,7 +90,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		user_goto('index.php?user_id=' . $user_id);
 	} else {
 		$props = $rs->fields['props'];
-		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_dns) = explode(";", $props);
+		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $props);
 
 		$price = $rs->fields['price'];
 		$setup_fee = $rs->fields['setup_fee'];
@@ -112,6 +128,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				'PHP'			=> translate_sse($hp_php),
 				'CGI'			=> translate_sse($hp_cgi),
 				'DNS'			=> translate_sse($hp_dns),
+				'BACKUP'		=> translate_sse($hp_backup),
 				'MAIL'			=> translate_limit_value($hp_mail),
 				'FTP'			=> translate_limit_value($hp_ftp),
 				'SQL_DB'		=> translate_limit_value($hp_sql_db),

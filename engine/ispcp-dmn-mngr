@@ -1,30 +1,30 @@
 #!/usr/bin/perl
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (c) 2001-2006 by moleSoftware GmbH
-# http://www.molesoftware.com
-# Copyright (c) 2006-2009 by isp Control Panel
-# http://isp-control.net
+# Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
+# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
 #
+# Version: $Id$
 #
-# License:
-#    This program is free software; you can redistribute it and/or
-#    modify it under the terms of the MPL Mozilla Public License
-#    as published by the Free Software Foundation; either version 1.1
-#    of the License, or (at your option) any later version.
+# The contents of this file are subject to the Mozilla Public License
+# Version 1.1 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://www.mozilla.org/MPL/
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    MPL Mozilla Public License for more details.
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+# License for the specific language governing rights and limitations
+# under the License.
 #
-#    You may have received a copy of the MPL Mozilla Public License
-#    along with this program.
+# The Original Code is "VHCS - Virtual Hosting Control System".
 #
-#    An on-line copy of the MPL Mozilla Public License can be found
-#    http://www.mozilla.org/MPL/MPL-1.1.html
+# The Initial Developer of the Original Code is moleSoftware GmbH.
+# Portions created by Initial Developer are Copyright (C) 2001-2006
+# by moleSoftware GmbH. All Rights Reserved.
+# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# isp Control Panel. All Rights Reserved.
 #
-#
-# The ISPCP ω Home Page is at:
+# The ispCP ω Home Page is:
 #
 #    http://isp-control.net
 #
@@ -93,33 +93,34 @@ sub dmn_mngr_shut_down {
 ## Add DNS CFG Data
 ##
 sub dmn_add_named_cfg_data {
-	my ($dmn_data) = @_;
-	my ($rs, $rdata) = (undef, undef);
 
 	push_el(\@main::el, 'dmn_add_named_cfg_data()', 'Starting...');
-	if (!defined($dmn_data) || $dmn_data eq '') {
-		push_el(\@main::el, 'dmn_add_named_cfg_data()', 'ERROR: Undefined Input Data...');
+
+	my ($data) = @_;
+
+	my ($rs, $rdata, $cmd, $working) = (undef, undef, undef, undef);
+
+	if (!defined($data) || $data eq '')
+	{
+		push_el(\@main::el, 'dmn_add_named_cfg_data()', 'FATAL: Undefined Input Data...');
 		return -1;
 	}
 
-	#
-	# Initial data we need;
-	#
-	my $dmn_name     = @$dmn_data[1];
-	my $conf_dir     = $main::cfg{'CONF_DIR'};
-	my $sys_cfg      = $main::cfg{'BIND_CONF_FILE'};
-	my $named_db_dir = $main::cfg{'BIND_DB_DIR'};
-	my $tpl_dir      = "$conf_dir/bind/parts";
-	my $backup_dir   = "$conf_dir/bind/backup";
-	my $working_dir  = "$conf_dir/bind/working";
-	my $timestamp    = time;
-	my $backup_cfg   = "$backup_dir/named.conf.$timestamp";
-	my $working_cfg  = "$working_dir/named.conf";
+	# Domain name
+	my $zone_name = @$data[1];
+
+	# Directories paths
+	my $cfg_dir = "$main::cfg{'CONF_DIR'}/bind";
+	my $tpl_dir = "$cfg_dir/parts";
+	my $bkp_dir = "$cfg_dir/backup";
+	my $wrk_dir = "$cfg_dir/working";
 
 	#
-	#  BEGIN/END tags, and templates needed for this config;
+	## Loading all needed templates from (eg. /etc/ispcp/bind/parts/) - Begin
 	#
+
 	my ($dta_b, $dta_e, $entry_b, $entry_e, $entry) = ('', '', '', '', '');
+
 	(
 		$rs,
 		$dta_b,
@@ -138,13 +139,22 @@ sub dmn_add_named_cfg_data {
 	return $rs if ($rs != 0);
 
 	#
-	# Let's construct needed tags and entries;
+	## Loading all needed template from (eg. /etc/ispcp/bind/parts/) - End
 	#
+
+	#
+	## Let's construct needed tags and entries - Begin
+	#
+
+	# Tags
 	my %tag_hash = (
-		'{DMN_NAME}' => $dmn_name,
-		'{DB_DIR}'   => $named_db_dir
+		'{DMN_NAME}' => $zone_name,
+		'{DB_DIR}'   => $main::cfg{'BIND_DB_DIR'}
 	);
+
+	# Entries
 	my ($entry_b_val, $entry_e_val, $entry_val) = ('', '', '');
+
 	(
 		$rs,
 		$entry_b_val,
@@ -159,69 +169,89 @@ sub dmn_add_named_cfg_data {
 	return $rs if ($rs != 0);
 
 	#
-	# Let's get System and Working config files;
+	## Let's construct needed tags and entries - End
 	#
-	my ($sys, $working) = ('', '');
 
-	($rs, $sys) = get_file($sys_cfg);
-	return $rs  if ($rs != 0);
+	# Loading the working file from (eg. /etc/ispcp/bind/working/)
+	($rs, $working) = get_file("$wrk_dir/named.conf");
+	return $rs if ($rs != 0);
 
-	($rs, $working) = get_file($working_cfg);
-	return $rs  if ($rs != 0);
-
+	# Check the validity of the working file
 	($rs, $rdata) = get_tag($dta_b, $dta_e, $working);
 	return $rs if ($rs != 0);
 
 	#
-	# Does the new domain entry exists ?
+	## If the new entry already exists, remove it - Begin
 	#
+
+	# Check if the new entry already exists in the current working file
 	($rs, $rdata) = get_tag($entry_b_val, $entry_e_val, $working);
-	if ($rs == 0) {
-		# Yes it exists ! Then we must delete it !
+
+	# If the entry exists, remove it !
+	if ($rs == 0)
+	{
 		($rs, $working) = del_tag($entry_b_val, "$entry_e_val\n", $working);
 		return $rs if ($rs != 0);
 	}
+
+	#
+	## If the new entry already exists, remove it - End
+	#
+
+	# Check the validity of the working file
 	($rs, $rdata) = get_tag($entry_b, $entry_e, $working);
 	return $rs if ($rs != 0);
 
 	#
-	# Let's construct the replacement and do it;
+	## Saving the current production file if it exist - Begin
 	#
+
+	if(-e $main::cfg{'BIND_CONF_FILE'})
+	{
+		my $timestamp = time;
+
+		my $cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'BIND_CONF_FILE'} $bkp_dir/named.conf.$timestamp";
+		$rs = sys_command($cmd);
+		return $rs if ($rs != 0);
+	}
+
+	#
+	## Saving the current production file if it exist - End
+	#
+
+	#
+	## Building, storage and installation of the new file  - Begin
+	#
+
+	# Let's construct the replacement and do it
 	my $entry_repl = "$entry_b_val$entry_val$entry_e_val\n$entry_b$entry_e";
+
+	# Building the new file
 	($rs, $working) = repl_tag($entry_b, $entry_e, $working, $entry_repl, "dmn_add_named_cfg_data");
 	return $rs if ($rs != 0);
 
-	#
-	# Here we'll backup production config file;
-	#
-	$rs = sys_command("$main::cfg{'CMD_CP'} -p $sys_cfg $backup_cfg");
+	# Store the new file in working directory
+	$rs = store_file(
+		"$wrk_dir/named.conf",
+		$working,
+		$main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'},
+		0644
+	);
+	return $rs if ($rs != 0);
+
+	# Install the new file in production directory
+	$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/named.conf $main::cfg{'BIND_CONF_FILE'}";
+	$rs = sys_command($cmd);
 	return $rs if ($rs != 0);
 
 	#
-	# Let's save working copy;
+	## Building, storage and installation of the new file  - End
 	#
-	$rs = store_file($working_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
-	return $rs if ($rs != 0);
-
-	#
-	# Here we'll replace data in production config file with data in working
-	# confing file. A little workaround will be done. If working copy data does not exist
-	# in production config then we will add it;
-	#
-	($rs, $rdata) = get_tag($dta_b, $dta_e, $sys);
-	if ($rs == 0) { # YES ! Data is here ! /in production config file/;
-		($rs, $sys) = repl_tag($dta_b, $dta_e, $sys, $working, "dmn_add_named_cfg_data");
-		return $rs if ($rs != 0);
-		} elsif ($rs == -5) {
-		$sys .= $working;
-	} else {
-		return $rs;
-	}
-	$rs = store_file($sys_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
-	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'dmn_add_named_cfg_data()', 'Ending...');
-	return 0;
+
+	0;
 }
 
 ################################################################################
@@ -410,11 +440,11 @@ sub dmn_add_named_db_data {
 		'db_e.tpl',
 		'db_dns2_b.tpl',
 		'db_dns2_e.tpl',
-                'db_dns_entry_b.tpl',
-                'db_dns_entry_e.tpl',
+		'db_dns_entry_b.tpl',
+		'db_dns_entry_e.tpl',
 		'db_dns_entry.tpl',
 		'db_time_b.tpl',
-		'db_time_e.tpl'                                                                                                                  
+		'db_time_e.tpl'
 	);
 	return $rs if ($rs != 0);
 
@@ -483,7 +513,7 @@ sub dmn_add_named_db_data {
 	#}
 	# support for manual DNS records : begin
         my $domain_id    = @$dmn_data[0];
-	
+
 	my $sql = "
 	    SELECT
 		domain_dns_id,
@@ -495,16 +525,16 @@ sub dmn_add_named_db_data {
 		domain_type
 	    FROM
 		domain_dns
-	    WHERE 
-		    domain_dns.alias_id IS NULL
+	    WHERE
+		    domain_dns.alias_id = 0
 		AND domain_dns.domain_id = $domain_id
 	    ;
 	";
-	
+
 	my $rows;
 	($rs, $rows) = doSQL($sql);
 	if ($rs == 0){
-	
+
     	    my ($row, $test);
 	    my ($db_dns_entry_b_val, $db_dns_entry_e_val, $db_dns_entry_val) = (undef, undef, undef);
 	    foreach $row (@$rows){
@@ -514,7 +544,7 @@ sub dmn_add_named_db_data {
 		    '{MANUAL_DNS_DATA}' => @$row[4],
 		    '{MANUAL_DNS_CLASS}' => @$row[5],
 		    '{MANUAL_DNS_TYPE}' => @$row[6]
-		);	    
+		);
 		($rs, $db_dns_entry_val, $db_dns_entry_b_val, $db_dns_entry_e_val) = prep_tpl(
 		    \%tag_hash,
 		    $db_dns_entry,
@@ -795,12 +825,12 @@ sub gen_httpd_dmn_group_entry {
 		'{APACHE_USERS_LOG_DIR}'      => $main::cfg{'APACHE_USERS_LOG_DIR'},
 		'{CUSTOM_SITES_CONFIG_DIR}'   => $main::cfg{'APACHE_CUSTOM_SITES_CONFIG_DIR'},
 		'{MODS_DIR}'                  => $main::cfg{'APACHE_MODS_DIR'},
-		
+
 		'{AWSTATS_WEB_DIR}'    	      => $main::cfg{'AWSTATS_WEB_DIR'},
 		'{AWSTATS_GROUP_AUTH}'        => $main::cfg{'AWSTATS_GROUP_AUTH'},
 		'{HTACCESS_USERS_FILE_NAME}'  => $main::cfg{'HTACCESS_USERS_FILE_NAME'},
 		'{HTACCESS_GROUPS_FILE_NAME}' => $main::cfg{'HTACCESS_GROUPS_FILE_NAME'},
-		
+
 		'{SUEXEC_USER}'               => $suexec_user,
 		'{SUEXEC_GROUP}'              => $suexec_group,
 		'{BWLIMIT}'                   => $dmn_traffic_limit,
@@ -1602,7 +1632,7 @@ sub dmn_add_httpd_file_data {
 		next if ($_ eq "." || $_ eq "..");
 		sys_command("$main::cfg{'CMD_ECHO'} n | $main::cfg{'CMD_CP'} -ip $root_dir/gui/errordocs/inc/$_ $www_dir/$dmn_name/errors/inc/ 2>/dev/null");
 		return $rs if ($rs != 0);
-		
+
 		$rs = setfmode("$www_dir/$dmn_name/errors/inc/$_", $sys_user, $sys_group, 0644);
 		return $rs if ($rs != 0);
 	}
@@ -1870,7 +1900,7 @@ sub dmn_change_httpd_file_data {
 		next if ($_ eq "." || $_ eq "..");
 		sys_command("$main::cfg{'CMD_ECHO'} n | $main::cfg{'CMD_CP'} -ip $root_dir/gui/errordocs/inc/$_ $www_dir/$dmn_name/errors/inc/ 2>/dev/null");
 		return $rs if ($rs != 0);
-		
+
 		$rs = setfmode("$www_dir/$dmn_name/errors/inc/$_", $sys_user, $sys_group, 0644);
 		return $rs if ($rs != 0);
 	}
@@ -1925,7 +1955,7 @@ sub dmn_change_httpd_file_data {
 
 		my %tag_hash = (
 			'{PHP_STARTER_DIR}'  => $starter_dir,
-			'{WWW_DIR}'					=> $www_dir, 
+			'{WWW_DIR}'					=> $www_dir,
 			'{PHP5_FASTCGI_BIN}'	=> $main::cfg{'PHP5_FASTCGI_BIN'},
 			'{DMN_NAME}'				=> $dmn_name
 		);
@@ -1944,7 +1974,7 @@ sub dmn_change_httpd_file_data {
 	#
 	#	my  %tag_hash = (
 	#		'{PHP_STARTER_DIR}' 	=> $starter_dir,
-	#		'{WWW_DIR}'					=> $www_dir, 
+	#		'{WWW_DIR}'					=> $www_dir,
 	#		'{PHP4_FASTCGI_BIN}'	=> $main::cfg{'PHP4_FASTCGI_BIN'},
 	#		'{DMN_NAME}'				=> $dmn_name
 	#	);
@@ -3082,7 +3112,7 @@ sub dmn_del_awstats_cfg_data {
 	#
 	# Let's delete file, if exists
 	#
-	if ( -e $sys_cfg) {
+	if (-e $sys_cfg) {
 		$rs = del_file($sys_cfg);
 		return $rs if ($rs != 0);
 	}
@@ -3555,13 +3585,13 @@ sub dmn_restore_data {
 			return $rs if ($rs != 0);
 			$cmd = "$cmd_chown -R $dmn_uid:www-data $dmn_dir";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/htdocs";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/cgi-bin";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
 
 		}
 		# Restore gz files
@@ -3571,13 +3601,13 @@ sub dmn_restore_data {
 			return $rs if ($rs != 0);
 			$cmd = "$cmd_chown -R $dmn_uid:www-data $dmn_dir";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/htdocs";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/cgi-bin";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
 		}
 		# Restore lzma files
 		if ($fname =~ m/.tar.lzma/i) {
@@ -3586,13 +3616,13 @@ sub dmn_restore_data {
 			return $rs if ($rs != 0);
 			$cmd = "$cmd_chown -R $dmn_uid:www-data $dmn_dir";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/htdocs";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
                         $cmd = "$cmd_chown -R $dmn_uid:$dmn_uid $dmn_dir/cgi-bin";
                         $rs0 = sys_command($cmd);
-			return $rs0 if ($rs0 != 0); 
+			return $rs0 if ($rs0 != 0);
 		}
 
 		# Restore bz2 SQL files
@@ -3703,10 +3733,20 @@ sub dmn_enable_data {
 	my $www_dir          = $main::cfg{'APACHE_WWW_DIR'};
 	my $dmn_dir          = "$www_dir/$dmn_name";
 	my $dmn_disabled_dir = "$www_dir/$dmn_name.disabled";
+	my $cmd_rm           = $main::cfg{'CMD_RM'};
 	my $cmd_mv           = $main::cfg{'CMD_MV'};
-	my $cmd              = "$cmd_mv $dmn_disabled_dir $dmn_dir";
+	my ($cmd, $rs)       = (undef, undef);
 
-	my $rs = sys_command($cmd);
+	# delete target folder if exists
+	# this can happen because subdomains created empty access logs
+	if (-e $dmn_dir) {
+		$cmd = "$cmd_rm -r $dmn_dir";
+		$rs = sys_command($cmd);
+		return $rs if ($rs != 0);
+	}
+
+	$cmd = "$cmd_mv $dmn_disabled_dir $dmn_dir";
+	$rs = sys_command($cmd);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'dmn_enable_data()', 'Ending...');

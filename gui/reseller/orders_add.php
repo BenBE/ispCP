@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -65,7 +75,6 @@ if ($rs->RecordCount() == 0 || !isset($_SESSION['domain_ip'])) {
 
 $domain_ip		= $_SESSION['domain_ip'];
 $dmn_user_name	= $rs->fields['domain_name'];
-$dmn_user_name	= decode_idna($dmn_user_name);
 $hpid			= $rs->fields['plan_id'];
 $first_name		= $rs->fields['fname'];
 $last_name		= $rs->fields['lname'];
@@ -97,7 +106,7 @@ $props = $data['props'];
 $_SESSION["ch_hpprops"] = $props;
 
 if (!reseller_limits_check($sql, $err_msg, $reseller_id, $hpid)) {
-	set_page_message(tr("Order Canceled: resellers maximum exceeded!"));
+	set_page_message(tr('Order Cancelled: resellers maximum exceeded!'));
 	user_goto('orders.php');
 }
 
@@ -110,21 +119,23 @@ unset($_SESSION["ch_hpprops"]);
 list($php, $cgi, $sub,
 	$als, $mail, $ftp,
 	$sql_db, $sql_user,
-	$traff, $disk, $dns) = explode(";", $props);
+	$traff, $disk, $backup, $dns) = explode(";", $props);
 
 $php = preg_replace("/\_/", "", $php);
 $cgi = preg_replace("/\_/", "", $cgi);
 $dns = preg_replace("/\_/", "", $dns);
 
-$timestamp = time();
-$pure_user_pass = substr($timestamp, 0, 6);
-$inpass = crypt_user_pass($pure_user_pass);
+$inpass = crypt_user_pass(passgen(), true);
 
-if (!chk_dname($dmn_user_name)) {
+// Should be performed after domain name validation now
+$dmn_user_name = decode_idna($dmn_user_name);
+
+if (!validates_dname($dmn_user_name)) {
 	set_page_message(tr('Wrong domain name syntax!'));
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
+
 if (ispcp_domain_exists($dmn_user_name, $_SESSION['user_id'])) {
 	set_page_message(tr('Domain with that name already exists on the system!'));
 	unset($_SESSION['domain_ip']);
@@ -183,7 +194,7 @@ $query = "
 		`domain_subd_limit`, `domain_alias_limit`,
 		`domain_ip_id`, `domain_disk_limit`,
 		`domain_disk_usage`, `domain_php`, `domain_cgi`,
-		domain_dns
+		`allowbackup`, `domain_dns`
 	) VALUES (
 		?, ?,
 		?, unix_timestamp(),
@@ -193,7 +204,7 @@ $query = "
 		?, ?,
 		?, ?,
 		'0', ?, ?,
-		?
+		?, ?
 	)
 ";
 
@@ -212,6 +223,7 @@ $res = exec_query($sql, $query, array($dmn_user_name,
 		$disk,
 		$php,
 		$cgi,
+		$backup,
 		$dns)
 );
 $dmn_id = $sql->Insert_ID();
@@ -240,6 +252,9 @@ $rs = exec_query($sql, $query, array($dmn_id, $awstats_auth, $user_id, $status))
 // Create the 3 default addresses if wanted
 if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
 	client_mail_add_default_accounts($dmn_id, $user_email, $dmn_user_name); // 'domain', 0
+
+// Added to send the msg with the domain name in idna form
+$dmn_user_name = encode_idna($dmn_user_name);
 
 // ispcp 2.5 feature
 // add_domain_extras($dmn_id, $record_id, $sql);

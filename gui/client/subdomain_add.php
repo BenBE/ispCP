@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2008 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -233,8 +243,10 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 			AND
 				`subdomain_alias_mount` = ?
 		";
-		unset($query2);
-		unset($rs2);
+		if (isset($query2))
+			unset($query2);
+		if (isset($rs2))
+			unset($rs2);
 	} else {
 		$query = "
 			SELECT
@@ -309,16 +321,20 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt)
 }
 
 function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
+
+	global $validation_err_msg;
 	$dmn_id = $domain_id = get_user_domain_id($sql, $user_id);
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_subd') {
+
 		if (empty($_POST['subdomain_name'])) {
 			set_page_message(tr('Please specify subdomain name!'));
 			return;
 		}
-
 		$sub_name = strtolower($_POST['subdomain_name']);
-		$sub_name = encode_idna($sub_name);
+
+		// Should be perfomed after domain names syntax validation now
+		//$sub_name = encode_idna($sub_name);
 
 		if (isset($_POST['subdomain_mnt_pt']) && $_POST['subdomain_mnt_pt'] !== '') {
 			$sub_mnt_pt = strtolower($_POST['subdomain_mnt_pt']);
@@ -328,10 +344,12 @@ function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 		}
 
 		if ($_POST['dmn_type'] === 'als') {
+
 			if (!isset($_POST['als_id'])) {
 				set_page_message(tr('No valid alias domain selected!'));
 				return;
 			}
+
 			$query_alias = "
 				SELECT
 					`alias_mount`
@@ -342,21 +360,31 @@ function check_subdomain_data(&$tpl, &$sql, $user_id, $dmn_name) {
 			";
 
 			$rs = exec_query($sql, $query_alias, array($_POST['als_id']));
+
 			$als_mnt = $rs->fields['alias_mount'];
+
 			if ($sub_mnt_pt[0] != '/')
 				$sub_mnt_pt = '/'.$sub_mnt_pt;
+
 			$sub_mnt_pt = $als_mnt.$sub_mnt_pt;
 			$sub_mnt_pt = str_replace('//', '/', $sub_mnt_pt);
 			$domain_id = $_POST['als_id'];
 		}
 
+		// First check if input string is a valid domain names
+		if(!validates_subdname($sub_name, decode_idna($dmn_name))) {
+			set_page_message($validation_err_msg);
+			return;
+		}
+
+		// Should be perfomed after domain names syntax validation now
+		$sub_name = encode_idna($sub_name);
+
 		if (subdmn_exists($sql, $user_id, $domain_id, $sub_name)) {
 			set_page_message(tr('Subdomain already exists or is not allowed!'));
-		} else if (!chk_subdname($sub_name . "." . $dmn_name)) {
-			set_page_message(tr('Wrong subdomain syntax!'));
-		} else if (mount_point_exists($dmn_id, array_decode_idna($sub_mnt_pt, true))) {
+		} elseif (mount_point_exists($dmn_id, array_decode_idna($sub_mnt_pt, true))) {
 			set_page_message(tr('Mount point already in use!'));
-		} else if (!chk_mountp($sub_mnt_pt, null, 1)) {
+		} elseif (!validates_mpoint($sub_mnt_pt)) {
 			set_page_message(tr('Incorrect mount point syntax!'));
 		} else {
 			// now let's fix the mountpoint

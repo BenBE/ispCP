@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-19 17:56+0700\n"
+"POT-Creation-Date: 2009-12-10 01:27+0100\n"
 "PO-Revision-Date: 2007-07-22 13:53-0500\n"
 "Last-Translator: Seviye Kaloğlu <seviye@gmail.com>\n"
 "Language-Team: Turkish <tr_TR@li.org>\n"
@@ -26,7 +26,7 @@ msgid "encoding"
 msgstr "UTF-8"
 
 msgid "_: Localised language"
-msgstr "Türkçe"
+msgstr "Türkçe - Turkish"
 
 msgid "ispCP Omega a Virtual Hosting Control System"
 msgstr "ispCP Omega Sanal Barındırma Kontrol Sistemi"
@@ -72,7 +72,7 @@ msgid ""
 "Your password request has been initiated. You will receive an email with "
 "instructions to complete the process. This reset request will expire in %s "
 "minutes."
-msgstr "Şifre talebiniz değerlendiriliyor. Onaylamak için E-mail"
+msgstr "Şifre talebiniz değerlendiriliyor. Onaylamak için E-mail yollaniyor, işlem tamamlanması için verilen %s içerisinde işlemi tamamlayın. Aksi taktirde tekrar şifre talebinde bulunun."
 
 msgid "Back"
 msgstr "Geri"
@@ -458,8 +458,8 @@ msgstr "PHP desteği"
 msgid "CGI support"
 msgstr "CGI desteği"
 
-msgid "Manual DNS support"
-msgstr "MySQL desteği"
+msgid "Manual DNS support (EXPERIMENTAL)"
+msgstr "MySQL desteği (DENEYSEL)"
 
 msgid "MySQL support"
 msgstr "MySQL desteği"
@@ -789,8 +789,8 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-msgid "Allow adding records to DNS zone"
-msgstr "DNS zone için kayıtlara izin ver"
+msgid "Allow adding records to DNS zone (EXPERIMENTAL)"
+msgstr "DNS zone için kayıtlara izin ver (DENEYSEL)"
 
 msgid "Apache logfiles"
 msgstr "Apache logları"
@@ -1034,7 +1034,6 @@ msgstr "ispCP - Yönetici/Dil Değiştir"
 msgid "Language"
 msgstr "Dil"
 
-#, fuzzy
 msgid "Choose your default language"
 msgstr "Varsayılan dili seçiniz"
 
@@ -1162,10 +1161,6 @@ msgstr "Kullanıcı devre dışı bırakıldı"
 msgid "ispCP - Admin/Internationalisation"
 msgstr "ispCP - Yönetici/Dil Yöneticisi"
 
-#, fuzzy
-msgid "Default panel language changed!"
-msgstr "Varsayılan dil seçimi değiştirildi!"
-
 msgid "Upload file error!"
 msgstr "Dosya gönderim hatası"
 
@@ -1203,9 +1198,8 @@ msgstr "Yüklü diller"
 msgid "Messages"
 msgstr "Mesajlar"
 
-#, fuzzy
 msgid "Panel Default"
-msgstr "Varsayılan"
+msgstr "Varsayılan Panel"
 
 msgid "Install new language"
 msgstr "Yeni dil kur"
@@ -1345,7 +1339,7 @@ msgid ""
 msgstr "current_als_cnt ve gerçek alias sayısında tutarsızlık: %1$d != %2$d"
 
 msgid "! Trying to correct!"
-msgstr ""
+msgstr "onarılmaya çalışılıyor!"
 
 msgid "Aliases"
 msgstr "Aliaslar"
@@ -1656,9 +1650,8 @@ msgstr "Varsayılan Eposta adresi oluştur"
 msgid "E-Mail accounts are hard suspended"
 msgstr "Eposta hesapları askıya alınmış"
 
-#, fuzzy
 msgid "Panel default language"
-msgstr "Varsayılan dili seçiniz"
+msgstr "Varsayılan Panel dilini seçiniz"
 
 msgid "Support system"
 msgstr "Destek sistemi"
@@ -1707,6 +1700,31 @@ msgstr "Lütfen kullanıcı giriş bilgilerinizi giriniz"
 
 msgid "Custom orderpanel ID"
 msgstr "Müşteri ID"
+
+msgid "Domain names validation"
+msgstr "Domain adı doğrulaması"
+
+msgid "Top Level Domain name strict validation"
+msgstr "Top Level Domain doğrulaması"
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr "Sadece IANA veritabanına kayıtlı olan Top Level Domain'ler (TLD) kullanılabilir. "
+
+msgid "Second Level Domain name strict validation"
+msgstr "Second Level Domain doğrulaması"
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr "Tek haneli Second Level Domain'ler (SLD) çoğu Top Level Domainlerde izin verilmez. Bazı istisnalar mevcuttur, örneğin (TLD) .de."
+
+msgid ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+msgstr "Domain oluşturmak için maximum Subdomain sayısı"
+
+msgid "Maximal number of labels for subdomains"
+msgstr "Maximum subdomain sayısı subdomain için"
 
 msgid "You can only upload images!"
 msgstr "Sadece resim dosyası gönderebilirsiniz!"
@@ -2102,9 +2120,6 @@ msgstr "Lütfen güncelleme için bekleyiniz"
 msgid "Domain alias limit reached!"
 msgstr "Azami domain alias sayısına ulaşıldı!"
 
-msgid "Incorrect domain name syntax"
-msgstr "Hatalı <i>domain adı</i> yazımı"
-
 msgid "Domain with that name already exists on the system!"
 msgstr "Sistemde bu isimde bir domain zaten var!"
 
@@ -2273,11 +2288,11 @@ msgstr "ispCP - Domain Alias Yönetimi/Alias Düzenle"
 msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
 msgstr "ispCP - Domain Alias Yönetimi/Alias Düzenle"
 
-msgid "Add DNS zone's record"
-msgstr "DNS zone kayıtı ekle"
+msgid "Add DNS zone's record (EXPERIMENTAL)"
+msgstr "DNS zone kayıtı ekle (DENEYSEL)"
 
-msgid "Edit DNS zone's record"
-msgstr "DNS zone kayıt(larını) düzenle"
+msgid "Edit DNS zone's record (EXPERIMENTAL)"
+msgstr "DNS zone kayıt(larını) düzenle (DENEYSEL)"
 
 msgid "DNS zone's records"
 msgstr "DNS zone kayıtları"
@@ -2314,6 +2329,9 @@ msgstr "Kanonik isim"
 
 msgid "Plain record data"
 msgstr "Şifre bilgisi"
+
+msgid "DNS zone's records (EXPERIMENTAL)"
+msgstr "DNS zone kayıtları (DENEYSEL)"
 
 #, php-format
 msgid "Use of disallowed char(\"%s\") in CNAME"
@@ -2361,11 +2379,11 @@ msgstr "Kayıt \"%s\" etki alanının parçası olmayan \"%s\"."
 
 #, php-format
 msgid "Cannot validate %s record. Reason '%s'."
-msgstr "Kaydı doğruluyamadık, sebep '%s'."
+msgstr "Kayıt %s doğruluyamadık, sebep '%s'."
 
 #, php-format
 msgid "Unknown zone type %s!"
-msgstr "Bilinmeyen tip!"
+msgstr "Bilinmeyen zone tipi %s!"
 
 msgid "ispCP - Client/Domain Statistics"
 msgstr "ispCP - Müşteri/Domain İstatistikleri"
@@ -2715,10 +2733,9 @@ msgid ""
 "\n"
 "Please login into your ispCP control panel at %s for more details"
 msgstr ""
-"{ACCOUNT} hesabı için bir güncelleme talebiniz var\n"
+"%s\n hesabı için bir güncelleme talebiniz var"
 "\n"
-"\n"
-"Lütfen, ayrıntılar için ispCP kontrol paneline giriş yapınız"
+"Lütfen, ayrıntılar için %s olarak ispCP kontrol paneline giriş yapınız"
 
 msgid "Your request for hosting pack update was removed successfully"
 msgstr "Hosting paketi güncellemesi isteğiniz silindi"
@@ -2827,11 +2844,11 @@ msgstr "Subdomain postaları"
 
 #, php-format
 msgid "%s list is empty! You cannot add mail accounts!"
-msgstr "Alias listesi boş! Oraya eposta hesabı ekleyemezsiniz!"
+msgstr "%s listesi boş! Oraya eposta hesabı ekleyemezsiniz!"
 
 #, php-format
 msgid "%s id is invalid! You cannot add mail accounts!"
-msgstr "Alias listesi boş! Oraya eposta hesabı ekleyemezsiniz!"
+msgstr "%s listesi hatalı! Oraya eposta hesabı ekleyemezsiniz!"
 
 msgid "Forward list is empty!"
 msgstr "Yönlendirme listesi boş!"
@@ -3226,11 +3243,11 @@ msgstr "Azami domain alias sayısına ulaşıldı!"
 msgid "Subdomain already exists or is not allowed!"
 msgstr "Subdomain mevcut veya izin verilmiyor!"
 
-msgid "Wrong subdomain syntax!"
-msgstr "Hatalı subdomain yazımı!"
-
 msgid "Mount point already in use!"
 msgstr "Subdomain monte noktası zaten var!"
+
+msgid "Incorrect mount point syntax!"
+msgstr "Hatalı monte noktası yazımı!"
 
 msgid "Subdomain scheduled for addition!"
 msgstr "Subdomain eklenme için işleme alındı!"
@@ -3379,9 +3396,6 @@ msgstr "Kullanıcı listesi boş!"
 msgid "Details"
 msgstr "Ayrıntırlar"
 
-msgid "Disk Usage Percent"
-msgstr "Disk kullanımı"
-
 msgid "Edit domain"
 msgstr "Domain düzenle"
 
@@ -3443,9 +3457,6 @@ msgstr "%.2f KB"
 msgid "%d B"
 msgstr "%d B"
 
-msgid "Couldn't check for updates! Website not reachable."
-msgstr "Güncellemelere bakılamıyor. Site ulaşılabilir değil"
-
 #, php-format
 msgid "File %s does not exists or cannot be reached!"
 msgstr "Dosya %s bulunamadı yada yok!"
@@ -3456,6 +3467,9 @@ msgstr "Hata ağ kartlarının listesini edinmek için çalışıyor!"
 #, php-format
 msgid "This IP (%s) is not assigned to any network card!"
 msgstr "Bu IP (%s) herhangi bir ağ kartına atanan değil!"
+
+msgid "Couldn't check for updates! Website not reachable."
+msgstr "Güncellemelere bakılamıyor. Site ulaşılabilir değil"
 
 msgid "Email and FTP accounts"
 msgstr "Eposta ve FTP hesapları"
@@ -3483,6 +3497,9 @@ msgstr "FTP Hesapları"
 
 msgid "Update Hosting Package"
 msgstr "Hosting Pakedini Güncelle"
+
+msgid "Add DNS zone's record"
+msgstr "DNS zone kayıtı ekle"
 
 msgid "Manage SSL certificate"
 msgstr "SSL sertıfıka yönetimi"
@@ -3712,6 +3729,56 @@ msgstr "Öncelik"
 msgid "Log in to answer"
 msgstr "Cevaba bak."
 
+msgid "Wrong domain name syntax or number of labels"
+msgstr "Hatalı domain adı yazımı yada başlık sayısı!"
+
+msgid " Wrong domain name lenght!"
+msgstr "Hatalı domain adı uzunluğu!"
+
+msgid "Wrong subdomain syntax or number of labels!"
+msgstr "Hatalı subdomain uzunluğu yada başlık sayısı!"
+
+msgid "Wrong subdomain lenght!"
+msgstr "Hatalı subdomain uzunluğu!"
+
+#, php-format
+msgid "Label not allowed: <b>%s</b>"
+msgstr "Başlığa izin verilmiyor: <b>%s</b>"
+
+#, php-format
+msgid "Wrong label syntax: <b>%s</b>"
+msgstr "Hatalı başlık dizimi <b>%s</b>"
+
+#, php-format
+msgid "Wrong label lenght: <b>%s</b>"
+msgstr "Hatalı başlık uzunluğu <b>%s</b>"
+
+#, php-format
+msgid "Wrong Top Level Domain syntax: <b>%s</b>"
+msgstr "Hatalı Top Level Domain dizimi <b>%s</b>"
+
+#, php-format
+msgid "Wrong Top Level Domain lenght: <b>%s</b>"
+msgstr "Hatalı Top Level Domain uzunluğu <b>%s</b>"
+
+#, php-format
+msgid "Wrong Second Level Domain lenght: <b>%s</b>"
+msgstr "Hatalı Second Level Domain uzunluğu <b>%s</b>"
+
+#, php-format
+msgid "Wrong domain name: <b>%s</b> is reserved!"
+msgstr "Hatalı domain adı: <b>%s</b> reserve edilmiş!"
+
+#, php-format
+msgid "Wrong Second Level Domain syntax: <b>%s</b>"
+msgstr "Hatalı Second Level Domain dizimi <b>%s</b>"
+
+msgid ""
+"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br /"
+"><small>Example: for ACE label <b>xn--bcher-kva</b> use <b>bücher</b> "
+"instead</small>."
+msgstr "HATA: Punnycode formatında yazılmış Domainler eklenemez, lütfen Unicode formatında yazınız.<br /><small>Örnek: <strong>xn--bcher-kva.de</strong>" yerine <strong>bücher.de</strong>.</small>
+
 msgid ""
 "We are sorry, but the system is currently under maintenance.\n"
 "Please try again later."
@@ -3906,6 +3973,7 @@ msgstr ""
 "\n"
 "Lütfen, ayrıntılar için ispCP kontrol panelinize giriş yapınız.\n"
 "\n"
+"\t"
 
 msgid "Your order has been successfully created."
 msgstr "SQL kullanıcı şifresi değiştirildi! "
@@ -3980,6 +4048,9 @@ msgstr "Kişisel Hata Sayfaları"
 msgid "Protected Areas"
 msgstr "Korunan Alanlar"
 
+msgid "Manual DNS support"
+msgstr "MySQL desteği"
+
 msgid "Custom Apache Logs"
 msgstr "Kişisel Apache Logları"
 
@@ -4046,11 +4117,11 @@ msgstr "Sipariş edilen domain aliası eklendi!"
 msgid "Ordered domain alias not activated!"
 msgstr "Sipariş edilen domain aliası aktif edilmedi!"
 
-msgid "ispCP Reseller : Add Alias"
+msgid "ispCP Reseller: Add Alias"
 msgstr "ispCP Bayi : Alias Ekle"
 
-msgid "You have no user records."
-msgstr "Kullanıcı kaydınız yok."
+msgid "There is no user records for this reseller to add an alias for."
+msgstr "Reseller'e ayit Kullanıcı olmadığından alias eklenemiyor."
 
 msgid "ispCP - Circular"
 msgstr "ispCP - Döngüsel"
@@ -4087,7 +4158,7 @@ msgstr "Yıl"
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
-msgstr "Servis devre dışı bırakılamaz!"
+msgstr "<em>%s</em> servisi devre dışı bırakılamaz!"
 
 #, php-format
 msgid "The <em>%s</em> service cannot be limited!"
@@ -4363,6 +4434,18 @@ msgstr "Bu kullanıcının domain kaydı var !<br>Önce domaini sistemden silini
 
 msgid "User not terminated!"
 msgstr "Kullanıcı sonlandırılmadı!"
+
+#~ msgid "Incorrect domain name syntax"
+#~ msgstr "Hatalı <i>domain adı</i> yazımı"
+
+#~ msgid "Disk Usage Percent"
+#~ msgstr "Disk kullanımı"
+
+#~ msgid "You have no user records."
+#~ msgstr "Kullanıcı kaydınız yok."
+
+#~ msgid "Default panel language changed!"
+#~ msgstr "Varsayılan dil seçimi değiştirildi!"
 
 #~ msgid "Default language"
 #~ msgstr "Varsayılan dil"

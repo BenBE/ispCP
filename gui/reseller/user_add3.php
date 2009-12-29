@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2009 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -120,7 +130,7 @@ if (Config::get('DUMP_GUI_DEBUG')) {
 function init_in_values() {
 
 	global $dmn_name, $dmn_expire, $dmn_user_name, $hpid;
-	
+
 	if (isset($_SESSION['dmn_expire'])) {
 		$dmn_expire = $_SESSION['dmn_expire'];
 	}
@@ -143,9 +153,9 @@ function init_in_values() {
 	}
 
 	list($dmn_name, $hpid) = explode(";", $step_two);
-	// $dmn_user_name = preg_replace("/\./", "_", $dmn_name);
+
 	$dmn_user_name = $dmn_name;
-	if (!chk_dname($dmn_name) || ($hpid == '')) {
+	if (!validates_dname(decode_idna($dmn_name)) || ($hpid == '')) {
 		return false;
 	}
 	return true;
@@ -237,9 +247,7 @@ function add_user_data($reseller_id) {
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
 	global $dns, $backup;
-	#BEG AppInstaller
 	global $software_allowed;
-	#END AppInstaller
 
 	$sql = Database::getInstance();
 
@@ -289,9 +297,7 @@ function add_user_data($reseller_id) {
 	$cgi			= preg_replace("/\_/", "", $cgi);
 	$backup			= preg_replace("/\_/", "", $backup);
 	$dns			= preg_replace("/\_/", "", $dns);
-	#BEG AppInstaller
-	$software_allowed	= preg_replace("/\_/", "", $software_allowed);
-	#END AppInstaller
+	$software_allowed = preg_replace("/\_/", "", $software_allowed);
 	$pure_user_pass	= $inpass;
 	$inpass			= crypt_user_pass($inpass, true);
 	$first_name		= clean_input($first_name, true);
@@ -307,8 +313,7 @@ function add_user_data($reseller_id) {
 	$street_two		= clean_input($street_two, true);
 	$customer_id	= clean_input($customer_id, true);
 
-	if (!chk_dname($dmn_user_name)) {
-		// set_page_message(tr("Wrong domain name syntax!"));
+	if (!validates_dname(decode_idna($dmn_user_name))) {
 		return;
 	}
 
@@ -387,7 +392,7 @@ function add_user_data($reseller_id) {
 
 	$res = exec_query(
 						$sql,
-						$query, 
+						$query,
 						array(
 								$dmn_name, $record_id,
 								$reseller_id, $mail, $ftp, $traff, $sql_db,
@@ -395,7 +400,7 @@ function add_user_data($reseller_id) {
 								$disk, $php, $cgi, $backup, $dns, $software_allowed
 						)
 	);
-								
+
 	$dmn_id = $sql->Insert_ID();
 
 	// Add statistics group
@@ -407,7 +412,7 @@ function add_user_data($reseller_id) {
 			(?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, 
+	$rs = exec_query($sql, $query,
 					array(
 							$dmn_id, $dmn_name,
 							crypt_user_pass_with_salt($pure_user_pass), $status

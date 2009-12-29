@@ -2,20 +2,27 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2001-2006 by moleSoftware GmbH
  * @copyright 	2006-2008 by ispCP | http://isp-control.net
  * @version 	SVN: $ID$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "ispCP - isp Control Panel".
+ *
+ * The Initial Developer of the Original Code is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require_once '../include/ispcp-lib.php';
@@ -36,7 +43,8 @@ $add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 
 $tpl->assign(
 	array(
-		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode) ? tr("ispCP - Manage Domain Alias/Add DNS zone's record") : tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
+		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode) ? tr("ispCP - Manage Domain Alias/Add DNS zone's record") : 
+													tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
 		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
 		'THEME_CHARSET'				=> tr('encoding'),
 		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
@@ -53,7 +61,7 @@ $tpl->assign(
 		'TR_CANCEL'				=> tr('Cancel'),
 		'TR_ADD'				=> tr('Add'),
 		'TR_DOMAIN'				=> tr('Domain'),
-		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record") : tr("Edit DNS zone's record"),
+		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record (EXPERIMENTAL)") : tr("Edit DNS zone's record (EXPERIMENTAL)"),
 		'TR_DNS'				=> tr("DNS zone's records"),
 		'TR_DNS_NAME'			=> tr('Name'),
 		'TR_DNS_CLASS'			=> tr('Class'),
@@ -69,7 +77,7 @@ $tpl->assign(
 		'TR_DNS_SRV_PORT'		=> tr('Target port'),
 		'TR_DNS_CNAME'			=> tr('Canonical name'),
 		'TR_DNS_PLAIN'			=> tr('Plain record data'),
-		'TR_MANAGE_DOMAIN_DNS'	=> tr("DNS zone's records")
+		'TR_MANAGE_DOMAIN_DNS'	=> tr("DNS zone's records (EXPERIMENTAL)")
 	)
 );
 
@@ -235,8 +243,8 @@ function gen_editdns_page(&$tpl, $edit_id) {
 		$data = null;
 		$query = "
 			SELECT
-				NULL AS `alias_id`,
-				domain.`domain_name` AS `domain_name`
+				'0' AS `alias_id`,
+				`domain`.`domain_name` AS `domain_name`
 			FROM
 				`domain`
 			WHERE
@@ -442,7 +450,7 @@ function check_fwd_data(&$tpl, $edit_id) {
 				*
 			FROM (
 				SELECT
-					NULL AS `alias_id`,
+					'0' AS `alias_id`,
 					`domain`.`domain_name` AS `domain_name`
 				FROM
 					`domain`
@@ -466,8 +474,8 @@ function check_fwd_data(&$tpl, $edit_id) {
 		}
 		$alias_id = $res->FetchRow();
 		$record_domain = $alias_id['domain_name'];
+		// if no alias is selected, ID is 0 else the real alias_id
 		$alias_id = $alias_id['alias_id'];
-		$alias_id = ($alias_id == 0) ? null : $alias_id;
 	} else {
 		$res = exec_query($sql, "
 		SELECT
@@ -570,7 +578,7 @@ function check_fwd_data(&$tpl, $edit_id) {
 			exec_query($sql, $query, array($_dns, $_class, $_type, $_text, $edit_id));
 		}
 
-		if (empty($alias_id)) {
+		if ($alias_id == 0) {
 			$query = "
 				UPDATE
 					`domain`

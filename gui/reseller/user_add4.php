@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -118,7 +128,7 @@ $tpl->assign(
 		'TR_DOMAIN_IP' => tr('Domain IP'),
 		'TR_FORWARD' => tr('Forward to URL'),
 		'TR_ADD' => tr('Add alias'),
-		'TR_DOMAIN_ALIS' => tr('Domain alias'),
+		'TR_DOMAIN_ALIAS' => tr('Domain alias'),
 		'TR_STATUS' => tr('Status'),
 		'TR_ADD_USER' => tr('Add user'),
 		'TR_GO_USERS' => tr('Done')
@@ -140,8 +150,8 @@ function init_empty_data() {
 
 	$tpl->assign(
 		array(
-			'DOMAIN' => $alias_name,
-			'MP' => $mount_point,
+			'DOMAIN' => decode_idna($alias_name),
+			'MP' => decode_idna($mount_point),
 			'FORWARD' => 'no'
 		)
 	);
@@ -180,7 +190,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 			$tpl->assign(
 				array(
-					'DOMAIN_ALIS' => $alias_name,
+					'DOMAIN_ALIAS' => $alias_name,
 					'STATUS' => $alias_status,
 					'CLASS' => $page_cont,
 				)
@@ -195,6 +205,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 function add_domain_alias(&$sql, &$err_al) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point, $tpl;
+	global $validation_err_msg;
 
 	$cr_user_id = $dmn_id = $_SESSION['dmn_id'];
 	$alias_name = strtolower(clean_input($_POST['ndomain_name']));
@@ -202,13 +213,21 @@ function add_domain_alias(&$sql, &$err_al) {
 	$mount_point = strtolower(clean_input($_POST['ndomain_mpoint']));
 	$forward = strtolower(clean_input($_POST['forward']));
 
+	// Should be perfomed after domain names syntax validation now
+	//$alias_name = encode_idna($alias_name);
+
+	// Check if input string is a valid domain names
+	if (!validates_dname($alias_name)) {
+		set_page_message($validation_err_msg);
+		return;
+	}
+
+	// Should be perfomed after domain names syntax validation now
 	$alias_name = encode_idna($alias_name);
-	// First check is the data correct
-	if (!chk_dname($alias_name)) {
-		$err_al = tr("Incorrect domain name syntax");
-	} else if (ispcp_domain_exists($alias_name, $_SESSION['user_id'])) {
+
+	if (ispcp_domain_exists($alias_name, $_SESSION['user_id'])) {
 		$err_al = tr('Domain with that name already exists on the system!');
-	} else if (!chk_mountp($mount_point) && $mount_point != '/') {
+	} else if (!validates_mpoint($mount_point) && $mount_point != '/') {
 		$err_al = tr("Incorrect mount point syntax");
 	} else if ($forward != 'no') {
 		if (!chk_forward_url($forward)) {
@@ -231,7 +250,6 @@ function add_domain_alias(&$sql, &$err_al) {
 		if (mount_point_exists($dmn_id, $mount_point)) {
 			$err_al = tr('Mount point already in use!');
 		}
-
 	}
 
 	if ('_off_' !== $err_al) {
@@ -241,7 +259,9 @@ function add_domain_alias(&$sql, &$err_al) {
 	// Begin add new alias domain
 	$status = Config::get('ITEM_ADD_STATUS');
 
-	$query = "INSERT INTO `domain_aliasses` (`domain_id`, `alias_name`, `alias_mount`, `alias_status`, `alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO `domain_aliasses` (" .
+			"`domain_id`, `alias_name`, `alias_mount`, `alias_status`, " .
+			"`alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)";
 	exec_query($sql, $query, array(
 			$cr_user_id,
 			$alias_name,

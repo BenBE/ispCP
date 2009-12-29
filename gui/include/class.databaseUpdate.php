@@ -2,28 +2,27 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2006-2009 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or
- *   modify it under the terms of the GPL General Public License
- *   as published by the Free Software Foundation; either version 2.0
- *   of the License, or (at your option) any later version.
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *   GPL General Public License for more details.
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
  *
- *   You may have received a copy of the GPL General Public License
- *   along with this program.
+ * The Original Code is "ispCP - ISP Control Panel".
  *
- *   An on-line copy of the GPL General Public License can be found
- *   http://www.fsf.org/licensing/licenses/gpl.txt
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 /**
@@ -813,19 +812,48 @@ SQL_QUERY;
 	}
 
 	/**
-	 * Required update for application installer attached to ticket #2005
-	 * http://www.isp-control.net/ispcp/ticket/1905.
+	 * Fixes for ticket #2047 http://www.isp-control.net/ispcp/ticket/2047.
 	 *
-	 * @author		TheCry (Real Name?)
+	 * @author		Benedikt Heintel
+	 * @copyright	2006-2009 by ispCP | http://isp-control.net
+	 * @version		1.0.2
+	 * @since		r2173
+	 *
+	 * @access		protected
+	 * @return		sql statements to be performed
+	 */
+	protected function _databaseUpdate_26() {
+
+		$sqlUpd = array();
+
+		// Change all NULL values to decimal 0
+		$sqlUpd[] = "UPDATE `domain_dns` SET `domain_dns`.`alias_id` = '0' ". 
+					"WHERE `domain_dns`.`alias_id`= NULL;";
+		// Remove NULL value for alias_id
+		$sqlUpd[] = "ALTER TABLE `domain_dns` CHANGE `domain_dns`.`alias_id` ".
+					"`domain_dns`.`alias_id` INT(11) NOT NULL;";
+		// Add Unique Key
+		$sqlUpd[] = "ALTER TABLE `domain_dns` ".
+					"ADD UNIQUE (`domain_id`, `alias_id`, `domain_dns`, ".
+					"`domain_class`, `domain_type`, `domain_text`);";
+
+		return $sqlUpd;
+	}
+
+	/**
+	 * Required update for application installer attached to ticket #2005
+	 * http://www.isp-control.net/ispcp/ticket/2005.
+	 *
+	 * @author		Sascha Bay
 	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		@todo
-	 * @since		@todo
+	 * @since		r2476
 	 *
 	 * @access		protected
 	 * @return		sql statements to be performed
 	 * @todo		Change upate number before merge to trunk
 	 */	
-	protected function _databaseUpdate_26() {
+	protected function _databaseUpdate_27() {
 
 		$sqlUpd = array();
 

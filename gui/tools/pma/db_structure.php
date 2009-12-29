@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: db_structure.php 12704 2009-07-23 10:06:34Z lem9 $
+ * @version $Id: db_structure.php 13034 2009-10-12 21:47:40Z lem9 $
  * @package phpMyAdmin
  */
 
@@ -337,14 +337,18 @@ foreach ($tables as $keyname => $each_table) {
                 $unit          =  '';
             }
             break;
-        // for a view, the ENGINE is null
+            // for a view, the ENGINE is sometimes reported as null,
+            // or on some servers it's reported as "SYSTEM VIEW" 
         case null :
         case 'SYSTEM VIEW' :
-            // countRecords() takes care of $cfg['MaxExactCountViews']
-            $each_table['TABLE_ROWS'] = PMA_Table::countRecords($db,
+            // if table is broken, Engine is reported as null, so one more test 
+            if ($each_table['TABLE_TYPE'] == 'VIEW') {
+                // countRecords() takes care of $cfg['MaxExactCountViews']
+                $each_table['TABLE_ROWS'] = PMA_Table::countRecords($db,
                     $each_table['TABLE_NAME'], $return = true, $force_exact = true,
                     $is_view = true);
-            $table_is_view = true;
+                $table_is_view = true;
+            }
             break;
         default :
             // Unknown table type.
@@ -387,7 +391,7 @@ foreach ($tables as $keyname => $each_table) {
 
     $row_count++;
     if ($table_is_view) {
-        $hidden_fields[] = '<input type="hidden" name="views[]" value="' .  $each_table['TABLE_NAME'] . '" />';
+        $hidden_fields[] = '<input type="hidden" name="views[]" value="' .  htmlspecialchars($each_table['TABLE_NAME']) . '" />';
     }
 
     if ($each_table['TABLE_ROWS'] > 0) {
@@ -433,7 +437,7 @@ foreach ($tables as $keyname => $each_table) {
 <tr class="<?php echo $odd_row ? 'odd' : 'even'; $odd_row = ! $odd_row; ?>">
     <td align="center">
         <input type="checkbox" name="selected_tbl[]"
-            value="<?php echo $each_table['TABLE_NAME']; ?>"
+            value="<?php echo htmlspecialchars($each_table['TABLE_NAME']); ?>"
             id="checkbox_tbl_<?php echo $i; ?>"<?php echo $checked; ?> /></td>
     <th><label for="checkbox_tbl_<?php echo $i; ?>"
             title="<?php echo $alias; ?>"><?php echo $truename; ?></label>

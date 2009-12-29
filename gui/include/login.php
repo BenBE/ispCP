@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 function init_login() {
@@ -146,7 +156,7 @@ SQL_QUERY;
 	$rs = exec_query($sql, $query, array($user_logged, $user_pass, $user_type, $user_id, $sess_id));
 
 	if ($rs->RecordCount() != 1) {
-		write_log("Detected session manipulation on $user_logged's session!");
+		write_log("Detected session manipulation on ".$user_logged."'s session!");
 		unset_user_login_data();
 		return false;
 	}
@@ -258,31 +268,31 @@ function change_user_interface($from_id, $to_id) {
 		if (!isset($allowed_changes[$from_admin_type][$to_admin_type])
 			|| ($to_admin_type == $from_admin_type && $from_admin_type != 'admin')) {
 
-		if (isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] == $to_id) {
-			$index = $allowed_changes[$to_admin_type]['BACK'];
-		} else {
-			set_page_message(tr('You do not have permission to access this interface!'));
-			break;
+			if (isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] == $to_id) {
+				$index = $allowed_changes[$to_admin_type]['BACK'];
+			} else {
+				set_page_message(tr('You do not have permission to access this interface!'));
+				break;
+			}
 		}
-	}
 
-	$index = $index ? $index : $allowed_changes[$from_admin_type][$to_admin_type];
+		$index = $index ? $index : $allowed_changes[$from_admin_type][$to_admin_type];
 
-	unset_user_login_data();
+		unset_user_login_data();
 
-	if (($to_admin_type != 'admin' &&
-		((isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] != $to_id)
-		|| !isset($_SESSION['logged_from_id'])))
-		|| ($from_admin_type == 'admin' && $to_admin_type == 'admin')) {
+		if (($to_admin_type != 'admin' &&
+			((isset($_SESSION['logged_from_id']) && $_SESSION['logged_from_id'] != $to_id)
+			|| !isset($_SESSION['logged_from_id'])))
+			|| ($from_admin_type == 'admin' && $to_admin_type == 'admin')) {
 
-		$_SESSION['logged_from'] = $from_udata['admin_name'];
-		$_SESSION['logged_from_id'] = $from_udata['admin_id'];
+			$_SESSION['logged_from'] = $from_udata['admin_name'];
+			$_SESSION['logged_from_id'] = $from_udata['admin_id'];
 
-	}
-	if ($from_admin_type == 'user') { // Ticket 830 - remove the 'logged_from' if back from user
-		unset($_SESSION['logged_from']); // maybe integrated in the construction above...
-		unset($_SESSION['logged_from_id']);
-	}
+		}
+		if ($from_admin_type == 'user') { // Ticket 830 - remove the 'logged_from' if back from user
+			unset($_SESSION['logged_from']); // maybe integrated in the construction above...
+			unset($_SESSION['logged_from_id']);
+		}
 
 		// we gonna kill all sessions and globals if user get back to admin level
 		unset($_SESSION['admin_name']);
@@ -300,9 +310,9 @@ function change_user_interface($from_id, $to_id) {
 		$_SESSION['user_created_by'] = $to_udata['created_by'];
 		$_SESSION['user_login_time'] = time();
 
-		$query = 'INSERT INTO login (`session_id`, `user_name`, `lastaccess`) VALUES (?, ?, ?)';
+		$query = 'INSERT INTO login (`session_id`, `ipaddr`, `user_name`, `lastaccess`) VALUES (?, ?, ?, ?)';
 
-		exec_query($sql, $query, array(session_id(), $to_udata['admin_name'], $_SESSION['user_login_time']));
+		exec_query($sql, $query, array(session_id(), getipaddr(), $to_udata['admin_name'], $_SESSION['user_login_time']));
 
 		write_log(sprintf("%s changes into %s's interface", decode_idna($from_udata['admin_name']), decode_idna($to_udata['admin_name'])));
 		break;

@@ -4,7 +4,7 @@
  * Display form for changing/adding table fields/columns
  *
  * included by tbl_addfield.php, -_alter.php, -_create.php
- * @version $Id: tbl_properties.inc.php 12700 2009-07-22 21:13:11Z lem9 $
+ * @version $Id: tbl_properties.inc.php 13116 2009-11-13 11:14:10Z lem9 $
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
@@ -222,10 +222,16 @@ for ($i = 0; $i < $num_fields; $i++) {
             case null:
                 if ($row['Null'] == 'YES') {
                     $row['DefaultType']  = 'NULL';
+                    $row['DefaultValue'] = '';
+    // SHOW FULL FIELDS does not report the case when there is a DEFAULT value
+    // which is empty so we need to use the results of SHOW CREATE TABLE
+                } elseif (isset($row) && isset($analyzed_sql[0]['create_table_fields'][$row['Field']]['default_value'])) {
+                    $row['DefaultType']  = 'USER_DEFINED';
+                    $row['DefaultValue'] = $row['Default'];
                 } else {
                     $row['DefaultType']  = 'NONE';
+                    $row['DefaultValue'] = '';
                 }
-                $row['DefaultValue'] = '';
                 break;
             case 'CURRENT_TIMESTAMP':
                 $row['DefaultType']  = 'CURRENT_TIMESTAMP';
@@ -349,13 +355,12 @@ for ($i = 0; $i < $num_fields; $i++) {
         $binary           = 0;
         $unsigned         = 0;
         $zerofill         = 0;
-        $length_to_display = htmlspecialchars($length);
     } else {
-        $length_to_display = $length;
         $binary           = false;
         $unsigned         = stristr($row['Type'], 'unsigned');
         $zerofill         = stristr($row['Type'], 'zerofill');
     }
+    $length_to_display = $length;
 
     $content_cells[$i][$ci] = '<input id="field_' . $i . '_' . ($ci - $ci_offset) . '"'
         . ' type="text" name="field_length[' . $i . ']" size="' . $length_values_input_size . '"'
@@ -389,9 +394,9 @@ for ($i = 0; $i < $num_fields; $i++) {
         'CURRENT_TIMESTAMP' => 'CURRENT_TIMESTAMP',
     );
 
-    // for a TIMESTAMP, do not show CURRENT_TIMESTAMP as a default value
+    // for a TIMESTAMP, do not show the string "CURRENT_TIMESTAMP" as a default value
     if ($type_upper == 'TIMESTAMP'
-     && $default_current_timestamp
+     && ! empty($default_current_timestamp)
      && isset($row['Default'])) {
         $row['Default'] = '';
     }

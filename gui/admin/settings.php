@@ -2,20 +2,30 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @version 	SVN: $ID$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
@@ -61,6 +71,10 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	$prevent_external_login_reseller= $_POST['prevent_external_login_reseller'];
 	$prevent_external_login_client	= $_POST['prevent_external_login_client'];
 	$custom_orderpanel_id			= clean_input($_POST['coid']);
+	$tld_strict_validation			= $_POST['tld_strict_validation'];
+	$sld_strict_validation			= $_POST['sld_strict_validation'];
+	$max_dnames_labels				= clean_input($_POST['max_dnames_labels']);
+	$max_subdnames_labels			= clean_input($_POST['max_subdnames_labels']);
 
 	// change Loglevel to constant:
 	switch ($_POST['log_level']) {
@@ -83,10 +97,16 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		|| (!is_number($bruteforce_block_time))
 		|| (!is_number($bruteforce_between_time))
 		|| (!is_number($bruteforce_max_capcha))
-		|| (!is_number($domain_rows_per_page))) {
+		|| (!is_number($domain_rows_per_page))
+		|| (!is_number($max_dnames_labels))
+		|| (!is_number($max_subdnames_labels))) {
 		set_page_message(tr('ERROR: Only positive numbers are allowed !'));
 	} else if ($domain_rows_per_page < 1) {
 		$domain_rows_per_page = 1;
+	} else if ($max_dnames_labels < 1) {
+		$max_dnames_labels = 1;
+	} else if ($max_subdnames_labels < 1) {
+		$max_subdnames_labels = 1;
 	} else {
 		setConfig_Value('LOSTPASSWORD', $lostpassword);
 		setConfig_Value('LOSTPASSWORD_TIMEOUT', $lostpassword_timeout);
@@ -112,11 +132,16 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		setConfig_Value('PREVENT_EXTERNAL_LOGIN_RESELLER', $prevent_external_login_reseller);
 		setConfig_Value('PREVENT_EXTERNAL_LOGIN_CLIENT', $prevent_external_login_client);
 		setConfig_Value('CUSTOM_ORDERPANEL_ID', $custom_orderpanel_id);
+		setConfig_Value('TLD_STRICT_VALIDATION', $tld_strict_validation);
+		setConfig_Value('SLD_STRICT_VALIDATION', $sld_strict_validation);
+		setConfig_Value('MAX_DNAMES_LABELS', $max_dnames_labels);
+		setConfig_Value('MAX_SUBDNAMES_LABELS', $max_subdnames_labels);
 		set_page_message(tr('Settings saved !'));
 	}
 }
 
 $coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+
 $tpl->assign(
 	array(
 		'LOSTPASSWORD_TIMEOUT_VALUE' => Config::get('LOSTPASSWORD_TIMEOUT'),
@@ -126,9 +151,12 @@ $tpl->assign(
 		'BRUTEFORCE_BETWEEN_TIME_VALUE' => Config::get('BRUTEFORCE_BETWEEN_TIME'),
 		'BRUTEFORCE_MAX_CAPTCHA' => Config::get('BRUTEFORCE_MAX_CAPTCHA'),
 		'DOMAIN_ROWS_PER_PAGE' => Config::get('DOMAIN_ROWS_PER_PAGE'),
-		'CUSTOM_ORDERPANEL_ID' => $coid
+		'CUSTOM_ORDERPANEL_ID' => $coid,
+		'MAX_DNAMES_LABELS_VALUE' => Config::get('MAX_DNAMES_LABELS'),
+		'MAX_SUBDNAMES_LABELS_VALUE' => Config::get('MAX_SUBDNAMES_LABELS')
 	)
 );
+
 $language = Config::get('USER_INITIAL_LANG');
 gen_def_language($tpl, $sql, $language);
 
@@ -170,6 +198,22 @@ if (Config::get('ISPCP_SUPPORT_SYSTEM')) {
 } else {
 	$tpl->assign('SUPPORT_SYSTEM_SELECTED_ON', '');
 	$tpl->assign('SUPPORT_SYSTEM_SELECTED_OFF', 'selected="selected"');
+}
+
+if (Config::get('TLD_STRICT_VALIDATION')) {
+	$tpl->assign('TLD_STRICT_VALIDATION_ON', 'selected="selected"');
+	$tpl->assign('TLD_STRICT_VALIDATION_OFF', '');
+} else {
+	$tpl->assign('TLD_STRICT_VALIDATION_ON', '');
+	$tpl->assign('TLD_STRICT_VALIDATION_OFF', 'selected="selected"');
+}
+
+if (Config::get('SLD_STRICT_VALIDATION')) {
+	$tpl->assign('SLD_STRICT_VALIDATION_ON', 'selected="selected"');
+	$tpl->assign('SLD_STRICT_VALIDATION_OFF', '');
+} else {
+	$tpl->assign('SLD_STRICT_VALIDATION_ON', '');
+	$tpl->assign('SLD_STRICT_VALIDATION_OFF', 'selected="selected"');
 }
 
 if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES')) {
@@ -280,46 +324,53 @@ gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
-		'TR_GENERAL_SETTINGS' => tr('General settings'),
-		'TR_SETTINGS' => tr('Settings'),
-		'TR_MESSAGE' => tr('Message'),
-		'TR_LOSTPASSWORD' => tr('Lost password'),
-		'TR_LOSTPASSWORD_TIMEOUT' => tr('Activation link expire time (minutes)'),
-		'TR_PASSWORD_SETTINGS'=> tr('Password settings') ,
-		'TR_PASSWD_STRONG'=> tr('Use strong Passwords') ,
-		'TR_PASSWD_CHARS' => tr('Password length'),
-		'TR_BRUTEFORCE' => tr('Bruteforce detection'),
-		'TR_BRUTEFORCE_BETWEEN' => tr('Block time between logins'),
-		'TR_BRUTEFORCE_MAX_LOGIN' => tr('Max number of login attempts'),
-		'TR_BRUTEFORCE_BLOCK_TIME' => tr('Blocktime (minutes)'),
-		'TR_BRUTEFORCE_BETWEEN_TIME' => tr('Block time between logins (seconds)'),
-		'TR_BRUTEFORCE_MAX_CAPTCHA' => tr('Max number of CAPTCHA validation attempts'),
-		'TR_OTHER_SETTINGS' => tr('Other settings'),
-		'TR_MAIL_SETTINGS' => tr('E-Mail settings'),
-		'TR_CREATE_DEFAULT_EMAIL_ADDRESSES' => tr('Create default E-Mail addresses'),
-		'TR_COUNT_DEFAULT_EMAIL_ADDRESSES' => tr('Count default E-Mail addresses'),
-		'TR_HARD_MAIL_SUSPENSION' => tr('E-Mail accounts are hard suspended'),
-		'TR_USER_INITIAL_LANG' => tr('Panel default language'),
-		'TR_SUPPORT_SYSTEM' => tr('Support system'),
-		'TR_ENABLED' => tr('Enabled'),
-		'TR_DISABLED' => tr('Disabled'),
-		'TR_APPLY_CHANGES' => tr('Apply changes'),
-		'TR_SERVERPORTS' => tr('Server ports'),
-		'TR_HOSTING_PLANS_LEVEL' => tr('Hosting plans available for'),
-		'TR_ADMIN' => tr('Admin'),
-		'TR_RESELLER' => tr('Reseller'),
-		'TR_DOMAIN_ROWS_PER_PAGE' => tr('Domains per page'),
-		'TR_LOG_LEVEL' => tr('Log Level'),
-		'TR_E_USER_OFF' => tr('Disabled'),
-		'TR_E_USER_NOTICE' => tr('Notices, Warnings and Errors'),
-		'TR_E_USER_WARNING' => tr('Warnings and Errors'),
-		'TR_E_USER_ERROR' => tr('Errors'),
-		'TR_CHECK_FOR_UPDATES' => tr('Check for update'),
-		'TR_SHOW_SERVERLOAD' => tr('Show server load'),
-		'TR_PREVENT_EXTERNAL_LOGIN_ADMIN' => tr('Prevent external login for admins'),
+		'TR_GENERAL_SETTINGS'				=> tr('General settings'),
+		'TR_SETTINGS'						=> tr('Settings'),
+		'TR_MESSAGE'						=> tr('Message'),
+		'TR_LOSTPASSWORD'					=> tr('Lost password'),
+		'TR_LOSTPASSWORD_TIMEOUT'			=> tr('Activation link expire time (minutes)'),
+		'TR_PASSWORD_SETTINGS'				=> tr('Password settings') ,
+		'TR_PASSWD_STRONG'					=> tr('Use strong Passwords') ,
+		'TR_PASSWD_CHARS'					=> tr('Password length'),
+		'TR_BRUTEFORCE'						=> tr('Bruteforce detection'),
+		'TR_BRUTEFORCE_BETWEEN'				=> tr('Block time between logins'),
+		'TR_BRUTEFORCE_MAX_LOGIN'			=> tr('Max number of login attempts'),
+		'TR_BRUTEFORCE_BLOCK_TIME'			=> tr('Blocktime (minutes)'),
+		'TR_BRUTEFORCE_BETWEEN_TIME'		=> tr('Block time between logins (seconds)'),
+		'TR_BRUTEFORCE_MAX_CAPTCHA'			=> tr('Max number of CAPTCHA validation attempts'),
+		'TR_OTHER_SETTINGS'					=> tr('Other settings'),
+		'TR_MAIL_SETTINGS'					=> tr('E-Mail settings'),
+		'TR_CREATE_DEFAULT_EMAIL_ADDRESSES'	=> tr('Create default E-Mail addresses'),
+		'TR_COUNT_DEFAULT_EMAIL_ADDRESSES'	=> tr('Count default E-Mail addresses'),
+		'TR_HARD_MAIL_SUSPENSION'			=> tr('E-Mail accounts are hard suspended'),
+		'TR_USER_INITIAL_LANG'				=> tr('Panel default language'),
+		'TR_SUPPORT_SYSTEM'					=> tr('Support system'),
+		'TR_ENABLED'						=> tr('Enabled'),
+		'TR_DISABLED'						=> tr('Disabled'),
+		'TR_APPLY_CHANGES'					=> tr('Apply changes'),
+		'TR_SERVERPORTS'					=> tr('Server ports'),
+		'TR_HOSTING_PLANS_LEVEL'			=> tr('Hosting plans available for'),
+		'TR_ADMIN'							=> tr('Admin'),
+		'TR_RESELLER'						=> tr('Reseller'),
+		'TR_DOMAIN_ROWS_PER_PAGE'			=> tr('Domains per page'),
+		'TR_LOG_LEVEL'						=> tr('Log Level'),
+		'TR_E_USER_OFF' 					=> tr('Disabled'),
+		'TR_E_USER_NOTICE' 					=> tr('Notices, Warnings and Errors'),
+		'TR_E_USER_WARNING' 				=> tr('Warnings and Errors'),
+		'TR_E_USER_ERROR' 					=> tr('Errors'),
+		'TR_CHECK_FOR_UPDATES' 				=> tr('Check for update'),
+		'TR_SHOW_SERVERLOAD' 				=> tr('Show server load'),
+		'TR_PREVENT_EXTERNAL_LOGIN_ADMIN' 	=> tr('Prevent external login for admins'),
 		'TR_PREVENT_EXTERNAL_LOGIN_RESELLER' => tr('Prevent external login for resellers'),
-		'TR_PREVENT_EXTERNAL_LOGIN_CLIENT' => tr('Prevent external login for clients'),
-		'TR_CUSTOM_ORDERPANEL_ID' => tr('Custom orderpanel ID'),
+		'TR_PREVENT_EXTERNAL_LOGIN_CLIENT' 	=> tr('Prevent external login for clients'),
+		'TR_CUSTOM_ORDERPANEL_ID' 			=> tr('Custom orderpanel ID'),
+		'TR_DNAMES_VALIDATION_SETTINGS' 	=> tr('Domain names validation'),
+		'TR_TLD_STRICT_VALIDATION' 			=> tr('Top Level Domain name strict validation'),
+		'TR_TLD_STRICT_VALIDATION_HELP'		=> tr('Only Top Level Domains (TLD) listed in IANA root zone database can be used.'),
+		'TR_SLD_STRICT_VALIDATION' 			=> tr('Second Level Domain name strict validation'),
+		'TR_SLD_STRICT_VALIDATION_HELP'		=> tr('Single letter Second Level Domains (SLD) are not allowed under the most Top Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de.'),
+		'TR_MAX_DNAMES_LABELS' 				=> tr('Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)'),
+		'TR_MAX_SUBDNAMES_LABELS' 			=> tr('Maximal number of labels for subdomains')
 	)
 );
 
