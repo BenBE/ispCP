@@ -203,8 +203,8 @@ function init_empty_data() {
 	
 	$tpl->assign(
 		array(
-			'DOMAIN' => strtolower(clean_input($_POST['ndomain_name'])),
-			'MP' => strtolower(clean_input($_POST['ndomain_mpoint'])),
+			'DOMAIN' => !empty($_POST) ? strtolower(clean_input($_POST['ndomain_name'])) : '',
+			'MP' => !empty($_POST) ? strtolower(clean_input($_POST['ndomain_mpoint'])) : '',
 			'FORWARD' => $forward,
 			'CHECK_EN' => $check_en,
 			'CHECK_DIS' => $check_dis,
