@@ -1,7 +1,7 @@
 <?php
 /**
  * ispCP ω (OMEGA) complete domain backup/restore tool
- * ispCP backup class
+ * ispCP backup controller
  *
  * @copyright 	2010 Thomas Wacker
  * @author 		Thomas Wacker <zuhause@thomaswacker.de>

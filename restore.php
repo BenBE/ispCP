@@ -29,7 +29,7 @@ if ($argc < 3) {
 	exit(1);
 }
 
-$verbose = false;
+$verbose = $specific_ip = false;
 for ($i = 1; $i < $argc-2; $i++) {
 	if ($argv[$i] == '-v') {
 		$verbose = true;
@@ -46,7 +46,7 @@ if (!file_exists(ARCHIVE_PATH.'/'.$domain_name.'.tar.gz.gpg')) {
 }
 
 $exitcode = 0;
-$handler = new RestorePackage_ispCP($domain_name, $password);
+$handler = new RestorePackage_ispCP($domain_name, $password, $specific_ip);
 $handler->verbose = $verbose;
 if ($handler->runRestore() == false) {
 	echo "Error executing restore: ";
