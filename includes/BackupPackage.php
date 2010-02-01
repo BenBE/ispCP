@@ -76,11 +76,13 @@ abstract class BackupPackage extends BaseController
 	{
 		$result = true;
 
-		foreach ($this->databases as $type => $dbname) {
+		foreach ($this->databases as $type => $dbnames) {
 			// currently only mysql...
 			if ($type == 'mysql') {
-				if (!$this->dumpMySQLDatabase($dbname)) {
-					$result = false;
+				foreach ($dbnames as $dbname) {
+					if (!$this->dumpMySQLDatabase($dbname)) {
+						$result = false;
+					}
 				}
 			}
 		}
@@ -96,7 +98,7 @@ abstract class BackupPackage extends BaseController
 	{
 		$filename = BACKUP_TEMP_PATH.'/'.$dbname.'.sql';
 		$cmd = 'mysqldump --user '.Config::get('DB_USER').' --password='.Config::get('DB_PASS').
-			   ' '.$dbname;
+			   ' '.$dbname.
 			   ' >'.$filename;
 		// TODO: Error handling
 		$a = array();
@@ -113,7 +115,7 @@ abstract class BackupPackage extends BaseController
 		// create .tar.gz
 		$filename = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz';
 		// TODO: only htdocs?
-		$cmd = 'tar czvf -P '.$filename.' '.BACKUP_TEMP_PATH.
+		$cmd = 'tar czvf '.$filename.' '.BACKUP_TEMP_PATH.
 				' '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/htdocs';
 		// TODO: Error handling
 		$a = array();
