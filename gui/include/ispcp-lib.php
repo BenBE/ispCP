@@ -31,7 +31,9 @@
 define('INCLUDEPATH', realpath(dirname(__FILE__)));
 
 function autoload_class($className) {
-	require_once(INCLUDEPATH . "/class.$className.php");
+	if (file_exists(INCLUDEPATH . "/class.".$className.".php")) {
+		require_once INCLUDEPATH . "/class.".$className.".php";
+	}
 }
 spl_autoload_register('autoload_class');
 

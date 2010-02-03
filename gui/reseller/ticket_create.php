@@ -32,10 +32,8 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/ticket_create.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = new smartyTemplate('reseller');
+$tpl->setTemplate('ticket_create.tpl');
 
 // page functions.
 
@@ -122,12 +120,18 @@ gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_ticket_sy
 
 gen_logged_from($tpl);
 
-$userdata = array('OPT_URGENCY_1'=>'', 'OPT_URGENCY_2'=>'', 'OPT_URGENCY_3'=>'', 'OPT_URGENCY_4'=>'');
+$userdata = array(
+/* Smarty integration... not needed...
+	'OPT_URGENCY_1'=>'', 'OPT_URGENCY_2'=>'', 'OPT_URGENCY_3'=>'', 'OPT_URGENCY_4'=>''
+*/
+);
 if (isset($_POST['urgency'])) {
 	$userdata['URGENCY'] = intval($_POST['urgency']);
 } else {
 	$userdata['URGENCY'] = 2;
 }
+/* Smarty integration... not needed...
+
 switch ($userdata['URGENCY']) {
 	case 1:
 		$userdata['OPT_URGENCY_1'] = ' selected="selected"';
@@ -142,17 +146,30 @@ switch ($userdata['URGENCY']) {
 		$userdata['OPT_URGENCY_2'] = ' selected="selected"';
 		break;
 }
-$userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj'], true) : '';
-$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? clean_input($_POST['user_message'], true) : '';
+*/
+
+// New by Smarty integration:
+$userdata['urgency_options'] = array(
+	1 => tr('Low'),
+	2 => tr('Medium'),
+	3 => tr('High'),
+	4 => tr('Very high')
+);
+
+// HTML escaping is done by Smarty
+$userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj']) : '';
+$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? clean_input($_POST['user_message']) : '';
 $tpl->assign($userdata);
 
 $tpl->assign(
 	array(
 		'TR_NEW_TICKET' => tr('New ticket'),
+/* Smarty integration... not needed here
 		'TR_LOW' => tr('Low'),
 		'TR_MEDIUM' => tr('Medium'),
 		'TR_HIGH' => tr('High'),
 		'TR_VERI_HIGH' => tr('Very high'),
+*/
 		'TR_URGENCY' => tr('Priority'),
 		'TR_EMAIL' => tr('Email'),
 		'TR_SUBJECT' => tr('Subject'),
@@ -164,8 +181,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

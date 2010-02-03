@@ -65,14 +65,15 @@ $theme_color = isset($_SESSION['user_theme'])
 	? $_SESSION['user_theme']
 	: Config::get('USER_INITIAL_THEME');
 
-$tpl = new pTemplate();
+$tpl = new smartyTemplate();
 
 if ((Config::get('MAINTENANCEMODE')
 		|| databaseUpdate::getInstance()->checkUpdateExists()
 		|| criticalUpdate::getInstance()->checkUpdateExists())
 	&& !isset($_GET['admin'])) {
 
-	$tpl->define_dynamic('page', Config::get('LOGIN_TEMPLATE_PATH') . '/maintenancemode.tpl');
+	$tpl->setTemplate('maintenancemode.tpl');
+
 	$tpl->assign(
 		array(
 			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
@@ -82,10 +83,9 @@ if ((Config::get('MAINTENANCEMODE')
 			'TR_ADMINLOGIN'		=> tr('Administrator login')
 		)
 	);
-
 } else {
 
-	$tpl->define_dynamic('page', Config::get('LOGIN_TEMPLATE_PATH') . '/index.tpl');
+	$tpl->setTemplate('index.tpl');
 
 	$tpl->assign(
 		array(
@@ -114,10 +114,8 @@ if (Config::get('LOSTPASSWORD')) {
 	$tpl->assign('TR_LOSTPW', '');
 }
 
-$tpl->define_dynamic('page_message', 'page');
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if (Config::get('DUMP_GUI_DEBUG')) {

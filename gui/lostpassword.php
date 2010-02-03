@@ -57,8 +57,8 @@ if (isset($_GET['key'])) {
 	if ($_GET['key'] != "") {
 		check_input($_GET['key']);
 
-		$tpl = new pTemplate();
-		$tpl->define('page', Config::get('LOGIN_TEMPLATE_PATH') . '/lostpassword_message.tpl');
+		$tpl = new smartyTemplate();
+		$tpl->setTemplate('lostpassword_message.tpl');
 		$tpl->assign(
 			array(
 				'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
@@ -83,7 +83,6 @@ if (isset($_GET['key'])) {
 			);
 		}
 
-		$tpl->parse('PAGE', 'page');
 		$tpl->prnt();
 
 		if (Config::get('DUMP_GUI_DEBUG')) {
@@ -100,8 +99,8 @@ if (isset($_POST['uname'])) {
 		check_input(trim($_POST['uname']));
 		check_input($_POST['capcode']);
 
-		$tpl = new pTemplate();
-		$tpl->define('page', Config::get('LOGIN_TEMPLATE_PATH') . '/lostpassword_message.tpl');
+		$tpl = new smartyTemplate();
+		$tpl->setTemplate('lostpassword_message.tpl');
 		$tpl->assign(
 			array(
 				'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
@@ -126,7 +125,6 @@ if (isset($_POST['uname'])) {
 			);
 		}
 
-		$tpl->parse('PAGE', 'page');
 		$tpl->prnt();
 
 		if (Config::get('DUMP_GUI_DEBUG')) {
@@ -139,8 +137,8 @@ if (isset($_POST['uname'])) {
 unblock(Config::get('BRUTEFORCE_BLOCK_TIME'), 'captcha');
 is_ipaddr_blocked(null, 'captcha', true);
 
-$tpl = new pTemplate();
-$tpl->define('page', Config::get('LOGIN_TEMPLATE_PATH') . '/lostpassword.tpl');
+$tpl = new smartyTemplate();
+$tpl->setTemplate('lostpassword.tpl');
 $tpl->assign(
 	array(
 		'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
@@ -155,7 +153,6 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if (Config::get('DUMP_GUI_DEBUG')) {
