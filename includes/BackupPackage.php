@@ -115,8 +115,8 @@ abstract class BackupPackage extends BaseController
 		// create .tar.gz
 		$filename = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz';
 		// TODO: only htdocs?
-		$cmd = 'tar czvf '.$filename.' '.BACKUP_TEMP_PATH.
-				' '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/htdocs';
+		$cmd = 'tar czvf '.$filename.' -C '.BACKUP_BASE_PATH.' tmp'.
+				' -C '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.' htdocs';
 		// TODO: Error handling
 		$a = array();
 		$this->shellExecute($cmd, $a);

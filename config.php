@@ -21,5 +21,6 @@
 // path settings, please do not use a trailing slash:
 define('ISPCP_GUI_PATH', '/var/www/ispcp/gui');
 define('ISPCP_VIRTUAL_PATH', '/var/www/virtual');
-define('BACKUP_TEMP_PATH', dirname(__FILE__).'/tmp');
-define('ARCHIVE_PATH', dirname(__FILE__).'/archive');
+define('BACKUP_BASE_PATH', dirname(__FILE__));
+define('BACKUP_TEMP_PATH', BACKUP_BASE_PATH.'/tmp');
+define('ARCHIVE_PATH', BACKUP_BASE_PATH.'/archive');
