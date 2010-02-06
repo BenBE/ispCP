@@ -24,7 +24,7 @@ abstract class BaseController
 	 */
 	public $verbose = false;
 	/**
-	 * array of error messages
+	 * array of strings for error messages
 	 */
 	protected $errorMessages = array();
 
@@ -54,3 +54,4 @@ abstract class BaseController
 		return exec($cmd, $a);
 	}
 }
+

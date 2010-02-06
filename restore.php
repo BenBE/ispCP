@@ -24,29 +24,31 @@ require_once dirname(__FILE__).'/includes/RestorePackage_ispCP.php';
 if ($argc < 3) {
 	echo "Usage: php restore.php [OPTIONS] domain archive-password\n";
 	echo "OPTIONS:\n";
-	echo " -i IP ........ use specific IP for domain\n";
+	echo " -i IP ........ use IP for domain (default = first found)\n";
+	echo " -r RES ....... use reseller for domain (default = first found)\n";
 	echo " -v ........... verbose mode\n";
+	echo "\n";
+	echo "Please ensure, there is enough free disk space available for\n";
+	echo "this operation (approx. triple size of htdocs and databases)!\n";
 	exit(1);
 }
 
-$verbose = $specific_ip = false;
+$verbose = $option_ip = $option_res = false;
 for ($i = 1; $i < $argc-2; $i++) {
 	if ($argv[$i] == '-v') {
 		$verbose = true;
 	} elseif ($argv[$i] == '-i') {
-		$specific_ip = $argv[++$i];
+		$option_ip = $argv[++$i];
+	} elseif ($argv[$i] == '-r') {
+		$option_res = $argv[++$i];
 	}
 }
 
 $domain_name = $argv[$argc-2];
 $password = $argv[$argc-1];
-if (!file_exists(ARCHIVE_PATH.'/'.$domain_name.'.tar.gz.gpg')) {
-	echo "Domain backup file not found in ".ARCHIVE_PATH.'/'.$domain_name.'.tar.gz.gpg'."\n";
-	exit(2);
-}
 
 $exitcode = 0;
-$handler = new RestorePackage_ispCP($domain_name, $password, $specific_ip);
+$handler = new RestorePackage_ispCP($domain_name, $password, $option_ip);
 $handler->verbose = $verbose;
 if ($handler->runRestore() == false) {
 	echo "Error executing restore: ";

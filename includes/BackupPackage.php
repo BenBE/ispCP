@@ -43,8 +43,32 @@ abstract class BackupPackage extends BaseController
 
 	public function __construct($domain_name, $password)
 	{
+		// make clean temp path for every call
+		if (file_exists(BACKUP_TEMP_PATH)) {
+			delTree(BACKUP_TEMP_PATH);
+		}
+		mkdir(BACKUP_TEMP_PATH, 0700, true);
+
+		// create archive path for domain packages if not exist
+		if (!file_exists(ARCHIVE_PATH)) {
+			mkdir(ARCHIVE_PATH, 0700, true);
+		}
+
 		$this->password = $password;
 		$this->domain_name = $domain_name;
+
+		// tar and mysqldump can take a lot of time
+		set_time_limit(0);
+	}
+
+	/**
+	 * Destructor, clean up temp path on exit
+	 */
+	public function __destruct()
+	{
+		if (file_exists(BACKUP_TEMP_PATH)) {
+			delTree(BACKUP_TEMP_PATH);
+		}
 	}
 
 	abstract protected function initDomain();
@@ -110,7 +134,7 @@ abstract class BackupPackage extends BaseController
 	/**
 	 * Create .tar.gz and protect by gpg symmetric encryption
 	 */
-	private function createDomainArchive()
+	private function createDomainPackage()
 	{
 		// create .tar.gz
 		$filename = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz';
@@ -127,7 +151,7 @@ abstract class BackupPackage extends BaseController
 		$a = array();
 		$this->shellExecute($cmd, $a);
 
-		// delete .tar.gz
+		// delete remaining .tar.gz
 		unlink($filename);
 
 		return true;
@@ -151,13 +175,13 @@ abstract class BackupPackage extends BaseController
 			$this->setConfigData('db', 		 $this->getDBConfig());
 			$this->setConfigData('dbuser', 	 $this->getDBUserConfig());
 
-			// first create configuration file
-			// if successful, create databases and complete domain archive
+			// First create configuration file. If successful, create database
+			// dumps and create the complete domain package file
 			$result = $this->writeDomainConfig();
 			if ($result) {
 				$result = $this->dumpDomainDatabases();
 				if ($result) {
-					$result = $this->createDomainArchive();
+					$result = $this->createDomainPackage();
 				}
 			}
 		}

@@ -38,7 +38,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	/**
 	 * ispCP database IDs (name => id)
 	 */
-	private $db_ids = array();
+	protected $db_ids = array();
 
 	public function __construct($domain_name, $password)
 	{
@@ -46,15 +46,23 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$this->db = Database::getInstance();
 	}
 
+	/**
+	 * Get domain database id, validate if vhost path exists
+	 * @return bool true = init ok, false = see error message
+	 */
 	protected function initDomain()
 	{
 		$result = false;
 
-		$test = $this->getDomainID($this->domain_name);
-		if ($test != -1) {
-			$result = true;
+		if (!file_exists(ISPCP_VIRTUAL_PATH.'/'.$this->domain_name)) {
+			$this->addErrorMessage('Domain not found in '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name);
 		} else {
-			$this->addErrorMessage('Domain not in database: '.$this->domain_name);
+			$test = $this->getDomainID($this->domain_name);
+			if ($test != -1) {
+				$result = true;
+			} else {
+				$this->addErrorMessage('Domain not in database: '.$this->domain_name);
+			}
 		}
 
 		return $result;
@@ -65,7 +73,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	 * @param string $domainname name of domain
 	 * @return integer domain id, -1 if not present
 	 */
-	private function getDomainID($domain_name)
+	protected function getDomainID($domain_name)
 	{
 		$this->domain_id = -1;
 
@@ -147,7 +155,6 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		while (!$rs->EOF) {
-			// TODO: sub_id?
 			$row = $rs->FetchRow();
 			$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
 			$result[] = $row;
@@ -171,7 +178,6 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':uid'=>$this->domain_user_id));
 		while ($rs && !$rs->EOF) {
-			// TODO: passwd? Where is the magic?
 			$row = $rs->FetchRow();
 			$result[] = $row;
 			$rs->MoveNext();
@@ -204,7 +210,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		return $result;
 	}
 
-	private function getSubdomainAliasConfig($alias_id)
+	protected function getSubdomainAliasConfig($alias_id)
 	{
 		$result = array();
 

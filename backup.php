@@ -25,6 +25,9 @@ if ($argc < 3) {
 	echo "Usage: php backup.php [OPTIONS] domain archive-password\n";
 	echo "OPTIONS:\n";
 	echo " -v ........... verbose mode\n";
+	echo "\n";
+	echo "Please ensure, there is enough free disk space available for\n";
+	echo "this operation (approx. triple size of htdocs and databases)!\n";
 	exit(1);
 }
 
@@ -37,21 +40,6 @@ for ($i = 1; $i < $argc-2; $i++) {
 
 $domain_name = $argv[$argc-2];
 $password = $argv[$argc-1];
-if (!file_exists(ISPCP_VIRTUAL_PATH.'/'.$domain_name)) {
-	echo "Domain not found in ".ISPCP_VIRTUAL_PATH.'/'.$domain_name."\n";
-	exit(2);
-}
-
-// make clean temp path for every call
-if (file_exists(BACKUP_TEMP_PATH)) {
-	delTree(BACKUP_TEMP_PATH);
-}
-mkdir(BACKUP_TEMP_PATH, 0700, true);
-
-// create archive path if not exist
-if (!file_exists(ARCHIVE_PATH)) {
-	mkdir(ARCHIVE_PATH, 0700, true);
-}
 
 $exitcode = 0;
 
@@ -65,11 +53,6 @@ if ($handler->runPackager() == false) {
 		$msg."\n";
 	}
 	$exitcode = 9;
-}
-
-// clean up temp path on exit
-if (file_exists(BACKUP_TEMP_PATH)) {
-	delTree(BACKUP_TEMP_PATH);
 }
 
 exit($exitcode);

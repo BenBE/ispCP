@@ -18,6 +18,9 @@
  * under the License.
  */
 
+/**
+ * ispCP restore packager main class
+ */
 class RestorePackage_ispCP extends BaseController
 {
 	/**
@@ -41,19 +44,46 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected $ip_id = -1;
 	/**
+	 * Reseller name or false for first reseller
+	 */
+	protected $reseller;
+	/**
+	 * ID of reseller
+	 */
+	protected $reseller_id = -1;
+	/**
 	 * linux user id
 	 */
 	protected $domain_user_id = 0;
+	/**
+	 * file name of gpg encrypted domain package
+	 */
+	protected $archive = '';
 
-	public function __construct($domain_name, $password, $specific_ip)
+	/**
+	 * Restore packager
+	 * @param string $domain_name
+	 * @param string $password password for gpg symmetric decryption
+	 * @param mixed $option_ip false or string of target IP address
+	 * @param mixed $option_reseller false or string of reseller name
+	 */
+	public function __construct($domain_name, $password, $option_ip, $option_reseller)
 	{
 		$this->password = $password;
 		$this->domain_name = $domain_name;
 		$this->db = Database::getInstance();
-		$this->ip = $specific_ip;
+		$this->ip = $option_ip;
+		$this->reseller = $option_reseller;
+		$this->archive = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz.gpg';
+
+		// untar and mysql can take a lot of time
+		set_time_limit(0);
 	}
 
-	private function setDomainPermissions()
+	/**
+	 * Set permissions to vhost directory
+	 */
+	protected function setDomainPermissions()
 	{
 		// TODO: setDomainPermissions (chown)
 	}
@@ -62,7 +92,7 @@ class RestorePackage_ispCP extends BaseController
 	 * Get ID of first server IP
 	 * @return integer ID of IP
 	 */
-	private function getDefaultIP()
+	protected function getDefaultIPID()
 	{
 		$result = -1;
 
@@ -79,11 +109,55 @@ class RestorePackage_ispCP extends BaseController
 	}
 
 	/**
-	 * Get ID of specific IP
-	 * @param string $ip IP address
-	 * @return integer ID of IP
+	 * Get ID of first reseller
+	 * @return integer ID of reseller
 	 */
-	private function getSpecificIP($ip)
+	protected function getDefaultResellerID()
+	{
+		$result = -1;
+
+		$sql = "SELECT `admin_id` FROM `admin` WHERE `admin_type` = :admin_type" .
+			   " ORDER BY `admin_id` LIMIT 0, 1";
+		$query = $this->db->Prepare($sql);
+		$rs = $this->db->Execute($query, array(':admin_type'=>'reseller'));
+		if ($rs && !$rs->EOF) {
+			$result = $rs->fields['admin_id'];
+		} else {
+			$this->addErrorMessage('No resellers found!?');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get ID of reseller name
+	 * @param string $reseller name of reseller (e.g. 'res1')
+	 * @return integer ispCP database ID of reseller
+	 */
+	protected function getResellerID($reseller)
+	{
+		$result = -1;
+
+		$sql = "SELECT `admin_id` FROM `admin` WHERE `admin_type` = :admin_type" .
+			   " AND `admin_name` = :name" .
+			   " ORDER BY `admin_id` LIMIT 0, 1";
+		$query = $this->db->Prepare($sql);
+		$rs = $this->db->Execute($query, array(':admin_type'=>'reseller', ':name'=>$reseller));
+		if ($rs && !$rs->EOF) {
+			$result = $rs->fields['admin_id'];
+		} else {
+			$this->addErrorMessage('Reseller not found: '.$reseller);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get ID of IP
+	 * @param string $ip IP address
+	 * @return integer ispCP database ID of IP
+	 */
+	protected function getIPID($ip)
 	{
 		$result = -1;
 
@@ -93,25 +167,55 @@ class RestorePackage_ispCP extends BaseController
 		if ($rs && !$rs->EOF) {
 			$result = $rs->fields['ip_id'];
 		} else {
-			$this->addErrorMessage('IP not found!?');
+			$this->addErrorMessage('IP not found: '.$ip);
 		}
 
 		return $result;
 	}
 
+	/**
+	 * Validate presence of gpg encrypted archive, get ID of IP and reseller
+	 */
+	protected function initRestore()
+	{
+		$result = false;
+
+		if (!file_exists($this->archive)) {
+			$this->addErrorMessage('Domain backup package file not found: '.$this->archive);
+		} else {
+			// IP detection
+			if ($this->ip === false) {
+				$this->ip_id = $this->getDefaultIPID();
+			} else {
+				$this->ip_id = $this->getIPID($this->ip);
+			}
+
+			// Reseller detection
+			if ($this->reseller === false) {
+				$this->reseller_id = $this->getDefaultResellerID();
+			} else {
+				$this->reseller_id = $this->getResellerID($this->reseller);
+			}
+
+			if ($this->ip_id != -1 && $this->reseller_id != -1) {
+				$result = true;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Run the restore, main method
+	 * @return boolean true = restore successful, false = see error messages
+	 */
 	public function runRestore()
 	{
 		$result = false;
 
-		// IP detection
-		if ($this->ip === false) {
-			$this->ip_id = $this->getDefaultIP();
-		} else {
-			$this->ip_id = $this->getSpecificIP($this->ip);
-		}
-
-		if ($this->ip_id != -1) {
-			// TODO: got IP ID, go on...
+		if ($this->initRestore()) {
+			// TODO: runRestore()
+			// don't forget sub_id in mail accounts!
 		}
 
 		return $result;
