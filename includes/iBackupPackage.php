@@ -28,6 +28,7 @@ interface iBackupPackage
 	public function getSubDomainConfig();
 	public function getWebUserConfig();
 	public function getWebGroupConfig();
+	public function getWebAccessConfig();
 	public function getDNSConfig();
 	public function getDBConfig();
 	public function getDBUserConfig();

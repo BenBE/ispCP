@@ -174,6 +174,7 @@ abstract class BackupPackage extends BaseController
 			$this->setConfigData('alias',		$this->getDomainAliasConfig());
 			$this->setConfigData('webuser',		$this->getWebUserConfig());
 			$this->setConfigData('webgroup',	$this->getWebGroupConfig());
+			$this->setConfigData('webaccess',	$this->getWebAccessConfig());
 			$this->setConfigData('dns',			$this->getDNSConfig());
 			$this->setConfigData('db',			$this->getDBConfig());
 			$this->setConfigData('dbuser',		$this->getDBUserConfig());

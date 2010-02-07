@@ -60,6 +60,10 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected $domain_user_id = 0;
 	/**
+	 * linux group id
+	 */
+	protected $domain_group_id = 0;
+	/**
 	 * file name of gpg encrypted domain package
 	 */
 	protected $gpg_archive = '';
@@ -76,9 +80,17 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected $database_ids = array();
 	/**
-	 * new subdomain IDs (key = database name)
+	 * new subdomain IDs (key = old subdomain id)
 	 */
 	protected $subdomain_ids = array();
+	/**
+	 * new web user IDs
+	 */
+	protected $webuser_ids = array();
+	/**
+	 * new web group IDs
+	 */
+	protected $webgroup_ids = array();
 
 	/**
 	 * Restore packager
@@ -120,7 +132,11 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected function setDomainPermissions()
 	{
-		// TODO: setDomainPermissions (chown)
+		$user = sprintf('vu%04d', $this->domain_user_id);
+		$group = sprintf('vu%04d', $this->domain_group_id);
+		$cmd = 'chown -R '.$user.':'.$group.' '.$this->target_path;
+		$a = array();
+		$this->shellExecute($cmd, $a);
 	}
 
 	/**
@@ -177,7 +193,10 @@ class RestorePackage_ispCP extends BaseController
 			   " AND `admin_name` = :name" .
 			   " ORDER BY `admin_id` LIMIT 0, 1";
 		$query = $this->db->Prepare($sql);
-		$rs = $this->db->Execute($query, array(':admin_type'=>'reseller', ':name'=>$reseller));
+		$rs = $this->db->Execute($query, array(
+			':admin_type'	=> 'reseller',
+			':name'			=> $reseller
+		));
 		if ($rs && !$rs->EOF) {
 			$result = $rs->fields['admin_id'];
 		} else {
@@ -198,7 +217,9 @@ class RestorePackage_ispCP extends BaseController
 
 		$sql = "SELECT `ip_id` FROM `server_ips` WHERE `ip_number`=:ip LIMIT 0, 1";
 		$query = $this->db->Prepare($sql);
-		$rs = $this->db->Execute($query, array('ip'=>$ip));
+		$rs = $this->db->Execute($query, array(
+			':ip'	=> $ip
+		));
 		if ($rs && !$rs->EOF) {
 			$result = $rs->fields['ip_id'];
 		} else {
@@ -310,9 +331,12 @@ class RestorePackage_ispCP extends BaseController
 				"INSERT INTO `sql_database`".
 				" (`domain_id`, `sqld_name`)".
 				" VALUES".
-				" (?, ?)"
+				" (:domain_id, :name)"
 			);
-			$this->db->Execute($query, array($this->domain_id, $db['sqld_name']));
+			$this->db->Execute($query, array(
+				':domain_id'	=> $this->domain_id,
+				':name'			=> $db['sqld_name']
+			));
 			$this->database_ids[$db['sqld_name']] = $this->db->Insert_ID();
 		}
 	}
@@ -350,12 +374,12 @@ class RestorePackage_ispCP extends BaseController
 				"INSERT INTO `sql_user`".
 				" (`sqld_id`, `sqlu_name`, `sqlu_pass`)".
 				" VALUES".
-				" (:sqld_id, :sqlu_name, :sqlu_pass)"
+				" (:sqld_id,  :name,       :password)"
 			);
 			$this->db->Execute($query, array(
-				'sqld_id'=>$this->database_ids[$dbuser['database']],
-				'sqlu_name'=>$dbuser['sqlu_name'],
-				'sqlu_pass'=>encrypt_db_password($dbuser['sqlu_pass'])
+				':sqld_id'	=> $this->database_ids[$dbuser['database']],
+				':name'		=> $dbuser['sqlu_name'],
+				':password'	=> encrypt_db_password($dbuser['sqlu_pass'])
 			));
 		}
 	}
@@ -373,67 +397,237 @@ class RestorePackage_ispCP extends BaseController
 			".* TO :dbuser IDENTIFIED BY :dbpass"
 		);
 		$this->db->Execute($query, array(
-			'dbuser'=>$db_user.'@localhost',
-			'dbpass'=>$user_pass
+			':dbuser'	=> $db_user.'@localhost',
+			':dbpass'	=> $user_pass
 		));
 		$this->db->Execute($query, array(
-			'dbuser'=>$db_user.'@%',
-			'dbpass'=>$user_pass
+			':dbuser'	=> $db_user.'@%',
+			':dbpass'	=> $user_pass
 		));
 	}
 
 	/**
-	 * Create domain, sets $this->domain_user_id and $this->domain_id
+	 * Create domain, sets domain_user_id, domain_group_id and domain_id
 	 * @return boolean true = creation successful
 	 */
 	protected function createDomain()
 	{
 		$result = false;
 
-		// TODO: createDomain()
-		// TODO: set domain_id
+		// TODO: createDomain, set domain_id
 		$this->createDomainAliases();
 		$this->createSubDomains();
 
-		// TODO: wait until daemon is ready
-		// TODO: set domain_user_id
+		// TODO: wait until daemon is ready, set domain_user_id, set domain_group_id
 
 		return $result;
 	}
 
 	protected function createDomainAliases()
 	{
-		// TODO: createDomainAliases
+		foreach ($this->configurationData['alias'] as $alias) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `domain_aliasses`".
+				" (domain_id, alias_name, alias_status, alias_mount, alias_ip_id, url_forward)".
+				" VALUES".
+				" (:domain_id, :name, :status, :mount, :ip_id, :url_forward)"
+			);
+			$this->db->Execute($query, array(
+				':domain_id'	=> $this->domain_id,
+				':name'			=> $alias['alias_name'],
+				':status'		=> 'toadd',
+				':mount'		=> $alias['alias_mount'],
+				':ip_id'		=> $this->ip_id,
+				':url_forward'	=>$alias['url_forward']
+			));
+			$alias_id = $this->db->Insert_ID();
+
+			foreach ($alias['subdomain'] as $subdomain) {
+				$query = $this->db->Prepare(
+					"INSERT INTO `subdomain_aliasses`".
+					" (alias_id, subdomain_alias_name, subdomain_alias_status, subdomain_alias_mount)".
+					" VALUES".
+					" (:alias_id, :name, :status, :mount)"
+				);
+				$this->db->Execute($query, array(
+					':alias_id'	=> $alias_id,
+					':name'		=> $alias['subdomain_alias_name'],
+					':status'	=> 'toadd',
+					':mount'		=> $alias['subdomain_alias_mount']
+				));
+			}
+		}
 	}
 
 	protected function createSubDomains()
 	{
-		// TODO: createSubDomains
+		foreach ($this->configurationData['subdomain'] as $subdomain) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `subdomain`".
+				" (domain_id, subdomain_name, subdomain_mount, subdomain_status)".
+				" VALUES ".
+				" (:domain_id, :name,        :mount,          :status)"
+			);
+			$this->db->Execute($query, array(
+				':domain_id'	=> $this->domain_id,
+				':name'			=> $subdomain['subdomain_name'],
+				':status'		=> 'toadd',
+				':mount'		=> $subdomain['alias_mount']
+			));
+			$this->subdomain_ids[$subdomain['subdomain_id']] = $this->db->Insert_ID();
+		}
 	}
 
+	/**
+	 * Create all E-Mail accounts for domain
+	 */
 	protected function createEMailAccounts()
 	{
-		// TODO: createEMailAccounts
+		foreach ($this->configurationData['email'] as $email) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `mail_users`".
+				" (domain_id, mail_acc, mail_pass, mail_forward, mail_type, sub_id, status".
+				"  , mail_auto_respond, mail_auto_respond_text, quota, mail_adr)".
+				" VALUES ".
+				" (:domain_id, :mail_acc, :mail_pass, :mail_forward, :mail_type, :sub_id, :mail_status".
+				"  , :mail_auto_respond, :mail_auto_respond_text, :quota, :mail_adr".
+				")"
+			);
+			$email['domain_id'] = $this->domain_id;
+			$email['status'] = 'toadd';
+			$email['mail_pass'] = encrypt_db_password($email['mail_pass']);
+			$email['sub_id'] = $this->subdomain_ids[$email['sub_id']];
+			$params = $this->paramDBArray($email);
+			$this->db->Execute($query, $params);
+		}
 	}
 
 	protected function createFTPAccounts()
 	{
-		// TODO: createFTPAccounts
+		$members = '';
+		foreach ($this->configurationData['ftp'] as $ftp) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `ftp_users`".
+				" (userid, passwd, uid, gid, shell, homedir)".
+				" VALUES ".
+				" (:userid, :passwd, :uid, :gid, :shell, :homedir)"
+			);
+			$ftp['uid'] = $this->domain_user_id;
+			$ftp['gid'] = $this->domain_group_id;
+			$params = $this->paramDBArray($ftp);
+			$this->db->Execute($query, $params);
+
+			if (!empty($members)) $members .= ',';
+			$members .= $ftp['userid'];
+		}
+
+		if (!emtpy($members)) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `ftp_group`".
+				" (groupname, gid, members)".
+				" VALUES ".
+				" (:groupname, :gid, :members)"
+			);
+			$a = array(
+				':groupname'	=> $this->domain_name,
+				':gid'			=> $this->domain_group_id,
+				':members'		=> $members
+			);
+			$this->db->Execute($query, $a);
+		}
 	}
 
+	/**
+	 * Create web users (htaccess_users)
+	 */
 	protected function createWebUsers()
 	{
-		// TODO: createWebUsers
+		foreach ($this->configurationData['webuser'] as $webuser) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `htaccess_users`".
+				" (domain_id, uname, upass, status)".
+				" VALUES ".
+				" (:domain_id, :uname, :upass, :status)"
+			);
+
+			$webuser['status'] = 'toadd';
+			$webuser['upass'] = encrypt_db_password($webuser['upass']);
+			$webuser['domain_id'] = $this->domain_id;
+
+			$params = $this->paramDBArray($webuser);
+			$this->db->Execute($query, $params);
+
+			$this->webuser_ids[$webuser['id']] = $this->db->Insert_ID();
+		}
 	}
 
+	/**
+	 * Create web groups (htaccess_groups)
+	 */
 	protected function createWebGroups()
 	{
-		// TODO: createWebGroups
+		foreach ($this->configurationData['webgroup'] as $webgroup) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `htaccess_groups`".
+				" (dmn_id, ugroup, members, status)".
+				" VALUES ".
+				" (:domain_id, :ugroup, :members, :status)"
+			);
+
+			$old_members = explode(',', $webgroup['members']);
+			$new_members = array();
+			foreach ($old_members as $member_id) {
+				if (isset($this->webuser_ids[$member_id])) {
+					$new_members[] = $this->webuser_ids[$member_id];
+				}
+			}
+			$webgroup['members'] = implode(',', $new_members);
+
+			$webgroup['status'] = 'toadd';
+			$webgroup['domain_id'] = $this->domain_id;
+
+			$params = $this->paramDBArray($webgroup);
+			$this->db->Execute($query, $params);
+
+			$this->webgroup_ids[$webgroup['id']] = $this->db->Insert_ID();
+		}
+	}
+
+	protected function createWebAccess()
+	{
+		foreach ($this->configurationData['webaccess'] as $webaccess) {
+			$query = $this->db->Prepare(
+				"INSERT INTO `htaccess`".
+				" (dmn_id, user_id, group_id, auth_type, auth_name, path, status)".
+				" VALUES ".
+				" (:domain_id, :user_id, :group_id, :auth_type, :auth_name, :path, :status)"
+			);
+
+			if (!empty($webaccess['user_id'])) {
+				if (isset($this->webuser_ids[$webaccess['user_id']])) {
+					$webaccess['user_id'] = $this->webuser_ids[$webaccess['user_id']];
+				} else {
+					// TODO: undefined state
+				}
+			}
+			if (!empty($webaccess['group_id'])) {
+				if (isset($this->webgroup_ids[$webaccess['group_id']])) {
+					$webaccess['group_id'] = $this->webgroup_ids[$webaccess['group_id']];
+				} else {
+					// TODO: undefined state
+				}
+			}
+
+			$webaccess['status'] = 'toadd';
+			$webaccess['domain_id'] = $this->domain_id;
+
+			$params = $this->paramDBArray($webaccess);
+			$this->db->Execute($query, $params);
+		}
 	}
 
 	/**
 	 * Run the restore, main method
-	 * TODO: don't forget sub_id in mail accounts!
 	 * @return boolean true = restore successful, false = see error messages
 	 */
 	public function runRestore()
@@ -451,6 +645,7 @@ class RestorePackage_ispCP extends BaseController
 						$this->createEMailAccounts();
 						$this->createWebUsers();
 						$this->createWebGroups();
+						$this->createWebAccess();
 						$this->setDomainPermissions();
 
 						$e = $this->getErrorMessages();

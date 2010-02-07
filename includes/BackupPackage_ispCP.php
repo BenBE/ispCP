@@ -256,6 +256,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$result = array();
 
 		$fields = "`htaccess_users`.`uname`".
+				  "`htaccess_users`.`id`".
 				  ", `htaccess_users`.`upass`";
 
 		$query = "SELECT ".$fields." FROM `htaccess_users`".
@@ -278,10 +279,35 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$result = array();
 
 		$fields = "`htaccess_groups`.`ugroup`".
+				  "`htaccess_groups`.`id`".
 				  ", `htaccess_groups`.`members`";
 
 		$query = "SELECT ".$fields." FROM `htaccess_users`".
 				 " WHERE `htaccess_users`.`dmn_id` = :id";
+
+		$query = $this->db->Prepare($query);
+		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
+		while ($rs && !$rs->EOF) {
+			$result[] = $rs->FetchRow();
+			$rs->MoveNext();
+		}
+
+		return $result;
+	}
+
+	public function getWebAccessConfig()
+	{
+		$result = array();
+
+		$fields = "`htaccess`.`user_id`".
+				  ", `htaccess`.`group_id`".
+				  ", `htaccess`.`auth_type`".
+				  ", `htaccess`.`auth_name`".
+				  ", `htaccess`.`path`".
+				  ", `htaccess`.`status`";
+
+		$query = "SELECT ".$fields." FROM `htaccess`".
+				 " WHERE `htaccess`.`dmn_id` = :id";
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));

@@ -53,5 +53,20 @@ abstract class BaseController
 		}
 		return exec($cmd, $a);
 	}
+
+	protected function paramDBArray(&$a)
+	{
+		$result = array();
+
+		foreach ($a as $key => $value) {
+			if ($key{0} !== ':') {
+				$result[':'.$key] = $value;
+			} else {
+				$result[$key] = $value;
+			}
+		}
+
+		return $result;
+	}
 }
 
