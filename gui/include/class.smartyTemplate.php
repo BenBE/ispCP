@@ -85,6 +85,7 @@ class smartyTemplate extends Smarty
 	 */
 	public function prnt()
 	{
+		$this->assign('date_format', Config::get('DATE_FORMAT'));
 		$this->assign('content_template', $this->_content_template);
 		$this->display('main.tpl');
 	}

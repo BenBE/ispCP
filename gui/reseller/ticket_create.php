@@ -120,41 +120,19 @@ gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_ticket_sy
 
 gen_logged_from($tpl);
 
-$userdata = array(
-/* Smarty integration... not needed...
-	'OPT_URGENCY_1'=>'', 'OPT_URGENCY_2'=>'', 'OPT_URGENCY_3'=>'', 'OPT_URGENCY_4'=>''
-*/
-);
+$userdata = array();
 if (isset($_POST['urgency'])) {
 	$userdata['URGENCY'] = intval($_POST['urgency']);
 } else {
 	$userdata['URGENCY'] = 2;
 }
-/* Smarty integration... not needed...
-
-switch ($userdata['URGENCY']) {
-	case 1:
-		$userdata['OPT_URGENCY_1'] = ' selected="selected"';
-		break;
-	case 3:
-		$userdata['OPT_URGENCY_3'] = ' selected="selected"';
-		break;
-	case 4:
-		$userdata['OPT_URGENCY_4'] = ' selected="selected"';
-		break;
-	default:
-		$userdata['OPT_URGENCY_2'] = ' selected="selected"';
-		break;
-}
-*/
 
 // New by Smarty integration:
-$userdata['urgency_options'] = array(
-	1 => tr('Low'),
-	2 => tr('Medium'),
-	3 => tr('High'),
-	4 => tr('Very high')
-);
+$urgencies = array();
+for ($i = 1; $i < 5; $i++) {
+	$urgencies[$i] = get_ticket_urgency($i);
+}
+$userdata['urgencies'] = $urgencies;
 
 // HTML escaping is done by Smarty
 $userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj']) : '';
@@ -163,13 +141,7 @@ $tpl->assign($userdata);
 
 $tpl->assign(
 	array(
-		'TR_NEW_TICKET' => tr('New ticket'),
-/* Smarty integration... not needed here
-		'TR_LOW' => tr('Low'),
-		'TR_MEDIUM' => tr('Medium'),
-		'TR_HIGH' => tr('High'),
-		'TR_VERI_HIGH' => tr('Very high'),
-*/
+		'TR_SUBTITLE' => tr('New ticket'),
 		'TR_URGENCY' => tr('Priority'),
 		'TR_EMAIL' => tr('Email'),
 		'TR_SUBJECT' => tr('Subject'),

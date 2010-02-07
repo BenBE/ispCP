@@ -47,16 +47,14 @@ if (!Config::get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_system'] == 'no
 	user_goto('index.php');
 }
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/ticket_view.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
+$tpl = new smartyTemplate('reseller');
+$tpl->setTemplate('ticket_view.tpl');
 
 // page functions.
 
-function gen_tickets_list(&$tpl, &$sql, &$ticket_id, &$screenwidth) {
+function get_tickets_list(&$tpl, &$sql, &$ticket_id, &$screenwidth) {
+	$tickets_list = array();
+
 	$user_id = $_SESSION['user_id'];
 	$query = "
 		SELECT
@@ -78,44 +76,35 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, &$screenwidth) {
 	$rs = exec_query($sql, $query, array($ticket_id, $user_id, $user_id));
 
 	if ($rs->RecordCount() == 0) {
-		$tpl->assign('TICKETS_LIST', '');
-
 		set_page_message(tr('Ticket not found!'));
 	} else {
+		$data = $rs->FetchRow();
+
 		$ticket_urgency = $rs->fields['ticket_urgency'];
 		$ticket_status = $rs->fields['ticket_status'];
 
 		if ($ticket_status == 0) {
-			$tr_action = tr("Open ticket");
-			$action = "open";
+			$data['tr_action'] = tr("Open ticket");
+			$data['action'] = "open";
 		} else {
-			$tr_action = tr("Close ticket");
-			$action = "close";
+			$data['tr_action'] = tr("Close ticket");
+			$data['action'] = "close";
 		}
 
-		get_ticket_from($tpl, $sql, $ticket_id);
-		$date_formt = Config::get('DATE_FORMAT');
-		$ticket_content = wordwrap($rs->fields['ticket_message'], round(($screenwidth-200) / 7), "\n");
+		$data['from'] = get_ticket_from($tpl, $sql, $ticket_id);
+		$data['ticket_message'] = wordwrap($data['ticket_message'], round(($screenwidth-200) / 7), "\n");
+		$data['ticket_items'] = get_tickets_replys($tpl, $sql, $ticket_id, $screenwidth);
+		$data['urgency'] = get_ticket_urgency($data['ticket_urgency']);
 
-		$tpl->assign(
-			array(
-				'TR_ACTION' => $tr_action,
-				'ACTION' => $action,
-				'URGENCY' => get_ticket_urgency($ticket_urgency),
-				'URGENCY_ID' => $ticket_urgency,
-				'DATE' => date($date_formt, $rs->fields['ticket_date']),
-				'SUBJECT' => htmlspecialchars($rs->fields['ticket_subject']),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content)),
-				'ID' => $rs->fields['ticket_id']
-			)
-		);
-
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
-		get_tickets_replys($tpl, $sql, $ticket_id, $screenwidth);
+		$tickets_list[] = $data;
 	}
+
+	return $tickets_list;
 }
 
 function get_tickets_replys(&$tpl, &$sql, &$ticket_id, &$screenwidth) {
+	$result = array();
+
 	$query = "
 		SELECT
 			`ticket_id`,
@@ -135,27 +124,17 @@ function get_tickets_replys(&$tpl, &$sql, &$ticket_id, &$screenwidth) {
 	$rs = exec_query($sql, $query, array($ticket_id));
 
 	if ($rs->RecordCount() == 0) {
-		return;
-	}
+		$data = $rs->FetchRow();
 
-	while (!$rs->EOF) {
-		$ticket_id = $rs->fields['ticket_id'];
-		$ticket_date = $rs->fields['ticket_date'];
-		$ticket_message = $rs->fields['ticket_message'];
+		$data['ticket_message'] = wordwrap($data['ticket_message'], round(($screenwidth-200) / 7), "\n");
+		$data['from'] = get_ticket_from($tpl, $sql, $ticket_id);
 
-		$date_formt = Config::get('DATE_FORMAT');
-		$ticket_content = wordwrap($ticket_message, round(($screenwidth-200) / 7), "\n");
+		$result[] = $data;
 
-		$tpl->assign(
-			array(
-				'DATE' => date($date_formt, $ticket_date),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content))
-			)
-		);
-		get_ticket_from($tpl, $sql, $ticket_id);
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
 		$rs->MoveNext();
 	}
+
+	return $result;
 }
 
 function get_ticket_from(&$tpl, &$sql, &$ticket_id) {
@@ -173,9 +152,6 @@ function get_ticket_from(&$tpl, &$sql, &$ticket_id) {
 
 	$rs = exec_query($sql, $query, array($ticket_id));
 	$ticket_from = $rs->fields['ticket_from'];
-	$ticket_to = $rs->fields['ticket_to'];
-	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
 
 	$query = "
 		SELECT
@@ -195,11 +171,13 @@ function get_ticket_from(&$tpl, &$sql, &$ticket_id) {
 	$from_first_name = $rs->fields['fname'];
 	$from_last_name = $rs->fields['lname'];
 
-	$from_name = $from_first_name . " " . $from_last_name . " (" . $from_user_name . ")";
-
-	$tpl->assign(
-		array('FROM' => $from_name)
+	$from = array(
+		'first_name' => $from_first_name,
+		'last_name' => $from_last_name,
+		'user_name' => $from_user_name
 	);
+
+	return $from;
 }
 
 // common page data.
@@ -442,7 +420,7 @@ if (isset($_GET['ticket_id'])) {
 
 	send_user_message($sql, $_SESSION['user_id'], $reseller_id, $_GET['ticket_id'], $screenwidth);
 
-	gen_tickets_list($tpl, $sql, $_GET['ticket_id'], $screenwidth);
+	$tpl->assign('tickets_list', get_tickets_list($tpl, $sql, $_GET['ticket_id'], $screenwidth));
 } else {
 	set_page_message(tr('Ticket not found!'));
 
@@ -456,8 +434,14 @@ gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_ticket_sy
 
 gen_logged_from($tpl);
 
+$urgencies = array();
+for ($i = 1; $i < 5; $i++) {
+	$urgencies[$i] = get_ticket_urgency($i);
+}
+
 $tpl->assign(
-	array('TR_VIEW_SUPPORT_TICKET' => tr('View support ticket'),
+	array(
+		'TR_SUBTITLE' => tr('View support ticket'),
 		'TR_TICKET_URGENCY' => tr('Priority'),
 		'TR_TICKET_SUBJECT' => tr('Subject'),
 		'TR_TICKET_DATE' => tr('Date'),
@@ -467,12 +451,12 @@ $tpl->assign(
 		'TR_TICKET_FROM' => tr('From'),
 		'TR_OPEN_TICKETS' => tr('Open tickets'),
 		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
+		'urgencies' => $urgencies,
 	)
 );
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if (Config::get('DUMP_GUI_DEBUG')) {
