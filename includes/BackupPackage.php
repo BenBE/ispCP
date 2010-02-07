@@ -139,8 +139,10 @@ abstract class BackupPackage extends BaseController
 		// create .tar.gz
 		$filename = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz';
 		// TODO: only htdocs?
-		$cmd = 'tar czvf '.$filename.' -C '.BACKUP_BASE_PATH.' tmp'.
-				' -C '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.' htdocs';
+		$cmd = 'tar czf '.$filename.' -C '.BACKUP_BASE_PATH.' tmp'.
+				' -C '.ISPCP_VIRTUAL_PATH.' '.$this->domain_name.
+				' --exclude=logs --exclude=phptmp --exclude=backups';
+
 		// TODO: Error handling
 		$a = array();
 		$this->shellExecute($cmd, $a);
@@ -165,15 +167,16 @@ abstract class BackupPackage extends BaseController
 		$result = $this->initDomain();
 		if ($result) {
 			// collect all data
-			$this->setConfigData('domain', 	 $this->getDomainConfig());
-			$this->setConfigData('email', 	 $this->getEMailConfig());
-			$this->setConfigData('ftp', 	 $this->getFTPConfig());
-			$this->setConfigData('domain', 	 $this->getDomainAliasConfig());
-			$this->setConfigData('webuser',  $this->getWebUserConfig());
-			$this->setConfigData('webgroup', $this->getWebGroupConfig());
-			$this->setConfigData('dns', 	 $this->getDNSConfig());
-			$this->setConfigData('db', 		 $this->getDBConfig());
-			$this->setConfigData('dbuser', 	 $this->getDBUserConfig());
+			$this->setConfigData('domain',		$this->getDomainConfig());
+			$this->setConfigData('subdomain',	$this->getSubDomainConfig());
+			$this->setConfigData('email',		$this->getEMailConfig());
+			$this->setConfigData('ftp',			$this->getFTPConfig());
+			$this->setConfigData('alias',		$this->getDomainAliasConfig());
+			$this->setConfigData('webuser',		$this->getWebUserConfig());
+			$this->setConfigData('webgroup',	$this->getWebGroupConfig());
+			$this->setConfigData('dns',			$this->getDNSConfig());
+			$this->setConfigData('db',			$this->getDBConfig());
+			$this->setConfigData('dbuser',		$this->getDBUserConfig());
 
 			// First create configuration file. If successful, create database
 			// dumps and create the complete domain package file
