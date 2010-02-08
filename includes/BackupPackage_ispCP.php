@@ -110,6 +110,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 				  ", `domain`.`domain_dns`".
 				  ", `domain`.`allow_backup`".
 				  ", `admin`.`customer_id`".
+				  ", `admin`.`admin_pass`".
 				  ", `admin`.`fname`".
 				  ", `admin`.`lname`".
 				  ", `admin`.`gender`".
@@ -154,7 +155,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while (!$rs->EOF) {
+		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
 			$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
 			$result[] = $row;
@@ -200,7 +201,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while (!$rs->EOF) {
+		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
 			$row['subdomain'] = $this->getSubdomainAliasConfig($row['alias_id']);
 			$result[] = $row;
@@ -222,7 +223,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':aid'=>$this->$alias_id));
-		while (!$rs->EOF) {
+		while ($rs && !$rs->EOF) {
 			$result[] = $rs->FetchRow();
 			$rs->MoveNext();
 		}
@@ -243,7 +244,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while (!$rs->EOF) {
+		while ($rs && !$rs->EOF) {
 			$result[] = $rs->FetchRow();
 			$rs->MoveNext();
 		}
@@ -264,7 +265,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while (!$rs->EOF) {
+		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
 			$row['upass'] = decrypt_db_password($row['upass']);
 			$result[] = $row;

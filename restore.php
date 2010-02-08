@@ -48,13 +48,13 @@ $domain_name = $argv[$argc-2];
 $password = $argv[$argc-1];
 
 $exitcode = 0;
-$handler = new RestorePackage_ispCP($domain_name, $password, $option_ip);
+$handler = new RestorePackage_ispCP($domain_name, $password, $option_ip, $option_res);
 $handler->verbose = $verbose;
 if ($handler->runRestore() == false) {
 	echo "Error executing restore: ";
 	$msgs = $handler->getErrorMessages();
 	foreach ($msgs as $msg) {
-		$msg."\n";
+		echo $msg."\n";
 	}
 	$exitcode = 9;
 }

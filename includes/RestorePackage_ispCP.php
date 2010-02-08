@@ -261,9 +261,13 @@ class RestorePackage_ispCP extends BaseController
 		return $result;
 	}
 
+	/**
+	 * Unprotected gpg, untar package file
+	 * @return boolean true = untared, configuration file found
+	 */
 	protected function unpackDomainPackage()
 	{
-		$reuslt = false;
+		$result = false;
 
 		// unprotect via gpg -c --passphrase ... file
 		$cmd = 'gpg --passphrase '.$this->password.' '.$this->gpg_archive;
@@ -293,6 +297,10 @@ class RestorePackage_ispCP extends BaseController
 		return $result;
 	}
 
+	/**
+	 * Read configuration data of domain package
+	 * @return boolean true = configuration file intact
+	 */
 	protected function getConfigData()
 	{
 		$result = false;
@@ -316,6 +324,14 @@ class RestorePackage_ispCP extends BaseController
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Start ispCP daemon
+	 */
+	protected function startDaemon()
+	{
+		send_request();
 	}
 
 	/**
@@ -374,7 +390,7 @@ class RestorePackage_ispCP extends BaseController
 				"INSERT INTO `sql_user`".
 				" (`sqld_id`, `sqlu_name`, `sqlu_pass`)".
 				" VALUES".
-				" (:sqld_id,  :name,       :password)"
+				" (:sqld_id, :name, :password)"
 			);
 			$this->db->Execute($query, array(
 				':sqld_id'	=> $this->database_ids[$dbuser['database']],
@@ -414,21 +430,83 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$result = false;
 
-		// TODO: createDomain, set domain_id
+		$query = $this->db->Prepare(
+			"INSERT INTO `admin`".
+			" (`admin_name`, `admin_pass`, `admin_type`, `domain_created`, `customer_id`, `created_by`, ".
+			"  `fname`, `lname`, `gender`, `firm`, `zip`, `city`, `country`, `email`, `phone`, `fax`, ".
+			"  `street1`, `street2)".
+			" VALUES".
+			" (:admin_name, :admin_pass, :admin_type, :domain_created, :customer_id, :created_by, ".
+			"  :fname, :lname, :gender, :firm, :zip, :city, :country, :email, :phone, fax, ".
+			"  :street1, :street2)"
+		);
+
+		$params = $this->paramDBArray($this->configurationData['domain']);
+		$params[':created_by'] = $this->reseller_id;
+
+		$this->db->Execute($query, $params);
+		$params[':domain_admin_id'] = $this->db->Insert_ID();
+
+		// create the domain, record set domain_id
+		$query = $this->db->Prepare(
+			"INSERT INTO `domain`".
+			" (`domain_name`, `domain_created`, `domain_expires`, `domain_mailacc_limit`, `domain_ftpacc_limit`, ".
+			"  `domain_traffic_limit`, `domain_sqld_limit`, `domain_sqlu_limit`, `domain_alias_limit`, ".
+			"  `domain_subd_limit`, `domain_disk_limit`, `domain_php`, `domain_cgi`, `domain_dns`, `allow_backup`, ".
+			"  `domain_status`, `domain_created_id`, `domain_ip_id`)".
+			" VALUES".
+			" (:domain_name, :domain_created, :domain_expires, :domain_mailacc_limit, :domain_ftpacc_limit, ".
+			"  :domain_traffic_limit, :domain_sqld_limit, :domain_sqlu_limit, :domain_alias_limit, ".
+			"  :domain_subd_limit, :domain_disk_limit, :domain_php, :domain_cgi, :domain_dns, :allow_backup".
+			"  :domain_status, :domain_created_id, :domain_ip_id)"
+		);
+
+		$params[':domain_created_id']	= $this->reseller_id;
+		$params[':domain_status']		= 'toadd';
+		$params[':domain_ip_id']		= $this->ip_id;
+
+		$this->db->Execute($query, $params);
+		$this->domain_id = $this->db->Insert_ID();
+
 		$this->createDomainAliases();
 		$this->createSubDomains();
 
-		// TODO: wait until daemon is ready, set domain_user_id, set domain_group_id
+		$this->startDaemon();
+
+		// wait until daemon is ready
+		$query = $this->db->Prepare(
+			"SELECT `domain_gid`, `domain_uid`".
+			" FROM `domain`".
+			" WHERE `domain_id`=:domain_id"
+		);
+		$daemon_ready = false;
+		do {
+			sleep(1);
+			$rs = $this->db->Execute($query, array(':domain_id'=>$this->domain_id));
+			if ($rs && $rs->RecordCount() > 0) {
+				$row = $rs->FetchRow();
+				if (!empty($row['domain_uid'])) {
+					// set domain_user_id and domain_group_id
+					$this->domain_user_id = $row['domain_uid'];
+					$this->domain_group_id = $row['domain_gid'];
+					$daemon_ready = true;
+				}
+			}
+		} while (!$daemon_ready);
+
 
 		return $result;
 	}
 
+	/**
+	 * Create domain aliases with subdomains
+	 */
 	protected function createDomainAliases()
 	{
 		foreach ($this->configurationData['alias'] as $alias) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `domain_aliasses`".
-				" (domain_id, alias_name, alias_status, alias_mount, alias_ip_id, url_forward)".
+				" (`domain_id`, `alias_name`, `alias_status`, `alias_mount`, `alias_ip_id`, `url_forward`)".
 				" VALUES".
 				" (:domain_id, :name, :status, :mount, :ip_id, :url_forward)"
 			);
@@ -438,35 +516,38 @@ class RestorePackage_ispCP extends BaseController
 				':status'		=> 'toadd',
 				':mount'		=> $alias['alias_mount'],
 				':ip_id'		=> $this->ip_id,
-				':url_forward'	=>$alias['url_forward']
+				':url_forward'	=> $alias['url_forward']
 			));
 			$alias_id = $this->db->Insert_ID();
 
 			foreach ($alias['subdomain'] as $subdomain) {
 				$query = $this->db->Prepare(
 					"INSERT INTO `subdomain_aliasses`".
-					" (alias_id, subdomain_alias_name, subdomain_alias_status, subdomain_alias_mount)".
+					" (`alias_id`, `subdomain_alias_name`, `subdomain_alias_status`, `subdomain_alias_mount`)".
 					" VALUES".
 					" (:alias_id, :name, :status, :mount)"
 				);
 				$this->db->Execute($query, array(
 					':alias_id'	=> $alias_id,
-					':name'		=> $alias['subdomain_alias_name'],
+					':name'		=> $subdomain['subdomain_alias_name'],
 					':status'	=> 'toadd',
-					':mount'		=> $alias['subdomain_alias_mount']
+					':mount'	=> $subdomain['subdomain_alias_mount']
 				));
 			}
 		}
 	}
 
+	/**
+	 * Create domain subdomains
+	 */
 	protected function createSubDomains()
 	{
 		foreach ($this->configurationData['subdomain'] as $subdomain) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `subdomain`".
-				" (domain_id, subdomain_name, subdomain_mount, subdomain_status)".
+				" (`domain_id`, `subdomain_name`, `subdomain_mount`, `subdomain_status`)".
 				" VALUES ".
-				" (:domain_id, :name,        :mount,          :status)"
+				" (:domain_id, :name, :mount, :status)"
 			);
 			$this->db->Execute($query, array(
 				':domain_id'	=> $this->domain_id,
@@ -486,35 +567,43 @@ class RestorePackage_ispCP extends BaseController
 		foreach ($this->configurationData['email'] as $email) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `mail_users`".
-				" (domain_id, mail_acc, mail_pass, mail_forward, mail_type, sub_id, status".
-				"  , mail_auto_respond, mail_auto_respond_text, quota, mail_adr)".
+				" (`domain_id`, `mail_acc`, `mail_pass`, `mail_forward`, `mail_type`, `sub_id`, `status`, ".
+				"  `mail_auto_respond`, `mail_auto_respond_text`, `quota`, `mail_adr`)".
 				" VALUES ".
-				" (:domain_id, :mail_acc, :mail_pass, :mail_forward, :mail_type, :sub_id, :mail_status".
-				"  , :mail_auto_respond, :mail_auto_respond_text, :quota, :mail_adr".
-				")"
+				" (:domain_id, :mail_acc, :mail_pass, :mail_forward, :mail_type, :sub_id, :mail_status, ".
+				"  :mail_auto_respond, :mail_auto_respond_text, :quota, :mail_adr)"
 			);
-			$email['domain_id'] = $this->domain_id;
-			$email['status'] = 'toadd';
-			$email['mail_pass'] = encrypt_db_password($email['mail_pass']);
-			$email['sub_id'] = $this->subdomain_ids[$email['sub_id']];
+
 			$params = $this->paramDBArray($email);
+
+			$params[':domain_id'] 	= $this->domain_id;
+			$params[':status'] 		= 'toadd';
+			$params[':mail_pass'] 	= encrypt_db_password($email['mail_pass']);
+			$params[':sub_id'] 		= $this->subdomain_ids[$email['sub_id']];
+
 			$this->db->Execute($query, $params);
 		}
 	}
 
+	/**
+	 * Create FTP accounts of domain and FTP group record
+	 */
 	protected function createFTPAccounts()
 	{
 		$members = '';
 		foreach ($this->configurationData['ftp'] as $ftp) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `ftp_users`".
-				" (userid, passwd, uid, gid, shell, homedir)".
+				" (`userid`, `passwd`, `uid`, `gid`, `shell`, `homedir`)".
 				" VALUES ".
 				" (:userid, :passwd, :uid, :gid, :shell, :homedir)"
 			);
-			$ftp['uid'] = $this->domain_user_id;
-			$ftp['gid'] = $this->domain_group_id;
+
 			$params = $this->paramDBArray($ftp);
+
+			$params[':uid'] = $this->domain_user_id;
+			$params[':gid'] = $this->domain_group_id;
+
 			$this->db->Execute($query, $params);
 
 			if (!empty($members)) $members .= ',';
@@ -524,16 +613,16 @@ class RestorePackage_ispCP extends BaseController
 		if (!emtpy($members)) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `ftp_group`".
-				" (groupname, gid, members)".
+				" (`groupname`, `gid`, `members`)".
 				" VALUES ".
 				" (:groupname, :gid, :members)"
 			);
-			$a = array(
+
+			$this->db->Execute($query, array(
 				':groupname'	=> $this->domain_name,
 				':gid'			=> $this->domain_group_id,
 				':members'		=> $members
-			);
-			$this->db->Execute($query, $a);
+			));
 		}
 	}
 
@@ -545,16 +634,17 @@ class RestorePackage_ispCP extends BaseController
 		foreach ($this->configurationData['webuser'] as $webuser) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `htaccess_users`".
-				" (domain_id, uname, upass, status)".
+				" (`domain_id`, `uname`, `upass`, `status`)".
 				" VALUES ".
 				" (:domain_id, :uname, :upass, :status)"
 			);
 
-			$webuser['status'] = 'toadd';
-			$webuser['upass'] = encrypt_db_password($webuser['upass']);
-			$webuser['domain_id'] = $this->domain_id;
-
 			$params = $this->paramDBArray($webuser);
+
+			$params[':status']		= 'toadd';
+			$params[':upass']		= encrypt_db_password($webuser['upass']);
+			$params[':domain_id']	= $this->domain_id;
+
 			$this->db->Execute($query, $params);
 
 			$this->webuser_ids[$webuser['id']] = $this->db->Insert_ID();
@@ -569,7 +659,7 @@ class RestorePackage_ispCP extends BaseController
 		foreach ($this->configurationData['webgroup'] as $webgroup) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `htaccess_groups`".
-				" (dmn_id, ugroup, members, status)".
+				" (`dmn_id`, `ugroup`, `members`, `status`)".
 				" VALUES ".
 				" (:domain_id, :ugroup, :members, :status)"
 			);
@@ -581,24 +671,28 @@ class RestorePackage_ispCP extends BaseController
 					$new_members[] = $this->webuser_ids[$member_id];
 				}
 			}
-			$webgroup['members'] = implode(',', $new_members);
-
-			$webgroup['status'] = 'toadd';
-			$webgroup['domain_id'] = $this->domain_id;
 
 			$params = $this->paramDBArray($webgroup);
+
+			$params[':members']		= implode(',', $new_members);
+			$params[':status']		= 'toadd';
+			$params[':domain_id']	= $this->domain_id;
+
 			$this->db->Execute($query, $params);
 
 			$this->webgroup_ids[$webgroup['id']] = $this->db->Insert_ID();
 		}
 	}
 
+	/**
+	 * Create web access records (htaccess)
+	 */
 	protected function createWebAccess()
 	{
 		foreach ($this->configurationData['webaccess'] as $webaccess) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `htaccess`".
-				" (dmn_id, user_id, group_id, auth_type, auth_name, path, status)".
+				" (`dmn_id`, `user_id`, `group_id`, `auth_type`, `auth_name`, `path`, `status`)".
 				" VALUES ".
 				" (:domain_id, :user_id, :group_id, :auth_type, :auth_name, :path, :status)"
 			);
@@ -618,10 +712,11 @@ class RestorePackage_ispCP extends BaseController
 				}
 			}
 
-			$webaccess['status'] = 'toadd';
-			$webaccess['domain_id'] = $this->domain_id;
-
 			$params = $this->paramDBArray($webaccess);
+
+			$params[':status']		= 'toadd';
+			$params[':domain_id']	= $this->domain_id;
+
 			$this->db->Execute($query, $params);
 		}
 	}
@@ -647,6 +742,7 @@ class RestorePackage_ispCP extends BaseController
 						$this->createWebGroups();
 						$this->createWebAccess();
 						$this->setDomainPermissions();
+						$this->startDaemon();
 
 						$e = $this->getErrorMessages();
 						$result = (count($e) == 0);

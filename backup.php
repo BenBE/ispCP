@@ -50,7 +50,7 @@ if ($handler->runPackager() == false) {
 	echo "Error executing packager: ";
 	$msgs = $handler->getErrorMessages();
 	foreach ($msgs as $msg) {
-		$msg."\n";
+		echo $msg."\n";
 	}
 	$exitcode = 9;
 }
