@@ -2,11 +2,10 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
- * @version 	SVN: $Id$
+ * @copyright 	2006-2009 by ispCP | http://isp-control.net
+ * @version 	$Id$
  * @link 		http://isp-control.net
- * @author 		ispCP Team
+ * @author 		Shin
  *
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -19,12 +18,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  *
- * The Original Code is "VHCS - Virtual Hosting Control System".
+ * The Original Code is "ispCP - ISP Control Panel".
  *
- * The Initial Developer of the Original Code is moleSoftware GmbH.
- * Portions created by Initial Developer are Copyright (C) 2001-2006
- * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * The Initial Developer of the Original is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,15 +29,19 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+
+
 $tpl = new pTemplate();
 
-$interfaces=new networkCard();
+$interfaces = new networkCard();
 
 $tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/ip_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('ip_row', 'page');
+$tpl->define_dynamic('ip_row_six', 'page');
 $tpl->define_dynamic('card_list', 'page');
+$tpl->define_dynamic('ip_type_list', 'page');
 $tpl->define_dynamic('ip_delete_show', 'ip_row');
 $tpl->define_dynamic('ip_delete_link', 'ip_row');
 
@@ -63,37 +64,59 @@ function gen_ip_action($ip_id, $status) {
 	}
 }
 
+/*
+ * Show Ip Address 
+ * 
+ */
 function show_IPs(&$tpl, &$sql) {
-	$query = "
-		SELECT
-			*
-		FROM
-			`server_ips`
-	";
-	$rs = exec_query($sql, $query, array());
-
-	$row = 1;
-	$single = false;
-
-	if ($rs->RecordCount() < 2) {
-		$single = true;
-	}
-
-	while (!$rs->EOF) {
-		$tpl->assign('IP_CLASS', ($row++ % 2 == 0) ? 'content' : 'content2');
-
-		list($ip_action, $ip_action_script) = gen_ip_action($rs->fields['ip_id'], $rs->fields['ip_status']);
-
+	$i = 0;
+	foreach( ($ips = Ipv4Address::getAddresses($sql,array('asObject' => 1, 'withInfo' => 1))) as $ipId => $ipAdr){
+		$tpl->assign('IP_CLASS', ($i++ % 2 == 0) ? 'content' : 'content2');
+		list($ip_action, $ip_action_script) = gen_ip_action($ipId, $ipAdr->status);
 		$tpl->assign(
 			array(
-				'IP'			=> $rs->fields['ip_number'],
-				'DOMAIN'		=> $rs->fields['ip_domain'],
-				'ALIAS'			=> $rs->fields['ip_alias'],
-				'NETWORK_CARD'	=> ($rs->fields['ip_card'] === NULL) ? '' : $rs->fields['ip_card']
+				'IP'			=> $ipAdr->address,
+				'IP_SUBNET'		=> $ipAdr->subnet,
+				'DOMAIN'		=> $ipAdr->domain,
+				'ALIAS'			=> ($ipAdr->alias === NULL) ? '' : $ipAdr->alias,
+				'NETWORK_CARD'	=> ($ipAdr->ip_card === NULL) ? '' : $ipAdr->ip_card
 			)
 		);
+		if (count ($ips) < 2) {
+			$tpl->assign(
+				array(
+					'IP_DELETE_LINK' 	=>	'',
+					'IP_ACTION' 		=>	tr('N/A')
+				)
+			);
+			$tpl->parse('IP_DELETE_SHOW', 'ip_delete_show');
+		} else {
+			$tpl->assign(
+				array(
+					'IP_DELETE_SHOW'	=> '',
+					'IP_ACTION'			=> (Config::get('BASE_SERVER_IP') == $ipAdr->address) ? tr('N/A') : $ip_action,
+					'IP_ACTION_SCRIPT'	=> (Config::get('BASE_SERVER_IP') == $ipAdr->address) ? '#' : $ip_action_script
+				)
+			);
+			$tpl->parse('IP_DELETE_LINK', 'ip_delete_link');
+		}
 
-		if ($single == true) {
+		$tpl->parse('IP_ROW', '.ip_row');
+	}
+
+	$i = 0;
+	foreach( ($ips = Ipv6Address::getAddresses($sql,array('asObject' => 1, 'withInfo' => 1))) as $ipId => $ipAdr){
+		count($ips);
+		$tpl->assign('IP_CLASS', ($i++ % 2 == 0) ? 'content' : 'content2');
+		list($ip_action, $ip_action_script) = gen_ip_action($ipId, $ipAdr->status);
+		$tpl->assign(
+			array(
+				'IP6'			=> $ipAdr->address,
+				'DOMAIN'		=> ($ipAdr->domain === NULL) ? '' : $ipAdr->domain,
+				'NETWORK_CARD'	=> ($ipAdr->ip_card === NULL) ? '' : $ipAdr->ip_card
+			)
+		);
+		if (count ($ips) < 2) {
 			$tpl->assign(
 				array(
 					'IP_DELETE_LINK' =>'',
@@ -105,52 +128,78 @@ function show_IPs(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'IP_DELETE_SHOW'	=> '',
-					'IP_ACTION'			=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? tr('N/A') : $ip_action,
-					'IP_ACTION_SCRIPT'	=> (Config::get('BASE_SERVER_IP') == $rs->fields['ip_number']) ? '#' : $ip_action_script
+					'IP_ACTION'			=> (Config::get('BASE_SERVER_IP') == $ipAdr->address) ? tr('N/A') : $ip_action,
+					'IP_ACTION_SCRIPT'	=> (Config::get('BASE_SERVER_IP') == $ipAdr->address) ? '#' : $ip_action_script
 				)
 			);
 			$tpl->parse('IP_DELETE_LINK', 'ip_delete_link');
 		}
 
-		$tpl->parse('IP_ROW', '.ip_row');
-
-		$rs->MoveNext();
-	} // end while
+		$tpl->parse('IP_ROW_SIX', '.ip_row_six');
+	}	
 }
-
+// TODO
 function add_ip(&$tpl, &$sql) {
-	global $ip_number, $domain, $alias, $ip_card;
-
+	
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_ip') {
-		if (check_user_data()) {
-
-			$query = "
-				INSERT INTO `server_ips`
-					(`ip_number`, `ip_domain`, `ip_alias`, `ip_card`,
-					`ip_ssl_domain_id`, `ip_status`)
-				VALUES
-					(?, ?, ?, ?, ?, ?)
-			";
-			$rs = exec_query($sql, $query, array($ip_number, htmlspecialchars($domain, ENT_QUOTES, "UTF-8"),
-			htmlspecialchars($alias, ENT_QUOTES, "UTF-8"), htmlspecialchars($ip_card, ENT_QUOTES, "UTF-8"), NULL, Config::get('ITEM_ADD_STATUS')));
-
-			send_request();
-
-			set_page_message(tr('New IP was added!'));
-
-			write_log("{$_SESSION['user_logged']}: adds new IPv4 address: {$ip_number}!");
-
-			$sucess = true;
+		/*
+		 * Parse POST DATA
+		 * */
+		$ip_type = (clean_input($_POST["ip_type"]) == "IPv4") ? 4 : 6;
+		if($ip_type == 4 && checkPost($sql)){
+			$ip_number = trim($_POST['ip_number_1'])
+						. '.' . trim($_POST['ip_number_2'])
+						. '.' . trim($_POST['ip_number_3'])
+						. '.' . trim($_POST['ip_number_4']);
+			$subnet = trim($_POST['ip_subnet_1'])
+						. '.' . trim($_POST['ip_subnet_2'])
+						. '.' . trim($_POST['ip_subnet_3'])
+						. '.' . trim($_POST['ip_subnet_4']);			
+			if(Ipv4Address::addAddress($ip_number,$sql,array(
+										"domain" 	=>	clean_input($_POST['domain']),
+										"alias" 	=>	clean_input($_POST['alias']),
+										"ip_card"	=>	clean_input($_POST['ip_card']),
+										"subnet" 	=>	$subnet
+									)))
+					$success = true;
+					
+		}else if($ip_type == 6){
+			$ip_number = trim($_POST['ip_number_1'])
+				. ':' . trim($_POST['ip_number_2'])
+				. ':' . trim($_POST['ip_number_3'])
+				. ':' . trim($_POST['ip_number_4'])
+				. ':' . trim($_POST['ip_number_5'])
+				. ':' . trim($_POST['ip_number_6'])
+				. ':' . trim($_POST['ip_number_7'])
+				. ':' . trim($_POST['ip_number_8']);
+			if(Ipv6Address::addAddress($ip_number,$sql,array(
+										"domain" 	=>	clean_input($_POST['domain']),
+										"ip_card"	=>	clean_input($_POST['ip_card'])
+									)))
+					$success = true;
 		}
+		if(isset($success))
+			set_page_message(tr('New IP was added!'));	
 	}
 
-	if (!isset($sucess) && isset($_POST['ip_number_1'])) {
+	if (!isset($success) && isset($_POST['ip_number_1'])) {
 		$tpl->assign(
 			array(
 				'VALUE_IP1'		=> $_POST['ip_number_1'],
 				'VALUE_IP2'		=> $_POST['ip_number_2'],
 				'VALUE_IP3'		=> $_POST['ip_number_3'],
 				'VALUE_IP4'		=> $_POST['ip_number_4'],
+			// SUBNET
+				'VALUE_SB1'		=> $_POST['ip_subnet_1'],
+				'VALUE_SB2'		=> $_POST['ip_subnet_2'],
+				'VALUE_SB3'		=> $_POST['ip_subnet_3'],
+				'VALUE_SB4'		=> $_POST['ip_subnet_4'],
+			// BEGIN IPv6 MOD
+				'VALUE_IP5'		=> $_POST['ip_number_5'],
+				'VALUE_IP6'		=> $_POST['ip_number_6'],
+				'VALUE_IP7'		=> $_POST['ip_number_7'],
+				'VALUE_IP8'		=> $_POST['ip_number_8'],
+			//END IPv6 MOD
 				'VALUE_DOMAIN'	=> clean_input($_POST['domain'], true),
 				'VALUE_ALIAS'	=> clean_input($_POST['alias'], true),
 			)
@@ -162,6 +211,18 @@ function add_ip(&$tpl, &$sql) {
 				'VALUE_IP2'		=> '',
 				'VALUE_IP3'		=> '',
 				'VALUE_IP4'		=> '',
+			// SUBNET
+				'VALUE_SB1'		=> '',
+				'VALUE_SB2'		=> '',
+				'VALUE_SB3'		=> '',
+				'VALUE_SB4'		=> '',
+			
+			// BEGIN IPv6 MOD
+				'VALUE_IP5'		=> '',
+				'VALUE_IP6'		=> '',
+				'VALUE_IP7'		=> '',
+				'VALUE_IP8'		=> '',
+			// END IPv6 MOD
 				'VALUE_DOMAIN'	=> '',
 				'VALUE_ALIAS'	=> '',
 			)
@@ -169,32 +230,50 @@ function add_ip(&$tpl, &$sql) {
 	}
 }
 
-function check_user_data() {
-	global $ip_number, $interfaces;
-
-	$ip_number = trim($_POST['ip_number_1'])
-		. '.' . trim($_POST['ip_number_2'])
-		. '.' . trim($_POST['ip_number_3'])
-		. '.' . trim($_POST['ip_number_4']);
-
-	global $domain, $alias, $ip_card;
-
-	$domain = clean_input($_POST['domain']);
-	$alias = clean_input($_POST['alias']);
-	$ip_card = clean_input($_POST['ip_card']);
-
+function checkPost(&$sql) {
+	$ip_type 	=	 clean_input($_POST["ip_type"]);
+	$domain 	=	 clean_input($_POST["domain"]);
+	$alias 		=	 clean_input($_POST["alias"]);
+	$ip_card 	=	 clean_input($_POST["ip_card"]);
+	if($ip_type == 'IPv4'){
+		$ip_type = 4;
+		$ip_number = trim($_POST['ip_number_1'])
+			. '.' . trim($_POST['ip_number_2'])
+			. '.' . trim($_POST['ip_number_3'])
+			. '.' . trim($_POST['ip_number_4']);
+		$subnet = trim($_POST['ip_subnet_1'])
+			. '.' . trim($_POST['ip_subnet_2'])
+			. '.' . trim($_POST['ip_subnet_3'])
+			. '.' . trim($_POST['ip_subnet_4']);		
+	}else if($ip_type == 'IPv6'){
+		$ip_type = 6;
+		$ip_number = trim($_POST['ip_number_1'])
+			. ':' . trim($_POST['ip_number_2'])
+			. ':' . trim($_POST['ip_number_3'])
+			. ':' . trim($_POST['ip_number_4'])
+			. ':' . trim($_POST['ip_number_5'])
+			. ':' . trim($_POST['ip_number_6'])
+			. ':' . trim($_POST['ip_number_7'])
+			. ':' . trim($_POST['ip_number_8']);
+		echo $ip_number;
+	}
+	global $interfaces;
 	$err_msg = '_off_';
 
-	if (filter_var($ip_number, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-		$err_msg = tr('Wrong IP number!');
+	if (($ip_type == 4) && !Ipv4Address::validateAddress($ip_number)) {
+		$err_msg = tr('Wrong IP(4) number!');
+	} elseif (($ip_type == 6) && !Ipv6Address::validateAddress($ip_number)){
+		$err_msg = tr('Wrong IP(6) number!');
 	} elseif ($domain == '') {
 		$err_msg = tr('Please specify domain!');
-	} elseif ($alias == '') {
-		$err_msg = tr('Please specify alias!');
-	} elseif (IP_exists()) {
+	} elseif (($ip_type == 4) & !Ipv4Address::validateAddress($subnet,$sql)) {
+		$err_msg = tr('Wrong Subnet!');
+	} elseif (($ip_type == 4) & Ipv4Address::issetAddress($ip_number,$sql)) {
+		$err_msg = tr('This IP already exist!');
+	} elseif (($ip_type == 6) & Ipv6Address::issetAddress($ip_number,$sql)) {
 		$err_msg = tr('This IP already exist!');
 	} elseif (!in_array($ip_card, $interfaces->getAvailableInterface())) {
-		$err_msg = tr('Please select nework interface!');
+		$err_msg = tr('Please select network interface!');
 	}
 
 	if ($err_msg == '_off_') {
@@ -205,28 +284,7 @@ function check_user_data() {
 	}
 }
 
-function IP_exists() {
-	$sql = Database::getInstance();
-
-	global $ip_number;
-
-	$query = "
-		SELECT
-			*
-		FROM
-			`server_ips`
-		WHERE
-			`ip_number` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ip_number));
-
-	if ($rs->RowCount() == 0) {
-		return false;
-	}
-	return true;
-}
-
+// TODO
 function show_Network_Cards(&$tpl, &$interfaces) {
 	if ($interfaces->getErrors() != '') {
 		set_page_message($interfaces->getErrors());
@@ -250,6 +308,7 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 	}
 }
 
+
 /*
  *
  * static page messages.
@@ -267,8 +326,11 @@ show_IPs($tpl, $sql);
 $tpl->assign(
 	array(
 		'MANAGE_IPS'		=> tr('Manage IPs'),
-		'TR_AVAILABLE_IPS'	=> tr('Available IPs'),
+		'TR_AVAILABLE_IPS'	=> tr('Available IPs version 4'),
+		'TR_AVAILABLE_IPS6'	=> tr('Available IPs version 6'),
 		'TR_IP'				=> tr('IP'),
+		'TR_TYPE'			=> tr('Address Type'),
+		'TR_SUBNET'			=> tr('Subnet'),
 		'TR_DOMAIN'			=> tr('Domain'),
 		'TR_ALIAS'			=> tr('Alias'),
 		'TR_ACTION'			=> tr('Action'),
@@ -278,6 +340,23 @@ $tpl->assign(
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete this IP: %s?', true, '%s')
 	)
 );
+
+// MOD IPv6
+$tpl->assign(
+	array(
+		'IP_TYPES'			=> 'IPv4',
+	)		
+);
+$tpl->parse('IP_TYPE_LIST', '.ip_type_list');
+
+$tpl->assign(
+	array(
+		'IP_TYPES'			=> 'IPv6',
+	)		
+);
+$tpl->parse('IP_TYPE_LIST', '.ip_type_list');
+
+// MOD IPv6
 
 gen_page_message($tpl);
 

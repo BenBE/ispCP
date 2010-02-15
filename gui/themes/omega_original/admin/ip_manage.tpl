@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 <!--
 function action_delete(url, ip) {
@@ -15,18 +16,65 @@ function action_delete(url, ip) {
 		return false;
 	location = url;
 }
+function switchAddressFormat(field){
+	if(field.options[field.selectedIndex].value == "IPv6"){
+		$("#ipv4").hide();
+		$("#ipv4 > input",this).each(function(){
+			this.disabled = true;
+		});
+		$("#subnet").hide();
+		$("#subnet > input",this).each(function(){
+			this.disabled = true;
+		});
+		$("#ipv6").show();
+		$("#ipv6 > input",this).each(function(){
+			this.disabled = false;
+		});
+	}else if(field.options[field.selectedIndex].value == "IPv4"){
+		$("#ipv6").hide();
+		$("#ipv6 > input",this).each(function(){
+			this.disabled = true;
+		});
+		$("#ipv4").show();
+		$("#ipv4 > input",this).each(function(){
+			this.disabled = false;
+		});
+		$("#subnet").show();
+		$("#subnet > input",this).each(function(){
+			this.disabled = false;
+		});
+	}
+}
+
+function checkIpForm(form){
+	var ipType = form.ip_type.options[field.selectedIndex].value;
+	if(ipType == "Ipv4"){
+		if(form.alias.value == ""){
+			form.alias.style.border = "1px solid red";
+			return false;
+		}
+	}
+	
+	if(form.domain.value == ""){
+		form.domain.style.border = "1px solid red";
+		return false;
+	}
+	return true;
+}
+
 //-->
 </script>
 </head>
-
 <body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 	<tr>
+		<!--MEN-->
 		<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
 		<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
 		<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
 	</tr>
 	<tr>
+		<!--PAGE-->
 		<td style="width: 195px; vertical-align: top;">{MENU}</td>
 		<td colspan="2" style="vertical-align: top;">
 			<table style="width: 100%; padding:0;margin:0;" cellspacing="0">
@@ -59,11 +107,12 @@ function action_delete(url, ip) {
 										<!-- EDP: page_message -->
 										<tr>
 											<td width="25">&nbsp;</td>
-											<td colspan="5" class="content3"><b>{TR_AVAILABLE_IPS}</b></td>
+											<td colspan="6" class="content3"><b>{TR_AVAILABLE_IPS}</b></td>
 										</tr>
 										<tr align="center">
 											<td width="25">&nbsp;</td>
 											<td align="left" class="content3"><strong>{TR_IP}</strong></td>
+											<td class="content3"><strong>{TR_SUBNET}</strong></td>
 											<td class="content3"><strong>{TR_DOMAIN}</strong></td>
 											<td class="content3"><strong>{TR_ALIAS}</strong></td>
 											<td class="content3"><strong>{TR_NETWORK_CARD}</strong></td>
@@ -73,6 +122,7 @@ function action_delete(url, ip) {
 										<tr>
 											<td width="25" nowrap="nowrap">&nbsp;</td>
 											<td align="left" nowrap="nowrap" class="{IP_CLASS}">{IP}</td>
+											<td align="center" nowrap="nowrap" class="{IP_CLASS}">{IP_SUBNET}</td>
 											<td align="center" nowrap="nowrap" class="{IP_CLASS}">{DOMAIN}</td>
 											<td class="{IP_CLASS}" nowrap="nowrap" align="center">{ALIAS}</td>
 											<td class="{IP_CLASS}" nowrap="nowrap" align="center">{NETWORK_CARD}</td>
@@ -87,8 +137,39 @@ function action_delete(url, ip) {
 										</tr>
 										<!-- EDP: ip_row -->
 									</table>
+									<!-- IPV6 TABLE -->
+									<table width="100%" cellpadding="6" cellspacing="5">
+										<tr>
+											<td width="25">&nbsp;</td>
+											<td colspan="4" class="content3"><b>{TR_AVAILABLE_IPS6}</b></td>
+										</tr>
+										<tr align="center">
+											<td width="25">&nbsp;</td>
+											<td align="left" class="content3"><strong>{TR_IP}</strong></td>
+											<td class="content3"><strong>{TR_DOMAIN}</strong></td>
+											<td class="content3"><strong>{TR_NETWORK_CARD}</strong></td>
+											<td width="103" class="content3"><strong>{TR_ACTION}</strong></td>
+										</tr>
+										<!-- BDP: ip_row_six -->
+										<tr>
+											<td width="25" nowrap="nowrap">&nbsp;</td>
+											<td align="left" nowrap="nowrap" class="{IP_CLASS}">{IP6}</td>
+											<td align="center" nowrap="nowrap" class="{IP_CLASS}">{DOMAIN}</td>
+											<td class="{IP_CLASS}" nowrap="nowrap" align="center">{NETWORK_CARD}</td>
+											<td class="{IP_CLASS}" nowrap="nowrap" align="center">
+											<!-- BDP: ip_delete_show -->
+												{IP_ACTION}
+											<!-- EDP: ip_delete_show -->
+											<!-- BDP: ip_delete_link -->
+												<img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onclick="action_delete('{IP_ACTION_SCRIPT}', '{IP}')"  title="{IP_ACTION}" class="link">{IP_ACTION}</a>
+											<!-- EDP: ip_delete_link -->
+											</td>
+										</tr>
+										<!-- EDP: ip_row_six -->
+									</table>
+									<!-- FORM -->
 									<br />
-									<form name="add_new_ip_frm" method="post" action="ip_manage.php">
+									<form name="add_new_ip_frm" method="post" onSubmit="return checkIpForm(this);" action="ip_manage.php">
 										<table width="100%" cellpadding="5" cellspacing="5">
 											<tr>
 												<td width="25">&nbsp;</td>
@@ -96,14 +177,59 @@ function action_delete(url, ip) {
 											</tr>
 											<tr>
 												<td width="25" nowrap="nowrap">&nbsp;</td>
+												<td width="200" class="content2" nowrap="nowrap">{TR_TYPE}</td>
+												<td nowrap="nowrap" class="content">
+													<select name="ip_type" onChange="switchAddressFormat(this);">
+														<!-- BDP: ip_type_list -->
+														<option>{IP_TYPES}</option>
+														<!-- EDP: ip_type_list -->
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td width="25" nowrap="nowrap">&nbsp;</td>
 												<td width="200" class="content2" nowrap="nowrap">{TR_IP}</td>
-												<td nowrap="nowrap" class="content"><input name="ip_number_1" type="text" class="textinput" style="width:31px" value="{VALUE_IP1}" maxlength="3" />
+												<td nowrap="nowrap" class="content">
+													<div id="ipv4">
+														<input name="ip_number_1" type="text" class="textinput" style="width:31px" value="{VALUE_IP1}" maxlength="3" />
+														.
+														<input name="ip_number_2" type="text" class="textinput" style="width:31px" value="{VALUE_IP2}" maxlength="3" />
+														.
+														<input name="ip_number_3" type="text" class="textinput" style="width:31px" value="{VALUE_IP3}" maxlength="3" />
+														.
+														<input name="ip_number_4" type="text" class="textinput" style="width:31px" value="{VALUE_IP4}" maxlength="3" />
+													</div>
+													<div id="ipv6" style="display:none">
+														<input name="ip_number_1" type="text" class="textinput" style="width:31px" value="{VALUE_IP1}" maxlength="4" />
+														:
+														<input name="ip_number_2" type="text" class="textinput" style="width:31px" value="{VALUE_IP2}" maxlength="4" />
+														:
+														<input name="ip_number_3" type="text" class="textinput" style="width:31px" value="{VALUE_IP3}" maxlength="4" />
+														:
+														<input name="ip_number_4" type="text" class="textinput" style="width:31px" value="{VALUE_IP4}" maxlength="4" />
+														:
+														<input name="ip_number_5" type="text" class="textinput" style="width:31px" value="{VALUE_IP5}" maxlength="4" />
+														:
+														<input name="ip_number_6" type="text" class="textinput" style="width:31px" value="{VALUE_IP6}" maxlength="4" />
+														:
+														<input name="ip_number_7" type="text" class="textinput" style="width:31px" value="{VALUE_IP7}" maxlength="4" />
+														:
+														<input name="ip_number_8" type="text" class="textinput" style="width:31px" value="{VALUE_IP8}" maxlength="4" />
+													
+													</div>
+												</td>
+											</tr>
+											<tr id="subnet">
+												<td width="25" nowrap="nowrap">&nbsp;</td>
+												<td width="200" class="content2" nowrap="nowrap">{TR_SUBNET}</td>
+												<td nowrap="nowrap" class="content">
+													<input name="ip_subnet_1" type="text" class="textinput" style="width:31px" value="{VALUE_SB1}" maxlength="3" />
 													.
-													<input name="ip_number_2" type="text" class="textinput" style="width:31px" value="{VALUE_IP2}" maxlength="3" />
+													<input name="ip_subnet_2" type="text" class="textinput" style="width:31px" value="{VALUE_SB2}" maxlength="3" />
 													.
-													<input name="ip_number_3" type="text" class="textinput" style="width:31px" value="{VALUE_IP3}" maxlength="3" />
+													<input name="ip_subnet_3" type="text" class="textinput" style="width:31px" value="{VALUE_SB3}" maxlength="3" />
 													.
-													<input name="ip_number_4" type="text" class="textinput" style="width:31px" value="{VALUE_IP4}" maxlength="3" />
+													<input name="ip_subnet_4" type="text" class="textinput" style="width:31px" value="{VALUE_SB4}" maxlength="3" />
 												</td>
 											</tr>
 											<tr>
