@@ -40,22 +40,29 @@ abstract class BackupPackage extends BaseController
 	 * name of the configuration file
 	 */
 	private $config_file = '';
+	/**
+	 * path to temporary files for domain
+	 */
+	private $backup_temp_path = '';
 
 	public function __construct($domain_name, $password)
 	{
+		$this->password = $password;
+		$this->domain_name = $domain_name;
+
+		$this->backup_temp_path = ISPCP_VIRTUAL_PATH.'/tmp';
+
 		// make clean temp path for every call
-		if (file_exists(BACKUP_TEMP_PATH)) {
-			delTree(BACKUP_TEMP_PATH);
+		if (file_exists($this->backup_temp_path)) {
+			delTree($this->backup_temp_path);
 		}
-		mkdir(BACKUP_TEMP_PATH, 0700, true);
+		mkdir($this->backup_temp_path, 0700, true);
 
 		// create archive path for domain packages if not exist
 		if (!file_exists(ARCHIVE_PATH)) {
 			mkdir(ARCHIVE_PATH, 0700, true);
 		}
 
-		$this->password = $password;
-		$this->domain_name = $domain_name;
 
 		// tar and mysqldump can take a lot of time
 		set_time_limit(0);
@@ -66,8 +73,8 @@ abstract class BackupPackage extends BaseController
 	 */
 	public function __destruct()
 	{
-		if (file_exists(BACKUP_TEMP_PATH)) {
-			delTree(BACKUP_TEMP_PATH);
+		if (file_exists($this->backup_temp_path)) {
+			delTree($this->backup_temp_path);
 		}
 	}
 
@@ -80,7 +87,7 @@ abstract class BackupPackage extends BaseController
 	{
 		$result = true;
 
-		$this->config_file = BACKUP_TEMP_PATH.'/config.ser';
+		$this->config_file = ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/tmp/config.ser';
 		$fp = fopen($this->config_file, 'w');
 		if ($fp) {
 			fwrite($fp, serialize($this->configurationData));
@@ -120,7 +127,7 @@ abstract class BackupPackage extends BaseController
 	 */
 	private function dumpMySQLDatabase($dbname)
 	{
-		$filename = BACKUP_TEMP_PATH.'/'.$dbname.'.sql';
+		$filename = $this->backup_temp_path.'/'.$dbname.'.sql';
 		$cmd = 'mysqldump --user '.Config::get('DB_USER').' --password='.Config::get('DB_PASS').
 			   ' '.$dbname.
 			   ' >'.$filename;
@@ -139,7 +146,7 @@ abstract class BackupPackage extends BaseController
 		// create .tar.gz
 		$filename = ARCHIVE_PATH.'/'.$this->domain_name.'.tar.gz';
 		// TODO: only htdocs?
-		$cmd = 'tar czf '.$filename.' -C '.BACKUP_BASE_PATH.' tmp'.
+		$cmd = 'tar czf '.$filename.
 				' -C '.ISPCP_VIRTUAL_PATH.' '.$this->domain_name.
 				' --exclude=logs --exclude=phptmp --exclude=backups';
 

@@ -59,9 +59,4 @@ if ($handler->runRestore() == false) {
 	$exitcode = 9;
 }
 
-// clean up temp path on exit
-if (file_exists(BACKUP_TEMP_PATH)) {
-	delTree(BACKUP_TEMP_PATH);
-}
-
 exit($exitcode);

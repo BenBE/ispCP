@@ -280,7 +280,7 @@ class RestorePackage_ispCP extends BaseController
 				mkdir($this->target_path, 0770, true);
 			}
 
-			$cmd = 'tar xzf -C '.$this->target_path.' '.$this->archive;
+			$cmd = 'tar xzf '.$this->archive.' -C '.ISPCP_VIRTUAL_PATH;
 			$this->shellExecute($cmd, $a);
 
 			if (file_exists($this->target_path.'/tmp/config.ser')) {
