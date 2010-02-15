@@ -222,7 +222,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 				 " WHERE `subdomain_alias`.`alias_id` = :aid";
 
 		$query = $this->db->Prepare($query);
-		$rs = $this->db->Execute($query, array(':aid'=>$this->$alias_id));
+		$rs = $this->db->Execute($query, array(':aid'=>$alias_id));
 		while ($rs && !$rs->EOF) {
 			$result[] = $rs->FetchRow();
 			$rs->MoveNext();

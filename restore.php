@@ -34,7 +34,7 @@ if ($argc < 3) {
 }
 
 $verbose = $option_ip = $option_res = false;
-for ($i = 1; $i < $argc-2; $i++) {
+for ($i = 1; $i < $argc-1; $i++) {
 	if ($argv[$i] == '-v') {
 		$verbose = true;
 	} elseif ($argv[$i] == '-i') {

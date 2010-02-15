@@ -32,7 +32,7 @@ if ($argc < 3) {
 }
 
 $verbose = false;
-for ($i = 1; $i < $argc-2; $i++) {
+for ($i = 1; $i < $argc-1; $i++) {
 	if ($argv[$i] == '-v') {
 		$verbose = true;
 	}
@@ -45,7 +45,7 @@ $exitcode = 0;
 
 // start packager for domain
 $handler = new BackupPackage_ispCP($domain_name, $password);
-$handler->verbose = true;
+$handler->verbose = $verbose;
 if ($handler->runPackager() == false) {
 	echo "Error executing packager: ";
 	$msgs = $handler->getErrorMessages();
