@@ -50,7 +50,7 @@ abstract class BackupPackage extends BaseController
 		$this->password = $password;
 		$this->domain_name = $domain_name;
 
-		$this->backup_temp_path = ISPCP_VIRTUAL_PATH.'/tmp';
+		$this->backup_temp_path = ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/tmp';
 
 		// make clean temp path for every call
 		if (file_exists($this->backup_temp_path)) {
@@ -87,7 +87,7 @@ abstract class BackupPackage extends BaseController
 	{
 		$result = true;
 
-		$this->config_file = ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/tmp/config.ser';
+		$this->config_file = $this->backup_temp_path.'/config.ser';
 		$fp = fopen($this->config_file, 'w');
 		if ($fp) {
 			fwrite($fp, serialize($this->configurationData));
@@ -195,6 +195,10 @@ abstract class BackupPackage extends BaseController
 					$result = $this->createDomainPackage();
 				}
 			}
+		}
+
+		if ($result && count($this->getErrorMessages()) > 0) {
+			$result = false;
 		}
 
 		return $result;

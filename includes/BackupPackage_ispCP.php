@@ -94,21 +94,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`domain`.`domain_name`".
-				  ", `domain`.`domain_created`".
-				  ", `domain`.`domain_expires`".
-				  ", `domain`.`domain_mailacc_limit`".
-				  ", `domain`.`domain_ftpacc_limit`".
-				  ", `domain`.`domain_traffic_limit`".
-				  ", `domain`.`domain_sqld_limit`".
-				  ", `domain`.`domain_sqlu_limit`".
-				  ", `domain`.`domain_alias_limit`".
-				  ", `domain`.`domain_subd_limit`".
-				  ", `domain`.`domain_disk_limit`".
-				  ", `domain`.`domain_php`".
-				  ", `domain`.`domain_cgi`".
-				  ", `domain`.`domain_dns`".
-				  ", `domain`.`allow_backup`".
+		$fields = "`domain`.*".
 				  ", `admin`.`customer_id`".
 				  ", `admin`.`admin_pass`".
 				  ", `admin`.`fname`".
@@ -124,13 +110,18 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 				  ", `admin`.`street1`".
 				  ", `admin`.`street2`";
 
-		$query = "SELECT ".$fields." FROM `domain`, `admin`".
-				 " WHERE `domain`.`domain_id` = :id AND `admin`.`admin_id` = `domain`.`domain_admin_id`";
+		$sql = "SELECT ".$fields." FROM `domain`, `admin`".
+			   " WHERE `domain`.`domain_id` = :id AND `admin`.`admin_id` = `domain`.`domain_admin_id`";
 
-		$query = $this->db->Prepare($query);
+		$query = $this->db->Prepare($sql);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		if ($rs && $rs->RecordCount() > 0) {
 			$result = $rs->FetchRow();
+			unset($result['domain_id']);
+			unset($result['domain_gid']);
+			unset($result['domain_uid']);
+		} else {
+			$this->addErrorMessage('Error reading domain configuration from database!');
 		}
 
 		return $result;
@@ -157,7 +148,9 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
-			$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
+			if ($row['mail_pass'] != '_no_') {
+				$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
+			}
 			$result[] = $row;
 			$rs->MoveNext();
 		}
@@ -257,7 +250,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$result = array();
 
 		$fields = "`htaccess_users`.`uname`".
-				  "`htaccess_users`.`id`".
+				  ", `htaccess_users`.`id`".
 				  ", `htaccess_users`.`upass`";
 
 		$query = "SELECT ".$fields." FROM `htaccess_users`".
@@ -267,7 +260,6 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
-			$row['upass'] = decrypt_db_password($row['upass']);
 			$result[] = $row;
 			$rs->MoveNext();
 		}
@@ -280,7 +272,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$result = array();
 
 		$fields = "`htaccess_groups`.`ugroup`".
-				  "`htaccess_groups`.`id`".
+				  ", `htaccess_groups`.`id`".
 				  ", `htaccess_groups`.`members`";
 
 		$query = "SELECT ".$fields." FROM `htaccess_users`".
@@ -373,8 +365,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$fields = "`sql_user`.`sql_uname`".
 				  ", `sql_user`.`sqlu_pass`";
 
-		$query = "SELECT ".$fields." FROM `sql_database`".
-				 " WHERE `sql_database`.`sqld_id` = :sqld_id";
+		$query = "SELECT ".$fields." FROM `sql_user`".
+				 " WHERE `sql_user`.`sqld_id` = :sqld_id";
 		$query = $this->db->Prepare($query);
 
 		foreach ($this->db_ids as $dbname => $sqld_id) {

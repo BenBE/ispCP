@@ -111,7 +111,7 @@ class RestorePackage_ispCP extends BaseController
 		$this->target_path = ISPCP_VIRTUAL_PATH.'/'.$this->domain_name;
 
 		// untar and mysql can take a lot of time
-		set_time_limit(0);
+		set_time_limit(120);
 	}
 
 	/**
@@ -305,15 +305,20 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$result = false;
 
+		if ($this->verbose) $this->debugMessage('getConfigData');
+
 		$config_file = $this->target_path.'/tmp/config.ser';
 
-		$fp = fopen($config_file, 'w');
+		$fp = fopen($config_file, 'r');
 		if ($fp) {
 			$s = fread($fp, filesize($config_file));
 			$this->configurationData = unserialize($s);
 			fclose($fp);
 
 			if (is_array($this->configurationData) && count($this->configurationData) > 0) {
+
+				if ($this->verbose) $this->debugMessage('configurationData OK');
+
 				$result = true;
 			} else {
 				$this->addErrorMessage('Broken file '.$config_file);
@@ -430,42 +435,66 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$result = false;
 
+		if ($this->verbose) $this->debugMessage('createDomain');
+
 		$query = $this->db->Prepare(
 			"INSERT INTO `admin`".
 			" (`admin_name`, `admin_pass`, `admin_type`, `domain_created`, `customer_id`, `created_by`, ".
 			"  `fname`, `lname`, `gender`, `firm`, `zip`, `city`, `country`, `email`, `phone`, `fax`, ".
-			"  `street1`, `street2)".
+			"  `street1`, `street2`)".
 			" VALUES".
 			" (:admin_name, :admin_pass, :admin_type, :domain_created, :customer_id, :created_by, ".
-			"  :fname, :lname, :gender, :firm, :zip, :city, :country, :email, :phone, fax, ".
+			"  :fname, :lname, :gender, :firm, :zip, :city, :country, :email, :phone, :fax, ".
 			"  :street1, :street2)"
 		);
 
-		$params = $this->paramDBArray($this->configurationData['domain']);
+		$params = $this->paramDBArray($this->configurationData['domain'], array(
+			'admin_pass', 'admin_type', 'domain_created', 'customer_id',
+			'fname', 'lname', 'gender', 'firm', 'zip', 'city', 'country',
+			'email', 'phone', 'fax', 'street1', 'street2'
+		));
 		$params[':created_by'] = $this->reseller_id;
+		$params[':admin_name'] = $this->domain_name;
+		$params[':admin_type'] = 'user';
 
-		$this->db->Execute($query, $params);
-		$params[':domain_admin_id'] = $this->db->Insert_ID();
+		if (!$this->db->Execute($query, $params)) {
+			$this->addErrorMessage('Can not insert admin database entry!');
+			return false;
+		}
+		$domain_admin_id = $this->db->Insert_ID();
+		if ($this->verbose) $this->debugMessage('Domain Admin ID: '.$domain_admin_id);
 
 		// create the domain, record set domain_id
 		$query = $this->db->Prepare(
 			"INSERT INTO `domain`".
 			" (`domain_name`, `domain_created`, `domain_expires`, `domain_mailacc_limit`, `domain_ftpacc_limit`, ".
 			"  `domain_traffic_limit`, `domain_sqld_limit`, `domain_sqlu_limit`, `domain_alias_limit`, ".
-			"  `domain_subd_limit`, `domain_disk_limit`, `domain_php`, `domain_cgi`, `domain_dns`, `allow_backup`, ".
-			"  `domain_status`, `domain_created_id`, `domain_ip_id`)".
+			"  `domain_subd_limit`, `domain_disk_limit`, `domain_php`, `domain_cgi`, `domain_dns`, `allowbackup`, ".
+			"  `domain_status`, `domain_created_id`, `domain_admin_id`, `domain_ip_id`)".
 			" VALUES".
 			" (:domain_name, :domain_created, :domain_expires, :domain_mailacc_limit, :domain_ftpacc_limit, ".
 			"  :domain_traffic_limit, :domain_sqld_limit, :domain_sqlu_limit, :domain_alias_limit, ".
-			"  :domain_subd_limit, :domain_disk_limit, :domain_php, :domain_cgi, :domain_dns, :allow_backup".
-			"  :domain_status, :domain_created_id, :domain_ip_id)"
+			"  :domain_subd_limit, :domain_disk_limit, :domain_php, :domain_cgi, :domain_dns, :allowbackup, ".
+			"  :domain_status, :domain_created_id, :domain_admin_id, :domain_ip_id)"
 		);
 
+		// 18
+
+		$params = $this->paramDBArray($this->configurationData['domain'], array(
+			'domain_name', 'domain_created', 'domain_expires', 'domain_mailacc_limit', 'domain_ftpacc_limit',
+			'domain_traffic_limit', 'domain_sqld_limit', 'domain_sqlu_limit', 'domain_alias_limit',
+			'domain_subd_limit', 'domain_disk_limit', 'domain_php', 'domain_cgi', 'domain_dns', 'allowbackup'
+		));
+
+		$params[':domain_admin_id']		= $domain_admin_id;
 		$params[':domain_created_id']	= $this->reseller_id;
 		$params[':domain_status']		= 'toadd';
 		$params[':domain_ip_id']		= $this->ip_id;
 
-		$this->db->Execute($query, $params);
+		if (!$this->db->Execute($query, $params)) {
+			$this->addErrorMessage('Can not insert domain database entry!');
+			return false;
+		}
 		$this->domain_id = $this->db->Insert_ID();
 
 		$this->createDomainAliases();
@@ -510,6 +539,7 @@ class RestorePackage_ispCP extends BaseController
 				" VALUES".
 				" (:domain_id, :name, :status, :mount, :ip_id, :url_forward)"
 			);
+
 			$this->db->Execute($query, array(
 				':domain_id'	=> $this->domain_id,
 				':name'			=> $alias['alias_name'],

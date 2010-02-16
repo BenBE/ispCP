@@ -48,6 +48,8 @@ $domain_name = $argv[$argc-2];
 $password = $argv[$argc-1];
 
 $exitcode = 0;
+
+// start restore for domain
 $handler = new RestorePackage_ispCP($domain_name, $password, $option_ip, $option_res);
 $handler->verbose = $verbose;
 if ($handler->runRestore() == false) {

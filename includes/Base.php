@@ -29,6 +29,15 @@ abstract class BaseController
 	protected $errorMessages = array();
 
 	/**
+	 * output debug message for verbose mode
+	 */
+	protected function debugMessage($s)
+	{
+		echo $s."\n";
+		flush();
+	}
+
+	/**
 	 * set error message
 	 * @param string $s message
 	 */
@@ -49,21 +58,17 @@ abstract class BaseController
 	protected function shellExecute($cmd, &$a)
 	{
 		if ($this->verbose) {
-			echo $cmd."\n";
+			$this->debugMessage($cmd);
 		}
 		return exec($cmd, $a);
 	}
 
-	protected function paramDBArray(&$a)
+	protected function paramDBArray($a, $what)
 	{
 		$result = array();
 
-		foreach ($a as $key => $value) {
-			if ($key{0} !== ':') {
-				$result[':'.$key] = $value;
-			} else {
-				$result[$key] = $value;
-			}
+		foreach ($what as $key) {
+			$result[':'.$key] = isset($a[$key]) ? $a[$key] : '';
 		}
 
 		return $result;
