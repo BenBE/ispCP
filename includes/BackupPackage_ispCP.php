@@ -148,10 +148,12 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		while ($rs && !$rs->EOF) {
 			$row = $rs->FetchRow();
-			if ($row['mail_pass'] != '_no_') {
-				$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
+			if (count($row) > 0) {
+				if ($row['mail_pass'] != '_no_') {
+					$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
+				}
+				$result[] = $row;
 			}
-			$result[] = $row;
 			$rs->MoveNext();
 		}
 
@@ -362,7 +364,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`sql_user`.`sql_uname`".
+		$fields = "`sql_user`.`sqlu_name`".
 				  ", `sql_user`.`sqlu_pass`";
 
 		$query = "SELECT ".$fields." FROM `sql_user`".
