@@ -26,17 +26,19 @@ if ($argc < 3) {
 	echo "OPTIONS:\n";
 	echo " -i IP ........ use IP for domain (default = first found)\n";
 	echo " -r RES ....... use reseller for domain (default = first found)\n";
-	echo " -v ........... verbose mode\n";
+	echo " -v n ......... verbose mode 0..3 (0 = only errors, 1 = +warnings,\n";
+	echo "                                   2 = +informations, 3 = +debug)\n";
 	echo "\n";
 	echo "Please ensure, there is enough free disk space available for\n";
 	echo "this operation (approx. triple size of htdocs and databases)!\n";
 	exit(1);
 }
 
-$verbose = $option_ip = $option_res = false;
+$log_level = 0;
+$option_ip = $option_res = false;
 for ($i = 1; $i < $argc-1; $i++) {
 	if ($argv[$i] == '-v') {
-		$verbose = true;
+		$log_level = $argv[++$i];
 	} elseif ($argv[$i] == '-i') {
 		$option_ip = $argv[++$i];
 	} elseif ($argv[$i] == '-r') {
@@ -50,14 +52,9 @@ $password = $argv[$argc-1];
 $exitcode = 0;
 
 // start restore for domain
-$handler = new RestorePackage_ispCP($domain_name, $password, $option_ip, $option_res);
-$handler->verbose = $verbose;
+$handler = new RestorePackage_ispCP($domain_name, $password, $option_ip, $option_res, $log_level);
 if ($handler->runRestore() == false) {
-	echo "Error executing restore: ";
-	$msgs = $handler->getErrorMessages();
-	foreach ($msgs as $msg) {
-		echo $msg."\n";
-	}
+	echo "Error executing restore\n";
 	$exitcode = 9;
 }
 

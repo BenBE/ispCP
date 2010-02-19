@@ -24,17 +24,18 @@ require_once dirname(__FILE__).'/includes/BackupPackage_ispCP.php';
 if ($argc < 3) {
 	echo "Usage: php backup.php [OPTIONS] domain archive-password\n";
 	echo "OPTIONS:\n";
-	echo " -v ........... verbose mode\n";
+	echo " -v n ......... verbose mode 0..3 (0 = only errors, 1 = +warnings,\n";
+	echo "                                   2 = +informations, 3 = +debug)\n";
 	echo "\n";
 	echo "Please ensure, there is enough free disk space available for\n";
 	echo "this operation (approx. triple size of htdocs and databases)!\n";
 	exit(1);
 }
 
-$verbose = false;
+$log_level = 0;
 for ($i = 1; $i < $argc-1; $i++) {
 	if ($argv[$i] == '-v') {
-		$verbose = true;
+		$log_level = $argv[++$i];
 	}
 }
 
@@ -44,14 +45,9 @@ $password = $argv[$argc-1];
 $exitcode = 0;
 
 // start packager for domain
-$handler = new BackupPackage_ispCP($domain_name, $password);
-$handler->verbose = $verbose;
+$handler = new BackupPackage_ispCP($domain_name, $password, $log_level);
 if ($handler->runPackager() == false) {
-	echo "Error executing packager: ";
-	$msgs = $handler->getErrorMessages();
-	foreach ($msgs as $msg) {
-		echo $msg."\n";
-	}
+	echo "Error executing packager\n";
 	$exitcode = 9;
 }
 

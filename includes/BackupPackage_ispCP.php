@@ -55,13 +55,13 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$result = false;
 
 		if (!file_exists(ISPCP_VIRTUAL_PATH.'/'.$this->domain_name)) {
-			$this->addErrorMessage('Domain not found in '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name);
+			$this->logMessage('Domain not found in '.ISPCP_VIRTUAL_PATH.'/'.$this->domain_name, ISPCP_LOG_ERROR);
 		} else {
 			$test = $this->getDomainID($this->domain_name);
 			if ($test != -1) {
 				$result = true;
 			} else {
-				$this->addErrorMessage('Domain not in database: '.$this->domain_name);
+				$this->logMessage('Domain not in database: '.$this->domain_name, ISPCP_LOG_ERROR);
 			}
 		}
 
@@ -121,7 +121,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 			unset($result['domain_gid']);
 			unset($result['domain_uid']);
 		} else {
-			$this->addErrorMessage('Error reading domain configuration from database!');
+			$this->logMessage('Error reading domain configuration from database!', ISPCP_LOG_ERROR);
 		}
 
 		return $result;
@@ -318,20 +318,21 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`domain_dns`.`alias_id`".
-				  ", `domain_aliasses`.`domain_dns`".
-				  ", `domain_aliasses`.`domain_class`".
-				  ", `domain_aliasses`.`domain_type`".
-				  ", `domain_aliasses`.`domain_text`";
+		$rs = $this->db->Execute("SHOW TABLES LIKE 'domain_dns'");
+		if ($rs && !$rs->EOF) {
+			$fields = "`domain_dns`.`alias_id`".
+					  ", `domain_aliasses`.`domain_dns`".
+					  ", `domain_aliasses`.`domain_class`".
+					  ", `domain_aliasses`.`domain_type`".
+					  ", `domain_aliasses`.`domain_text`";
 
-		$query = "SELECT ".$fields." FROM `domain_aliasses`".
-				 " WHERE `domain_dns`.`domain_id` = :id";
-
-		$query = $this->db->Prepare($query);
-		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$result[] = $rs->FetchRow();
-			$rs->MoveNext();
+			$query = $this->db->Prepare("SELECT ".$fields." FROM `domain_aliasses`".
+					 					" WHERE `domain_dns`.`domain_id` = :id");
+			$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
+			while ($rs && !$rs->EOF) {
+				$result[] = $rs->FetchRow();
+				$rs->MoveNext();
+			}
 		}
 
 		return $result;

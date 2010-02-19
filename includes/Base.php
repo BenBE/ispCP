@@ -17,52 +17,56 @@
  * under the License.
  */
 
+define('ISPCP_LOG_ERROR', 	0);
+define('ISPCP_LOG_WARNING',	1);
+define('ISPCP_LOG_INFO',	2);
+define('ISPCP_LOG_DEBUG',	3);
+
 abstract class BaseController
 {
 	/**
-	 * verbose mode
+	 * current log level
 	 */
-	public $verbose = false;
+	public $log_level = ISPCP_LOG_ERROR;
 	/**
-	 * array of strings for error messages
+	 * number of error messages
 	 */
-	protected $errorMessages = array();
+	protected $errorCount = 0;
 
 	/**
-	 * output debug message for verbose mode
+	 * output message dependend to log level
+	 * @param string $message message to log
+	 * @param integer $level log level (see literals ISPCP_LOG_*)
 	 */
-	protected function debugMessage($s)
+	protected function logMessage($message, $level = ISPCP_LOG_ERROR)
 	{
-		echo $s."\n";
-		flush();
+	    if ($this->log_level >= $level) {
+	        echo $message . "\n";
+			flush();
+	    }
+	    if ($level == ISPCP_LOG_ERROR) {
+	    	$this->errorCount++;
+	    }
 	}
 
 	/**
-	 * set error message
-	 * @param string $s message
+	 * Execute shell command and return exit code
+	 * @param string $cmd complete command line
+	 * @param array $a returned lines
+	 * @return integer exit code
 	 */
-	protected function addErrorMessage($s)
-	{
-		$this->errorMessages[] = $s;
-	}
-
-	/**
-	 * get list of error messages
-	 * @return array error messages (strings)
-	 */
-	public function getErrorMessages()
-	{
-		return $this->errorMessages;
-	}
-
 	protected function shellExecute($cmd, &$a)
 	{
-		if ($this->verbose) {
-			$this->debugMessage($cmd);
-		}
+		$this->logMessage($cmd, ISPCP_LOG_INFO);
 		return exec($cmd, $a);
 	}
 
+	/**
+	 * Get array for SQL prepared statements
+	 * @param array $a array with values
+	 * @param array $what array of parameter names
+	 * @return array parameterized keys
+	 */
 	protected function paramDBArray($a, $what)
 	{
 		$result = array();

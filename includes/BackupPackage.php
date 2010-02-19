@@ -94,7 +94,7 @@ abstract class BackupPackage extends BaseController
 			fclose($fp);
 		} else {
 			$result = false;
-			$this->addErrorMessage('Could not create file '.$this->config_file);
+			$this->logMessage('Could not create file '.$this->config_file, ISPCP_LOG_ERROR);
 		}
 
 		return $result;
@@ -197,7 +197,7 @@ abstract class BackupPackage extends BaseController
 			}
 		}
 
-		if ($result && count($this->getErrorMessages()) > 0) {
+		if ($this->errorCount > 0) {
 			$result = false;
 		}
 
