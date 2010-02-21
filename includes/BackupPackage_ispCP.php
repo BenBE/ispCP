@@ -181,10 +181,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`domain_aliasses`.`alias_name`".
-				  ", `domain_aliasses`.`alias_mount`".
-				  ", `domain_aliasses`.`alias_id`".
-				  ", `domain_aliasses`.`url_forward`";
+		$fields = "`domain_aliasses`.*";
 
 		$query = "SELECT ".$fields." FROM `domain_aliasses`".
 				 " WHERE `domain_aliasses`.`domain_id` = :id";

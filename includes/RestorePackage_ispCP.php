@@ -84,6 +84,10 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected $subdomain_ids = array();
 	/**
+	 * new domain alias IDs (key = old domain alias id)
+	 */
+	protected $domain_alias_ids = array();
+	/**
 	 * new web user IDs
 	 */
 	protected $webuser_ids = array();
@@ -558,7 +562,7 @@ class RestorePackage_ispCP extends BaseController
 					':url_forward'	=> $alias['url_forward']
 				)
 			);
-			$alias_id = $this->db->Insert_ID();
+			$this->domain_alias_ids[$alias['alias_id']] = $alias_id = $this->db->Insert_ID();
 
 			foreach ($alias['subdomain'] as $subdomain) {
 				$this->db->Execute(
@@ -630,9 +634,10 @@ class RestorePackage_ispCP extends BaseController
 				'mail_auto_respond_text', 'quota', 'mail_addr'
 			)
 		);
+
 		$params[':domain_id'] 	= $this->domain_id;
 		$params[':status'] 		= 'toadd';
-		$params[':sub_id'] 		= empty($email['sub_id']) ? 0 : $this->subdomain_ids[$email['sub_id']];
+		$params[':sub_id'] 		= empty($email['sub_id']) ? 0 : $this->domain_alias_ids[$email['sub_id']];
 		if ($email['mail_pass'] != '_no_') {
 			$params[':mail_pass'] = encrypt_db_password($email['mail_pass']);
 		} else {
@@ -767,14 +772,14 @@ class RestorePackage_ispCP extends BaseController
 				if (isset($this->webuser_ids[$webaccess['user_id']])) {
 					$webaccess['user_id'] = $this->webuser_ids[$webaccess['user_id']];
 				} else {
-					// TODO: undefined state
+					$this->logMessage('createWebAccess: missing user_id', ISPCP_LOG_DEBUG);
 				}
 			}
 			if (!empty($webaccess['group_id'])) {
 				if (isset($this->webgroup_ids[$webaccess['group_id']])) {
 					$webaccess['group_id'] = $this->webgroup_ids[$webaccess['group_id']];
 				} else {
-					// TODO: undefined state
+					$this->logMessage('createWebAccess: missing group_id', ISPCP_LOG_DEBUG);
 				}
 			}
 
