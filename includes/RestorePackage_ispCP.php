@@ -350,6 +350,8 @@ class RestorePackage_ispCP extends BaseController
 	protected function createDatabases()
 	{
 		foreach ($this->configurationData['db'] as $db) {
+			$this->logMessage('createDatabases: '.$db['sqld_name'], ISPCP_LOG_INFO);
+
 			$this->importMySQLDatabase($db['sqld_name']);
 
 			// Insert database row into ispCP database
@@ -423,6 +425,8 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	private function createDatabaseUser($db_name, $db_user, $user_pass)
 	{
+		$this->logMessage('createDatabaseUser: '.$db_user, ISPCP_LOG_INFO);
+
 		$query = $this->db->Prepare(
 			"GRANT ALL PRIVILEGES ON ". quoteIdentifier($db_name) .
 			".* TO ?@? IDENTIFIED BY ?"
@@ -628,6 +632,8 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected function createEMailAccount($query, array $email)
 	{
+		$this->logMessage('createEMailAccount: '.$email['mail_acc'], ISPCP_LOG_INFO);
+
 		$params = $this->paramDBArray(
 			$email, array(
 				'mail_acc', 'mail_forward', 'mail_type', 'status', 'mail_auto_respond',
@@ -662,6 +668,8 @@ class RestorePackage_ispCP extends BaseController
 		);
 
 		foreach ($this->configurationData['ftp'] as $ftp) {
+
+			$this->logMessage('createFTPAccounts: '.$ftp['userid'], ISPCP_LOG_INFO);
 
 			$params = $this->paramDBArray(
 				$ftp, array(
@@ -702,18 +710,21 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$query = $this->db->Prepare(
 			"INSERT INTO `htaccess_users`".
-			" (`domain_id`, `uname`, `upass`, `status`)".
+			" (`dmn_id`, `uname`, `upass`, `status`)".
 			" VALUES ".
-			" (:domain_id, :uname, :upass, :status)"
+			" (:dmn_id, :uname, :upass, :status)"
 		);
 
 		foreach ($this->configurationData['webuser'] as $webuser) {
+
+			$this->logMessage('createWebUsers: '.$webuser['uname'], ISPCP_LOG_INFO);
+
 			$this->db->Execute(
 				$query, array(
+					':dmn_id'		=> $this->domain_id,
 					':uname'		=> $webuser['uname'],
-					':status'		=> 'toadd',
 					':upass'		=> encrypt_db_password($webuser['upass']),
-					':domain_id'	=> $this->domain_id
+					':status'		=> 'toadd'
 				)
 			);
 
@@ -730,10 +741,13 @@ class RestorePackage_ispCP extends BaseController
 			"INSERT INTO `htaccess_groups`".
 			" (`dmn_id`, `ugroup`, `members`, `status`)".
 			" VALUES ".
-			" (:domain_id, :ugroup, :members, :status)"
+			" (:dmn_id, :ugroup, :members, :status)"
 		);
 
 		foreach ($this->configurationData['webgroup'] as $webgroup) {
+
+			$this->logMessage('createWebGroups: '.$webgroup['ugroup'], ISPCP_LOG_INFO);
+
 			$old_members = explode(',', $webgroup['members']);
 			$new_members = array();
 			foreach ($old_members as $member_id) {
@@ -744,10 +758,10 @@ class RestorePackage_ispCP extends BaseController
 
 			$this->db->Execute(
 				$query, array(
+					':dmn_id'		=> $this->domain_id,
 					':ugroup'		=> $webgroup['ugroup'],
 					':members'		=> implode(',', $new_members),
-					':status'		=> 'toadd',
-					':domain_id'	=> $this->domain_id
+					':status'		=> 'toadd'
 				)
 			);
 
@@ -761,11 +775,14 @@ class RestorePackage_ispCP extends BaseController
 	protected function createWebAccess()
 	{
 		foreach ($this->configurationData['webaccess'] as $webaccess) {
+
+			$this->logMessage('createWebAccess: '.$webaccess['path'], ISPCP_LOG_INFO);
+
 			$query = $this->db->Prepare(
 				"INSERT INTO `htaccess`".
 				" (`dmn_id`, `user_id`, `group_id`, `auth_type`, `auth_name`, `path`, `status`)".
 				" VALUES ".
-				" (:domain_id, :user_id, :group_id, :auth_type, :auth_name, :path, :status)"
+				" (:dmn_id, :user_id, :group_id, :auth_type, :auth_name, :path, :status)"
 			);
 
 			if (!empty($webaccess['user_id'])) {
@@ -784,8 +801,8 @@ class RestorePackage_ispCP extends BaseController
 			}
 
 			$params = $this->paramDBArray($webaccess);
-			$params[':status']		= 'toadd';
-			$params[':domain_id']	= $this->domain_id;
+			$params[':status'] = 'toadd';
+			$params[':dmn_id'] = $this->domain_id;
 
 			$this->db->Execute($query, $params);
 		}
@@ -794,6 +811,7 @@ class RestorePackage_ispCP extends BaseController
 	protected function createDNSEntries()
 	{
 		// TODO: createDNSEntries
+		$this->logMessage('createDNSEntries: currently not supported', ISPCP_LOG_DEBUG);
 	}
 
 	/**
