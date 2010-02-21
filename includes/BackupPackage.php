@@ -63,9 +63,8 @@ abstract class BackupPackage extends BaseController
 			mkdir(ARCHIVE_PATH, 0700, true);
 		}
 
-
 		// tar and mysqldump can take a lot of time
-		set_time_limit(0);
+		set_time_limit(1200);
 	}
 
 	/**
@@ -174,17 +173,17 @@ abstract class BackupPackage extends BaseController
 		$result = $this->initDomain();
 		if ($result) {
 			// collect all data
-			$this->setConfigData('domain',		$this->getDomainConfig());
-			$this->setConfigData('subdomain',	$this->getSubDomainConfig());
-			$this->setConfigData('email',		$this->getEMailConfig());
-			$this->setConfigData('ftp',			$this->getFTPConfig());
-			$this->setConfigData('alias',		$this->getDomainAliasConfig());
-			$this->setConfigData('webuser',		$this->getWebUserConfig());
-			$this->setConfigData('webgroup',	$this->getWebGroupConfig());
-			$this->setConfigData('webaccess',	$this->getWebAccessConfig());
-			$this->setConfigData('dns',			$this->getDNSConfig());
-			$this->setConfigData('db',			$this->getDBConfig());
-			$this->setConfigData('dbuser',		$this->getDBUserConfig());
+			$this->setConfigData('domain', $this->getDomainConfig());
+			$this->setConfigData('subdomain', $this->getSubDomainConfig());
+			$this->setConfigData('email', $this->getEMailConfig());
+			$this->setConfigData('ftp', $this->getFTPConfig());
+			$this->setConfigData('alias', $this->getDomainAliasConfig());
+			$this->setConfigData('webuser', $this->getWebUserConfig());
+			$this->setConfigData('webgroup', $this->getWebGroupConfig());
+			$this->setConfigData('webaccess', $this->getWebAccessConfig());
+			$this->setConfigData('dns', $this->getDNSConfig());
+			$this->setConfigData('db', $this->getDBConfig());
+			$this->setConfigData('dbuser', $this->getDBUserConfig());
 
 			// First create configuration file. If successful, create database
 			// dumps and create the complete domain package file

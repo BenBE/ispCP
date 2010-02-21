@@ -326,8 +326,10 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 					  ", `domain_aliasses`.`domain_type`".
 					  ", `domain_aliasses`.`domain_text`";
 
-			$query = $this->db->Prepare("SELECT ".$fields." FROM `domain_aliasses`".
-					 					" WHERE `domain_dns`.`domain_id` = :id");
+			$query = $this->db->Prepare(
+				"SELECT ".$fields." FROM `domain_aliasses`".
+				" WHERE `domain_dns`.`domain_id` = :id"
+			);
 			$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 			while ($rs && !$rs->EOF) {
 				$result[] = $rs->FetchRow();
