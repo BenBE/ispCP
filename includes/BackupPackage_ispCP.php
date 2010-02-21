@@ -161,11 +161,9 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`ftp_users`.`userid`".
-				  ", `ftp_users`.`passwd`".
-				  ", `ftp_users`.`homedir`";
+		$fields = "`ftp_users`.*";
 
-		$query = "SELECT ".$fields." FROM `mail_users`".
+		$query = "SELECT ".$fields." FROM `ftp_users`".
 				 " WHERE `ftp_users`.`uid` = :uid";
 
 		$query = $this->db->Prepare($query);

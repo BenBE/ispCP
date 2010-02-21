@@ -677,7 +677,7 @@ class RestorePackage_ispCP extends BaseController
 			$members .= $ftp['userid'];
 		}
 
-		if (!emtpy($members)) {
+		if (!empty($members)) {
 			$query = $this->db->Prepare(
 				"INSERT INTO `ftp_group`".
 				" (`groupname`, `gid`, `members`)".
@@ -816,6 +816,7 @@ class RestorePackage_ispCP extends BaseController
 						$this->createWebUsers();
 						$this->createWebGroups();
 						$this->createWebAccess();
+						$this->createFTPAccounts();
 						$this->setDomainPermissions();
 						$this->startDaemon();
 
