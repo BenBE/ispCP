@@ -421,20 +421,10 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$query = $this->db->Prepare(
 			"GRANT ALL PRIVILEGES ON ". quoteIdentifier($db_name) .
-			".* TO :dbuser IDENTIFIED BY :dbpass"
+			".* TO ?@? IDENTIFIED BY ?"
 		);
-		$this->db->Execute(
-			$query, array(
-				':dbuser'	=> $db_user.'@localhost',
-				':dbpass'	=> $user_pass
-			)
-		);
-		$this->db->Execute(
-			$query, array(
-				':dbuser'	=> $db_user.'@%',
-				':dbpass'	=> $user_pass
-			)
-		);
+		$this->db->Execute($query, array($db_user, 'localhost', $user_pass));
+		$this->db->Execute($query, array($db_user, '%', $user_pass));
 	}
 
 	/**
@@ -558,29 +548,27 @@ class RestorePackage_ispCP extends BaseController
 		);
 
 		foreach ($this->configurationData['alias'] as $alias) {
-			if (count($alias) > 1) {
+			$this->db->Execute(
+				$querya, array(
+					':domain_id'	=> $this->domain_id,
+					':name'			=> $alias['alias_name'],
+					':status'		=> 'toadd',
+					':mount'		=> $alias['alias_mount'],
+					':ip_id'		=> $this->ip_id,
+					':url_forward'	=> $alias['url_forward']
+				)
+			);
+			$alias_id = $this->db->Insert_ID();
+
+			foreach ($alias['subdomain'] as $subdomain) {
 				$this->db->Execute(
-					$querya, array(
-						':domain_id'	=> $this->domain_id,
-						':name'			=> $alias['alias_name'],
-						':status'		=> 'toadd',
-						':mount'		=> $alias['alias_mount'],
-						':ip_id'		=> $this->ip_id,
-						':url_forward'	=> $alias['url_forward']
+					$querys, array(
+						':alias_id'	=> $alias_id,
+						':name'		=> $subdomain['subdomain_alias_name'],
+						':status'	=> 'toadd',
+						':mount'	=> $subdomain['subdomain_alias_mount']
 					)
 				);
-				$alias_id = $this->db->Insert_ID();
-
-				foreach ($alias['subdomain'] as $subdomain) {
-					$this->db->Execute(
-						$querys, array(
-							':alias_id'	=> $alias_id,
-							':name'		=> $subdomain['subdomain_alias_name'],
-							':status'	=> 'toadd',
-							':mount'	=> $subdomain['subdomain_alias_mount']
-						)
-					);
-				}
 			}
 		}
 	}
