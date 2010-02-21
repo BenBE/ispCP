@@ -20,7 +20,7 @@
 
 interface iBackupPackage
 {
-	public function __construct($domain_name, $password);
+	public function __construct($domain_name, $password, $log_level);
 	public function getDomainConfig();
 	public function getEMailConfig();
 	public function getFTPConfig();

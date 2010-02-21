@@ -40,9 +40,9 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	 */
 	protected $db_ids = array();
 
-	public function __construct($domain_name, $password)
+	public function __construct($domain_name, $password, $log_level)
 	{
-		parent::__construct($domain_name, $password);
+		parent::__construct($domain_name, $password, $log_level);
 		$this->db = Database::getInstance();
 	}
 
@@ -116,7 +116,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 		$query = $this->db->Prepare($sql);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
 		if ($rs && $rs->RecordCount() > 0) {
-			$result = $rs->FetchRow();
+			$result = $rs->fields;
 			unset($result['domain_id']);
 			unset($result['domain_gid']);
 			unset($result['domain_uid']);
@@ -146,15 +146,12 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$row = $rs->FetchRow();
-			if (count($row) > 0) {
-				if ($row['mail_pass'] != '_no_') {
-					$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
-				}
-				$result[] = $row;
+		while (($row = $rs->FetchRow())) {
+
+			if ($row['mail_pass'] != '_no_') {
+				$row['mail_pass'] = decrypt_db_password($row['mail_pass']);
 			}
-			$rs->MoveNext();
+			$result[] = $row;
 		}
 
 		return $result;
@@ -173,10 +170,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':uid'=>$this->domain_user_id));
-		while ($rs && !$rs->EOF) {
-			$row = $rs->FetchRow();
+		while ($rs && ($row = $rs->FetchRow())) {
 			$result[] = $row;
-			$rs->MoveNext();
 		}
 
 		return $result;
@@ -196,11 +191,9 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$row = $rs->FetchRow();
+		while ($rs && ($row = $rs->FetchRow())) {
 			$row['subdomain'] = $this->getSubdomainAliasConfig($row['alias_id']);
 			$result[] = $row;
-			$rs->MoveNext();
 		}
 
 		return $result;
@@ -218,9 +211,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':aid'=>$alias_id));
-		while ($rs && !$rs->EOF) {
-			$result[] = $rs->FetchRow();
-			$rs->MoveNext();
+		while ($rs && ($row = $rs->FetchRow())) {
+			$result[] = $row;
 		}
 
 		return $result;
@@ -239,9 +231,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$result[] = $rs->FetchRow();
-			$rs->MoveNext();
+		while ($rs && ($row = $rs->FetchRow())) {
+			$result[] = $row;
 		}
 
 		return $result;
@@ -260,10 +251,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$row = $rs->FetchRow();
+		while ($rs && ($row = $rs->FetchRow())) {
 			$result[] = $row;
-			$rs->MoveNext();
 		}
 
 		return $result;
@@ -282,9 +271,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$result[] = $rs->FetchRow();
-			$rs->MoveNext();
+		while ($rs && ($row = $rs->FetchRow())) {
+			$result[] = $row;
 		}
 
 		return $result;
@@ -306,9 +294,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$result[] = $rs->FetchRow();
-			$rs->MoveNext();
+		while ($rs && ($row = $rs->FetchRow())) {
+			$result[] = $row;
 		}
 
 		return $result;
@@ -331,9 +318,8 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 				" WHERE `domain_dns`.`domain_id` = :id"
 			);
 			$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-			while ($rs && !$rs->EOF) {
-				$result[] = $rs->FetchRow();
-				$rs->MoveNext();
+			while ($rs && ($row = $rs->FetchRow())) {
+				$result[] = $row;
 			}
 		}
 
@@ -352,12 +338,10 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
-		while ($rs && !$rs->EOF) {
-			$row = $rs->FetchRow();
+		while ($rs && ($row = $rs->FetchRow())) {
 			$this->db_ids[$row['sqld_name']] = $row['sqld_id'];
 			$this->addDatabase('mysql', $row['sqld_name']);
 			$result[] = $row;
-			$rs->MoveNext();
 		}
 
 		return $result;
@@ -376,12 +360,10 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 
 		foreach ($this->db_ids as $dbname => $sqld_id) {
 			$rs = $this->db->Execute($query, array(':sqld_id'=>$sqld_id));
-			while ($rs && !$rs->EOF) {
-				$row = $rs->FetchRow();
+			while ($rs && ($row = $rs->FetchRow())) {
 				$row['database'] = $dbname;
 				$row['sqlu_pass'] = decrypt_db_password($row['sqlu_pass']);
 				$result[] = $row;
-				$rs->MoveNext();
 			}
 		}
 

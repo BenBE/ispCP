@@ -45,10 +45,11 @@ abstract class BackupPackage extends BaseController
 	 */
 	private $backup_temp_path = '';
 
-	public function __construct($domain_name, $password)
+	public function __construct($domain_name, $password, $log_level)
 	{
 		$this->password = $password;
 		$this->domain_name = $domain_name;
+		$this->log_level = $log_level;
 
 		$this->backup_temp_path = ISPCP_VIRTUAL_PATH.'/'.$this->domain_name.'/tmp';
 

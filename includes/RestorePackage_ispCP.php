@@ -394,7 +394,7 @@ class RestorePackage_ispCP extends BaseController
 			"INSERT INTO `sql_user`".
 			" (`sqld_id`, `sqlu_name`, `sqlu_pass`)".
 			" VALUES".
-			" (:sqld_id, :name, :sqlu_pass)"
+			" (:sqld_id, :sqlu_name, :sqlu_pass)"
 		);
 
 		foreach ($this->configurationData['dbuser'] as $dbuser) {
@@ -625,23 +625,33 @@ class RestorePackage_ispCP extends BaseController
 		);
 
 		foreach ($this->configurationData['email'] as $email) {
-			$params = $this->paramDBArray(
-				$email, array(
-					'mail_acc', 'mail_forward', 'mail_type', 'status', 'mail_auto_respond',
-					'mail_auto_respond_text', 'quota', 'mail_addr'
-				)
-			);
-			$params[':domain_id'] 	= $this->domain_id;
-			$params[':status'] 		= 'toadd';
-			$params[':sub_id'] 		= empty($email['sub_id']) ? 0 : $this->subdomain_ids[$email['sub_id']];
-			if ($email['mail_pass'] != '_no_') {
-				$params[':mail_pass'] = encrypt_db_password($email['mail_pass']);
-			} else {
-				$params[':mail_pass'] = '_no_';
-			}
-
-			$this->db->Execute($query, $params);
+			$this->createEMailAccount($query, $email);
 		}
+	}
+
+	/**
+	 * Create an E-Mail account
+	 * @param object $query prepared query
+	 * @param array $email mail_users row
+	 */
+	protected function createEMailAccount($query, array $email)
+	{
+		$params = $this->paramDBArray(
+			$email, array(
+				'mail_acc', 'mail_forward', 'mail_type', 'status', 'mail_auto_respond',
+				'mail_auto_respond_text', 'quota', 'mail_addr'
+			)
+		);
+		$params[':domain_id'] 	= $this->domain_id;
+		$params[':status'] 		= 'toadd';
+		$params[':sub_id'] 		= empty($email['sub_id']) ? 0 : $this->subdomain_ids[$email['sub_id']];
+		if ($email['mail_pass'] != '_no_') {
+			$params[':mail_pass'] = encrypt_db_password($email['mail_pass']);
+		} else {
+			$params[':mail_pass'] = '_no_';
+		}
+
+		$this->db->Execute($query, $params);
 	}
 
 	/**
