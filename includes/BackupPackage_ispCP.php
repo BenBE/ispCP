@@ -131,15 +131,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`mail_users`.`mail_acc`".
-				  ", `mail_users`.`mail_pass`".
-				  ", `mail_users`.`mail_forward`".
-				  ", `mail_users`.`mail_type`".
-				  ", `mail_users`.`sub_id`".
-				  ", `mail_users`.`mail_auto_respond`".
-				  ", `mail_users`.`mail_auto_respond_text`".
-				  ", `mail_users`.`quota`".
-				  ", `mail_users`.`mail_addr`";
+		$fields = "`mail_users`.*";
 
 		$query = "SELECT ".$fields." FROM `mail_users`".
 				 " WHERE `mail_users`.`domain_id` = :id";
@@ -198,8 +190,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`subdomain`.`subdomain_alias_name`".
-				  ", `subdomain`.`subdomain_alias_mount`";
+		$fields = "`subdomain_alias`.*";
 
 		$query = "SELECT ".$fields." FROM `subdomain_alias`".
 				 " WHERE `subdomain_alias`.`alias_id` = :aid";
@@ -217,9 +208,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`subdomain`.`subdomain_name`".
-				  ", `subdomain`.`subdomain_mount`".
-				  ", `subdomain`.`subdomain_id`";
+		$fields = "`subdomain`.*";
 
 		$query = "SELECT ".$fields." FROM `subdomain`".
 				 " WHERE `subdomain`.`domain_id` = :id";
@@ -237,9 +226,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`htaccess_users`.`uname`".
-				  ", `htaccess_users`.`id`".
-				  ", `htaccess_users`.`upass`";
+		$fields = "`htaccess_users`.*";
 
 		$query = "SELECT ".$fields." FROM `htaccess_users`".
 				 " WHERE `htaccess_users`.`dmn_id` = :id";
@@ -257,12 +244,10 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`htaccess_groups`.`ugroup`".
-				  ", `htaccess_groups`.`id`".
-				  ", `htaccess_groups`.`members`";
+		$fields = "`htaccess_groups`.*";
 
-		$query = "SELECT ".$fields." FROM `htaccess_users`".
-				 " WHERE `htaccess_users`.`dmn_id` = :id";
+		$query = "SELECT ".$fields." FROM `htaccess_groups`".
+				 " WHERE `htaccess_groups`.`dmn_id` = :id";
 
 		$query = $this->db->Prepare($query);
 		$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));
@@ -277,12 +262,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`htaccess`.`user_id`".
-				  ", `htaccess`.`group_id`".
-				  ", `htaccess`.`auth_type`".
-				  ", `htaccess`.`auth_name`".
-				  ", `htaccess`.`path`".
-				  ", `htaccess`.`status`";
+		$fields = "`htaccess`.*";
 
 		$query = "SELECT ".$fields." FROM `htaccess`".
 				 " WHERE `htaccess`.`dmn_id` = :id";
@@ -309,7 +289,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 					  ", `domain_aliasses`.`domain_text`";
 
 			$query = $this->db->Prepare(
-				"SELECT ".$fields." FROM `domain_aliasses`".
+				"SELECT ".$fields." FROM `domain_dns`".
 				" WHERE `domain_dns`.`domain_id` = :id"
 			);
 			$rs = $this->db->Execute($query, array(':id'=>$this->domain_id));

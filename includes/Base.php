@@ -65,17 +65,23 @@ abstract class BaseController
 	 * Get array for SQL prepared statements
 	 * @param array $a array with values
 	 * @param array $what array of parameter names
+	 * @param array $defaults array of default values
 	 * @return array parameterized keys
 	 */
 	protected function paramDBArray($a, $what)
 	{
 		$result = array();
 
-		foreach ($what as $key) {
-			$result[':'.$key] = isset($a[$key]) ? $a[$key] : '';
+		foreach ($what as $key => $default) {
+			$result[':'.$key] = isset($a[$key]) ? $a[$key] : $default;
 		}
 
 		return $result;
+	}
+
+	protected function arrayOfDefault($a, $key, $default='')
+	{
+		return isset($a[$key]) ? $a[$key] : $default;
 	}
 }
 

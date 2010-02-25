@@ -448,24 +448,38 @@ class RestorePackage_ispCP extends BaseController
 		$query = $this->db->Prepare(
 			"INSERT INTO `admin`".
 			" (`admin_name`, `admin_pass`, `admin_type`, `domain_created`, `customer_id`, `created_by`, ".
-			"  `fname`, `lname`, `gender`, `firm`, `zip`, `city`, `country`, `email`, `phone`, `fax`, ".
+			"  `fname`, `lname`, `gender`, `firm`, `zip`, `city`, `state`, `country`, `email`, `phone`, `fax`, ".
 			"  `street1`, `street2`)".
 			" VALUES".
 			" (:admin_name, :admin_pass, :admin_type, :domain_created, :customer_id, :created_by, ".
-			"  :fname, :lname, :gender, :firm, :zip, :city, :country, :email, :phone, :fax, ".
+			"  :fname, :lname, :gender, :firm, :zip, :city, :state, :country, :email, :phone, :fax, ".
 			"  :street1, :street2)"
 		);
 
-		$params = $this->paramDBArray(
-			$this->configurationData['domain'], array(
-				'admin_pass', 'admin_type', 'domain_created', 'customer_id',
-				'fname', 'lname', 'gender', 'firm', 'zip', 'city', 'country',
-				'email', 'phone', 'fax', 'street1', 'street2'
-			)
+		$default_values = array(
+			'admin_pass'		=> '',
+			'domain_created'	=> 0,
+			'customer_id'		=> '',
+			'fname'				=> '',
+			'lname'				=> '',
+			'gender'			=> '',
+			'firm'				=> '',
+			'zip'				=> '',
+			'city'				=> '',
+			'state'				=> '',
+			'country'			=> '',
+			'email'				=> '',
+			'phone'				=> '',
+			'fax'				=> '',
+			'street1'			=> '',
+			'street2'			=> ''
 		);
-		$params[':created_by'] = $this->reseller_id;
+
+		$params = $this->paramDBArray($this->configurationData['domain'], $default_values);
+
 		$params[':admin_name'] = $this->domain_name;
 		$params[':admin_type'] = 'user';
+		$params[':created_by'] = $this->reseller_id;
 
 		if (!$this->db->Execute($query, $params)) {
 			$this->logMessage('Can not insert admin database entry!', ISPCP_LOG_ERROR);
@@ -488,13 +502,25 @@ class RestorePackage_ispCP extends BaseController
 			"  :domain_status, :domain_created_id, :domain_admin_id, :domain_ip_id)"
 		);
 
-		$params = $this->paramDBArray(
-			$this->configurationData['domain'], array(
-				'domain_name', 'domain_created', 'domain_expires', 'domain_mailacc_limit', 'domain_ftpacc_limit',
-				'domain_traffic_limit', 'domain_sqld_limit', 'domain_sqlu_limit', 'domain_alias_limit',
-				'domain_subd_limit', 'domain_disk_limit', 'domain_php', 'domain_cgi', 'domain_dns', 'allowbackup'
-			)
+		$default_values = array(
+			'domain_name'			=> $this->domain_name,
+			'domain_created'		=> 0,
+			'domain_expires'		=> 0,
+			'domain_mailacc_limit'	=> 0,
+			'domain_ftpacc_limit'	=> 0,
+			'domain_traffic_limit'	=> 0,
+			'domain_sqld_limit'		=> 0,
+			'domain_sqlu_limit'		=> 0,
+			'domain_alias_limit'	=> 0,
+			'domain_subd_limit'		=> 0,
+			'domain_disk_limit'		=> 0,
+			'domain_php'			=> 'no',
+			'domain_cgi'			=> 'no',
+			'domain_dns'			=> 'no',
+			'allowbackup'			=> 'no'
 		);
+
+		$params = $this->paramDBArray($this->configurationData['domain'], $default_values);
 		$params[':domain_admin_id']		= $domain_admin_id;
 		$params[':domain_created_id']	= $this->reseller_id;
 		$params[':domain_status']		= 'toadd';
@@ -517,6 +543,8 @@ class RestorePackage_ispCP extends BaseController
 			" FROM `domain`".
 			" WHERE `domain_id`=:domain_id"
 		);
+
+		$tries = 0;
 		$daemon_ready = false;
 		do {
 			sleep(1);
@@ -530,6 +558,12 @@ class RestorePackage_ispCP extends BaseController
 					$daemon_ready = true;
 					$result = true;
 				}
+			}
+			$tries++;
+			if ($tries > 60) {
+				$this->logMessage('Error executing domain creation request!', ISPCP_LOG_ERROR);
+				$result = false;
+				break;
 			}
 		} while (!$daemon_ready);
 
@@ -634,12 +668,16 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$this->logMessage('createEMailAccount: '.$email['mail_acc'], ISPCP_LOG_INFO);
 
-		$params = $this->paramDBArray(
-			$email, array(
-				'mail_acc', 'mail_forward', 'mail_type', 'status', 'mail_auto_respond',
-				'mail_auto_respond_text', 'quota', 'mail_addr'
-			)
+		$default_values = array(
+			'mail_acc'				=> '',
+			'mail_forward'			=> '',
+			'mail_type'				=> 'normal_mail',
+			'mail_auto_respond'		=> 0,
+			'mail_auto_respond_text'=> '_no_',
+			'quota'					=> 10485760,
+			'mail_addr'				=> ''
 		);
+		$params = $this->paramDBArray($email, $default_values);
 
 		$params[':domain_id'] 	= $this->domain_id;
 		$params[':status'] 		= 'toadd';
@@ -671,11 +709,13 @@ class RestorePackage_ispCP extends BaseController
 
 			$this->logMessage('createFTPAccounts: '.$ftp['userid'], ISPCP_LOG_INFO);
 
-			$params = $this->paramDBArray(
-				$ftp, array(
-					'userid', 'passwd', 'shell', 'homedir'
-				)
+			$default_values = array(
+				'userid'	=> '',
+				'passwd'	=> '',
+				'shell'		=> '/bin/bash',
+				'homedir'	=> ''
 			);
+			$params = $this->paramDBArray($ftp, $default_values);
 			$params[':uid'] = $this->domain_user_id;
 			$params[':gid'] = $this->domain_group_id;
 
@@ -800,7 +840,12 @@ class RestorePackage_ispCP extends BaseController
 				}
 			}
 
-			$params = $this->paramDBArray($webaccess);
+			$default_values = array(
+				'auth_type'	=> 'Basic',
+				'auth_name'	=> '',
+				'path'		=> ''
+			);
+			$params = $this->paramDBArray($webaccess, $default_values);
 			$params[':status'] = 'toadd';
 			$params[':dmn_id'] = $this->domain_id;
 
