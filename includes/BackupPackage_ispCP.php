@@ -94,21 +94,7 @@ class BackupPackage_ispCP extends BackupPackage implements iBackupPackage
 	{
 		$result = array();
 
-		$fields = "`domain`.*".
-				  ", `admin`.`customer_id`".
-				  ", `admin`.`admin_pass`".
-				  ", `admin`.`fname`".
-				  ", `admin`.`lname`".
-				  ", `admin`.`gender`".
-				  ", `admin`.`firm`".
-				  ", `admin`.`zip`".
-				  ", `admin`.`city`".
-				  ", `admin`.`state`".
-				  ", `admin`.`country`".
-				  ", `admin`.`phone`".
-				  ", `admin`.`fax`".
-				  ", `admin`.`street1`".
-				  ", `admin`.`street2`";
+		$fields = "`domain`.*, `admin`.*";
 
 		$sql = "SELECT ".$fields." FROM `domain`, `admin`".
 			   " WHERE `domain`.`domain_id` = :id AND `admin`.`admin_id` = `domain`.`domain_admin_id`";
