@@ -133,18 +133,6 @@ class RestorePackage_ispCP extends BaseController
 	}
 
 	/**
-	 * Set permissions to vhost directory
-	 */
-	protected function setDomainPermissions()
-	{
-		$user = sprintf('vu%04d', $this->domain_user_id);
-		$group = sprintf('vu%04d', $this->domain_group_id);
-		$cmd = 'chown -R '.$user.':'.$group.' '.$this->target_path;
-		$a = array();
-		$this->shellExecute($cmd, $a);
-	}
-
-	/**
 	 * Get ID of first server IP
 	 * @return integer ID of IP
 	 */
@@ -590,6 +578,8 @@ class RestorePackage_ispCP extends BaseController
 		);
 
 		foreach ($this->configurationData['alias'] as $alias) {
+			$this->logMessage('Create alias '.$alias['alias_name'], ISPCP_LOG_INFO);
+
 			$this->db->Execute(
 				$querya, array(
 					':domain_id'	=> $this->domain_id,
@@ -600,7 +590,9 @@ class RestorePackage_ispCP extends BaseController
 					':url_forward'	=> $alias['url_forward']
 				)
 			);
+
 			$this->domain_alias_ids[$alias['alias_id']] = $alias_id = $this->db->Insert_ID();
+			$this->logMessage(' old alias id='.$alias['alias_id'].' new alias id='.$alias_id, ISPCP_LOG_DEBUG);
 
 			foreach ($alias['subdomain'] as $subdomain) {
 				$this->db->Execute(
@@ -628,15 +620,23 @@ class RestorePackage_ispCP extends BaseController
 		);
 
 		foreach ($this->configurationData['subdomain'] as $subdomain) {
+			$this->logMessage('Create subdomain '.$subdomain['subdomain_name'], ISPCP_LOG_INFO);
+
 			$this->db->Execute(
 				$query, array(
 					':domain_id'	=> $this->domain_id,
 					':name'			=> $subdomain['subdomain_name'],
 					':status'		=> 'toadd',
-					':mount'		=> $subdomain['alias_mount']
+					':mount'		=> $subdomain['subdomain_mount']
 				)
 			);
+
 			$this->subdomain_ids[$subdomain['subdomain_id']] = $this->db->Insert_ID();
+			$this->logMessage(
+				' old subdomain id='.$subdomain['subdomain_id'].' new subdomain id='.
+				$this->subdomain_ids[$subdomain['subdomain_id']],
+				ISPCP_LOG_DEBUG
+			);
 		}
 	}
 
@@ -667,6 +667,12 @@ class RestorePackage_ispCP extends BaseController
 	protected function createEMailAccount($query, array $email)
 	{
 		$this->logMessage('createEMailAccount: '.$email['mail_acc'], ISPCP_LOG_INFO);
+
+		// Don't restore email from deleted aliases
+		if (!empty($email['sub_id']) && !isset($this->domain_alias_ids[$email['sub_id']])) {
+			$this->logMessage('domain alias id not found: '.$email['sub_id'], ISPCP_LOG_INFO);
+			return;
+		}
 
 		$default_values = array(
 			'mail_acc'				=> '',
@@ -843,13 +849,51 @@ class RestorePackage_ispCP extends BaseController
 			$default_values = array(
 				'auth_type'	=> 'Basic',
 				'auth_name'	=> '',
-				'path'		=> ''
+				'path'		=> '',
+				'user_id'	=> 0,
+				'group_id'	=> 0
 			);
 			$params = $this->paramDBArray($webaccess, $default_values);
 			$params[':status'] = 'toadd';
 			$params[':dmn_id'] = $this->domain_id;
 
 			$this->db->Execute($query, $params);
+		}
+	}
+
+	/**
+	 * Set permissions to vhost directory
+	 */
+	protected function setDomainPermissions()
+	{
+		$user = sprintf('vu%04d', $this->domain_user_id);
+		$group = sprintf('vu%04d', $this->domain_group_id);
+
+		$cmd = 'chown -R '.$user.':www-data'.' '.$this->target_path;
+		$a = array();
+		$this->shellExecute($cmd, $a);
+
+		$cmd = 'chown -R '.$user.':'.$group.' '.$this->target_path.'/htdocs';
+		$a = array();
+		$this->shellExecute($cmd, $a);
+
+		$cmd = 'chown -R '.$user.':'.$group.' '.$this->target_path.'/cgi-bin';
+		$a = array();
+		$this->shellExecute($cmd, $a);
+
+		// TODO: Set permissions for subdomains
+		foreach ($this->configurationData['alias'] as $alias) {
+			$cmd = 'chown -R '.$user.':www-data '.$this->target_path.$alias['alias_mount'];
+			$a = array();
+			$this->shellExecute($cmd, $a);
+
+			$cmd = 'chown -R '.$user.':'.$group.' '.$this->target_path.$alias['alias_mount'].'/htdocs';
+			$a = array();
+			$this->shellExecute($cmd, $a);
+
+			$cmd = 'chown '.$user.':www-data '.$this->target_path.$alias['alias_mount'].'/htdocs';
+			$a = array();
+			$this->shellExecute($cmd, $a);
 		}
 	}
 
