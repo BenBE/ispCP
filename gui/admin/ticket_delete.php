@@ -36,6 +36,8 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 
 	$ticket_id = $_GET['ticket_id'];
 
+	$user_id = $_SESSION['user_id'];
+	
 	$query = <<<SQL_QUERY
 		SELECT
 			`ticket_status`
@@ -43,11 +45,13 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 			`tickets`
 		WHERE
 			`ticket_id` = ?
+		AND
+			(`ticket_from` = ? OR `ticket_to` = ?)	
 		ORDER BY
 			`ticket_date` ASC
 SQL_QUERY;
 
-	$rs = exec_query($sql, $query, array($ticket_id));
+	$rs = exec_query($sql, $query, array($ticket_id,$user_id,$user_id));
 	$ticket_status = $rs->fields['ticket_status'];
 
 	$back_url = ($ticket_status == 0) ? 'ticket_closed.php' : 'ticket_system.php';

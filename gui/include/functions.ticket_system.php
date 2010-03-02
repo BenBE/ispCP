@@ -48,15 +48,16 @@ function ticketGetLastDate(&$sql, $ticket_id) {
 		FROM
 			`tickets`
 		WHERE
-			`ticket_id` = ?
-		OR
 			`ticket_reply` = ?
 		ORDER BY
 			`ticket_date` DESC
 SQL_QUERY;
 
-	$rs = exec_query($sql, $query, array($ticket_id, $ticket_id));
+	$rs = exec_query($sql, $query, array( $ticket_id));
 
+	if($rs->fields['ticket_date'] == NULL)
+		return tr('Never');
+	
 	$date_formt = Config::get('DATE_FORMAT');
 	return date($date_formt, $rs->fields['ticket_date']); // last date
 }

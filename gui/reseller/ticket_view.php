@@ -303,6 +303,8 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id, &$screenwi
 	}
 
 	send_tickets_msg($ticket_from, $ticket_to, $subject, $user_message, $ticket_reply, $urgency);
+	
+	user_goto('ticket_system.php');
 }
 
 function get_send_to_who(&$sql, &$ticket_reply) {

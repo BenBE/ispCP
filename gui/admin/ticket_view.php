@@ -43,6 +43,9 @@ $tpl->define_dynamic('tickets_list', 'page');
 $tpl->define_dynamic('tickets_item', 'tickets_list');
 // page functions.
 function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
+	
+	$user_id = $_SESSION['user_id'];
+	
 	$query = "
 		SELECT
 			`ticket_id`,
@@ -56,9 +59,11 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 			`tickets`
 		WHERE
 			`ticket_id` = ?
+		AND
+			(`ticket_from` = ? OR `ticket_to` = ?)	
 	";
 
-	$rs = exec_query($sql, $query, array($ticket_id));
+	$rs = exec_query($sql, $query, array($ticket_id,$user_id,$user_id));
 
 	if ($rs->RecordCount() == 0) {
 		$tpl->assign('TICKETS_LIST', '');

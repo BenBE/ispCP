@@ -62,12 +62,14 @@ function gen_tickets_list(&$tpl, &$sql, $user_id) {
 		FROM
 			`tickets`
 		WHERE
+			(`ticket_from` = ? OR `ticket_to` = ?)
+		AND
 			`ticket_status` != 0
 		AND
 			`ticket_reply` = 0
 	";
 
-	$rs = exec_query($sql, $count_query, array());
+	$rs = exec_query($sql, $count_query, array($user_id,$user_id));
 	$records_count = $rs->fields['cnt'];
 
 	$query = "
@@ -81,6 +83,8 @@ function gen_tickets_list(&$tpl, &$sql, $user_id) {
 		FROM
 			`tickets`
 		WHERE
+			(`ticket_from` = ? OR `ticket_to` = ?)
+		AND
 			`ticket_status` != 0
 		AND
 			`ticket_reply` = 0
@@ -90,7 +94,7 @@ function gen_tickets_list(&$tpl, &$sql, $user_id) {
 			$start_index, $rows_per_page
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query, array($user_id,$user_id));
 
 	if ($rs->RecordCount() == 0) {
 		$tpl->assign(
