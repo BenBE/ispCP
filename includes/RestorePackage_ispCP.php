@@ -668,10 +668,27 @@ class RestorePackage_ispCP extends BaseController
 	{
 		$this->logMessage('createEMailAccount: '.$email['mail_acc'], ISPCP_LOG_INFO);
 
-		// Don't restore email from deleted aliases
-		if (!empty($email['sub_id']) && !isset($this->domain_alias_ids[$email['sub_id']])) {
-			$this->logMessage('domain alias id not found: '.$email['sub_id'], ISPCP_LOG_INFO);
-			return;
+		// Set sub_id to either subdomain or alias id
+		$sub_id = 0;
+		if (isset($email['sub_id']) && !empty($email['sub_id']) && isset($email['mail_type'])) {
+			$n = strpos($email['mail_type'], 'subdom');
+			if ($n !== false) {
+				// subdomain
+				if (!isset($this->subdomain_ids[$email['sub_id']])) {
+					$this->logMessage('domain subdomain id not found: '.$email['sub_id'], ISPCP_LOG_INFO);
+					return;
+				} else {
+					$sub_id = $this->subdomain_ids[$email['sub_id']];
+				}
+			} else {
+				// alias
+				if (!isset($this->domain_alias_ids[$email['sub_id']])) {
+					$this->logMessage('domain alias id not found: '.$email['sub_id'], ISPCP_LOG_INFO);
+					return;
+				} else {
+					$sub_id = $this->domain_alias_ids[$email['sub_id']];
+				}
+			}
 		}
 
 		$default_values = array(
@@ -687,7 +704,7 @@ class RestorePackage_ispCP extends BaseController
 
 		$params[':domain_id'] 	= $this->domain_id;
 		$params[':status'] 		= 'toadd';
-		$params[':sub_id'] 		= empty($email['sub_id']) ? 0 : $this->domain_alias_ids[$email['sub_id']];
+		$params[':sub_id'] 		= $sub_id;
 		if ($email['mail_pass'] != '_no_') {
 			$params[':mail_pass'] = encrypt_db_password($email['mail_pass']);
 		} else {
