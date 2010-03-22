@@ -29,7 +29,6 @@
  */
 
 require '../include/ispcp-lib.php';
-
 check_login(__FILE__);
 
 if (isset($_GET['edit_id'])) {
