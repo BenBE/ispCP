@@ -7,9 +7,18 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.ispcpTooltips.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+
 <script type="text/javascript">
-<!--
+/*<![CDATA[*/
+	$(document).ready(function(){
+		// Tooltips - begin
+		$('#fwd_help').ispCPtooltips({msg:"{TR_FWD_HELP}"});
+		// Tooltips - end
+	});
+
 	function changeType() {
 		if (document.forms[0].elements['mail_type_normal'].checked == true) {
 			document.forms[0].pass.disabled = false;
@@ -77,8 +86,9 @@
 			}
 		}
 	}
-//-->
+/*]]>*/
 </script>
+
 <style type="text/css">
 <!--
 .style1 {font-size: 9px}
@@ -87,17 +97,13 @@
 </head>
 
 <body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif'); begin_js();">
-<!-- BDP: logged_from -->
-     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-      </tr>
-    </table>
-	<!-- EDP: logged_from -->
-<!-- ToolTip -->
-<div id="fwd_help" style="background-color:#ffffe0;border: 1px #000000 solid;display:none;margin:5px;padding:5px;font-size:11px;width:200px;position:absolute;">{TR_FWD_HELP}</div>
-<!-- ToolTip end -->
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
 <tr>
 <td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
 <td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
@@ -209,8 +215,8 @@
               </tr>
               <tr>
                 <td class="content2" style="width:200px;vertical-align:top;">
-				  {TR_FORWARD_TO} <img src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" onmouseover="showTip('fwd_help', event)" onmouseout="hideTip('fwd_help')" /></td>
-                <td nowrap="nowrap" class="content"><textarea name="forward_list" cols="35" rows="5" style="width:210px">{FORWARD_LIST}</textarea></td>
+				  {TR_FORWARD_TO} <img id="fwd_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" /></td>
+                <td nowrap="nowrap" class="content"><textarea name="forward_list" cols="35" rows="10" style="width:400px">{FORWARD_LIST}</textarea></td>
 	          </tr>
               <tr>
              <td colspan="2"><input name="Submit" type="submit" class="button" value=" {TR_ADD} " /></td>

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ftp_accounts.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/ftp_accounts.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mail_message', 'page');
@@ -98,12 +98,14 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 }
 
 function gen_page_lists(&$tpl, &$sql, $user_id) {
+
 	list($dmn_id,
 		$dmn_name,
 		$dmn_gid,
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -117,7 +119,10 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name);
 	// return $total_mails;
@@ -125,7 +130,7 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -146,8 +151,8 @@ gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -175,7 +180,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

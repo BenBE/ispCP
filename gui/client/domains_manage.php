@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,15 +33,18 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/domains_manage.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/domains_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('als_message', 'page');
 $tpl->define_dynamic('als_list', 'page');
 $tpl->define_dynamic('als_item', 'als_list');
+$tpl->define_dynamic('alias_add', 'page');
 $tpl->define_dynamic('sub_message', 'page');
 $tpl->define_dynamic('sub_list', 'page');
 $tpl->define_dynamic('sub_item', 'sub_list');
+$tpl->define_dynamic('subdomain_add', 'page');
+$tpl->define_dynamic('isactive_dns', 'page');
 $tpl->define_dynamic('dns_message', 'page');
 $tpl->define_dynamic('dns_list', 'page');
 $tpl->define_dynamic('dns_item','dns_list');
@@ -123,7 +126,7 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 }
 
 function gen_user_dns_action($action, $dns_id, $status) {
-	if ($status === Config::get('ITEM_OK_STATUS')) {
+	if ($status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 		return array(tr($action), 'dns_'.strtolower($action).'.php?edit_id='.$dns_id);
 	} else {
 		return array(tr('N/A'), '#');
@@ -131,7 +134,7 @@ function gen_user_dns_action($action, $dns_id, $status) {
 }
 
 function gen_user_sub_action($sub_id, $sub_status) {
-	if ($sub_status === Config::get('ITEM_OK_STATUS')) {
+	if ($sub_status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 		return array(tr('Delete'), "subdomain_delete.php?id=$sub_id");
 	} else {
 		return array(tr('N/A'), '#');
@@ -139,7 +142,7 @@ function gen_user_sub_action($sub_id, $sub_status) {
 }
 
 function gen_user_alssub_action($sub_id, $sub_status) {
-	if ($sub_status === Config::get('ITEM_OK_STATUS')) {
+	if ($sub_status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 		return array(tr('Delete'), "alssub_delete.php?id=$sub_id");
 	} else {
 		return array(tr('N/A'), '#');
@@ -236,9 +239,9 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 }
 
 function gen_user_als_action($als_id, $als_status) {
-	if ($als_status === Config::get('ITEM_OK_STATUS')) {
+	if ($als_status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 		return array(tr('Delete'), 'alias_delete.php?id=' . $als_id);
-	} else if ($als_status === Config::get('ITEM_ORDERED_STATUS')) {
+	} else if ($als_status === Config::getInstance()->get('ITEM_ORDERED_STATUS')) {
 		return array(tr('Delete order'), 'alias_order_delete.php?del_id=' . $als_id);
 	} else {
 		return array(tr('N/A'), '#');
@@ -324,7 +327,7 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -342,8 +345,8 @@ gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
 gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 
@@ -375,10 +378,11 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

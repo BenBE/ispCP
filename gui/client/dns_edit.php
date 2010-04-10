@@ -2,8 +2,8 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -21,7 +21,7 @@
  * The Original Code is "ispCP - isp Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2009 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -31,11 +31,11 @@ require_once '../include/Net_DNS/DNS.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/dns_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/dns_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $DNS_allowed_types = array('A','AAAA','SRV','CNAME','MX');
 
@@ -43,7 +43,7 @@ $add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 
 $tpl->assign(
 	array(
-		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode) ? tr("ispCP - Manage Domain Alias/Add DNS zone's record") : 
+		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode) ? tr("ispCP - Manage Domain Alias/Add DNS zone's record") :
 													tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
 		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
 		'THEME_CHARSET'				=> tr('encoding'),
@@ -81,8 +81,8 @@ $tpl->assign(
 	)
 );
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 $tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', '');
@@ -124,7 +124,7 @@ gen_editdns_page($tpl, $editid);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -220,6 +220,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -234,7 +235,9 @@ function gen_editdns_page(&$tpl, $edit_id) {
 		$dmn_disk_usage,
 		$dmn_php,
 		$dmn_cgi,
-		$dmn_dns) = get_domain_default_props($sql, $_SESSION['user_id']);
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	if ($dmn_dns != 'yes') {
 		not_allowed();
@@ -260,7 +263,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 			AND `alias_status` <> :state
 		";
 
-		$res = exec_query($sql, $query, array('domain_id'=>$dmn_id,'state'=>Config::get('ITEM_ORDERED_STATUS')));
+		$res = exec_query($sql, $query, array('domain_id'=>$dmn_id,'state'=>Config::getInstance()->get('ITEM_ORDERED_STATUS')));
 		$sel = '';
 		while ($row = $res->FetchRow()) {
 			$sel.= '<option value="'.$row['alias_id'].'">'.$row['domain_name'].'</option>';
@@ -416,7 +419,7 @@ function check_CNAME_conflict($domain,&$err) {
 }
 
 function validate_NAME($domain, &$err) {
-	if (preg_match('~([^a-z,A-Z,0-9\.])~u', $domain['name'], $e)) {
+	if (preg_match('~([^-a-z,A-Z,0-9.])~u', $domain['name'], $e)) {
 		$err .= sprintf(tr('Use of disallowed char("%s") in NAME'), $e[1]);
 		return false;
 	}
@@ -587,7 +590,7 @@ function check_fwd_data(&$tpl, $edit_id) {
  				WHERE
     					`domain`.`domain_id` = ?
    			";
-			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id));
+			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_DNSCHANGE_STATUS'), $dmn_id));
 			$query = "
 				UPDATE
 					`subdomain`
@@ -596,7 +599,7 @@ function check_fwd_data(&$tpl, $edit_id) {
     			WHERE
     				`subdomain`.`domain_id` = ?
 				";
-			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id));
+			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_DNSCHANGE_STATUS'), $dmn_id));
 		} else {
 			$query = "
  				UPDATE
@@ -607,8 +610,8 @@ function check_fwd_data(&$tpl, $edit_id) {
 					`domain_aliasses`.`domain_id` = ?
 				AND	`domain_aliasses`.`alias_id` = ?
 			";
-			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $dmn_id, $alias_id));
-			
+			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_CHANGE_STATUS'), $dmn_id, $alias_id));
+
 			$query = "
  				UPDATE
 					`subdomain_alias`
@@ -617,9 +620,9 @@ function check_fwd_data(&$tpl, $edit_id) {
  				WHERE
 					`subdomain_alias`.`alias_id` = ?
 			";
-			exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $alias_id));
+			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_CHANGE_STATUS'), $alias_id));
 		}
-		
+
 		send_request();
 
 		$admin_login = $_SESSION['user_logged'];

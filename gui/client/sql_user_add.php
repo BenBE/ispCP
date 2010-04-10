@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/sql_user_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/sql_user_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mysql_prefix_no', 'page');
@@ -62,6 +62,7 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -75,7 +76,10 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($sqld_acc_cnt,
 		$sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
@@ -231,19 +235,25 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 	}
 
 	if (isset($_POST['pass'])
-		&& strlen($_POST['pass']) > Config::get('MAX_SQL_PASS_LENGTH')
+		&& strlen($_POST['pass']) > Config::getInstance()->get('MAX_SQL_PASS_LENGTH')
 		&& !isset($_POST['Add_Exist'])) {
 		set_page_message(tr('Too user long password!'));
+		return;
+	}
+	
+	if (isset($_POST['pass'])
+		&& !preg_match('/^[[:alnum:]:!\*\+\#_.-]+$/', $_POST['pass'])) {
+		set_page_message(tr('Don\'t use special chars like "@, $, %..." in the password!'));
 		return;
 	}
 
 	if (isset($_POST['pass'])
 		&& !chk_password($_POST['pass'])
 		&& !isset($_POST['Add_Exist'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if (Config::getInstance()->get('PASSWD_STRONG')) {
+			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 		}
 		return;
 	}
@@ -285,7 +295,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 		$db_user = $rs->fields['sqlu_name'];
 	}
 
-	if (strlen($db_user) > Config::get('MAX_SQL_USER_LENGTH')) {
+	if (strlen($db_user) > Config::getInstance()->get('MAX_SQL_USER_LENGTH')) {
 		set_page_message(tr('User name too long!'));
 		return;
 	}
@@ -341,9 +351,9 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 }
 
 function gen_page_post_data(&$tpl, $db_id) {
-	if (Config::get('MYSQL_PREFIX') === 'yes') {
+	if (Config::getInstance()->get('MYSQL_PREFIX') === 'yes') {
 		$tpl->assign('MYSQL_PREFIX_YES', '');
-		if (Config::get('MYSQL_PREFIX_TYPE') === 'behind') {
+		if (Config::getInstance()->get('MYSQL_PREFIX_TYPE') === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
@@ -388,7 +398,7 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 $tpl->assign(
 	array(
 		'TR_CLIENT_SQL_ADD_USER_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
@@ -407,8 +417,8 @@ add_sql_user($sql, $_SESSION['user_id'], $db_id);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
 
 gen_logged_from($tpl);
 
@@ -435,7 +445,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

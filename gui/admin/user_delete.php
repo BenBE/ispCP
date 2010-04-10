@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/user_delete.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/user_delete.tpl');
 
 $tpl->define_dynamic('mail_list', 'page');
 $tpl->define_dynamic('ftp_list', 'page');
@@ -49,7 +49,7 @@ $tpl->define_dynamic('db_item', 'db_list');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -76,15 +76,15 @@ if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
 	user_goto('manage_users.php');
 }
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 
@@ -104,28 +104,35 @@ function delete_domain($domain_id) {
 		user_goto('manage_users.php');
 	}
 
-	$domain_admin_id = $data['domain_admin_id'];
-	$domain_name = $data['domain_name'];
-	$domain_uid = $data['domain_uid'];
-	$domain_gid = $data['domain_gid'];
-	$reseller_id = $data['domain_created_id'];
+	$domain_admin_id 	= $data['domain_admin_id'];
+	$domain_name 		= $data['domain_name'];
+	$domain_uid 		= $data['domain_uid'];
+	$domain_gid 		= $data['domain_gid'];
+	$reseller_id 		= $data['domain_created_id'];
 
-	$delete_status = Config::get('ITEM_DELETE_STATUS');
+	$delete_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
 
 	// Mail users:
 	exec_query($sql, "UPDATE `mail_users` SET `status` = '" . $delete_status . "' WHERE `domain_id` = ?", array($domain_id));
 
-	// Protected areas:
-	$query = "UPDATE `htaccess` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+	// Delete all protected areas related data (areas, groups and users)
+	$query = "
+		DELETE
+			`areas`, `users`, `groups`
+		FROM
+			`domain` as `customer`
+		LEFT JOIN
+			`htaccess` AS `areas` ON `areas`.`dmn_id` = `customer`.`domain_id`
+		LEFT JOIN
+			`htaccess_users` AS `users` ON `users`.`dmn_id` = `customer`.`domain_id`
+		LEFT JOIN
+			`htaccess_groups` AS `groups` ON `groups`.`dmn_id` = `customer`.`domain_id`
+		WHERE
+			`customer`.`domain_id` = ?
+		;
+	";
 
-	// Protected area groups:
-	$query = "UPDATE `htaccess_groups` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
-
-	// Protected area users
-	$query = "UPDATE `htaccess_users` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+	exec_query($sql, $query, $domain_id);
 
 	// Delete subdomain aliases:
 	$alias_a = array();
@@ -164,6 +171,10 @@ function delete_domain($domain_id) {
 	// Set domain deletion status
 	$query = "UPDATE `domain` SET `domain_status` = 'delete' WHERE `domain_id` = ?";
 	exec_query($sql, $query, array($domain_id));
+	
+	// Set domain subdomains deletion status
+	$query = "UPDATE `subdomain` SET `subdomain_status` = '$delete_status' WHERE `domain_id` = ?;";
+	exec_query($sql, $query, $domain_id);
 
 	// --- Activate daemon ---
 	send_request();
@@ -182,15 +193,15 @@ function delete_domain($domain_id) {
 
 	// Delete the quota section:
 	$query = "DELETE FROM `quotalimits` WHERE `name` = ?";
-	exec_query($sql, $query, array($domain_admin_id));
+	exec_query($sql, $query, array($domain_name));
 
 	// Remove support tickets:
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
-	
-	// Delete Software installed by Software Installer:
-	$query = "DELETE FROM `web_software_inst` WHERE `domain_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+
+	// Delete user gui properties
+	$query = "DELETE FROM `user_gui_props` WHERE `user_id` = ?;";
+	exec_query($sql, $query, $domain_admin_id);
 
 	write_log($_SESSION['user_logged'] .": deletes domain " . $domain_name);
 
@@ -206,8 +217,16 @@ function delete_domain($domain_id) {
  */
 function delete_user($user_id) {
 	global $sql;
-	
-	$query = "SELECT `admin_type` FROM `admin` WHERE `admin_id` = ?";
+
+	$query = "
+		SELECT
+			a.`admin_type`,
+			b.`logo`
+		FROM `admin` AS a
+		LEFT JOIN
+			`user_gui_props` AS b ON b.`user_id` = a.`admin_id`
+		WHERE
+			`admin_id` = ?";
 	$res = exec_query($sql, $query, array($user_id));
 	$data = $res->FetchRow();
 	$type = $data['admin_type'];
@@ -217,18 +236,21 @@ function delete_user($user_id) {
 	}
 
 	if ($type == 'reseller') {
+		$reseller_logo = $data['logo'];
 		// delete reseller props
 		$query = "DELETE FROM `reseller_props` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
-		
 		// delete hosting plans
 		$query = "DELETE FROM `hosting_plans` WHERE `reseller_id` = ?";
 		exec_query($sql, $query, array($user_id));
-		
-		// delete Software
-		delete_reseller_software($user_id);
-		$query = "DELETE FROM `web_software` WHERE `reseller_id` = ?";
-		exec_query($sql, $query, array($user_id));
+		// delete reseller logo if exists
+		if(!empty($reseller_logo) && $reseller_logo !== 0) {
+			try {
+				unlink(Config::getInstance()->get('IPS_LOGO_PATH') . '/' . $reseller_logo);
+			} catch(Exception $e) {
+				set_page_message(tr('Logo could not be deleted:') . " " . $e->getMessage());
+			}
+		}
 	}
 
 	// Delete ispcp login:
@@ -242,35 +264,15 @@ function delete_user($user_id) {
 }
 
 /**
- * Delete reseller software pakets
- * @param integer $user_id Reseller ID to delete software pakets
- */
-function delete_reseller_software($user_id) {
-	global $sql;
-	
-	$query = "SELECT `software_id`, `software_archive` FROM `web_software` WHERE `reseller_id` = ?";
-	$res = exec_query($sql, $query, array($user_id));
-	if ($res->RecordCount() > 0) {
-		while (!$res ->EOF) {
-			$del_path = Config::get('GUI_SOFTWARE_DIR')."/".$user_id."/".$res->fields['software_archive']."-".$res->fields['software_id'].".tar.gz";
-			@unlink($del_path);
-			$res->MoveNext();
-		}
-		$del_dir = Config::get('GUI_SOFTWARE_DIR')."/".$user_id."/";
-		@rmdir($del_dir);
-	}
-}
-
-/**
  * Validate if delete process is valid
  * @param integer $user_id User-ID to delete
  * @return boolean true = deletion can be done
  */
 function validate_user_deletion($user_id) {
 	global $sql;
-	
+
 	$result = false;
-	
+
 	// check if there are domains created by user
 	$query = "SELECT COUNT(`domain_id`) AS `num_domains` FROM `domain` WHERE `domain_created_id` = ?";
 	$res = exec_query($sql, $query, array($user_id));
@@ -413,7 +415,7 @@ function validate_domain_deletion($domain_id) {
 		$query = "SELECT * FROM `subdomain_alias` WHERE `alias_id` IN (";
 		$query .= implode(',', $alias_a);
 		$query .= ")";
-		$res = exec_query($sql, $query, array($domain_id));
+		$res = exec_query($sql, $query, array());
 		while (!$res->EOF) {
 			$any_sub_found = true;
 			$tpl->assign(array(

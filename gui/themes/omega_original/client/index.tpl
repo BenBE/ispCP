@@ -11,13 +11,12 @@
 </head>
 
 <body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
-<!-- BDP: logged_from --><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-      </tr>
-    </table>
-	<!-- EDP: logged_from -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
 <tr>
 <td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
 <td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
@@ -57,6 +56,11 @@
             <td width="25">&nbsp;</td>
             <td class="content">{TR_ACCOUNT_NAME} / {TR_MAIN_DOMAIN}</td>
             <td width="230" class="content2">{ACCOUNT_NAME}</td>
+          </tr>
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_DOMAIN_EXPIRE}</td>
+            <td width="230" class="content2">{DMN_EXPIRES} ( <strong style="text-decoration:underline;">{DMN_EXPIRES_DATE}</strong> )</td>
           </tr>
           <!-- BDP: t_php_support -->
           <tr>
@@ -131,13 +135,6 @@
             <td width="230" class="content2">{SQL_USERS}</td>
           </tr>
           <!-- EDP: t_sql2_support -->
-		  <!-- BDP: t_software_allowed -->
-          <tr>
-            <td width="25">&nbsp;</td>
-            <td class="content">{SW_ALLOWED}</td>
-            <td width="230" class="content2">{SW_MSG}</td>
-          </tr>
-          <!-- EDP: t_software_allowed -->
           <!-- BDP: msg_entry -->
           <td>&nbsp;</td>
             <td colspan="2" class="title"><span class="message">{TR_NEW_MSGS}</span></td>
@@ -181,13 +178,13 @@
         <td>&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20"></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" /></td>
             <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20"></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" /></td>
               </tr>
             </table></td>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20"></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" /></td>
           </tr>
         </table></td>
       </tr>
@@ -227,13 +224,13 @@
         <td>&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20"></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" /></td>
             <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{DISK_BARS}" height="20"></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{DISK_BARS}" height="20" /></td>
               </tr>
             </table></td>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20"></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" /></td>
           </tr>
         </table></td>
       </tr>

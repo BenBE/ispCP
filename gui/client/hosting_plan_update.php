@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/hosting_plan_update.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/hosting_plan_update.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -126,7 +126,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		$hp_title = tr('Your order');
 	} else {
 		// generate all hosting plans available for purchasing
-		if (Config::exists('HOSTING_PLANS_LEVEL') && Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+		if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 			$query = "
 				SELECT
 					t1.*,
@@ -211,8 +211,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$hp_traff,
 				$hp_disk,
 				$hp_backup,
-				$hp_dns,
-				$hp_allowsoftware
+				$hp_dns
 		) = explode(";", $rs->fields['props']);
 
 		$details = '';
@@ -253,22 +252,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$warning_msgs[] = tr("You have DNS enabled, but the new hosting plan doesn't has this feature.");
 			}
 		}
-		
- 		if ($hp_allowsoftware === '_yes_') {
-			$software = "yes";
-			$details .= tr('Software installation: enabled') . "<br />";
-		} else {
-			$software = "no";
-			$details .= tr('Software installation: disabled') . "<br />";
-
-			if ($current['domain_software_allowed'] == 'yes') {
-				$warning_msgs[] = tr("You have the software installation enabled, but the new hosting plan doesn't has this feature.");
-			}
-		}
 
 		$traffic = get_user_traffic($domain_id);
 
-		$curr_value = $traffic[7]; // disk usage
+		$curr_value = $traffic[7] / 1048576; // convert disk usage to MB
 
 		if (!check_update_current_value($curr_value, $hp_disk)) {
 			$error_msgs[] = tr("You have more disk space in use than the new hosting plan limits.");
@@ -276,10 +263,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 		$hdd_usage = tr('Disk limit') . ": " . translate_limit_value($hp_disk, true) . "<br />";
 
-		$curr_value = $traffic[6]; // total
+		$curr_value = $traffic[10] / 1048576; // convert max. traffic to MB
 
 		if (!check_update_current_value($curr_value, $hp_traff)) {
-			$error_msgs[] = tr("You have more traffic than the new hosting plan limits.");
+			$warning_msgs[] = tr("You did have more traffic than the new hosting plan limits.");
 		}
 
 		$traffic_usage = tr('Traffic limit') . ": " . translate_limit_value($hp_traff, true);
@@ -371,8 +358,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				`domain_cgi` = ?
 			AND
 				`domain_dns` = ?
-			AND 
-				`domain_software_allowed` = ?
 		";
 
 		$check = exec_query(
@@ -382,7 +367,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 										$hp_mail, $hp_ftp, $hp_traff,
 										$hp_sql_db, $hp_sql_user,
 										$hp_als, $hp_sub, $hp_disk,
-										$php, $cgi, $dns, $software
+										$php, $cgi, $dns
 								)
 		);
 
@@ -396,10 +381,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				} else {
 					$warning_text = '';
 				}
-				$warning_text .= '<br /><br /><strong>'.tr('Error:').'</strong><br />'.implode('<br />', $error_msgs);
+				$warning_text .= '<br /><br /><strong>'.tr('Caution:').'</strong><br />'.implode('<br />', $error_msgs);
 			} elseif ($purchase_link == 'order_id' && count($warning_msgs) > 0) {
 				$warning_text = '<br /><br /><strong>'.tr('Warning:').'</strong><br />'.implode('<br />', $warning_msgs);
-				$purchase_text = tr('I know about the warnings - Purchase!');
+				$purchase_text = tr('I understand the warnings - Purchase!');
 			} else {
 				$warning_text = '';
 			}
@@ -422,7 +407,8 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			$tpl->parse('HP_ORDER', '.hp_order');
 			$i++;
 		}
-
+		$purchase_text = tr('Purchase');
+		$purchase_link = 'order_id';
 		$rs->MoveNext();
 	}
 	if ($i == 0) {
@@ -439,7 +425,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	}
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 $tpl->assign(
 		array(
 			'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan'),
@@ -460,7 +446,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 		FROM
 			`domain`
 		WHERE
-			`domain_admin_id`=
+			`domain_admin_id` = ?
 	";
 
 	$rs = exec_query($sql, $query, array($user_id));
@@ -473,7 +459,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 		FROM
 			`domain`
 		WHERE
-			`domain_id`=?
+			`domain_id` = ?
 	";
 
 	$rs = exec_query($sql, $query, array($domain_id));
@@ -490,51 +476,43 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 
 	$error_msgs = array();
 	$rs = exec_query($sql, $query, array($order_id));
-	list(
-		$hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db,
-		$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware
-	) = explode(";", $rs->fields['props']);
+	list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $rs->fields['props']);
 
 	$traffic = get_user_traffic($domain_id);
 
-	$curr_value = $traffic[7]; // disk usage
+	$curr_value = $traffic[7] / 1048576; // disk usage
 	if (!check_update_current_value($curr_value, $hp_disk)) {
-		$error_msgs[] = tr("You have more disk space in use than the new hosting plan limits");
-	}
-
-	$curr_value = $traffic[6]; // total
-	if (!check_update_current_value($curr_value, $hp_traff)) {
-		$error_msgs[] = tr("You have more traffic than the new hosting plan limits");
+		$error_msgs[] = tr("You have more disk space in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_als_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value, $hp_als)) {
-		$error_msgs[] = tr("You have more aliases in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more aliases in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_sub_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value, $hp_sub)) {
-		$error_msgs[] = tr("You have more subdomains in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more subdomains in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_mail_acc_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value[0], $hp_mail)) {
-		$error_msgs[] = tr("You have more Email addresses in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more e-mail addresses in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_ftp_acc_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value[0], $hp_ftp)) {
-		$error_msgs[] = tr("You have more FTP accounts in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more FTP accounts in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_sqld_acc_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value, $hp_sql_db)) {
-		$error_msgs[] = tr("You have more SQL databases in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more SQL databases in use than the new hosting plan limits.");
 	}
 
 	$curr_value = get_domain_running_sqlu_acc_cnt($sql, $domain_id);
 	if (!check_update_current_value($curr_value, $hp_sql_user)) {
-		$error_msgs[] = tr("You have more SQL database users in use than the new hosting plan limits");
+		$error_msgs[] = tr("You have more SQL database users in use than the new hosting plan limits.");
 	}
 
 	if (count($error_msgs) > 0) {
@@ -601,7 +579,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 	$message = tr("You have an update order for the account %s\n\nPlease login into your ispCP control panel at %s for more details",
 		true,
 		$_SESSION['user_logged'],
-		Config::get('BASE_SERVER_VHOST_PREFIX') . Config::get('BASE_SERVER_VHOST'));
+		Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX') . Config::getInstance()->get('BASE_SERVER_VHOST'));
 
 	$mail_result = mail($to, $subject, $message, $headers);
 }
@@ -637,8 +615,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
 gen_hp($tpl, $sql, $_SESSION['user_id']);
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -657,7 +635,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

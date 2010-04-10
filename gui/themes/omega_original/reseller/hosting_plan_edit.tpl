@@ -11,13 +11,12 @@
 </head>
 
 <body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
-<!-- BDP: logged_from --><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-      </tr>
-    </table>
-	<!-- EDP: logged_from -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
 <tr>
 <td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
 <td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
@@ -150,17 +149,6 @@
                                 {TR_BACKUP_NO}
 			      </td>
                             </tr>
-					  <!-- BDP: t_software_support -->
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td class="content2" width="193">{TR_SOFTWARE_SUPP}</td>
-						 <td class="content"><input type="radio" {DISBLED} name="software_allowed" value="_yes_" {TR_SOFTWARE_YES} />
-                          {TR_YES}
-                          <input type="radio" {DISBLED} name="software_allowed" value="_no_" {TR_SOFTWARE_NO} />
-                          {TR_NO}</td>
-                        </td>
-                      </tr>
-					  <!-- EDP: t_software_support -->
                       <tr>
                         <td>&nbsp;</td>
                         <td colspan="2" class="content3"><b>{TR_BILLING_PROPS}</b></td>
@@ -186,6 +174,22 @@
                         <td class="content2">{TR_PAYMENT}</td>
                         <td class="content"><input name="hp_payment" {READONLY} type="text" class="textinput" id="hp_payment" style="width:100px" value="{HP_PAYMENT}" /></td>
                       </tr>
+                      <!-- TOS -->
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2" class="content3"><b>{TR_TOS_PROPS}</b></td>
+                      </tr>
+                      <tr>
+                      <td>&nbsp;</td>
+                      <td colspan="2" class="content4">&nbsp;{TR_TOS_NOTE}</td>
+                      </tr>
+                       <tr>
+                        <td>&nbsp;</td>
+                        <td class="content2">{TR_TOS_DESCRIPTION}</td>
+                        <td class="content"><textarea class="textinput2" name="hp_tos" style="width:410px" cols="70" rows="8">{HP_TOS_VALUE}</textarea></td>
+                      </tr>
+                      <!-- TOS END -->
+
                       <tr>
                         <td>&nbsp;</td>
                         <td class="content2">{TR_STATUS}</td>

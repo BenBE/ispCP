@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,7 +34,7 @@
 function system_message($msg, $backButtonDestination = "") {
 	$theme_color = (isset($_SESSION['user_theme']))
 		? $_SESSION['user_theme']
-		: Config::get('USER_INITIAL_THEME');
+		: Config::getInstance()->get('USER_INITIAL_THEME');
 
 	if (empty($backButtonDestination)) {
 		$backButtonDestination = "javascript:history.go(-1)";
@@ -43,11 +43,11 @@ function system_message($msg, $backButtonDestination = "") {
 	$tpl = new pTemplate();
 
 	// If we are on the login page, path will be like this
-	$template = Config::get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
+	$template = Config::getInstance()->get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
 
 	if (!is_file($template)) {
 		// But if we're inside the panel it will be like this
-		$template = '../' . Config::get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
+		$template = '../' . Config::getInstance()->get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
 	}
 
 	if (!is_file($template)) {

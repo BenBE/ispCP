@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -41,7 +41,7 @@ if (isset($_GET['id'])) {
 }
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ftp_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/ftp_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
@@ -61,7 +61,7 @@ SQL_QUERY;
 
 	$homedir = $rs->fields['homedir'];
 	$domain_ftp = $_SESSION['user_logged'];
-	$nftp_dir = Config::get('FTP_HOMEDIR') . "/" . $domain_ftp;
+	$nftp_dir = Config::getInstance()->get('FTP_HOMEDIR') . "/" . $domain_ftp;
 
 	if ($nftp_dir == $homedir) {
 		$odir = '';
@@ -90,14 +90,14 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'edit_user') {
 		if (!empty($_POST['pass']) || !empty($_POST['pass_rep'])) {
 			if ($_POST['pass'] !== $_POST['pass_rep']) {
-				set_page_message(tr('Entered passwords differ!'));
+				set_page_message(tr('Entered passwords do not match!'));
 				return;
 			}
 			if (!chk_password($_POST['pass'])) {
-				if (Config::get('PASSWD_STRONG')) {
-					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+				if (Config::getInstance()->get('PASSWD_STRONG')) {
+					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 				} else {
-					set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+					set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 				}
 				return;
 			}
@@ -116,7 +116,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 				// append the full path (vfs is always checking per ftp so it's logged
 				// in in the root of the user (no absolute paths are allowed here!)
 
-				$other_dir = Config::get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged']
+				$other_dir = Config::getInstance()->get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged']
 							. clean_input($_POST['other_dir']);
 
 				$query = <<<SQL_QUERY
@@ -156,7 +156,7 @@ SQL_QUERY;
 					set_page_message(tr('Incorrect mount point length or syntax'));
 					return;
 				}
-				$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . $other_dir;
+				$ftp_home = Config::getInstance()->get('FTP_HOMEDIR') . "/$dmn_name/" . $other_dir;
 				// Strip possible double-slashes
 				$ftp_home = str_replace('//', '/', $other_dir);
 				// Check for $other_dir existence
@@ -168,10 +168,10 @@ SQL_QUERY;
 					set_page_message(tr('%s does not exist', $other_dir));
 					return;
 				}
-				$other_dir = Config::get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged'] . $other_dir;
+				$other_dir = Config::getInstance()->get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged'] . $other_dir;
 			} else { // End of user-specified mount-point
 
-				$other_dir = Config::get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged'];
+				$other_dir = Config::getInstance()->get('FTP_HOMEDIR') . "/" . $_SESSION['user_logged'];
 
 			}
 			$query = <<<SQL_QUERY
@@ -192,7 +192,7 @@ SQL_QUERY;
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -225,8 +225,8 @@ update_ftp_account($sql, $ftp_acc, $dmn_name);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -234,13 +234,16 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_EDIT_FTP_USER' => tr('Edit FTP user'),
-		'TR_FTP_ACCOUNT' => tr('FTP account'),
-		'TR_PASSWORD' => tr('Password'),
-		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
-		'TR_USE_OTHER_DIR' => tr('Use other dir'),
-		'TR_EDIT' => tr('Save changes'),
-		'CHOOSE_DIR' => tr('Choose dir')
+		'TR_EDIT_FTP_USER' 		=> tr('Edit FTP user'),
+		'TR_FTP_ACCOUNT' 		=> tr('FTP account'),
+		'TR_PASSWORD' 			=> tr('Password'),
+		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
+		'TR_USE_OTHER_DIR' 		=> tr('Use other dir'),
+		'TR_EDIT' 				=> tr('Save changes'),
+		'CHOOSE_DIR' 			=> tr('Choose dir'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
 	)
 );
 
@@ -249,7 +252,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

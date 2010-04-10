@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -39,7 +39,7 @@ check_login(__FILE__);
 if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	$id = $_GET['id'];
-	$delete_status = Config::get('ITEM_DELETE_STATUS');
+	$delete_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
 	$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
 
 	// let's see the status of this thing
@@ -56,7 +56,7 @@ SQL_QUERY;
 
 	$rs = exec_query($sql, $query, array($id, $dmn_id));
 	$status = $rs->fields['status'];
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
 	if ($status !== $ok_status) {
 		set_page_message(tr('Protected area status should be OK if you want to delete it!'));
 		user_goto('protected_areas.php');

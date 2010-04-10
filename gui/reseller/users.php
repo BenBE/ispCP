@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/users.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/users.tpl');
 $tpl->define_dynamic('users_list', 'page');
 $tpl->define_dynamic('user_entry', 'users_list');
 $tpl->define_dynamic('user_details', 'users_list');
@@ -44,8 +44,9 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('edit_option', 'page');
+$tpl->define_dynamic('alias_menu', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -56,6 +57,7 @@ $tpl->assign(
 	)
 );
 
+// TODO: comment!
 unset($_SESSION['dmn_name']);
 unset($_SESSION['ch_hpprops']);
 unset($_SESSION['local_data']);
@@ -75,8 +77,8 @@ unset($GLOBALS['dmn_id']);
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -110,20 +112,22 @@ $tpl->assign(
 	)
 );
 
-if (Config::exists('HOSTING_PLANS_LEVEL') && Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$tpl->assign('EDIT_OPTION', '');
 }
 
 generate_users_list($tpl, $_SESSION['user_id']);
-
 check_externel_events($tpl);
-
 gen_page_message($tpl);
+
+if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+	$tpl->assign('alias_menu', '');
+}
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -136,7 +140,7 @@ function generate_users_list(&$tpl, $admin_id) {
 
 	$start_index = 0;
 
-	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
+	$rows_per_page = Config::getInstance()->get('DOMAIN_ROWS_PER_PAGE');
 
 	if (isset($_POST['details']) && !empty($_POST['details'])) {
 		$_SESSION['details'] = $_POST['details'];
@@ -261,16 +265,16 @@ function generate_users_list(&$tpl, $admin_id) {
 		$i = 1;
 
 		while (!$rs->EOF) {
-			if ($rs->fields['domain_status'] == Config::get('ITEM_OK_STATUS')) {
+			if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_OK_STATUS')) {
 				$status_icon = "ok.png";
-			} else if ($rs->fields['domain_status'] == Config::get('ITEM_DISABLED_STATUS')) {
+			} else if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_DISABLED_STATUS')) {
 				$status_icon = "disabled.png";
-			} else if ($rs->fields['domain_status'] == Config::get('ITEM_ADD_STATUS')
-				|| $rs->fields['domain_status'] == Config::get('ITEM_CHANGE_STATUS')
-				|| $rs->fields['domain_status'] == Config::get('ITEM_TOENABLE_STATUS')
-				|| $rs->fields['domain_status'] == Config::get('ITEM_RESTORE_STATUS')
-				|| $rs->fields['domain_status'] == Config::get('ITEM_TODISABLED_STATUS')
-				|| $rs->fields['domain_status'] == Config::get('ITEM_DELETE_STATUS')) {
+			} else if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_ADD_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_CHANGE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TOENABLE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_RESTORE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TODISABLED_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_DELETE_STATUS')) {
 				$status_icon = "reload.png";
 			} else {
 				$status_icon = "error.png";
@@ -299,17 +303,17 @@ function generate_users_list(&$tpl, $admin_id) {
 			if ($dom_created == 0) {
 				$dom_created = tr('N/A');
 			} else {
-				$date_formt = Config::get('DATE_FORMAT');
+				$date_formt = Config::getInstance()->get('DATE_FORMAT');
 				$dom_created = date($date_formt, $dom_created);
 			}
 
 			if ($dom_expires == 0) {
 				$dom_expires = tr('N/A');
 			} else {
-				$date_formt = Config::get('DATE_FORMAT');
+				$date_formt = Config::getInstance()->get('DATE_FORMAT');
 				$dom_expires = date($date_formt, $dom_expires);
 			}
-			
+
 			$tpl->assign(
 				array(
 					'CREATION_DATE' => $dom_created,
@@ -319,8 +323,9 @@ function generate_users_list(&$tpl, $admin_id) {
 					'ACTION' => tr('Delete'),
 					'USER_ID' => $rs->fields['domain_admin_id'],
 					'CHANGE_INTERFACE' => tr('Switch'),
-					'DISK_LIMIT' => $rs->fields['domain_disk_limit'],
-					'DISK_USAGE' => round($rs->fields['domain_disk_usage'] / 1024 / 1024,1),
+					'DISK_USAGE' => ($rs->fields['domain_disk_limit'])
+						? tr('%1$s of %2$s MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1), $rs->fields['domain_disk_limit'])
+						: tr('%1$s of <b>unlimited</b> MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1))
 				)
 			);
 

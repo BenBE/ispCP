@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -41,8 +41,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	user_goto('orders.php');
 }
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$query = "
 		SELECT
 			*
@@ -83,8 +83,8 @@ $dmn_id = get_user_domain_id($sql, $customer_id);
 // let's check the reseller limits
 $err_msg = '';
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$query = "SELECT `props` FROM `hosting_plans` WHERE `id` = ?";
 	$res = exec_query($sql, $query, $hpid);
 } else {
@@ -117,7 +117,7 @@ $domain_php = preg_replace("/\_/", "", $domain_php);
 $domain_cgi = preg_replace("/\_/", "", $domain_cgi);
 $domain_dns = preg_replace("/\_/", "", $domain_dns);
 
-if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
 	$query = "SELECT COUNT(`mail_id`) AS cnt
 		FROM `mail_users`
 		WHERE `domain_id` = ?
@@ -190,7 +190,7 @@ if (empty($ed_error)) {
 }
 
 if (empty($ed_error)) {
-	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+	if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
 		$umail_max -= $default_mails;
 	}
 
@@ -255,7 +255,18 @@ if (empty($ed_error)) {
 }
 
 function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
-	if ($rmax == 0 && $umax == -1) {
+	if ($rmax == -1 && $umax >= 0) {
+		if ($u > 0) {
+			$err .= tr('The <em>%s</em> service cannot be disabled!', $obj) . tr('There are <em>%s</em> records on system!', $obj);
+			return;
+		} else if ($data != -1){
+			$err .= tr('The <em>%s</em> have to be disabled!', $obj) . tr('The admin has <em>%s</em> disabled on this system!', $obj);
+			return;
+		} else {
+			$umax = $data;
+		}
+		return;
+	} else if ($rmax == 0 && $umax == -1) {
 		if ($data == -1) {
 			return;
 		} else if ($data == 0) {

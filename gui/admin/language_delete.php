@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -40,7 +40,7 @@ if (!isset($_GET['delete_lang'])) {
 $delete_lang = $_GET['delete_lang'];
 
 /* ERROR - we have domains that use this IP */
-if ($delete_lang == Config::get('USER_INITIAL_LANG')) {
+if ($delete_lang == Config::getInstance()->get('USER_INITIAL_LANG')) {
 	set_page_message('Error we can\'t delete system default language!');
 
 	user_goto('multilanguage.php');

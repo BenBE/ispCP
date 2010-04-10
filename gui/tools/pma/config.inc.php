@@ -3,7 +3,7 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  */
@@ -57,7 +57,7 @@ $cfg['Servers'][$i]['designer_coords']	= 'pma_designer_coords';
 $cfg['Servers'][$i]['hide_db'] 			= '(information_schema|phpmyadmin|mysql)';
 /* Name of the Server displayed */
 /*$cfg['Servers'][$i]['verbose'] 		= 'mysql.myserver.com';*/ // reactivate if domain is set in SETUP
-$cfg['Servers'][$i]['SignonSession']	= 'ispCP';
+$cfg['Servers'][$i]['SignonSession']	= 'ispCP Omega';
 /* Contrib / Swekey authentication */
 // $cfg['Servers'][$i]['auth_swekey_config'] = '/etc/swekey-pma.conf';
 
@@ -103,4 +103,6 @@ $cfg['GD2Available'] 					= 'yes';
 $cfg['BrowseMIME'] 						= true;
 /* Changes the default Theme */
 $cfg['ThemeDefault'] 					= 'omega';
+/* switch off new 'hex as binaray' mode */
+$cfg['DisplayBinaryAsHex'] 				= false;
 ?>

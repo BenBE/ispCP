@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,11 +33,11 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/domain_details.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('custom_buttons', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -63,6 +63,7 @@ $tpl->assign(
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support (EXPERIMENTAL)'),
+		'TR_BACKUP_SUPPORT'		=> tr('Backup support'),
 		'TR_MYSQL_SUPP'			=> tr('MySQL support'),
 		'TR_TRAFFIC'			=> tr('Traffic in MB'),
 		'TR_DISK'				=> tr('Disk in MB'),
@@ -76,13 +77,12 @@ $tpl->assign(
 		'TR_SUBDOM_ACCOUNTS'	=> tr('Subdomains'),
 		'TR_DOMALIAS_ACCOUNTS'	=> tr('Domain aliases'),
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
-		'TR_BACK'				=> tr('Back'),
-		'TR_SOFTWARE_SUPP' 		=> tr('Software installation')
+		'TR_BACK'				=> tr('Back')
 	)
 );
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_page_message($tpl);
 // Get user id that comes for manage domain
@@ -97,7 +97,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -120,9 +120,11 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$res = exec_query($sql, $query, array($domain_id));
 	$data = $res->FetchRow();
 
+
 	if ($res->RecordCount() <= 0) {
 		user_goto('manage_users.php');
 	}
+
 	// Get admin data
 	$query = "SELECT `admin_name` FROM `admin` WHERE `admin_id` = ?";
 	$res1 = exec_query($sql, $query, array($data['domain_admin_id']));
@@ -137,14 +139,14 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	// Get status name
 	$dstatus = $data['domain_status'];
 
-	if ($dstatus == Config::get('ITEM_OK_STATUS')
-		|| $dstatus == Config::get('ITEM_DISABLED_STATUS')
-		|| $dstatus == Config::get('ITEM_DELETE_STATUS')
-		|| $dstatus == Config::get('ITEM_ADD_STATUS')
-		|| $dstatus == Config::get('ITEM_RESTORE_STATUS')
-		|| $dstatus == Config::get('ITEM_CHANGE_STATUS')
-		|| $dstatus == Config::get('ITEM_TOENABLE_STATUS')
-		|| $dstatus == Config::get('ITEM_TODISABLED_STATUS')) {
+	if ($dstatus == Config::getInstance()->get('ITEM_OK_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_DISABLED_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_DELETE_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_ADD_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_RESTORE_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_CHANGE_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_TOENABLE_STATUS')
+		|| $dstatus == Config::getInstance()->get('ITEM_TODISABLED_STATUS')) {
 		$dstatus = translate_dmn_status($data['domain_status']);
 	} else {
 		$dstatus = "<b><font size=\"3\" color=\"red\">" . $data['domain_status'] . "</font></b>";
@@ -221,7 +223,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		FROM `mail_users`
 		WHERE `domain_id` = ?
 		AND `mail_type` NOT RLIKE '_catchall'";
-	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+	if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
 		$query .= " AND `mail_acc` != 'abuse'
 			AND `mail_acc` != 'postmaster'
 			AND `mail_acc` != 'webmaster'";
@@ -267,6 +269,21 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$res1 = exec_query($sql, $query, array($data['domain_id']));
 	$alias_num_data = $res1->FetchRow();
 
+	// Check if Backup support is available for this user
+	switch($data['allowbackup']){
+    case "full":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('Full')));
+        break;
+    case "sql":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('SQL')));
+        break;
+    case "dmn":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('Domain')));
+        break;
+    default:
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('No')));
+    }
+
 	$dom_alias = translate_limit_value($data['domain_alias_limit']);
 	// Fill in the fields
 	$tpl->assign(
@@ -279,7 +296,6 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			'VL_CGI_SUPP'				=> ($data['domain_cgi'] == 'yes') ? tr('Enabled') : tr('Disabled'),
 			'VL_DNS_SUPP'				=> ($data['domain_dns'] == 'yes') ? tr('Enabled') : tr('Disabled'),
 			'VL_MYSQL_SUPP'				=> ($data['domain_sqld_limit'] >= 0) ? tr('Enabled') : tr('Disabled'),
-			'VL_SOFTWARE_SUPP'			=> ($data['domain_software_allowed'] == 'yes') ? tr('Enabled') : tr('Disabled'),
 			'VL_TRAFFIC_PERCENT'		=> $traffic_percent,
 			'VL_TRAFFIC_USED'			=> sizeit($domain_all_traffic),
 			'VL_TRAFFIC_LIMIT'			=> sizeit($domain_traffic_limit, 'MB'),

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,7 +34,7 @@ check_login(__FILE__);
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_alias.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/domain_alias.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('table_list', 'page');
@@ -43,7 +43,7 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -60,8 +60,8 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -88,7 +88,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -105,7 +105,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 	$start_index = 0;
 
-	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
+	$rows_per_page = Config::getInstance()->get('DOMAIN_ROWS_PER_PAGE');
 
 	$current_psi = 0;
 	$_SESSION['search_for'] = '';
@@ -264,7 +264,16 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		if (isset($_SESSION['search_for'])) {
 			$als_err = tr('Not found user records matching the search criteria!');
 		} else {
-			$als_err = tr('You have no alias records.');
+			if (isset($_SESSION['almax'])) {
+				if ($_SESSION['almax'] === '_yes_')
+					$als_err = tr('Domain alias limit reached!');
+				else
+					$als_err = tr('You have no alias records.');
+					
+				unset($_SESSION['almax']);
+			} else {
+				$als_err = tr('You have no alias records.');
+			}
 		}
 		return;
 	} else {
@@ -321,12 +330,12 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$page_cont = ($i % 2 == 0) ? 'content' : 'content2';
 
-		if ($als_status === Config::get('ITEM_OK_STATUS')) {
+		if ($als_status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 			$delete_link = "alias_delete.php?del_id=" . $als_id;
 			$edit_link = "alias_edit.php?edit_id=" . $als_id;
 			$action_text = tr("Delete");
 			$edit_text = tr("Edit");
-		} else if ($als_status === Config::get('ITEM_ORDERED_STATUS')) {
+		} else if ($als_status === Config::getInstance()->get('ITEM_ORDERED_STATUS')) {
 			$delete_link = "alias_order.php?action=delete&del_id=".$als_id;
 			$edit_link = "alias_order.php?action=activate&act_id=".$als_id;
 			$action_text = tr("Delete order");
@@ -421,6 +430,13 @@ function generate_als_messages(&$tpl, $als_err) {
 			$tpl->assign('MESSAGE', tr('Ordered domain alias not activated!'));
 
 		unset($_SESSION['orderalact']);
+	} else if (isset($_SESSION['almax'])) {
+		if ('_yes_' === $_SESSION['almax'])
+			$tpl->assign('MESSAGE', tr('Domain alias limit reached!'));
+		else
+			$tpl->assign('MESSAGE', '');
+
+		unset($_SESSION['almax']);
 	} else {
 		$tpl->assign('MESSAGE', '');
 		$tpl->assign('PAGE_MESSAGE', "");

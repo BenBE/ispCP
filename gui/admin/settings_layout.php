@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -106,7 +106,7 @@ function update_logo() {
 			return;
 		}
 
-		$newFName = get_user_name($user_id) . '.' . $fext;
+		$newFName = sha1($fname .'-'. $user_id) .'.'. $fext;
 
 		$path = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/admin/settings_layout.php') + 1);
 
@@ -136,18 +136,25 @@ SQL_QUERY;
 }
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/settings_layout.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/settings_layout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('def_layout', 'page');
+$tpl->define_dynamic('logo_remove_button', 'page');
 
 save_layout($sql);
 
 update_logo();
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 gen_def_layout($tpl, $_SESSION['user_theme']);
+
+if(get_own_logo($_SESSION['user_id']) !== Config::getInstance()->get('IPS_LOGO_PATH').'/isp_logo.gif') {
+	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
+} else {
+	$tpl->assign('LOGO_REMOVE_BUTTON', '');
+}
 
 $tpl->assign(
 	array(
@@ -165,8 +172,8 @@ $tpl->assign(
  *
  */
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
@@ -191,7 +198,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

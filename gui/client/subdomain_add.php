@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/subdomain_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/subdomain_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('als_list', 'page');
@@ -111,7 +111,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 }
 
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
 
 	$query = "
 		SELECT
@@ -281,7 +281,7 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 }
 
 function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt) {
-	$status_add = Config::get('ITEM_ADD_STATUS');
+	$status_add = Config::getInstance()->get('ITEM_ADD_STATUS');
 
 	if ($_POST['dmn_type'] == 'als') {
 		$query = "
@@ -404,7 +404,7 @@ if (isset($_SESSION['subdomain_support']) && $_SESSION['subdomain_support'] == "
 	header("Location: index.php");
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -423,8 +423,8 @@ check_subdomain_data($tpl, $sql, $_SESSION['user_id'], $dmn_name);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 
@@ -446,6 +446,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }

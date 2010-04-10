@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,14 +33,15 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_add1.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/user_add1.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('add_user', 'page');
 $tpl->define_dynamic('hp_entry', 'page');
 $tpl->define_dynamic('personalize', 'page');
+$tpl->define_dynamic('alias_menu', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 		array(
@@ -57,8 +58,8 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -67,7 +68,6 @@ $tpl->assign(
 			'TR_ADD_USER'				=> tr('Add user'),
 			'TR_CORE_DATA'				=> tr('Core data'),
 			'TR_DOMAIN_NAME'			=> tr('Domain name'),
-			'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
 			'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
 			'TR_DOMAIN_EXPIRE_NEVER'	=> tr('Never'),
 			'TR_DOMAIN_EXPIRE_1_MONTH'	=> tr('1 Month'),
@@ -94,13 +94,16 @@ if (isset($_POST['uaction'])) {
 }
 
 get_hp_data_list($tpl, $_SESSION['user_id']);
-
 gen_page_message($tpl);
+
+if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+	$tpl->assign('ALIAS_MENU', '');
+}
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -153,13 +156,13 @@ function check_user_data() {
 
 	if (ispcp_domain_exists($dmn_name, $_SESSION['user_id'])) {
 		$even_txt = tr('Domain with that name already exists on the system!');
-	} else if ($dmn_name == Config::get('BASE_SERVER_VHOST')) {
+	} else if ($dmn_name == Config::getInstance()->get('BASE_SERVER_VHOST')) {
 		$even_txt = tr('Master domain cannot be used!');
 	}
 
 	// we have plans only for admins
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 		$dmn_pt = '_no_';
 	}
 
@@ -221,9 +224,16 @@ function get_data_au1_page(&$tpl) {
 
 	$tpl->assign(
 			array(
-				'DMN_NAME_VALUE'	=> $dmn_name,
-				'CHTPL1_VAL'		=> $dmn_pt === "_yes_" ? 'checked="checked"' : '',
-				'CHTPL2_VAL'		=> $dmn_pt === "_yes_" ? '' : 'checked="checked"'
+				'DMN_NAME_VALUE'		=> $dmn_name,
+				'CHTPL1_VAL'			=> $dmn_pt === "_yes_" ? 'checked="checked"' : '',
+				'CHTPL2_VAL'			=> $dmn_pt === "_yes_" ? '' : 'checked="checked"',
+				'EXPIRE_NEVER_SET'		=> ($dmn_expire === '0') ? ' selected="selected"' : '',
+				'EXPIRE_1_MONTH_SET'	=> ($dmn_expire === '1') ? ' selected="selected"' : '',
+				'EXPIRE_2_MONTH_SET'	=> ($dmn_expire === '2') ? ' selected="selected"' : '',
+				'EXPIRE_3_MONTH_SET'	=> ($dmn_expire === '3') ? ' selected="selected"' : '',
+				'EXPIRE_6_MONTH_SET'	=> ($dmn_expire === '6') ? ' selected="selected"' : '',
+				'EXPIRE_1_YEAR_SET'		=> ($dmn_expire === '12') ? ' selected="selected"' : '',
+				'EXPIRE_2_YEARS_SET'	=> ($dmn_expire === '24') ? ' selected="selected"' : '',
 			)
 	);
 } // End of get_data_au1_page()
@@ -237,8 +247,8 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 
 	$sql = Database::getInstance();
 
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 		$query = "
 			SELECT
 				t1.`id`,

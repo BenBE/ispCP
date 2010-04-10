@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,16 +33,17 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_add2.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/user_add2.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('t_software_support', 'page');
+$tpl->define_dynamic('alias_menu', 'page');
+$tpl->define_dynamic('alias_add', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 // check if we have only hosting plans for admins - reseller should not edit them
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	user_goto('users.php');
 }
 
@@ -59,8 +60,8 @@ $tpl->assign(
  * static page messages.
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -90,8 +91,7 @@ $tpl->assign(
 			'TR_NO'							=> tr('no'),
 			'TR_NEXT_STEP'					=> tr('Next step'),
 			'TR_APACHE_LOGS'				=> tr('Apache logs'),
-			'TR_AWSTATS'					=> tr('Awstats'),
-			'TR_SOFTWARE_SUPP'				=> tr('Software installation')
+			'TR_AWSTATS'					=> tr('Awstats')
 		)
 );
 
@@ -106,9 +106,7 @@ if (isset($_POST['uaction'])
 	&& (!isset($_SESSION['step_one']))) {
 	if (check_user_data($tpl)) {
 		$_SESSION["step_two_data"] = "$dmn_name;0;";
-		$_SESSION["ch_hpprops"] = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;" .
-				"$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;" .
-				"$hp_dns;$hp_allowsoftware;";
+		$_SESSION["ch_hpprops"] = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], 0, $_SESSION["ch_hpprops"])) {
 			user_goto('user_add3.php');
@@ -122,13 +120,17 @@ if (isset($_POST['uaction'])
 }
 
 get_init_au2_page($tpl);
-get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
-
 gen_page_message($tpl);
+
+if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+	$tpl->assign('ALIAS_MENU', '');
+	$tpl->assign('ALIAS_ADD', '');
+}
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 //unset_messages();
@@ -164,7 +166,6 @@ function get_init_au2_page(&$tpl) {
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
-	global $hp_allowsoftware;
 
 	$tpl->assign(
 			array(
@@ -187,9 +188,7 @@ function get_init_au2_page(&$tpl) {
 				'VL_BACKUPF'		=> ($hp_backup === '_full_') ? 'checked="checked"' : '',
 				'VL_BACKUPN'		=> ($hp_backup === '_no_') ? 'checked="checked"' : '',
 				'VL_DNSY'			=> ($hp_dns === '_yes_') ? 'checked="checked"' : '',
-				'VL_DNSN'			=> ($hp_dns === '_no_') ? 'checked="checked"' : '',
-				'VL_SOFTWAREY'		=> ($hp_allowsoftware === 'yes') ? 'checked="checked"' : '',
-				'VL_SOFTWAREN'		=> ($hp_allowsoftware === 'no') ? 'checked="checked"' : ''
+				'VL_DNSN'			=> ($hp_dns === '_no_') ? 'checked="checked"' : ''
 			)
 	);
 
@@ -204,7 +203,6 @@ function get_hp_data($hpid, $admin_id) {
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
-	global $hp_allowsoftware;
 
 	$sql = Database::getInstance();
 
@@ -217,9 +215,8 @@ function get_hp_data($hpid, $admin_id) {
 
 		$props = $data['props'];
 
-		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db,
-			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, 
-			$hp_allowsoftware) = explode(";", $props);
+		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, 
+			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $props);
 
 		$hp_name = $data['name'];
 	} else {
@@ -236,7 +233,6 @@ function get_hp_data($hpid, $admin_id) {
 			$hp_disk = '';
 			$hp_backup = '_no_';
 			$hp_dns = '_no_';
-			$hp_allowsoftware = '';
 	}
 } // End of get_hp_data()
 
@@ -250,92 +246,112 @@ function check_user_data(&$tpl) {
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_dmn, $hp_backup, $hp_dns;
 	global $dmn_chp;
-	global $hp_allowsoftware;
-	
-	$ehp_error = '';
+
+	//$sql = Database::getInstance();
+
+	$ehp_error = array();
 
 	// Get data for fields from previous page
 	if (isset($_POST['template'])) {
 		$hp_name = $_POST['template'];
 	}
+
 	if (isset($_POST['nreseller_max_domain_cnt'])) {
 		$hp_dmn = clean_input($_POST['nreseller_max_domain_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_subdomain_cnt'])) {
 		$hp_sub = clean_input($_POST['nreseller_max_subdomain_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_alias_cnt'])) {
 		$hp_als = clean_input($_POST['nreseller_max_alias_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_mail_cnt'])) {
 		$hp_mail = clean_input($_POST['nreseller_max_mail_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_ftp_cnt']) || $hp_ftp == -1) {
 		$hp_ftp = clean_input($_POST['nreseller_max_ftp_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_sql_db_cnt'])) {
 		$hp_sql_db = clean_input($_POST['nreseller_max_sql_db_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_sql_user_cnt'])) {
 		$hp_sql_user = clean_input($_POST['nreseller_max_sql_user_cnt']);
 	}
+
 	if (isset($_POST['nreseller_max_traffic'])) {
 		$hp_traff = clean_input($_POST['nreseller_max_traffic']);
 	}
+
 	if (isset($_POST['nreseller_max_disk'])) {
 		$hp_disk = clean_input($_POST['nreseller_max_disk']);
 	}
+
 	if (isset($_POST['php'])) {
 		$hp_php = $_POST['php'];
 	}
+
 	if (isset($_POST['cgi'])) {
 		$hp_cgi = $_POST['cgi'];
 	}
+
 	if (isset($_POST['backup'])) {
 		$hp_backup = $_POST['backup'];
 	}
+
 	if (isset($_POST['dns'])) {
 		$hp_dns = $_POST['dns'];
 	}
-	if (isset($_POST['software_allowed'])) {
-		$hp_allowsoftware = $_POST['software_allowed'];
-	}
-	
+
 	// Begin checking...
 	if (!ispcp_limit_check($hp_sub, -1)) {
-		set_page_message(tr('Incorrect subdomains limit!'));
+		$ehp_error[] = tr('Incorrect subdomains limit!');
 	}
-	if (!ispcp_limit_check($hp_als, -1)) {
-		set_page_message(tr('Incorrect aliases limit!'));
+	if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+		$hp_als = "-1";
+	} elseif (!ispcp_limit_check($hp_als, -1)) {
+		$ehp_error[] = tr('Incorrect aliases limit!');
 	}
+
 	if (!ispcp_limit_check($hp_mail, -1)) {
-		set_page_message(('Incorrect mail accounts limit!'));
+		$ehp_error[] = tr('Incorrect mail accounts limit!');
 	}
+
 	if (!ispcp_limit_check($hp_ftp, -1)) {
-		set_page_message(tr('Incorrect FTP accounts limit!'));
+		$ehp_error[] = tr('Incorrect FTP accounts limit!');
 	}
+
 	if (!ispcp_limit_check($hp_sql_db, -1)) {
-		set_page_message(tr('Incorrect SQL databases limit!'));
+		$ehp_error[] = tr('Incorrect SQL databases limit!');
 	} else if ($hp_sql_user != -1 && $hp_sql_db == -1) {
-		set_page_message(tr('SQL users limit is <i>disabled</i>!'));
+		$ehp_error[] = tr('SQL users limit is <i>disabled</i>!');
 	}
+
 	if (!ispcp_limit_check($hp_sql_user, -1)) {
-		set_page_message(tr('Incorrect SQL users limit!'));
+		$ehp_error[] = tr('Incorrect SQL users limit!');
 	} else if ($hp_sql_user == -1 && $hp_sql_db != -1) {
-		set_page_message(tr('SQL databases limit is not <i>disabled</i>!'));
+		$ehp_error[] = tr('SQL databases limit is not <i>disabled</i>!');
 	}
+
 	if (!ispcp_limit_check($hp_traff, null)) {
-		set_page_message(tr('Incorrect traffic limit!'));
+		$ehp_error[] = tr('Incorrect traffic limit!');
 	}
+
 	if (!ispcp_limit_check($hp_disk, null)) {
-		set_page_message(tr('Incorrect disk quota limit!'));
+		$ehp_error[] = tr('Incorrect disk quota limit!');
 	}
+
 	if (empty($ehp_error) && empty($_SESSION['user_page_message'])) {
 		$tpl->assign('MESSAGE', '');
 		// send data through session
 		return true;
 	} else {
-		$tpl->assign('MESSAGE', $ehp_error);
+		set_page_message(format_message($ehp_error));
 		return false;
 	}
 } // End of check_user_data()

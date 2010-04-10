@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ticket_view.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/ticket_view.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('tickets_list', 'page');
@@ -80,7 +80,7 @@ function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 			'URGENCY_ID' => $ticket_urgency));
 
 		get_ticket_from($tpl, $sql, $ticket_id);
-		$date_formt = Config::get('DATE_FORMAT');
+		$date_formt = Config::getInstance()->get('DATE_FORMAT');
 		$ticket_content = wordwrap($rs->fields['ticket_message'], round(($screenwidth-200) / 7), "\n");
 
 		$tpl->assign(
@@ -128,7 +128,7 @@ function get_tickets_replys(&$tpl, &$sql, &$ticket_id, $screenwidth) {
 		$ticket_message = $rs->fields['ticket_message'];
 		$ticket_content = wordwrap($ticket_message, round(($screenwidth-200) / 7), "\n");
 
-		$date_formt = Config::get('DATE_FORMAT');
+		$date_formt = Config::getInstance()->get('DATE_FORMAT');
 		$tpl->assign(
 			array(
 				'DATE' => date($date_formt, $ticket_date),
@@ -184,7 +184,7 @@ function get_ticket_from(&$tpl, &$sql, $ticket_id) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -331,8 +331,18 @@ function open_ticket(&$sql, $ticket_id) {
 }
 
 // dynamic page data.
+$query = "
+  SELECT
+    `support_system`
+  FROM
+    `reseller_props`
+  WHERE
+    `reseller_id` = ?
+";
 
-if (!Config::get('ISPCP_SUPPORT_SYSTEM')) {
+$rs = exec_query($sql, $query, array($_SESSION['user_created_by']));
+
+if (!Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_system'] == 'no') {
 	user_goto('index.php');
 }
 
@@ -361,8 +371,8 @@ if (isset($_GET['ticket_id'])) {
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_ticket_system.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ticket_system.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_ticket_system.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_ticket_system.tpl');
 
 gen_logged_from($tpl);
 
@@ -386,6 +396,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }

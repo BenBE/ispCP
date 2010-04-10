@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2009 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,17 +24,17 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-check_login(__FILE__, Config::get('PREVENT_EXTERNAL_LOGIN_CLIENT'));
+check_login(__FILE__, Config::getInstance()->get('PREVENT_EXTERNAL_LOGIN_CLIENT'));
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/index.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/index.tpl');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('def_layout', 'page');
 $tpl->define_dynamic('no_messages', 'page');
@@ -53,7 +53,6 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
 $tpl->define_dynamic('disk_warn', 'page');
 $tpl->define_dynamic('dmn_mngmnt', 'page');
-$tpl->define_dynamic('t_software_support', 'page');
 
 
 function gen_num_limit_msg($num, $limit) {
@@ -111,8 +110,8 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	$tpl->assign(
 		array(
 			'TRAFFIC_USAGE_DATA' => $traffic_usage_data,
-			'TRAFFIC_BARS'       => $bars,
-			'TRAFFIC_PERCENT'    => $percent,
+			'TRAFFIC_BARS'	   => $bars,
+			'TRAFFIC_PERCENT'	=> $percent,
 		)
 	);
 
@@ -135,8 +134,8 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	$tpl->assign(
 		array(
 			'DISK_USAGE_DATA' => $traffic_usage_data,
-			'DISK_BARS'       => $bars,
-			'DISK_PERCENT'    => $percent,
+			'DISK_BARS'	   => $bars,
+			'DISK_PERCENT'	=> $percent,
 		)
 	);
 	if ($max_usage != 0 && $usage > $max_usage) {
@@ -146,13 +145,8 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	}
 }
 
-function check_user_permissions(
-								&$tpl, $dmn_sqld_limit,
-								$dmn_sqlu_limit, $dmn_php,
-								$dmn_cgi,$backup, $dns,
-								$dmn_subd_limit, $als_cnt,
-								$dmn_mailacc_limit, $dmn_software_allowed
-								) {
+function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
+	$dmn_cgi,$backup, $dns, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
 
 	// check if mail accouts available are available for this user
 	if ($dmn_mailacc_limit == -1) {
@@ -161,6 +155,7 @@ function check_user_permissions(
 	} else {
 		$tpl->parse('T_MAILS_SUPPORT', '.t_mails_support');
 	}
+
 	// check if alias are available for this user
 	if ($als_cnt == -1) {
 		$_SESSION['alias_support'] = "no";
@@ -168,6 +163,7 @@ function check_user_permissions(
 	} else {
 		$tpl->parse('T_ALIAS_SUPPORT', '.t_alias_support');
 	}
+
 	// check if subdomains are available for this user
 	if ($dmn_subd_limit == -1) {
 		$_SESSION['subdomain_support'] = "no";
@@ -175,6 +171,7 @@ function check_user_permissions(
 	} else {
 		$tpl->parse('T_SDM_SUPPORT', '.t_sdm_support');
 	}
+
 	// check if SQL Support is available for this user
 	if ($dmn_sqld_limit == -1 || $dmn_sqlu_limit == -1) {
 		$_SESSION['sql_support'] = "no";
@@ -185,26 +182,38 @@ function check_user_permissions(
 		$tpl->parse('T_SQL1_SUPPORT', '.t_sql1_support');
 		$tpl->parse('T_SQL2_SUPPORT', '.t_sql2_support');
 	}
+
 	// check if PHP Support is available for this user
 	if ($dmn_php == 'no') {
 		$tpl->assign('T_PHP_SUPPORT', '');
 	} else {
-		$tpl->assign(array('PHP_SUPPORT' => tr('yes')));
+		$tpl->assign( array('PHP_SUPPORT' => tr('yes')));
 		$tpl->parse('T_PHP_SUPPORT', '.t_php_support');
 	}
+
 	// check if CGI Support is available for this user
 	if ($dmn_cgi == 'no') {
 		$tpl->assign('T_CGI_SUPPORT', '');
 	} else {
-		$tpl->assign(array('CGI_SUPPORT' => tr('yes')));
+		$tpl->assign( array('CGI_SUPPORT' => tr('yes')));
 		$tpl->parse('T_CGI_SUPPORT', '.t_cgi_support');
 	}
 
 	// Check if Backup support is available for this user
-	if ($backup == 'no') {
+	switch($backup){
+	case "full":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('Full')));
+		break;
+	case "sql":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('SQL')));
+		break;
+	case "domain":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('Domain')));
+		break;
+	default:
 		$tpl->assign('T_BACKUP_SUPPORT', '');
-	} else {
-		$tpl->assign(array('BACKUP_SUPPORT' => tr('yes')));
+	}
+	if ($tpl->is_namespace('BACKUP_SUPPORT')) {
 		$tpl->parse('T_BACKUP_SUPPORT', '.t_backup_support');
 	}
 
@@ -212,17 +221,10 @@ function check_user_permissions(
 	if ($dns == 'no') {
 		$tpl->assign('T_DNS_SUPPORT', '');
 	} else {
-		$tpl->assign(array('DNS_SUPPORT' => tr('yes')));
+		$tpl->assign(
+		array('DNS_SUPPORT' => tr('yes')));
 		$tpl->parse('T_DNS_SUPPORT', '.t_dns_support');
 	}
-
-	// check if Software Support is available for this user
-    if ($dmn_software_allowed == 'no') {
-        $tpl->assign('T_SOFTWARE_SUPPORT', '');
-    } else {
-        $tpl->assign(array('SOFTWARE_SUPPORT' => tr('yes')));
-        $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
-    }
 
 } // end check_user_permissions()
 
@@ -293,13 +295,40 @@ function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
 	}
 }
 
+function gen_remain_time($dbtime){
+        
+        // needed for calculation
+        $mi	= 60;
+        $h	= $mi * $mi;
+        $d	= $h * 24;
+        $mo = $d * 30;
+        $y	= $d * 365;
+        
+        // calculation of: years, month, days, hours, minutes, seconds
+        $difftime = $dbtime - time();
+        $years = floor($difftime / $y);
+        $difftime = $difftime % $y;
+        $month = floor($difftime / $mo);
+        $difftime = $difftime % $mo;
+        $days = floor($difftime / $d);
+        $difftime = $difftime % $d;
+        $hours = floor($difftime / $h);
+        $difftime = $difftime % $h;
+        $minutes = floor($difftime / $mi);
+		 $difftime = $difftime % $mi;
+        $seconds = $difftime;
+        
+        // put into array and return
+        return array($years, $month, $days, $hours, $minutes, $seconds);
+}
+
 /*
  *
  * page actions.
  *
  */
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 	$user_id = $_SESSION['user_id'];
@@ -325,6 +354,7 @@ list(
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -340,8 +370,7 @@ list(
 		$dmn_php,
 		$dmn_cgi,
 		$backup,
-		$dns,
-		$dmn_software_allowed
+		$dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 list(
@@ -370,31 +399,61 @@ gen_user_messages_label($tpl, $sql, $_SESSION['user_id']);
 check_user_permissions(
 						$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
 						$dmn_cgi, $backup, $dns, $dmn_subd_limit, $dmn_als_limit,
-						$dmn_mailacc_limit, $dmn_software_allowed
+						$dmn_mailacc_limit
 );
 
 $account_name = decode_idna($_SESSION['user_logged']);
 
-$tpl->assign(
-	array(
-		'ACCOUNT_NAME' => $account_name,
-		'MAIN_DOMAIN' => $dmn_name,
-		'MYSQL_SUPPORT' => ($dmn_sqld_limit != -1 && $dmn_sqlu_limit != -1) ? tr('yes') : tr('no'),
-		'SUBDOMAINS' => gen_num_limit_msg($sub_cnt, $dmn_subd_limit),
-		'DOMAIN_ALIASES' => gen_num_limit_msg($als_cnt, $dmn_als_limit),
-		'MAIL_ACCOUNTS' => gen_num_limit_msg($mail_acc_cnt, $dmn_mailacc_limit),
-		'FTP_ACCOUNTS' => gen_num_limit_msg($ftp_acc_cnt, $dmn_ftpacc_limit),
-		'SQL_DATABASES' => gen_num_limit_msg($sqld_acc_cnt, $dmn_sqld_limit),
-		'SQL_USERS' => gen_num_limit_msg($sqlu_acc_cnt, $dmn_sqlu_limit)
-	)
-);
+if ($dmn_expires == 0) {
+	$dmn_expires_date = tr('N/A');
+} else {
+	$date_formt = Config::getInstance()->get('DATE_FORMAT');
+	$dmn_expires_date = date($date_formt, $dmn_expires);
+}
 
+list(
+	$years, 
+	$month, 
+	$days, 
+	$hours, 
+	$minutes,
+	$seconds
+		) = gen_remain_time($dmn_expires);
+
+if(time() < $dmn_expires) {
+	if (($years > 0) && ($month > 0) && ($days <= 14)) {
+		$tpl->assign(
+			array('DMN_EXPIRES' => $years." Years, ".$month." Month, ".$days." Days")
+		);
+	} else {
+		$tpl->assign(
+			array('DMN_EXPIRES' => "<span style=\"color:red\">".$years." Years, ".
+									$month." Month, ".$days." Days</span>")
+		);
+	}
+} else if($dmn_expires != 0) {
+	$tpl->assign(
+		array('DMN_EXPIRES' => "<span style=\"color:red\">".
+								tr("This Domain is expired")."</span> ")
+	);
+} else {
+	$tpl->assign(
+		array('DMN_EXPIRES' => "")
+	);
+}
+ 
 $tpl->assign(
 	array(
-		'TR_CLIENT_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Client/Main Index'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'ACCOUNT_NAME'		=> $account_name,
+		'MAIN_DOMAIN'		=> $dmn_name,
+		'DMN_EXPIRES_DATE'	=> $dmn_expires_date,
+		'MYSQL_SUPPORT'		=> ($dmn_sqld_limit != -1 && $dmn_sqlu_limit != -1) ? tr('yes') : tr('no'),
+		'SUBDOMAINS'		=> gen_num_limit_msg($sub_cnt, $dmn_subd_limit),
+		'DOMAIN_ALIASES'	=> gen_num_limit_msg($als_cnt, $dmn_als_limit),
+		'MAIL_ACCOUNTS'		=> gen_num_limit_msg($mail_acc_cnt, $dmn_mailacc_limit),
+		'FTP_ACCOUNTS'		=> gen_num_limit_msg($ftp_acc_cnt, $dmn_ftpacc_limit),
+		'SQL_DATABASES'		=> gen_num_limit_msg($sqld_acc_cnt, $dmn_sqld_limit),
+		'SQL_USERS'			=> gen_num_limit_msg($sqlu_acc_cnt, $dmn_sqlu_limit)
 	)
 );
 
@@ -404,9 +463,8 @@ $tpl->assign(
  *
  */
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
-get_client_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -416,28 +474,33 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_GENERAL_INFORMATION' => tr('General information'),
-		'TR_ACCOUNT_NAME' => tr('Account name'),
-		'TR_MAIN_DOMAIN' => tr('Main domain'),
-		'TR_PHP_SUPPORT' => tr('PHP support'),
-		'TR_CGI_SUPPORT' => tr('CGI support'),
-		'TR_DNS_SUPPORT' => tr('Manual DNS support'),
-		'TR_BACKUP_SUPPORT' => tr('Backup support'),
-		'TR_MYSQL_SUPPORT' => tr('SQL support'),
-		'TR_SUBDOMAINS' => tr('Subdomains'),
-		'TR_DOMAIN_ALIASES' => tr('Domain aliases'),
-		'TR_MAIL_ACCOUNTS' => tr('Mail accounts'),
-		'TR_FTP_ACCOUNTS' => tr('FTP accounts'),
-		'TR_SQL_DATABASES' => tr('SQL databases'),
-		'TR_SQL_USERS' => tr('SQL users'),
-		'TR_MESSAGES' => tr('Support system'),
-		'TR_LANGUAGE' => tr('Language'),
+		'TR_CLIENT_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Client/Main Index'),
+		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
+		'THEME_CHARSET'				=> tr('encoding'),
+		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
+		'TR_GENERAL_INFORMATION' 	=> tr('General information'),
+		'TR_ACCOUNT_NAME'			=> tr('Account name'),
+		'TR_DOMAIN_EXPIRE' 			=> tr('Domain expire'),
+		'TR_MAIN_DOMAIN'			=> tr('Main domain'),
+		'TR_PHP_SUPPORT' 			=> tr('PHP support'),
+		'TR_CGI_SUPPORT' 			=> tr('CGI support'),
+		'TR_DNS_SUPPORT' 			=> tr('Manual DNS support'),
+		'TR_BACKUP_SUPPORT' 		=> tr('Backup support'),
+		'TR_MYSQL_SUPPORT' 			=> tr('SQL support'),
+		'TR_SUBDOMAINS' 			=> tr('Subdomains'),
+		'TR_DOMAIN_ALIASES' 		=> tr('Domain aliases'),
+		'TR_MAIL_ACCOUNTS' 			=> tr('Mail accounts'),
+		'TR_FTP_ACCOUNTS' 			=> tr('FTP accounts'),
+		'TR_SQL_DATABASES' 			=> tr('SQL databases'),
+		'TR_SQL_USERS' 				=> tr('SQL users'),
+		'TR_MESSAGES' 				=> tr('Support system'),
+		'TR_LANGUAGE' 				=> tr('Language'),
 		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
-		'TR_SAVE' => tr('Save'),
-		'TR_LAYOUT' => tr('Layout'),
-		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
-		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
-		'TR_DISK_USAGE' => tr('Disk usage')
+		'TR_SAVE' 					=> tr('Save'),
+		'TR_LAYOUT' 				=> tr('Layout'),
+		'TR_CHOOSE_DEFAULT_LAYOUT' 	=> tr('Choose default layout'),
+		'TR_TRAFFIC_USAGE' 			=> tr('Traffic usage'),
+		'TR_DISK_USAGE'				=> tr('Disk usage')
 	)
 );
 
@@ -446,6 +509,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }

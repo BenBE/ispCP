@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2009 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,12 +33,14 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_add3.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/user_add3.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
+$tpl->define_dynamic('alias_menu', 'page');
+$tpl->define_dynamic('alias_add', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 		array(
@@ -54,8 +56,8 @@ $tpl->assign(
  * static page messages.
  *
  */
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -115,10 +117,16 @@ if (isset($_POST['uaction'])
 
 gen_user_add3_page($tpl);
 gen_page_message($tpl);
+
+if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+	$tpl->assign('ALIAS_MENU', '');
+	$tpl->assign('ALIAS_ADD', '');
+}
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }// unset_messages();
 
@@ -247,7 +255,6 @@ function add_user_data($reseller_id) {
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
 	global $dns, $backup;
-	global $software_allowed;
 
 	$sql = Database::getInstance();
 
@@ -264,8 +271,8 @@ function add_user_data($reseller_id) {
 		unset($_SESSION["ch_hpprops"]);
 	} else {
 
-		if (Config::exists('HOSTING_PLANS_LEVEL')
-			&& strtolower(Config::get('HOSTING_PLANS_LEVEL')) == 'admin') {
+		if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+			&& strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) == 'admin') {
 			$query = 'SELECT `props` FROM `hosting_plans` WHERE `id` = ?';
 			$res = exec_query($sql, $query, array($hpid));
 		} else {
@@ -289,16 +296,14 @@ function add_user_data($reseller_id) {
 			$traff,
 			$disk,
 			$backup,
-			$dns,
-			$software_allowed
+			$dns
 		) = explode(";", $props);
 
 	$php			= preg_replace("/\_/", "", $php);
 	$cgi			= preg_replace("/\_/", "", $cgi);
 	$backup			= preg_replace("/\_/", "", $backup);
 	$dns			= preg_replace("/\_/", "", $dns);
-	$software_allowed = preg_replace("/\_/", "", $software_allowed);
-	$pure_user_pass	= $inpass;
+	$pure_user_pass = $inpass; 
 	$inpass			= crypt_user_pass($inpass, true);
 	$first_name		= clean_input($first_name, true);
 	$last_name		= clean_input($last_name, true);
@@ -355,7 +360,7 @@ function add_user_data($reseller_id) {
 
 	$record_id = $sql->Insert_ID();
 
-	$status = Config::get('ITEM_ADD_STATUS');
+	$status = Config::getInstance()->get('ITEM_ADD_STATUS');
 
 	$expire = $dmn_expire * 2635200; // months * 30.5 days
 
@@ -373,8 +378,7 @@ function add_user_data($reseller_id) {
 			`domain_subd_limit`, `domain_alias_limit`,
 			`domain_ip_id`, `domain_disk_limit`,
 			`domain_disk_usage`, `domain_php`, `domain_cgi`,
-			`allowbackup`, `domain_dns`,
-			`domain_software_allowed`
+			`allowbackup`, `domain_dns`
 		)
 		VALUES (
 			?, ?,
@@ -385,8 +389,7 @@ function add_user_data($reseller_id) {
 			?, ?,
 			?, ?, '0',
 			?, ?,
-			?, ?,
-			?
+			?, ?
 		)
 	";
 
@@ -397,7 +400,7 @@ function add_user_data($reseller_id) {
 								$dmn_name, $record_id,
 								$reseller_id, $mail, $ftp, $traff, $sql_db,
 								$sql_user, $status, $sub, $als, $domain_ip,
-								$disk, $php, $cgi, $backup, $dns, $software_allowed
+								$disk, $php, $cgi, $backup, $dns
 						)
 	);
 
@@ -421,7 +424,7 @@ function add_user_data($reseller_id) {
 
 	$user_id = $sql->Insert_ID();
 
-	$awstats_auth = Config::get('AWSTATS_GROUP_AUTH');
+	$awstats_auth = Config::getInstance()->get('AWSTATS_GROUP_AUTH');
 
 	$query = "
 		INSERT INTO `htaccess_groups`
@@ -433,7 +436,7 @@ function add_user_data($reseller_id) {
 	$rs = exec_query($sql, $query, array($dmn_id, $awstats_auth, $user_id, $status));
 
 	// Create the 3 default addresses if wanted
-	if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
+	if (Config::getInstance()->get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
 	{
 		client_mail_add_default_accounts($dmn_id, $user_email, $dmn_name); // 'domain', 0
 	}

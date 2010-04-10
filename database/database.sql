@@ -1,7 +1,7 @@
 --
 -- ISPCP ω (OMEGA) a Virtual Hosting Control Panel
 -- Copyright (c) 2001-2006 by moleSoftware GmbH
--- Copyright (c) 2006-2009 by ispCP | http://isp-control.net
+-- Copyright (c) 2006-2010 by ispCP | http://isp-control.net
 --
 -- Version: $Id$
 --
@@ -20,7 +20,7 @@
 -- The Initial Developer of the Original Code is moleSoftware GmbH.
 -- Portions created by Initial Developer are Copyright (C) 2001-2006
 -- by moleSoftware GmbH. All Rights Reserved.
--- Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+-- Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 -- isp Control Panel. All Rights Reserved.
 --
 -- The ispCP ω Home Page is:
@@ -63,6 +63,19 @@ CREATE TABLE `admin` (
   UNIQUE KEY `admin_id` (`admin_id`),
   UNIQUE KEY `admin_name` (`admin_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `autoreplies_log`
+--
+
+CREATE TABLE `autoreplies_log` (
+  `time` DATETIME NOT NULL COMMENT 'Date and time of the sent autoreply',
+  `from` VARCHAR( 255 ) NOT NULL COMMENT 'autoreply message sender',
+  `to` VARCHAR( 255 ) NOT NULL COMMENT 'autoreply message recipient',
+  INDEX ( `time` )
+) ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT = 'Sent autoreplies log table';
 
 -- --------------------------------------------------------
 
@@ -113,7 +126,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('PREVENT_EXTERNAL_LOGIN_ADMIN', '1'),
 ('PREVENT_EXTERNAL_LOGIN_RESELLER', '1'),
 ('PREVENT_EXTERNAL_LOGIN_CLIENT', '1'),
-('DATABASE_REVISION', '26'),
+('DATABASE_REVISION', '32'),
 ('CRITICAL_UPDATE_REVISION', '5');
 
 -- --------------------------------------------------------
@@ -300,6 +313,7 @@ CREATE TABLE `hosting_plans` (
   `value` varchar(255) collate utf8_unicode_ci default NULL,
   `payment` varchar(255) collate utf8_unicode_ci default NULL,
   `status` int(10) unsigned NOT NULL default '0',
+  `tos`	BLOB NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -511,6 +525,7 @@ CREATE TABLE `reseller_props` (
   `max_disk_amnt` int(11) default NULL,
   `current_traff_amnt` int(11) default NULL,
   `max_traff_amnt` int(11) default NULL,
+  `support_system` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'yes',
   `customer_id` varchar(200) collate utf8_unicode_ci default NULL,
   `reseller_ips` text collate utf8_unicode_ci,
   UNIQUE KEY `id` (`id`)

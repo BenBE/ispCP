@@ -54,12 +54,6 @@
 		<td class="content">{TR_BACKUP}</td>
 		<td style="white-space:nowrap;" class="content2">{BACKUP}</td>
 	</tr>
-	<!-- BDP: t_software_support -->
-	<tr>
-		<td class="content">{TR_SOFTWARE_SUPPORT}</td>
-		<td style="white-space:nowrap;" class="content2">{SOFTWARE}</td>
-	</tr>
-	<!-- EDP: t_software_support -->
 	<tr>
 		<td class="content">{TR_MAIL_ACCOUNTS}</td>
 		<td style="white-space:nowrap;" class="content2">{MAIL}</td>
@@ -132,9 +126,11 @@
 	<tr align="center">
 		<td colspan="2">&nbsp;</td>
 	</tr>
+	<!-- BDP: isenabled -->
 	<tr align="center">
 		<td colspan="2"><a href="addon.php?coid={CUSTOM_ORDERPANEL_ID}&amp;id={PACK_ID}&amp;user_id={USER_ID}" class="link"><strong>{TR_PURCHASE}</strong></a></td>
 	</tr>
+	<!-- EDP: isenabled -->
 </table>
 
 <!-- BDP: purchase_footer -->

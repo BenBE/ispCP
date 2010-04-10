@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -41,11 +41,11 @@ if (isset($_GET['edit_id'])) {
 }
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/admin_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/admin_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -120,10 +120,10 @@ function update_data(&$sql) {
 				}
 
 				if (!chk_password($_POST['pass'])) {
-					if (Config::get('PASSWD_STRONG')) {
-						set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+					if (Config::getInstance()->get('PASSWD_STRONG')) {
+						set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 					} else {
-						set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+						set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 					}
 
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
@@ -271,8 +271,8 @@ if ($rs->RecordCount() <= 0) {
 	user_goto('manage_users.php');
 }
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 update_data($sql);
 
@@ -331,7 +331,10 @@ $tpl->assign(
 		'VL_MALE'						=> (($rs->fields['gender'] === 'M') ? 'selected="selected"' : ''),
 		'VL_FEMALE'						=> (($rs->fields['gender'] === 'F') ? 'selected="selected"' : ''),
 		'VL_UNKNOWN'					=> ((($rs->fields['gender'] === 'U') || (empty($rs->fields['gender']))) ? 'selected="selected"' : ''),
-		'EDIT_ID'						=> $edit_id
+		'EDIT_ID'						=> $edit_id,
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'				=> tr('Password change is disabled!'),
+		'DEMO_VERSION'					=> tr('Demo Version!')
 	)
 );
 
@@ -340,7 +343,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

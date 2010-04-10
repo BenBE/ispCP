@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/reseller_user_statistics.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/reseller_user_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('page_message', 'page');
@@ -48,7 +48,7 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 if (isset($_POST['rid']) && isset($_POST['name'])) {
 	$rid = $_POST['rid'];
@@ -88,7 +88,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 	$start_index = 0;
 
-	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
+	$rows_per_page = Config::getInstance()->get('DOMAIN_ROWS_PER_PAGE');
 
 	if (isset($_GET['psi'])) {
 		$start_index = $_GET['psi'];
@@ -310,11 +310,15 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 				: tr('%d <br/>of<br/> <b>unlimited</b>', sizeit($uals_current)),
 
 			'MAIL_MSG' => ($umail_max)
-				? tr('%1$d <br/>of<br/> <b>%2$d</b>', $umail_current, $umail_max)
+				? (($umail_max > 0) 
+					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $umail_current, $umail_max)
+					: tr('<b>disabled</b>'))
 				: tr('%d <br/>of<br/> <b>unlimited</b>', $umail_current),
 
 			'FTP_MSG' => ($uftp_max)
-				? tr('%1$d <br/>of<br/> <b>%2$d</b>', $uftp_current, $uftp_max)
+				? (($uftp_max > 0)
+					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $uftp_current, $uftp_max)
+					: tr('<b>disabled</b>'))
 				: tr('%d <br/>of<br/> <b>unlimited</b>', $uftp_current),
 
 			'SQL_DB_MSG' => ($usql_db_max)
@@ -336,8 +340,8 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_statistics.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
@@ -373,7 +377,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

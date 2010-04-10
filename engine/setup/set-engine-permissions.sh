@@ -1,8 +1,8 @@
-#!/bin/bash
- 
+#!/bin/sh
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,7 +21,7 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -37,10 +37,11 @@ if [ $DEBUG -eq 1 ]; then
 fi
 
 # ispcp.conf must be world readable because user "vmail" needs to access it.
-set_permissions "/etc/ispcp/ispcp.conf" $ROOT_USER $ROOT_GROUP 0644
 if [ -f /usr/local/etc/ispcp/ispcp.conf ]; then
 	set_permissions "/usr/local/etc/ispcp/ispcp.conf" \
 		$ROOT_USER $ROOT_GROUP 0644
+else
+	set_permissions "/etc/ispcp/ispcp.conf" $ROOT_USER $ROOT_GROUP 0644
 fi
 
 # The panel must be able to read rkhunter log to display it.
@@ -55,11 +56,13 @@ recursive_set_permissions "$ROOT_DIR/engine" $ROOT_USER $ROOT_GROUP 0700 0700
 # to access its "messenger" subfolder.
 set_permissions "$ROOT_DIR/engine" $ROOT_USER $ROOT_GROUP 0755
 
-# Messenger script is run by user "vmail.
+# Messenger script is run by user "vmail".
 recursive_set_permissions "$ROOT_DIR/engine/messenger" \
 	$MTA_MAILBOX_UID_NAME $MTA_MAILBOX_GID_NAME 0750 0550
 recursive_set_permissions "$LOG_DIR/ispcp-arpl-msgr" \
 	$MTA_MAILBOX_UID_NAME $MTA_MAILBOX_GID_NAME 0750 0640
+
+# TODO: Fixing fcgid permisions set before 1.0.5
 
 echo " done";
 

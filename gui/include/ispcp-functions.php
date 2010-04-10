@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@
  */
 function check_for_lock_file() {
 
-    $fh = fopen(Config::get('MR_LOCK_FILE'),'r');
+    $fh = fopen(Config::getInstance()->get('MR_LOCK_FILE'),'r');
     if (!$fh) {
         return false;
     }
@@ -172,8 +172,8 @@ function update_user_props($user_id, $props) {
 		$disk_max,
 		$domain_php,
 		$domain_cgi,
-		$domain_dns,
-		$domain_software_allowed
+		$domain_backup,
+		$domain_dns
 	) = explode (";", $props);
 
 	// have to check if PHP and/or CGI and/or IP change
@@ -192,18 +192,15 @@ function update_user_props($user_id, $props) {
 			`domain_cgi` = ?
 		AND
 			`domain_dns` = ?
-		AND
-			`domain_software_allowed` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id, $domain_php, $domain_cgi, 
-			$domain_dns, $domain_software_allowed));
+	$rs = exec_query($sql, $query, array($user_id, $domain_php, $domain_cgi, $domain_dns));
 
 	if ($rs->RecordCount() == 0) {
 		// mama mia, we have to rebuild the system entry for this domain
 		// and also all domain alias and subdomains
 
-		$update_status = Config::get('ITEM_CHANGE_STATUS');
+		$update_status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
 
 		// check if we have to wait some system update
 		check_for_lock_file();
@@ -226,8 +223,7 @@ function update_user_props($user_id, $props) {
 				`domain_disk_limit` = ?,
 				`domain_php` = ?,
 				`domain_cgi` = ?,
-				`domain_dns` = ?,
-				`domain_software_allowed` = ?
+				`domain_dns` = ?
 			WHERE
 				`domain_id` = ?
 		";
@@ -249,7 +245,6 @@ function update_user_props($user_id, $props) {
 				$domain_php,
 				$domain_cgi,
 				$domain_dns,
-       			$domain_software_allowed,
 				$user_id
 			)
 		);
@@ -478,81 +473,24 @@ function unset_messages() {
 	}
 }
 
-function get_client_software_permission(&$tpl,&$sql,$user_id) {
-	$query = <<<SQL_QUERY
-		SELECT
-			`domain_software_allowed`,
-			`domain_ftpacc_limit`
-		FROM
-			`domain`
-		WHERE
-			`domain_admin_id` = ?
-SQL_QUERY;
-	$rs = exec_query($sql, $query, array($user_id));
-
-	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
-		$tpl->assign(
-				array(
-					'SOFTWARE_SUPPORT' => tr('yes'),
-					'TR_SOFTWARE_MENU' => tr('Software installation'),
-					'SOFTWARE_MENU' => tr('yes'),
-					'TR_INSTALLATION' => tr('Installation details'),
-					'TR_INSTALLATION_INFORMATION' => tr('Please set now the Username and Password for the later Login in the Software. (Required fiels!)'),
-					'TR_INSTALL_USER' => tr('Login username'),
-					'TR_INSTALL_PWD' => tr('Login password'),
-					'TR_INSTALL_EMAIL' => tr('Emailadress'),
-					'SW_MSG' => tr('enabled'),
-					'SW_ALLOWED' => tr('Software installation'),
-					'TR_SOFTWARE_DESCRIPTION' => tr('Software Description')					
-				)
-			);
-
-        $tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support');
-        $tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
-    } else {
-        $tpl->assign('T_SOFTWARE_SUPPORT', '');
-		$tpl->assign('T_SOFTWARE_MENU', '');
-		$tpl->assign('SOFTWARE_ITEM', '');
-		$tpl->assign(
-				array(
-					'TR_INSTALLATION' => tr('You do not have permissions to install software yet'),
-					'TR_SOFTWARE_DESCRIPTION' => tr('You do not have permissions to install software yet'),
-					'SW_MSG' => tr('disabled'),
-					'SW_ALLOWED' => tr('Software installation')
-				)
-			);
-    }
-}
-
-function get_reseller_software_permission(&$tpl,&$sql,$reseller_id) {
-	$query = <<<SQL_QUERY
-		SELECT
-			`software_allowed`
-		FROM
-			`reseller_props`
-		WHERE
-			`reseller_id` = ?
-SQL_QUERY;
-    $rs = exec_query($sql, $query, array($reseller_id));
-    $software_allowed = $rs->fields('software_allowed');
-
-    if ($software_allowed == 'yes') {
-		$tpl->assign(
-				array(
-					'SOFTWARE_SUPPORT' => tr('yes'),
-					'SW_ALLOWED' => tr('Software installation'),
-					'SW_MSG' => tr('enabled')
-				)
-			);
-		$tpl->parse('T_SOFTWARE_SUPPORT', '.t_software_support'); 
-    } else {
-		$tpl->assign(
-				array(
-					'SOFTWARE_SUPPORT' => tr('no'),
-					'SW_ALLOWED' => tr('Software installation'),
-					'SW_MSG' => tr('disabled'),
-					'T_SOFTWARE_SUPPORT' => ''
-				)
-			);
-    }
+/**
+ * Returns true if the request‘s "X-Requested-With" header
+ * contains "XMLHttpRequest".
+ *
+ * Note: JQUERY and Prototype Javascript libraries sends this
+ * header with every Ajax request.
+ *
+ * @author Laurent Declercq (nuxwin) <laurent.declercq@ispcp.net>
+ * @Since r2587
+ * @return boolean TRUE if the request‘s "X-Requested-With" header
+ *  contains "XMLHttpRequest", FALSE otherwiser
+ * @todo Move to future Request class
+ */
+function is_xhr() {
+	if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+		stristr($_SERVER['HTTP_X_REQUESTED_WITH'], 'XMLHttpRequest') !== FALSE) {
+			return true;
+	} else {
+		return false;
+	}
 }

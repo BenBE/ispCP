@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -42,12 +42,12 @@ if (isset($_GET['edit_id'])) {
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/user_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -90,12 +90,16 @@ $tpl->assign(
 		'TR_MALE'				=> tr('Male'),
 		'TR_FEMALE'				=> tr('Female'),
 		'EDIT_ID'				=> $edit_id,
-		'TR_BTN_ADD_USER'		=> tr('Submit changes')
+		'TR_BTN_ADD_USER'		=> tr('Submit changes'),
+
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
 	)
 );
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -154,7 +158,7 @@ gen_edituser_page($tpl);
 gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 //unset_messages();
@@ -338,10 +342,10 @@ function update_data_in_db($hpid) {
 		// Change password
 		if (!chk_password($_POST['userpassword'])) {
 
-			if (Config::get('PASSWD_STRONG')) {
-				set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+			if (Config::getInstance()->get('PASSWD_STRONG')) {
+				set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 			} else {
-				set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+				set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 			}
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}

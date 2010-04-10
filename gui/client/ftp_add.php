@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,7 +34,7 @@ check_login(__FILE__);
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ftp_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/ftp_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('als_list', 'page');
@@ -93,7 +93,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 }
 
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
 
 	$query = <<<SQL_QUERY
 		SELECT
@@ -151,7 +151,7 @@ SQL_QUERY;
 }
 
 function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
 	$query = <<<SQL_QUERY
 		SELECT
 			`subdomain_id` AS sub_id, `subdomain_name` AS sub_name
@@ -222,6 +222,7 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 			$temp_dmn_uid,
 			$temp_dmn_created_id,
 			$temp_dmn_created,
+			$temp_dmn_expires,
 			$temp_dmn_last_modified,
 			$temp_dmn_mailacc_limit,
 			$temp_dmn_ftpacc_limit,
@@ -235,7 +236,10 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 			$temp_dmn_disk_limit,
 			$temp_dmn_disk_usage,
 			$temp_dmn_php,
-			$temp_dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+			$temp_dmn_cgi,
+			$allowbackup,
+			$dmn_dns
+		) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 		$query = <<<SQL_QUERY
 			INSERT INTO ftp_group
@@ -320,6 +324,7 @@ SQL_QUERY;
 		$temp_dmn_uid,
 		$temp_dmn_created_id,
 		$temp_dmn_created,
+		$temp_dmn_expires,
 		$temp_dmn_last_modified,
 		$temp_dmn_mailacc_limit,
 		$temp_dmn_ftpacc_limit,
@@ -333,7 +338,10 @@ SQL_QUERY;
 		$temp_dmn_disk_limit,
 		$temp_dmn_disk_usage,
 		$temp_dmn_php,
-		$temp_dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+		$temp_dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	return $temp_dmn_uid;
 }
@@ -351,19 +359,19 @@ function add_ftp_user(&$sql, $dmn_name) {
 	switch ($_POST['dmn_type']) {
 		// Default moint point for a domain
 		case 'dmn':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $dmn_name;
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name";
+			$ftp_user = $username . Config::getInstance()->get('FTP_USERNAME_SEPARATOR') . $dmn_name;
+			$ftp_home = Config::getInstance()->get('FTP_HOMEDIR') . "/$dmn_name";
 			break;
 		// Default mount point for an alias domain
 		case 'als':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['als_id'];
+			$ftp_user = $username . Config::getInstance()->get('FTP_USERNAME_SEPARATOR') . $_POST['als_id'];
 			$alias_mount_point = get_alias_mount_point($sql, $_POST['als_id']);
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name" . $alias_mount_point;
+			$ftp_home = Config::getInstance()->get('FTP_HOMEDIR') . "/$dmn_name" . $alias_mount_point;
 			break;
 		// Default mount point for a subdomain
 		case 'sub':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['sub_id'] . '.' . $dmn_name;
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . clean_input($_POST['sub_id']);
+			$ftp_user = $username . Config::getInstance()->get('FTP_USERNAME_SEPARATOR') . $_POST['sub_id'] . '.' . $dmn_name;
+			$ftp_home = Config::getInstance()->get('FTP_HOMEDIR') . "/$dmn_name/" . clean_input($_POST['sub_id']);
 			break;
 		// Unknown domain type (?)
 		default:
@@ -382,7 +390,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 			set_page_message(tr('Incorrect mount point length or syntax'));
 			return;
 		}
-		$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . $ftp_vhome;
+		$ftp_home = Config::getInstance()->get('FTP_HOMEDIR') . "/$dmn_name/" . $ftp_vhome;
 		// Strip possible double-slashes
 		$ftp_home = str_replace('//', '/', $ftp_home);
 		// Check for $ftp_vhome existence
@@ -402,7 +410,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 
 	if ($ftp_uid == -1) return;
 
-	$ftp_shell = Config::get('CMD_SHELL');
+	$ftp_shell = Config::getInstance()->get('CMD_SHELL');
 	$ftp_passwd = crypt_user_pass_with_salt($_POST['pass']);
 
 	$query = <<<SQL_QUERY
@@ -431,20 +439,20 @@ function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	if (!isset($_POST['pass']) || empty($_POST['pass'])
 		|| !isset($_POST['pass_rep'])
 		|| $_POST['pass_rep'] === '') {
-		set_page_message(tr('Password data is missing!'));
+		set_page_message(tr('Password is missing!'));
 		return;
 	}
 
 	if ($_POST['pass'] !== $_POST['pass_rep']) {
-		set_page_message(tr('Entered passwords differ from the another!'));
+		set_page_message(tr('Entered passwords do not match!'));
 		return;
 	}
 
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if (Config::getInstance()->get('PASSWD_STRONG')) {
+			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 		}
 		return;
 	}
@@ -474,6 +482,7 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -487,7 +496,10 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($ftp_acc_cnt, $dmn_ftp_acc_cnt, $sub_ftp_acc_cnt, $als_ftp_acc_cnt) = get_domain_running_ftp_acc_cnt($sql, $dmn_id);
 
@@ -543,7 +555,7 @@ function gen_page_js(&$tpl) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -560,8 +572,8 @@ gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -579,7 +591,7 @@ $tpl->assign(
 		'TR_USE_OTHER_DIR' => tr('Use other dir'),
 		'TR_ADD' => tr('Add'),
 		'CHOOSE_DIR' => tr('Choose dir'),
-		'FTP_SEPARATOR' => Config::get('FTP_USERNAME_SEPARATOR')
+		'FTP_SEPARATOR' => Config::getInstance()->get('FTP_USERNAME_SEPARATOR')
 	)
 );
 
@@ -587,6 +599,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }

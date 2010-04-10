@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/index.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/index.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
@@ -43,8 +43,8 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_packages_list(&$tpl, &$sql, $user_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 		$query = "
 			SELECT
 				t1.*,
@@ -118,7 +118,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
  * static page messages.
  *
  */
-$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['user_id']) && is_numeric($_GET['user_id']) && $bcoid) {
@@ -145,7 +145,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
+
 unset_messages();

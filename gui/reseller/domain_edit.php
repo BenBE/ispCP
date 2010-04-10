@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,16 +33,15 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/domain_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 $tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('t_software_support', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	user_goto('users.php');
 }
 
@@ -68,6 +67,7 @@ $tpl->assign(
 		'TR_DOMAIN_EXPIRE'					=> tr('Domain expire'),
 		'TR_DOMAIN_NEW_EXPIRE'				=> tr('New expire date'),
 		'TR_DOMAIN_EXPIRE_UNCHANGED'		=> tr('Unchanged'),
+		'TR_DOMAIN_EXPIRE_NEVER'			=> tr('Never'), 
 		'TR_DOMAIN_EXPIRE_MIN_1_MONTH'		=> tr('- 1 Month'),
 		'TR_DOMAIN_EXPIRE_PLUS_1_MONTH'		=> tr('+ 1 Month'),
 		'TR_DOMAIN_EXPIRE_PLUS_2_MONTHS'	=> tr('+ 2 Months'),
@@ -97,14 +97,12 @@ $tpl->assign(
 		'TR_CANCEL'							=> tr('Cancel'),
 		'TR_YES'							=> tr('Yes'),
 		'TR_NO'								=> tr('No'),
-		'TR_DMN_EXP_HELP'					=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today."),
-		'TR_SOFTWARE_SUPP' 					=> tr('Software installation')
+		'TR_DMN_EXP_HELP'					=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
 	)
 );
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
-get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -155,7 +153,6 @@ function load_user_data($user_id, $domain_id) {
 	global $sql_user, $traff, $disk;
 	global $username;
 	global $dns_supp;
-	global $software_supp;
 
 	$query = "
 		SELECT
@@ -206,8 +203,7 @@ function load_additional_data($user_id, $domain_id) {
 			`domain_cgi`,
 			`domain_admin_id`,
 			`allowbackup`,
-			`domain_dns`,
-			`domain_software_allowed`
+			`domain_dns`
 		FROM
 			`domain`
 		WHERE
@@ -225,7 +221,7 @@ function load_additional_data($user_id, $domain_id) {
 	if ($domain_expires == 0) {
 		$domain_expires = tr('N/A');
 	} else {
-		$date_formt = Config::get('DATE_FORMAT');
+		$date_formt = Config::getInstance()->get('DATE_FORMAT');
 		$domain_expires = date($date_formt, $domain_expires);
 	}
 
@@ -235,9 +231,6 @@ function load_additional_data($user_id, $domain_id) {
 	$allowbackup		= $data['allowbackup'];
 	$domain_admin_id	= $data['domain_admin_id'];
 	$dns_supp			= $data['domain_dns'];
-	#BEG AppInstaller
-	$software_supp 		= $data['domain_software_allowed'];
-	#END AppInstaller
 	// Get IP of domain
 	$query = "
 		SELECT
@@ -277,16 +270,15 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  */
 function gen_editdomain_page(&$tpl) {
-	global $domain_name, $domain_expires, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_new_expire, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
 	global $username, $allowbackup;
 	global $dns_supp;
-	global $software_supp;
-
 	// Fill in the fields
 	$domain_name = decode_idna($domain_name);
+
 	$username = decode_idna($username);
 
 	generate_ip_list($tpl, $_SESSION['user_id']);
@@ -331,26 +323,33 @@ function gen_editdomain_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'PHP_YES'				=> ($php_sup == 'yes') ? 'selected="selected"' : '',
-			'PHP_NO'				=> ($php_sup != 'yes') ? 'selected="selected"' : '',
-			'CGI_YES'				=> ($cgi_supp == 'yes') ? 'selected="selected"' : '',
-			'CGI_NO'				=> ($cgi_supp != 'yes') ? 'selected="selected"' : '',
-			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"' : '',
-			'DNS_NO'				=> ($dns_supp != 'yes') ? 'selected="selected"' : '',
-			'SOFTWARE_YES'			=> ($software_supp == 'yes') ? 'selected="selected"' : '',
-			'SOFTWARE_NO'			=> ($software_supp != 'yes') ? 'selected="selected"' : '',
-			'VL_DOMAIN_NAME'		=> $domain_name,
-			'VL_DOMAIN_EXPIRE'		=> $domain_expires,
-			'VL_DOMAIN_IP'			=> $domain_ip,
-			'VL_DOM_SUB'			=> $sub,
-			'VL_DOM_ALIAS'			=> $als,
-			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
-			'VL_FTP_ACCOUNTS'		=> $ftp,
-			'VL_SQL_DB'				=> $sql_db,
-			'VL_SQL_USERS'			=> $sql_user,
-			'VL_TRAFFIC'			=> $traff,
-			'VL_DOM_DISK'			=> $disk,
-			'VL_USER_NAME'			=> $username
+			'PHP_YES'					=> ($php_sup == 'yes') ? 'selected="selected"' : '',
+			'PHP_NO'					=> ($php_sup != 'yes') ? 'selected="selected"' : '',
+			'CGI_YES'					=> ($cgi_supp == 'yes') ? 'selected="selected"' : '',
+			'CGI_NO'					=> ($cgi_supp != 'yes') ? 'selected="selected"' : '',
+			'DNS_YES'					=> ($dns_supp == 'yes') ? 'selected="selected"' : '',
+			'DNS_NO'					=> ($dns_supp != 'yes') ? 'selected="selected"' : '',
+			'VL_DOMAIN_NAME'			=> $domain_name,
+			'VL_DOMAIN_EXPIRE'			=> $domain_expires,
+			'VL_DOMAIN_IP'				=> $domain_ip,
+			'VL_DOM_SUB'				=> $sub,
+			'VL_DOM_ALIAS'				=> $als,
+			'VL_DOM_MAIL_ACCOUNT'		=> $mail,
+			'VL_FTP_ACCOUNTS'			=> $ftp,
+			'VL_SQL_DB'					=> $sql_db,
+			'VL_SQL_USERS'				=> $sql_user,
+			'VL_TRAFFIC'				=> $traff,
+			'VL_DOM_DISK'				=> $disk,
+			'VL_USER_NAME'				=> $username,
+			'EXPIRE_UNCHANGED_SET'		=> ($domain_new_expire === '0') ? ' selected="selected"' : '',
+			'EXPIRE_NEVER_SET'			=> ($domain_new_expire === 'OFF') ? ' selected="selected"' : '',
+			'EXPIRE_1_MIN_MONTH_SET'	=> ($domain_new_expire === '-1') ? ' selected="selected"' : '',
+			'EXPIRE_1_PLUS_MONTH_SET'	=> ($domain_new_expire === '1') ? ' selected="selected"' : '',
+			'EXPIRE_2_PLUS_MONTH_SET'	=> ($domain_new_expire === '2') ? ' selected="selected"' : '',
+			'EXPIRE_3_PLUS_MONTH_SET'	=> ($domain_new_expire === '3') ? ' selected="selected"' : '',
+			'EXPIRE_6_PLUS_MONTH_SET'	=> ($domain_new_expire === '6') ? ' selected="selected"' : '',
+			'EXPIRE_1_PLUS_YEAR_SET'	=> ($domain_new_expire === '12') ? ' selected="selected"' : '',
+			'EXPIRE_2_PLUS_YEARS_SET'	=> ($domain_new_expire === '24') ? ' selected="selected"' : '',
 		)
 	);
 } // End of gen_editdomain_page()
@@ -365,7 +364,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
 	global $domain_expires, $domain_new_expire;
-	global $domain_software_allowed;
 
 	$domain_new_expire = clean_input($_POST['dmn_expire']);
 	$sub 			= clean_input($_POST['dom_sub']);
@@ -381,7 +379,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$domain_cgi		= preg_replace("/\_/", "", $_POST['domain_cgi']);
 	$domain_dns		= preg_replace("/\_/", "", $_POST['domain_dns']);
 	$allowbackup	= preg_replace("/\_/", "", $_POST['backup']);
-	$domain_software_allowed = preg_replace("/\_/", "", $_POST['domain_software_allowed']);
 
 	$ed_error = '';
 
@@ -414,9 +411,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	}
 	if (!ispcp_limit_check($disk, null)) {
 		$ed_error .= tr('Incorrect disk quota limit!');
-	}
-	if ($domain_php == "no" && $domain_software_allowed == "yes") {
-		$ed_error .= tr('The software installer needs PHP to enable it!');
 	}
 
 	// $user_props = generate_user_props($user_id);
@@ -492,21 +486,23 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$user_props .= "$usql_user_current;$usql_user_max;";
 		$user_props .= "$utraff_max;";
 		$user_props .= "$udisk_max;";
+		// $user_props .= "$domain_ip;";
 		$user_props .= "$domain_php;";
 		$user_props .= "$domain_cgi;";
-		$user_props .= "$domain_dns;";
-		$user_props .= "$domain_software_allowed";
+		$user_props .= "$allowbackup;";
+		$user_props .= "$domain_dns";
 		update_user_props($user_id, $user_props);
 
 		$domain_expires = $_SESSION['domain_expires'];
 
 		if ($domain_expires != 0 && $domain_new_expire != 0) {
-			$domain_new_expire = $domain_expires + ($domain_new_expire * 2635200);
-			update_expire_date($user_id, $domain_new_expire);
+			$domain_expires = $domain_expires + ($domain_new_expire * 2635200);
+		} elseif ($domain_new_expire == "OFF") {
+			$domain_expires = "0";
 		} elseif ($domain_expires == 0 && $domain_new_expire != 0) {
-			$domain_new_expire = time() + ($domain_new_expire * 2635200);
-			update_expire_date($user_id, $domain_new_expire);
+			$domain_expires = time() + ($domain_new_expire * 2635200);
 		}
+		update_expire_date($user_id, $domain_expires);
 
 		$reseller_props = "$rdmn_current;$rdmn_max;";
 		$reseller_props .= "$rsub_current;$rsub_max;";
@@ -559,7 +555,18 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 } // End of check_user_data()
 
 function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
-	if ($rmax == 0 && $umax == -1) {
+	if ($rmax == -1 && $umax >= 0) {
+		if ($u > 0) {
+			$err .= tr('The <em>%s</em> service cannot be disabled!', $obj) . tr('There are <em>%s</em> records on system!', $obj);
+			return;
+		} else if ($data != -1){
+			$err .= tr('The <em>%s</em> have to be disabled!', $obj) . tr('The admin has <em>%s</em> disabled on this system!', $obj);
+			return;
+		} else {
+			$umax = $data;
+		}
+		return;
+	} else if ($rmax == 0 && $umax == -1) {
 		if ($data == -1) {
 			return;
 		} else if ($data == 0) {
@@ -687,7 +694,7 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

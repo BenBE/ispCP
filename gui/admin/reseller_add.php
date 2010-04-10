@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,14 +34,14 @@ check_login(__FILE__);
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/reseller_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/reseller_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('rsl_ip_message', 'page');
 $tpl->define_dynamic('rsl_ip_list', 'page');
 $tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -259,8 +259,7 @@ function add_reseller(&$tpl, &$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
-			$nreseller_software_allowed = clean_input($_POST['nreseller_software_allowed']);
-			$nreseller_softwaredepot_allowed = clean_input($_POST['nreseller_softwaredepot_allowed']);
+			$support_system = clean_input($_POST['support_system']);
 
 			$query = "
 				INSERT INTO `reseller_props` (
@@ -274,8 +273,7 @@ function add_reseller(&$tpl, &$sql) {
 					`max_sql_user_cnt`, `current_sql_user_cnt`,
 					`max_traff_amnt`, `current_traff_amnt`,
 					`max_disk_amnt`, `current_disk_amnt`,
-					`customer_id`, `software_allowed`,
-					`softwaredepot_allowed`
+					`support_system`, `customer_id`
 				) VALUES (
 					?, ?,
 					?, '0',
@@ -287,8 +285,7 @@ function add_reseller(&$tpl, &$sql) {
 					?, '0',
 					?, '0',
 					?, '0',
-					?, ?,
-					?
+					?, ?
 				)
 				";
 
@@ -302,9 +299,8 @@ function add_reseller(&$tpl, &$sql) {
 					$nreseller_max_sql_user_cnt,
 					$nreseller_max_traffic,
 					$nreseller_max_disk,
-					$customer_id,
-					$nreseller_software_allowed,
-					$nreseller_softwaredepot_allowed)
+					$support_system,
+					$customer_id)
 			);
 
 			send_add_user_auto_msg($user_id,
@@ -316,11 +312,7 @@ function add_reseller(&$tpl, &$sql) {
 				tr('Reseller'),
 				$gender
 			);
-			
-			@mkdir(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, 0755, true);
-			#@chown(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "vu2000");
-			#@chgrp(Config::get('GUI_SOFTWARE_DIR')."/".$new_admin_id, "www-data");
-			
+
 			$_SESSION['reseller_added'] = 1;
 
 			user_goto('manage_users.php');
@@ -353,13 +345,8 @@ function add_reseller(&$tpl, &$sql) {
 					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt']),
 					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt']),
 					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic']),
-					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk']),
-					'SOFTWARE_ALLOWED' => clean_input($_POST['nreseller_software_allowed']),
-					'SOFTWAREDEPOT_ALLOWED' => clean_input($_POST['nreseller_softwaredepot_allowed']),
-					'VL_SOFTWAREY'		=> (($_POST['nreseller_software_allowed'] == 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREN'		=> (($_POST['nreseller_software_allowed'] != 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREDEPOTY'		=> (($_POST['nreseller_softwaredepot_allowed'] == 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREDEPOTN'		=> (($_POST['nreseller_softwaredepot_allowed'] != 'yes') ? 'checked="checked"' : '')
+					'SUPPORT_SYSTEM' => clean_input($_POST['support_system']),
+					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'])
 				)
 			);
 		}
@@ -394,11 +381,7 @@ function add_reseller(&$tpl, &$sql) {
 				'MAX_SQLDB_COUNT' => '',
 				'MAX_SQL_USERS_COUNT' => '',
 				'MAX_TRAFFIC_AMOUNT' => '',
-				'MAX_DISK_AMOUNT' => '',
-				'SOFTWARE_ALLOWED' => '',
-				'SOFTWAREDEPOT_ALLOWED' => '',
-				'VL_SOFTWAREN' => 'checked="checked"',
-				'VL_SOFTWAREDEPOTY' => 'checked="checked"'
+				'MAX_DISK_AMOUNT' => ''
 			)
 		);
 	}
@@ -432,10 +415,10 @@ function check_user_data() {
 		return false;
 	}
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if (Config::getInstance()->get('PASSWD_STRONG')) {
+			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
 		}
 
 		return false;
@@ -479,10 +462,20 @@ function check_user_data() {
 		set_page_message(tr('Incorrect SQL databases limit!'));
 
 		return false;
+	} else if ($_POST['nreseller_max_sql_db_cnt'] == -1
+		&& $_POST['nreseller_max_sql_user_cnt'] != -1) {
+		set_page_message(tr('SQL databases limit is <i>disabled</i> but SQL users limit not!'));
+		
+		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_sql_user_cnt'], -1)) {
 		set_page_message(tr('Incorrect SQL users limit!'));
 
+		return false;
+	} else if ($_POST['nreseller_max_sql_db_cnt'] != -1
+		&& $_POST['nreseller_max_sql_user_cnt'] == -1) {
+		set_page_message(tr('SQL users limit is <i>disabled</i> but SQL databases limit not!'));
+		
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_traffic'], null)) {
@@ -509,8 +502,8 @@ function check_user_data() {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 $reseller_ips = get_server_ip($tpl, $sql);
 
@@ -548,8 +541,7 @@ $tpl->assign(
 		'TR_LOGO_UPLOAD' => tr('Logo upload'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
-		'TR_SOFTWARE_ALLOWED' => tr('Software installation<br><i>(One-click install)</i>'),
-		'TR_SOFTWAREDEPOT_ALLOWED' => tr('Can use softwaredepot'),
+		'TR_SUPPORT_SYSTEM' => tr('Support system'),
 
 		'TR_RESELLER_IPS' => tr('Reseller IPs'),
 
@@ -582,7 +574,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/puser_manage.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/puser_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('usr_msg', 'page');
 $tpl->define_dynamic('grp_msg', 'page');
@@ -42,7 +42,7 @@ $tpl->define_dynamic('pusres', 'page');
 $tpl->define_dynamic('pgroups', 'page');
 $tpl->define_dynamic('group_members', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -54,7 +54,7 @@ $tpl->assign(
 );
 
 function gen_user_action($id, $status) {
-	if ($status === Config::get('ITEM_OK_STATUS')) {
+	if ($status === Config::getInstance()->get('ITEM_OK_STATUS')) {
 		return array(tr('Delete'), "action_delete('protected_user_delete.php?uname={USER_ID}', '{UNAME}')", tr('Edit'), "protected_user_edit.php?uname={USER_ID}");
 	} else {
 		return array(tr('N/A'), '', tr('N/A'), '#');
@@ -62,8 +62,8 @@ function gen_user_action($id, $status) {
 }
 
 function gen_group_action($id, $status, $group) {
-	if ($status === Config::get('ITEM_OK_STATUS')
-		&& $group != Config::get('AWSTATS_GROUP_AUTH')) {
+	if ($status === Config::getInstance()->get('ITEM_OK_STATUS')
+		&& $group != Config::getInstance()->get('AWSTATS_GROUP_AUTH')) {
 		return array(tr('Delete'), "action_delete('protected_group_delete.php?gname={GROUP_ID}', '{GNAME}')");
 	} else {
 		return array(tr('N/A'), '');
@@ -188,8 +188,8 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
 
 gen_logged_from($tpl);
 
@@ -226,7 +226,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

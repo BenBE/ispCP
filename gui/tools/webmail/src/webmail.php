@@ -7,7 +7,7 @@
  * shown can be given as parameters. If the user is not logged in
  * this file will verify username and password.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -47,8 +47,6 @@ if(sqgetGlobalVar('mailtodata', $mailtodata)) {
 } else {
     $mailtourl = '';
 }
-
-is_logged_in();
 
 // this value may be changed by a plugin, but initialize
 // it first to avoid register_globals headaches
@@ -96,15 +94,15 @@ if ($left_size == "") {
          $left_size = $default_left_size;
     }
     else {
-        $left_size = 250;
+        $left_size = 200;
     }
 }
 
 if ($location_of_bar == 'right') {
-    $output .= "<frameset cols=\"*, $left_size\" frameborder=\"0\" border=\"0\" framespacing=\"0\">\n";
+    $output .= "<frameset cols=\"*, $left_size\" id=\"fs1\">\n";
 }
 else {
-    $output .= "<frameset cols=\"$left_size, *\" frameborder=\"0\" border=\"0\" framespacing=\"0\">\n";
+    $output .= "<frameset cols=\"$left_size, *\" id=\"fs1\">\n";
 }
 
 /*
@@ -164,12 +162,12 @@ if (empty($right_frame_url)) {
 } 
 
 if ($location_of_bar == 'right') {
-    $output .= "<frame src=\"$right_frame_url\" id=\"f1\" name=\"right\" />\n" .
-               "<frame src=\"left_main.php\" id=\"f2\" name=\"left\" />\n";
+    $output .= "<frame src=\"$right_frame_url\" name=\"right\" frameborder=\"1\">\n" .
+               "<frame src=\"left_main.php\" name=\"left\" frameborder=\"1\">\n";
 }
 else {
-    $output .= "<frame src=\"left_main.php\" id=\"f1\" name=\"left\" />\n".
-               "<frame src=\"$right_frame_url\" id=\"f2\" name=\"right\" />\n";
+    $output .= "<frame src=\"left_main.php\" name=\"left\" frameborder=\"1\">\n".
+               "<frame src=\"$right_frame_url\" name=\"right\" frameborder=\"1\">\n";
 }
 $ret = concat_hook_function('webmail_bottom', $output);
 if($ret != '') {

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,13 +24,30 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
+
+$tpl = new pTemplate();
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/circular.tpl');
+$tpl->define_dynamic('page_message', 'page');
+$tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('alias_menu', 'page');
+
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
+
+$tpl->assign(
+	array(
+		'TR_RESELLER_CIRCULAR_PAGE_TITLE' => tr('ispCP - Circular'),
+		'THEME_COLOR_PATH' => "../themes/$theme_color",
+		'THEME_CHARSET' => tr('encoding'),
+		'ISP_LOGO' => get_logo($_SESSION['user_id']),
+	)
+);
 
 function gen_page_data(&$tpl, &$sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
@@ -165,30 +182,14 @@ function send_circular_email($to, $from, $subject, $message) {
 	mail($to, $subject, $message, $headers);
 }
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/circular.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_RESELLER_CIRCULAR_PAGE_TITLE' => tr('ispCP - Circular'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
-
 /*
  *
  * static page messages.
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -211,15 +212,17 @@ $tpl->assign(
 );
 
 send_circular($tpl, $sql);
-
 gen_page_data ($tpl, $sql);
-
 gen_page_message($tpl);
+
+if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
+	$tpl->assign('ALIAS_MENU', '');
+}
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

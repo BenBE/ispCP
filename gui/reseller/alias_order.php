@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 if (isset($_GET['action']) && $_GET['action'] === "delete") {
 
@@ -49,7 +49,7 @@ if (isset($_GET['action']) && $_GET['action'] === "delete") {
 	// delete "ordered"/pending email accounts
 	$domain_id = who_owns_this($del_id, 'als_id', true);
 	$query = "DELETE FROM `mail_users` WHERE `sub_id` = ? AND `domain_id` = ? AND `status` = ? AND `mail_type` LIKE 'alias%'";
-	$rs = exec_query($sql, $query, array($del_id, $domain_id, Config::get('ITEM_ORDERED_STATUS')));
+	$rs = exec_query($sql, $query, array($del_id, $domain_id, Config::getInstance()->get('ITEM_ORDERED_STATUS')));
 
 	user_goto('alias.php');
 
@@ -79,12 +79,12 @@ if (isset($_GET['action']) && $_GET['action'] === "delete") {
 	}
 	$user_email = $rs->fields['email'];
 	// Create the 3 default addresses if wanted
-	if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES')) client_mail_add_default_accounts($domain_id, $user_email, $alias_name, 'alias', $act_id);
+	if (Config::getInstance()->get('CREATE_DEFAULT_EMAIL_ADDRESSES')) client_mail_add_default_accounts($domain_id, $user_email, $alias_name, 'alias', $act_id);
 
 	// enable "ordered"/pending email accounts
 	// ??? are there pending mail_addresses ???, joximu
 	$query = "UPDATE `mail_users` SET `status` = ? WHERE `sub_id` = ? AND `domain_id` = ? AND `status` = ? AND `mail_type` LIKE 'alias%'";
-	$rs = exec_query($sql, $query, array(Config::get('ITEM_ADD_STATUS'), $act_id, $domain_id, Config::get('ITEM_ORDERED_STATUS')));
+	$rs = exec_query($sql, $query, array(Config::getInstance()->get('ITEM_ADD_STATUS'), $act_id, $domain_id, Config::getInstance()->get('ITEM_ORDERED_STATUS')));
 
 	send_request();
 

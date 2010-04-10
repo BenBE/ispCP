@@ -49,7 +49,7 @@ libterm-readkey-perl
 libterm-readpassword-perl
 libhtml-parser-perl
 libtimedate-perl
-libmysqlclient15off
+libmysqlclient16
 locales
 lsb-base
 lsb-release
@@ -71,13 +71,12 @@ php5-cgi
 php5-cli
 php5-gd
 php5-mcrypt
-php5-mhash
 php5-mysql
 policyd-weight
 postfix
 postgrey
 procmail
-proftpd
+proftpd-basic
 proftpd-mod-mysql
 rkhunter
 sasl2-bin

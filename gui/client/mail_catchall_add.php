@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,7 +33,7 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/mail_catchall_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/mail_catchall_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mail_list', 'page');
@@ -57,6 +57,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -70,7 +71,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	$domain_id = $dmn_id;
 
@@ -85,7 +89,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		user_goto('mail_catchall.php');
 	}
 
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
 	$match = array();
 	if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 		$item_id = $match[1];
@@ -315,7 +319,7 @@ function create_catchall_mail_account(&$sql, $id) {
 				$rs = exec_query($sql, $query, array($mail_id));
 				$domain_id = $rs->fields['domain_id'];
 				$sub_id = $rs->fields['sub_id'];
-				$status = Config::get('ITEM_ADD_STATUS');
+				$status = Config::getInstance()->get('ITEM_ADD_STATUS');
 
 				// find the mail_addr (catchall -> "@(sub/alias)domain.tld", should be domain part of mail_acc
 				$match = explode('@', $mail_acc);
@@ -411,7 +415,7 @@ function create_catchall_mail_account(&$sql, $id) {
 				$mail_acc[] = $value;
 			}
 
-			$status = Config::get('ITEM_ADD_STATUS');
+			$status = Config::getInstance()->get('ITEM_ADD_STATUS');
 
 			$query = "
 				INSERT INTO `mail_users`
@@ -443,7 +447,7 @@ function create_catchall_mail_account(&$sql, $id) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -462,8 +466,8 @@ $tpl->assign('ID', $item_id);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
+gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
+gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -484,7 +488,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

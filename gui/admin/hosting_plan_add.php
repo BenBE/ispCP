@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,15 +32,15 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-if (strtolower(Config::get('HOSTING_PLANS_LEVEL')) != 'admin') {
+if (strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) != 'admin') {
 	user_goto('index.php');
 }
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -57,8 +57,8 @@ $tpl->assign(
  *
  */
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
 
 $tpl->assign(
 		array(
@@ -93,6 +93,14 @@ $tpl->assign(
 				'TR_STATUS'					=> tr('Available for purchasing'),
 				'TR_TEMPLATE_DESCRIPTON'	=> tr('Description'),
 				'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
+
+			// BEGIN TOS
+				'TR_TOS_PROPS'				=> tr('Term Of Service'),
+				'TR_TOS_NOTE'				=> tr('<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'),
+				'TR_TOS_DESCRIPTION'		=> tr('Text Only'),
+
+			// END TOS
+
 				'TR_ADD_PLAN'				=> tr('Add plan')
 		)
 );
@@ -112,7 +120,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 // Function definitions
@@ -149,10 +157,11 @@ function gen_empty_ahp_page(&$tpl) {
 					'TR_DNS_YES'			=> '',
 					'TR_DNS_NO'				=> 'checked="checked"',
 					'TR_STATUS_YES'			=> 'checked="checked"',
-					'TR_STATUS_NO'			=> ''
+					'TR_STATUS_NO'			=> '',
+					'HP_TOS_VALUE'			=> ''
 			)
 	);
-	
+
 	$tpl->assign('MESSAGE', '');
 
 } // end of gen_empty_hp_page()
@@ -168,6 +177,7 @@ function gen_data_ahp_page(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $tos;
 
 	$tpl->assign(
 			array(
@@ -184,7 +194,8 @@ function gen_data_ahp_page(&$tpl) {
 					'HP_PRICE'				=> $price,
 					'HP_SETUPFEE'			=> $setup_fee,
 					'HP_VELUE'				=> $value,
-					'HP_PAYMENT'			=> $payment
+					'HP_PAYMENT'			=> $payment,
+					'HP_TOS_VALUE'			=> $tos
 			)
 	);
 
@@ -218,8 +229,9 @@ function check_data_correction(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $tos;
 
-	$ahp_error = "_off_";
+	$ahp_error 		= array();
 
 	$hp_name		= clean_input($_POST['hp_name'], true);
 	$hp_sub			= clean_input($_POST['hp_sub'], true);
@@ -236,6 +248,7 @@ function check_data_correction(&$tpl) {
 	$value			= clean_input($_POST['hp_value'], true);
 	$payment		= clean_input($_POST['hp_payment'], true);
 	$status			= $_POST['status'];
+	$tos			= clean_input($_POST['hp_tos'], true);
 
 	if (isset($_POST['php'])) {
 		$hp_php = $_POST['php'];
@@ -254,44 +267,50 @@ function check_data_correction(&$tpl) {
 	}
 
 	if (empty($hp_name)) {
-		$ahp_error = tr('Incorrect template name length!');
+		$ahp_error[] = tr('Incorrect template name length!');
 	}
 
 	if (empty($description)) {
-		$ahp_error = tr('Incorrect template description length!');
+		$ahp_error[] = tr('Incorrect template description length!');
 	}
 	if (!is_numeric($price)) {
-		$ahp_error = tr('Incorrect price syntax!');
+		$ahp_error[] = tr('Incorrect price syntax!');
 	}
 
 	if (!is_numeric($setup_fee)) {
-		$ahp_error = tr('Incorrect setup fee syntax!');
+		$ahp_error[] = tr('Incorrect setup fee syntax!');
 	}
 
 	if (!ispcp_limit_check($hp_sub, -1)) {
-		$ahp_error = tr('Incorrect subdomains limit!');
-	} else if (!ispcp_limit_check($hp_als, -1)) {
-		$ahp_error = tr('Incorrect aliases limit!');
-	} else if (!ispcp_limit_check($hp_mail, -1)) {
-		$ahp_error = tr('Incorrect mail accounts limit!');
-	} else if (!ispcp_limit_check($hp_ftp, -1)) {
-		$ahp_error = tr('Incorrect FTP accounts limit!');
-	} else if (!ispcp_limit_check($hp_sql_user, -1)) {
-		$ahp_error = tr('Incorrect SQL databases limit!');
-	} else if (!ispcp_limit_check($hp_sql_db, -1)) {
-		$ahp_error = tr('Incorrect SQL users limit!');
-	} else if (!ispcp_limit_check($hp_traff, null)) {
-		$ahp_error = tr('Incorrect traffic limit!');
-	} else if (!ispcp_limit_check($hp_disk, null)) {
-		$ahp_error = tr('Incorrect disk quota limit!');
+		$ahp_error[] = tr('Incorrect subdomains limit!');
+	}
+	if (!ispcp_limit_check($hp_als, -1)) {
+		$ahp_error[] = tr('Incorrect aliases limit!');
+	}
+	if (!ispcp_limit_check($hp_mail, -1)) {
+		$ahp_error[] = tr('Incorrect mail accounts limit!');
+	}
+	if (!ispcp_limit_check($hp_ftp, -1)) {
+		$ahp_error[] = tr('Incorrect FTP accounts limit!');
+	}
+	if (!ispcp_limit_check($hp_sql_user, -1)) {
+		$ahp_error[] = tr('Incorrect SQL databases limit!');
+	}
+	if (!ispcp_limit_check($hp_sql_db, -1)) {
+		$ahp_error[] = tr('Incorrect SQL users limit!');
+	}
+	if (!ispcp_limit_check($hp_traff, null)) {
+		$ahp_error[] = tr('Incorrect traffic limit!');
+	}
+	if (!ispcp_limit_check($hp_disk, null)) {
+		$ahp_error[] = tr('Incorrect disk quota limit!');
 	}
 
-	if ($ahp_error == '_off_') {
+	if (empty($ahp_error)) {
 		$tpl->assign('MESSAGE', '');
 		return true;
 	} else {
-		set_page_message($ahp_error);
-		// $tpl->assign('MESSAGE', $ahp_error);
+		set_page_message(format_message($ahp_error));
 		return false;
 	}
 
@@ -308,6 +327,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
+	global $tos;
 
 	$sql = Database::getInstance();
 
@@ -336,19 +356,20 @@ function save_data_to_db(&$tpl, $admin_id) {
 		$query = "
 			INSERT INTO
 				hosting_plans(
-					reseller_id,
-					name,
-					description,
-					props,
-					price,
-					setup_fee,
-					value,
-					payment,
-					status)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+					`reseller_id`,
+					`name`,
+					`description`,
+					`props`,
+					`price`,
+					`setup_fee`,
+					`value`,
+					`payment`,
+					`status`,
+					`tos`
+				) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		";
 
-		$res = exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status));
+		$res = exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status, $tos));
 
 		$_SESSION['hp_added'] = '_yes_';
 		user_goto('hosting_plan.php');

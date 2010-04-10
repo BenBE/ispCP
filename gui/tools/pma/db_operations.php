@@ -9,7 +9,7 @@
  *  - adding tables
  *  - viewing PDF schemas
  *
- * @version $Id: db_operations.php 13034 2009-10-12 21:47:40Z lem9 $
+ * @version $Id: db_operations.php 13260 2010-01-20 08:00:47Z helmo $
  * @package phpMyAdmin
  */
 
@@ -53,19 +53,43 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
             }
             $local_query .= ';';
             $sql_query = $local_query;
+            // save the original db name because Tracker.class.php which
+            // may be called under PMA_DBI_query() changes $GLOBALS['db']
+            // for some statements, one of which being CREATE DATABASE
+            $original_db = $db;
             PMA_DBI_query($local_query);
+            $db = $original_db;
+            unset($original_db);
 
             // rebuild the database list because PMA_Table::moveCopy
             // checks in this list if the target db exists
             $GLOBALS['pma']->databases->build();
         }
 
-        if (isset($GLOBALS['add_constraints'])) {
-            $GLOBALS['sql_constraints_query_full_db'] = '';
+        if (isset($GLOBALS['add_constraints']) || $move) {
+            $GLOBALS['sql_constraints_query_full_db'] = array();
         }
 
         $tables_full = PMA_DBI_get_tables_full($db);
         $views = array();
+
+        // remove all foreign key constraints, otherwise we can get errors
+        require_once './libraries/export/sql.php';
+        foreach ($tables_full as $each_table => $tmp) {
+            $sql_constraints = '';
+            $sql_drop_foreign_keys = '';
+            $sql_structure = PMA_getTableDef($db, $each_table, "\n", '', false, false);
+            if ($move && ! empty($sql_drop_foreign_keys)) {
+                PMA_DBI_query($sql_drop_foreign_keys);
+            }
+            // keep the constraint we just dropped
+            if (! empty($sql_constraints)) {
+                $GLOBALS['sql_constraints_query_full_db'][] = $sql_constraints;
+            }
+        }
+        unset($sql_constraints, $sql_drop_foreign_keys, $sql_structure);
+
+
         foreach ($tables_full as $each_table => $tmp) {
             // to be able to rename a db containing views, we
             // first collect in $views all the views we find and we
@@ -119,8 +143,9 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
                 }
                 unset($triggers); 
 
-                if (isset($GLOBALS['add_constraints'])) {
-                    $GLOBALS['sql_constraints_query_full_db'] .= $GLOBALS['sql_constraints_query'];
+                // this does not apply to a rename operation
+                if (isset($GLOBALS['add_constraints']) && !empty($GLOBALS['sql_constraints_query'])) {
+                    $GLOBALS['sql_constraints_query_full_db'][] = $GLOBALS['sql_constraints_query'];
                     unset($GLOBALS['sql_constraints_query']);
                 }
             }
@@ -142,17 +167,15 @@ if (strlen($db) && (! empty($db_rename) || ! empty($db_copy))) {
         unset($view, $views);
 
         // now that all tables exist, create all the accumulated constraints
-        if (! $_error && isset($GLOBALS['add_constraints'])) {
-            /**
-             * @todo this works with mysqli but not with mysql, because
-             * mysql extension does not accept more than one statement; maybe
-             * interface with the sql import plugin that handles statement delimiter
-             */
-            PMA_DBI_query($GLOBALS['sql_constraints_query_full_db']);
-
+        if (! $_error && count($GLOBALS['sql_constraints_query_full_db']) > 0) {
+            PMA_DBI_select_db($newname);
+            foreach ($GLOBALS['sql_constraints_query_full_db'] as $one_query) {
+                PMA_DBI_query($one_query);
             // and prepare to display them
-            $GLOBALS['sql_query'] .= "\n" . $GLOBALS['sql_constraints_query_full_db'];
-            unset($GLOBALS['sql_constraints_query_full_db']);
+                $GLOBALS['sql_query'] .= "\n" . $one_query;
+            }
+
+            unset($GLOBALS['sql_constraints_query_full_db'], $one_query);
         }
 
         if (PMA_MYSQL_INT_VERSION >= 50000) {
@@ -435,7 +458,7 @@ if (!$is_information_schema) {
             'structure' => $strStrucOnly,
             'data'      => $strStrucData,
             'dataonly'  => $strDataOnly);
-        PMA_generate_html_radio('what', $choices, 'data', true);
+        PMA_display_html_radio('what', $choices, 'data', true);
         unset($choices);
 ?>
         <input type="checkbox" name="create_database_before_copying" value="1"
@@ -510,7 +533,7 @@ if (!$is_information_schema) {
                     <?php echo PMA_getIcon('b_edit.png', $strBLOBRepository, false, true); ?>
                     </legend>
 
-                    <?php echo $strBLOBRepositoryStatus; ?>:
+                    <?php echo $strStatus; ?>:
 
                     <?php
 
@@ -606,7 +629,7 @@ if ($cfgRelation['pdfwork'] && $num_tables > 0) { ?>
          SELECT *
            FROM ' . PMA_backquote($GLOBALS['cfgRelation']['db']) . '.' . PMA_backquote($cfgRelation['pdf_pages']) . '
           WHERE db_name = \'' . PMA_sqlAddslashes($db) . '\'';
-    $test_rs    = PMA_query_as_cu($test_query, null, PMA_DBI_QUERY_STORE);
+    $test_rs    = PMA_query_as_controluser($test_query, null, PMA_DBI_QUERY_STORE);
 
     if ($test_rs && PMA_DBI_num_rows($test_rs) > 0) { ?>
     <!-- PDF schema -->

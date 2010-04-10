@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -41,8 +41,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	user_goto('orders.php');
 }
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$query = "
 		SELECT
 			*
@@ -92,8 +92,8 @@ $user_email		= $rs->fields['email'];
 // let's check the reseller limits
 $err_msg = '';
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$query = "SELECT `props` FROM `hosting_plans` WHERE `id` = ?";
 	$res = exec_query($sql, $query, array($hpid));
 } else {
@@ -125,7 +125,8 @@ $php = preg_replace("/\_/", "", $php);
 $cgi = preg_replace("/\_/", "", $cgi);
 $dns = preg_replace("/\_/", "", $dns);
 
-$inpass = crypt_user_pass(passgen(), true);
+$password = passgen();
+$inpass = crypt_user_pass($password, true);
 
 // Should be performed after domain name validation now
 $dmn_user_name = decode_idna($dmn_user_name);
@@ -161,9 +162,9 @@ $query = "
 ";
 
 $res = exec_query($sql, $query, array(
-	$dmn_user_name, $inpass, $reseller_id, $first_name, $last_name, $firm,
-	$zip, $city, $state, $country, $user_email, $phone, $fax, $street_one,
-	$street_two, $customer_id)
+		$dmn_user_name, $inpass, $reseller_id, $first_name, $last_name, $firm,
+		$zip, $city, $state, $country, $user_email, $phone, $fax, $street_one,
+		$street_two, $customer_id)
 );
 
 print $sql->ErrorMsg();
@@ -181,7 +182,7 @@ $query = "
 
 $rs = exec_query($sql, $query, array($reseller_id));
 $domain_ip = $rs->fields['reseller_ips'];
-$status = Config::get('ITEM_ADD_STATUS');
+$status = Config::getInstance()->get('ITEM_ADD_STATUS');
 
 
 $query = "
@@ -208,23 +209,9 @@ $query = "
 	)
 ";
 
-$res = exec_query($sql, $query, array($dmn_user_name,
-		$record_id,
-		$reseller_id,
-		$mail,
-		$ftp,
-		$traff,
-		$sql_db,
-		$sql_user,
-		$status,
-		$sub,
-		$als,
-		$domain_ip,
-		$disk,
-		$php,
-		$cgi,
-		$backup,
-		$dns)
+$res = exec_query($sql, $query, array($dmn_user_name, $record_id, $reseller_id,
+		$mail, $ftp, $traff, $sql_db, $sql_user, $status, $sub, $als, $domain_ip,
+		$disk, $php, $cgi, $backup,	$dns)
 );
 $dmn_id = $sql->Insert_ID();
 
@@ -235,11 +222,12 @@ $query = "
 	VALUES
 		(?, ?, ?, ?)
 ";
-$rs = exec_query($sql, $query, array($dmn_id, $dmn_user_name, crypt_user_pass_with_salt($pure_user_pass), $status));
+$rs = exec_query($sql, $query, array($dmn_id, $dmn_user_name,
+	 	crypt_user_pass_with_salt($password), $status));
 
 $user_id = $sql->Insert_ID();
 
-$awstats_auth = Config::get('AWSTATS_GROUP_AUTH');
+$awstats_auth = Config::getInstance()->get('AWSTATS_GROUP_AUTH');
 
 $query = "
 	INSERT INTO `htaccess_groups`
@@ -250,23 +238,16 @@ $query = "
 $rs = exec_query($sql, $query, array($dmn_id, $awstats_auth, $user_id, $status));
 
 // Create the 3 default addresses if wanted
-if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
+if (Config::getInstance()->get('CREATE_DEFAULT_EMAIL_ADDRESSES'))
 	client_mail_add_default_accounts($dmn_id, $user_email, $dmn_user_name); // 'domain', 0
 
 // Added to send the msg with the domain name in idna form
 $dmn_user_name = encode_idna($dmn_user_name);
 
-// ispcp 2.5 feature
 // add_domain_extras($dmn_id, $record_id, $sql);
 // let's send mail to user
-send_add_user_auto_msg($reseller_id,
-	$dmn_user_name,
-	$pure_user_pass,
-	$user_email,
-	$first_name,
-	$last_name,
-	tr('Domain account')
-);
+send_add_user_auto_msg($reseller_id, $dmn_user_name, $password, $user_email,
+	$first_name, $last_name, tr('Domain account'));
 
 // add user into user_gui_props => domain looser needs language and skin too :-)
 $user_def_lang = $_SESSION['user_def_lang'];
@@ -279,8 +260,7 @@ $query = "
 		(?, ?, ?)
 ";
 
-$res = exec_query($sql, $query, array($record_id,
-		$user_def_lang,
+$res = exec_query($sql, $query, array($record_id, $user_def_lang, 
 		$user_theme_color));
 
 // send query to the ispcp daemon

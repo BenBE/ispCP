@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,13 +33,13 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/domain_edit.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/domain_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
-if (Config::exists('HOSTING_PLANS_LEVEL') && strtolower(Config::get('HOSTING_PLANS_LEVEL')) !== 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) !== 'admin') {
 	user_goto('manage_users.php');
 }
 
@@ -64,7 +64,7 @@ $tpl->assign(
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),
 		'TR_DOMAIN_EXPIRE'		=> tr('Domain expire'),
-		'TR_DOMAIN_NEW_EXPIRE'	=> tr('New expire date'),  
+		'TR_DOMAIN_NEW_EXPIRE'	=> tr('New expire date'),
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support (EXPERIMENTAL)'),
@@ -86,12 +86,12 @@ $tpl->assign(
 		'TR_CANCEL'				=> tr('Cancel'),
 		'TR_YES'				=> tr('Yes'),
 		'TR_NO'					=> tr('No'),
-		'TR_DMN_EXP_HELP' 		=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.") 
+		'TR_DMN_EXP_HELP' 		=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
 	)
 );
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 gen_page_message($tpl);
 
 if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
@@ -189,7 +189,7 @@ function load_additional_data($user_id, $domain_id) {
 	$query = "
 		SELECT
 			`domain_name`,
-			`domain_expires`, 
+			`domain_expires`,
 			`domain_ip_id`,
 			`domain_php`,
 			`domain_cgi`,
@@ -210,13 +210,13 @@ function load_additional_data($user_id, $domain_id) {
 	$domain_expires		= $data['domain_expires'];
 	$_SESSION['domain_expires'] = $domain_expires;
 
-	if ($domain_expires == 0) { 
- 		$domain_expires = tr('N/A'); 
- 	} else { 
- 		$date_formt = Config::get('DATE_FORMAT'); 
- 		$domain_expires = date($date_formt, $domain_expires); 
- 	} 
-	
+	if ($domain_expires == 0) {
+ 		$domain_expires = tr('N/A');
+ 	} else {
+ 		$date_formt = Config::getInstance()->get('DATE_FORMAT');
+ 		$domain_expires = date($date_formt, $domain_expires);
+ 	}
+
 	$domain_ip_id		= $data['domain_ip_id'];
 	$php_sup			= $data['domain_php'];
 	$cgi_supp			= $data['domain_cgi'];
@@ -346,7 +346,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	global $domain_cgi, $allowbackup;
 	global $domain_dns;
 
-	$domain_new_expire = clean_input($_POST['dmn_expire']); 
+	$domain_new_expire = clean_input($_POST['dmn_expire']);
 
 	$sub			= clean_input($_POST['dom_sub']);
 	$als				= clean_input($_POST['dom_alias']);
@@ -471,6 +471,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		// $user_props .= "$domain_ip;";
 		$user_props .= "$domain_php;";
 		$user_props .= "$domain_cgi;";
+		$user_props .= "$allowbackup;";
 		$user_props .= "$domain_dns";
 		update_user_props($user_id, $user_props);
 
@@ -663,7 +664,7 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();

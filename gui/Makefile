@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,7 +21,7 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -36,8 +36,6 @@ export
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)/software
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_GUI_ROOT)/software/sw_depot
 
 	cp ./index.php $(SYSTEM_GUI_ROOT)/index.php
 	cp ./lostpassword.php $(SYSTEM_GUI_ROOT)/lostpassword.php
@@ -51,6 +49,7 @@ install:
 	cp -dR ./include $(SYSTEM_GUI_ROOT)
 
 	cp -dR ./domain_default_page $(SYSTEM_GUI_ROOT)
+	cp -dR ./domain_disable_page $(SYSTEM_GUI_ROOT)
 	cp -dR ./errordocs $(SYSTEM_GUI_ROOT)
 	cp -dR ./themes $(SYSTEM_GUI_ROOT)
 	cp -dR ./tools $(SYSTEM_GUI_ROOT)

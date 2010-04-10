@@ -2,8 +2,8 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -21,7 +21,7 @@
  * The Original Code is "ispCP - ISP Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2009 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,25 +32,28 @@
  * @copyright	2006-2009 by ispCP | http://isp-control.net
  * @version		1.0
  * @since		r1355
- * @todo		use db prepared statements
+ * @deprecated	since Mrz 2010 - use {@see class.databaseUpdate.php} instead.
+ * 
+ * @todo		Merge back to {@see class.databaseUpdate.php} and remove 
+ * 				constant CRITICAL_UPDATE_REVISION
  */
 class criticalUpdate extends ispcpUpdate {
 
 	/**
 	 * The database variable name for the update version
-	 * @var string 
+	 * @var string
 	 */
 	protected $databaseVariableName = "CRITICAL_UPDATE_REVISION";
-	
+
 	/**
 	 * The update functions prefix
-	 * @var string 
+	 * @var string
 	 */
 	protected $functionName = "_criticalUpdate_";
-	
+
 	/**
-	 * Error message for updates that have failed 
-	 * @var string 
+	 * Error message for updates that have failed
+	 * @var string
 	 */
 	protected $errorMessage = "Critical update %s failed";
 
@@ -60,7 +63,7 @@ class criticalUpdate extends ispcpUpdate {
 	 * return object criticalUpdate instance
 	 */
 	public static function getInstance() {
-	
+
 		static $instance = null;
 		if ($instance === null) $instance = new self();
 
@@ -76,7 +79,6 @@ class criticalUpdate extends ispcpUpdate {
 	 * Encrypt email and sql users password in database
 	 *
 	 * @author		Daniel Andreca <sci2tech@gmail.com>
-	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		1.0
 	 * @since		r1355
 	 *
@@ -86,7 +88,7 @@ class criticalUpdate extends ispcpUpdate {
 	 */
 	protected function _criticalUpdate_1(&$engine_run_request) {
 
-		$status = Config::get('ITEM_CHANGE_STATUS');
+		$status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
 		$sql = Database::getInstance();
 		setConfig_Value('CRITICAL_UPDATE_REVISION', 1);
 
@@ -122,7 +124,6 @@ class criticalUpdate extends ispcpUpdate {
 	 * Fix for ticket #1571 http://www.isp-control.net/ispcp/ticket/1571.
 	 *
 	 * @author		Daniel Andreca <sci2tech@gmail.com>
-	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		1.0
 	 * @since		r1417
 	 *
@@ -134,8 +135,8 @@ class criticalUpdate extends ispcpUpdate {
 
 		$sqlUpd = array();
 
-		$status = Config::get('ITEM_ADD_STATUS');
-		$statsgroup = Config::get('AWSTATS_GROUP_AUTH');
+		$status = Config::getInstance()->get('ITEM_ADD_STATUS');
+		$statsgroup = Config::getInstance()->get('AWSTATS_GROUP_AUTH');
 		$sql = Database::getInstance();
 
 		$query = "SELECT `domain_id` FROM `domain` WHERE `domain_id` NOT IN (SELECT `dmn_id` FROM `htaccess_groups` WHERE `ugroup` = '{$statsgroup}')";
@@ -157,7 +158,6 @@ class criticalUpdate extends ispcpUpdate {
 	 * Fix for ticket #1571 http://www.isp-control.net/ispcp/ticket/1571.
 	 *
 	 * @author		Daniel Andreca <sci2tech@gmail.com>
-	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		1.0
 	 * @since		r1725
 	 *
@@ -171,13 +171,13 @@ class criticalUpdate extends ispcpUpdate {
 
 		$sql = Database::getInstance();
 		$interfaces=new networkCard();
-		$card = $interfaces->ip2NetworkCard(Config::get('BASE_SERVER_IP'));
+		$card = $interfaces->ip2NetworkCard(Config::getInstance()->get('BASE_SERVER_IP'));
 
 		$sqlUpd[] = "ALTER TABLE `server_ips`
 					ADD `ip_card` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
 					ADD `ip_ssl_domain_id` INT( 10 ) NULL,
 					ADD `ip_status` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL";
-		$sqlUpd[] = "UPDATE `server_ips` SET `ip_card` = '" . $card . "', `ip_status` = '" . Config::get('ITEM_CHANGE_STATUS') . "'";
+		$sqlUpd[] = "UPDATE `server_ips` SET `ip_card` = '" . $card . "', `ip_status` = '" . Config::getInstance()->get('ITEM_CHANGE_STATUS') . "'";
 
 		$engine_run_request = true;
 		return $sqlUpd;
@@ -188,7 +188,6 @@ class criticalUpdate extends ispcpUpdate {
 	 * Fix for ticket #1971 http://www.isp-control.net/ispcp/ticket/1971.
 	 *
 	 * @author		Laurent Declercq <l.declercq@nuxwin.com>
-	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		1.1
 	 * @since		r1986
 	 *
@@ -206,7 +205,6 @@ class criticalUpdate extends ispcpUpdate {
 	 * Fix for ticket #1980 http://www.isp-control.net/ispcp/ticket/1980.
 	 *
 	 * @author		Laurent Declercq <l.declercq@nuxwin.com>
-	 * @copyright	2006-2009 by ispCP | http://isp-control.net
 	 * @version		1.2
 	 * @since		r1986
 	 *

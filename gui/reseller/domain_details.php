@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,11 +33,10 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_details.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('t_software_support', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -61,8 +60,8 @@ $tpl->assign(
 		'TR_STATUS'				=> tr('Status'),
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
+		'TR_BACKUP_SUPPORT'		=> tr('Backup support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support (EXPERIMENTAL)'),
-		'TR_SOFTWARE_SUPP' 		=> tr('Software installation'),
 		'TR_MYSQL_SUPP'			=> tr('MySQL support'),
 		'TR_TRAFFIC'			=> tr('Traffic in MB'),
 		'TR_DISK'				=> tr('Disk in MB'),
@@ -77,18 +76,17 @@ $tpl->assign(
 		'TR_DOMALIAS_ACCOUNTS'	=> tr('Domain aliases'),
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
 		'TR_BACK'				=> tr('Back'),
-		'TR_EDIT'				=> tr('Edit')
+		'TR_EDIT'				=> tr('Edit'),
 	)
 );
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 	$tpl->assign('EDIT_OPTION', '');
 }
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
-get_reseller_software_permission(&$tpl, &$sql, $_SESSION['user_id']);
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -105,7 +103,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -217,7 +215,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			. "FROM `mail_users` "
 			. "WHERE `domain_id` = ? "
 			. "AND `mail_type` NOT RLIKE '_catchall' ";
-	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+	if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
 		$query .= "AND `mail_acc` != 'abuse' "
 				. "AND `mail_acc` != 'postmaster' "
 				. "AND `mail_acc` != 'webmaster'";
@@ -264,6 +262,21 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$res1 = exec_query($sql, $query, array($domain_id));
 	$alias_num_data = $res1->FetchRow();
 
+	// Check if Backup support is available for this user
+	switch($data['allowbackup']){
+    case "full":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('Full')));
+        break;
+    case "sql":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('SQL')));
+        break;
+    case "dmn":
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('Domain')));
+        break;
+    default:
+        $tpl->assign( array('VL_BACKUP_SUPPORT' => tr('No')));
+    }
+
 	$dom_alias = translate_limit_value($data['domain_alias_limit']);
 	// Fill in the fields
 	$tpl->assign(
@@ -293,8 +306,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			'VL_SUBDOM_ACCOUNTS_USED'	=> $sub_num_data['sub_num'] + $alssub_num_data['sub_num'],
 			'VL_SUBDOM_ACCOUNTS_LIIT'	=> $sub_dom,
 			'VL_DOMALIAS_ACCOUNTS_USED'	=> $alias_num_data['alias_num'],
-			'VL_DOMALIAS_ACCOUNTS_LIIT'	=> $dom_alias,
-			'VL_SOFTWARE_SUPP'			=> ($data['domain_software_allowed'] == 'yes') ? tr('Enabled') : tr('Disabled'),
+			'VL_DOMALIAS_ACCOUNTS_LIIT'	=> $dom_alias
 		)
 	);
 } // end of load_user_data();
