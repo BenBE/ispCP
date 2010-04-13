@@ -181,4 +181,18 @@ $main::ispcp_srv_traff_el = "$main::log_dir/ispcp-srv-traff.el";
 
 $main::ispcp_dsk_quota_el = "$main::log_dir/ispcp-dsk-quota.el";
 
+#
+# software manager variables.
+#
+ 
+$main::ispcp_sw_mngr = "$main::root_dir/engine/ispcp-sw-mngr";
+$main::ispcp_sw_mngr_el = "$main::log_dir/ispcp-sw-mngr.el";
+$main::ispcp_sw_mngr_stdout = "$main::log_dir/ispcp-sw-mngr.stdout";
+$main::ispcp_sw_mngr_stderr = "$main::log_dir/ispcp-sw-mngr.stderr";
+
+$main::ispcp_pkt_mngr = "$main::root_dir/engine/ispcp-pkt-mngr";
+$main::ispcp_pkt_mngr_el = "$main::log_dir/ispcp-pkt-mngr.el";
+$main::ispcp_pkt_mngr_stdout = "$main::log_dir/ispcp-pkt-mngr.stdout";
+$main::ispcp_pkt_mngr_stderr = "$main::log_dir/ispcp-pkt-mngr.stderr";
+
 1;
