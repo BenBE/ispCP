@@ -151,8 +151,8 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	$tpl->assign('MESSAGE', "");
 }
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'reseller') get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+	&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'reseller') get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
