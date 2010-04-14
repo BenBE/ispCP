@@ -1,9 +1,13 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-14 Sascha Bay
+	- GUI:
+		* Adding new files for the apps-installer
+
 2010-04-13 Sascha Bay
 	- GUI:
-		* Update existing gui files with patches for apps-installer
+		* Update existing gui files with patches for the apps-installer
 
 2010-04-13 Sascha Bay
 	- ENGINE:
