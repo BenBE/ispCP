@@ -28,22 +28,6 @@
  * isp Control Panel. All Rights Reserved.
  */
 
-// require_once(INCLUDEPATH . '/class.config.php');
-
-if (@file_exists('/usr/local/etc/ispcp/ispcp.conf')) {
-	$cfgfile = '/usr/local/etc/ispcp/ispcp.conf';
-} else {
-	$cfgfile = '/etc/ispcp/ispcp.conf';
-}
-
-// Load config variables from file
-try {
-	Config::load($cfgfile);
-} catch (Exception $e) {
-	die('<div style="text-align: center; color: red; font-weight: strong;">' . $e->getMessage() . '<br />Please contact your system administrator</div>');
-}
-
-
 /**
  * @todo use of @ is problematic, instead use try-catch
  */

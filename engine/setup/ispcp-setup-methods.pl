@@ -29,9 +29,13 @@
 use strict;
 use warnings;
 
+# Hide the "used only once: possible typo" warnings
+no warnings 'once';
+
 #
 ## Ask subroutines - Begin
 #
+
 sub ask_hostname {
 
 	push_el(\@main::el, 'ask_hostname()', 'Starting...');
@@ -1146,8 +1150,8 @@ sub setup_php {
 	if(-e '/usr/sbin/a2enmod' && -e '/usr/sbin/a2dismod' ) {
 
 		# Disable php4/5 modules
-		sys_command_rs("/usr/sbin/a2dismod php4 &> $services_log_path");
-		sys_command_rs("/usr/sbin/a2dismod php5 &> $services_log_path");
+		sys_command_rs("/usr/sbin/a2dismod php4 >> $services_log_path 2>&1");
+		sys_command_rs("/usr/sbin/a2dismod php5 >> $services_log_path 2>&1");
 
 		# Enable actions modules
 		sys_command_rs("/usr/sbin/a2enmod actions &> $services_log_path");
@@ -1157,7 +1161,9 @@ sub setup_php {
 			if ($main::cfg{'PHP_FASTCGI'} eq 'fastcgi') {
 
 				# Ensures that the unused ispcp fcgid module loader is disabled
-				sys_command_rs("/usr/sbin/a2dismod ispcp_fcgid &> $services_log_path");
+				sys_command_rs(
+					"/usr/sbin/a2dismod ispcp_fcgid >> $services_log_path 2>&1"
+				);
 
 				# Enable fastcgi module
 				sys_command_rs("/usr/sbin/a2enmod fastcgi_ispcp &> $services_log_path");
@@ -1165,16 +1171,23 @@ sub setup_php {
 			} else {
 
 				# Ensures that the unused ispcp fastcgi ispcp module loader is disabled
-				sys_command_rs("/usr/sbin/a2dismod ispcp_fastcgi &> $services_log_path");
+				sys_command_rs(
+					"/usr/sbin/a2dismod ispcp_fastcgi >> $services_log_path 2>&1"
+				);
 
 				# Enable ispcp fastcgi loader
-				sys_command_rs("/usr/sbin/a2enmod fcgid_ispcp &> $services_log_path");
+				sys_command_rs(
+					"/usr/sbin/a2enmod fcgid_ispcp >> $services_log_path 2>&1"
+				);
 			}
 
 			# Disable default  fastcgi/fcgid modules loaders to avoid conflicts with ispcp loaders
-			sys_command_rs("/usr/sbin/a2dismod fastcgi &> $services_log_path");
-			sys_command_rs("/usr/sbin/a2dismod fcgid &> $services_log_path");
-
+			sys_command_rs(
+				"/usr/sbin/a2dismod fastcgi >> $services_log_path 2>&1"
+			);
+			sys_command_rs(
+				"/usr/sbin/a2dismod fcgid >> $services_log_path 2>&1"
+			);
 		}
 	}
 
@@ -1270,10 +1283,10 @@ sub setup_httpd_main_vhost {
 
 		# We use cgid instead of cgi because we working with MPM.
 		# FIXME: Check if it's ok for all dists. (Lenny, opensuse OK)
-		sys_command("/usr/sbin/a2enmod cgid &> $services_log_path");
+		sys_command("/usr/sbin/a2enmod cgid >> $services_log_path 2>&1");
 
-		sys_command("/usr/sbin/a2enmod rewrite &> $services_log_path");
-		sys_command("/usr/sbin/a2enmod suexec &> $services_log_path");
+		sys_command("/usr/sbin/a2enmod rewrite >> $services_log_path 2>&1");
+		sys_command("/usr/sbin/a2enmod suexec >> $services_log_path 2>&1");
 	}
 
 	# Enable required modules - End
@@ -1281,7 +1294,7 @@ sub setup_httpd_main_vhost {
 	# Enable main vhost configuration file - Begin
 
 	if(-e "/usr/sbin/a2ensite") {
-		sys_command("/usr/sbin/a2ensite ispcp.conf &> $services_log_path");
+		sys_command("/usr/sbin/a2ensite ispcp.conf >> $services_log_path 2>&1");
 	}
 
 	# Enable main vhost configuration file - End
@@ -1426,8 +1439,10 @@ sub setup_awstats_vhost {
 
 		# Enable required modules
 		if(-e '/usr/sbin/a2enmod') {
-			sys_command_rs("/usr/sbin/a2enmod proxy &> $services_log_path");
-			sys_command_rs("/usr/sbin/a2enmod proxy_http &> $services_log_path");
+			sys_command_rs("/usr/sbin/a2enmod proxy >> $services_log_path 2>&1");
+			sys_command_rs(
+				"/usr/sbin/a2enmod proxy_http >> $services_log_path 2>&1"
+			);
 		}
 
 		# Change and enable required proxy module - End
@@ -1436,7 +1451,9 @@ sub setup_awstats_vhost {
 
 		if(-e '/usr/sbin/a2ensite') {
 
-			sys_command("/usr/sbin/a2ensite 01_awstats.conf &> $services_log_path");
+			sys_command(
+				"/usr/sbin/a2ensite 01_awstats.conf >> $services_log_path 2>&1"
+			);
 		}
 
 		# Enable awstats vhost - End
@@ -1631,16 +1648,15 @@ sub setup_mta {
 		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/$_ $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/";
 		$rs = sys_command($cmd);
 		return $rs if ($rs != 0);
+
+		# Create / update Btree databases for all lookup tables
+		$cmd = "$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/$_ >> $services_log_path 2>&1";
+		$rs = sys_command($cmd);
+		return $rs if ($rs != 0);
 	}
 
-	# Create / update Btree databases for all lookup tables
-	$cmd = "$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_VIRTUAL_CONF_DIR'}/{aliases,domains,mailboxes,transport,sender-access} &> $services_log_path";
-	$rs = sys_command($cmd);
-	return $rs if ($rs != 0);
-
 	# Rebuild the database for the mail aliases file - Begin
-
-	$rs = sys_command("$main::cfg{'CMD_NEWALIASES'} &> $services_log_path");
+	$rs = sys_command("$main::cfg{'CMD_NEWALIASES'} >> $services_log_path 2>&1");
 	return $rs if ($rs != 0);
 
 	# Rebuild the database for the mail aliases file - End
@@ -2068,11 +2084,13 @@ sub setup_ispcp_daemon_network {
 		($filename) = /.*\/(.*)$/;
 
 		$rs = sys_command_rs(
-			"$main::cfg{'CMD_CHOWN'} $main::cfg{'ROOT_USER'}:$main::cfg{'ROOT_GROUP'} $_ &> $services_log"
+			"$main::cfg{'CMD_CHOWN'} $main::cfg{'ROOT_USER'}:$main::cfg{'ROOT_GROUP'} $_ >> $services_log 2>&1"
 		);
 		return $rs if($rs != 0);
 
-		$rs = sys_command_rs("$main::cfg{'CMD_CHMOD'} 0755 $_ &> $services_log");
+		$rs = sys_command_rs("
+			$main::cfg{'CMD_CHMOD'} 0755 $_ >> $services_log 2>&1"
+		);
 		return $rs if($rs != 0);
 
 		# Services installation / update (Debian, Ubuntu)
@@ -2082,7 +2100,7 @@ sub setup_ispcp_daemon_network {
 			# Update task - The links should be removed first to be updated
 			if(defined &update_engine) {
 				sys_command_rs(
-					"/usr/sbin/update-rc.d -f $filename remove &> $services_log"
+					"/usr/sbin/update-rc.d -f $filename remove >> $services_log 2>&1"
 				);
 			}
 
@@ -2090,11 +2108,11 @@ sub setup_ispcp_daemon_network {
 			# interfaces deletion process)
 			if($filename eq 'ispcp_network') {
 				sys_command_rs(
-					"/usr/sbin/update-rc.d $filename defaults 99 20 &> $services_log"
+					"/usr/sbin/update-rc.d $filename defaults 99 20 >> $services_log 2>&1"
 				);
 			} else {
 				sys_command_rs(
-					"/usr/sbin/update-rc.d $filename defaults 99 &> $services_log"
+					"/usr/sbin/update-rc.d $filename defaults 99 >> $services_log 2>&1"
 				);
 			}
 
@@ -2103,10 +2121,14 @@ sub setup_ispcp_daemon_network {
 
 			# Update task
 			if(-x '/usr/lib/lsb/remove_initd' && defined &update_engine) {
-				sys_command_rs("/usr/lib/lsb/remove_initd $_ &> $services_log");
+				sys_command_rs(
+					"/usr/lib/lsb/remove_initd $_ >> $services_log 2>&1"
+				);
 			}
 
-			sys_command_rs("/usr/lib/lsb/install_initd $_ &> $services_log");
+			sys_command_rs(
+				"/usr/lib/lsb/install_initd $_ >> $services_log 2>&1"
+			);
 			return $rs if ($rs != 0);
 		}
 	}
@@ -2212,7 +2234,9 @@ sub setup_gui_httpd {
 	# Disable 000-default vhost  - Begin
 
 	if (-e "/usr/sbin/a2dissite") {
-		sys_command_rs("/usr/sbin/a2dissite 000-default &> $services_log_path");
+		sys_command_rs(
+			"/usr/sbin/a2dissite 000-default >> $services_log_path 2>&1"
+		);
 	}
 
 	# Disable 000-default vhost  - End
@@ -2244,7 +2268,9 @@ sub setup_gui_httpd {
 	# Enable GUI vhost - Begin
 
 	if (-e "/usr/sbin/a2ensite") {
-		sys_command("/usr/sbin/a2ensite 00_master.conf &> $services_log_path");
+		sys_command(
+			"/usr/sbin/a2ensite 00_master.conf >> $services_log_path 2>&1"
+		);
 	}
 
 	# Enable GUI vhost - End
@@ -3013,7 +3039,7 @@ sub setup_rkhunter {
 # Remove all's empty files in ispCP configuration directories
 sub setup_cleanup {
 
-	push_el(\@main::el, 'setup_cleanup()', 'Ending...');
+	push_el(\@main::el, 'setup_cleanup()', 'Starting...');
 
 	my ($rs, $cmd) = (undef, undef);
 
@@ -3127,11 +3153,17 @@ sub check_sql_connection {
 	0;
 }
 
-# Starting preinstallation script
-# Note : In the future, a preinst script will automatically
-# install the required packages and will also perform other
-# tasks as rename, move directories that may be helpful as
-# part of an update.
+# Implements the hook for the pre-installation scripts
+#
+# Hook that can be used by maintainers to perform any required tasks before the
+# common SETUP/UPDATE process via a dedicated `preinst` script. This hook is
+# automatically called after stopping services action.
+#
+# Note: the `preinst` script can be written in SHELL, PERL or PHP, and should
+# live in the engine/setup directory. A shared library to the scripts that are
+# written in SHELL is available in the engine/setup directory.
+#
+# Argument that will be be passed to the maintainer script
 sub preinst {
 
 	push_el(\@main::el, 'preinst()', 'Starting...');
@@ -3143,7 +3175,10 @@ sub preinst {
 	my $mime_type = mimetype("$main::cfg{'ROOT_DIR'}/engine/setup/preinst");
 
 	($mime_type =~ /(shell|perl|php)/) ||
-		exit_msg('ERROR: Unable to determine the mimetype of preinstallation script.');
+		exit_msg(
+			1,
+			'ERROR: Unable to determine the mimetype of the `preinst` script!'
+		);
 
 	$cmd = "$main::cfg{'CMD_'.uc($1)} preinst $task";
 	$rs = sys_command_rs($cmd);
@@ -3154,11 +3189,17 @@ sub preinst {
 	0;
 }
 
-# Starting postinstallation script
-# The postinst is the ideal place to perform tasks Post Installation.
-# For example, the script 'postinst' who's provided for the openSUSE
-# distribution can perform administrative tasks that are not supported
-# by the scripts that are common to all distributions.
+# Implements the hook for the post-installation scripts
+#
+# Hook that can be used by maintainers to perform any required tasks before the
+# common SETUP/UPDATE process via a dedicated `postinst` script. This hook is
+# automatically called after stopping services action.
+#
+# Note: the `postinst` script can be written in SHELL, PERL or PHP, and should
+# live in the engine/setup directory. A shared library to the scripts that are
+# written in SHELL is available in the engine/setup directory.
+#
+# Argument that will be be passed to the maintainer script
 sub postinst {
 
 	push_el(\@main::el, 'postinst()', 'Starting...');
@@ -3170,7 +3211,10 @@ sub postinst {
 	my $mime_type = mimetype("$main::cfg{'ROOT_DIR'}/engine/setup/postinst");
 
 	($mime_type =~ /(shell|perl|php)/) ||
-		exit_msg('ERROR: Unable to determine the mimetype of postinstallation script.');
+		exit_msg(
+			1,
+			'ERROR: Unable to determine the mimetype of the `postinst` script!'
+		);
 
 	$cmd = "$main::cfg{'CMD_'.uc($1)} postinst $task";
 	$rs = sys_command_rs($cmd);
@@ -3181,70 +3225,104 @@ sub postinst {
 	0;
 }
 
-# Format a string for it to be placed on the right
-# of another string. The first string should not end
-# with EOL.
-#
-# param: string $msg the message to be placed on right
-# param: int $left_msg_lenght: lenght of left message
-# return: string right formated message
-sub str_to_right {
-
-	my ($msg, $left_msg_lenght) = @_;
-
-	my ($wchar) = GetTerminalSize();
-
-	# 8 chars are a normal tabwidht in bash
-	my $sep = ($wchar - ($left_msg_lenght + 8));
-
-	return sprintf('%'.$sep."s\n", $msg);
+# Print a title
+# Param: string title to be displayed
+sub title {
+        my $title = shift;
+        print STDOUT colored(['bold'], "\t$title\n");
 }
 
-# Exit with an optional error message
+# Print a subtitle
 #
-# If the message is the '[failed]' string, it will be
-# re-formatted and an additional message will be displayed.
+# Param: string subtitle to be displayed
+sub subtitle {
+        my $subtitle = shift;
+        print STDOUT "\t $subtitle";
+        $main::subtitle_length = length $subtitle;
+}
+
+# Insert a blanc line
+sub spacer {
+        print "\n";
+}
+
+# Can be used in a loop to reflect the action progression
+sub progress {
+        print '.';
+        $main::dyn_length++;
+}
+
+# Print status string
 #
-# [param: string error message]
+# Note: Should be always called after the subtitle subroutine
+#
+# Param: int action status
+# [Param: string If set to 'exit_on_error', the program will end up] if the exit
+# status is a non-zero value
+sub print_status {
+
+	my ($status, $exit_on_error) = @_;
+	my $length = $main::subtitle_length;
+
+	if(defined $main::dyn_length && $main::dyn_length != 0) {
+		$length = $length+$main::dyn_length;
+		$main::dyn_length = 0;
+	}
+
+	my ($term_width) = GetTerminalSize();
+	my $status_string = ($status ==0) ? colored(['green'], 'Done') :
+		colored(['red'], 'Failed');
+
+	$status_string = sprintf('%'.($term_width-($length+1)).'s', $status_string);
+
+	print STDOUT colored(['bold'], "$status_string\n");
+
+	if(defined $exit_on_error && $exit_on_error eq 'exit_on_error'
+		 && $status != 0) {
+		exit_msg($status);
+	}
+}
+
+# Exit with an error message
+#
 # [param: int exit code]
-#
+# [param: string optional user message]
 sub exit_msg {
 
 	push_el(\@main::el, 'exit_msg()', 'Starting...');
 
-	my ($msg, $code) = @_;
+	my ($exit_code, $user_msg) = @_;
 
-	if (!defined($code) || $code <= 0 ) {
-		$code = 1;
+	if (!defined $exit_code || $exit_code <= 0 ) {
+		$exit_code = 1;
 	}
 
-	if (defined($msg) && $msg ne '' ) {
-
-		if($msg =~ /\[failed\]/) {
-
-		$msg = colored(['bold red'], $msg) . "\n";
-
-		my $final_msg = "\n\t" . colored(['red'], 'FATAL:')  .
-			" An error was occured during update process!\n" .
-			"\tCorrect it and re-run this program." .
-			"\n\n\tYou can find help at http://isp-control.net/forum\n\n";
-
-		print STDERR $msg, $final_msg;
-
-		} else {
-			print STDERR "\n\t$msg\n";
-		}
+	my $msg = "\n\t" . colored(['red'], 'FATAL:')  .
+		" An error was occured during update process!\n" .
+		"\tCorrect it and re-run this program." .
+		"\n\n\tYou can find help at http://isp-control.net/forum\n\n";
+		
+	if(defined $user_msg && $user_msg ne '') {
+		$msg = "\n\t$user_msg\n" . $msg;
 	}
+
+	print STDERR $msg;
 
 	push_el(\@main::el, 'exit_msg()', 'Ending...');
 
-	exit $code;
+	exit $exit_code;
 }
 
 # Starting services
 sub start_services {
 
 	push_el(\@main::el, 'start_services()', 'Starting...');
+
+	my $log_path = '/tmp/ispcp-setup-services.log';
+	
+	if(defined &update_engine) {
+		$log_path = '/tmp/ispcp-update-services.log';
+	}
 
 	foreach(
 		qw/CMD_ISPCPN CMD_ISPCPD
@@ -3255,9 +3333,9 @@ sub start_services {
 		CMD_IMAP CMD_IMAP_SSL/
 	) {
 		if( $main::cfg{$_} !~ /^no$/i && -e $main::cfg{$_}) {
+			sys_command("$main::cfg{$_} start >> $log_path 2>&1");
 
-			sys_command("$main::cfg{$_} start &>/tmp/ispcp-update-services.log");
-			print STDOUT BOLD BLACK '.' if(defined &update_engine);
+			progress();
 			sleep 1;
 		}
 	}
@@ -3272,6 +3350,12 @@ sub start_services {
 sub stop_services {
 
 	push_el(\@main::el, 'stop_services()', 'Starting...');
+	
+	my $log_path = '/tmp/ispcp-setup-services.log';
+	
+	if(defined &update_engine) {
+		$log_path = '/tmp/ispcp-update-services.log';
+	}
 
 	foreach(
 		qw/CMD_ISPCPN CMD_ISPCPD
@@ -3282,9 +3366,9 @@ sub stop_services {
 		CMD_IMAP CMD_IMAP_SSL/
 	) {
 		if( $main::cfg{$_} !~ /^no$/i && -e $main::cfg{$_}) {
+			sys_command("$main::cfg{$_} stop >> $log_path 2>&1");
 
-			sys_command("$main::cfg{$_} stop &>/tmp/ispcp-update-services.log");
-			print STDOUT BOLD BLACK '.' if(defined &update_engine);
+			progress();
 			sleep 1;
 		}
 	}

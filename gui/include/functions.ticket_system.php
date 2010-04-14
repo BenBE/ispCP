@@ -58,7 +58,8 @@ SQL_QUERY;
 	if($rs->fields['ticket_date'] == NULL)
 		return tr('Never');
 	
-	$date_formt = Config::get('DATE_FORMAT');
+	$date_formt = Config::getInstance()->get('DATE_FORMAT');
+
 	return date($date_formt, $rs->fields['ticket_date']); // last date
 }
 
@@ -105,7 +106,7 @@ function send_tickets_msg($to_id, $from_id, $ticket_subject, $ticket_message, $t
 	}
 	$message .= "\n".tr("Priority: %s\n", "{PRIORITY}");
 	$message .= "\n" . $ticket_message;
-	$message .= "\n\n" . tr("Log in to answer") . ' ' . Config::get('BASE_SERVER_VHOST_PREFIX') . Config::get('BASE_SERVER_VHOST');
+	$message .= "\n\n" . tr("Log in to answer") . ' ' . Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX') . Config::getInstance()->get('BASE_SERVER_VHOST');
 
 	// Format addresses
 	if ($from_fname && $from_lname) {
@@ -146,7 +147,7 @@ function send_tickets_msg($to_id, $from_id, $ticket_subject, $ticket_message, $t
 
 	$headers .= "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
 
-	$headers .= "X-Mailer: ispCP " . Config::get('Version') . " Tickets Mailer";
+	$headers .= "X-Mailer: ispCP " . Config::getInstance()->get('Version') . " Tickets Mailer";
 
 	$mail_result = mail($to, encode($subject), $message, $headers);
 	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';

@@ -107,17 +107,17 @@ function check_data(&$errFields) {
 
 		if (!chk_password($_POST['pass0'])) {
 
-			if (Config::get('PASSWD_STRONG')) {
+			if (Config::getInstance()->get('PASSWD_STRONG')) {
 				set_page_message(
 					sprintf(
-						tr('The password must be at least %s long and contain letters and numbers to be valid.'),Config::get('PASSWD_CHARS'))
+						tr('The password must be at least %s long and contain letters and numbers to be valid.'),Config::getInstance()->get('PASSWD_CHARS'))
 				);
 
 			} else {
 
 				set_page_message(
 					sprintf(
-						tr('Password data is shorter than %s signs or includes not permitted signs!'),Config::get('PASSWD_CHARS'))
+						tr('Password data is shorter than %s signs or includes not permitted signs!'),Config::getInstance()->get('PASSWD_CHARS'))
 				);
 			}
 
@@ -364,18 +364,30 @@ function _check_new_limit($new_limit, $assigned_by_reseller, $used_by_customers,
 		if($unlimited == '_off_') {
 
 			// If the new limit is < to the already used accounts/limits by users
-			if($new_limit < $used_by_customers) {
+			if($new_limit < $used_by_customers && $new_limit != -1) {
 				set_page_message(
 					tr("This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered.", $service_name)
 				);
 
 			// If the new limit is < to the already assigned accounts/limits by reseller
-			} elseif($new_limit < $assigned_by_reseller) {
+			} elseif($new_limit < $assigned_by_reseller && $new_limit != -1) {
+				set_page_message(
+					tr('This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered.', $service_name)
+				); 
+			
+			// If the new limit is -1 (disabled) and the already used accounts/limits by users is greater 0
+			} elseif($new_limit == -1 && $used_by_customers > 0) {
+				set_page_message(
+					tr("This reseller's customers are using/have more/higher <b>%s</b> accounts/limits than the new limit you entered.", $service_name)
+				);
+			
+			// If the new limit is -1 (disabled) and the already assigned accounts/limits by reseller is greater 0
+			} elseif($new_limit == -1 && $assigned_by_reseller > 0) {
 				set_page_message(
 					tr('This reseller has already assigned more/higher <b>%s</b> accounts/limits than the new limit you entered.', $service_name)
 				);
-			}
-
+			} 
+			
 		// One or more reseller's customers have unlimited rights
 		} elseif($new_limit != 0) {
 			set_page_message(
@@ -822,14 +834,14 @@ if(isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 	}
 
 	$tpl = new pTemplate();
-	$tpl->define_dynamic('page',Config::get('ADMIN_TEMPLATE_PATH') .'/reseller_edit.tpl');
+	$tpl->define_dynamic('page',Config::getInstance()->get('ADMIN_TEMPLATE_PATH') .'/reseller_edit.tpl');
 	$tpl->define_dynamic('page_message', 'page');
 	$tpl->define_dynamic('hosting_plans', 'page');
 	$tpl->define_dynamic('rsl_ip_message', 'page');
 	$tpl->define_dynamic('rsl_ip_list', 'page');
 	$tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
 
-	$theme_color = Config::get('USER_INITIAL_THEME');
+	$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 	$tpl->assign(
 		array(
@@ -841,8 +853,8 @@ if(isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 		)
 	);
 
-	gen_admin_mainmenu($tpl,Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-	gen_admin_menu($tpl,Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+	gen_admin_mainmenu($tpl,Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+	gen_admin_menu($tpl,Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 	// First, we get needed data
 	$rdata =& get_data($tpl);
@@ -1045,7 +1057,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 

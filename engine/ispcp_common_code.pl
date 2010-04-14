@@ -31,6 +31,7 @@
 
 use strict;
 use warnings;
+no warnings 'once';
 
 $main::engine_debug = undef;
 
@@ -39,7 +40,11 @@ require 'ispcp-db-keys.pl';
 
 my $rs;
 
-$main::cfg_file = '/etc/ispcp/ispcp.conf';
+if(-e '/usr/local/etc/ispcp/ispcp.conf'){
+	$main::cfg_file = '/usr/local/etc/ispcp/ispcp.conf';
+} else {
+	$main::cfg_file = '/etc/ispcp/ispcp.conf';
+}
 
 $rs = get_conf($main::cfg_file);
 die("FATAL: Can't load the ispcp.conf file") if($rs !=0);

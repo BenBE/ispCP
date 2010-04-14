@@ -32,17 +32,17 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-if (Config::exists('HOSTING_PLANS_LEVEL') && 
-	strtolower(Config::get('HOSTING_PLANS_LEVEL')) == 'admin') {
+if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') &&
+	strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) == 'admin') {
 	user_goto('hosting_plan.php');
 }
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 		array(
@@ -59,8 +59,8 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_hosting_plan.tpl');
 
 gen_logged_from($tpl);
 
@@ -99,8 +99,9 @@ $tpl->assign(
 				'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
 			// BEGIN TOS
 				'TR_TOS_PROPS'				=> tr('Term Of Service'),
+				'TR_TOS_NOTE'				=> tr('<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'),
 				'TR_TOS_DESCRIPTION'		=> tr('Text Only'),
-		
+
 			// END TOS
 				'TR_ADD_PLAN'				=> tr('Add plan')
 		)
@@ -122,7 +123,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 
@@ -233,7 +234,7 @@ function check_data_correction(&$tpl) {
 	global $hp_backup, $hp_dns;
 	global $tos;
 
-	$ahp_error = "_off_";
+	$ahp_error 		= array();
 
 	$hp_name		= clean_input($_POST['hp_name'], true);
 	$hp_sub			= clean_input($_POST['hp_sub'], true);
@@ -246,8 +247,8 @@ function check_data_correction(&$tpl) {
 	$hp_disk		= clean_input($_POST['hp_disk'], true);
 	$description	= clean_input($_POST['hp_description'], true);
 	$tos			= clean_input($_POST['hp_tos'], true);
-	
-	
+
+
 	if (empty($_POST['hp_price'])) {
 		$price = 0;
 	} else {
@@ -281,45 +282,47 @@ function check_data_correction(&$tpl) {
 	}
 
 	if ($hp_name == '') {
-		$ahp_error = tr('Incorrect template name length!');
+		$ahp_error[] = tr('Incorrect template name length!');
 	}
-
 	if ($description == '') {
-		$ahp_error = tr('Incorrect template description length!');
+		$ahp_error[] = tr('Incorrect template description length!');
 	}
-
 	if (!is_numeric($price)) {
-		$ahp_error = tr('Price must be a number!');
+		$ahp_error[] = tr('Price must be a number!');
 	}
-
 	if (!is_numeric($setup_fee)) {
-		$ahp_error = tr('Setup fee must be a number!');
+		$ahp_error[] = tr('Setup fee must be a number!');
 	}
-
 	if (!ispcp_limit_check($hp_sub, -1)) {
-		$ahp_error = tr('Incorrect subdomains limit!');
-	} elseif(!ispcp_limit_check($hp_als, -1)) {
-		$ahp_error = tr('Incorrect aliases limit!');
-	} elseif (!ispcp_limit_check($hp_mail, -1)) {
-		$ahp_error = tr('Incorrect mail accounts limit!');
-	} elseif(!ispcp_limit_check($hp_ftp, -1)) {
-		$ahp_error = tr('Incorrect FTP accounts limit!');
-	} elseif(!ispcp_limit_check($hp_sql_user, -1)) {
-		$ahp_error = tr('Incorrect SQL databases limit!');
-	} elseif(!ispcp_limit_check($hp_sql_db, -1)) {
-		$ahp_error = tr('Incorrect SQL users limit!');
-	} elseif(!ispcp_limit_check($hp_traff, null)) {
-		$ahp_error = tr('Incorrect traffic limit!');
-	} elseif(!ispcp_limit_check($hp_disk, null)) {
-		$ahp_error = tr('Incorrect disk quota limit!');
+		$ahp_error[] = tr('Incorrect subdomains limit!');
+	}
+	if(!ispcp_limit_check($hp_als, -1)) {
+		$ahp_error[] = tr('Incorrect aliases limit!');
+	}
+	if (!ispcp_limit_check($hp_mail, -1)) {
+		$ahp_error[] = tr('Incorrect mail accounts limit!');
+	}
+	if(!ispcp_limit_check($hp_ftp, -1)) {
+		$ahp_error[] = tr('Incorrect FTP accounts limit!');
+	}
+	if(!ispcp_limit_check($hp_sql_user, -1)) {
+		$ahp_error[] = tr('Incorrect SQL databases limit!');
+	}
+	if(!ispcp_limit_check($hp_sql_db, -1)) {
+		$ahp_error[] = tr('Incorrect SQL users limit!');
+	}
+	if(!ispcp_limit_check($hp_traff, null)) {
+		$ahp_error[] = tr('Incorrect traffic limit!');
+	}
+	if(!ispcp_limit_check($hp_disk, null)) {
+		$ahp_error[] = tr('Incorrect disk quota limit!');
 	}
 
-	if ($ahp_error == '_off_') {
+	if (empty($ahp_error)) {
 		$tpl->assign('MESSAGE', '');
 		return true;
 	} else {
-		set_page_message($ahp_error);
-		// $tpl->assign('MESSAGE', $ahp_error);
+		set_page_message(format_message($ahp_error));
 		return false;
 	}
 } // end of check_data_correction()

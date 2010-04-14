@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_delete.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/domain_delete.tpl');
 
 $tpl->define_dynamic('mail_list', 'page');
 $tpl->define_dynamic('ftp_list', 'page');
@@ -49,7 +49,7 @@ $tpl->define_dynamic('db_item', 'db_list');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
@@ -70,8 +70,8 @@ if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	user_goto('users.php');
 }
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -80,7 +80,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
 
@@ -107,22 +107,29 @@ function delete_domain($domain_id) {
 	$domain_uid = $data['domain_uid'];
 	$domain_gid = $data['domain_gid'];
 
-	$delete_status = Config::get('ITEM_DELETE_STATUS');
+	$delete_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
 
 	// Mail users:
 	exec_query($sql, "UPDATE `mail_users` SET `status` = '" . $delete_status . "' WHERE `domain_id` = ?", array($domain_id));
 
-	// Protected areas:
-	$query = "UPDATE `htaccess` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+	// Delete all protected areas related data (areas, groups and users)
+	$query = "
+		DELETE
+			`areas`, `users`, `groups`
+		FROM
+			`domain` as `customer`
+		LEFT JOIN
+			`htaccess` AS `areas` ON `areas`.`dmn_id` = `customer`.`domain_id`
+		LEFT JOIN
+			`htaccess_users` AS `users` ON `users`.`dmn_id` = `customer`.`domain_id`
+		LEFT JOIN
+			`htaccess_groups` AS `groups` ON `groups`.`dmn_id` = `customer`.`domain_id`
+		WHERE
+			`customer`.`domain_id` = ?
+		;
+	";
 
-	// Protected area groups:
-	$query = "UPDATE `htaccess_groups` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
-
-	// Protected area users
-	$query = "UPDATE `htaccess_users` SET `status` = '$delete_status' WHERE `dmn_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+	exec_query($sql, $query, $domain_id);
 
 	// Delete subdomain aliases:
 	$alias_a = array();
@@ -188,6 +195,10 @@ function delete_domain($domain_id) {
 	// Remove support tickets:
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
+
+	// Delete user gui properties
+	$query = "DELETE FROM `user_gui_props` WHERE `user_id` = ?;";
+	exec_query($sql, $query, $domain_admin_id);
 
 	write_log($_SESSION['user_logged'] .": deletes domain " . $domain_name);
 

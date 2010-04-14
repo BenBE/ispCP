@@ -61,7 +61,15 @@ sub setup_start_up {
 
 	push_el(\@main::el, 'setup_start_up()', 'Starting...');
 
+	# Clear screen
+	system('clear');
+
+	spacer();
+
+	subtitle('Stopping services: ');
 	stop_services();
+
+	spacer();
 
 	push_el(\@main::el, 'setup_start_up()', 'Ending...');
 
@@ -199,9 +207,9 @@ sub user_dialog {
 		$main::ua{'awstats_dyn'} = 0;
 	}
 
-	$qmsg = "\n\tStarting Installation...\n";
+	spacer();
 
-	print STDOUT $qmsg;
+	title('Starting Installation');
 
 	push_el(\@main::el, 'user_dialog()', 'Ending...');
 
@@ -336,6 +344,8 @@ sub setup_gui_cfg {
 # End of the installation process
 sub setup_shut_down {
 
+	push_el(\@main::el, 'setup_shut_down()', 'Starting...');
+
 	my $rs = undef;
 
 	my $cmd = "$main::cfg{'CMD_SHELL'} $main::cfg{'ROOT_DIR'}/engine/setup/set-gui-permissions.sh";
@@ -349,12 +359,33 @@ sub setup_shut_down {
 	$rs = setup_cleanup();
 	return $rs if($rs != 0);
 
+	# Running distribution maintainer postinst script if it exists
+	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/postinst") {
+		
+		spacer();
+
+		title('Starting dist maintainer post-installation script');
+
+		$rs = postinst('configure');
+		
+		# The script should end up only if the maintainer
+		# was set the exit status to 2
+		exit_msg(	
+			$rs, 'FATAL: An error was returned by the postinst script!'
+		) if($rs == 2);
+	}
+
+	spacer();
+
+	subtitle('Starting services: ');
 	start_services();
+	
+	spacer();
 
-	push_el(\@main::el, 'setup_shut_down()', 'Starting...');
-
-	my $shut_down_message = colored(['bold underline'],
-		"\n\tCongratulations you installed ispCP '$main::cfg{'Version'}' successfully!\n\n");
+	my $shut_down_message = colored(
+		['bold underline'],
+		"\n\tCongratulations you installed ispCP '$main::cfg{'Version'}' successfully!\n\n"
+	);
 
 	my $login_message =
 		"\tPlease type http://$main::ua{'admin_vhost'} in your browser and\n".
@@ -364,7 +395,7 @@ sub setup_shut_down {
 
 	# Setup rkhunter
 	$rs = setup_rkhunter();
-	return $rs if($rs !=0);
+	return $rs if($rs != 0);
 
 	push_el(\@main::el, 'setup_shut_down()', 'Ending...');
 
@@ -378,8 +409,10 @@ sub welcome_note {
 
 	push_el(\@main::el, 'welcome_note()', 'Starting...');
 
-	my $welcome = colored(['bold underline'],
-		"\n\tWelcome to ispCP '$main::cfg{'Version'}' Setup Dialog.\n\n");
+	my $welcome = colored(
+		['bold underline'],
+		"\n\tWelcome to ispCP '$main::cfg{'Version'}' Setup Dialog.\n\n"
+	);
 
 	my $welcome_message =
 		"\tThis program will set up ispCP OMEGA system on your server.\n";
@@ -957,9 +990,6 @@ sub setup_hosts {
 #
 ##  Subroutines - End
 #
-
-# Clear screen
-system('clear');
 
 my $rs = undef;
 my $uc = 0;

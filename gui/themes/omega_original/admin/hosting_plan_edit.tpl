@@ -169,6 +169,21 @@
                               <td class="content2">{TR_PAYMENT}</td>
                               <td class="content"><input name="hp_payment" {READONLY} type="text" class="textinput" id="hp_payment" style="width:100px" value="{HP_PAYMENT}" /></td>
                             </tr>
+                      <!-- TOS -->
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="2" class="content3"><b>{TR_TOS_PROPS}</b></td>
+                      </tr>
+                      <tr>
+                      <td>&nbsp;</td>
+                      <td colspan="2" class="content4">&nbsp;{TR_TOS_NOTE}</td>
+                      </tr>
+                       <tr>
+                        <td>&nbsp;</td>
+                        <td class="content2">{TR_TOS_DESCRIPTION}</td>
+                        <td class="content"><textarea class="textinput2" name="hp_tos" style="width:410px" cols="70" rows="8">{HP_TOS_VALUE}</textarea></td>
+                      </tr>
+                      <!-- TOS END -->
                             <tr>
                               <td>&nbsp;</td>
                               <td class="content2">{TR_STATUS}</td>
@@ -180,7 +195,7 @@
                             <tr>
                               <td>&nbsp;</td>
                               <td colspan="2"><!-- BDP: form -->
-                                  <input name="Submit" type="submit" class="button" value=" {TR_UPDATE_PLAN} " /></td>
+                                  <input name="Submit" type="submit" class="button" value=" {TR_EDIT_HOSTING_PLAN} " /></td>
                               <!-- EDP: form -->
                             </tr>
                             <tr>

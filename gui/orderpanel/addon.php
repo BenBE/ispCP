@@ -31,7 +31,7 @@
 require '../include/ispcp-lib.php';
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/addon.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/addon.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -61,20 +61,20 @@ function addon_domain($dmn_name) {
 }
 
 function is_plan_available(&$sql, $plan_id, $user_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-                && Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
-                $query = "
-                        SELECT
-                                *
-                        FROM
-                                `hosting_plans`
-                        WHERE
-                                `id` = ?
-                ";
+	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') &&
+		Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+		$query = "
+			SELECT
+				*
+			FROM
+				`hosting_plans`
+			WHERE
+				`id` = ?
+			";
 
-                $rs = exec_query($sql, $query, array($plan_id));
+			$rs = exec_query($sql, $query, array($plan_id));
         } else {
-                $query = "
+			$query = "
                         SELECT
                                 *
                         FROM
@@ -141,7 +141,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
+
 unset_messages();

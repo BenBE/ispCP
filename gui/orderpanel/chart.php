@@ -31,18 +31,20 @@
 require '../include/ispcp-lib.php';
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/chart.tpl');
+$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/chart.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
+$tpl->define_dynamic('tos_field', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
+
 
 /*
  * functions start
  */
 
 function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 		$query = "
 			SELECT
 				*
@@ -74,8 +76,8 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 		$price = $rs->fields['price'];
 		$setup_fee = $rs->fields['setup_fee'];
 		$total = $price + $setup_fee;
-		
-		
+
+
 		if ($price == 0 || $price == '') {
 			$price = tr('free of charge');
 		} else {
@@ -100,9 +102,23 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 				'SETUP' => $setup_fee,
 				'TOTAL' => $total,
 				'TR_PACKAGE_NAME' => $rs->fields['name'],
-				'TOS'	=> $rs->fields['tos']
 			)
 		);
+
+		if($rs->fields['tos'] != '') {
+			$tpl->assign(
+				array(
+					'TR_TOS_PROPS'	=> tr('Term of Service'),
+					'TR_TOS_ACCEPT' => tr('I Accept The Term of Service'),
+					'TOS'	=> $rs->fields['tos']
+				)
+			);
+
+			$_SESSION['tos'] = true;
+		} else {
+			$tpl->assign(array('TOS_FIELD' => ''));
+			$_SESSION['tos'] = false;
+		}
 	}
 }
 
@@ -164,8 +180,6 @@ gen_personal_data($tpl);
 
 gen_page_message($tpl);
 
-
-
 $tpl->assign(
 	array(
 		'YOUR_CHART' => tr('Your Chart'),
@@ -192,17 +206,16 @@ $tpl->assign(
 		'TR_PERSONAL_DATA' => tr('Personal Data'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
-		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . Config::get('LOSTPASSWORD_CAPTCHA_WIDTH') . '" height="' . Config::get('LOSTPASSWORD_CAPTCHA_HEIGHT') . '" border="0" alt="captcha image">',
+		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_WIDTH') . '" height="' . Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_HEIGHT') . '" border="0" alt="captcha image">',
 		'THEME_CHARSET' => tr('encoding'),
-		'TR_TOS_PROPS'	=> tr('Term of Service'),
-		'TR_TOS_ACCEPT' => tr('I Accept The Term of Service')
 	)
 );
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
+
 unset_messages();

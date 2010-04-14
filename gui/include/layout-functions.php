@@ -54,13 +54,13 @@ SQL_QUERY;
 	if ($rs->RecordCount() == 0
 		|| (empty($rs->fields['lang']) && empty($rs->fields['layout']))) {
 		// values for user id, some default stuff
-		return array(Config::get('USER_INITIAL_LANG'), Config::get('USER_INITIAL_THEME'));
+		return array(Config::getInstance()->get('USER_INITIAL_LANG'), Config::getInstance()->get('USER_INITIAL_THEME'));
 	} else if (empty($rs->fields['lang'])) {
 
-		return array(Config::get('USER_INITIAL_LANG'), $rs->fields['layout']);
+		return array(Config::getInstance()->get('USER_INITIAL_LANG'), $rs->fields['layout']);
 	} else if (empty($rs->fields['layout'])) {
 
-		return array($rs->fields['lang'], Config::get('USER_INITIAL_THEME'));
+		return array($rs->fields['lang'], Config::getInstance()->get('USER_INITIAL_THEME'));
 	} else {
 
 		return array($rs->fields['lang'], $rs->fields['layout']);
@@ -85,10 +85,25 @@ function check_language_exist($lang_table) {
 
 function set_page_message($message) {
 	if (isset($_SESSION['user_page_message'])) {
-		$_SESSION['user_page_message'] .= "<br />$message\n";
+		$_SESSION['user_page_message'] .= "\n<br />$message";
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
+}
+
+/**
+ * Converts a Array of Strings to a single <br />-separated String
+ * @since r2684
+ * 
+ * @param	String[]	Array of message strings	
+ * @return	String		a single string with <br /> tags
+ */
+function format_message($message) {
+	$string = "";
+	foreach ($message as $msg) {
+		$string .= $msg . "<br />\n";
+	}
+	return $string;
 }
 
 /**
@@ -102,7 +117,7 @@ function get_menu_vars($menu_link) {
 	$query = "
 		SELECT
 			`customer_id`, `fname`, `lname`, `firm`, `zip`, `city`,"
-			. (Config::get('DATABASE_REVISION') >= 11 ? '`state`, ' : '')
+			. (Config::getInstance()->get('DATABASE_REVISION') >= 11 ? '`state`, ' : '')
 			. "`country`, `email`, `phone`, `fax`, `street1`, `street2`
 		FROM
 			`admin`
@@ -130,7 +145,7 @@ function get_menu_vars($menu_link) {
 	$replace[] = $rs->fields['zip'];
 	$search [] = '{city}';
 	$replace[] = $rs->fields['city'];
-	if (Config::get('DATABASE_REVISION') >= 11) {
+	if (Config::getInstance()->get('DATABASE_REVISION') >= 11) {
 		$search [] = '{state}';
 		$replace[] = $rs->fields['state'];
 	}
