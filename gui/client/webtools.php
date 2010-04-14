@@ -41,6 +41,7 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('active_awstats', 'page');
 $tpl->define_dynamic('active_email', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
@@ -103,6 +104,8 @@ gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/men
 
 gen_logged_from($tpl);
 
+get_client_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
+
 check_permissions($tpl);
 
 $tpl->assign(
@@ -115,7 +118,8 @@ $tpl->assign(
 		'TR_WEBMAIL_TEXT' => tr('Access your mail through the web interface'),
 		'TR_FILEMANAGER_TEXT' => tr('Access your files through the web interface'),
 		'TR_AWSTATS_TEXT' => tr('Access your Awstats statistics'),
-		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups')
+		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups'),
+		'TR_SOFTWARE_SUPPORT' => tr('Install various software with a few *clicks*')
 	)
 );
 

@@ -48,6 +48,7 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 	$tpl->define_dynamic('menu', $menu_file);
 	$tpl->define_dynamic('isactive_support', 'menu');
 	$tpl->define_dynamic('custom_buttons', 'menu');
+	$tpl->define_dynamic('t_software_menu', 'menu');
 
 	$tpl->assign(
 		array(
@@ -177,7 +178,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
 			'VERSION' => Config::getInstance()->get('Version'),
 			'BUILDDATE' => Config::getInstance()->get('BuildDate'),
-			'CODENAME' => Config::getInstance()->get('CodeName')
+			'CODENAME' => Config::getInstance()->get('CodeName'),
+			'TR_SOFTWARE_MENU' => tr('Software management')
 		)
 	);
 
@@ -239,6 +241,22 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) === 'admin') {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
+	
+	$query = "
+		SELECT
+			`software_allowed`
+		FROM
+			`reseller_props`
+		WHERE
+			`reseller_id` = ?
+	";
+	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+	if ($rs->fields('software_allowed') == 'yes') {
+		$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
+		$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
+	} else {
+		$tpl->assign('T_SOFTWARE_MENU', '');
+	}
 
 	$tpl->parse('MENU', 'menu');
 } // end of gen_reseller_menu()
@@ -281,7 +299,8 @@ function get_reseller_default_props(&$sql, $reseller_id) {
 		$rs->fields['current_traff_amnt'],
 		$rs->fields['max_traff_amnt'],
 		$rs->fields['current_disk_amnt'],
-		$rs->fields['max_disk_amnt']
+		$rs->fields['max_disk_amnt'],
+		$rs->fields['software_allowed']
 	);
 } // end of get_reseller_default_props()
 
@@ -1927,4 +1946,78 @@ function check_reseller_domainalias_permissions($reseller_id) {
 		return false;
 	}
 	return true;	
+}
+
+function send_new_sw_upload($reseller_id, $file_name, $sw_id) {
+	global $cfg, $sql;
+
+	$query = "
+		SELECT
+			`admin_name` as reseller,
+			`created_by`,
+			`email` as res_email
+		FROM
+			`admin`
+		WHERE
+			`admin_id` = ?
+	";
+
+	$res = exec_query($sql, $query, array($reseller_id));
+
+	$from_name = $res->fields['reseller'];
+	$from_email = $res->fields['res_email'];
+	$admin_id = $res->fields['created_by'];
+	
+	$query = "
+		SELECT
+			`email` as adm_email,
+			`admin_name` as admin
+		FROM
+			`admin`
+		WHERE
+			`admin_id` = ?
+	";
+
+	$res = exec_query($sql, $query, array($admin_id));
+
+	$to_name = $res->fields['admin'];
+	$to_email = $res->fields['adm_email'];
+
+	if ($from_name) {
+		$from = "\"" . encode($from_name) . "\" <" . $from_email . ">";
+	} else {
+		$from = $from_email;
+	}
+
+	$search = array();
+	$replace = array();
+	$search [] = '{ADMIN}';
+	$replace[] = $to_name;
+	$search [] = '{SOFTWARE}';
+	$replace[] = $file_name;
+	$search [] = '{SOFTWARE_ID}';
+	$replace[] = $sw_id;
+	$search [] = '{RESELLER}';
+	$replace[] = $from_name;
+	$search [] = '{RESELLER_ID}';
+	$replace[] = $reseller_id;
+
+	$headers = "From: ". $from . "\n";
+	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . $cfg['Version'] . " Service Mailer";
+
+	$subject = tr('{RESELLER} uploaded a new software package');
+	$message = tr('Dear {ADMIN},
+	{RESELLER} has uploaded a new software package.
+
+	Details:
+	Reseller ID: {RESELLER_ID}
+	Package Name: {SOFTWARE}
+	Package ID: {SOFTWARE_ID}
+
+	Please login into your ispCP control panel for more details.', true);
+
+	$subject = str_replace($search, $replace, $subject);
+	$message = str_replace($search, $replace, $message);
+	$subject = encode($subject);
+	$mail_result = mail($to_email, $subject, $message, $headers);
 }

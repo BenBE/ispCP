@@ -58,7 +58,8 @@ function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false)
 			`domain_php`,
 			`domain_cgi`,
 			`allowbackup`,
-			`domain_dns`
+			`domain_dns`,
+			`domain_software_allowed`
 		FROM
 			`domain`
 		WHERE
@@ -92,7 +93,8 @@ function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false)
 			$rs->fields['domain_php'],
 			$rs->fields['domain_cgi'],
 			$rs->fields['allowbackup'],
-			$rs->fields['domain_dns']
+			$rs->fields['domain_dns'],
+			$rs->fields['domain_software_allowed']
 		);
 	} else {
 		return $rs->fields;
@@ -599,7 +601,8 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 		$dmn_php,
 		$dmn_cgi,
 		$allowbackup,
-		$domain_dns
+		$domain_dns,
+		$dmn_software
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	if ($dmn_mailacc_limit == -1)
@@ -654,6 +657,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 	$tpl->define_dynamic('isactive_alias_menu', 'menu');
 	$tpl->define_dynamic('isactive_subdomain_menu', 'menu');
 	$tpl->define_dynamic('isactive_dns_menu', 'menu');
+	$tpl->define_dynamic('t_software_menu', 'menu');
 
 	$tpl->assign(
 		array(
@@ -697,7 +701,8 @@ function gen_client_menu(&$tpl, $menu_file) {
 			'FILEMANAGER_TARGET' => Config::getInstance()->get('FILEMANAGER_TARGET'),
 			'VERSION' => Config::getInstance()->get('Version'),
 			'BUILDDATE' => Config::getInstance()->get('BuildDate'),
-			'CODENAME' => Config::getInstance()->get('CodeName')
+			'CODENAME' => Config::getInstance()->get('CodeName'),
+			'TR_SOFTWARE_MENU' => tr('Software installation')
 		)
 	);
 
@@ -848,7 +853,24 @@ function gen_client_menu(&$tpl, $menu_file) {
 			$tpl->assign('ISACTIVE_UPDATE_HP', '');
 		}
 	}
-
+	
+	$query = "
+		SELECT
+			`domain_software_allowed`,
+			`domain_ftpacc_limit`
+		FROM
+			`domain`
+		WHERE
+			`domain_admin_id` = ?
+	";
+	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
+		$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
+		$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
+	} else {
+		$tpl->assign('T_SOFTWARE_MENU', '');
+	}
+	
 	$tpl->parse('MENU', 'menu');
 }
 
@@ -1016,6 +1038,9 @@ function check_permissions(&$tpl) {
 	if (isset($_SESSION['alias_support']) && $_SESSION['alias_support'] == "no"
 		&& isset($_SESSION['subdomain_support']) && $_SESSION['subdomain_support'] == "no") {
 		$tpl->assign('DMN_MNGMNT', '');
+	}
+	if (isset($_SESSION['software_support']) && $_SESSION['software_support'] == "no") {
+		$tpl->assign('NO_SOFTWARE', '');
 	}
 }
 

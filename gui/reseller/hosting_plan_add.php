@@ -41,6 +41,7 @@ $tpl = new pTemplate();
 $tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
@@ -78,6 +79,7 @@ $tpl->assign(
 				'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
 				'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
 				'TR_PHP'					=> tr('PHP'),
+				'TR_SOFTWARE_SUPP'			=> tr('Software installation'),
 				'TR_CGI'					=> tr('CGI / Perl'),
 				'TR_DNS'					=> tr('Allow adding records to DNS zone (EXPERIMENTAL)'),
 				'TR_BACKUP'					=> tr('Backup'),
@@ -118,6 +120,7 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	gen_empty_ahp_page($tpl);
 }
 
+get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
@@ -151,6 +154,8 @@ function gen_empty_ahp_page(&$tpl) {
 					'HP_DESCRIPTION_VALUE'	=> '',
 					'TR_PHP_YES'			=> '',
 					'TR_PHP_NO'				=> 'checked="checked"',
+					'VL_SOFTWAREY'			=> '',
+					'VL_SOFTWAREN'			=> 'checked="checked"',
 					'TR_CGI_YES'			=> '',
 					'TR_CGI_NO'				=> 'checked="checked"',
 					'VL_BACKUPD'			=> '',
@@ -180,7 +185,7 @@ function gen_data_ahp_page(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
-	global $tos;
+	global $tos, $hp_allowsoftware;
 
 	$tpl->assign(
 			array(
@@ -206,6 +211,8 @@ function gen_data_ahp_page(&$tpl) {
 			array(
 					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
 					'TR_PHP_NO'		=> ($hp_php == '_no_') ? 'checked="checked"' : '',
+					'VL_SOFTWAREY'	=> ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
+					'VL_SOFTWAREN'	=> ($hp_allowsoftware == '_no_') ? 'checked="checked"' : '',
 					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
 					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
 					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
@@ -232,7 +239,7 @@ function check_data_correction(&$tpl) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
-	global $tos;
+	global $tos, $hp_allowsoftware;
 
 	$ahp_error 		= array();
 
@@ -281,6 +288,8 @@ function check_data_correction(&$tpl) {
 		$hp_backup = $_POST['backup'];
 	}
 
+	(isset($_POST['software_allowed'])) ? $hp_allowsoftware = $_POST['software_allowed'] : $hp_allowsoftware = "_no_";
+	
 	if ($hp_name == '') {
 		$ahp_error[] = tr('Incorrect template name length!');
 	}
@@ -316,6 +325,9 @@ function check_data_correction(&$tpl) {
 	}
 	if(!ispcp_limit_check($hp_disk, null)) {
 		$ahp_error[] = tr('Incorrect disk quota limit!');
+	} 
+	if($hp_php == "_no_" && $hp_allowsoftware == "_yes_") {
+		$ahp_error[] = tr('The software installer needs PHP to enable it!');
 	}
 
 	if (empty($ahp_error)) {
@@ -338,7 +350,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_traff, $hp_disk;
 	global $price, $setup_fee, $value, $payment, $status;
 	global $hp_backup, $hp_dns;
-	global $tos;
+	global $tos, $hp_allowsoftware;
 
 	$sql = Database::getInstance();
 	$err_msg = '';
@@ -350,7 +362,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
 		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
-		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
+		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware";
 		// this id is just for fake and is not used in reseller_limits_check.
 		$hpid = 0;
 

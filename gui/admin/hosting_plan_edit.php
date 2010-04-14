@@ -100,6 +100,7 @@ $tpl->assign(
 		'TR_MAX_TRAFFIC' => tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
 		'TR_DISK_LIMIT' => tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
 		'TR_PHP' => tr('PHP'),
+		'TR_SOFTWARE_SUPP' => tr('Software installation'),
 		'TR_CGI' => tr('CGI / Perl'),
 		'TR_DNS' => tr('Allow adding records to DNS zone (EXPERIMENTAL)'),
 		'TR_BACKUP' => tr('Backup'),
@@ -197,6 +198,8 @@ function restore_form(&$tpl) {
 			'TR_DNS_NO' => ($_POST['dns'] == '_no_') ? 'checked="checked"' : '',
 			'TR_STATUS_YES'	=> ($_POST['status']) ? 'checked="checked"' : '',
 			'TR_STATUS_NO' => (!$_POST['status']) ? 'checked="checked"' : '',
+			'TR_SOFTWARE_YES' => ($_POST['software_allowed'] == '_yes_') ? 'checked="checked"' : '',
+			'TR_SOFTWARE_NO' => ($_POST['software_allowed'] == '_no_') ? 'checked="checked"' : ''
 		)
 	);
 } // end of function restore_form()
@@ -240,7 +243,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 	list(
 		$hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db,
-		$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns
+		$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware
 	) = explode(';', $props);
 
 	$hp_name = $data['name'];
@@ -293,7 +296,9 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			'TR_DNS_YES' => ($hp_dns == '_yes_') ? 'checked="checked"' : '',
 			'TR_DNS_NO'	 => ($hp_dns == '_no_') ? 'checked="checked"' : '',
 			'TR_STATUS_YES' => ($status) ? 'checked="checked"' : '',
-			'TR_STATUS_NO' => (!$status) ? 'checked="checked"' : ''
+			'TR_STATUS_NO' => (!$status) ? 'checked="checked"' : '',
+			'TR_SOFTWARE_YES' => ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
+			'TR_SOFTWARE_NO' => ($hp_allowsoftware == '_no_' || !$hp_allowsoftware) ? 'checked="checked"' : ''
 		)
 	);
 } // end of gen_load_ehp_page()
@@ -308,7 +313,7 @@ function check_data_iscorrect(&$tpl) {
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk;
 	global $hpid;
-	global $hp_backup, $hp_dns;
+	global $hp_backup, $hp_dns, $hp_allowsoftware;
 
 	$ahp_error = array();
 	$hp_name = clean_input($_POST['hp_name']);
@@ -345,6 +350,16 @@ function check_data_iscorrect(&$tpl) {
 
 	if (isset($_POST['dns'])) {
 		$hp_dns = $_POST['dns'];
+	}
+	
+	if (isset($_POST['software_allowed'])) {
+		$hp_allowsoftware = $_POST['software_allowed'];
+	} else {
+		$hp_allowsoftware = "_no_";
+	}
+	
+	if ($hp_php == "_no_" && $hp_allowsoftware == "_yes_") {
+		$ahp_error[] = tr('The software installer needs PHP to enable it!');
 	}
 
 	if (!is_numeric($_POST['hp_price'])) {
@@ -406,7 +421,7 @@ function save_data_to_db() {
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk;
 	global $hpid;
-	global $hp_backup, $hp_dns;
+	global $hp_backup, $hp_dns, $hp_allowsoftware;
 	//global $tos;
 
 	$sql = Database::getInstance();
@@ -420,7 +435,7 @@ function save_data_to_db() {
 	$tos = clean_input($_POST['hp_tos']);
 
 	$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;" .
-		"$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
+		"$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware";
 
 	$query = "
 		UPDATE

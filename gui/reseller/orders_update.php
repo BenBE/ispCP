@@ -111,11 +111,13 @@ unset($_SESSION["ch_hpprops"]);
 list($domain_php, $domain_cgi, $sub,
 	$als, $mail, $ftp,
 	$sql_db, $sql_user,
-	$traff, $disk, $backup, $domain_dns) = explode(";", $props);
+	$traff, $disk, $backup, $domain_dns,
+	$swinstaller) = explode(";", $props);
 
 $domain_php = preg_replace("/\_/", "", $domain_php);
 $domain_cgi = preg_replace("/\_/", "", $domain_cgi);
 $domain_dns = preg_replace("/\_/", "", $domain_dns);
+$swinstaller = preg_replace("/\_/", "", $swinstaller);
 
 if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
 	$query = "SELECT COUNT(`mail_id`) AS cnt
@@ -205,7 +207,8 @@ if (empty($ed_error)) {
 	$user_props .= "$domain_php;";
 	$user_props .= "$domain_cgi;";
 	$user_props .= "$backup;";
-	$user_props .= "$domain_dns";
+	$user_props .= "$domain_dns;";
+	$user_props .= "$swinstaller";
 	update_user_props($dmn_id, $user_props);
 
 	$reseller_props = "$rdmn_current;$rdmn_max;";

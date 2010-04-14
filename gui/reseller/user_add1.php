@@ -299,17 +299,40 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 	}
 
 	if (0 !== $rs->RowCount()) { // There are data
+		$orders_count = 0;
 		while (($data = $rs->FetchRow())) {
-			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
-			$tpl->assign(
-					array(
-						'HP_NAME'			=> $data['name'],
-						'CHN'				=> $data['id'],
-						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? 'selected="selected"' : ''
-					)
-			);
+			list(
+				$hp_php,
+				$hp_cgi,
+				$hp_sub,
+				$hp_als,
+				$hp_mail,
+				$hp_ftp,
+				$hp_sql_db,
+				$hp_sql_user,
+				$hp_traff,
+				$hp_disk,
+				$hp_backup,
+				$hp_dns,
+				$hp_allowsoftware
+			) = explode(";", $data['props']);
+			
+			if($hp_allowsoftware == "_no_" || $hp_allowsoftware == "" || $hp_allowsoftware == "_yes_" && get_reseller_sw_installer($reseller_id) == "yes") {
+				$orders_count++;
+				$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
+				$tpl->assign(
+						array(
+							'HP_NAME'			=> $data['name'],
+							'CHN'				=> $data['id'],
+							'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? 'selected="selected"' : ''
+						)
+				);
 
-			$tpl->parse('HP_ENTRY', '.hp_entry');
+				$tpl->parse('HP_ENTRY', '.hp_entry');
+			}
+		}
+		if ($orders_count == 0) {
+			$tpl->assign('ADD_USER', '');
 		}
 
 	} else {

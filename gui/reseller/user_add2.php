@@ -38,6 +38,7 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('alias_menu', 'page');
 $tpl->define_dynamic('alias_add', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
@@ -91,7 +92,8 @@ $tpl->assign(
 			'TR_NO'							=> tr('no'),
 			'TR_NEXT_STEP'					=> tr('Next step'),
 			'TR_APACHE_LOGS'				=> tr('Apache logs'),
-			'TR_AWSTATS'					=> tr('Awstats')
+			'TR_AWSTATS'					=> tr('Awstats'),
+			'TR_SOFTWARE_SUPP'				=> tr('Software installation')
 		)
 );
 
@@ -106,7 +108,7 @@ if (isset($_POST['uaction'])
 	&& (!isset($_SESSION['step_one']))) {
 	if (check_user_data($tpl)) {
 		$_SESSION["step_two_data"] = "$dmn_name;0;";
-		$_SESSION["ch_hpprops"] = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
+		$_SESSION["ch_hpprops"] = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware";
 
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], 0, $_SESSION["ch_hpprops"])) {
 			user_goto('user_add3.php');
@@ -120,6 +122,7 @@ if (isset($_POST['uaction'])
 }
 
 get_init_au2_page($tpl);
+get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
 gen_page_message($tpl);
 
 if (!check_reseller_domainalias_permissions($_SESSION['user_id'])) {
@@ -166,6 +169,7 @@ function get_init_au2_page(&$tpl) {
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$tpl->assign(
 			array(
@@ -188,7 +192,9 @@ function get_init_au2_page(&$tpl) {
 				'VL_BACKUPF'		=> ($hp_backup === '_full_') ? 'checked="checked"' : '',
 				'VL_BACKUPN'		=> ($hp_backup === '_no_') ? 'checked="checked"' : '',
 				'VL_DNSY'			=> ($hp_dns === '_yes_') ? 'checked="checked"' : '',
-				'VL_DNSN'			=> ($hp_dns === '_no_') ? 'checked="checked"' : ''
+				'VL_DNSN'			=> ($hp_dns === '_no_') ? 'checked="checked"' : '',
+				'VL_SOFTWAREY'		=> ($hp_allowsoftware === '_yes_') ? 'checked="checked"' : '',
+				'VL_SOFTWAREN'		=> ($hp_allowsoftware === '_no_') ? 'checked="checked"' : ''
 			)
 	);
 
@@ -203,6 +209,7 @@ function get_hp_data($hpid, $admin_id) {
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
+	global $hp_allowsoftware;
 
 	$sql = Database::getInstance();
 
@@ -216,7 +223,7 @@ function get_hp_data($hpid, $admin_id) {
 		$props = $data['props'];
 
 		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, 
-			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $props);
+			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware) = explode(";", $props);
 
 		$hp_name = $data['name'];
 	} else {
@@ -233,6 +240,7 @@ function get_hp_data($hpid, $admin_id) {
 			$hp_disk = '';
 			$hp_backup = '_no_';
 			$hp_dns = '_no_';
+			$hp_allowsoftware = '_no_';
 	}
 } // End of get_hp_data()
 
@@ -245,7 +253,7 @@ function check_user_data(&$tpl) {
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
 	global $hp_traff, $hp_disk, $hp_dmn, $hp_backup, $hp_dns;
-	global $dmn_chp;
+	global $dmn_chp, $hp_allowsoftware;
 
 	//$sql = Database::getInstance();
 
@@ -308,6 +316,10 @@ function check_user_data(&$tpl) {
 		$hp_dns = $_POST['dns'];
 	}
 
+	if (isset($_POST['software_allowed'])) {
+		$hp_allowsoftware = $_POST['software_allowed'];
+	}
+
 	// Begin checking...
 	if (!ispcp_limit_check($hp_sub, -1)) {
 		$ehp_error[] = tr('Incorrect subdomains limit!');
@@ -344,6 +356,10 @@ function check_user_data(&$tpl) {
 
 	if (!ispcp_limit_check($hp_disk, null)) {
 		$ehp_error[] = tr('Incorrect disk quota limit!');
+	}
+
+	if ($hp_php == "_no_" && $hp_allowsoftware == "_yes_") {
+		set_page_message(tr('The software installer needs PHP to enable it!'));
 	}
 
 	if (empty($ehp_error) && empty($_SESSION['user_page_message'])) {

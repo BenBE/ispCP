@@ -119,11 +119,12 @@ unset($_SESSION["ch_hpprops"]);
 list($php, $cgi, $sub,
 	$als, $mail, $ftp,
 	$sql_db, $sql_user,
-	$traff, $disk, $backup, $dns) = explode(";", $props);
+	$traff, $disk, $backup, $dns, $swinstaller) = explode(";", $props);
 
 $php = preg_replace("/\_/", "", $php);
 $cgi = preg_replace("/\_/", "", $cgi);
 $dns = preg_replace("/\_/", "", $dns);
+$swinstaller = preg_replace("/\_/", "", $swinstaller);
 
 $password = passgen();
 $inpass = crypt_user_pass($password, true);
@@ -195,7 +196,7 @@ $query = "
 		`domain_subd_limit`, `domain_alias_limit`,
 		`domain_ip_id`, `domain_disk_limit`,
 		`domain_disk_usage`, `domain_php`, `domain_cgi`,
-		`allowbackup`, `domain_dns`
+		`allowbackup`, `domain_dns`, `domain_software_allowed`
 	) VALUES (
 		?, ?,
 		?, unix_timestamp(),
@@ -205,13 +206,13 @@ $query = "
 		?, ?,
 		?, ?,
 		'0', ?, ?,
-		?, ?
+		?, ?, ?
 	)
 ";
 
 $res = exec_query($sql, $query, array($dmn_user_name, $record_id, $reseller_id,
 		$mail, $ftp, $traff, $sql_db, $sql_user, $status, $sub, $als, $domain_ip,
-		$disk, $php, $cgi, $backup,	$dns)
+		$disk, $php, $cgi, $backup,	$dns, $swinstaller)
 );
 $dmn_id = $sql->Insert_ID();
 

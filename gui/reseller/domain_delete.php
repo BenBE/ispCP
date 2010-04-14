@@ -195,6 +195,10 @@ function delete_domain($domain_id) {
 	// Remove support tickets:
 	$query = "DELETE FROM `tickets` WHERE ticket_from = ? OR ticket_to = ?";
 	exec_query($sql, $query, array($domain_admin_id, $domain_admin_id));
+	
+	// Remove AppSoftware:
+	$query = "delete from `web_software_inst` where `domain_id` = ?";
+	exec_query($sql, $query, array($domain_id));
 
 	// Delete user gui properties
 	$query = "DELETE FROM `user_gui_props` WHERE `user_id` = ?;";

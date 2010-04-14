@@ -32,12 +32,13 @@ require '../include/ispcp-lib.php';
 
 $tpl = new pTemplate();
 
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/package_info.tpl');
+$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/package_info.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
 $tpl->define_dynamic('isenabled', 'page');
+$tpl->define_dynamic('t_software_support', 'page');
 
 /*
  * functions start
@@ -47,6 +48,8 @@ function translate_sse($value) {
 	if ($value == '_yes_') {
 		return tr('Yes');
 	} else if ($value == '_no_') {
+		return tr('No');
+	} else if ($value == '') {
 		return tr('No');
 	} else if ($value == '_sql_') {
 		return tr('SQL');
@@ -60,8 +63,8 @@ function translate_sse($value) {
 }
 
 function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
-		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (Config::exists('HOSTING_PLANS_LEVEL')
+		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
 		$query = "
 			SELECT
 				*
@@ -91,7 +94,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		user_goto('index.php?user_id=' . $user_id);
 	} else {
 		$props = $rs->fields['props'];
-		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $props);
+		list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware) = explode(";", $props);
 
 		$price = $rs->fields['price'];
 		$setup_fee = $rs->fields['setup_fee'];
@@ -113,7 +116,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 
 		$hp_traff = translate_limit_value($hp_traff, true);
 
-		$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+		$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
 
 		$tpl->assign(
 			array(
@@ -127,6 +130,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				'HDD'			=> $hp_disk,
 				'TRAFFIC'		=> $hp_traff,
 				'PHP'			=> translate_sse($hp_php),
+				'SOFTWARE'		=> translate_sse($hp_allowsoftware),
 				'CGI'			=> translate_sse($hp_cgi),
 				'DNS'			=> translate_sse($hp_dns),
 				'BACKUP'		=> translate_sse($hp_backup),
@@ -139,7 +143,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				'CUSTOM_ORDERPANEL_ID'	=> $coid
 			)
 		);
-
+		
 		if ($rs->fields['status'] != 1) {
 			$tpl->assign('ISENABLED', '');
 		}
@@ -156,7 +160,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
  *
  */
 
-$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['id']) && $bcoid) {
@@ -199,6 +203,7 @@ $tpl->assign(
 		'TR_ERROR_PAGES'		=> tr('Custom Error Pages'),
 		'TR_HTACCESS'			=> tr('Protected Areas'),
 		'TR_PHP_SUPPORT'		=> tr('PHP support'),
+		'TR_SOFTWARE_SUPPORT'	=> tr('Softwareinstaller'),
 		'TR_CGI_SUPPORT'		=> tr('CGI support'),
 		'TR_DNS_SUPPORT'		=> tr('Manual DNS support'),
 		'TR_MYSQL_SUPPORT'		=> tr('SQL support'),
@@ -227,8 +232,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if (Config::get('DUMP_GUI_DEBUG')) {
 	dump_gui_debug();
 }
-
 unset_messages();
