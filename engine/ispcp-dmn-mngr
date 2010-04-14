@@ -45,6 +45,11 @@ use warnings;
 use Net::LibIDN ':all';
 $main::dmn_task_id = undef;
 
+
+# Default status set after domain name change action
+$main::after_change_status = 'ok';
+
+
 ################################################################################
 ##                                SUBROUTINES                                 ##
 ################################################################################
@@ -2068,7 +2073,7 @@ sub dmn_add_httpd_file_data {
 		);
 		return $rs if ($rs != 0);
 
-		opendir(DIR, "$www_dir/$dmn_name/htdocs/images/");
+		opendir(DIR, "$www_dir/$dmn_name/disabled/images/");
 		my @files = readdir(DIR);
 		closedir(DIR);
 
@@ -2176,6 +2181,7 @@ sub dmn_change_httpd_file_data {
 	my $pear_dir            = $main::cfg{'PEAR_DIR'};
 	my $starter_dir         = $main::cfg{'PHP_STARTER_DIR'};
 	my $conf_dir            = $main::cfg{'CONF_DIR'};
+	my $httpd_uid           = $main::cfg{'APACHE_USER'};
 	my $httpd_gid           = $main::cfg{'APACHE_GROUP'};
 	my ($sys_uid, $sys_gid) = get_dmn_suexec_user($dmn_id);
 	my $suexec_user_pref    = $main::cfg{'APACHE_SUEXEC_USER_PREF'};
@@ -2297,6 +2303,82 @@ sub dmn_change_httpd_file_data {
 		return $rs if ($rs != 0);
 	}
 
+    # Default disable page template;
+	#
+	# check if disable folder does not exist
+	if (!(-e "$www_dir/$dmn_name/disabled")) {
+		$rs = make_dir(
+			"$www_dir/$dmn_name/disabled",
+			$httpd_uid,
+			$httpd_gid,
+			0755
+		);
+		return $rs if ($rs != 0);
+
+		my ($index_tpl, $err_cfg_dir) = (undef, undef);
+		my $vhost = $main::cfg{'BASE_SERVER_VHOST'};
+		$err_cfg_dir = "$main::cfg{'GUI_ROOT_DIR'}/domain_disable_page";
+
+		($rs, $index_tpl) = get_tpl($err_cfg_dir, 'index.html');
+		return $rs if ($rs != 0);
+
+		my $decoded_dmn_name = idn_to_unicode($dmn_name, 'utf-8');
+
+		my %tag_hash = (
+			'{DOMAIN_NAME}' => $decoded_dmn_name,
+			'{BASE_SERVER_VHOST}' => $vhost
+		);
+
+		($rs, $cfg) = prep_tpl(\%tag_hash, $index_tpl);
+		return $rs if ($rs != 0);
+
+		($rs, $rdata) = store_file(
+			"$www_dir/$dmn_name/disabled/index.html",
+			$cfg,
+			$httpd_uid,
+			$httpd_gid,
+			0644
+		);
+		return $rs if ($rs != 0);
+
+		$rs = sys_command(
+			"$main::cfg{'CMD_CP'} -Rp $root_dir/gui/domain_disable_page/images ".
+			"$www_dir/$dmn_name/disabled/");
+		return $rs if ($rs != 0);
+
+		$rs = setfmode(
+			"$www_dir/$dmn_name/disabled/images",
+			$httpd_uid,
+			$httpd_gid,
+			0755
+		);
+		return $rs if ($rs != 0);
+
+		opendir(DIR, "$www_dir/$dmn_name/disabled/images/");
+		my @files = readdir(DIR);
+		closedir(DIR);
+
+		foreach (@files) {
+			# ignore . and .. :
+            next if ($_ eq "." || $_ eq "..");
+
+			$rs = setfmode(
+				"$www_dir/$dmn_name/disabled/images/$_",
+				$httpd_uid,
+				$httpd_gid,
+				0644
+			);
+			return $rs if ($rs != 0);
+		}
+	}
+
+	# Workaround to recover the initial status of the domain
+	# and restore it after changes.
+	# See #2262 for more information about this issue.
+	if(-e "$www_dir/$dmn_name/htdocs.disabled") {
+		$main::after_change_status = 'disabled';
+	}
+
 	#
 	# php.ini for the domain
 	#
@@ -2393,16 +2475,16 @@ sub dmn_del_httpd_file_data {
 	# Starter directory
 	#
 	if ( -e "$starter_dir/$dmn_name" ) {
-		($rs, $rdata) = del_dir("$starter_dir/$dmn_name");
+		$rs = del_dir("$starter_dir/$dmn_name");
 	}
 
 	#
 	# Domain WWW directories;
 	#
 	if ( -e "$www_dir/$dmn_name" ) {
-		($rs, $rdata) = del_dir("$www_dir/$dmn_name");
+		$rs = del_dir("$www_dir/$dmn_name");
 	} elsif ( -e "$www_dir/$dmn_name.disabled" ) {
-		($rs, $rdata) = del_dir("$www_dir/$dmn_name.disabled");
+		$rs = del_dir("$www_dir/$dmn_name.disabled");
 	}
 	return $rs if ($rs != 0);
 
@@ -2814,14 +2896,14 @@ sub dmn_add_mta_file_data {
 
 ################################################################################
 ##
-## Add MTA File Data
+## Delete MTA File Data
 ##
 sub dmn_del_mta_file_data {
 
 	push_el(\@main::el, 'dmn_del_mta_file_data()', 'Starting...');
 
 	my ($dmn_data) = @_;
-	my ($rs, $rdata) = (undef, undef);
+	my $rs = undef;
 
 	if (!defined($dmn_data) || $dmn_data eq '') {
 		push_el(
@@ -2835,8 +2917,6 @@ sub dmn_del_mta_file_data {
 
 	my $dmn_name = @$dmn_data[1];
 	my $virtual_mail_dir = $main::cfg{'MTA_VIRTUAL_MAIL_DIR'};
-	my $mailbox_uid_name = $main::cfg{'MTA_MAILBOX_UID_NAME'};
-	my $mailbox_gid_name = $main::cfg{'MTA_MAILBOX_GID_NAME'};
 
 	$rs = del_dir("$virtual_mail_dir/$dmn_name");
 	return $rs if ($rs != 0);
@@ -4842,7 +4922,7 @@ sub dmn_mngr_engine {
 				UPDATE
 					domain
 				SET
-					domain_status = 'ok'
+					domain_status = '$main::after_change_status'
 				WHERE
 					domain_id = $dmn_id
 				;
