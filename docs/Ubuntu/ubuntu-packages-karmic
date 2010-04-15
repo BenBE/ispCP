@@ -50,6 +50,7 @@ libterm-readkey-perl
 libterm-readpassword-perl
 libtimedate-perl
 libmysqlclient15off
+libxml-parser-perl
 locales
 lsb-base
 lynx

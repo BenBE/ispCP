@@ -1,6 +1,14 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-15 Sascha Bay
+	- CONFIG:
+		* Patching Config with new variable for the apps-installer
+	- DATABASE:
+		* Adding new database fields for the apps-installer
+	- DOCS:
+		* Adding new package libxml-parser-perl for Debian Lenny and all Ubuntu's
+
 2010-04-14 Sascha Bay
 	- GUI:
 		* Adding new files for the apps-installer
