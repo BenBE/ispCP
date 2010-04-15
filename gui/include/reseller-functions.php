@@ -2021,4 +2021,3 @@ function send_new_sw_upload($reseller_id, $file_name, $sw_id) {
 	$subject = encode($subject);
 	$mail_result = mail($to_email, $subject, $message, $headers);
 }
-}
