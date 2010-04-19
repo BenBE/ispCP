@@ -1,6 +1,41 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-19 Sascha Bay
+	- GUI:
+		* Adding new folders for the apps-installer
+
+2010-04-18 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #2257: subdomain.domain.tld aliasdomain doesn't work if another 
+			user's main domain is domain.tld
+	- GUI:
+		* Fixed #2339: some confusing singular/plural translation
+	- LANGUAGES:
+		* Updated Polish (#2348)
+		* Updated Slovak
+		* Updated Swedish (#2340)
+	- TOOLS:
+		* Fixed #2344: [PMA] New release 3.3.2 available
+
+2010-04-18 Sascha Bay
+	- GUI:
+		* Fixed #2342: Some not correct replaced template vars
+		* Some small design fixes
+		* Little Bugfix for ticket #2330
+
+2010-04-17 Sascha Bay
+	- GUI:
+		* Fixed #2330: Hide table headers if feature not un-used
+		* Removed some unused variables in client/ftp_accounts.php
+		* Fixed #2336: minor html fix in gui trunk
+
+2010-04-05 Laurent Declercq
+	- CONTRIB:
+		* Add new script to fix bad/missing EOL
+	- PACKAGE:
+		* Fixed several bad/missing EOL
+		
 2010-04-15 Sascha Bay
 	- CONFIG:
 		* Patching Config with new variable for the apps-installer
