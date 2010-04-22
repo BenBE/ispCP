@@ -29,7 +29,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		$res = exec_query($sql, $update, array($rs->fields['software_id']));
 		$delete="DELETE FROM `web_software` WHERE `software_id` = ? AND `reseller_id` = ?";
 		$res = exec_query($sql, $delete, array($_GET['id'], $_SESSION['user_id']));
-		set_page_message(tr('Software was deletet.'));
+		set_page_message(tr('Software was deleted.'));
 		header('Location: software_upload.php');
 	}
 } else {

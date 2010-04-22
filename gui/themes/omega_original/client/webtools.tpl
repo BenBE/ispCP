@@ -123,20 +123,6 @@
               </table>
              </td>
             </tr>
-			<!-- BDP: active_awstats -->
-            <tr>
-             <td>&nbsp;</td>
-             <td class="content">
-			  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-               <tr>
-                <td width="65"><a href="{AWSTATS_PATH}" target="{AWSTATS_TARGET}"><img src="{THEME_COLOR_PATH}/images/icons/awstatsicon.gif" width="46" height="46" border="0" alt="" /></a></td>
-                <td><a href="{AWSTATS_PATH}" target="{AWSTATS_TARGET}" class="link">{TR_AWSTATS}</a><br />
-                 {TR_AWSTATS_TEXT}</td>
-               </tr>
-              </table>
-             </td>
-            </tr>
-		    <!-- EDP: active_awstats -->
 			<!-- BDP: t_software_support -->
 			<tr>
 				<td>&nbsp;</td>
@@ -151,6 +137,20 @@
 				</td>
 			</tr>
 			<!-- EDP: t_software_support -->
+			<!-- BDP: active_awstats -->
+            <tr>
+             <td>&nbsp;</td>
+             <td class="content">
+			  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+               <tr>
+                <td width="65"><a href="{AWSTATS_PATH}" target="{AWSTATS_TARGET}"><img src="{THEME_COLOR_PATH}/images/icons/awstatsicon.gif" width="46" height="46" border="0" alt="" /></a></td>
+                <td><a href="{AWSTATS_PATH}" target="{AWSTATS_TARGET}" class="link">{TR_AWSTATS}</a><br />
+                 {TR_AWSTATS_TEXT}</td>
+               </tr>
+              </table>
+             </td>
+            </tr>
+		    <!-- EDP: active_awstats -->
            </table>
           </td>
           <td>&nbsp;</td>

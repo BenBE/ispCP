@@ -78,7 +78,7 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 			";
 				$rs2 = exec_query($sql, $query2, array($rs->fields['id']));
 				if($rs2->RecordCount() > 0){
-					$swinstalled_domain = tr('This software is installed on following domain(s):');
+					$swinstalled_domain = tr('This package is installed on following domain(s):');
 					$swinstalled_domain .= "<ul>";
 					while(!$rs2->EOF){
 						$swinstalled_domain .= "<li>".$rs2->fields['domain']."</li>";
@@ -93,7 +93,7 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 				} else {
 					$tpl->assign(
 							array(
-								'SW_INSTALLED' => tr('This package was not installed yet')
+								'SW_INSTALLED' => tr('This package is not installed')
 							)
 						);
 				}

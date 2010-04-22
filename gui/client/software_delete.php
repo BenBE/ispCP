@@ -38,7 +38,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 				";
 			$res = exec_query($sql, $delete, array('delete', $_GET['id'], $dmn_id));
 			send_request();
-			set_page_message(tr('Software will be deletet now.'));
+			set_page_message(tr('Software will be deleted now.'));
 		}
 			header('Location: software.php');
 	}

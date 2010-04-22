@@ -89,7 +89,7 @@ if (isset($_POST['Button'])) {
 				$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
 				exec_query($sql, $query, array($sw_id));
 				$sw_wget = "";
-				set_page_message(tr('ERROR: Could not upload file. Max. upload filesize (%1$d MB) reached?', ini_get('upload_max_filesize')));
+				set_page_message(tr('ERROR: Could not upload the file. Max. upload filesize (%1$d MB) reached?', ini_get('upload_max_filesize')));
 				$upload = 0;
 			}
 		}
@@ -147,7 +147,7 @@ if (isset($_POST['Button'])) {
 				// Delete software entry
 				$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
 				exec_query($sql, $query, array($sw_id));
-				set_page_message(tr('ERROR: Could not upload file. File not found!'));
+				set_page_message(tr('ERROR: Could not upload the file. File not found!'));
 				$upload = 0;
 			}
 		}
@@ -158,7 +158,7 @@ if (isset($_POST['Button'])) {
 					)
 				);
 			send_request();
-			set_page_message(tr('File was successfully uploaded.'));	
+			set_page_message(tr('File was successfully uploaded.'));
 		} else {
 			$tpl->assign(
 					array(
@@ -243,7 +243,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 						$updatequery = "UPDATE `web_software` set software_status = 'ok' WHERE `software_id` = ?";
 						exec_query($sql, $updatequery, array($rs->fields['id']));
 						send_new_sw_upload ($user_id,$rs->fields['filename'].".tar.gz",$rs->fields['id']);
-						set_page_message(tr('Packet installed successfuly... Awaiting unblocking from admin!'));
+						set_page_message(tr('Package installed successfully... Awaiting release from Admin!'));
 					}
 					$url = "software_delete.php?id=".$rs->fields['id'];
 					
@@ -281,7 +281,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 					} else {
 						$tpl->assign(
 									array(
-										'SW_INSTALLED' => tr('This package was not installed yet')
+										'SW_INSTALLED' => tr('This package is not installed yet')
 									)
 								);
 					}
@@ -326,11 +326,11 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 						$url = "software_delete.php?id=".$rs->fields['id'];
 						$tpl->assign(
 								array(
-									'SW_NAME' => tr('Installing your uploaded packet. Please refresh this site.'),
+									'SW_NAME' => tr('Installing your uploaded package. Please refresh the site.'),
 									'LINK_COLOR' => '#FF0000',
 									'SW_VERSION' => '',
 									'SW_LANGUAGE' => '',
-									'SW_DESCRIPTION' => tr('After your upload the packet will be installed on your systems.<br />Refresh your site to see the new status!'),
+									'SW_DESCRIPTION' => tr('After your upload the package it will be installed on your systems.<br />Refresh your site to see the new status!'),
 									'SW_TYPE' => '',
 									'DELETE' => $url,
 									'TR_DELETE' => tr('Delete'),
@@ -342,11 +342,11 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 						if($rs->fields['swstatus'] == "delete") {
 							$tpl->assign(
 									array(
-										'SW_NAME' => tr('Failure in softwarepacket. Deleting!'),
+										'SW_NAME' => tr('Failure in package. Deleting!'),
 										'LINK_COLOR' => '#FF0000',
 										'SW_VERSION' => '',
 										'SW_LANGUAGE' => '',
-										'SW_DESCRIPTION' => tr('Check your softwarepacket. There is an error inside!<br />Refresh your site to see the new status!'),
+										'SW_DESCRIPTION' => tr('Check your package. There is an error inside!<br />Refresh your site to see the new status!'),
 										'SW_TYPE' => '',
 										'DELETE' => '',
 										'TR_DELETE' => '',
@@ -354,15 +354,15 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 										'SOFTWARE_ICON' => 'disabled'
 									)
 								);
-							set_page_message(tr('Your softwarepacket is corrupt. Please correct it!'));
+							set_page_message(tr('Your packge is corrupt. Please correct it!'));
 						} elseif (preg_match("/double_depot_/i", $rs->fields['swstatus'])) {
 							$tpl->assign(
 									array(
-										'SW_NAME' => tr('Packet already exist in the software depot!'),
+										'SW_NAME' => tr('Package already exist in the software depot!'),
 										'LINK_COLOR' => '#FF0000',
 										'SW_VERSION' => '',
 										'SW_LANGUAGE' => '',
-										'SW_DESCRIPTION' => tr('Please contact the administrator!<br />Ask him for the rights to use this package.<br />It is not allowed to upload this packet two times.<br />Refresh your site to see the new status!'),
+										'SW_DESCRIPTION' => tr('Please contact the administrator!<br />Ask him for the permissions to use this package.<br />It is not allowed to upload this packet two times.<br />Refresh your site to see the new status!'),
 										'SW_TYPE' => '',
 										'DELETE' => '',
 										'TR_DELETE' => '',
@@ -370,15 +370,15 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 										'SOFTWARE_ICON' => 'disabled'
 									)
 								);
-							set_page_message(tr('This packet already exist in the administrator software depot!'));
+							set_page_message(tr('This package already exist in the administrator software depot!'));
 						} elseif (preg_match("/double_res_/i", $rs->fields['swstatus'])) {
 							$tpl->assign(
 									array(
-										'SW_NAME' => tr('Packet already exist in your software depot!'),
+										'SW_NAME' => tr('Package already exist in your software depot!'),
 										'LINK_COLOR' => '#FF0000',
 										'SW_VERSION' => '',
 										'SW_LANGUAGE' => '',
-										'SW_DESCRIPTION' => tr('Check the your own uploads!<br />Ask the administrator if you don\'t find the packet.<br />It is not allowed to upload this packet two times.<br />Refresh your site to see the new status!'),
+										'SW_DESCRIPTION' => tr('Check your own uploads!<br />Ask the administrator if you don\'t find the package.<br />It is not allowed to upload this packages two times.<br />Refresh your site to see the new status!'),
 										'SW_TYPE' => '',
 										'DELETE' => '',
 										'TR_DELETE' => '',
@@ -386,7 +386,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 										'SOFTWARE_ICON' => 'disabled'
 									)
 								);
-							set_page_message(tr('This packet already exist in your software depot!'));
+							set_page_message(tr('This package already exist in your software depot!'));
 						}
 						$del_path = Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rs->fields['resellerid']."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
 						@unlink($del_path);
@@ -411,7 +411,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 	} else {
 		$tpl->assign(
 				array(
-					'NO_SOFTWARE' => tr('You do not have permissions to upload software yet'),
+					'NO_SOFTWARE' => tr('You do not have permissions to upload software'),
 					'LIST_SOFTWARE' => ''
 				)
 			);

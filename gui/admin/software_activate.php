@@ -27,7 +27,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		SELECT
 			`software_id`,
 			`reseller_id`,
-			`software_archive` 
+			`software_archive`
 		FROM
 			`web_software`
 		WHERE

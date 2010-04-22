@@ -45,7 +45,7 @@ function get_reseller_rights (&$tpl, &$sql, $software_id) {
 						'RESELLER' => $rs->fields['reseller'],
 						'ADMINISTRATOR' => $added_by,
 						'TR_REMOVE_RIGHT' => tr('Remove'),
-						'TR_MESSAGE_REMOVE' => tr('Are you sure you want to the rights?', true),
+						'TR_MESSAGE_REMOVE' => tr('Are you sure to remove the permissions ?', true),
 						'REMOVE_RIGHT_LINK' => $remove_rights_url,
 						)
 					);
@@ -56,7 +56,7 @@ function get_reseller_rights (&$tpl, &$sql, $software_id) {
 	} else {
 		$tpl->assign(
 				array(
-					'NO_RESELLER' => tr('No Reseller with rights for this software'),
+					'NO_RESELLER' => tr('No Reseller with permissions for this software found'),
 					'LIST_RESELLER' => ''
 				)
 			);
@@ -112,7 +112,7 @@ function get_reseller_list (&$tpl, &$sql, $software_id) {
 		}else{
 			$tpl->assign(
 					array(
-						'NO_RESELLER_AVAILABLE' => tr('No Reseller to add rights available'),
+						'NO_RESELLER_AVAILABLE' => tr('No Reseller available to add the permissions'),
 						'SELECT_RESELLER' => '',
 						'RESELLER_ITEM' => ''
 					)
@@ -122,7 +122,7 @@ function get_reseller_list (&$tpl, &$sql, $software_id) {
 	}else{
 		$tpl->assign(
 				array(
-					'NO_RESELLER_AVAILABLE' => tr('No Reseller to add rights available'),
+					'NO_RESELLER_AVAILABLE' => tr('No Reseller available to add the permissions'),
 					'SELECT_RESELLER' => '',
 					'RESELLER_ITEM' => ''
 				)
@@ -150,7 +150,7 @@ $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 		array(
-			'TR_MANAGE_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software Management (Rights)'),
+			'TR_MANAGE_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software Management (Permissions)'),
 			'THEME_COLOR_PATH' => '../themes/'.$theme_color,
 			'THEME_CHARSET' => tr('encoding'),
 			'ISP_LOGO' => get_logo($_SESSION['user_id'])
@@ -166,15 +166,15 @@ $tpl->assign(
 		array(
 			'TR_SOFTWARE_DEPOT' => tr('Softwaredepot'),
 			'TR_SOFTWARE_NAME' => tr($rs->fields['software_name'].' - (Version: '.$rs->fields['software_version'].', Language: '.$rs->fields['software_language'].')'),
-			'TR_ADD_RIGHTS' => tr('Add rights for reseller to software:'),
+			'TR_ADD_RIGHTS' => tr('Add permissions for reseller to software:'),
 			'TR_RESELLER' => tr('Reseller'),
-			'TR_REMOVE_RIGHTS' => tr('Remove rights'),
-			'TR_RESELLER_COUNT' => tr('Reseller with rights total'),
+			'TR_REMOVE_RIGHTS' => tr('Remove permissions'),
+			'TR_RESELLER_COUNT' => tr('Reseller with permissions total'),
 			'TR_RESELLER_NUM' => $res_cnt,
 			'TR_ADDED_BY' => tr('Added by'),
-			'TR_ADD_RIGHTS_BUTTON' => tr('Add Rights'),
-			'TR_SOFTWARE_RIGHTS' => tr('Softwarerights'),
-			'TR_ADMIN_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software management (Rights)'),
+			'TR_ADD_RIGHTS_BUTTON' => tr('Add permissions'),
+			'TR_SOFTWARE_RIGHTS' => tr('Software permissions'),
+			'TR_ADMIN_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software management (Permissions)'),
 			)
 	);
 

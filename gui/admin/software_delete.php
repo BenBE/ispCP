@@ -58,7 +58,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 		$delete_master = "DELETE FROM `web_software` WHERE `software_master_id` = ?";
 		$res = exec_query($sql, $delete, array($rs->fields['software_id']));
 		$res = exec_query($sql, $delete_master, array($rs->fields['software_id']));
-		set_page_message(tr('Software was deletet.'));
+		set_page_message(tr('Software was deleted.'));
 		header('Location: software_manage.php');
 		gen_page_message($tpl);
 	}else{
@@ -69,7 +69,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 				@unlink($del_path);
 				$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
 				$res = exec_query($sql, $delete, array($rs->fields['software_id']));
-				set_page_message(tr('Software was deletet.'));
+				set_page_message(tr('Software was deleted.'));
 				header('Location: software_manage.php');
 			} else {
 				set_page_message(tr('Fill out a message text!'));

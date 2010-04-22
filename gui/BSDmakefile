@@ -54,7 +54,8 @@ install:
 		cp -R ./themes $(SYSTEM_GUI_ROOT)
 		cp -R ./tools $(SYSTEM_GUI_ROOT)
 		cp -R ./orderpanel $(SYSTEM_GUI_ROOT)
-		cp -R ./phptmp $(SYSTEM_GUI_ROOT)	
+		cp -R ./phptmp $(SYSTEM_GUI_ROOT)
+		cp -r ./software $(SYSTEM_GUI_ROOT)
 
 uninstall:
 		rm -rf $(SYSTEM_GUI_ROOT)
