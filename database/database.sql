@@ -743,7 +743,7 @@ CREATE TABLE `web_software_inst` (
   `software_name` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
   `software_version` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
   `software_language` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
-  `pfad` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+  `path` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
   `software_prefix` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
   `db` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
   `database_user` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',

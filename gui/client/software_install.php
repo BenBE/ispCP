@@ -68,7 +68,7 @@ if (isset($_POST['Submit2'])) {
 		$dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
 	
 	
-	$querypath="SELECT `software_name` as swname, `software_version` as swversion FROM `web_software_inst` WHERE `domain_id` = ? AND `pfad` = ?";
+	$querypath="SELECT `software_name` as swname, `software_version` as swversion FROM `web_software_inst` WHERE `domain_id` = ? AND `path` = ?";
 	$rspath = exec_query($sql, $querypath, array($dmn_id, $other_dir));
 	list ($posted_domain_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $posted_mountpath) = split(';', $_POST['selected_domain']);
 	if(($posted_aliasdomain_id + $posted_subdomain_id + $posted_aliassubdomain_id) > 0){
@@ -140,7 +140,7 @@ if (isset($_POST['Submit2'])) {
 					`web_software_inst`
 				(
 					`domain_id`, `alias_id`, `subdomain_id`, `subdomain_alias_id`, `software_id`,
-					`software_master_id`, `software_name`, `software_version`, `software_language`, `pfad`, 
+					`software_master_id`, `software_name`, `software_version`, `software_language`, `path`, 
 					`software_prefix`, `db`, `database_user`, `database_tmp_pwd`, `install_username`,
 					`install_password`, `install_email`, `software_status`, `software_depot`
 				) VALUES (
@@ -157,7 +157,7 @@ if (isset($_POST['Submit2'])) {
 					`web_software_inst`
 				(
 					`domain_id`, `alias_id`, `subdomain_id`, `subdomain_alias_id`, `software_id`,
-					`software_master_id`, `software_name`, `software_version`, `software_language`, `pfad`, 
+					`software_master_id`, `software_name`, `software_version`, `software_language`, `path`, 
 					`software_prefix`, `db`, `database_user`, `database_tmp_pwd`, `install_username`,
 					`install_password`, `install_email`, `software_status`, `software_depot`
 				) VALUES (

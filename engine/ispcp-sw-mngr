@@ -41,7 +41,7 @@ use warnings;
 
 my $sw_domain_id = $ARGV[0];
 my $sw_software_id = $ARGV[1];
-my $sw_pfad = $ARGV[2];
+my $sw_path = $ARGV[2];
 my $sw_software_prefix = $ARGV[3];
 my $sw_database = $ARGV[4];
 my $sw_database_user = $ARGV[5];
@@ -131,7 +131,7 @@ sub sw_mngr_shut_down {
 
 sub sw_add_data {
 	push_el(\@main::el, 'sw_add_data()', 'Starting...');
-	my ($sw_software_archive, $sw_software_installfile, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_pass_clear, $sw_database_pass_md5, $sw_install_username, $sw_install_pass_clear, $sw_install_pass_md5, $sw_install_email, $domain_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_pfad) = @_;
+	my ($sw_software_archive, $sw_software_installfile, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_pass_clear, $sw_database_pass_md5, $sw_install_username, $sw_install_pass_clear, $sw_install_pass_md5, $sw_install_email, $domain_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_path) = @_;
 	my $rs = undef;
 	unless(-d $sw_dest_path."/") {
 		$rs = sys_command_rs("$main::cfg{'CMD_MKDIR'} -p $sw_dest_path/");
@@ -156,7 +156,7 @@ sub sw_add_data {
 	}
 	$rs = sys_command_rs("$main::cfg{'CMD_CP'} -r $sw_tmp_path/web/* $sw_dest_path/");
 	$rs = sys_command_rs("$main::cfg{'CMD_CHOWN'} -R $uid:$gid $sw_dest_path/*");
-	$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_installfile \"install,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_pass_clear,$sw_database_pass_md5,$sw_install_username,$sw_install_pass_clear,$sw_install_pass_md5,$sw_install_email,$domain_name,$sw_dest_path,$sw_pfad\"");
+	$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_installfile \"install,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_pass_clear,$sw_database_pass_md5,$sw_install_username,$sw_install_pass_clear,$sw_install_pass_md5,$sw_install_email,$domain_name,$sw_dest_path,$sw_path\"");
 	$rs = sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_tmp_path");
 	return $rs if ($rs != 0);
 	push_el(\@main::el, 'sw_add_data()', 'Ending...');
@@ -229,7 +229,7 @@ sub sw_del_data {
 		}
 		return $rs if ($rs != 0);
 		if ($sw_software_db != 0) {
-			$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_installfile \"delete,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_pass_clear,$sw_database_pass_md5,$sw_install_username,$sw_install_pass_clear,$sw_install_pass_md5,$sw_install_email,$domain_name,$sw_dest_path,$sw_pfad\"");
+			$rs = sys_command_rs("$main::cfg{'CMD_SHELL'} $sw_tmp_path/$sw_software_installfile \"delete,$sw_software_db,$sw_software_prefix,$sw_database,$sw_database_user,$sw_database_pass_clear,$sw_database_pass_md5,$sw_install_username,$sw_install_pass_clear,$sw_install_pass_md5,$sw_install_email,$domain_name,$sw_dest_path,$sw_path\"");
 			$rs = sys_command_rs("$main::cfg{'CMD_RM'} -rf $sw_tmp_path");
 			return $rs if ($rs != 0);
 		}
@@ -315,9 +315,9 @@ SQL_QUERY
 		$sw_src_path = "$gui_software_dir/$sw_reseller_id/$sw_software_archive";
 	}
 	my $sw_tmp_path = "$software_tmp_dir/sw-$sw_domain_id-$sw_software_id";
-	my $sw_dest_path = "$apache_www_dir/$dmn_name$sw_pfad";
+	my $sw_dest_path = "$apache_www_dir/$dmn_name$sw_path";
 	if ($sw_status eq 'toadd') {
-		my @entry = ($sw_software_archive, $sw_software_installfile, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_pass_clear, $sw_database_pass_md5, $sw_install_username, $sw_install_pass_clear, $sw_install_pass_md5, $sw_install_email, $domain_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_pfad);
+		my @entry = ($sw_software_archive, $sw_software_installfile, $sw_software_db, $sw_software_prefix, $sw_database, $sw_database_user, $sw_database_pass_clear, $sw_database_pass_md5, $sw_install_username, $sw_install_pass_clear, $sw_install_pass_md5, $sw_install_email, $domain_name, $gid, $uid, $sw_src_path, $sw_tmp_path, $sw_dest_path, $sw_path);
 		$rs = sw_add_data(@entry);
 		if ($rs == 0) {
             $sql = "update web_software_inst set software_status='ok' where software_id = $sw_software_id AND domain_id = $sw_domain_id";

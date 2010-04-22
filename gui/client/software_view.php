@@ -42,7 +42,7 @@ function check_is_installed(&$tpl, &$sql, $dmn_id, $software_id) {
 			`software_id`,
 			`software_prefix`,
 			`db`,
-			`pfad`
+			`path`
 		FROM
 			`web_software_inst`
 		WHERE
@@ -64,7 +64,7 @@ function check_is_installed(&$tpl, &$sql, $dmn_id, $software_id) {
 					array(
 						'SOFTWARE_INSTALL_BUTTON' => '',
 						'SOFTWARE_STATUS' => tr('installed'),
-						'SOFTWARE_INSTALL_PATH' => $is_inst->fields['pfad'],
+						'SOFTWARE_INSTALL_PATH' => $is_inst->fields['path'],
 						'SOFTWARE_INSTALL_DATABASE' => $is_inst->fields['db'],
 						'TR_SOFTWARE_INFO' => tr('Installation infos'),
 						'TR_SOFTWARE_STATUS' => tr('Software status:'),
