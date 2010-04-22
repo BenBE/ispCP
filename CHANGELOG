@@ -1,6 +1,20 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-22 Thomas Häber
+	- GUI:
+		* Replaced last "$ID$" by "$Id$"
+
+2010-04-21 Thomas Häber
+	- GUI:
+		* [GUI] Fixed screenwidth problem in noscript context
+
+2010-04-20 Sascha Bay
+	- GUI:
+		* Fixed #2355: Some HTML errors and not correct replaced template variables
+		* Little Bugfix for ticket #2330
+		* Fixed #2332: Alias coun't wont work if reseller adds alias
+
 2010-04-20 Sascha Bay
 	- ENGINE:
 		* Adding new engine files to makefiles

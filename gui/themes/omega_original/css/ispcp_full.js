@@ -36,7 +36,7 @@
  *
  * This JavaScript code minimum needs support of JavaScript 1.2.
  *
- * @todo these functions need more doumentation (description/param/return)
+ * @todo these functions need more documentation (description/param/return)
  */
 
 
@@ -77,7 +77,7 @@ function sbmt_details(form, uaction) {
 /**
  * @link ../admin|client|reseller/.*
  *
- * @todo remove JS image preloading/swapping und use CSS instead
+ * @todo remove JS image preloading/swapping and use CSS instead
  */
 function MM_preloadImages() {
 	var d = document;
@@ -98,7 +98,7 @@ function MM_preloadImages() {
 /**
  * @link ../admin|client|reseller/main_menu_.*
  *
- * @todo remove JS image preloading/swapping und use CSS instead
+ * @todo remove JS image preloading/swapping and use CSS instead
  */
 function MM_swapImgRestore() {
 	var x, a = document.MM_sr;
@@ -110,7 +110,7 @@ function MM_swapImgRestore() {
 /**
  * @usedby MM_swapImage()
  *
- * @todo remove JS image preloading/swapping und use CSS instead
+ * @todo remove JS image preloading/swapping and use CSS instead
  */
 function MM_findObj(n, d) {
 	var p, x;
@@ -142,7 +142,7 @@ function MM_findObj(n, d) {
  * @uses MM_findObj()
  * @link ../admin|client|reseller/main_menu_.*
  *
- * @todo remove JS image preloading/swapping und use CSS instead
+ * @todo remove JS image preloading/swapping and use CSS instead
  */
 function MM_swapImage() {
 	var j = 0, x, a = MM_swapImage.arguments;
@@ -159,7 +159,7 @@ function MM_swapImage() {
 }
 
 /**
- * @link ../admin/domain_details-tpl
+ * @link ../admin/domain_details.tpl
  * @link ../admin/domain_edit.tpl
  * @link ../admin/ticket_closed.tpl
  * @link ../admin/ticket_system.tpl
@@ -273,7 +273,7 @@ function showHideBlocks(id) {
 }
 
 /**
- * show/open file tree dialog pageY
+ * show/open file tree dialog page
  *
  * @return boolean prevent loading of new page on main page
  *
@@ -290,34 +290,31 @@ function showFileTree() {
 *
 * Ajax related functions
 *
-* Note: require JQUERY
+* Note: requires jQuery
 */
 
 /**
-* Jquery XMLHttpRequest Error Handling
+* jQuery XMLHttpRequest Error Handling
 */
 
 /**
 * Must be documented
 *
-* Note: Should be used as error callback funct of the jquery ajax request
+* Note: Should be used as error callback function of the jQuery Ajax request
 * @since r2587
 */
 function ispCPajxError(xhr, settings, exception) {
-
-	switch (xhr.status) {
+	if (xhr.status == 403) {
 		// We receive this status when the session is expired
-		case 403:
-			window.location = '/index.php';
-		break;
-		default:
-			alert('HTTP ERROR: An Unexpected HTTP Error occurred during the request');
+		window.location = '/index.php';
+	} else {
+		alert('HTTP ERROR: An Unexpected HTTP Error occurred during the request');
 	}
 }
 
 /*
  * here are old moved unused/deprecated functions for archive
- * absolutly useless functions got removed completly, search repository
+ * absolutely useless functions got removed completely, search repository
  * archive for more information
  */
 
@@ -352,7 +349,7 @@ function checkForm() {
 }
 
 
-// @deprecated Deprecated since 1.0.5 - use JQuery ispCPtooltips plugin instead
+// @deprecated Deprecated since 1.0.5 - use jQuery ispCPtooltips plugin instead
 function showTip(id, e) {
 	var x, y, tip = document.getElementById(id);
 	if (window.event) {
@@ -367,7 +364,7 @@ function showTip(id, e) {
 	tip.style.display = "block";
 }
 
-// @deprecated Deprecated since 1.0.5 - use JQuery ispCPtooltips plugin instead
+// @deprecated Deprecated since 1.0.5 - use jQuery ispCPtooltips plugin instead
 function hideTip(id) {
 	document.getElementById(id).style.display = "none";
 }

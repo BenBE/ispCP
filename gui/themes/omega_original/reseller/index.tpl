@@ -110,7 +110,8 @@
 			</tr>
 		  <!-- EDP: software_allowed -->
           <!-- BDP: msg_entry -->
-          <td>&nbsp;</td>
+          <tr>
+            <td>&nbsp;</td>
             <td colspan="2" class="title"><span class="message">{TR_NEW_MSGS}</span></td>
           </tr>
           <!-- EDP: msg_entry -->
@@ -152,13 +153,13 @@
         <td width="25">&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
             <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" /></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" alt="" /></td>
               </tr>
             </table></td>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
           </tr>
         </table></td>
       </tr>
@@ -198,13 +199,13 @@
         <td width="25">&nbsp;</td>
         <td class="content"><table border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
             <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" /></td>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" alt="" /></td>
               </tr>
             </table></td>
-            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" /></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
           </tr>
         </table></td>
       </tr>

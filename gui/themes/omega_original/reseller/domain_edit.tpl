@@ -13,7 +13,7 @@
 
 <body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
 <!-- ToolTip -->
-<div id="dmn_exp_help" style="background-color:#ffffe0;border: 1px #000000 solid;display:none;margin:5px;padding:5px;font-size:9pt;font-family:Verdana, sans-serif;color:#000000;width:200px;position:absolute;">{TR_DMN_EXP_HELP}</div>
+<div id="dmn_exp_help" style="background-color:#ffffe0;border: 1px #000 solid;display:none;margin:5px;padding:5px;font-size:9pt;font-family:Verdana, sans-serif;color:#000;width:200px;position:absolute;">{TR_DMN_EXP_HELP}</div>
 <!-- ToolTip end -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
@@ -69,7 +69,7 @@
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td class="content2" width="193">{TR_DOMAIN_NEW_EXPIRE} <img src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" onmouseover="showTip('dmn_exp_help', event)" onmouseout="hideTip('dmn_exp_help')" /></td>
+                        <td class="content2" width="193">{TR_DOMAIN_NEW_EXPIRE} <img src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" onmouseover="showTip('dmn_exp_help', event)" onmouseout="hideTip('dmn_exp_help')" alt="" /></td>
                         <td class="content"><select name="dmn_expire">
 							<option value="0" {EXPIRE_UNCHANGED_SET}>{TR_DOMAIN_EXPIRE_UNCHANGED}</option>
 							<option value="OFF" {EXPIRE_NEVER_SET}>{TR_DOMAIN_EXPIRE_NEVER}</option>
