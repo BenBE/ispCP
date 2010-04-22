@@ -1,6 +1,11 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-22 Sascha Bay
+	- GUI:
+		* Little Bugfixes
+		* Adding a new function to correct the site refresh (F5) failure
+
 2010-04-22 Benjamin Hildebrand
 	- GUI:
 		* Fixed #2360: [Apps-Installer] Correction to the Apps-Installer branches

@@ -2159,6 +2159,12 @@ function get_ticket_urgency($ticket_urgency) {
 	return $result;
 }
 
+function generate_software_upload_token(){
+	$token = md5(uniqid(microtime(), true));
+	$_SESSION['software_upload_token'] = $token;
+	return $token;
+}
+
 function get_reseller_sw_installer($reseller_id) {
 	global $cfg, $sql;
 	

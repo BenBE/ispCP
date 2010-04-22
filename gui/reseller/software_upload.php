@@ -33,8 +33,9 @@ function formatFilesize($byte) {
 	return $byte." ".$string;
 }
 
-if (isset($_POST['Button'])) {
+if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['send_software_upload_token']) {
 	$success = 1;
+	unset($_SESSION['software_upload_token']);
 	if ($_FILES['sw_file']['name'] != '' AND !empty($_POST['sw_wget'])) {
 		set_page_message(tr('You have to choose between file-upload and wget-function.'));
 		$success = 0;
@@ -175,6 +176,7 @@ if (isset($_POST['Button'])) {
 
 	}
 } else {
+	unset($_SESSION['software_upload_token']);
 	$tpl->assign(
 			array(
 				'VAL_WGET' => ''
@@ -449,6 +451,7 @@ $tpl->assign(
 			'TR_SOFTWARE_DB_PREFIX' => tr('Database prefix'),
 			'TR_SOFTWARE_HOME' => tr('Link to authors homepage'),
 			'TR_SOFTWARE_DESC' => tr('Description'),
+			'SOFTWARE_UPLOAD_TOKEN' => generate_software_upload_token(),
 			'TR_SOFTWARE_FILE' => tr('Choose file (Max: %1$d MB)', ini_get('upload_max_filesize')),
 			'TR_SOFTWARE_URL' => tr('or remote file (Max: %1$d MB)', formatFilesize(Config::getInstance()->get('MAX_REMOTE_FILESIZE'))),
 			'TR_UPLOAD_SOFTWARE_BUTTON' => tr('Upload now'),

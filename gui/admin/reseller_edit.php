@@ -681,7 +681,7 @@ function update_reseller() {
 		array_unshift($qparams, crypt_user_pass($_POST['pass0']));
 	}
 
-	exec_query($sql, $query, $qparams );
+	exec_query($sql, $query, $qparams);
 
 	if($rdata['domain_software_allowed'] == "no") {
 		$query_user = "
@@ -699,6 +699,12 @@ function update_reseller() {
 				$rdata['domain_software_allowed'], $rdata['edit_id']
 			)
 		);
+	} else {
+		if (!is_dir(Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rdata['edit_id']."/")) {
+			@mkdir(Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rdata['edit_id'],0755,true);
+			#@chown(Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rdata['edit_id'], "vu2000");
+			#@chgrp(Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rdata['edit_id'], "www-data");
+		}
 	}
 	if ($domain_softwaredepot_allowed == "no") {
 		$query = "

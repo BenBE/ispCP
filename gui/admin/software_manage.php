@@ -34,8 +34,9 @@ function formatFilesize($byte) {
 	return $byte." ".$string;
 }
 
-if (isset($_POST['Button'])) {
+if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['send_software_upload_token']) {
 	$success = 1;
+	unset($_SESSION['software_upload_token']);
 	if ($_FILES['sw_file']['name'] != '' AND !empty($_POST['sw_wget'])) {
 		set_page_message(tr('You have to choose between file-upload and wget-function.'));
 		$success = 0;
@@ -176,6 +177,7 @@ if (isset($_POST['Button'])) {
 
 	}
 } else {
+	unset($_SESSION['software_upload_token']);
 	$tpl->assign(
 			array(
 				'VAL_WGET' => ''
@@ -514,6 +516,7 @@ $res_cnt = get_reseller_software (&$tpl, &$sql);
 $tpl->assign(
 		array(
 			'TR_SOFTWARE_DEPOT' => tr('Softwaredepot'),
+			'SOFTWARE_UPLOAD_TOKEN' => generate_software_upload_token(),
 			'TR_SOFTWARE_ADMIN' => tr('Admin'),
 			'TR_SOFTWARE_RIGHTS' => tr('Softwarerights'),
 			'TR_SOFTWAREDEPOT_COUNT' => tr('Softwaredepot total'),
