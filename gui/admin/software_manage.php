@@ -317,11 +317,11 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 					$del_url = "software_delete.php?id=".$rs->fields['id'];
 					$tpl->assign(
 							array(
-								'TR_NAME' => tr('Installing your uploaded packages. Please refresh this site.'),
+								'TR_NAME' => tr('Installing your uploaded package. Please refresh this site.'),
 								'LINK_COLOR' => '#FF0000',
 								'TR_VERSION' => '',
 								'TR_LANGUAGE' => '',
-								'TR_TOOLTIP' => tr('After your upload the package will be installed on your systems.<br />Refresh your site to see the new status!'),
+								'TR_TOOLTIP' => tr('The package will be installed automaticly to your system after upload.<br />Refresh your site to see the new status!'),
 								'TR_DOWNLOAD' => '',
 								'DOWNLOAD_LINK' => '',
 								'DELETE_LINK' => $del_url,
@@ -342,7 +342,7 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 										'LINK_COLOR' => '#FF0000',
 										'TR_VERSION' => '',
 										'TR_LANGUAGE' => '',
-										'TR_TOOLTIP' => tr('Check your the package. There is an error inside!<br />Refresh your site to see the new status!'),
+										'TR_TOOLTIP' => tr('There is an Error inside your package. Please check it!<br />Refresh your site to see the new status!'),
 										'TR_DOWNLOAD' => '',
 										'DOWNLOAD_LINK' => '',
 										'DELETE_LINK' => '',

@@ -1,6 +1,12 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-23 Benjamin Hildebrand
+	- GUI:
+		* Some correction to the Apps-Installer branches
+	- CONFIGS:
+		* Some corrections in configs
+		
 2010-04-22 Sascha Bay
 	- GUI:
 		* Little Bugfixes

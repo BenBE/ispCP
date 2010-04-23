@@ -82,7 +82,7 @@ function gen_user_software_action($software_id, $dmn_id, &$sql, &$tpl) {
     }else{
 		$tpl->assign(
 				array(
-					'TR_MESSAGE_INSTALL' => tr('Are you sure you want to install this package?', true),
+					'TR_MESSAGE_INSTALL' => tr('Are you sure to install this package?', true),
 					'SOFTWARE_ACTION_DELETE' => ''
 				)
 			);
@@ -153,7 +153,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 				$software_version = $deleted_sw->fields['software_version'];
 				$tpl -> assign(
                             array(
-								'SOFTWARE_DEL_RES_MESSAGE' => tr('This software ('.$software_name.', V'.$software_version.') was deleted by your reseller. You can only uninstall this package!<br />Please delete the files and database for this package manually!'),
+								'SOFTWARE_DEL_RES_MESSAGE' => tr('This Package ('.$software_name.', V'.$software_version.') was deleted by your reseller. You can only uninstall this package!<br />Please delete the files and database for this package manually!'),
 								'DEL_SOFTWARE_STATUS' => $delsoftware_status,
 								'DEL_SOFTWARE_ACTION_SCRIPT' => $del_software_action_script
 							)
@@ -164,7 +164,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 			}
 			$tpl->assign(
 					array(
-						'TR_DEL_SOFTWARE' => tr('Installed software which is deleted by your reseller!'),
+						'TR_DEL_SOFTWARE' => tr('Installed Package which was deleted by your reseller!'),
 						'TR_DEL_STATUS' => tr('Status'),
 						'TR_DEL_ACTION' => tr('Action')
 					)
@@ -264,7 +264,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 	} else {
 		$tpl->assign(
 				array(
-					'NO_SOFTWARE_AVAIL' => tr('You do not have permissions to install software yet'),
+					'NO_SOFTWARE_AVAIL' => tr('You do not have permissions to install software'),
 					'DEL_SOFTWARE_SUPPORT' => ''
 				)
 			);

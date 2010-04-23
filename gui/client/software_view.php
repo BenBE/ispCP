@@ -110,7 +110,7 @@ function get_software_props (&$tpl, &$sql, $dmn_id, $software_id, $dmn_created_i
 				$tpl -> assign(
 							array(
 								'STATUS_COLOR' => 'red',
-								'STATUS_MESSAGE' => tr('You need database-support for this software')
+								'STATUS_MESSAGE' => tr('You need a Database for this software')
 							)
 						);
 				$tpl -> parse('SOFTWARE_MESSAGE', '.software_message');
@@ -232,8 +232,8 @@ $tpl -> assign(
 				'TR_DB' => tr('Database required'),
 				'TR_LINK' => tr('Homepage'),
 				'TR_DESC' => tr('Description'),
-				'TR_BACK' => tr('back'),
-				'TR_INSTALL' => tr('install'),
+				'TR_BACK' => tr('Back'),
+				'TR_INSTALL' => tr('Install'),
 				'TR_SOFTWARE_MENU' => tr('Software installation')
 			)
 		);

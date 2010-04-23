@@ -356,7 +356,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 										'SOFTWARE_ICON' => 'disabled'
 									)
 								);
-							set_page_message(tr('Your packge is corrupt. Please correct it!'));
+							set_page_message(tr('The package is corrupt. Please correct it!'));
 						} elseif (preg_match("/double_depot_/i", $rs->fields['swstatus'])) {
 							$tpl->assign(
 									array(
