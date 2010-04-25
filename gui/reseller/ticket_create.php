@@ -19,12 +19,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  *
- * The Original Code is "VHCS - Virtual Hosting Control System".
+ * The Original Code is "ispCP - ISP Control Panel".
  *
- * The Initial Developer of the Original Code is moleSoftware GmbH.
- * Portions created by Initial Developer are Copyright (C) 2001-2006
- * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * The Initial Developer of the Original is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -53,34 +51,21 @@ function send_user_message(&$sql, $user_id, $user_created_by) {
 		return;
 	}
 
-	$ticket_date = time();
-	$urgency = $_POST['urgency'];
-	$subject = clean_input($_POST['subj']);
 	$user_message = clean_input($_POST["user_message"]);
 	$ticket_status = 2;
-	$ticket_reply = 0;
 	$ticket_level = 2;
 
-	$query = <<<SQL_QUERY
-		INSERT INTO `tickets`
-			(`ticket_level`,
-			`ticket_from`,
-			`ticket_to`,
-			`ticket_status`,
-			`ticket_reply`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`)
-		VALUES
-			(?, ?, ?, ?, ?, ?, ?, ?, ?)
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($ticket_level,	$user_id, $user_created_by,
-			$ticket_status,	$ticket_reply, $urgency, $ticket_date, $subject, $user_message));
-
+	$ticket = new Ticket(null,
+							clean_input($_POST['subj']),
+							$_POST['urgency'],
+							$ticket_status, 
+							new TicketReply($user_message, $user_id, $user_created_by, time()),
+							$ticket_level);
+	
+	TicketSystem::addTicket($ticket, $sql);
+	
 	set_page_message(tr('Message was sent.'));
-	send_tickets_msg($user_created_by, $user_id, $subject, $user_message, $ticket_reply, $urgency);
+	
 	header('Location: ticket_system.php');
 }
 

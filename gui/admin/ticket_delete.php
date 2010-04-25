@@ -19,12 +19,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  *
- * The Original Code is "VHCS - Virtual Hosting Control System".
+ * The Original Code is "ispCP - ISP Control Panel".
  *
- * The Initial Developer of the Original Code is moleSoftware GmbH.
- * Portions created by Initial Developer are Copyright (C) 2001-2006
- * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * The Initial Developer of the Original is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,90 +32,40 @@ check_login(__FILE__);
 
 if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 
-	$ticket_id = $_GET['ticket_id'];
-
 	$user_id = $_SESSION['user_id'];
 	
-	$query = <<<SQL_QUERY
-		SELECT
-			`ticket_status`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)	
-		ORDER BY
-			`ticket_date` ASC
-SQL_QUERY;
+	if(is_int(intval($_GET['ticket_id']))){
+		
+		$ticket = new Ticket($_GET['ticket_id']);
+		
+		$ticket->loadAll($sql);
+		
+		$back_url = ($ticket->status == 0) ? 'ticket_closed.php' : 'ticket_system.php';
+		
+		TicketSystem::deleteTicket($_GET['ticket_id'], $sql);
+		
+		set_page_message(tr('Support ticket deleted successfully!'));
 
-	$rs = exec_query($sql, $query, array($ticket_id,$user_id,$user_id));
-	$ticket_status = $rs->fields['ticket_status'];
-
-	$back_url = ($ticket_status == 0) ? 'ticket_closed.php' : 'ticket_system.php';
-
-	$ticket_id = $_GET['ticket_id'];
-
-
-	$query = <<<SQL_QUERY
-		DELETE FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		OR
-			`ticket_reply` = ?
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($ticket_id, $ticket_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
+		user_goto($back_url);
 	}
+	
+	set_page_message(tr('Ticket id not valid!'));
 
-	set_page_message(tr('Support ticket deleted successfully!'));
-
-	user_goto($back_url);
-
+//elimina i ticket aperti
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'open') {
 
-	$user_id = $_SESSION['user_id'];
-
-	$query = <<<SQL_QUERY
-		DELETE FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` != '0'
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
-	}
+	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'open');
+	
 	set_page_message(tr('All open support tickets deleted successfully!'));
 
 	user_goto('ticket_system.php');
-
+	
+	
+// Elimina i ticket chiusi
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'closed') {
 
-	$user_id = $_SESSION['user_id'];
-
-	$query = <<<SQL_QUERY
-		DELETE FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` = '0'
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
-	}
+	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'closed');
+	
 	set_page_message(tr('All closed support tickets deleted successfully!'));
 
 	user_goto('ticket_closed.php');

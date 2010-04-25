@@ -19,12 +19,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  *
- * The Original Code is "VHCS - Virtual Hosting Control System".
+ * The Original Code is "ispCP - ISP Control Panel".
  *
- * The Initial Developer of the Original Code is moleSoftware GmbH.
- * Portions created by Initial Developer are Copyright (C) 2001-2006
- * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * The Initial Developer of the Original is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2009 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -41,7 +39,8 @@ $tpl->define_dynamic('tickets_item', 'tickets_list');
 
 // page functions.
 
-function gen_tickets_list(&$tpl, &$sql, &$ticket_id, $screenwidth) {
+function gen_tickets_list(&$tpl, &$sql, Ticket $ticket, $screenwidth) {
+	
 	$user_id = $_SESSION['user_id'];
 	$query = "
 		SELECT
@@ -195,15 +194,18 @@ $tpl->assign(
 	)
 );
 
-function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
+function send_user_message(&$sql, $user_id, $reseller_id, Ticket $ticket) {
+	
 	if (!isset($_POST['uaction'])) return;
 	// close ticket
 	elseif ($_POST['uaction'] == "close") {
-		close_ticket($sql, $ticket_id);
+		//close_ticket($sql, $ticket_id);
+		$ticket->changeStatus(0, $sql);
 		return;
 	} elseif ($_POST['uaction'] == "open") {
 		// open ticket
-		open_ticket($sql, $ticket_id);
+		$ticket->changeStatus(3, $sql);
+		//open_ticket($sql, $ticket_id);
 		return;
 	} elseif (empty($_POST['user_message'])) {
 		// no message check->error
@@ -220,7 +222,13 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	$ticket_from = $user_id;
 	$ticket_to = $reseller_id;
 
-	$query = "
+	$ticket->addReply(new TicketReply($user_message, $ticket_from, $ticket_to, time()), $sql);
+	$ticket->changeStatus(1, $sql);
+	
+	set_page_message(tr('Message was sent.'));
+	send_tickets_msg($ticket_from, $ticket_to, $ticket->title, $user_message, $ticket->ID, $ticket->urgency);
+	
+/*	$query = "
 		INSERT INTO `tickets`
 			(`ticket_from`,
 			`ticket_to`,
@@ -254,12 +262,14 @@ function send_user_message(&$sql, $user_id, $reseller_id, $ticket_id) {
 	while (!$rs->EOF) {
 		$rs->MoveNext();
 	}
-
 	set_page_message(tr('Message was sent.'));
 	send_tickets_msg($ticket_to, $ticket_from, $subject, $user_message, $ticket_reply, $urgency);
+****************/
+
 }
 
-function change_ticket_status($sql, $ticket_id) {
+function change_ticket_status($sql, Ticket $ticket) {
+/*******
 	$query = "
 		SELECT
 			`ticket_status`
@@ -273,15 +283,15 @@ function change_ticket_status($sql, $ticket_id) {
 
 	$rs = exec_query($sql, $query, array($ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
 	$ch_ticket_status = $rs->fields['ticket_status'];
-
-	if ($ch_ticket_status == 0) {
-		$ticket_status = 0;
+*****/
+	if ($ticket->status == 0) {
+		$ticket->changeStatus(0, $sql);
 	} else if (!isset($_POST['uaction']) || $_POST['uaction'] == "open") {
-		$ticket_status = 3;
+		$ticket->changeStatus(3, $sql);
 	} else {
-		$ticket_status = 4;
+		$ticket->changeStatus(4, $sql);
 	}
-
+/*****
 	$query = "
 		UPDATE
 			`tickets`
@@ -292,43 +302,11 @@ function change_ticket_status($sql, $ticket_id) {
 		AND
 			(`ticket_from` = ? OR `ticket_to` = ?)
 	";
-
-	$rs = exec_query($sql, $query, array($ticket_status, $ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
+*/
+	//$rs = exec_query($sql, $query, array($ticket_status, $ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
 	// end of set status 3
 }
 
-function close_ticket($sql, $ticket_id) {
-	$query = "
-		UPDATE
-			`tickets`
-		SET
-			`ticket_status` = '0'
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
-	$rs = exec_query($sql, $query, array($ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
-	set_page_message(tr('Ticket was closed!'));
-}
-
-function open_ticket(&$sql, $ticket_id) {
-	$ticket_status = 3;
-
-	$query = "
-		UPDATE
-			`tickets`
-		SET
-			`ticket_status` = ?
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_status, $ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
-	set_page_message(tr('Ticket was reopened!'));
-}
 
 // dynamic page data.
 $query = "
@@ -348,6 +326,7 @@ if (!Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_
 
 $reseller_id = $_SESSION['user_created_by'];
 if (isset($_GET['ticket_id'])) {
+	
 	$ticket_id = $_GET['ticket_id'];
 
 	if (isset($_GET['screenwidth'])) {
@@ -361,9 +340,18 @@ if (isset($_GET['ticket_id'])) {
 	}
 	$tpl->assign('SCREENWIDTH', $screenwidth);
 
-	send_user_message($sql, $_SESSION['user_id'], $reseller_id, $ticket_id);
-	change_ticket_status($sql, $ticket_id);
-	gen_tickets_list($tpl, $sql, $ticket_id, $screenwidth);
+	$ticket = new Ticket($_GET['ticket_id']);
+	
+	$ticket->loadAll($sql);
+	
+	send_user_message($sql, $_SESSION['user_id'], $reseller_id, $ticket);
+	
+	change_ticket_status($sql, $ticket);
+	
+	genTicketView($tpl, $sql, $ticket, $screenwidth);
+	
+	//gen_tickets_list($tpl, $sql, $ticket_id, $screenwidth);
+	
 } else {
 	set_page_message(tr('Ticket not found!'));
 	user_goto('ticket_system.php');

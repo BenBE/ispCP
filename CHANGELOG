@@ -1,6 +1,11 @@
 ispCP ω 1.0.6 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-24 Francesco Bux
+ 	- GUI:
+ 		* Added classes for ticket system, version is 1.0.
+ 			Test will be conducted and after that the code will be cleaned up
+
 2010-04-22 Thomas Häber
 	- GUI:
 		* Replaced last "$ID$" by "$Id$"

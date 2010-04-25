@@ -52,6 +52,8 @@ if (!isset($_SESSION)) {
 // Not only in Development E_ALL & E_STRICT should not throw any errors
 error_reporting(E_ALL|E_STRICT);
 
+ini_set('display_errors', 1);
+
 require_once(INCLUDEPATH . '/i18n.php');
 
 // Template pathes
@@ -291,7 +293,7 @@ require_once(INCLUDEPATH . '/net_idna/idna_convert.class.php');
 require_once(INCLUDEPATH . '/lostpassword-functions.php');
 require_once(INCLUDEPATH . '/emailtpl-functions.php');
 require_once(INCLUDEPATH . '/layout-functions.php');
-require_once(INCLUDEPATH . '/functions.ticket_system.php');
+//require_once(INCLUDEPATH . '/functions.ticket_system.php');
 require_once(INCLUDEPATH . '/htmlpurifier/HTMLPurifier.auto.php');
 
 // Use HTMLPurifier on every request, if OVERRIDE_PURIFIER is not defined
