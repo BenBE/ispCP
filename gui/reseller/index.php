@@ -50,7 +50,7 @@ $tpl->define_dynamic('t_software_support', 'page');
 function gen_system_message(&$tpl, &$sql) {
 	$user_id = $_SESSION['user_id'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			COUNT(`ticket_id`) AS cnum
 		FROM
@@ -61,7 +61,7 @@ function gen_system_message(&$tpl, &$sql) {
 			(`ticket_status` = '1' OR `ticket_status` = '4')
 		AND
 			`ticket_reply` = 0
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($user_id, $user_id));
 
@@ -273,7 +273,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 function gen_messages_table(&$tpl, $admin_id) {
 	$sql = Database::getInstance();
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`ticket_id`
 		FROM
@@ -284,7 +284,7 @@ function gen_messages_table(&$tpl, $admin_id) {
 			`ticket_reply` = '0'
 		AND
 			(`ticket_status` = '1' OR `ticket_status` = '4')
-SQL_QUERY;
+	";
 	$res = exec_query($sql, $query, array($admin_id, $admin_id));
 
 	$questions = $res->RowCount();

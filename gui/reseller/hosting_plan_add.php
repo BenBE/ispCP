@@ -66,47 +66,46 @@ gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '
 gen_logged_from($tpl);
 
 $tpl->assign(
-		array(
-				'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
-				'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
-				'TR_TEMPLATE_NAME'			=> tr('Template name'),
-				'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_FTP'				=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_SQL'				=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-				'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-				'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
-				'TR_PHP'					=> tr('PHP'),
-				'TR_SOFTWARE_SUPP'			=> tr('Software installation'),
-				'TR_CGI'					=> tr('CGI / Perl'),
-				'TR_DNS'					=> tr('Allow adding records to DNS zone (EXPERIMENTAL)'),
-				'TR_BACKUP'					=> tr('Backup'),
-				'TR_BACKUP_DOMAIN'			=> tr('Domain'),
-				'TR_BACKUP_SQL'				=> tr('SQL'),
-				'TR_BACKUP_FULL'			=> tr('Full'),
-				'TR_BACKUP_NO'				=> tr('No'),
-				'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
-				'TR_AWSTATS'				=> tr('AwStats'),
-				'TR_YES'					=> tr('yes'),
-				'TR_NO'						=> tr('no'),
-				'TR_BILLING_PROPS'			=> tr('Billing Settings'),
-				'TR_PRICE'					=> tr('Price'),
-				'TR_SETUP_FEE'				=> tr('Setup fee'),
-				'TR_VALUE'					=> tr('Currency'),
-				'TR_PAYMENT'				=> tr('Payment period'),
-				'TR_STATUS'					=> tr('Available for purchasing'),
-				'TR_TEMPLATE_DESCRIPTON'	=> tr('Description'),
-				'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
-			// BEGIN TOS
-				'TR_TOS_PROPS'				=> tr('Term Of Service'),
-				'TR_TOS_NOTE'				=> tr('<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'),
-				'TR_TOS_DESCRIPTION'		=> tr('Text Only'),
-
-			// END TOS
-				'TR_ADD_PLAN'				=> tr('Add plan')
-		)
+	array(
+		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
+		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
+		'TR_TEMPLATE_NAME'			=> tr('Template name'),
+		'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_FTP'				=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_SQL'				=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+		'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_PHP'					=> tr('PHP'),
+		'TR_SOFTWARE_SUPP'			=> tr('Software installation'),
+		'TR_CGI'					=> tr('CGI / Perl'),
+		'TR_DNS'					=> tr('Allow adding records to DNS zone (EXPERIMENTAL)'),
+		'TR_BACKUP'					=> tr('Backup'),
+		'TR_BACKUP_DOMAIN'			=> tr('Domain'),
+		'TR_BACKUP_SQL'				=> tr('SQL'),
+		'TR_BACKUP_FULL'			=> tr('Full'),
+		'TR_BACKUP_NO'				=> tr('No'),
+		'TR_APACHE_LOGS'			=> tr('Apache logfiles'),
+		'TR_AWSTATS'				=> tr('AwStats'),
+		'TR_YES'					=> tr('yes'),
+		'TR_NO'						=> tr('no'),
+		'TR_BILLING_PROPS'			=> tr('Billing Settings'),
+		'TR_PRICE'					=> tr('Price'),
+		'TR_SETUP_FEE'				=> tr('Setup fee'),
+		'TR_VALUE'					=> tr('Currency'),
+		'TR_PAYMENT'				=> tr('Payment period'),
+		'TR_STATUS'					=> tr('Available for purchasing'),
+		'TR_TEMPLATE_DESCRIPTON'	=> tr('Description'),
+		'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
+		// BEGIN TOS
+		'TR_TOS_PROPS'				=> tr('Term Of Service'),
+		'TR_TOS_NOTE'				=> tr('<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'),
+		'TR_TOS_DESCRIPTION'		=> tr('Text Only'),
+		// END TOS
+		'TR_ADD_PLAN'				=> tr('Add plan')
+	)
 );
 
 if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
@@ -138,37 +137,37 @@ if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
 function gen_empty_ahp_page(&$tpl) {
 
 	$tpl->assign(
-			array(
-					'HP_NAME_VALUE'			=> '',
-					'TR_MAX_SUB_LIMITS'		=> '',
-					'TR_MAX_ALS_VALUES'		=> '',
-					'HP_MAIL_VALUE'			=> '',
-					'HP_FTP_VALUE'			=> '',
-					'HP_SQL_DB_VALUE'		=> '',
-					'HP_SQL_USER_VALUE'		=> '',
-					'HP_TRAFF_VALUE'		=> '',
-					'HP_PRICE'				=> '',
-					'HP_SETUPFEE'			=> '',
-					'HP_VELUE'				=> '',
-					'HP_PAYMENT'			=> '',
-					'HP_DESCRIPTION_VALUE'	=> '',
-					'TR_PHP_YES'			=> '',
-					'TR_PHP_NO'				=> 'checked="checked"',
-					'VL_SOFTWAREY'			=> '',
-					'VL_SOFTWAREN'			=> 'checked="checked"',
-					'TR_CGI_YES'			=> '',
-					'TR_CGI_NO'				=> 'checked="checked"',
-					'VL_BACKUPD'			=> '',
-					'VL_BACKUPS'			=> '',
-					'VL_BACKUPF'			=> '',
-					'VL_BACKUPN'			=> 'checked="checked"',
-					'TR_DNS_YES'			=> '',
-					'TR_DNS_NO'				=> 'checked="checked"',
-					'HP_DISK_VALUE'			=> '',
-					'TR_STATUS_YES'			=> 'checked="checked"',
-					'TR_STATUS_NO'			=> '',
-					'HP_TOS_VALUE'			=> ''
-			)
+		array(
+			'HP_NAME_VALUE'			=> '',
+			'TR_MAX_SUB_LIMITS'		=> '',
+			'TR_MAX_ALS_VALUES'		=> '',
+			'HP_MAIL_VALUE'			=> '',
+			'HP_FTP_VALUE'			=> '',
+			'HP_SQL_DB_VALUE'		=> '',
+			'HP_SQL_USER_VALUE'		=> '',
+			'HP_TRAFF_VALUE'		=> '',
+			'HP_PRICE'				=> '',
+			'HP_SETUPFEE'			=> '',
+			'HP_VELUE'				=> '',
+			'HP_PAYMENT'			=> '',
+			'HP_DESCRIPTION_VALUE'	=> '',
+			'TR_PHP_YES'			=> '',
+			'TR_PHP_NO'				=> 'checked="checked"',
+			'VL_SOFTWAREY'			=> '',
+			'VL_SOFTWAREN'			=> 'checked="checked"',
+			'TR_CGI_YES'			=> '',
+			'TR_CGI_NO'				=> 'checked="checked"',
+			'VL_BACKUPD'			=> '',
+			'VL_BACKUPS'			=> '',
+			'VL_BACKUPF'			=> '',
+			'VL_BACKUPN'			=> 'checked="checked"',
+			'TR_DNS_YES'			=> '',
+			'TR_DNS_NO'				=> 'checked="checked"',
+			'HP_DISK_VALUE'			=> '',
+			'TR_STATUS_YES'			=> 'checked="checked"',
+			'TR_STATUS_NO'			=> '',
+			'HP_TOS_VALUE'			=> ''
+		)
 	);
 
 	$tpl->assign('MESSAGE', '');
@@ -208,22 +207,22 @@ function gen_data_ahp_page(&$tpl) {
 	);
 
 	$tpl->assign(
-			array(
-					'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
-					'TR_PHP_NO'		=> ($hp_php == '_no_') ? 'checked="checked"' : '',
-					'VL_SOFTWAREY'	=> ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
-					'VL_SOFTWAREN'	=> ($hp_allowsoftware == '_no_') ? 'checked="checked"' : '',
-					'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
-					'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
-					'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
-					'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
-					'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
-					'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
-					'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
-					'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
-					'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
-					'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : ''
-			)
+		array(
+			'TR_PHP_YES'	=> ($hp_php == '_yes_') ? 'checked="checked"' : '',
+			'TR_PHP_NO'		=> ($hp_php == '_no_') ? 'checked="checked"' : '',
+			'VL_SOFTWAREY'	=> ($hp_allowsoftware == '_yes_') ? 'checked="checked"' : '',
+			'VL_SOFTWAREN'	=> ($hp_allowsoftware == '_no_') ? 'checked="checked"' : '',
+			'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? 'checked="checked"' : '',
+			'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? 'checked="checked"' : '',
+			'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? 'checked="checked"' : '',
+			'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? 'checked="checked"' : '',
+			'VL_BACKUPF'	=> ($hp_backup == '_full_') ? 'checked="checked"' : '',
+			'VL_BACKUPN'	=> ($hp_backup == '_no_') ? 'checked="checked"' : '',
+			'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? 'checked="checked"' : '',
+			'TR_DNS_NO'		=> ($hp_dns == '_no_') ? 'checked="checked"' : '',
+			'TR_STATUS_YES'	=> ($status) ? 'checked="checked"' : '',
+			'TR_STATUS_NO'	=> (!$status) ? 'checked="checked"' : ''
+		)
 	);
 
 } // end of gen_data_ahp_page()

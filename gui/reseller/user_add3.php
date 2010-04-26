@@ -285,20 +285,20 @@ function add_user_data($reseller_id) {
 	}
 
 	list(
-			$php,
-			$cgi,
-			$sub,
-			$als,
-			$mail,
-			$ftp,
-			$sql_db,
-			$sql_user,
-			$traff,
-			$disk,
-			$backup,
-			$dns,
-			$software_allowed
-		) = explode(";", $props);
+		$php,
+		$cgi,
+		$sub,
+		$als,
+		$mail,
+		$ftp,
+		$sql_db,
+		$sql_user,
+		$traff,
+		$disk,
+		$backup,
+		$dns,
+		$software_allowed
+	) = explode(";", $props);
 
 	$php			= preg_replace("/\_/", "", $php);
 	$cgi			= preg_replace("/\_/", "", $cgi);
@@ -398,14 +398,14 @@ function add_user_data($reseller_id) {
 	";
 
 	$res = exec_query(
-						$sql,
-						$query,
-						array(
-								$dmn_name, $record_id,
-								$reseller_id, $mail, $ftp, $traff, $sql_db,
-								$sql_user, $status, $sub, $als, $domain_ip,
-								$disk, $php, $cgi, $backup, $dns, $software_allowed
-						)
+		$sql,
+		$query,
+		array(
+			$dmn_name, $record_id,
+			$reseller_id, $mail, $ftp, $traff, $sql_db,
+			$sql_user, $status, $sub, $als, $domain_ip,
+			$disk, $php, $cgi, $backup, $dns, $software_allowed
+		)
 	);
 
 	$dmn_id = $sql->Insert_ID();

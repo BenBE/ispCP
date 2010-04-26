@@ -104,8 +104,9 @@ class spOutput {
  		 * 0.00 KB files grow up to 0.01 kB gzipped files, this means more load
  		 * and more traffic) 
  		 */
-		if (count($buffer) == 0)
+		if (count($buffer) == 0) {
 			return $buffer;
+		}
 
 		$this->contents = $buffer;
 
@@ -188,7 +189,7 @@ class spOutput {
 			$saving			= $uncompressed > '0' ? 
 								@round($savingkb/$uncompressed*100, 0) : '0';
 
-			/* Shows some informations */
+			// Show some information
 			$this->contents .= "\n<!--\n\tCompression level: " . $this->level . 
 				"\n\tOriginal size: " . $uncompressed . " kb\n\tNew size: " . 
 				$compressed . " kb\n\tSaving: " . $savingkb . " kb (" . $saving .

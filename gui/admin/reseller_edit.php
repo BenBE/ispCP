@@ -460,7 +460,7 @@ function get_reseller_prop($reseller_id) {
 			`max_sub_cnt`, `max_als_cnt`, `max_mail_cnt`, `max_ftp_cnt`,
 			`max_sql_db_cnt`, `max_sql_user_cnt`, `max_traff_amnt`, `max_disk_amnt`,
 			`software_allowed`, `softwaredepot_allowed`,
-			r.`support_system` as support_system, r.`customer_id` AS customer_id,
+			r.`support_system` AS support_system, r.`customer_id` AS customer_id,
 			`reseller_ips` AS rip_lst, `gender`
 		FROM
 			`admin` AS a, `reseller_props` AS r

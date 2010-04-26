@@ -93,9 +93,14 @@ function delete_domain($domain_id) {
 
 	$reseller_id = $_SESSION['user_id'];
 	// Get uid and gid of domain user
-	$res = exec_query($sql,  "SELECT `domain_uid`, `domain_gid`, `domain_admin_id`, `domain_name`"
-							." FROM `domain` WHERE `domain_id` = ? AND `domain_created_id` = ?",
-						array($domain_id, $reseller_id));
+	$query = "
+		SELECT
+			`domain_uid`, `domain_gid`, `domain_admin_id`, `domain_name`
+		FROM
+			`domain`
+		WHERE `domain_id` = ? AND `domain_created_id` = ?
+	";
+	$res = exec_query($sql, $query, array($domain_id, $reseller_id));
 	$data = $res->FetchRow();
 	if (empty($data['domain_uid']) || empty($data['domain_admin_id'])) {
 		set_page_message(tr('Wrong domain ID!'));
@@ -110,6 +115,7 @@ function delete_domain($domain_id) {
 	$delete_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
 
 	// Mail users:
+	// TODO use prepared statement for $delete_status
 	exec_query($sql, "UPDATE `mail_users` SET `status` = '" . $delete_status . "' WHERE `domain_id` = ?", array($domain_id));
 
 	// Delete all protected areas related data (areas, groups and users)
@@ -117,7 +123,7 @@ function delete_domain($domain_id) {
 		DELETE
 			`areas`, `users`, `groups`
 		FROM
-			`domain` as `customer`
+			`domain` AS `customer`
 		LEFT JOIN
 			`htaccess` AS `areas` ON `areas`.`dmn_id` = `customer`.`domain_id`
 		LEFT JOIN
@@ -140,6 +146,7 @@ function delete_domain($domain_id) {
 		$res->MoveNext();
 	}
 	if (count($alias_a) > 0) {
+		// TODO Use prepared statement for $delete_status.
 		$query = "UPDATE `subdomain_alias` SET `subdomain_alias_status` = '" . $delete_status . "' WHERE `alias_id` IN (";
 		$query .= implode(',', $alias_a);
 		$query .= ")";
@@ -155,6 +162,7 @@ function delete_domain($domain_id) {
 	}
 
 	// Domain aliases:
+	// TODO Use prepared statement for $delete_status.
 	exec_query($sql, "UPDATE `domain_aliasses` SET `alias_status` = '" . $delete_status . "' WHERE `domain_id` = ?", array($domain_id));
 
 	// Remove domain traffic
@@ -170,6 +178,7 @@ function delete_domain($domain_id) {
 	exec_query($sql, $query, array($domain_id));
 
 	// Set domain subdomains deletion status
+	// TODO Use prepared statement for $delete_status.
 	$query = "UPDATE `subdomain` SET `subdomain_status` = '$delete_status' WHERE `domain_id` = ?;";
 	exec_query($sql, $query, $domain_id);
 
@@ -221,7 +230,7 @@ function validate_domain_deletion($domain_id) {
 
 	$reseller = $_SESSION['user_id'];
 
-	/* check for domain owns */
+	// check for domain owns
 	$query = "SELECT `domain_id`, `domain_name` FROM `domain` WHERE `domain_id` = ? AND `domain_created_id` = ?";
 	$res = exec_query($sql, $query, array($domain_id, $reseller));
 	$data = $res->FetchRow();
@@ -230,22 +239,24 @@ function validate_domain_deletion($domain_id) {
 		user_goto('users.php');
 	}
 
-	$tpl->assign(array(
-		'TR_DELETE_DOMAIN'=>tr('Delete domain'),
-		'TR_DOMAIN_SUMMARY'=>tr('Domain summary:'),
-		'TR_DOMAIN_EMAILS'=>tr('Domain e-mails:'),
-		'TR_DOMAIN_FTPS'=>tr('Domain FTP accounts:'),
-		'TR_DOMAIN_ALIASES'=>tr('Domain aliases:'),
-		'TR_DOMAIN_SUBS'=>tr('Domain subdomains:'),
-		'TR_DOMAIN_DBS'=>tr('Domain databases:'),
-		'TR_REALLY_WANT_TO_DELETE_DOMAIN'=>tr('Do you really want to delete the entire domain? This operation can not be undone!'),
-		'TR_BUTTON_DELETE'=>tr('Delete domain'),
-		'TR_YES_DELETE_DOMAIN'=>tr('Yes, delete the domain.'),
-		'DOMAIN_NAME'=>$data['domain_name'],
-		'DOMAIN_ID'=>$data['domain_id']
-	));
+	$tpl->assign(
+		array(
+			'TR_DELETE_DOMAIN'	=> tr('Delete domain'),
+			'TR_DOMAIN_SUMMARY'	=> tr('Domain summary:'),
+			'TR_DOMAIN_EMAILS'	=> tr('Domain e-mails:'),
+			'TR_DOMAIN_FTPS'	=> tr('Domain FTP accounts:'),
+			'TR_DOMAIN_ALIASES'	=> tr('Domain aliases:'),
+			'TR_DOMAIN_SUBS'	=> tr('Domain subdomains:'),
+			'TR_DOMAIN_DBS'		=> tr('Domain databases:'),
+			'TR_REALLY_WANT_TO_DELETE_DOMAIN'	=> tr('Do you really want to delete the entire domain? This operation can not be undone!'),
+			'TR_BUTTON_DELETE'	=> tr('Delete domain'),
+			'TR_YES_DELETE_DOMAIN'	=> tr('Yes, delete the domain.'),
+			'DOMAIN_NAME'		=> $data['domain_name'],
+			'DOMAIN_ID'			=> $data['domain_id']
+		)
+	);
 
-	/* check for mail acc in MAIN domain */
+	// check for mail acc in MAIN domain
 	$query = "SELECT * FROM `mail_users` WHERE `domain_id` = ?";
 	$res = exec_query($sql, $query, array($domain_id));
 	if (!$res->EOF) {
@@ -259,10 +270,12 @@ function validate_domain_deletion($domain_id) {
 			}
 			$mdisplay_txt = implode(', ', $mdisplay_a);
 
-			$tpl->assign(array(
-				'MAIL_ADDR'=>$res->fields['mail_addr'],
-				'MAIL_TYPE'=>$mdisplay_txt
-			));
+			$tpl->assign(
+				array(
+					'MAIL_ADDR' => $res->fields['mail_addr'],
+					'MAIL_TYPE' => $mdisplay_txt
+				)
+			);
 
 			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$res->MoveNext();
@@ -271,16 +284,18 @@ function validate_domain_deletion($domain_id) {
 		$tpl->assign('MAIL_LIST', '');
 	}
 
-	/* check for ftp acc in MAIN domain */
+	// check for ftp acc in MAIN domain
 	$query = "SELECT `ftp_users`.* FROM `ftp_users`, `domain` WHERE `domain`.`domain_id` = ? AND `ftp_users`.`uid` = `domain`.`domain_uid`";
 	$res = exec_query($sql, $query, array($domain_id));
 	if (!$res->EOF) {
 		while (!$res->EOF) {
 
-			$tpl->assign(array(
-				'FTP_USER'=>$res->fields['userid'],
-				'FTP_HOME'=>$res->fields['homedir']
-			));
+			$tpl->assign(
+				array(
+					'FTP_USER' => $res->fields['userid'],
+					'FTP_HOME' => $res->fields['homedir']
+				)
+			);
 
 			$tpl->parse('FTP_ITEM', '.ftp_item');
 			$res->MoveNext();
@@ -289,7 +304,7 @@ function validate_domain_deletion($domain_id) {
 		$tpl->assign('FTP_LIST', '');
 	}
 
-	/* check for alias domains */
+	// check for alias domains
 	$alias_a = array();
 	$query = "SELECT * FROM `domain_aliasses` WHERE `domain_id` = ?";
 	$res = exec_query($sql, $query, array($domain_id));
@@ -297,10 +312,12 @@ function validate_domain_deletion($domain_id) {
 		while (!$res->EOF) {
 			$alias_a[] = $res->fields['alias_id'];
 
-			$tpl->assign(array(
-				'ALS_NAME'=>$res->fields['alias_name'],
-				'ALS_MNT'=>$res->fields['alias_mount']
-			));
+			$tpl->assign(
+				array(
+					'ALS_NAME' => $res->fields['alias_name'],
+					'ALS_MNT' => $res->fields['alias_mount']
+				)
+			);
 
 			$tpl->parse('ALS_ITEM', '.als_item');
 			$res->MoveNext();
@@ -309,16 +326,18 @@ function validate_domain_deletion($domain_id) {
 		$tpl->assign('ALS_LIST', '');
 	}
 
-	/* check for subdomains */
+	// check for subdomains
 	$any_sub_found = false;
 	$query = "SELECT * FROM `subdomain` WHERE `domain_id` = ?";
 	$res = exec_query($sql, $query, array($domain_id));
 	while (!$res->EOF) {
 		$any_sub_found = true;
-		$tpl->assign(array(
-			'SUB_NAME'=>$res->fields['subdomain_name'],
-			'SUB_MNT'=>$res->fields['subdomain_mount']
-		));
+		$tpl->assign(
+			array(
+				'SUB_NAME' => $res->fields['subdomain_name'],
+				'SUB_MNT' => $res->fields['subdomain_mount']
+			)
+		);
 
 		$tpl->parse('SUB_ITEM', '.sub_item');
 		$res->MoveNext();
@@ -336,17 +355,19 @@ function validate_domain_deletion($domain_id) {
 		$res = exec_query($sql, $query, array());
 		while (!$res->EOF) {
 			$any_sub_found = true;
-			$tpl->assign(array(
-				'SUB_NAME'=>$res->fields['subdomain_alias_name'],
-				'SUB_MNT'=>$res->fields['subdomain_alias_mount']
-			));
+			$tpl->assign(
+				array(
+					'SUB_NAME' => $res->fields['subdomain_alias_name'],
+					'SUB_MNT' => $res->fields['subdomain_alias_mount']
+				)
+			);
 
 			$tpl->parse('SUB_ITEM', '.sub_item');
 			$res->MoveNext();
 		}
 	}
 
-	/* Check for databases and -users */
+	// Check for databases and -users
 	$query = "SELECT * FROM `sql_database` WHERE `domain_id` = ?";
 	$res = exec_query($sql, $query, array($domain_id));
 	if (!$res->EOF) {
@@ -363,10 +384,12 @@ function validate_domain_deletion($domain_id) {
 			}
 			$users_txt = implode(', ', $users_a);
 
-			$tpl->assign(array(
-				'DB_NAME'=>$res->fields['sqld_name'],
-				'DB_USERS'=>$users_txt
-			));
+			$tpl->assign(
+				array(
+					'DB_NAME' => $res->fields['sqld_name'],
+					'DB_USERS' => $users_txt
+				)
+			);
 
 			$tpl->parse('DB_ITEM', '.db_item');
 			$res->MoveNext();

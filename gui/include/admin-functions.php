@@ -1052,7 +1052,7 @@ function records_count($table, $where, $value) {
 	$sql = Database::getInstance();
 
 	if ($where != '') {
-		if($value != '') {
+		if ($value != '') {
 			$query = "SELECT COUNT(*) AS cnt FROM $table WHERE $where = ?";
 			$rs = exec_query($sql, $query, array($value));
 		} else {
@@ -1313,7 +1313,7 @@ function get_logo($user_id) {
 	if ($rs->fields['admin_type'] == 'admin') {
 		return get_admin_logo($user_id);
 	} else {
-		if(get_admin_logo($rs->fields['created_by']) === Config::getInstance()->get('IPS_LOGO_PATH').'/isp_logo.gif') {
+		if (get_admin_logo($rs->fields['created_by']) === Config::getInstance()->get('IPS_LOGO_PATH').'/isp_logo.gif') {
 			return get_admin_logo($user_id);
 		} else {
 			return get_admin_logo($rs->fields['created_by']);
@@ -1734,8 +1734,8 @@ function gen_admin_domain_query(&$search_query, &$count_query, $start_index,
 			SELECT
 				t1.`admin_id`, t2.*
 			FROM
-				`admin` as t1,
-				`domain` as t2
+				`admin` AS t1,
+				`domain` AS t2
 				$add_query
 			AND
 				t1.`admin_id` = t2.`domain_admin_id`

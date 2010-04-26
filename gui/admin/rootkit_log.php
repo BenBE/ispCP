@@ -51,7 +51,7 @@ $tpl->assign(
 
 $blocksCount = 0;
 
-/* Check Log File */
+// Check Log File
 
 $config_entries = array('RKHUNTER_LOG', 'CHKROOTKIT_LOG', 'OTHER_ROOTKIT_LOG');
 
@@ -119,7 +119,7 @@ foreach ($config_entries as $config_entry) {
 
 		$contents = preg_replace($search, $replace, $contents);
 	} else {
-		$contents = '<strong style="color:#FF0000">' . tr("%s doesn't exist or is empty", $filename) . '</strong>';
+		$contents = '<strong style="color:red">' . tr("%s doesn't exist or is empty", $filename) . '</strong>';
 	}
 
 	$tpl->assign(
