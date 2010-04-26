@@ -4,6 +4,8 @@ ispCP ω 1.0.6 Changelog
 2010-04-26 Sascha Bay
 	- GUI:
 		* Adding Update SQL-Queries in class.databaseUpdate.php for Apps-Installer
+	-DATABASE:
+		* Change Database Revision to 33 in database.sql
 
 2010-04-23 Benjamin Hildebrand
 	- GUI:
