@@ -30,6 +30,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+/*
+ * Deletes a singular ticket
+ */
 if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 
 	$user_id = $_SESSION['user_id'];
@@ -51,7 +54,9 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 	
 	set_page_message(tr('Ticket id not valid!'));
 
-//elimina i ticket aperti
+/*
+ * Deletes all the tickets marked as open
+ */
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'open') {
 
 	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'open');
@@ -61,7 +66,9 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 	user_goto('ticket_system.php');
 	
 	
-// Elimina i ticket chiusi
+/*
+ * Deletes all the tickets marked as closed
+ */
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'closed') {
 
 	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'closed');

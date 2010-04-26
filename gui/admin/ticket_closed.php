@@ -45,6 +45,18 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
 // page functions.
+
+/**
+ * Francesco Bux:
+ * 
+ * This function has been moved in the TicketSystem Class
+ * I'll leave here in case of problems. 
+ * 
+ * @deprecated
+ * @param $tpl
+ * @param $sql
+ * @param $user_id
+ 
 function gen_tickets_list(&$tpl, &$sql, $user_id) {
 	
 	$start_index = 0;
@@ -124,7 +136,7 @@ function gen_tickets_list(&$tpl, &$sql, $user_id) {
 	}	
 	
 }
-
+*/
 // common page data.
 
 $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');

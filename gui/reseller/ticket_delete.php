@@ -59,7 +59,9 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '' && is_int(intval($_GE
 	set_page_message(tr('Support ticket deleted successfully!'));
 
 	user_goto($back_url);
-
+/*
+ * Deletes all the ticket marked as open
+ */
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'open') {
 	
 	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'open');
@@ -67,7 +69,9 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '' && is_int(intval($_GE
 	set_page_message(tr('All open support tickets deleted successfully!'));
 
 	user_goto('ticket_system.php');
-	
+/*
+ * Deletes all the ticket marked as closed
+ */
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'closed') {
 	
 	TicketSystem::deleteAllTicket($_SESSION['user_id'], $sql, 'closed');

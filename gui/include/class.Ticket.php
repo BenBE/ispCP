@@ -28,7 +28,6 @@
 /**
  * Ticket class
  *
- * 
  * @author	Francesco Bux <francesco.bux@isp-control.net>
  * @copyright 	2006-2010 by ispCP | http://isp-control.net
  * @version	1.0
@@ -38,7 +37,7 @@ class Ticket {
 	/**
 	 * Fields
 	 * @field	Integer			$ID				Post ID	
-	 * @field	Integer			$cID			Category ID		
+	 * @field	Integer			$cID			Category ID		Not Used	
 	 * @field	String			$title			Ticket title
 	 * @field	integer			$status			Ticket status
 	 * @field	Integer			$urgency		Urgency Level
@@ -65,9 +64,12 @@ class Ticket {
 	/**
  	 * Contructor
  	 *
-	 * @param	Integer 	$tID		Ticket ID
- 	 * @param	String 		$title		Ticket Title
-     * @param	Integer		$urgency   	Urgency Level
+	 * @param	Integer 		$tID		Ticket ID
+ 	 * @param	String 			$title		Ticket Title
+     * @param	Integer			$urgency   	Urgency Level
+     * @param	Integer			$status		Ticket Status
+     * @param	Ticketreply		$message	Ticket Content
+     * @param	Integer			$level		Ticket Level	
  	 */	
  	function __construct($tID = null,  $title = null,  $urgency = null,  $status = null, TicketReply $message = null, $level = null) {
 		$this->data["ID"] 			= $tID;
@@ -81,10 +83,12 @@ class Ticket {
  	/**
  	 * 	LoadAll
  	 * 
- 	 * This method will load all the ticket content
+ 	 *	This method will load all the ticket content, including
+ 	 *	all the replies associated to it.
  	 * 
  	 * @access 	public
  	 * @param	DBInterface		$facility	Database Handle
+ 	 * @throws	Exception		Ticket Id not provided
  	 * 
  	 */
  	function loadAll(&$facility){
@@ -118,7 +122,7 @@ SQL;
 	 *	This function will change the status of the ticket
 	 *
 	 *	@access	public
-	 *	@param	Integer		$status		Ticket status: 0 open, 1 closed, 2 processing
+	 *	@param	Integer		$status		Ticket status: 0 closed, 1 open
 	 *	@param	DBInterface	$facility	Database Handle
 	 */
 	function changeStatus($status,  &$facility = null){
@@ -142,10 +146,11 @@ SQL;
 	/**
 	 * 	Get Last Date
 	 * 
-	 * Get the last reply's date else will return null,
-	 * We use 0 since they are ordered by DESC
-	 * @access public
-	 * @param	$dateFormat		Date Format
+	 * 	Get the last reply's date else will return null,
+	 * 	We use 0 since they are ordered by DESC
+	 * 
+	 * 	@access public
+	 * 	@param	String	$dateFormat		Date Format
 	 */
 	function getLastDate($dateFormat){
 		if(!empty($this->data["replies"])){
@@ -161,8 +166,9 @@ SQL;
 	 *	This function will populate the replies array
 	 *  querying the facility
 	 *
-	 *  @param	DBInterface	$facility	Db Connector
 	 *	@access	Public
+	 *  @param	DBInterface		$facility	Database Handle
+	 *	
 	 */
 	public function loadPost( &$facility){
 		$query = <<<SQL
@@ -191,7 +197,8 @@ SQL;
 	/**
 	 *	addReply
 	 *
-	 *	Adds a reply to the ticket. it stores it into the db if $facility is passed
+	 *	Adds a reply to the ticket. The reply will be stored in the DB only if
+	 *	a database handle is passed.
 	 *
 	 *	@access public
 	 *	@param	TicketReply		$reply		The Reply that will be added

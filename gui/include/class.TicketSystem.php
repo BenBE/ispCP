@@ -34,7 +34,7 @@ class TicketSystem{
 	/**
 	 * 	Add Ticket
 	 * 
-	 * 	This method will add a ticket in the system
+	 * 	This method will post a ticket in the system.
 	 * 
 	 *	@access static
 	 *	@param		Ticket			$ticket		Ticket that needs to be added
@@ -139,14 +139,15 @@ SQL_QUERY;
 	/**
 	 * Get Ticket
 	 *
-	 * This method will return all the ticket(s) asssociated 
-	 * to the passed ID.
+	 * This method will return all the ticket(s) asssociated to the passed ID.
+	 *
+	 *	TODO: use type to manage different kind of $id
 	 *
 	 * @access static
-	 * @param 		Integer		$id				Id (it could refer to admin|reseller|client|category)
-	 * @param		String		$type			TODO
+	 * @param 		Integer		$id				Id 
+	 * @param		String		$type			open/closed
 	 * @param		Integer		$start_index	Default: 0, this represents the lower limit
-	 * @param		Integer		$rows_per_page	Default: null, this represents the upper limit
+	 * @param		Integer		$rows_per_page	Default: 25, this represents the upper limit
 	 * @return 		Ticket[]		
  	 */
 	static function getTicket($id, $type = 'user_id', $start_index = 0, $rows_per_page = 25, &$sql){
@@ -307,6 +308,8 @@ SQL;
 	/**
 	 * genTicketTo
 	 * 
+	 * This method is used in the generation of the page. 
+	 * 
 	 * @access 	static
 	 * @param 	Array		$toInfo		Informations about the receiver
 	 * @param 	Integer		$user_id	User ID
@@ -315,17 +318,19 @@ SQL;
 	 */
 	static function genTicketTo($toInfo, $user_id, $html = false) {
 		
-		$fullName = ($html) ? $fullName = htmlspecialchars($toInfo['getFullName']) : $toInfo['getFullName'];
-	
+		if(isset($toInfo(['getFullName'])))
+			$fullName = ($html) ? $fullName = htmlspecialchars($toInfo['getFullName']) : $toInfo['getFullName'];
+		else if(isset($toInfo['getUserName']))
+			$fullName = ($html) ? $fullName = htmlspecialchars($toInfo['getUserName']) : $toInfo['getUserName'];
+			
 		return ($toInfo['getID'] == $user_id) ? "<b>$fullName</b>" : $fullName;
 	}
 	
-	/*
+	/**
 	 * Generate Tickets List
 	 * 
-	 * This function will display a list of ticket in 
-	 * ticket_system.php.
-	 * I've put it here since is shared by admin/reseller/client.
+	 * This function will display a list of ticket. It's used in ticket_system/closed.php
+	 * I've put it here since is shared between admin/reseller/client.
 	 * 
 	 * @access 	public
 	 * @param	Template			$tpl
@@ -421,10 +426,12 @@ SQL;
 	 * Generate Ticket View
 	 * 
 	 * This function will generate the details of a ticket, used in ticket_view.php
-	 * @param Template			$tpl
-	 * @param Database Handle	$sql
-	 * @param Ticket			$ticket
-	 * @param Integer			$screenwidth
+	 * 
+	 * @access static
+	 * @param 	Template			$tpl
+	 * @param 	Database Handle		$sql
+	 * @param 	Ticket				$ticket
+	 * @param 	Integer				$screenwidth
 	 */
 	
 	static function genTicketView(&$tpl, &$sql, Ticket $ticket, $screenwidth = null) {

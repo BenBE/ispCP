@@ -37,149 +37,6 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('tickets_list', 'page');
 $tpl->define_dynamic('tickets_item', 'tickets_list');
 
-// page functions.
-
-function gen_tickets_list(&$tpl, &$sql, Ticket $ticket, $screenwidth) {
-	
-	$user_id = $_SESSION['user_id'];
-	$query = "
-		SELECT
-			`ticket_id`,
-			`ticket_status`,
-			`ticket_reply`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
-	$rs = exec_query($sql, $query, array($ticket_id, $user_id, $user_id));
-
-	if ($rs->RecordCount() == 0) {
-		$tpl->assign('TICKETS_LIST', '');
-		set_page_message(tr('Ticket not found!'));
-	} else {
-		$ticket_urgency = $rs->fields['ticket_urgency'];
-		$ticket_status = $rs->fields['ticket_status'];
-
-		if ($ticket_status == 0) {
-			$tr_action = tr("Open ticket");
-			$action = "open";
-		} else {
-			$tr_action = tr("Close ticket");
-			$action = "close";
-		}
-
-		$tpl->assign(array('URGENCY' => get_ticket_urgency($ticket_urgency),
-			'URGENCY_ID' => $ticket_urgency));
-
-		get_ticket_from($tpl, $sql, $ticket_id);
-		$date_formt = Config::getInstance()->get('DATE_FORMAT');
-		$ticket_content = wordwrap($rs->fields['ticket_message'], round(($screenwidth-200) / 7), "\n");
-
-		$tpl->assign(
-			array(
-				'TR_ACTION' => $tr_action,
-				'ACTION' => $action,
-				'DATE' => date($date_formt, $rs->fields['ticket_date']),
-				'SUBJECT' => htmlspecialchars($rs->fields['ticket_subject']),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content)),
-				'ID' => $rs->fields['ticket_id']
-			)
-		);
-
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
-		get_tickets_replys($tpl, $sql, $ticket_id, $screenwidth);
-	}
-}
-
-function get_tickets_replys(&$tpl, &$sql, &$ticket_id, $screenwidth) {
-	$query = "
-		SELECT
-			`ticket_id`,
-			`ticket_status`,
-			`ticket_reply`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_reply` = ?
-		ORDER BY
-			`ticket_date` ASC
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_id));
-	if ($rs->RecordCount() == 0) {
-		return;
-	}
-	while (!$rs->EOF) {
-		$ticket_id = $rs->fields['ticket_id'];
-		$ticket_subject = $rs->fields['ticket_subject'];
-		$ticket_date = $rs->fields['ticket_date'];
-		$ticket_message = $rs->fields['ticket_message'];
-		$ticket_content = wordwrap($ticket_message, round(($screenwidth-200) / 7), "\n");
-
-		$date_formt = Config::getInstance()->get('DATE_FORMAT');
-		$tpl->assign(
-			array(
-				'DATE' => date($date_formt, $ticket_date),
-				'TICKET_CONTENT' => nl2br(htmlspecialchars($ticket_content))
-			)
-		);
-		get_ticket_from($tpl, $sql, $ticket_id);
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
-		$rs->MoveNext();
-	}
-}
-
-function get_ticket_from(&$tpl, &$sql, $ticket_id) {
-	$query = "
-		SELECT
-			`ticket_from`,
-			`ticket_to`,
-			`ticket_status`,
-			`ticket_reply`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
-	$ticket_from = $rs->fields['ticket_from'];
-	$ticket_to = $rs->fields['ticket_to'];
-	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
-
-	$query = "
-		SELECT
-			`admin_name`,
-			`fname`,
-			`lname`
-		FROM
-			`admin`
-		WHERE
-			`admin_id` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_from));
-	$from_user_name = decode_idna($rs->fields['admin_name']);
-	$from_first_name = $rs->fields['fname'];
-	$from_last_name = $rs->fields['lname'];
-
-	$from_name = $from_first_name . " " . $from_last_name . " (" . $from_user_name . ")";
-	$tpl->assign(array('FROM' => htmlspecialchars($from_name)));
-}
 
 // common page data.
 
@@ -199,13 +56,11 @@ function send_user_message(&$sql, $user_id, $reseller_id, Ticket $ticket) {
 	if (!isset($_POST['uaction'])) return;
 	// close ticket
 	elseif ($_POST['uaction'] == "close") {
-		//close_ticket($sql, $ticket_id);
 		$ticket->changeStatus(0, $sql);
 		return;
 	} elseif ($_POST['uaction'] == "open") {
 		// open ticket
 		$ticket->changeStatus(3, $sql);
-		//open_ticket($sql, $ticket_id);
 		return;
 	} elseif (empty($_POST['user_message'])) {
 		// no message check->error
@@ -226,64 +81,12 @@ function send_user_message(&$sql, $user_id, $reseller_id, Ticket $ticket) {
 	$ticket->changeStatus(1, $sql);
 	
 	set_page_message(tr('Message was sent.'));
-	send_tickets_msg($ticket_from, $ticket_to, $ticket->title, $user_message, $ticket->ID, $ticket->urgency);
-	
-/*	$query = "
-		INSERT INTO `tickets`
-			(`ticket_from`,
-			`ticket_to`,
-			`ticket_status`,
-			`ticket_reply`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`)
-		VALUES
-			(?, ?, ?, ?, ?, ?, ?, ?)
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_from, $ticket_to, $ticket_status,
-			$ticket_reply, $urgency, $ticket_date, $subject, $user_message));
-
-	// Update all Replays -> Status 1
-	$query = "
-		UPDATE
-			`tickets`
-		SET
-			`ticket_status` = '1'
-		WHERE
-			`ticket_id` = ?
-		OR
-			`ticket_reply` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_reply, $ticket_reply));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
-	}
-	set_page_message(tr('Message was sent.'));
-	send_tickets_msg($ticket_to, $ticket_from, $subject, $user_message, $ticket_reply, $urgency);
-****************/
+	TicketSystem::sendTicketMessage($ticket_from, $ticket_to, $ticket->title, $user_message, $ticket->ID, $ticket->urgency);
 
 }
 
 function change_ticket_status($sql, Ticket $ticket) {
-/*******
-	$query = "
-		SELECT
-			`ticket_status`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
 
-	$rs = exec_query($sql, $query, array($ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
-	$ch_ticket_status = $rs->fields['ticket_status'];
-*****/
 	if ($ticket->status == 0) {
 		$ticket->changeStatus(0, $sql);
 	} else if (!isset($_POST['uaction']) || $_POST['uaction'] == "open") {
@@ -291,20 +94,7 @@ function change_ticket_status($sql, Ticket $ticket) {
 	} else {
 		$ticket->changeStatus(4, $sql);
 	}
-/*****
-	$query = "
-		UPDATE
-			`tickets`
-		SET
-			`ticket_status` = ?
-		WHERE
-			`ticket_id` = ?
-		AND
-			(`ticket_from` = ? OR `ticket_to` = ?)
-	";
-*/
-	//$rs = exec_query($sql, $query, array($ticket_status, $ticket_id, $_SESSION['user_id'], $_SESSION['user_id']));
-	// end of set status 3
+
 }
 
 
@@ -348,9 +138,7 @@ if (isset($_GET['ticket_id'])) {
 	
 	change_ticket_status($sql, $ticket);
 	
-	genTicketView($tpl, $sql, $ticket, $screenwidth);
-	
-	//gen_tickets_list($tpl, $sql, $ticket_id, $screenwidth);
+	TicketSystem::genTicketView($tpl, $sql, $ticket, $screenwidth);
 	
 } else {
 	set_page_message(tr('Ticket not found!'));

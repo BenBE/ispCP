@@ -52,7 +52,12 @@ class TicketReply{
 	}
 	
 	/**
- 	 * Constructor
+ 	 *	Constructor
+ 	 *	
+ 	 *	@param	String 		$message	Reply Message
+ 	 *	@param	Integer		$replyFrom	Reply Sender
+ 	 *	@param	Integer		$replyTo	Reply Receiver
+ 	 *	@param	String		$date		Reply Date
  	 *
  	 */	
  	function __construct( $message, $replyFrom, $replyTo, $date) {
@@ -64,6 +69,8 @@ class TicketReply{
 	
 	/**
 	 *	Append To Ticket
+	 *	
+	 *	This method will update the tID associated to the reply
 	 *
 	 *	@access public
 	 *	@param	Integer $tID	Ticket ID
@@ -84,9 +91,11 @@ class TicketReply{
 	 *
 	 *	More than 1 option can be used, in any case it will return an array of strings
 	 *
+	 *	@version 2.0:	If $options isn't passed it will return a String with getFullName as content
+	 *
 	 *	@access public
-	 *	@param	DBInterface	$facility	Database Handle
-	 *  @param 	Array		$options	Options array
+	 *	@param	DBInterface		$facility	Database Handle
+	 *  @param 	Array			$options	Options array
 	 *	@return String[]
 	 */
 	function getTicketFrom(&$facility,$options = null){
@@ -134,12 +143,14 @@ SQL;
 	 *
 	 *	More than 1 option can be used, in any case it will return an array of strings
 	 *
+	 *	@version 2.0:	If $options isn't passed it will return a String with getFullName as content
+	 *
 	 *	@access public
 	 *	@param	DBInterface	$facility	Database Handle
 	 *	@param 	Array		$options	Options array
 	 *	@return String[]
 	 */
-	function getTicketTo(&$facility, $options){
+	function getTicketTo(&$facility, $options = null){
 		$query = <<<SQL
 				SELECT
 					`admin_name`,
