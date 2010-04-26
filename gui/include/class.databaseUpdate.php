@@ -1046,6 +1046,76 @@ class databaseUpdate extends ispcpUpdate {
 		// Returns the pool of queries to be executed
 		return $sqlUpd;
 	}
+	
+	/**
+	 * Adding apps-installer ticket #2005 http://www.isp-control.net/ispcp/ticket/2005
+	 *
+	 * @author		Sascha Bay (TheCry) <thecry@ispcp.net>
+	 * @version		1.1.0
+	 * @since		r2863
+	 *
+	 * @access		protected
+	 * @return		sql statements to be performed
+	 */
+	 protected function _databaseUpdate_33() {
+	 	
+	 	$sqlUpd = array();
+	 	
+	 	$sqlUpd[]	= "CREATE TABLE IF NOT EXISTS `web_software` (
+							`software_id` int(10) unsigned NOT NULL auto_increment,
+							`software_master_id` int(10) unsigned NOT NULL default '0',
+							`reseller_id` int(10) unsigned NOT NULL default '0',
+							`software_name` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_version` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_language` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_type` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_db` tinyint(1) NOT NULL,
+							`software_archive` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_installfile` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_prefix` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_link` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_desc` mediumtext character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_active` int(1) NOT NULL,
+							`software_status` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`rights_add_by` int(10) unsigned NOT NULL default '0',
+							`software_depot` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL NOT NULL DEFAULT 'no',
+	  						PRIMARY KEY  (`software_id`)
+						) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+						
+		$sqlUpd[]	= "CREATE TABLE IF NOT EXISTS `web_software_inst` (
+							`domain_id` int(10) unsigned NOT NULL,
+							`alias_id` int(10) unsigned NOT NULL default '0',
+							`subdomain_id` int(10) unsigned NOT NULL default '0',
+							`subdomain_alias_id` int(10) unsigned NOT NULL default '0',
+							`software_id` int(10) NOT NULL,
+							`software_master_id` int(10) unsigned NOT NULL default '0',
+							`software_res_del` int(1) NOT NULL default '0',
+							`software_name` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_version` varchar(20) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_language` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`path` varchar(255) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`software_prefix` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`db` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`database_user` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`database_tmp_pwd` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`install_username` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`install_password` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`install_email` varchar(100) character set utf8 collate utf8_unicode_ci NOT NULL default '0',
+							`software_status` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL,
+							`software_depot` varchar(15) character set utf8 collate utf8_unicode_ci NOT NULL NOT NULL DEFAULT 'no',
+  							KEY `software_id` (`software_id`)
+						) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+		
+		$sqlUpd[]	= "ALTER TABLE `domain` ADD `domain_software_allowed` VARCHAR( 15 ) collate utf8_unicode_ci NOT NULL default 'no';";
+		
+		$sqlUpd[]	= "ALTER TABLE `reseller_props` ADD `software_allowed` VARCHAR( 15 ) collate utf8_unicode_ci NOT NULL default 'no';";
+		$sqlUpd[]	= "ALTER TABLE `reseller_props` ADD `softwaredepot_allowed` VARCHAR( 15 ) collate utf8_unicode_ci NOT NULL default 'yes';";
+	 	
+	 	$sqlUpd[]	= "UPDATE `hosting_plans` SET `props`=CONCAT(`props`,';_no_') ";
+	 	
+	 	return $sqlUpd;
+		
+	 }
 
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
