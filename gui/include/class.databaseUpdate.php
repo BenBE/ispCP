@@ -67,7 +67,7 @@ class databaseUpdate extends ispcpUpdate {
 	 * return object databaseUpdate instance
 	 */
 	public static function getInstance() {
-		if ($instance === NULL) {
+		if (!isset($instance) || $instance === NULL) {
 			$instance = new self();	
 		}
 		return $instance;
