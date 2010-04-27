@@ -279,7 +279,7 @@ function gen_editdomain_page(&$tpl) {
 	if ($allowbackup === 'dmn') {
 		$tpl->assign(
 			array(
-				'BACKUP_DOMAIN' => 'selected="selected"',
+				'BACKUP_DOMAIN' => Config::getInstance()->get('HTML_SELECTED'),
 				'BACKUP_SQL' => '',
 				'BACKUP_FULL' => '',
 				'BACKUP_NO' => '',
@@ -289,7 +289,7 @@ function gen_editdomain_page(&$tpl) {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
-				'BACKUP_SQL' => 'selected="selected"',
+				'BACKUP_SQL' => Config::getInstance()->get('HTML_SELECTED'),
 				'BACKUP_FULL' => '',
 				'BACKUP_NO' => '',
 			)
@@ -299,7 +299,7 @@ function gen_editdomain_page(&$tpl) {
 			array(
 				'BACKUP_DOMAIN' => '',
 				'BACKUP_SQL' => '',
-				'BACKUP_FULL' => 'selected="selected"',
+				'BACKUP_FULL' => Config::getInstance()->get('HTML_SELECTED'),
 				'BACKUP_NO' => '',
 			)
 		);
@@ -309,19 +309,19 @@ function gen_editdomain_page(&$tpl) {
 				'BACKUP_DOMAIN' => '',
 				'BACKUP_SQL' => '',
 				'BACKUP_FULL' => '',
-				'BACKUP_NO' => 'selected="selected"',
+				'BACKUP_NO' => Config::getInstance()->get('HTML_SELECTED'),
 			)
 		);
 	}
 
 	$tpl->assign(
 		array(
-			'PHP_YES'				=> ($php_sup == 'yes') ? 'selected="selected"' : '',
-			'PHP_NO'				=> ($php_sup != 'yes') ? 'selected="selected"' : '',
-			'CGI_YES'				=> ($cgi_supp == 'yes') ? 'selected="selected"' : '',
-			'CGI_NO'				=> ($cgi_supp != 'yes') ? 'selected="selected"' : '',
-			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"' : '',
-			'DNS_NO'				=> ($dns_supp != 'yes') ? 'selected="selected"' : '',
+			'PHP_YES'				=> ($php_sup == 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'PHP_NO'				=> ($php_sup != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'CGI_YES'				=> ($cgi_supp == 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'CGI_NO'				=> ($cgi_supp != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'DNS_YES'				=> ($dns_supp == 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'DNS_NO'				=> ($dns_supp != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
 			'VL_DOMAIN_NAME'		=> $domain_name,
 			'SOFTWARE_YES'			=> ($software_supp == 'yes') ? 'selected="selected"' : '',
 			'SOFTWARE_NO'			=> ($software_supp != 'yes') ? 'selected="selected"' : '',

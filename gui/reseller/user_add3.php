@@ -185,27 +185,27 @@ function gen_user_add3_page(&$tpl) {
 	$dmn_user_name = decode_idna($dmn_user_name);
 	// Fill in the fields
 	$tpl->assign(
-			array(
-					'VL_USERNAME'		=> $dmn_user_name,
-					'VL_USR_PASS'		=> passgen(),
-					'VL_MAIL'			=> $user_email,
-					'VL_USR_ID'			=> $customer_id,
-					'VL_USR_NAME'		=> $first_name,
-					'VL_LAST_USRNAME'	=> $last_name,
-					'VL_USR_FIRM'		=> $firm,
-					'VL_USR_POSTCODE'	=> $zip,
-					'VL_USRCITY'		=> $city,
-					'VL_USRSTATE'		=> $state,
-					'VL_MALE'			=> ($gender == 'M') ? 'selected="selected"' : '',
-					'VL_FEMALE'			=> ($gender == 'F') ? 'selected="selected"' : '',
-					'VL_UNKNOWN'		=> ($gender == 'U') ? 'selected="selected"' : '',
-					'VL_COUNTRY'		=> $country,
-					'VL_STREET1'		=> $street_one,
-					'VL_STREET2'		=> $street_two,
-					'VL_MAIL'			=> $mail,
-					'VL_PHONE'			=> $phone,
-					'VL_FAX'			=> $fax
-			)
+		array(
+			'VL_USERNAME'		=> $dmn_user_name,
+			'VL_USR_PASS'		=> passgen(),
+			'VL_MAIL'			=> $user_email,
+			'VL_USR_ID'			=> $customer_id,
+			'VL_USR_NAME'		=> $first_name,
+			'VL_LAST_USRNAME'	=> $last_name,
+			'VL_USR_FIRM'		=> $firm,
+			'VL_USR_POSTCODE'	=> $zip,
+			'VL_USRCITY'		=> $city,
+			'VL_USRSTATE'		=> $state,
+			'VL_MALE'			=> ($gender == 'M') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'VL_FEMALE'			=> ($gender == 'F') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'VL_UNKNOWN'		=> ($gender == 'U') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'VL_COUNTRY'		=> $country,
+			'VL_STREET1'		=> $street_one,
+			'VL_STREET2'		=> $street_two,
+			'VL_MAIL'			=> $mail,
+			'VL_PHONE'			=> $phone,
+			'VL_FAX'			=> $fax
+		)
 	);
 
 	generate_ip_list($tpl, $_SESSION['user_id']);

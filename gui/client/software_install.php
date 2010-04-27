@@ -289,7 +289,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rsaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliasdomain_id != 0){
 				if($posted_aliasdomain_id == $rsaliase->fields['alias_id']) {
-					$selecteddomain = 'selected="selected"';
+					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
 				} else {
 					$selecteddomain = '';
 				}
@@ -309,7 +309,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rssubdomain->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_subdomain_id != 0){
 				if($posted_subdomain_id == $rssubdomain->fields['subdomain_id']) {
-					$selecteddomain = 'selected="selected"';
+					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
 				} else {
 					$selecteddomain = '';
 				}
@@ -330,7 +330,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rssubaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliassubdomain_id != 0){
 				if($posted_aliassubdomain_id == $rssubaliase->fields['subdomain_alias_id']) {
-					$selecteddomain = 'selected="selected"';
+					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
 				} else {
 					$selecteddomain = '';
 				}
@@ -400,7 +400,7 @@ function check_db_user_list(&$tpl, &$sql, $db_id) {
 
 		while (!$rs->EOF) {
 			if (isset($_POST['sql_user']) && $_POST['sql_user'] == $rs->fields['sqlu_name']){
-				$selecteddbuser = 'selected="selected"';
+				$selecteddbuser = Config::getInstance()->get('HTML_SELECTED');
 				}else{
 				$selecteddbuser = '';
 			}
@@ -438,7 +438,7 @@ function check_db_avail(&$tpl, &$sql, $dmn_id, $dmn_sqld_limit) {
   if ($rs->RecordCount() > 0) {
 	while (!$rs->EOF) {
 				if (isset($_POST['selected_db']) && $_POST['selected_db'] == $rs->fields['sqld_name']){
-					$selecteddb = 'selected="selected"';
+					$selecteddb = Config::getInstance()->get('HTML_SELECTED');
 					}else{
 					$selecteddb = '';
 				}
