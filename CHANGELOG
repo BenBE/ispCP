@@ -1,6 +1,14 @@
 ispCP ω 1.0.6 Change Log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-27 Sascha Bay
+	- GUI:
+		* Adding new function to check existing installations of users
+		* Language translation bug in client/software.php
+		* Some code cleanup
+	-ENGINE:
+		* Adding software path to set-gui-permissions.sh
+
 2010-04-26 Benedikt Heintel
 	- GUI:
         * Merged Critical Udapte with Database Update

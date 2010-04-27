@@ -2165,6 +2165,122 @@ function generate_software_upload_token(){
 	return $token;
 }
 
+function update_existing_client_installations_res_upload($software_id, $software_name, $software_version, $software_language, $reseller_id, $software_master_id=0, $sw_depot=false){
+	global $cfg, $sql;
+	
+	$query = "
+		SELECT
+			`domain_id`
+		FROM
+			`domain`
+		WHERE
+			`domain_software_allowed` = 'yes'
+		AND
+			`domain_created_id` = ?
+	";
+	$res = exec_query($sql, $query, array($reseller_id));
+	if ($res->RecordCount() > 0) {
+		while(!$res->EOF) {
+			if ($sw_depot) {
+				$updatequery = "
+							UPDATE
+									`web_software_inst`
+							SET
+									`software_id` = ?,
+									`software_master_id` = ?,
+									`software_res_del` = 0
+							WHERE
+									`software_name` = ?
+							AND
+									`software_version` = ?
+							AND
+									`software_language` = ?
+							AND
+									`software_res_del` = 1
+							AND
+									`domain_id` = ?
+							";
+				exec_query(
+							$sql,
+							$updatequery,
+							array(
+								$software_id, $software_master_id, $software_name,
+								$software_version, $software_language, $res->fields['domain_id']
+								)
+							);
+			} else {
+				$updatequery = "
+							UPDATE
+									`web_software_inst`
+							SET
+									`software_id` = ?,
+									`software_res_del` = 0
+							WHERE
+									`software_name` = ?
+							AND
+									`software_version` = ?
+							AND
+									`software_language` = ?
+							AND
+									`software_res_del` = 1
+							AND
+									`domain_id` = ?
+							";
+				exec_query(
+							$sql,
+							$updatequery,
+							array(
+								$software_id, $software_name, $software_version,
+								$software_language, $res->fields['domain_id']
+								)
+							);
+			}
+			$res->MoveNext();
+		}
+	}
+}
+
+function update_existing_client_installations_sw_depot($software_id, $software_master_id, $reseller_id){
+	global $cfg, $sql;
+	
+	$query = "
+		SELECT
+			`domain_id`
+		FROM
+			`domain`
+		WHERE
+			`domain_software_allowed` = 'yes'
+		AND
+			`domain_created_id` = ?
+	";
+	$res = exec_query($sql, $query, array($reseller_id));
+	if ($res->RecordCount() > 0) {
+		while(!$res->EOF) {
+			$updatequery = "
+						UPDATE
+								`web_software_inst`
+						SET
+								`software_id` = ?,
+								`software_res_del` = 0
+						WHERE
+								`software_master_id` = ?
+						AND
+								`software_res_del` = 1
+						AND
+								`domain_id` = ?
+						";
+			exec_query(
+						$sql,
+						$updatequery,
+						array(
+							$software_id, $software_master_id, $res->fields['domain_id']
+							)
+						);
+			$res->MoveNext();
+		}
+	}
+}
+
 function get_reseller_sw_installer($reseller_id) {
 	global $cfg, $sql;
 	

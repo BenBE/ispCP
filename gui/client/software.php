@@ -103,7 +103,20 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 		";
 	$rs = exec_query($sql, $query, array($admin_id));
 	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
-		$find_deleted_software = "SELECT `software_id`, `software_status`, `software_res_del`, `software_name`, `software_version` FROM `web_software_inst` WHERE `domain_id` = ? AND software_res_del = '1'";
+		$find_deleted_software = "
+								SELECT
+										`software_id`,
+										`software_status`,
+										`software_res_del`,
+										`software_name`,
+										`software_version`
+								FROM
+										`web_software_inst`
+								WHERE
+										`domain_id` = ?
+								AND
+										software_res_del = 1
+								";
 		$deleted_sw = exec_query($sql, $find_deleted_software, array($dmn_id));
 		if ($deleted_sw->RecordCount() == 0) {
 			$tpl->assign('SOFTWARE_DEL_ITEM', '');
@@ -153,7 +166,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 				$software_version = $deleted_sw->fields['software_version'];
 				$tpl -> assign(
                             array(
-								'SOFTWARE_DEL_RES_MESSAGE' => tr('This Package ('.$software_name.', V'.$software_version.') was deleted by your reseller. You can only uninstall this package!<br />Please delete the files and database for this package manually!'),
+								'SOFTWARE_DEL_RES_MESSAGE' => tr('This Package (%s, V%s) was deleted by your reseller. You can only uninstall this package!<br />Please delete the files and database for this package manually!', $software_name, $software_version),
 								'DEL_SOFTWARE_STATUS' => $delsoftware_status,
 								'DEL_SOFTWARE_ACTION_SCRIPT' => $del_software_action_script
 							)
@@ -192,16 +205,23 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 			$ordertype = "`software_name` ASC, `software_type` ASC";
 		}
 		
-		$list_query = "SELECT
-				`software_id`, `software_name`, `software_version`, `software_language`, `software_type`, `software_db`, `software_desc`
-			FROM
-				`web_software`
-			WHERE
-				`reseller_id` = ?
-			AND
-				`software_active` = 1
-			ORDER BY
-				".$ordertype;
+		$list_query = "
+					SELECT
+							`software_id`,
+							`software_name`,
+							`software_version`,
+							`software_language`,
+							`software_type`,
+							`software_db`,
+							`software_desc`
+					FROM
+							`web_software`
+					WHERE
+							`reseller_id` = ?
+					AND
+							`software_active` = 1
+					ORDER BY
+							".$ordertype;
 				
 		$rs = exec_query($sql, $list_query, array($reseller_id));
 		if ($rs -> RecordCount() == 0) {
@@ -222,7 +242,10 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 				} else {
 					$tpl -> assign('ITEM_CLASS', 'content2');
 				}
-				list($software_action, $software_action_script, $view_software_script, $software_status, $software_icon) = gen_user_software_action($rs -> fields['software_id'], $dmn_id, $sql, $tpl);
+				list(
+					$software_action, $software_action_script, $view_software_script,
+					$software_status, $software_icon) = gen_user_software_action($rs -> fields['software_id'], $dmn_id, $sql,
+					$tpl);
 				$tpl -> assign(
 							array(
 								'SOFTWARE_NAME' => $rs -> fields['software_name'],

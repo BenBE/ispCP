@@ -79,7 +79,17 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 					?, ?, ?, ?, ?, ?, ?
 				)
 				";
-		$rs = exec_query($sql, $query, array($user_id, "waiting_for_input", "waiting_for_input", "waiting_for_input", "waiting_for_input", "0", $filename, "waiting_for_input", "waiting_for_input", "waiting_for_input", "waiting_for_input", "1", "toadd", "yes"));
+		$rs = exec_query(
+						$sql,
+						$query,
+						array(
+							$user_id, "waiting_for_input", "waiting_for_input",
+							"waiting_for_input", "waiting_for_input", "0",
+							$filename, "waiting_for_input", "waiting_for_input",
+							"waiting_for_input", "waiting_for_input", "1",
+							"toadd", "yes"
+							)
+						);
 		$sw_id = $sql->Insert_ID();
 		if ($file == 0) {
 			$dest_dir = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR').'/'.$filename.'-'.$sw_id.$extension;
@@ -286,7 +296,7 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 		while(!$rs->EOF) {
 			if($rs->fields['swstatus'] == "ok" || $rs->fields['swstatus'] == "ready") {
 				if($rs->fields['swstatus'] == "ready") {
-					$updatequery = "UPDATE `web_software` set software_status = 'ok' WHERE `software_id` = ?";
+					$updatequery = "UPDATE `web_software` SET `software_status` = 'ok' WHERE `software_id` = ?";
 					exec_query($sql, $updatequery, array($rs->fields['id']));
 					set_page_message(tr('Package installed successfully!'));
 				}
