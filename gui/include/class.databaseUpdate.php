@@ -1204,8 +1204,8 @@ class databaseUpdate extends ispcpUpdate {
 	 * @return		sql statements to be performed
 	 */
 	 protected function _databaseUpdate_35() {
-	 	
 	 	$sqlUpd = array();
+	 	$sql = Database::getInstance();
 	 	
 	 	$sqlUpd[]	= "CREATE TABLE IF NOT EXISTS `web_software` (
 							`software_id` int(10) unsigned NOT NULL auto_increment,

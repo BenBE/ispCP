@@ -71,7 +71,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		FROM
 			`domain`
 		WHERE
-			`domain_admin_id`=?
+			`domain_admin_id` = ?
 	";
 
 	$rs = exec_query($sql, $query, array($user_id));
@@ -84,7 +84,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		FROM
 			`domain`
 		WHERE
-			`domain_id`=?
+			`domain_id` = ?
 	";
 
 	$rs = exec_query($sql, $query, array($domain_id));
@@ -126,7 +126,8 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		$hp_title = tr('Your order');
 	} else {
 		// generate all hosting plans available for purchasing
-		if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+		if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
+			&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
 			$query = "
 				SELECT
 					t1.*,
@@ -182,12 +183,12 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 	if ($rs->RecordCount() == 0) {
 		$tpl->assign(
-				array(
-					'TR_HOSTING_PLANS'	=> $hp_title,
-					'HOSTING_PLANS'		=> '',
-					'HP_ORDER'			=> '',
-					'COLSPAN'			=> 2
-				)
+			array(
+				'TR_HOSTING_PLANS'	=> $hp_title,
+				'HOSTING_PLANS'		=> '',
+				'HP_ORDER'			=> '',
+				'COLSPAN'			=> 2
+			)
 		);
 
 		set_page_message(tr('There are no available updates'));
@@ -393,7 +394,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 				if ($purchase_link == 'order_id' && count($error_msgs) > 0) {
 					$purchase_link = 'dummy';
-					$purchase_text = tr('You can not update to this hosting plan, see notices in text.');
+					$purchase_text = tr('You cannot update to this hosting plan, see notices in text.');
 					if (count($warning_msgs) > 0) {
 						$warning_text = '<br /><br /><strong>'.tr('Warning:').'</strong><br />'.implode('<br />', $warning_msgs);
 					} else {
@@ -407,19 +408,19 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 					$warning_text = '';
 				}
 
-				$tpl->assign(
-						array(
-							'HP_NAME'			=> stripslashes($rs->fields['name']),
-							'HP_DESCRIPTION'	=> stripslashes($rs->fields['description']),
-							'HP_DETAILS'		=> stripslashes($details).$warning_text,
-							'HP_COSTS'			=> $price,
-							'ID'				=> $rs->fields['id'],
-							'TR_PURCHASE'		=> $purchase_text,
-							'LINK'				=> $purchase_link,
-							'TR_HOSTING_PLANS'	=> $hp_title,
-							'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2'
-						)
-				);
+			$tpl->assign(
+				array(
+					'HP_NAME'			=> stripslashes($rs->fields['name']),
+					'HP_DESCRIPTION'	=> stripslashes($rs->fields['description']),
+					'HP_DETAILS'		=> stripslashes($details).$warning_text,
+					'HP_COSTS'			=> $price,
+					'ID'				=> $rs->fields['id'],
+					'TR_PURCHASE'		=> $purchase_text,
+					'LINK'				=> $purchase_link,
+					'TR_HOSTING_PLANS'	=> $hp_title,
+					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2'
+				)
+			);
 
 				$tpl->parse('HOSTING_PLANS', '.hosting_plans');
 				$tpl->parse('HP_ORDER', '.hp_order');
@@ -432,12 +433,12 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	}
 	if ($i == 0) {
 		$tpl->assign(
-				array(
-					'HOSTING_PLANS'		=> '',
-					'HP_ORDER'			=> '',
-					'TR_HOSTING_PLANS'	=> $hp_title,
-					'COLSPAN'			=> '2'
-				)
+			array(
+				'HOSTING_PLANS'		=> '',
+				'HP_ORDER'			=> '',
+				'TR_HOSTING_PLANS'	=> $hp_title,
+				'COLSPAN'			=> '2'
+			)
 		);
 
 		set_page_message(tr('There are no available hosting plans for update'));
@@ -446,12 +447,12 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 $theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 $tpl->assign(
-		array(
-			'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan'),
-			'THEME_COLOR_PATH'		=> "../themes/$theme_color",
-			'THEME_CHARSET'			=> tr('encoding'),
-			'ISP_LOGO'				=> get_logo($_SESSION['user_id'])
-		)
+	array(
+		'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan'),
+		'THEME_COLOR_PATH'		=> "../themes/$theme_color",
+		'THEME_CHARSET'			=> tr('encoding'),
+		'ISP_LOGO'				=> get_logo($_SESSION['user_id'])
+	)
 );
 
 /**
@@ -642,10 +643,10 @@ gen_logged_from($tpl);
 check_permissions($tpl);
 
 $tpl->assign(
-		array(
-			'TR_LANGUAGE'	=> tr('Language'),
-			'TR_SAVE'		=> tr('Save'),
-		)
+	array(
+		'TR_LANGUAGE'	=> tr('Language'),
+		'TR_SAVE'		=> tr('Save'),
+	)
 );
 
 gen_page_message($tpl);

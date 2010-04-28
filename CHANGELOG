@@ -1,6 +1,12 @@
 ispCP ω 1.0.6 Change Log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-27 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #2036: Drop Debian Etch Support in 1.0.6
+	- ENGINE:
+		* Fixed #2362: ispCP (system files) Backup cannot use xz compression
+
 2010-04-27 Sascha Bay
 	- GUI:
 		* Adding new function to check existing installations of users
@@ -8,7 +14,7 @@ ispCP ω 1.0.6 Change Log
 		* Some code cleanup
 	-ENGINE:
 		* Adding software path to set-gui-permissions.sh
-
+		
 2010-04-27 Laurent Declercq
 	- SETUP:
 		* Fixed #2304: [Debian Squeeze] False errors reported during setup must
