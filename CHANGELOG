@@ -1,6 +1,12 @@
 ispCP ω 1.0.6 Change Log
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-04-26 Sascha Bay
+	- GUI:
+		* Change Update SQL-Queries in class.databaseUpdate.php to databaseUpdate_36 for Apps-Installer
+	-DATABASE:
+		* Change Database Revision to 36 in database.sql
+		
 2010-05-02 Benedikt Heintel
 	- GUI:
 		* Fixed #2092: login.php changes to allow defaul port modification
