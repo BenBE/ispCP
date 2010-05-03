@@ -379,46 +379,51 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 					`domain_software_allowed` = ?
 			";
 
-			$check = exec_query(
-									$sql, $check_query,
-									array(
-											$_SESSION['user_id'],
-											$hp_mail, $hp_ftp, $hp_traff,
-											$hp_sql_db, $hp_sql_user,
-											$hp_als, $hp_sub, $hp_disk,
-											$php, $cgi, $dns, $software
-									)
+			$check = exec_query($sql, $check_query,
+				array(
+					$_SESSION['user_id'],
+					$hp_mail, $hp_ftp, $hp_traff,
+					$hp_sql_db, $hp_sql_user,
+					$hp_als, $hp_sub, $hp_disk,
+					$php, $cgi, $dns, $software
+				)
 			);
 
 			if ($check->RecordCount() == 0) {
 
+				$link_purchase = '<a href="hosting_plan_update.php?'
+				. $purchase_link.'='.$rs->fields['id']
+				. '" class="linkdark">';
+				
 				if ($purchase_link == 'order_id' && count($error_msgs) > 0) {
-					$purchase_link = 'dummy';
-					$purchase_text = tr('You cannot update to this hosting plan, see notices in text.');
+					$link_purchase = tr('You cannot update to this hosting plan, see notices in text.');
 					if (count($warning_msgs) > 0) {
 						$warning_text = '<br /><br /><strong>'.tr('Warning:').'</strong><br />'.implode('<br />', $warning_msgs);
 					} else {
 						$warning_text = '';
 					}
 					$warning_text .= '<br /><br /><strong>'.tr('Caution:').'</strong><br />'.implode('<br />', $error_msgs);
-				} elseif ($purchase_link == 'order_id' && count($warning_msgs) > 0) {
-					$warning_text = '<br /><br /><strong>'.tr('Warning:').'</strong><br />'.implode('<br />', $warning_msgs);
-					$purchase_text = tr('I understand the warnings - Purchase!');
-				} else {
-					$warning_text = '';
-				}
+			} elseif ($purchase_link == 'order_id' && count($warning_msgs) > 0) {
+				$warning_text = '<br /><br /><strong>'.tr('Warning:').'</strong><br />'.implode('<br />', $warning_msgs);
+				$link_purchase .= tr('I understand the warnings - Purchase!');
+				$link_purchase .= '</a>';
+			} else {
+				$warning_text = '';
+				$link_purchase .= '</a>';
+			}
 
 			$tpl->assign(
 				array(
-					'HP_NAME'			=> stripslashes($rs->fields['name']),
-					'HP_DESCRIPTION'	=> stripslashes($rs->fields['description']),
-					'HP_DETAILS'		=> stripslashes($details).$warning_text,
-					'HP_COSTS'			=> $price,
+					'HP_NAME'			=> tohtml($rs->fields['name']),
+					'HP_DESCRIPTION'	=> tohtml($rs->fields['description']),
+					'HP_DETAILS'		=> $details.$warning_text,
+					'HP_COSTS'			=> tohtml($price),
 					'ID'				=> $rs->fields['id'],
 					'TR_PURCHASE'		=> $purchase_text,
 					'LINK'				=> $purchase_link,
 					'TR_HOSTING_PLANS'	=> $hp_title,
-					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2'
+					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2',
+					'LINK_PURCHASE'		=> $link_purchase
 				)
 			);
 

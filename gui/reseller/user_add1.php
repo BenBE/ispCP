@@ -180,6 +180,7 @@ function check_user_data() {
 		user_goto('user_add2.php');
 	} else {
 		// check if reseller limits are not touched
+		$ehp_error = ''; // fill dummy to satisfy warning...
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], $dmn_chp)) {
 			// send through the session the data
 			$_SESSION['dmn_name']	= $dmn_name;
@@ -231,7 +232,7 @@ function get_data_au1_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'DMN_NAME_VALUE'		=> $dmn_name,
+			'DMN_NAME_VALUE'		=> tohtml($dmn_name),
 			'CHTPL1_VAL'			=> $dmn_pt === "_yes_" ? Config::getInstance()->get('HTML_CHECKED') : '',
 			'CHTPL2_VAL'			=> $dmn_pt === "_yes_" ? '' : Config::getInstance()->get('HTML_CHECKED'),
 			'EXPIRE_NEVER_SET'		=> ($dmn_expire === '0') ? Config::getInstance()->get('HTML_SELECTED') : '',
@@ -329,7 +330,7 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 				$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
 				$tpl->assign(
 						array(
-							'HP_NAME'			=> $data['name'],
+							'HP_NAME'			=> tohtml($data['name']),
 							'CHN'				=> $data['id'],
 							'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? Config::getInstance()->get('HTML_SELECTED') : ''
 						)

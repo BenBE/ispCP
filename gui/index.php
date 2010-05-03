@@ -77,7 +77,7 @@ if ((Config::getInstance()->get('MAINTENANCEMODE')
 			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
 			'THEME_COLOR_PATH'	=> Config::getInstance()->get('LOGIN_TEMPLATE_PATH'),
 			'THEME_CHARSET'		=> tr('encoding'),
-			'TR_MESSAGE'		=> nl2br(Config::getInstance()->get('MAINTENANCEMODE_MESSAGE')),
+			'TR_MESSAGE'		=> nl2br(tohtml(Config::getInstance()->get('MAINTENANCEMODE_MESSAGE'))),
 			'TR_ADMINLOGIN'		=> tr('Administrator login')
 		)
 	);
@@ -96,7 +96,7 @@ if ((Config::getInstance()->get('MAINTENANCEMODE')
 			'TR_PASSWORD'				=> tr('Password'),
 			'TR_LOGIN_INFO'				=> tr('Please enter your login information'),
 			// @todo: make this configurable by ispcp-lib
-			'TR_SSL_LINK'               => isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] . 'http://' . htmlentities($_SERVER['HTTP_HOST']) : 'https://' . htmlentities($_SERVER['HTTP_HOST']),
+			'TR_SSL_LINK'               => isset($_SERVER['HTTPS']) ? 'http://' . htmlentities($_SERVER['HTTP_HOST']) : 'https://' . htmlentities($_SERVER['HTTP_HOST']),
 			'TR_WEBMAIL_SSL_LINK'       => "webmail",
 			'TR_FTP_SSL_LINK'           => "ftp",
 			'TR_PMA_SSL_LINK'           => "pma",

@@ -322,11 +322,11 @@ function gen_editdomain_page(&$tpl) {
 			'CGI_NO'				=> ($cgi_supp != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
 			'DNS_YES'				=> ($dns_supp == 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
 			'DNS_NO'				=> ($dns_supp != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
-			'VL_DOMAIN_NAME'		=> $domain_name,
 			'SOFTWARE_YES'			=> ($software_supp == 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
 			'SOFTWARE_NO'			=> ($software_supp != 'yes') ? Config::getInstance()->get('HTML_SELECTED') : '',
+			'VL_DOMAIN_NAME'		=> tohtml($domain_name),
 			'VL_DOMAIN_IP'			=> $domain_ip,
-			'VL_DOMAIN_EXPIRE' => $domain_expires,
+			'VL_DOMAIN_EXPIRE'		=> $domain_expires,
 			'VL_DOM_SUB'			=> $sub,
 			'VL_DOM_ALIAS'			=> $als,
 			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
@@ -335,7 +335,7 @@ function gen_editdomain_page(&$tpl) {
 			'VL_SQL_USERS'			=> $sql_user,
 			'VL_TRAFFIC'			=> $traff,
 			'VL_DOM_DISK'			=> $disk,
-			'VL_USER_NAME'			=> $username
+			'VL_USER_NAME'			=> tohtml($username)
 		)
 	);
 
