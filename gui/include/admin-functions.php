@@ -658,7 +658,6 @@ function gen_user_list(&$tpl, &$sql) {
 
 			$query = "
 				SELECT
-					`admin_id`,
 					`admin_name`
 				FROM
 					`admin`
@@ -671,34 +670,30 @@ function gen_user_list(&$tpl, &$sql) {
 
 			$rs2 = exec_query($sql, $query, array($domain_created_id));
 
-			if ($rs2->fields['admin_name'] == '') {
-				$tpl->assign(
-					array(
-						'TR_DELETE' => tr('Delete'),
-						'USR_DELETE_LINK' => '',
-					)
-				);
-				$tpl->parse('USR_DELETE_SHOW', 'usr_delete_show');
+			if (!isset($rs2->fields['admin_name'])) {
+				$created_by_name = tr('N/A');
 			} else {
-				// Get disk usage by user
-				$traffic = get_user_traffic($rs->fields['domain_id']);
-
-				$tpl->assign(
-					array(
-						'USR_DELETE_SHOW' => '',
-						'DOMAIN_ID' => $rs->fields['domain_id'],
-						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_USR' => "user_delete.php?domain_id=" . $rs->fields['domain_id'],
-						'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
-						'GO_TO_USER_INTERFACE' => tr('Switch'),
-						'URL_CHANGE_INTERFACE' => "change_user_interface.php?to_id=" . $rs->fields['domain_admin_id'],
-						'USR_USERNAME' => tohtml($rs->fields['domain_name']),
-						'TR_EDIT_DOMAIN' => tr('Edit domain'),
-						'TR_EDIT_USR' => tr('Edit user')
-					)
-				);
-				$tpl->parse('USR_DELETE_LINK', 'usr_delete_link');
+				$created_by_name = $rs2->fields['admin_name'];
 			}
+
+			// Get disk usage by user
+			$traffic = get_user_traffic($rs->fields['domain_id']);
+
+			$tpl->assign(
+				array(
+					'USR_DELETE_SHOW' => '',
+					'DOMAIN_ID' => $rs->fields['domain_id'],
+					'TR_DELETE' => tr('Delete'),
+					'URL_DELETE_USR' => "user_delete.php?domain_id=" . $rs->fields['domain_id'],
+					'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
+					'GO_TO_USER_INTERFACE' => tr('Switch'),
+					'URL_CHANGE_INTERFACE' => "change_user_interface.php?to_id=" . $rs->fields['domain_admin_id'],
+					'USR_USERNAME' => tohtml($rs->fields['domain_name']),
+					'TR_EDIT_DOMAIN' => tr('Edit domain'),
+					'TR_EDIT_USR' => tr('Edit user')
+				)
+			);
+			$tpl->parse('USR_DELETE_LINK', 'usr_delete_link');
 
 			if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_OK_STATUS')) {
 				$status_icon = "ok.png";
@@ -706,7 +701,13 @@ function gen_user_list(&$tpl, &$sql) {
 			} else if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_DISABLED_STATUS')) {
 				$status_icon = "disabled.png";
 				$status_url = "domain_status_change.php?domain_id=" . $rs->fields['domain_id'];
-			} else if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_ADD_STATUS') || $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_RESTORE_STATUS') || $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_CHANGE_STATUS') || $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TOENABLE_STATUS') || $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TODISABLED_STATUS') || $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_DELETE_STATUS')) {
+			} else if ($rs->fields['domain_status'] == Config::getInstance()->get('ITEM_ADD_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_RESTORE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_CHANGE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TOENABLE_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_TODISABLED_STATUS')
+				|| $rs->fields['domain_status'] == Config::getInstance()->get('ITEM_DELETE_STATUS'))
+			{
 				$status_icon = "reload.png";
 				$status_url = "#";
 			} else {
@@ -735,7 +736,7 @@ function gen_user_list(&$tpl, &$sql) {
 			$domain_expires = $rs->fields['domain_expires'];
 
 			if ($domain_expires == 0) {
-				$domain_expires = tr('N/A');
+				$domain_expires = tr('Not Set');
 			} else {
 				$date_formt = Config::getInstance()->get('DATE_FORMAT');
 				$domain_expires = date($date_formt, $domain_expires);
@@ -746,7 +747,7 @@ function gen_user_list(&$tpl, &$sql) {
 					'USR_USERNAME' => tohtml($admin_name),
 					'USER_CREATED_ON' => tohtml($domain_created),
 					'USER_EXPIRES_ON' => $domain_expires,
-					'USR_CREATED_BY' => tohtml($rs2->fields['admin_name']),
+					'USR_CREATED_BY' => tohtml($created_by_name),
 					'USR_OPTIONS' => '',
 					'URL_EDIT_USR' => "admin_edit.php?edit_id=" . $rs->fields['domain_admin_id'],
 					'TR_MESSAGE_CHANGE_STATUS' => tr('Are you sure you want to change the status of domain account?', true),
