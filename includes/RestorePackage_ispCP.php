@@ -52,6 +52,18 @@ class RestorePackage_ispCP extends BaseController
 	 */
 	protected $reseller_id = -1;
 	/**
+	 * Reseller user properties language
+	 */
+	protected $reseller_prop_lang = '';
+	/**
+	 * Reseller user properties template set
+	 */
+	protected $reseller_prop_layout = '';
+	/**
+	 * Reseller user properties logo
+	 */
+	protected $reseller_prop_logo = 0;
+	/**
 	 * New domain ID
 	 */
 	protected $domain_id = 0;
@@ -202,6 +214,32 @@ class RestorePackage_ispCP extends BaseController
 	}
 
 	/**
+	 * Get reseller user properties (language, theme)
+	 * @return void
+	 */
+	protected function getResellerUserProps()
+	{
+		$sql = "SELECT * FROM `user_gui_props` WHERE `user_id`=:user_id";
+
+		$query = $this->db->Prepare($sql);
+		$rs = $this->db->Execute(
+			$query, array(
+				':user_id'	=> $this->reseller_id
+			)
+		);
+		if ($rs && !$rs->EOF) {
+			$this->reseller_prop_lang = $rs->fields['lang'];
+			$this->reseller_prop_layout = $rs->fields['layout'];
+			$this->reseller_prop_logo = $rs->fields['logo'];
+		} else {
+			$this->logMessage('Reseller user properties not found: '.$this->reseller_id, ISPCP_LOG_ERROR);
+			$this->reseller_prop_lang = 'lang_EnglishBritain';
+			$this->reseller_prop_layout = 'omega_original';
+			$this->reseller_prop_logo = 0;
+		}
+	}
+
+	/**
 	 * Get ID of IP
 	 * @param string $ip IP address
 	 * @return integer ispCP database ID of IP
@@ -245,6 +283,8 @@ class RestorePackage_ispCP extends BaseController
 			} else {
 				$this->reseller_id = $this->getResellerID($this->reseller);
 			}
+
+			$this->getResellerUserProps();
 
 			if ($this->ip_id != -1 && $this->reseller_id != -1) {
 				$result = true;
@@ -470,11 +510,29 @@ class RestorePackage_ispCP extends BaseController
 		$params[':created_by'] = $this->reseller_id;
 
 		if (!$this->db->Execute($query, $params)) {
-			$this->logMessage('Can not insert admin database entry!', ISPCP_LOG_ERROR);
+			$this->logMessage('Cannot insert admin database entry!', ISPCP_LOG_ERROR);
 			return false;
 		}
 		$domain_admin_id = $this->db->Insert_ID();
 		$this->logMessage('Domain Admin ID: '.$domain_admin_id, ISPCP_LOG_DEBUG);
+
+		// create record for user_gui_props
+		$query = $this->db->Prepare(
+			"INSERT INTO `user_gui_props`".
+			" (`user_id`, `layout`, `lang`, `logo`)".
+			" VALUES".
+			" (:user_id, :layout, :lang, :logo)"
+		);
+		$params = array(
+			':user_id'	=> $domain_admin_id,
+			':layout'	=> $this->reseller_prop_layout,
+			':lang'		=> $this->reseller_prop_lang,
+			':logo'		=> $this->reseller_prop_logo
+		);
+		if (!$this->db->Execute($query, $params)) {
+			$this->logMessage('Cannot insert domain database entry!', ISPCP_LOG_ERROR);
+			return false;
+		}
 
 		// create the domain, record set domain_id
 		$query = $this->db->Prepare(
@@ -515,7 +573,7 @@ class RestorePackage_ispCP extends BaseController
 		$params[':domain_ip_id']		= $this->ip_id;
 
 		if (!$this->db->Execute($query, $params)) {
-			$this->logMessage('Can not insert domain database entry!', ISPCP_LOG_ERROR);
+			$this->logMessage('Cannot insert domain database entry!', ISPCP_LOG_ERROR);
 			return false;
 		}
 		$this->domain_id = $this->db->Insert_ID();

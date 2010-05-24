@@ -128,9 +128,10 @@ abstract class BackupPackage extends BaseController
 	private function dumpMySQLDatabase($dbname)
 	{
 		$filename = $this->backup_temp_path.'/'.$dbname.'.sql';
-		$cmd = 'mysqldump --user '.Config::get('DB_USER').' --password='.Config::get('DB_PASS').
-			   ' '.$dbname.
-			   ' >'.$filename;
+		$cmd = 'mysqldump --user '.Config::get('DB_USER')
+				.' --password='.Config::get('DB_PASS')
+				.' '.$dbname
+				.' >'.$filename;
 		// TODO: Error handling
 		$a = array();
 		$this->shellExecute($cmd, $a);
