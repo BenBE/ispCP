@@ -1,10 +1,12 @@
 <?php
 require '../include/ispcp-lib.php';
 
+$cfg = IspCP_Registry::get('Config');
+
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/software_delete.tpl');
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_delete.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
 function gen_page_data(&$tpl, &$sql) {
@@ -50,7 +52,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 			)
 		);
 	if($rs->fields['software_depot'] == "yes") {
-		$del_path = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR')."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
+		$del_path = $cfg->GUI_SOFTWARE_DEPOT_DIR ."/". $rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 		@unlink($del_path);
 		$update = "UPDATE `web_software_inst` SET `software_res_del` = 1 WHERE `software_master_id` = ?";
 		$res = exec_query($sql, $update, array($rs->fields['software_id']));
@@ -65,7 +67,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 		if(isset($_POST['id']) && is_numeric($_POST['id']) && $_POST['uaction'] === 'send_delmessage') {
 			if (!empty($_POST['id']) && !empty($_POST['delete_msg_text'])) {
 				send_deleted_sw($rs->fields['reseller_id'], $rs->fields['software_archive'].'.tar.gz', $rs->fields['software_id'], 'Software '.$rs->fields['software_name'].' (V'.$rs->fields['software_version'].')', clean_input($_POST['delete_msg_text']));
-				$del_path = Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$rs->fields['reseller_id']."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
+				$del_path = $cfg->GUI_SOFTWARE_DIR."/".$rs->fields['reseller_id']."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 				@unlink($del_path);
 				$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
 				$res = exec_query($sql, $delete, array($rs->fields['software_id']));
@@ -77,12 +79,10 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 			gen_page_message($tpl);
 		}
 
-		$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
-
 		$tpl->assign(
 				array(
 					'TR_MANAGE_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software Management'),
-					'THEME_COLOR_PATH' => '../themes/'.$theme_color,
+					'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 					'THEME_CHARSET' => tr('encoding'),
 					'ISP_LOGO' => get_logo($_SESSION['user_id']),
 					'TR_DELETE_SEND_TO' => tr('Send message to'),
@@ -95,8 +95,8 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 					)
 			);
 	}
-	gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-	gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+	gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 	gen_page_data ($tpl, $sql);
 
@@ -104,7 +104,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 
 	$tpl->prnt();
 
-	if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+	if ($cfg->DUMP_GUI_DEBUG) {
 		dump_gui_debug();
 	}
 

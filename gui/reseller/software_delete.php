@@ -1,6 +1,8 @@
 <?php
 require '../include/ispcp-lib.php';
 
+$cfg = IspCP_Registry::get('Config');
+
 check_login(__FILE__);
 
 if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
@@ -22,7 +24,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		header('Location: software_upload.php');
 	} else {
 		if ($rs->fields['software_depot'] == "no") {
-			$del_path = Config::getInstance()->get('GUI_SOFTWARE_DIR')."/".$_SESSION['user_id']."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
+			$del_path = $cfg->GUI_SOFTWARE_DIR."/".$_SESSION['user_id']."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 			@unlink($del_path);
 		}
 		$update = "UPDATE `web_software_inst` SET `software_res_del` = 1 WHERE `software_id` = ?";

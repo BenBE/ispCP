@@ -1,10 +1,12 @@
 <?php
 require '../include/ispcp-lib.php';
 
+$cfg = IspCP_Registry::get('Config');
+
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/software_manage.tpl');
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('list_software', 'page');
@@ -92,9 +94,9 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 						);
 		$sw_id = $sql->Insert_ID();
 		if ($file == 0) {
-			$dest_dir = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR').'/'.$filename.'-'.$sw_id.$extension;
-			if (!is_dir(Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR'))) {
-				@mkdir(Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR'),0755,true);
+			$dest_dir = $cfg->GUI_SOFTWARE_DEPOT_DIR.'/'.$filename.'-'.$sw_id.$extension;
+			if (!is_dir($cfg->GUI_SOFTWARE_DEPOT_DIR)) {
+				@mkdir($cfg->GUI_SOFTWARE_DEPOT_DIR,0755,true);
 			}
 			if (!move_uploaded_file($_FILES['sw_file']['tmp_name'], $dest_dir)) {
 				// Delete software entry
@@ -107,7 +109,7 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 		}
 		if ($file == 1) {
 			$sw_wget = $_POST['sw_wget'];
-			$dest_dir = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR').'/'.$filename.'-'.$sw_id.$extension;
+			$dest_dir = $cfg->GUI_SOFTWARE_DEPOT_DIR.'/'.$filename.'-'.$sw_id.$extension;
 			// Reading filesize
    			$parts = parse_url($sw_wget);
    			$connection = fsockopen($parts['host'],80,$errno,$errstr,30);
@@ -131,14 +133,14 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
 					exec_query($sql, $query, array($sw_id));
-					$show_max_remote_filesize = formatFilesize(Config::getInstance()->get('MAX_REMOTE_FILESIZE'));
+					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Your remote filesize (%1$d B) is lower than 1 Byte. Please check your URL!', $show_remote_file_size));
 					$upload = 0;
-				} elseif($remote_file_size > Config::getInstance()->get('MAX_REMOTE_FILESIZE')) {
+				} elseif($remote_file_size > $cfg->MAX_REMOTE_FILESIZE) {
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
 					exec_query($sql, $query, array($sw_id));
-					$show_max_remote_filesize = formatFilesize(Config::getInstance()->get('MAX_REMOTE_FILESIZE'));
+					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Max. remote filesize (%1$d MB) is reached. Your remote file is %2$d MB', $show_max_remote_filesize, $show_remote_file_size));
 					$upload = 0;
 				} else {
@@ -422,7 +424,7 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 							$rs_res = exec_query($sql, $query, array($exist_software_id));
 							set_page_message(tr('This package already exist in the depot of the reseller "'.$rs_res->fields['resellername'].'"!'));
 						}
-						$del_path = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR')."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
+						$del_path = $cfg->GUI_SOFTWARE_DEPOT_DIR."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
 						@unlink($del_path);
 						$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
 						$res = exec_query($sql, $delete, array($rs->fields['id']));
@@ -508,12 +510,10 @@ function get_reseller_software (&$tpl, &$sql) {
 	return $rs->RecordCount();
 }
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
-
 $tpl->assign(
 		array(
 			'TR_MANAGE_SOFTWARE_PAGE_TITLE' => tr('ispCP - Software Management'),
-			'THEME_COLOR_PATH' => '../themes/'.$theme_color,
+			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 			'THEME_CHARSET' => tr('encoding'),
 			'ISP_LOGO' => get_logo($_SESSION['user_id'])
 			)
@@ -533,7 +533,7 @@ $tpl->assign(
 			'TR_SOFTWAREDEPOT_NUM' => $swdepot_cnt,
 			'TR_UPLOAD_SOFTWARE' => tr('Softwaredepot upload'),
 			'TR_SOFTWARE_FILE' => tr('Choose file (Max: %1$d MB)', ini_get('upload_max_filesize')),
-			'TR_SOFTWARE_URL' => tr('or remote file (Max: %1$d MB)', formatFilesize(Config::getInstance()->get('MAX_REMOTE_FILESIZE'))),
+			'TR_SOFTWARE_URL' => tr('or remote file (Max: %1$d MB)', formatFilesize($cfg->MAX_REMOTE_FILESIZE)),
 			'TR_UPLOAD_SOFTWARE_BUTTON' => tr('Upload now'),
 			'TR_AWAITING_ACTIVATION' => tr('Awaiting Activation'),
 			'TR_ACTIVATED_SOFTWARE' => tr('Reseller software list'),
@@ -562,8 +562,8 @@ $tpl->assign(
 			)
 	);
 
-gen_admin_mainmenu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::getInstance()->get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->'ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -573,7 +573,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 

@@ -1,6 +1,8 @@
 <?php
 require '../include/ispcp-lib.php';
 
+$cfg = IspCP_Registry::get('Config');
+
 check_login(__FILE__);
 
 if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
@@ -19,8 +21,8 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		set_page_message(tr('Wrong software id.'));
 		header('Location: software_manage.php');
 	} else {
-		$source_file = Config::getInstance()->get('GUI_SOFTWARE_DIR').'/'.$rs->fields['reseller_id'].'/'.$rs->fields['software_archive'].'-'.$rs->fields['software_id'].'.tar.gz';
-		$dest_file = Config::getInstance()->get('GUI_SOFTWARE_DEPOT_DIR').'/'.$rs->fields['software_archive'].'-'.$rs->fields['software_id'].'.tar.gz';
+		$source_file = $cfg->GUI_SOFTWARE_DIR.'/'.$rs->fields['reseller_id'].'/'.$rs->fields['software_archive'].'-'.$rs->fields['software_id'].'.tar.gz';
+		$dest_file = $cfg->GUI_SOFTWARE_DEPOT_DIR.'/'.$rs->fields['software_archive'].'-'.$rs->fields['software_id'].'.tar.gz';
 		$user_id = $_SESSION['user_id'];
 		$update="
 				UPDATE

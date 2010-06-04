@@ -30,12 +30,12 @@
 
 require '../include/ispcp-lib.php';
 
-check_login(__FILE__, Config::getInstance()->get('PREVENT_EXTERNAL_LOGIN_RESELLER'));
+$cfg = IspCP_Registry::get('Config');
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
+check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_RESELLER);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/index.tpl');
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('def_layout', 'page');
 $tpl->define_dynamic('no_messages', 'page');
@@ -121,8 +121,10 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 }
 
 function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
-	$sql = Database::getInstance();
 	global $crnt_month, $crnt_year;
+	
+	$sql = Database::getInstance();
+	
 	$crnt_month = date("m");
 	$crnt_year = date("Y");
 	// global
@@ -321,7 +323,7 @@ $tpl->assign(
 		'TR_LAYOUT' => tr('Layout'),
 		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
 		'TR_DISK_USAGE' => tr ('Disk usage'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
+		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET' => tr('encoding'),
 		'ISP_LOGO' => get_logo($_SESSION['user_id'])
 	)
@@ -347,8 +349,8 @@ gen_def_language($tpl, $sql, $user_def_lang);
 
 gen_def_layout($tpl, $user_def_layout);
 
-gen_reseller_mainmenu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, Config::getInstance()->get('RESELLER_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
 get_reseller_software_permission (&$tpl,&$sql,$_SESSION['user_id']);
 
 gen_system_message($tpl, $sql);
@@ -361,7 +363,7 @@ $tpl->assign('LAYOUT', '');
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

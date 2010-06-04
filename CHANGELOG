@@ -1,6 +1,138 @@
 ispCP ω 1.0.6 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 		
+2010-06-04 Laurent Declercq
+	- GUI:
+		* Added support for queries counter in IspCP_ConfigHandler_Db
+		* Refactored IspCP_ConfigHandler classes
+		* Refactored IspCP_Registry class
+		* Refactored include/ispcp-lib.php
+
+2010-06-03 Laurent Declercq
+	- GUI:
+		* Fixed Undefined variable: $theme_color in
+			admin/manage_reseller_users.php
+		
+2010-06-03 Thomas Wacker
+	- GUI:
+		* Fixed # 2269: Allow customers to use URIs for domain redirects
+
+2010-06-01 Sascha Bay
+	- GUI:
+		* Changed all reseller/*.php files to use the new IspCP_Registry class
+			and the new IspCP_ConfigHandler interface
+		Fixed #2291: Invalid counters in ../reseller/index.php
+
+2010-06-01 Laurent Declercq
+	- DISTS:
+		* Fixed #2381 Replace libmd5-perl with libdigest-md5-perl
+	- ENGINE:
+		#2287: Removed all `Include {MODS_DIR}/fcgid_ispcp.conf`
+	- GUI:
+		Fixed uninitialized variable in ispCP_ConfigHandler_File
+	- SETUP:
+		Fixed #2382 Any reference to HTMLPurifier should be removed
+
+2010-05-31 Thomas Wacker
+	- GUI:
+		* Deleted obsolete htmlpurifier
+
+2010-05-31 Laurent Declercq
+	- GUI:
+		* Added toArray() method in IspCP_ConfigHandler class to be able to
+			get an associative array that contain all configuration parameters
+		* Complete rewrite of the admin/settings_ports.php script
+
+2010-05-30 Laurent Declercq
+	- GUI:
+		* Added both __isset() and __unset() methods in IspCP_ConfigHandler
+			classes to be able to operate on inaccessible members
+		* Added methods in IspCP_ConfigHandler classes to be able to remove
+			configuration parameters
+		* Added a wrapper method in Config class for the
+			IspCP_ConfigHandler::del() methods
+		* Fixed doc/typo in Config, IspCP_ConfigHandler and IspCP_Registry
+			classes
+		* Fixed: tohtml() must not be applied on admin logs
+
+2010-05-29 Laurent Declercq
+	- GUI:
+		* Added constant for ConfigHandler support in the Config class
+		* Added IspCP_Registry class to store shared data
+		* Changed ispcp-lib.php and admin/settings.php for usage example of the
+			new IspCP_Registry class
+		* Changed all admin/*.php files to use new IspCP_Registry class
+		* Fixed some typo issue in Config class
+
+2010-05-28 Laurent Declercq
+	- GUI:
+		* Added a method in Database class to be able to get a raw PDO instance
+		* Added IspCP_ConfigHandler class to handle config parameters from an
+			array
+		* Added IspCP_ConfigHandler adapter class to handle config parameter
+			from a database
+		* Changed admin/settings.php to use new IspCP_ConfigHandler interface
+		* Changed include/ispcp-lib.php to use new IspCP_ConfigHandler interface
+		* Fixed gen_def_language(): Initial language string should not be passed
+			by reference
+		* Improved autoloader funct. to be able to retrieve class files in the
+			new namespace
+		* Rewrited classes config parameters manipulation
+		* The `setConfig_Value()` funct. in admin-function.php is now deprecated
+
+2010-05-26 Benedikt Heintel
+	- DISTS:
+		* Updated Ubuntu Lucid Package
+	- LANGUAGES:
+		* Updated Italian (#2380)
+	- GUI:
+		* Corrected attributes on IDN en-/decode
+	- TOOLS:
+		* Fixed #2377: SquirrelMail: mime.php Header Decoding Patch
+
+2010-05-24 Laurent Declercq
+	- GUI:
+		* Added interface for `ispCP_ConfigHandler` objects
+		* Added documentation for both `Config` and `ConfigHandler` classes.
+		* Changed name of `ConfigHandler` class to `ConfigHandlerFile` to
+			reflect the type of storage handle by this configuration object
+		* Changed the ConfigHandlerFile class to implement the singleton design
+			pattern
+		* Improved the Config class to allow to handle any type of
+			ispCP_ConfigHandler objects (like db storage, xml storage..)
+
+2010-05-24 Thomas Wacker
+	- GUI:
+		Added two Compability wrapper methods in Config class
+
+2010-05-23 Laurent Declercq
+	- GUI:
+		* Fixed #2379: Useless XML prolog in the current templates
+
+2010-05-23 Thomas Wacker
+	- GUI:
+		* Fixed #2145: Merge user delete processes
+
+2010-05-18 Laurent Declercq
+	- GUI:
+		* Avoids additional GZip compression information for the requests
+			initiated from the XHR object
+		* Fixed broken password auto regeneration in admin/reseller_edit.php
+
+2010-05-16 Peter Ziergoebel
+	- GUI:
+		* Fixed #2181: vu20xx.admin.domain.tld
+
+2010-05-14 Laurent Declercq
+	- DAEMON:
+		* Refactored the code for better readability
+		* Removed useless EOL for syslog
+
+2010-05-14 Benedikt Heintel
+	- TOOLS:
+		* Fixed #2373: ispCP or components should not use /e modifier for 
+			preg_replace (Thanks to Benny Baumann)
+
 2010-05-13 Sascha Bay
 	- GUI:
 		* Fixed #1993: Hide reseller's user add fields

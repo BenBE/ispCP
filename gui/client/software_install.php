@@ -1,10 +1,12 @@
 <?php
 require '../include/ispcp-lib.php';
 
+$cfg = IspCP_Registry::get('Config');
+
 check_login(__FILE__);
 
 $tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/software_install.tpl');
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/software_install.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('software_item', 'page');
 $tpl->define_dynamic('show_domain_list', 'page');
@@ -99,7 +101,7 @@ if (isset($_POST['Submit2'])) {
 		$querydbuser = "SELECT `sqlu_pass` FROM `sql_user` WHERE `sqlu_name` = ?";
 		$rsdatabase = exec_query($sql, $querydbuser, array($sql_user));
 		$sql_pass = decrypt_db_password($rsdatabase->fields['sqlu_pass']);
-		$connect = @mysql_connect(Config::getInstance()->get('DATABASE_HOST'), $sql_user, $sql_pass);
+		$connect = @mysql_connect($cfg->DATABASE_HOST, $sql_user, $sql_pass);
 		$db_selected = @mysql_select_db($selected_db, $connect);
 		$sql_pass = $rsdatabase->fields['sqlu_pass'];
 	}
@@ -108,10 +110,10 @@ if (isset($_POST['Submit2'])) {
 	} elseif(empty($install_username) || empty($install_password) || empty($install_email)) {
 		set_page_message(tr('You have to fill out inputs!'));
 	} elseif (!chk_password($install_password)){
-		if (Config::getInstance()->get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
+			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
 		}
 	} elseif(!preg_match("/htdocs/",$other_dir)){
 		set_page_message(tr('You cant\'t install outside from htdocs!'));
@@ -150,7 +152,7 @@ if (isset($_POST['Submit2'])) {
 					?, ?, ?, ?
 				)
 			";
-			$rs = exec_query($sql, $query, array($dmn_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $id, $software_master_id, $sw_software_name, $sw_software_version, $software_language, $other_dir, $prefix, $selected_db, $sql_user, $sql_pass, $install_username, encrypt_db_password($install_password), $install_email, Config::getInstance()->get('ITEM_ADD_STATUS'), $software_depot));
+			$rs = exec_query($sql, $query, array($dmn_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $id, $software_master_id, $sw_software_name, $sw_software_version, $software_language, $other_dir, $prefix, $selected_db, $sql_user, $sql_pass, $install_username, encrypt_db_password($install_password), $install_email, $cfg->ITEM_ADD_STATUS, $software_depot));
 		} else {
 			$query="
 				INSERT INTO
@@ -167,7 +169,7 @@ if (isset($_POST['Submit2'])) {
 					?, ?, ?, ?
 				)
 			";
-			$rs = exec_query($sql, $query, array($dmn_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $id, $software_master_id, $sw_software_name, $sw_software_version, $software_language, $other_dir, "not_required", "not_required", "not_required", "not_required", $install_username, encrypt_db_password($install_password), $install_email, Config::getInstance()->get('ITEM_ADD_STATUS'), $software_depot));
+			$rs = exec_query($sql, $query, array($dmn_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $id, $software_master_id, $sw_software_name, $sw_software_version, $software_language, $other_dir, "not_required", "not_required", "not_required", "not_required", $install_username, encrypt_db_password($install_password), $install_email, $cfg->ITEM_ADD_STATUS, $software_depot));
 		}
 		send_request();
 		header('Location: software.php');
@@ -289,7 +291,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rsaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliasdomain_id != 0){
 				if($posted_aliasdomain_id == $rsaliase->fields['alias_id']) {
-					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
+					$selecteddomain = $cfg->HTML_SELECTED;
 				} else {
 					$selecteddomain = '';
 				}
@@ -309,7 +311,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rssubdomain->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_subdomain_id != 0){
 				if($posted_subdomain_id == $rssubdomain->fields['subdomain_id']) {
-					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
+					$selecteddomain = $cfg->HTML_SELECTED;
 				} else {
 					$selecteddomain = '';
 				}
@@ -330,7 +332,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		while (!$rssubaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliassubdomain_id != 0){
 				if($posted_aliassubdomain_id == $rssubaliase->fields['subdomain_alias_id']) {
-					$selecteddomain = Config::getInstance()->get('HTML_SELECTED');
+					$selecteddomain = $cfg->HTML_SELECTED;
 				} else {
 					$selecteddomain = '';
 				}
@@ -400,7 +402,7 @@ function check_db_user_list(&$tpl, &$sql, $db_id) {
 
 		while (!$rs->EOF) {
 			if (isset($_POST['sql_user']) && $_POST['sql_user'] == $rs->fields['sqlu_name']){
-				$selecteddbuser = Config::getInstance()->get('HTML_SELECTED');
+				$selecteddbuser = $cfg->HTML_SELECTED;
 				}else{
 				$selecteddbuser = '';
 			}
@@ -438,7 +440,7 @@ function check_db_avail(&$tpl, &$sql, $dmn_id, $dmn_sqld_limit) {
   if ($rs->RecordCount() > 0) {
 	while (!$rs->EOF) {
 				if (isset($_POST['selected_db']) && $_POST['selected_db'] == $rs->fields['sqld_name']){
-					$selecteddb = Config::getInstance()->get('HTML_SELECTED');
+					$selecteddb = $cfg->HTML_SELECTED;
 					}else{
 					$selecteddb = '';
 				}
@@ -618,12 +620,10 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 	get_software_props ($tpl, $sql, $dmn_id, $software_id, $dmn_created_id, $dmn_sqld_limit);
 }
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
-
 $tpl -> assign(
 			array(
 				'TR_CLIENT_INSTALL_SOFTWARE_PAGE_TITLE' => tr('ispCP - Install Software'),
-				'THEME_COLOR_PATH' => '../themes/'.$theme_color,
+				'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 				'THEME_CHARSET' => tr('encoding'),
 				'ISP_LOGO' => get_logo($_SESSION['user_id'])
 			)
@@ -639,8 +639,8 @@ gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 // static page messages.
 //
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
 gen_logged_from($tpl);
 
@@ -675,7 +675,7 @@ $tpl -> parse('PAGE', 'page');
 
 $tpl -> prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 
