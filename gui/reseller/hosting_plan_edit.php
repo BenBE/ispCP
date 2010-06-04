@@ -44,8 +44,12 @@ $tpl->define_dynamic('mail_edit', 'page');
 $tpl->define_dynamic('ftp_edit', 'page');
 $tpl->define_dynamic('sql_db_edit', 'page');
 $tpl->define_dynamic('sql_user_edit', 'page');
+<<<<<<< .working
 $tpl->define_dynamic('t_software_support', 'page');
 
+=======
+
+>>>>>>> .merge-right.r2976
 /**
  * static page messages.
  */
