@@ -1769,7 +1769,6 @@ class databaseUpdate extends ispcpUpdate {
 
 		return $sqlUpd;
 	}
-<<<<<<< .working
 	
 	/**
 	 * Fix for ticket #2371 http://isp-control.net/ispcp/ticket/2371
