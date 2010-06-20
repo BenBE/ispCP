@@ -1,0 +1,639 @@
+/***********************************************************************************
+ * PAGE LAYOUT
+ ***********************************************************************************/
+
+body,html {
+    min-height: 100%;
+    min-width: 850px;
+    margin: 0;
+    padding: 0;
+    background: url(../images/background/left_bg.jpg) repeat-y top left;
+    font-family: arial;
+    font-size: 12px;
+}
+html {
+    position: relative;
+    padding-bottom: 1em;
+}
+
+.header {
+    background: url(../images/background/top_bg.jpg) repeat-x top left;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 89px;
+}
+
+.header .logo {
+    background: url(../images/background/top_left_bg.jpg) no-repeat;
+}
+
+.location {
+    background: #000 url(../images/background/top_bar_bg.jpg) repeat-x top left;
+    color: #fff;
+    padding-left: 197px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+    overflow: visible;
+}
+
+.body {
+    margin: 0 20px 0 240px;
+}
+
+.footer {
+    position: absolute; 
+    bottom: 10px;
+    text-align: center;
+    color: #fff;
+    width: 197px;
+    left: 0;
+}
+
+/***********************************************************************************
+ * GENERAL INTERFACE STYLES
+ ***********************************************************************************/
+
+h2 {
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    font-variant: small-caps;
+    font-weight: bold;
+    position: relative;
+    left: -33px;
+    padding-left: 33px;
+    height: 33px;
+    background: url(../images/content/content_sprite.png) no-repeat;
+    margin: 1em 0 0;
+}
+h2 span {
+    display: block;
+    border-bottom: 1px solid #ccc;
+    margin-right: -33px;
+}
+h3 {
+    
+}
+
+form {
+    margin: 0.5em 0;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    text-decoration: none;
+    color: #009;
+    outline: none;
+}
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+dl {
+    margin-left: 2em;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+dd {
+    margin: 0;
+}
+
+.buttons {
+    text-align: right;
+    margin: 0.5em 0;
+}
+
+.buttons input {
+    background: transparent url(../images/background/button.jpg) center left repeat-x;
+    height: 21px;
+    line-height: 21px;
+    padding: 0 10px;
+    color: #fff;
+    font-size: 12px;
+    border-color:#EEEEEE #000000 #000000 #EEEEEE;
+    border-style:solid;
+    border-width:1px;
+    font-weight: bold;
+}
+.buttons input:hover, .buttons input:focus {
+    color: rgb(92,186,218);
+    cursor: pointer;
+}
+
+.buttons input[type="checkbox"] {
+    height: auto;
+}
+
+.icon {
+    background: transparent url(../images/icons/icons_sprite.png) top left no-repeat;
+    padding-left: 20px;
+    height: 16px;
+    line-height: 16px;
+    display: -moz-inline-block;
+    display: inline-block;
+    margin: 0 5px;
+    float: right;
+}
+.icon.big{
+		line-height : 44px;
+		height : 44px;
+		padding-left : 48px;
+}
+.icon:first-child {
+    margin-right: 0;
+}
+table .icon {
+    float: none;
+}
+
+.paginator {
+    margin: 0.5em 0;
+}
+.paginator .icon {
+    width: 0px;
+    overflow: hidden;
+    height: 20px;
+}
+
+.warning, .success, .error, .info {
+    margin: 2em 1em 1em;
+    border: 1px solid;
+    padding: 15px 10px 15px 50px;
+    text-align: left;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+.warning {
+    color: rgb(149,74,0);
+    border-color: rgb(149,74,0);
+    background-color: rgb(255,236,156);
+    background-image: url(../images/messages/warning.png);
+}
+
+.success {
+    color: rgb(61,122,21);
+    border-color: rgb(61,122,21);
+    background-color: rgb(214,241,179);
+    background-image: url(../images/messages/success.png);
+}
+
+.error {
+    color: rgb(202,29,17);
+    border-color: rgb(202,29,17);
+    background-color: rgb(253,191,173);
+    background-image: url(../images/messages/error.png);
+}
+
+.info {
+    color: rgb(15,61,135);
+    border-color: rgb(15,61,135);
+    background-color: rgb(176,222,245);
+    background-image: url(../images/messages/info.png);
+}
+
+.up {
+    color: rgb(61,122,21);
+}
+
+.down {
+    color: rgb(202,29,17);
+}
+
+.graph{
+	height : 20px;
+	background-image : url('../images/background/graph_empty.png');
+	background-position : right top;
+	background-repeat : no-repeat;
+	width : 100%;
+	max-width : 1994px;
+	position : relative;
+}
+.graph span{
+	display : block;
+	min-width : 3px;
+	height : 20px;
+	background-image : url('../images/background/graph_full.png');
+	background-repeat : no-repeat;
+	width : 0;
+	background-position : left top;
+}
+.graph strong{
+	display : block;
+	position : absolute;
+	left: 0;
+	top: 0;
+	color : #000;
+	line-height : 20px;
+	width : 100%;
+	text-align : center;
+}
+
+form table tbody td input[type="text"],
+form table tbody td input[type="password"],
+form table tbody td textarea{
+	min-width : 200px;
+}
+
+/***********************************************************************************
+ * LOCATION BAR STYLES
+ ***********************************************************************************/
+
+.location-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    height: 33px;
+    z-Index: 999;
+}
+.location-area h1 {
+    font-size: 13px;
+    padding: 0;
+    line-height: 25px;
+    height: 33px;
+    padding-left: 35px;
+    margin: 0 0 0 10px;
+    background: url(../images/menu/menu_sprite.png) no-repeat;
+}
+.location-menu {
+    float: right;
+    list-style-type: none;
+    margin: -1px 10px 0;
+    padding: 0;
+    height: 25px;
+    line-height: 25px;
+}
+.location-menu li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.location-menu a {
+    color: #f00;
+    font-weight: bold;
+    background: transparent no-repeat center left;
+    padding: 0 5px 0 22px;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+}
+.location-menu .help { background-image: url(../images/user/help.png); }
+.location-menu .logout { background-image: url(../images/user/logout.png); }
+.location-menu .backadmin { background-image: url(../images/user/backadmin.png); }
+
+.path {
+    list-style-type: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.path a {
+    color: #fff;
+    padding: 0 5px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    margin: 0;
+    font-size: 11px;
+}
+.path a:hover {
+    color: rgb(92,186,218);
+}
+
+.path li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.path li:before {
+    content: "\0020 \0020 \0020 \00BB \0020";
+    color: #fff;
+}
+.path li:first-child:before {
+    content: "";
+}
+
+/***********************************************************************************
+ * MAIN MENU STYLE
+ ***********************************************************************************/
+.main_menu {
+    float: right;
+    background: transparent url(../images/background/mainmenu_left.png) no-repeat top left;
+    height: 64px;
+    text-align: right;
+    _width: 3px;
+}
+.main_menu ul {
+    margin: 0 0 0 11px;
+    padding: 0 10px 0 0;
+    background: transparent url(../images/background/mainmenu_bg.png) repeat-x top left;
+    height: 64px;
+}
+.main_menu li {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+.main_menu a {
+    margin: 10px 0 0 5px;
+    display: inline-block;
+    padding: 33px 0 0;
+    color: #fff;
+    background: url(../images/menu/menu_sprite.png) no-repeat;
+    text-align: center;
+}
+
+/* Firefox 1.x/2.x hack because they don't support inline-block! */
+.main_menu a, x:-moz-any-link {
+    float: left;
+    display: block;
+}
+.main_menu a, x:-moz-any-link, x:default {
+    float: none;
+    display: inline-block;
+}
+/******* end of hack ******/
+
+.main_menu a:hover, .mail_menu .active {
+    text-decoration: underline;
+    background-image: url(../images/menu/menu_sprite_hover.png);
+    color: rgb(92,186,218);
+}
+
+/***********************************************************************************
+ * LEFT MENU STYLE
+ ***********************************************************************************/
+.left_menu {
+    color: #fff;
+    width: 197px;
+    float: left;
+    padding-bottom: 60px;
+    background: transparent url(../images/background/left_top_bg.jpg) no-repeat top;
+}
+.left_menu ul {
+    margin: 10px 0;
+    padding: 0;
+    list-style: none;
+}
+.left_menu li {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+.left_menu a {
+    color: #fff;
+    display: block;
+    padding: 5px 18px;
+    font-weight: bold;
+    background: transparent url(../images/background/bullet.png) no-repeat 3px center;
+    margin: 2px;
+}
+.left_menu a:hover {
+    background-image: url(../images/background/bullet_hover.png);
+    color: rgb(92,186,218);
+}
+.left_menu table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+.left_menu th {
+    background: #000 url(../images/background/top_bar_bg.jpg) repeat-x top left;
+    padding: 5px 0 5px 20px;
+    text-align: left;
+    font-size: 12px;
+}
+.left_menu td {
+    padding: 5px 0 5px 20px;
+}
+
+/***********************************************************************************
+ * BODY STYLE
+ ***********************************************************************************/
+
+.body table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.body tr {
+    border: 1px solid rgb(223,223,223);
+    background: #fff;
+}
+.body tr.line_top{
+	border-top : 3px solid #000; 
+}
+.body tr:nth-child(odd) {
+    background: #eee;
+}
+.body tfoot td,
+.body th {
+    background: #000 url(../images/background/top_bar_bg.jpg) repeat-x;
+    white-space: nowrap;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    padding: 5px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.body th:first-child {
+    border-left: 1px solid #000;
+}
+.body th:last-child {
+    border-right: 1px solid #000;
+}
+.description th {
+    background: transparent;
+    color: #000;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+}
+.description th:first-child {
+    border-left: 1px solid #dfdfdf;
+}
+.description th:last-child {
+    border-right: 1px solid #dfdfdf;
+}
+.body th a{
+	color : #fff;
+}
+.body td {
+    padding: 5px;
+    white-space: nowrap;
+    border-top: 1px solid rgb(223,223,223);
+    border-bottom: 1px solid rgb(223,223,223);
+}
+fieldset {
+    padding: 2em 0 0;
+    margin: 0 0 1em;
+    border: none;
+    position: relative;
+}
+legend, h3 {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 14px;
+    font-family: arial;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: -1em;
+}
+
+
+/***********************************************************************************
+ * ICONS
+ ***********************************************************************************/
+
+/* Main menu icons */
+.main_menu .custom_link { background-position: center 0; }
+.main_menu .database { background-position: center -80px; }
+.main_menu .domains { background-position: center -160px; }
+.main_menu .email { background-position: center -240px; }
+.main_menu .ftp { background-position: center -320px; }
+.main_menu .general { background-position: center -400px; }
+.main_menu .hosting_plans { background-position: center -480px; }
+.main_menu .manage_users { background-position: center -560px; }
+.main_menu .purchasing { background-position: center -640px; }
+.main_menu .settings { background-position: center -720px; }
+.main_menu .statistics { background-position: center -800px; }
+.main_menu .support { background-position: center -880px; }
+.main_menu .webtools { background-position: center -960px; }
+/* Left menu heading icons */
+.location .custom_link { background-position: 0 0; }
+.location .database { background-position: 0 -80px; }
+.location .domains { background-position: 0 -160px; }
+.location .email { background-position: 0 -240px; }
+.location .ftp { background-position: 0 -320px; }
+.location .general { background-position: 0 -400px; }
+.location .hosting_plans { background-position: 0 -480px; }
+.location .manage_users { background-position: 0 -560px; }
+.location .purchasing { background-position: 0 -640px; }
+.location .settings { background-position: 0 -720px; }
+.location .statistics { background-position: 0 -800px; }
+.location .support { background-position: 0 -880px; }
+.location .webtools { background-position: 0 -960px; }
+/* Content icons (table_icons) */
+.body .adminlog { background-position: 0 0; }
+.body .billing { background-position: 0 -75px; } 
+.body .debugger { background-position: 0 -149px; }
+.body .diskusage { background-position: 0 -224px; }
+.body .doc { background-position: 0 -299px; }
+.body .domains { background-position: 0 -374px; }
+.body .email { background-position: 0 -449px; }
+.body .errors { background-position: 0 -524px; }
+.body .flash { background-position: 0 -599px; }
+.body .ftp { background-position: 0 -674px; }
+.body .general { background-position: 0 -749px; }
+.body .hdd { background-position: 0 -824px; }
+.body .htaccess { background-position: 0 -899px; }
+.body .ip { background-position: 0 -974px; }
+.body .layout { background-position: 0 -1049px; }
+.body .maintenancemode { background-position: 0 -1124px; }
+.body .multilanguage { background-position: 0 -1199px; }
+.body .no { background-position: 0 -1274px; }
+.body .password { background-position: 0 -1349px; }
+.body .purchasing { background-position: 0 -1424px; }
+.body .serverstatus { background-position: 0 -1499px; }
+.body .settings { background-position: 0 -1574px; }
+.body .sql { background-position: 0 -1649px; }
+.body .stats { background-position: 0 -1724px; }
+.body .support { background-position: 0 -1799px; }
+.body .systeminfo { background-position: 0 -1874px; }
+.body .tools { background-position: 0 -1949px; }
+.body .traffic { background-position: 0 -2024px; }
+.body .update { background-position: 0 -2099px; }
+.body .user { background-position: 0 -2174px; }
+.body .users { background-position: 0 -2249px; }
+.body .users2 { background-position: 0 -2324px; }
+/* Content icons (link icons) */
+.i_add_user { background-position: 0 0; }
+.i_awstatsicon { background-position: 0 -66px; }
+.i_backupicon { background-position: 0 -162px; }
+.i_bc_folder { background-position: 0 -258px; }
+.i_bc_locked { background-position: 0 -324px; }
+.i_bc_parent { background-position: 0 -390px; }
+.i_change_password { background-position: 0 -456px; }
+.i_close_interface { background-position: 0 -522px; }
+.i_database_big { background-position: 0 -588px; }
+.i_database_small { background-position: 0 -670px; }
+.i_db_comit { background-position: 0 -736px; }
+.i_delete { background-position: 0 -802px; }
+.i_details { background-position: 0 -868px; }
+.i_disabled { background-position: 0 -934px; }
+.i_document { background-position: 0 -1000px; }
+.i_domain_big { background-position: 0 -1066px; }
+.i_domain_icon { background-position: 0 -1148px; }
+.i_edit { background-position: 0 -1214px; }
+.i_email_big { background-position: 0 -1280px; }
+.i_error { background-position: 0 -1362px; }
+.i_error401 { background-position: 0 -1428px; }
+.i_error403 { background-position: 0 -1522px; }
+.i_error404 { background-position: 0 -1616px; }
+.i_error500 { background-position: 0 -1710px; }
+.i_error503 { background-position: 0 -1804px; }
+.i_errordocsicon { background-position: 0 -1898px; }
+.i_filemanagericon { background-position: 0 -1994px; }
+.i_ftp_account { background-position: 0 -2090px; }
+.i_ftp_big { background-position: 0 -2156px; }
+.i_general_big { background-position: 0 -2238px; }
+.i_goto { background-position: 0 -2320px; }
+.i_help { background-position: 0 -2386px; }
+.i_hide_alias { background-position: 0 -2452px; }
+.i_hosting_plans_big { background-position: 0 -2518px; }
+.i_htaccessicon { background-position: 0 -2600px; }
+.i_identity { background-position: 0 -2696px; }
+.i_locale { background-position: 0 -2762px; }
+.i_mail_icon { background-position: 0 -2828px; }
+.i_manage_users_big { background-position: 0 -2894px; }
+.i_next { background-position: 0 -2976px; }
+.i_next_gray { background-position: 0 -3046px; }
+.i_ok { background-position: 0 -3116px; }
+.i_pma { background-position: 0 -3182px; }
+.i_prev { background-position: 0 -3248px; }
+.i_prev_gray { background-position: 0 -3318px; }
+.i_purchasing_big { background-position: 0 -3388px; }
+.i_reload { background-position: 0 -3470px; }
+.i_settings_big { background-position: 0 -3536px; }
+.i_show_alias { background-position: 0 -3618px; }
+.i_statistics_big { background-position: 0 -3684px; }
+.i_stats { background-position: 0 -3766px; }
+.i_support_big { background-position: 0 -3832px; }
+.i_user { background-position: 0 -3913px; }
+.i_users { background-position: 0 -3979px; }
+.i_webmailicon { background-position: 0 -4045px; }
+.i_webtools_big { background-position: 0 -4141px; }
+
+div.tooltip{
+	background-color:#ffffe0;
+	border: 1px #000000 solid;
+	display:none;
+	margin:5px;
+	padding:5px;
+	font-size:11px;
+	width:200px;
+	position:absolute;
+	z-index : 100;
+}
+.icon.i_help{
+	width : 0;
+	overflow : hidden;
+}
+
+form table td{
+	vertical-align: top;
+}
+
+.isp_logo{
+	margin : 0 auto;
+	text-align : center;
+}
