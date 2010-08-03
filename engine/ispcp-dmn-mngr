@@ -4610,7 +4610,7 @@ sub dmn_restore_data {
 							"$cmd_bzcat -d $dmn_bk_dir/$fname | $cmd_mysql ".
 							"--user=\"$dbuser\" --password=\"$dbpass\" ".
 							"--database=\"$db_name\"";
-						$rs = sys_command($cmd);
+						$rs = sys_command_rs($cmd);
 						return $rs if ($rs != 0);
 					}
 				}
@@ -4671,7 +4671,7 @@ sub dmn_restore_data {
 							"$cmd_gzcat -d $dmn_bk_dir/$fname | $cmd_mysql ".
 							"--user=\"$dbuser\" --password=\"$dbpass\" ".
 							"--database=\"$db_name\"";
-						$rs = sys_command($cmd);
+						$rs = sys_command_rs($cmd);
 						return $rs if ($rs != 0);
 					}
 				}
@@ -4731,7 +4731,7 @@ sub dmn_restore_data {
 							"$cmd_lzma -dc $dmn_bk_dir/$fname | $cmd_mysql ".
 							"--user=\"$dbuser\" --password=\"$dbpass\" ".
 							"--database=\"$db_name\"";
-						$rs = sys_command($cmd);
+						$rs = sys_command_rs($cmd);
 						return $rs if ($rs != 0);
 					}
 				}
@@ -4943,7 +4943,7 @@ sub dmn_mngr_engine {
 		($rs, $rdata) = doSQL($sql);
 		return $rs if ($rs != 0);
 	} elsif ($dmn_status eq 'dnschange'){
-		#modifiying DNS entry		
+		#modifiying DNS entry
 		$rs = dmn_change_named_data($entry);
 		$timestamp = time();
 		if ($rs == 0) {

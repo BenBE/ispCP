@@ -1,6 +1,11 @@
 ispCP ω 1.0.5 Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-08-03 Benedikt Heintel
+	- TOOLS:
+		* Updates phpMyAdmin to version 3.3.5
+		* Updates Squirrelmail to version 1.4.21
+
 2010-03-31 Jochen Manz
 	- RELEASE ispCP ω Omega 1.0.5
 	- CONFIGS:

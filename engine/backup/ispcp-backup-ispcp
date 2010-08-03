@@ -222,7 +222,7 @@ sub backup_ispcp_database {
 		return 1;
 	}
 
-	$rs = sys_command($db_backupcmd);
+	$rs = sys_command_rs($db_backupcmd);
 	if( $rs != 0 ){
 		push_el(\@main::el, 'backup_ispcp_database()', "ERROR: Failed to backup database $db_name!");
 		send_error_mail('backup_ispcp_database()', "ERROR: Failed to backup database $db_name!");

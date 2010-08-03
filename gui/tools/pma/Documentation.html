@@ -5,12 +5,12 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
     version="-//W3C//DTD XHTML 1.1//EN" dir="ltr">
-<!-- $Id: Documentation.html 13448 2010-03-07 23:41:30Z lem9 $ -->
+<!-- $Id$ -->
 <head>
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>phpMyAdmin 3.3.0 - Documentation</title>
+    <title>phpMyAdmin 3.3.5 - Documentation</title>
     <link rel="stylesheet" type="text/css" href="docs.css" />
 </head>
 
@@ -18,7 +18,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
 <div id="header">
     <h1>
         <a href="http://www.phpmyadmin.net/">php<span class="myadmin">MyAdmin</span></a>
-        3.3.0
+        3.3.5 
         Documentation
     </h1>
 </div>
@@ -54,7 +54,7 @@ vim: expandtab ts=4 sw=4 sts=4 tw=78
         </ul>
     </li>
     <li><div class="l10n">Documentation version:</div>
-        <i>$Id: Documentation.html 13448 2010-03-07 23:41:30Z lem9 $</i>
+        <i>$Id$</i>
     </li>
 </ul>
 
@@ -396,7 +396,7 @@ rm -rf config                      # remove not needed directory
         In cookie mode, the password is stored, encrypted with the blowfish
         algorithm, in a temporary cookie.</li>
 
-    <li>Note: starting with phpMyAdmin 2.6.1, this section is only applicable if
+    <li>Note: this section is only applicable if
         your MySQL server is running with <tt>--skip-show-database</tt>.<br /><br />
 
         For '<abbr title="HyperText Transfer Protocol">HTTP</abbr>' and 'cookie'
@@ -715,7 +715,7 @@ since this link provides funding for phpMyAdmin.
     <dd>This special account is used for 2 distinct purposes: to make possible
         all relational features (see
         <a href="#pmadb" class="configrule">$cfg['Servers'][$i]['pmadb']</a>)
-        and, for a MySQL server previous to 4.1.2 or running with
+        and, for a MySQL server running with
         <tt>--skip-show-database</tt>, to enable a multi-user installation
         (<abbr title="HyperText Transfer Protocol">HTTP</abbr> or cookie
         authentication mode).<br /><br />
@@ -935,7 +935,8 @@ since this link provides funding for phpMyAdmin.
         table. To allow the usage of this functionality:
         <ul><li>set up <a href="#pmadb">pmadb</a> and the linked-tables infrastructure</li>
             <li>put the table name in
-                <tt>$cfg['Servers'][$i]['table_info']</tt></li>
+                <tt>$cfg['Servers'][$i]['table_info']</tt> (e.g.
+                'pma_table_info')</li>
             <li>then for each table where you want to use this feature,
                 click &quot;Structure/Relation view/Choose field to display&quot;
                 to choose the field.</li>
@@ -994,7 +995,8 @@ since this link provides funding for phpMyAdmin.
         <ul><li>set up <a href="#pmadb">pmadb</a> and the linked-tables
                 infrastructure</li>
             <li>put the table name in
-                <tt>$cfg['Servers'][$i]['column_info']</tt></li>
+                <tt>$cfg['Servers'][$i]['column_info']</tt> (e.g.
+                'pma_column_info')</li>
             <li>to update your PRE-2.5.0 Column_comments Table use this:
 
                 <pre>
@@ -1034,6 +1036,7 @@ ALTER TABLE `pma_column_comments`
         <ul><li>set up <a href="#pmadb">pmadb</a> and the linked-tables
                 infrastructure</li>
             <li>put the table name in <tt>$cfg['Servers'][$i]['history']</tt>
+            (e.g. 'pma_history')
                 </li>
         </ul>
     </dd>
@@ -1064,7 +1067,7 @@ ALTER TABLE `pma_column_comments`
 
         <ul>
             <li>set up <a href="#pmadb">pmadb</a> and the linked-tables infrastructure</li>
-            <li>put the table name in <tt>$cfg['Servers'][$i]['tracking']</tt></li>
+            <li>put the table name in <tt>$cfg['Servers'][$i]['tracking']</tt> (e.g. 'pma_tracking')</li>
         </ul>
     </dd>
 
@@ -1103,7 +1106,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_view">$cfg['Servers'][$i]['tracking_version_drop_view']</span> boolean
     </dt>
     <dd>
-        Whether a DROP VIEW IF EXISTS statement will added as first line to the log when creating a view. Default value is true.
+        Whether a DROP VIEW IF EXISTS statement will be added as first line to the log when creating a view. Default value is true.
         <br/><br/>       
     </dd>
 
@@ -1112,7 +1115,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_table">$cfg['Servers'][$i]['tracking_version_drop_table']</span> boolean
     </dt>
     <dd>
-        Whether a DROP TABLE IF EXISTS statement will added as first line to the log when creating a table. Default value is true.
+        Whether a DROP TABLE IF EXISTS statement will be added as first line to the log when creating a table. Default value is true.
         <br/><br/>
     </dd>
 
@@ -1120,7 +1123,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         <span id="cfg_Servers_tracking_drop_database">$cfg['Servers'][$i]['tracking_version_drop_database']</span> boolean
     </dt>
     <dd>
-        Whether a DROP DATABASE IF EXISTS statement will added as first line to the log when creating a database. Default value is true.
+        Whether a DROP DATABASE IF EXISTS statement will be added as first line to the log when creating a database. Default value is true.
         <br/><br/>
     </dd>
 
@@ -1136,7 +1139,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
 
         <ul><li>set up <a href="#pmadb">pmadb</a> and the linked-tables
                 infrastructure</li>
-            <li>put the table name in <tt>$cfg['Servers'][$i]['designer_coords']</tt>
+            <li>put the table name in <tt>$cfg['Servers'][$i]['designer_coords']</tt> (e.g. 'pma_designer_coords')
                 </li>
         </ul>
     </dd>
@@ -1297,7 +1300,7 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         This setting is used while importing/exporting dump files and in the
         Synchronize feature but has no effect when PHP is running in safe mode.</dd>
 
-    <dt id="cfg_MemoryLimit">$cfg['MemoryLimit'] integer [number of bytes]</dt>
+    <dt id="cfg_MemoryLimit">$cfg['MemoryLimit'] string [number of bytes]</dt>
     <dd>Set the number of bytes a script is allowed to allocate. If set
         to zero, no limit is imposed.<br />
         This setting is used while importing/exporting dump files and at some
@@ -1343,8 +1346,8 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
     <dd>Define how long is login cookie valid. Please note that php
         configuration option <a href="http://php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime">session.gc_maxlifetime</a> 
         might limit session validity and if session is lost, login cookie is
-        also invalidated. So it is good idea to set <code>session.gc_maxlifetime</code> 
-        at least as high is $cfg['LoginCookieValidity'] is set.</dd>
+        also invalidated. So it is a good idea to set <code>session.gc_maxlifetime</code> 
+        not lower than the value of $cfg['LoginCookieValidity'].</dd>
 
     <dt id="cfg_LoginCookieStore">$cfg['LoginCookieStore'] integer [number of seconds]</dt>
     <dd>Define how long is login cookie should be stored in browser. Default 0
@@ -1378,6 +1381,12 @@ CREATE DATABASE,ALTER DATABASE,DROP DATABASE</pre>
         MySQL servers behind the firewall where your
         <abbr title="HyperText Transfer Protocol">HTTP</abbr> server is placed.
     </dd>
+
+    <dt id ="cfg_Error_Handler_display">$cfg['Error_Handler']['display'] boolean</dt>
+    <dd>Whether to display errors from PHP or not.</dd>
+
+    <dt id ="cfg_Error_Handler_gather">$cfg['Error_Handler']['gather'] boolean</dt>
+    <dd>Whether to gather errors from PHP or not.</dd>
 
     <dt id="cfg_LeftFrameLight">$cfg['LeftFrameLight'] boolean</dt>
     <dd>Defines whether to use a select-based menu and display only the current
@@ -1834,7 +1843,7 @@ $cfg['TrustedProxies'] =
         editing.</dd>
 
     <dt id="cfg_LimitChars">$cfg['LimitChars'] integer</dt>
-    <dd>Maximum number of characters showen in any non-numeric field on browse view.
+    <dd>Maximum number of characters shown in any non-numeric field on browse view.
         Can be turned off by a toggle button on the browse page.</dd>
 
     <dt><span id="cfg_ModifyDeleteAtLeft">$cfg['ModifyDeleteAtLeft'] </span>boolean
@@ -1883,20 +1892,20 @@ $cfg['TrustedProxies'] =
         name of the field. The comment is shown as a tool-tip for that field.
     </dd>
 
-    <dt id ="cfb_SQLQuery_Edit">$cfg['SQLQuery']['Edit'] boolean</dt>
+    <dt id ="cfg_SQLQuery_Edit">$cfg['SQLQuery']['Edit'] boolean</dt>
     <dd>Whether to display an edit link to change a query in any SQL Query box.</dd>
 
-    <dt id ="cfb_SQLQuery_Explain">$cfg['SQLQuery']['Explain'] boolean</dt>
+    <dt id ="cfg_SQLQuery_Explain">$cfg['SQLQuery']['Explain'] boolean</dt>
     <dd>Whether to display a link to explain a SELECT query in any SQL Query box.</dd>
 
-    <dt id ="cfb_SQLQuery_ShowAsPHP">$cfg['SQLQuery']['ShowAsPHP'] boolean</dt>
+    <dt id ="cfg_SQLQuery_ShowAsPHP">$cfg['SQLQuery']['ShowAsPHP'] boolean</dt>
     <dd>Whether to display a link to wrap a query in PHP code in any SQL Query box.</dd>
 
-    <dt id ="cfb_SQLQuery_Validate">$cfg['SQLQuery']['Validate'] boolean</dt>
+    <dt id ="cfg_SQLQuery_Validate">$cfg['SQLQuery']['Validate'] boolean</dt>
     <dd>Whether to display a link to validate a query in any SQL Query box.
         See also <tt><a href="#cfg_SQLValidator">$cfg_SQLValidator</a></tt>.</dd>
 
-    <dt id ="cfb_SQLQuery_Refresh">$cfg['SQLQuery']['Refresh'] boolean</dt>
+    <dt id ="cfg_SQLQuery_Refresh">$cfg['SQLQuery']['Refresh'] boolean</dt>
     <dd>Whether to display a link to refresh a query in any SQL Query box.</dd>
 
     <dt id="cfg_UploadDir">$cfg['UploadDir'] string</dt>
@@ -3055,11 +3064,37 @@ RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
 
 <p> Yes but the default configuration values of Suhosin are known to cause 
     problems with some operations, for example editing a table with many
-    columns and no primary key. Tuning information is available at 
-    <a href="http://www.hardened-php.net/hphp/troubleshooting.html">
-	    http://www.hardened-php.net/hphp/troubleshooting.html</a>,
-    although the parameter names have changed (<tt>suhosin</tt> instead
-    of <tt>hphp</tt>). See also the <a href="#cfg_SuhosinDisableWarning">
+    columns and no primary key or with textual primary key.
+</p>
+<p>
+    Suhosin configuration might lead to malfunction in some cases and it can
+    not be fully avoided as phpMyAdmin is kind of application which needs to
+    transfer big amounts of fields in single HTTP request, what is something
+    what Suhosin tries to prevent. Generally all
+    <code>suhosin.request.*</code>, <code>suhosin.post.*</code> and
+    <code>suhosin.get.*</code> directives can have negative effect on
+    phpMyAdmin usability. You can always find in your error logs which limit
+    did cause dropping of variable, so you can diagnose the problem and adjust
+    matching configuration variable.
+</p>
+<p>
+    The default values for most Suhosin configuration options will work in most 
+    scenarios, however you might want to adjust at least following parameters:
+</p>
+
+<ul>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.request.max_vars">suhosin.request.max_vars</a> should be increased (eg. 2048)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.post.max_vars">suhosin.post.max_vars</a> should be increased (eg. 2048)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.request.max_array_index_length">suhosin.request.max_array_index_length</a> should be increased (eg. 256)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.post.max_array_index_length">suhosin.post.max_array_index_length</a> should be increased (eg. 256)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.request.max_totalname_length">suhosin.request.max_totalname_length</a> should be increased (eg. 8192)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.post.max_totalname_length">suhosin.post.max_totalname_length</a> should be increased (eg. 8192)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#suhosin.sql.bailout_on_error">suhosin.sql.bailout_on_error</a> needs to be disabled (the default)</li>
+    <li><a href="http://www.hardened-php.net/suhosin/configuration.html#logging_configuration">suhosin.log.*</a> should not include SQL, otherwise you get big slowdown</li>
+</ul>
+
+    <p>
+        You can also disable the warning using the <a href="#cfg_SuhosinDisableWarning">
 	    <tt>SuhosinDisableWarning</tt> directive</a>.
     </p>
 
@@ -3072,7 +3107,7 @@ RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
 in your Apache configuration. See <a href="http://httpd.apache.org/docs/2.0/mod/mod_ssl.html#ssloptions">http://httpd.apache.org/docs/2.0/mod/mod_ssl.html#ssloptions</a>.</p>
 
 <h4 id="faq1_40">
-    <a href="#faq1_40">1.40 When accessing phpMyAdmin via an Apache reverse proxy, cookie login does not work,</a></h4>
+    <a href="#faq1_40">1.40 When accessing phpMyAdmin via an Apache reverse proxy, cookie login does not work.</a></h4>
 
 <p>To be able to use cookie auth Apache must know that it has to rewrite the set-cookie headers.<br />
 	Example from the Apache 2.2 documentation:</p>
@@ -3296,7 +3331,7 @@ have either the <a href="http://pecl.php.net/package/APC">APC</a> extension
 
 <h4 id="login_bug">
     <a href="#login_bug">3.1 When using
-    <abbr title="HyperText Transfer Protocol">HTTP</abbr> authentication, an user
+    <abbr title="HyperText Transfer Protocol">HTTP</abbr> authentication, a user
     who logged out can not log in again in with the same nick.</a></h4>
 
 <p> This is related to the authentication mechanism (protocol) used by
@@ -4228,37 +4263,12 @@ INSERT INTO REL_towns VALUES ('M', 'Montr&eacute;al');
     <a href="#faq6_23">6.23 Export: I heard phpMyAdmin can export Microsoft
     Excel files, how can I enable that?</a></h4>
 
-<p> Current version does support direct export to Microsoft Excel and Word
-    versions 2000 and newer. If you need export older versions, you can use
-    <abbr title="comma separated values">CSV</abbr> suitable for Microsoft Excel,
-    which works out of the box or you can
-    try native <b>experimental</b> MS Excel exporter. <b>This export has
-    several problems, most important are limitation of cell content to 255
-    chars and no support for charsets, so think carefully whether you want to
-    enable this.</b>.  For enabling this you need to set
-    <a href="#cfg_TempDir" class="configrule">$cfg['TempDir']</a> to
-    place where web server user can write (for example <tt>'./tmp'</tt>) and
-    install <abbr title="PHP Extension and Application Repository">PEAR</abbr>
-    module Spreadsheet_Excel_Writer into php include path. The
-    installation can be done by following command:</p>
-
-<pre>
-pear -d preferred_state=beta install -a Spreadsheet_Excel_Writer
-</pre>
-
-<p> First part of switches set we want to install beta version of that module
-    (no stable version available yet) and then we tell pear we want to satisfy
-    dependencies.</p>
-
-<p> If you are running in PHP safe mode, you will have to set
-    in <tt>php.ini</tt> the <tt>safe_mode_include_dir</tt> to the directory
-    where your <abbr title="PHP Extension and Application Repository">PEAR</abbr>
-    modules are located, for example:</p>
-
-<pre>
-safe_mode_include_dir = /usr/local/lib/php
-</pre>
-
+<p> You can use
+    <abbr title="comma separated values">CSV</abbr> for Microsoft Excel,
+    which works out of the box, but phpMyAdmin supports direct export 
+    to Microsoft Excel version 97 and newer.  For this to work, you need to set
+    <a href="#cfg_TempDir" class="configrule">$cfg['TempDir']</a> to a
+    place where the web server user can write (for example <tt>'./tmp'</tt>).</p>
 <p> To create the temporary directory on a UNIX-based system, you can do:</p>
 
 <pre>
@@ -4277,7 +4287,7 @@ chmod o+rwx tmp
 <h4 id="faq6_25">
 	<a href="#faq6_25">6.25 How does BLOB streaming work in phpMyAdmin?</a></h4>
 
-<p> First, for general information about BLOB streaming on MySQL, visit <a href="http://blobstreaming.org">blobstreaming.org</a>. We currently support streaming if you are running MySQL 5.1 with the PBXT and PBMS storage engines.</p>
+<p> First, for general information about BLOB streaming on MySQL, visit <a href="http://blobstreaming.org">blobstreaming.org</a>. We currently support streaming if you are running MySQL 5.1 with the PBXT and PBMS storage engines. Moreover, only PBMS 0.5.04 is supported.</p>
 
 <ol>
 	<li>In <tt>config.inc.php</tt> your host should be defined with a FQDN (fully qualified domain name) instead of something like &quot;localhost&quot;.</li>
@@ -4287,6 +4297,12 @@ chmod o+rwx tmp
 	<li>When you insert or update a row in this table, put a checkmark on the &quot;Upload to BLOB repository&quot; optional choice; otherwise, the upload will be done directly in your column instead of the repository.</li>
 	<li>Finally when you browse your table, you'll see in your column a link to stream your data, for example &quot;View image&quot;. A header containing the correct MIME-type will be sent to your browser; this MIME-type was stored at upload time but in case it's incorrect, it's possible to edit it by clicking on the displayed MIME-type.</li> 
 </ol>	
+
+<h4 id="faq6_26">
+    <a href="#faq6_26">6.26 How can I select a range of rows?</a></h4>
+
+<p> Click the first row of the range, hold the shift key and click the last row of the range. This works everywhere you see rows, for example in Browse mode or on the Structure page.</p>
+
 
 <h3 id="faqproject">phpMyAdmin project</h3>
 
@@ -4326,20 +4342,23 @@ chmod o+rwx tmp
 
 <p> The following method is preferred for new developers:</p>
 
-<ol><li>fetch the current SVN tree over anonymous SVN:<br />
-    <tt>svn co https://phpmyadmin.svn.sourceforge.net/svnroot/phpmyadmin/trunk/phpMyAdmin</tt><br />
+<ol><li>fetch the current git repository over anonymous git:<br />
+    <tt>git clone
+        git://phpmyadmin.git.sourceforge.net/gitroot/phpmyadmin/phpmyadmin</tt><br />
     </li>
     <li>add your stuff</li>
     <li>generate patch with your changes:
-    <tt>svn diff</tt><br />
+    <tt>git diff &gt; xxx.diff</tt><br />
     </li>
-    <li>put the patch inside the <a
+    <li>submit your patch via the <a
         href="https://sourceforge.net/tracker/?group_id=23067&amp;atid=377410">patch
         tracker of the phpMyAdmin project</a>.
     </li>
 </ol>
 
-<p> Write access to the SVN tree is granted only to experienced developers who
+<p>More details on git are available on <a href="http://wiki.phpmyadmin.net/pma/Devel:Git">our wiki</a>.</p>
+
+<p> Write access to the repository is granted only to experienced developers who
     have already contributed something useful to phpMyAdmin.<br />
     Also, have a look at the <a href="#developers">Developers section</a>.</p>
 
@@ -4392,7 +4411,7 @@ server host name, username, password, port and the name of the database. Therefo
 now synchronize your databases placed on the same server or some remote server.
 </p>
 
-<p>For more details see <a href="./documentation-gsoc/Synchronization_User%20Manual.htm">How to synchronize</a>
+<p>For more details see <a href="./documentation-gsoc/Synchronization_User_Manual.htm">How to synchronize</a>
 </p>
 
 <!-- DEVELOPERS -->
@@ -4422,6 +4441,9 @@ now synchronize your databases placed on the same server or some remote server.
         <abbr title="PHP Extension and Application Repository">PEAR</abbr>
         coding standards</a>
         on the other hand. Please pay attention to this.</li>
+    <li>Please enable showing PHP errors and warnings by the
+        <code><a href="#cfg_Error_Handler_display">$cfg['Error_Handler']['display']</a></code>
+        configuration directive.</li>
     <li>Please try to keep up the file-naming conventions. Table-related stuff
         goes to <i>tbl_*.php</i>, db-related code to <i>db_*.php</i>,
         server-related tools to <i>server_*.php</i> and so on.</li>
@@ -4961,7 +4983,7 @@ Jakub Wilk, Thomas Michael Winningham, Vilius Zigmantas, &quot;Manuzhai&quot;.
 </div>
 
   <ul id="footer">
-    <li>Copyright &copy; 2003 - 2009 <a href="http://www.phpmyadmin.net/home_page/team.php">phpMyAdmin devel team</a></li>
+    <li>Copyright &copy; 2003 - 2010 <a href="http://www.phpmyadmin.net/home_page/team.php">phpMyAdmin devel team</a></li>
     <li><a href="LICENSE">License</a></li>
     <li><a href="http://www.phpmyadmin.net/home_page/donate.php">Donate</a></li>
     <li class="last">Valid <a href="http://validator.w3.org/check/referer">HTML</a> and <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a></li>

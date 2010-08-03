@@ -1,4 +1,4 @@
-phpMyAdmin 3.3.0 Documentation
+phpMyAdmin 3.3.5 Documentation
 
   * Top
   * Requirements
@@ -21,7 +21,7 @@ phpMyAdmin 3.3.0 Documentation
       + Version history: ChangeLog
       + License: LICENSE
   * Documentation version:
-    $Id: Documentation.html 13448 2010-03-07 23:41:30Z lem9 $
+    $Id$
 
 Requirements
 
@@ -278,8 +278,8 @@ Using authentication modes
     are using the HTTPS protocol.
     In cookie mode, the password is stored, encrypted with the blowfish
     algorithm, in a temporary cookie.
-  * Note: starting with phpMyAdmin 2.6.1, this section is only applicable if
-    your MySQL server is running with --skip-show-database.
+  * Note: this section is only applicable if your MySQL server is running with
+    --skip-show-database.
 
     For 'HTTP' and 'cookie' modes, phpMyAdmin needs a controluser that has only
     the SELECT privilege on the `mysql`.`user` (all columns except `Password`),
@@ -508,8 +508,8 @@ $cfg['Servers'][$i]['controluser'] string
     $cfg['Servers'][$i]['controlpass'] string
     This special account is used for 2 distinct purposes: to make possible all
     relational features (see $cfg['Servers'][$i]['pmadb']) and, for a MySQL
-    server previous to 4.1.2 or running with --skip-show-database, to enable a
-    multi-user installation (HTTP or cookie authentication mode).
+    server running with --skip-show-database, to enable a multi-user
+    installation (HTTP or cookie authentication mode).
 
     When using HTTP or cookie authentication modes (or 'config' authentication
     mode since phpMyAdmin 2.2.1), you need to supply the details of a MySQL
@@ -657,7 +657,8 @@ $cfg['Servers'][$i]['table_info'] string
     This configuration variable will hold the name of this special table. To
     allow the usage of this functionality:
       + set up pmadb and the linked-tables infrastructure
-      + put the table name in $cfg['Servers'][$i]['table_info']
+      + put the table name in $cfg['Servers'][$i]['table_info'] (e.g.
+        'pma_table_info')
       + then for each table where you want to use this feature, click
         "Structure/Relation view/Choose field to display" to choose the field.
     Usage tip: Display field.
@@ -694,7 +695,8 @@ $cfg['Servers'][$i]['column_info'] string
 
     To allow the usage of this functionality:
       + set up pmadb and the linked-tables infrastructure
-      + put the table name in $cfg['Servers'][$i]['column_info']
+      + put the table name in $cfg['Servers'][$i]['column_info'] (e.g.
+        'pma_column_info')
       + to update your PRE-2.5.0 Column_comments Table use this:
 
         ALTER TABLE `pma_column_comments`
@@ -720,7 +722,8 @@ $cfg['Servers'][$i]['history'] string
 
     To allow the usage of this functionality:
       + set up pmadb and the linked-tables infrastructure
-      + put the table name in $cfg['Servers'][$i]['history']
+      + put the table name in $cfg['Servers'][$i]['history'] (e.g.
+        'pma_history')
 $cfg['Servers'][$i]['tracking'] string
     Since release 3.3.x a tracking mechanism is available. It helps you to
     track every SQL command which is executed by phpMyAdmin. The mechanism
@@ -741,7 +744,8 @@ $cfg['Servers'][$i]['tracking'] string
 
     To allow the usage of this functionality:
       + set up pmadb and the linked-tables infrastructure
-      + put the table name in $cfg['Servers'][$i]['tracking']
+      + put the table name in $cfg['Servers'][$i]['tracking'] (e.g.
+        'pma_tracking')
 $cfg['Servers'][$i]['tracking_version_auto_create'] boolean
     Whether the tracking mechanism creates versions for tables and views
     automatically. Default value is false.
@@ -762,16 +766,16 @@ $cfg['Servers'][$i]['tracking_default_statements'] string
     CREATE DATABASE,ALTER DATABASE,DROP DATABASE
 
 $cfg['Servers'][$i]['tracking_version_drop_view'] boolean
-    Whether a DROP VIEW IF EXISTS statement will added as first line to the log
-    when creating a view. Default value is true.
+    Whether a DROP VIEW IF EXISTS statement will be added as first line to the
+    log when creating a view. Default value is true.
 
 $cfg['Servers'][$i]['tracking_version_drop_table'] boolean
-    Whether a DROP TABLE IF EXISTS statement will added as first line to the
+    Whether a DROP TABLE IF EXISTS statement will be added as first line to the
     log when creating a table. Default value is true.
 
 $cfg['Servers'][$i]['tracking_version_drop_database'] boolean
-    Whether a DROP DATABASE IF EXISTS statement will added as first line to the
-    log when creating a database. Default value is true.
+    Whether a DROP DATABASE IF EXISTS statement will be added as first line to
+    the log when creating a database. Default value is true.
 
 $cfg['Servers'][$i]['designer_coords'] string
     Since release 2.10.0 a Designer interface is available; it permits to
@@ -779,7 +783,8 @@ $cfg['Servers'][$i]['designer_coords'] string
 
     To allow the usage of this functionality:
       + set up pmadb and the linked-tables infrastructure
-      + put the table name in $cfg['Servers'][$i]['designer_coords']
+      + put the table name in $cfg['Servers'][$i]['designer_coords'] (e.g.
+        'pma_designer_coords')
 $cfg['Servers'][$i]['verbose_check'] boolean
     Because release 2.5.0 introduced the new MIME-transformation support, the
     column_info table got enhanced with three new fields. If the above variable
@@ -906,7 +911,7 @@ $cfg['ExecTimeLimit'] integer [number of seconds]
     zero, no time limit is imposed.
     This setting is used while importing/exporting dump files and in the
     Synchronize feature but has no effect when PHP is running in safe mode.
-$cfg['MemoryLimit'] integer [number of bytes]
+$cfg['MemoryLimit'] string [number of bytes]
     Set the number of bytes a script is allowed to allocate. If set to zero, no
     limit is imposed.
     This setting is used while importing/exporting dump files and at some other
@@ -941,9 +946,9 @@ $cfg['LoginCookieRecall'] boolean
 $cfg['LoginCookieValidity'] integer [number of seconds]
     Define how long is login cookie valid. Please note that php configuration
     option session.gc_maxlifetime might limit session validity and if session
-    is lost, login cookie is also invalidated. So it is good idea to set
-    session.gc_maxlifetime at least as high is $cfg['LoginCookieValidity'] is
-    set.
+    is lost, login cookie is also invalidated. So it is a good idea to set
+    session.gc_maxlifetime not lower than the value of $cfg
+    ['LoginCookieValidity'].
 $cfg['LoginCookieStore'] integer [number of seconds]
     Define how long is login cookie should be stored in browser. Default 0
     means that it will be kept for existing session. This is recommended for
@@ -966,6 +971,10 @@ $cfg['AllowArbitraryServer'] boolean
 
     NOTE: Please use this carefully, as this may allow users access to MySQL
     servers behind the firewall where your HTTP server is placed.
+$cfg['Error_Handler']['display'] boolean
+    Whether to display errors from PHP or not.
+$cfg['Error_Handler']['gather'] boolean
+    Whether to gather errors from PHP or not.
 $cfg['LeftFrameLight'] boolean
     Defines whether to use a select-based menu and display only the current
     tables in the left frame (smaller page). Only in Non-Lightmode you can use
@@ -1288,8 +1297,8 @@ $cfg['CtrlArrowsMoving'] boolean
     Enable Ctrl+Arrows (Option+Arrows in Safari) moving between fields when
     editing.
 $cfg['LimitChars'] integer
-    Maximum number of characters showen in any non-numeric field on browse
-    view. Can be turned off by a toggle button on the browse page.
+    Maximum number of characters shown in any non-numeric field on browse view.
+    Can be turned off by a toggle button on the browse page.
 $cfg['ModifyDeleteAtLeft'] boolean $cfg['ModifyDeleteAtRight'] boolean
     Defines the place where modify and delete links would be put when tables
     contents are displayed (you may have them displayed both at the left and at
@@ -2236,9 +2245,29 @@ this case.
 
 Yes but the default configuration values of Suhosin are known to cause problems
 with some operations, for example editing a table with many columns and no
-primary key. Tuning information is available at http://www.hardened-php.net/
-hphp/troubleshooting.html, although the parameter names have changed (suhosin
-instead of hphp). See also the SuhosinDisableWarning directive.
+primary key or with textual primary key.
+
+Suhosin configuration might lead to malfunction in some cases and it can not be
+fully avoided as phpMyAdmin is kind of application which needs to transfer big
+amounts of fields in single HTTP request, what is something what Suhosin tries
+to prevent. Generally all suhosin.request.*, suhosin.post.* and suhosin.get.*
+directives can have negative effect on phpMyAdmin usability. You can always
+find in your error logs which limit did cause dropping of variable, so you can
+diagnose the problem and adjust matching configuration variable.
+
+The default values for most Suhosin configuration options will work in most
+scenarios, however you might want to adjust at least following parameters:
+
+  * suhosin.request.max_vars should be increased (eg. 2048)
+  * suhosin.post.max_vars should be increased (eg. 2048)
+  * suhosin.request.max_array_index_length should be increased (eg. 256)
+  * suhosin.post.max_array_index_length should be increased (eg. 256)
+  * suhosin.request.max_totalname_length should be increased (eg. 8192)
+  * suhosin.post.max_totalname_length should be increased (eg. 8192)
+  * suhosin.sql.bailout_on_error needs to be disabled (the default)
+  * suhosin.log.* should not include SQL, otherwise you get big slowdown
+
+You can also disable the warning using the SuhosinDisableWarning directive.
 
 1.39 When I try to connect via https, I can log in, but then my connection is
 redirected back to http. What can cause this behavior?
@@ -2248,7 +2277,7 @@ configuration. See http://httpd.apache.org/docs/2.0/mod/mod_ssl.html#ssloptions
 .
 
 1.40 When accessing phpMyAdmin via an Apache reverse proxy, cookie login does
-not work,
+not work.
 
 To be able to use cookie auth Apache must know that it has to rewrite the
 set-cookie headers.
@@ -2424,7 +2453,7 @@ If using APC, you must set apc.rfc1867 to on in your php.ini.
 
 Known limitations
 
-3.1 When using HTTP authentication, an user who logged out can not log in again
+3.1 When using HTTP authentication, a user who logged out can not log in again
 in with the same nick.
 
 This is related to the authentication mechanism (protocol) used by phpMyAdmin.
@@ -3139,27 +3168,10 @@ Yes. If a bookmark has the same label as a table name, it will be executed.
 6.23 Export: I heard phpMyAdmin can export Microsoft Excel files, how can I
 enable that?
 
-Current version does support direct export to Microsoft Excel and Word versions
-2000 and newer. If you need export older versions, you can use CSV suitable for
-Microsoft Excel, which works out of the box or you can try native experimental
-MS Excel exporter. This export has several problems, most important are
-limitation of cell content to 255 chars and no support for charsets, so think
-carefully whether you want to enable this.. For enabling this you need to set
-$cfg['TempDir'] to place where web server user can write (for example './tmp')
-and install PEAR module Spreadsheet_Excel_Writer into php include path. The
-installation can be done by following command:
-
-pear -d preferred_state=beta install -a Spreadsheet_Excel_Writer
-
-First part of switches set we want to install beta version of that module (no
-stable version available yet) and then we tell pear we want to satisfy
-dependencies.
-
-If you are running in PHP safe mode, you will have to set in php.ini the
-safe_mode_include_dir to the directory where your PEAR modules are located, for
-example:
-
-safe_mode_include_dir = /usr/local/lib/php
+You can use CSV for Microsoft Excel, which works out of the box, but phpMyAdmin
+supports direct export to Microsoft Excel version 97 and newer. For this to
+work, you need to set $cfg['TempDir'] to a place where the web server user can
+write (for example './tmp').
 
 To create the temporary directory on a UNIX-based system, you can do:
 
@@ -3177,7 +3189,8 @@ is done whenever you enter Structure page for this table.
 
 First, for general information about BLOB streaming on MySQL, visit
 blobstreaming.org. We currently support streaming if you are running MySQL 5.1
-with the PBXT and PBMS storage engines.
+with the PBXT and PBMS storage engines. Moreover, only PBMS 0.5.04 is
+supported.
 
  1. In config.inc.php your host should be defined with a FQDN (fully qualified
     domain name) instead of something like "localhost".
@@ -3197,6 +3210,12 @@ with the PBXT and PBMS storage engines.
     MIME-type will be sent to your browser; this MIME-type was stored at upload
     time but in case it's incorrect, it's possible to edit it by clicking on
     the displayed MIME-type.
+
+6.26 How can I select a range of rows?
+
+Click the first row of the range, hold the shift key and click the last row of
+the range. This works everywhere you see rows, for example in Browse mode or on
+the Structure page.
 
 phpMyAdmin project
 
@@ -3229,15 +3248,17 @@ proceed?
 
 The following method is preferred for new developers:
 
- 1. fetch the current SVN tree over anonymous SVN:
-    svn co https://phpmyadmin.svn.sourceforge.net/svnroot/phpmyadmin/trunk/
-    phpMyAdmin
+ 1. fetch the current git repository over anonymous git:
+    git clone git://phpmyadmin.git.sourceforge.net/gitroot/phpmyadmin/
+    phpmyadmin
  2. add your stuff
- 3. generate patch with your changes: svn diff
- 4. put the patch inside the patch tracker of the phpMyAdmin project.
+ 3. generate patch with your changes: git diff > xxx.diff
+ 4. submit your patch via the patch tracker of the phpMyAdmin project.
 
-Write access to the SVN tree is granted only to experienced developers who have
-already contributed something useful to phpMyAdmin.
+More details on git are available on our wiki.
+
+Write access to the repository is granted only to experienced developers who
+have already contributed something useful to phpMyAdmin.
 Also, have a look at the Developers section.
 
 Security
@@ -3301,6 +3322,8 @@ If you're planning to contribute source, please read the following information:
     As far as possible, we want the scripts to be XHTML1.0 and CSS2 compliant
     on one hand, they fit the PEAR coding standards on the other hand. Please
     pay attention to this.
+  * Please enable showing PHP errors and warnings by the $cfg['Error_Handler']
+    ['display'] configuration directive.
   * Please try to keep up the file-naming conventions. Table-related stuff goes
     to tbl_*.php, db-related code to db_*.php, server-related tools to
     server_*.php and so on.
@@ -3645,7 +3668,7 @@ From Wikipedia, the free encyclopedia
   * zlib - an open-source, cross-platform data compression library by Jean-loup
     Gailly and Mark Adler.
 
-  * Copyright ? 2003 - 2009 phpMyAdmin devel team
+  * Copyright ? 2003 - 2010 phpMyAdmin devel team
   * License
   * Donate
   * Valid HTML and CSS

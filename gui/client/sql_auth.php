@@ -37,14 +37,20 @@ check_login(__FILE__);
 function get_db_user_passwd(&$sql, $db_user_id) {
 	$query = "
 		SELECT
-			`sqlu_name`, `sqlu_pass`
+			`sql_user`.`sqlu_name`, `sql_user`.`sqlu_pass`
 		FROM
-			`sql_user`
+			`sql_user`, `sql_database`, `domain`
 		WHERE
-			`sqlu_id` = ?
+			`sql_user`.`sqld_id` = `sql_database`.`sqld_id`
+		AND
+			`sql_user`.`sqlu_id` = ?
+		AND
+			`sql_database`.`domain_id` = `domain`.`domain_id`
+		AND
+			`domain`.`domain_admin_id` = ?;
 	";
 
-	$rs = exec_query($sql, $query, $db_user_id);
+	$rs = exec_query($sql, $query, array($db_user_id, $_SESSION['user_id']));
 
 	$user_mysql = $rs->fields['sqlu_name'];
 	$pass_mysql = decrypt_db_password($rs->fields['sqlu_pass']);
