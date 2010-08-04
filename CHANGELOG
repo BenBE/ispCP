@@ -3,22 +3,21 @@ ispCP ω 1.0.6 Changelog
 
 2010-08-04 Jochen Manz
 	- RELEASE ispCP ω Omega 1.0.6
-
 2010-08-03 Benedikt Heintel
-    - ENGINE:
+	- ENGINE:
         * [Security Fail] Data like Database login credentials can be
             compromised
-    - GUI:
+	- GUI:
         * [Security Fail] A customer must not be able to connect to a
             database of another customer
-    - LANGUAGES:
+	- LANGUAGES:
         * Updated Catalan
         * Updated Czech
         * Updated Dutch
         * Updated Italian
         * Updated Polish
         * Updated Swedish
-    - TOOLS:
+	- TOOLS:
         * Updated phpMyAdmin to version 3.3.5
         * Updates Squirrelmail to version 1.4.21
 
