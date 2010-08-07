@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: server_databases.php 13011 2009-09-24 13:10:25Z helmo $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -58,7 +58,7 @@ if ((isset($_REQUEST['drop_selected_dbs']) || isset($_REQUEST['query_type']))
             $selected_db = $_REQUEST['selected_dbs'];
         }
         require './libraries/mult_submits.inc.php';
-        unset($action, $submit_mult, $err_url, $selected_db);
+        unset($action, $submit_mult, $err_url, $selected_db, $GLOBALS['db']);
         if (empty($message)) {
             $message = PMA_Message::success('strDatabasesDropped');
             if ($mult_btn == $strYes) {

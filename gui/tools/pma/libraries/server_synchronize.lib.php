@@ -671,11 +671,11 @@ function PMA_createTargetTables($src_db, $trg_db, $src_link, $trg_link, &$uncomm
 function PMA_populateTargetTables($src_db, $trg_db, $src_link, $trg_link, $uncommon_tables, $table_index, $uncommon_tables_fields, $display) 
 {                                                                            
     $display = false; // todo: maybe display some of the queries if they are not too numerous
-
     $unbuffered_result = PMA_DBI_try_query('SELECT * FROM ' . PMA_backquote($src_db) . '.' . PMA_backquote($uncommon_tables[$table_index]), $src_link, PMA_DBI_QUERY_UNBUFFERED);
     if (false !== $unbuffered_result) {
+        $insert_query = 'INSERT INTO ' . PMA_backquote($trg_db) . '.' .PMA_backquote($uncommon_tables[$table_index]) . ' VALUES';         
         while ($one_row = PMA_DBI_fetch_row($unbuffered_result)) {
-            $insert_query = 'INSERT INTO ' . PMA_backquote($trg_db) . '.' .PMA_backquote($uncommon_tables[$table_index]) . ' VALUES(';         
+            $insert_query .= '(';
             $key_of_last_value = count($one_row) - 1;
             foreach($one_row as $key => $value) {
                 $insert_query .= "'" . PMA_sqlAddslashes($value) . "'";
@@ -683,12 +683,14 @@ function PMA_populateTargetTables($src_db, $trg_db, $src_link, $trg_link, $uncom
                     $insert_query .= ",";
                 }
             }
-            $insert_query .= ');';
-            if ($display == true) {
-                PMA_displayQuery($insert_query);
-            }
-            PMA_DBI_try_query($insert_query, $trg_link, 0);
+            $insert_query .= '),';
         }
+        $insert_query = substr($insert_query, 0, -1);
+        $insert_query .= ';';
+        if ($display == true) {
+            PMA_displayQuery($insert_query);
+        }
+        PMA_DBI_try_query($insert_query, $trg_link, 0);
     }
 }
 /**
@@ -1334,7 +1336,7 @@ function PMA_displayQuery($query) {
 function PMA_syncDisplayHeaderSource($src_db) {
     echo '<div id="serverstatus" style = "overflow: auto; width: 1020px; height: 220px; border-left: 1px gray solid; border-bottom: 1px gray solid; padding:0px; margin-bottom: 1em "> ';
 
-    echo '<table id="serverstatustraffic" class="data" width="55%">';
+    echo '<table id="serverstatusconnections" class="data" width="55%">';
     echo '<tr>';
     echo '<th>' . $GLOBALS['strDatabase_src'] . ':  ' . $src_db . '<br />(';
     if ('cur' == $_SESSION['src_type']) {

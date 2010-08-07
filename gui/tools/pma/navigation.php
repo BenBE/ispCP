@@ -3,7 +3,7 @@
 /**
  * the navigation frame - displays server, db and table selection tree
  *
- * @version $Id: navigation.php 13426 2010-03-02 13:23:57Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  * @uses $GLOBALS['pma']->databases
  * @uses $GLOBALS['server']
@@ -36,7 +36,6 @@
  * @uses PMA_getTableList()
  * @uses PMA_getRelationsParam()
  * @uses PMA_outBufferPre()
- * @uses session_write_close()
  * @uses strlen()
  * @uses session_write_close()
  * @uses is_array()
@@ -299,7 +298,7 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
     }
     echo '</a></p>';
     if ($table_count) {
-        echo '<span id=\'NavFilter\' style="display:none;"><span onclick="document.getElementById(\'fast_filter\').value=\'\'; fast_filter(\'\');document.getElementById(\'fast_filter\').focus();" style="background:white;color:black;cursor:pointer;padding:2px;margin:0 0 0 -20px;position:relative;float:right;" title="' . $strReset . '">X</span><input type="text" name="fast_filter" id="fast_filter" title="' . $strNavTableFilter . '" onkeyup="setTimeout(function(word){ return function(){ fast_filter(word);}}(this.value),1000);" style="width:100%;padding:0 -20px 0 0; padding:2px;"  onfocus="this.select();" /></span><script type="text/javascript">document.getElementById(\'NavFilter\').style.display=\'\';</script>';
+        echo '<span id=\'NavFilter\' style="display:none;"><span onclick="document.getElementById(\'fast_filter\').value=\'\'; fast_filter(\'\');document.getElementById(\'fast_filter\').focus();" style="background:white;color:black;cursor:pointer;padding:2px;margin:0 0 0 -20px;position:relative;float:right;" title="' . $strReset . '">X</span><input type="text" name="fast_filter" id="fast_filter" title="' . $strNavTableFilter . '" onkeyup="setTimeout(function(word){ return function(){ fast_filter(word);}}(this.value),1000);" style="width:90%;padding:0 -20px 0 0; padding:2px;"  onfocus="this.select();" /></span><script type="text/javascript">document.getElementById(\'NavFilter\').style.display=\'\';</script>';
     }
 
     /**
@@ -555,7 +554,8 @@ function PMA_displayTableList($tables, $visible = false,
         echo '<ul id="subel' . $element_counter . '" style="display: none">';
     }
     foreach ($tables as $group => $table) {
-        if (isset($table['is' . $sep . 'group'])) {
+        // only allow grouping if the group has more than 1 table	
+        if (isset($table['is' . $sep . 'group']) && $table['tab' . $sep . 'count'] > 1) {
             $common_url_query = $GLOBALS['common_url_query']
                 . '&amp;tbl_group=' . urlencode($tab_group_full . $group);
 
@@ -611,6 +611,15 @@ function PMA_displayTableList($tables, $visible = false,
             }
             echo '</li>' . "\n";
         } elseif (is_array($table)) {
+            // the table was not grouped because it is the only one with its prefix
+            if (isset($table['is' . $sep . 'group'])) {
+                // get the array with the actual table information
+                foreach ($table as $value) {
+                    if(is_array($value)) {
+                        $table = $value;
+                    }
+                }
+            }
             $link_title = PMA_getTitleForTarget($GLOBALS['cfg']['LeftDefaultTabTable']);
             // quick access icon next to each table name
             echo '<li>' . "\n";

@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * @version $Id: innodb.lib.php 13093 2009-10-31 18:53:56Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin-Engines
  */
 
@@ -109,7 +109,7 @@ class PMA_StorageEngine_innodb extends PMA_StorageEngine
                 'type'  => PMA_ENGINE_DETAILS_TYPE_NUMERIC,
             ),
             'innodb_table_locks' => array(
-                'type'  => PMA_ENGINE_DETAILS_TYPE_NUMERIC,
+                'type'  => PMA_ENGINE_DETAILS_TYPE_BOOLEAN,
             ),
             'innodb_thread_concurrency' => array(
                 'type'  => PMA_ENGINE_DETAILS_TYPE_NUMERIC,
@@ -305,7 +305,7 @@ class PMA_StorageEngine_innodb extends PMA_StorageEngine
     function getPageStatus()
     {
         return '<pre id="pre_innodb_status">' . "\n"
-            . htmlspecialchars(PMA_DBI_fetch_value('SHOW INNODB STATUS;')) . "\n"
+            . htmlspecialchars(PMA_DBI_fetch_value('SHOW INNODB STATUS;', 0, 'Status')) . "\n"
             . '</pre>' . "\n";
     }
 

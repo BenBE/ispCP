@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * @author  Ivan A Kirillov (Ivan.A.Kirillov@gmail.com)
- * @version $Id: pmd_general.php 12333 2009-04-04 12:41:02Z helmo $
+ * @version $Id$
  * @package phpMyAdmin-Designer
  */
 
@@ -225,7 +225,7 @@ for ($i = 0; $i < count($GLOBALS['PMD']["TABLE_NAME"]); $i++) {
 </tr>
 </thead>
 <tbody id="id_tbody_<?php echo $t_n_url ?>"
-    <?php if (! isset($tab_pos[$t_n])) echo 'style="display: none;"'; ?>>
+    <?php if ( isset($tab_pos[$t_n])) echo 'style="display: none;"'; ?>>
     <?php
     $display_field = PMA_getDisplayField($db, $GLOBALS['PMD']["TABLE_NAME_SMALL"][$i]);
     for ($j = 0, $id_cnt = count($tab_column[$t_n]["COLUMN_ID"]); $j < $id_cnt; $j++) {

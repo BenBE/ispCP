@@ -3,7 +3,7 @@
 /**
  * Displays table structure infos like fields/columns, indexes, size, rows
  * and allows manipulation of indexes and columns/fields
- * @version $Id: tbl_structure.php 13096 2009-11-01 13:12:10Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -346,7 +346,7 @@ while ($row = PMA_DBI_fetch_assoc($fields_rs)) {
     else {
         echo '<i>' . $strNoneDefault . '</i>';
     } ?></td>
-    <td nowrap="nowrap"><?php echo $row['Extra']; ?></td>
+    <td nowrap="nowrap"><?php echo strtoupper($row['Extra']); ?></td>
     <td align="center">
         <a href="sql.php?<?php echo $url_query; ?>&amp;sql_query=<?php echo urlencode('SELECT COUNT(*) AS ' . PMA_backquote($strRows) . ', ' . PMA_backquote($row['Field']) . ' FROM ' . PMA_backquote($table) . ' GROUP BY ' . PMA_backquote($row['Field']) . ' ORDER BY ' . PMA_backquote($row['Field'])); ?>">
             <?php echo $titles['BrowseDistinctValues']; ?></a>
@@ -612,10 +612,9 @@ if ($cfg['ShowStats']) {
     }
 
     // Gets some sizes
-    $mergetable     = false;
-    if (isset($showtable['Type']) && $showtable['Type'] == 'MRG_MyISAM') {
-        $mergetable = true;
-    }
+
+    $mergetable = PMA_Table::isMerge($GLOBALS['db'], $GLOBALS['table']);
+
     // this is to display for example 261.2 MiB instead of 268k KiB
     $max_digits = 5;
     $decimals = 1;

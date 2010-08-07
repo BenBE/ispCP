@@ -3,7 +3,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: server_synchronize.php 13181 2009-12-27 15:40:00Z helmo $
+ * @version $Id$
  * @package phpMyAdmin    
  */
 
@@ -255,7 +255,7 @@ if ((isset($_REQUEST['submit_connect']))) {
             */
             echo '<form name="synchronize_form" id="synchronize_form" method="post" action="server_synchronize.php">'
             . PMA_generate_common_hidden_inputs('', '');
-            echo '<table class="data" width = "50%">
+            echo '<table id="serverstatustraffic" class="data" width = "60%">
             <tr>
             <td> <h2>' 
             . ($GLOBALS['cfg']['MainPageIconic']
@@ -455,7 +455,7 @@ if ((isset($_REQUEST['submit_connect']))) {
             *  This fieldset displays the checkbox to confirm deletion of previous rows from target tables 
             */
             echo '<fieldset>
-            <p><input type= "checkbox" name="delete_rows" id ="delete_rows" />' . $strTableDeleteRows . ' </p>
+            <p><input type= "checkbox" name="delete_rows" id ="delete_rows" /><label for="delete_rows">' . $strTableDeleteRows . '</label> </p>
             </fieldset> 
             <fieldset class="tblFooters">';
             echo '<input type="button" name="apply_changes" value="' . $GLOBALS['strApplyChanges']
@@ -899,7 +899,7 @@ if (isset($_REQUEST['Table_ids'])) {
     *  This fieldset displays the checkbox to confirm deletion of previous rows from target tables 
     */
     echo '<fieldset>
-    <p><input type= "checkbox" name="delete_rows" id ="delete_rows" />' . $strTableDeleteRows . ' </p>
+    <p><input type="checkbox" name="delete_rows" id ="delete_rows" /><label for="delete_rows">' . $strTableDeleteRows . '</label> </p>
     </fieldset>'; 
     
     echo '<fieldset class="tblFooters">';
@@ -1037,7 +1037,7 @@ if (isset($_REQUEST['synchronize_db'])) {
             $criteria, $matching_tables_keys, $target_tables_keys, $p, true);
             unset($alter_str_array[$p]);        
         }                                                           
-        if (isset($add_column_array[$p])) {
+        if (! empty($add_column_array[$p])) {
             PMA_findDeleteRowsFromTargetTables($delete_array, $matching_tables, $p, $target_tables_keys, $matching_tables_keys,
             $trg_db, $trg_link, $src_db, $src_link);
              

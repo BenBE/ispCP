@@ -3,7 +3,7 @@
 /**
  * Misc functions used all over the scripts.
  *
- * @version $Id: common.lib.php 13191 2009-12-29 18:24:48Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -436,6 +436,24 @@ function PMA_showMySQLDocu($chapter, $link, $big_icon = false, $anchor = '')
         return '[<a href="' . $url . '" target="mysql_doc">' . $GLOBALS['strDocu'] . '</a>]';
     }
 } // end of the 'PMA_showMySQLDocu()' function
+
+
+/**
+ * Displays a link to the phpMyAdmin documentation
+ *
+ * @param string  anchor in documentation
+ *
+ * @return  string  the html link
+ *
+ * @access  public
+ */
+function PMA_showDocu($anchor) {
+    if ($GLOBALS['cfg']['ReplaceHelpImg']) {
+        return '<a href="Documentation.html#' . $anchor . '" target="documentation"><img class="icon" src="' . $GLOBALS['pmaThemeImage'] . 'b_help.png" width="11" height="11" alt="' . $GLOBALS['strDocu'] . '" title="' . $GLOBALS['strDocu'] . '" /></a>';
+    } else {
+        return '[<a href="Documentation.html#' . $anchor . '" target="documentation">' . $GLOBALS['strDocu'] . '</a>]';
+    }
+} // end of the 'PMA_showDocu()' function
 
 /**
  * returns HTML for a footnote marker and add the messsage to the footnotes
@@ -1173,7 +1191,9 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice')
         $url_params['sql_query']  = $sql_query;
         $url_params['show_query'] = 1;
 
-        if (! empty($cfg['SQLQuery']['Edit']) && ! $query_too_big) {
+        // even if the query is big and was truncated, offer the chance
+        // to edit it (unless it's enormous, see PMA_linkOrButton() )
+        if (! empty($cfg['SQLQuery']['Edit'])) {
             if ($cfg['EditInWindow'] == true) {
                 $onclick = 'window.parent.focus_querywindow(\'' . PMA_jsFormat($sql_query, false) . '\'); return false;';
             } else {
@@ -1379,7 +1399,7 @@ function PMA_formatByteDown($value, $limes = 6, $comma = 0)
         $return_value = PMA_formatNumber($value, 0);
     }
 
-    return array($return_value, $unit);
+    return array(trim($return_value), $unit);
 } // end of the 'PMA_formatByteDown' function
 
 /**
@@ -1573,6 +1593,11 @@ function PMA_generate_html_tab($tab, $url_params = array())
         $tab['attr'] .= ' title="' . htmlspecialchars($tab['warning']) . '"';
     }
 
+	// If there are any tab specific URL parameters, merge those with the general URL parameters
+	if(! empty($tab['url_params']) && is_array($tab['url_params'])) {
+		$url_params = array_merge($url_params, $tab['url_params']);
+	}
+
     // build the link
     if (!empty($tab['link'])) {
         $tab['link'] = htmlentities($tab['link']);
@@ -1666,6 +1691,13 @@ function PMA_generate_html_tabs($tabs, $url_params)
 function PMA_linkOrButton($url, $message, $tag_params = array(),
     $new_form = true, $strip_img = false, $target = '')
 {
+    $url_length = strlen($url);
+    // with this we should be able to catch case of image upload
+    // into a (MEDIUM) BLOB; not worth generating even a form for these
+    if ($url_length > $GLOBALS['cfg']['LinkLengthLimit'] * 100) {
+        return '';
+    }
+
     if (! is_array($tag_params)) {
         $tmp = $tag_params;
         $tag_params = array();
@@ -1687,7 +1719,7 @@ function PMA_linkOrButton($url, $message, $tag_params = array(),
         $tag_params_strings[] = $par_name . '="' . $par_value . '"';
     }
 
-    if (strlen($url) <= $GLOBALS['cfg']['LinkLengthLimit']) {
+    if ($url_length <= $GLOBALS['cfg']['LinkLengthLimit']) {
         // no whitespace within an <a> else Safari will make it part of the link
         $ret = "\n" . '<a href="' . $url . '" '
             . implode(' ', $tag_params_strings) . '>'
@@ -1746,14 +1778,14 @@ function PMA_linkOrButton($url, $message, $tag_params = array(),
                     . implode(' ', $tag_params_strings)
                     . ' value="' . htmlspecialchars($message) . '" />';
             } else {
+                $displayed_message = htmlspecialchars(
+                        preg_replace('/^.*\salt="([^"]*)".*$/si', '\1',
+                            $message));
                 $ret .= '<input type="image"' . $submit_name . ' '
                     . implode(' ', $tag_params_strings)
                     . ' src="' . preg_replace(
                         '/^.*\ssrc="([^"]*)".*$/si', '\1', $message) . '"'
-                    . ' value="' . htmlspecialchars(
-                        preg_replace('/^.*\salt="([^"]*)".*$/si', '\1',
-                            $message))
-                    . '" />';
+                    . ' value="' . $displayed_message . '" title="' . $displayed_message . '" />'; 
             }
         } else {
             $message = trim(strip_tags($message));
@@ -2570,6 +2602,17 @@ function PMA_printable_bit_value($value, $length) {
     }
     $printable = substr($printable, -$length);
     return $printable;
+}
+
+/**
+ * Verifies whether the value contains a non-printable character 
+ *
+ * @uses    preg_match()
+ * @param   string $value 
+ * @return  boolean 
+ */
+function PMA_contains_nonprintable_ascii($value) {
+    return preg_match('@[^[:print:]]@', $value);
 }
 
 /**
