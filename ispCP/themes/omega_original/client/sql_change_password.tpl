@@ -9,7 +9,7 @@
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
 <tr>
@@ -45,32 +45,9 @@
                       <td width="40">&nbsp;</td>
                       <td valign="top"><form name="sql_change_password_frm" method="post" action="sql_change_password.php">
                           <table width="100%" cellpadding="5" cellspacing="5">
-                            <!-- BDP: page_message -->
-                            <tr>
-                              <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
-                            </tr>
-                            <!-- EDP: page_message -->
-                            <tr>
-                              <td width="200" class="content2">{TR_USER_NAME}</td>
-                              <td class="content"><input type="text" name="user_name" value="{USER_NAME}" style="width:170px" class="textinput" readonly="readonly" />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td width="200" class="content2">{TR_PASS}</td>
-                              <td class="content"><input type="password" name="pass" value="" style="width:170px" class="textinput" />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td width="200" class="content2">{TR_PASS_REP}</td>
-                              <td class="content"><input type="password" name="pass_rep" value="" style="width:170px" class="textinput" />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td colspan="2">&nbsp;</td>
-                            </tr>
-                            <tr>
-                              <td colspan="2"><input name="Submit" type="submit" class="button" value="  {TR_CHANGE}  " />
-                              </td>
+                           <tr>
+                              <td nowrap="nowrap" class="content2" width="200">{PASSWORD_DISABLED}</td>
+                              <td nowrap="nowrap" class="content">{DEMO_VERSION}</td>
                             </tr>
                           </table>
                         <!-- end of content -->

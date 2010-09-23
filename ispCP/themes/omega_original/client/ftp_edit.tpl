@@ -32,7 +32,7 @@ function out(number) {
 </script>
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
 <tr>
@@ -74,26 +74,15 @@ function out(number) {
                             </tr>
                             <!-- EDP: page_message -->
                             <tr>
-                              <td nowrap="nowrap" class="content2" width="200">{TR_FTP_ACCOUNT}</td>
-                              <td nowrap="nowrap" class="content"><input type="text" name="ftp_account" value="{FTP_ACCOUNT}" style="width:170px" class="textinput" readonly="readonly" />
-                              </td>
+                              <td nowrap="nowrap" class="content2" width="200">{PASSWORD_DISABLED}</td>
+                              <td nowrap="nowrap" class="content">{DEMO_VERSION}</td>
                             </tr>
-                            <tr>
-                              <td nowrap="nowrap" class="content2" width="200"><label for="pass">{TR_PASSWORD}</label></td>
-                              <td nowrap="nowrap" class="content"><input type="password" name="pass" id="pass" value="" style="width:170px" class="textinput" />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td nowrap="nowrap" class="content2" width="200"><label for="pass_rep">{TR_PASSWORD_REPEAT}</label></td>
-                              <td nowrap="nowrap" class="content"><input type="password" name="pass_rep" id="pass_rep" value="" style="width:170px" class="textinput" />
-                              </td>
-                            </tr>
-                            <tr>
+                             <tr>
                               <td nowrap="nowrap" class="content2" width="200"><input type="checkbox" name="use_other_dir" {USE_OTHER_DIR_CHECKED} />
                                 {TR_USE_OTHER_DIR}</td>
                               <td nowrap="nowrap" class="content"><input type="text" name="other_dir" value="{OTHER_DIR}" style="width:170px" class="textinput" />
                                   <br />
-                                <a href="#" onclick="showFileTree();" class="link">{CHOOSE_DIR}</a></td>
+                                <a href="#" onClick="showFileTree();" class="link">{CHOOSE_DIR}</a></td>
                             </tr>
                           </table>
                         <input type="hidden" name="uaction" value="edit_user" />

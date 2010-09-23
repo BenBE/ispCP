@@ -42,11 +42,10 @@
               <tr>
                 <td valign="top"><form name="client_change_pass_frm" method="post" action="password_change.php">
                     <table width="100%" cellpadding="5" cellspacing="5">
-   					 <tr>
-    					<td width="25">&nbsp;</td>
-   						<td width="200" class="content2" class="message">{PASSWORD_DISABLED}</td>
-    					<td class="message">{DEMO_VERSION}</td>
-    					</tr>
+                           <tr>
+                              <td nowrap="nowrap" class="content2" width="200">{PASSWORD_DISABLED}</td>
+                              <td nowrap="nowrap" class="content">{DEMO_VERSION}</td>
+                            </tr>
                     </table>
                 </form></td>
                 <td>&nbsp;</td>
