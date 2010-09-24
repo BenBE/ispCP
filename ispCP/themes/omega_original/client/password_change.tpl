@@ -40,14 +40,14 @@
                 <td width="27" align="right">&nbsp;</td>
               </tr>
               <tr>
-                <td valign="top"><form name="client_change_pass_frm" method="post" action="password_change.php">
+                <td valign="top">
                     <table width="100%" cellpadding="5" cellspacing="5">
                            <tr>
                               <td nowrap="nowrap" class="content2" width="200">{PASSWORD_DISABLED}</td>
                               <td nowrap="nowrap" class="content">{DEMO_VERSION}</td>
                             </tr>
                     </table>
-                </form></td>
+                </td>
                 <td>&nbsp;</td>
               </tr>
               <tr>

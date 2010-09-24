@@ -43,7 +43,7 @@
                 <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td width="40">&nbsp;</td>
-                      <td valign="top"><form name="sql_change_password_frm" method="post" action="sql_change_password.php">
+                      <td valign="top">
                           <table width="100%" cellpadding="5" cellspacing="5">
                            <tr>
                               <td nowrap="nowrap" class="content2" width="200">{PASSWORD_DISABLED}</td>
@@ -51,9 +51,7 @@
                             </tr>
                           </table>
                         <!-- end of content -->
-                          <input type="hidden" name="uaction" value="change_pass" />
-                          <input type="hidden" name="id" value="{ID}" />
-                      </form></td>
+						</td>
                     </tr>
                 </table></td>
                 <td>&nbsp;</td>
