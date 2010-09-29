@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/software_view.tpl');
@@ -31,7 +31,7 @@ function check_software_avail(&$sql, $software_id, $dmn_created_id) {
 			`reseller_id` = ?
 	";
   $sa = exec_query($sql, $check_avail, array($software_id, $dmn_created_id));
-  if ($sa -> RecordCount() == 0) {
+  if ($sa -> recordCount() == 0) {
 	return FALSE;
   } else {
 	return TRUE;
@@ -53,7 +53,7 @@ function check_is_installed(&$tpl, &$sql, $dmn_id, $software_id) {
 			`software_id` = ?
 	";
 	$is_inst = exec_query($sql, $is_installed, array($dmn_id, $software_id));
-	if ($is_inst -> RecordCount() == 0) {
+	if ($is_inst -> recordCount() == 0) {
 		$tpl -> assign(
 					array(
 						'INSTALLED_SOFTWARE_INFO' => '',

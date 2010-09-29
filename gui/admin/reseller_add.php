@@ -364,10 +364,10 @@ function add_reseller(&$tpl, &$sql) {
 					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'], true),
 					'SOFTWARE_ALLOWED' => clean_input($_POST['nreseller_software_allowed'], true),
 					'SOFTWAREDEPOT_ALLOWED' => clean_input($_POST['nreseller_softwaredepot_allowed'], true),
-					'VL_SOFTWAREY' => (($_POST['nreseller_software_allowed'] == 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREN' => (($_POST['nreseller_software_allowed'] != 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREDEPOTY' => (($_POST['nreseller_softwaredepot_allowed'] == 'yes') ? 'checked="checked"' : ''),
-					'VL_SOFTWAREDEPOTN' => (($_POST['nreseller_softwaredepot_allowed'] != 'yes') ? 'checked="checked"' : '')
+					'VL_SOFTWAREY' => (($_POST['nreseller_software_allowed'] == 'yes') ? $cfg->HTML_CHECKED : ''),
+					'VL_SOFTWAREN' => (($_POST['nreseller_software_allowed'] != 'yes') ? $cfg->HTML_CHECKED : ''),
+					'VL_SOFTWAREDEPOTY' => (($_POST['nreseller_softwaredepot_allowed'] == 'yes') ? $cfg->HTML_CHECKED : ''),
+					'VL_SOFTWAREDEPOTN' => (($_POST['nreseller_softwaredepot_allowed'] != 'yes') ? $cfg->HTML_CHECKED : '')
 				)
 			);
 		}
@@ -405,8 +405,8 @@ function add_reseller(&$tpl, &$sql) {
 				'MAX_DISK_AMOUNT' => '',
 				'SOFTWARE_ALLOWED' => '',
 				'SOFTWAREDEPOT_ALLOWED' => '',
-				'VL_SOFTWAREN' => 'checked="checked"',
-				'VL_SOFTWAREDEPOTY' => 'checked="checked"'
+				'VL_SOFTWAREN' => $cfg->HTML_CHECKED,
+				'VL_SOFTWAREDEPOTY' => $cfg->HTML_CHECKED
 			)
 		);
 	}

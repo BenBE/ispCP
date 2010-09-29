@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_reseller.tpl');
@@ -58,8 +58,8 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 			a.`software_type` ASC,
 			a.`software_name` ASC
 		";
-	$rs = exec_query($sql, $query, array($reseller_id));
-	if ($rs->RecordCount() > 0) {
+	$rs = exec_query($sql, $query, $reseller_id);
+	if ($rs->recordCount() > 0) {
 		while(!$rs->EOF) {
 				$query2="SELECT
 				`domain`.`domain_id` as did,
@@ -78,13 +78,13 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 			AND
 				`domain`.`domain_id` = `web_software_inst`.`domain_id`
 			";
-				$rs2 = exec_query($sql, $query2, array($rs->fields['id']));
-				if($rs2->RecordCount() > 0){
+				$rs2 = exec_query($sql, $query2, $rs->fields['id']);
+				if($rs2->recordCount() > 0){
 					$swinstalled_domain = tr('This package is installed on following domain(s):');
 					$swinstalled_domain .= "<ul>";
 					while(!$rs2->EOF){
 						$swinstalled_domain .= "<li>".$rs2->fields['domain']."</li>";
-						$rs2->MoveNext();
+						$rs2->moveNext();
 					}
 					$swinstalled_domain .= "</ul>";
 					$tpl->assign(
@@ -125,13 +125,13 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 							)
 						);
 			$tpl->parse('LIST_SOFTWAREDEPOT', '.list_softwaredepot');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_SOFTWAREDEPOT_LIST', '');
 	} else {
 		$query="SELECT `admin_name` as admin FROM `admin` WHERE `admin_id` = ?";
-		$reseller = exec_query($sql, $query, array($reseller_id));
-		if ($reseller->RecordCount() > 0) {
+		$reseller = exec_query($sql, $query, $reseller_id);
+		if ($reseller->recordCount() > 0) {
 			$tpl->assign(
 					array(
 						'NO_SOFTWAREDEPOT' => tr('No software available!'),
@@ -145,7 +145,7 @@ function get_installed_res_software (&$tpl, &$sql, $reseller_id) {
 			header('Location: software_manage.php');
 		}
 	}
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }
 
 function get_reseller_software (&$tpl, &$sql) {
@@ -165,20 +165,20 @@ function get_reseller_software (&$tpl, &$sql) {
 			t1.`admin_id` ASC
 		";
 	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() > 0) {
+	if ($rs->recordCount() > 0) {
 		while(!$rs->EOF) {
 			$query="SELECT `software_id` FROM `web_software` WHERE `reseller_id` = ?";
-			$rssoftware = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rssoftware = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$software_ids = array();
-			while ($data = $rssoftware->FetchRow()) {
+			while ($data = $rssoftware->fetchRow()) {
 				$software_ids[] = $data['software_id'];
 			}
 			$query="SELECT count(`software_id`) as swdepot FROM `web_software` WHERE `software_active` = 1 AND software_depot = 'yes' AND `reseller_id` = ?";
-			$rscountswdepot = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountswdepot = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$query="SELECT count(`software_id`) as waiting FROM `web_software` WHERE `software_active` = 0 AND `reseller_id` = ?";
-			$rscountwaiting = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountwaiting = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$query="SELECT count(`software_id`) as activated FROM `web_software` WHERE `software_active` = 1 AND `reseller_id` = ?";
-			$rscountactivated = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountactivated = exec_query($sql, $query, $rs->fields['reseller_id']);
 			if(count($software_ids) > 0){
 				$query="SELECT count(`domain_id`) as in_use FROM `web_software_inst` WHERE `software_id` IN (".implode(',', $software_ids ).") AND `software_status` = 'ok'";
 				$rscountin_use = exec_query($sql, $query, array());
@@ -197,7 +197,7 @@ function get_reseller_software (&$tpl, &$sql) {
 						)
 					);
 			$tpl->parse('LIST_RESELLER', '.list_reseller');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_RESELLER_LIST', '');
 	} else {
@@ -209,7 +209,7 @@ function get_reseller_software (&$tpl, &$sql) {
 		$tpl->parse('NO_RESELLER_LIST', '.no_reseller_list');
 		$tpl->assign('LIST_RESELLER', '');
 	}
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }
 
 $tpl->assign(

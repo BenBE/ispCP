@@ -17,7 +17,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 				`domain_id` = ?
 		";
 	$rs = exec_query($sql, $query, array($_GET['id'], $dmn_id));
-	if ($rs->RecordCount() != 1) {
+	if ($rs->recordCount() != 1) {
 		set_page_message(tr('Wrong software id.'));
 		header('Location: software.php');
 	} else {

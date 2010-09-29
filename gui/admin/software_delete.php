@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_delete.tpl');
@@ -37,15 +37,15 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 	}
 	
 	$query="SELECT `software_id`, `software_name`, `software_version`, `software_archive`, `reseller_id`, `software_depot` FROM `web_software` WHERE `software_id` = ?";
-	$rs = exec_query($sql, $query, array($software_id));
+	$rs = exec_query($sql, $query, $software_id);
 	
-	if ($rs->RecordCount() != 1) {
+	if ($rs->recordCount() != 1) {
 		set_page_message(tr('Wrong software id.'));
 		header('Location: software_manage.php');
 	}
 
 	$query_res="SELECT `admin_name`, `email` FROM `admin` WHERE `admin_id` = ?";
-	$rs_res = exec_query($sql, $query_res, array($rs->fields['reseller_id']));
+	$rs_res = exec_query($sql, $query_res, $rs->fields['reseller_id']);
 	$tpl->assign(
 			array(
 				'DELETE_SOFTWARE_RESELLER' => $rs_res->fields['admin_name'].' ('.$rs_res->fields['email'].')'
@@ -55,11 +55,11 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 		$del_path = $cfg->GUI_SOFTWARE_DEPOT_DIR ."/". $rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 		@unlink($del_path);
 		$update = "UPDATE `web_software_inst` SET `software_res_del` = 1 WHERE `software_master_id` = ?";
-		$res = exec_query($sql, $update, array($rs->fields['software_id']));
+		$res = exec_query($sql, $update, $rs->fields['software_id']);
 		$delete = "DELETE FROM `web_software` WHERE `software_id` = ?";
 		$delete_master = "DELETE FROM `web_software` WHERE `software_master_id` = ?";
-		$res = exec_query($sql, $delete, array($rs->fields['software_id']));
-		$res = exec_query($sql, $delete_master, array($rs->fields['software_id']));
+		$res = exec_query($sql, $delete, $rs->fields['software_id']);
+		$res = exec_query($sql, $delete_master, $rs->fields['software_id']);
 		set_page_message(tr('Software was deleted.'));
 		header('Location: software_manage.php');
 		gen_page_message($tpl);
@@ -70,7 +70,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 				$del_path = $cfg->GUI_SOFTWARE_DIR."/".$rs->fields['reseller_id']."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 				@unlink($del_path);
 				$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
-				$res = exec_query($sql, $delete, array($rs->fields['software_id']));
+				$res = exec_query($sql, $delete, $rs->fields['software_id']);
 				set_page_message(tr('Software was deleted.'));
 				header('Location: software_manage.php');
 			} else {

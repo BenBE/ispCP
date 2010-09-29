@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/software_install.tpl');
@@ -29,20 +29,20 @@ $tpl->define_dynamic('create_message_db', 'page');
 if (isset($_POST['Submit2'])) {
 	$id = $_GET['id'];
 	$domain_path = "";
-	$other_dir = clean_input($_POST['other_dir']);
+	$other_dir = clean_input($_POST['other_dir'], true);
 	$query="SELECT `software_master_id`, `software_db`, `software_name`, `software_version`, `software_language`, `software_depot` FROM `web_software` WHERE `software_id` = ?";
-	$rs = exec_query($sql, $query, array($_GET['id']));
-	$install_username = clean_input($_POST['install_username']);
-	$install_password = clean_input($_POST['install_password']);
-	$install_email = clean_input($_POST['install_email']);
+	$rs = exec_query($sql, $query, $_GET['id']);
+	$install_username = clean_input($_POST['install_username'], true);
+	$install_password = clean_input($_POST['install_password'], true);
+	$install_email = clean_input($_POST['install_email'], true);
 	if(isset($_POST['createdir']) && $_POST['createdir'] === '1') {
-		$createdir = clean_input($_POST['createdir']);
+		$createdir = clean_input($_POST['createdir'], true);
 		set_page_message(tr('The directory \''.$other_dir.'\' was created!'));
 	} else {
 		$createdir = '0';
 	}
 	//Check dir exists
-    $sql = Database::getInstance();
+    $sql = ispCP_Registry::get('Db');
     $domain = $_SESSION['user_logged'];
     $vfs = new vfs($domain, $sql);
     $list = $vfs->ls($other_dir);
@@ -76,17 +76,17 @@ if (isset($_POST['Submit2'])) {
 	if(($posted_aliasdomain_id + $posted_subdomain_id + $posted_aliassubdomain_id) > 0){
 		if($posted_aliasdomain_id > 0){
 			$querydomainpath = "SELECT `alias_mount` as domainpath FROM `domain_aliasses` WHERE `alias_id` = ?";
-			$rsdomainpath = exec_query($sql, $querydomainpath, array($posted_aliasdomain_id));
+			$rsdomainpath = exec_query($sql, $querydomainpath, $posted_aliasdomain_id);
 			$domain_path = $rsdomainpath->fields['domainpath'];
 			$domain_path = str_replace("/", "\/", $domain_path);
 		} elseif($posted_subdomain_id > 0){
 			$querydomainpath = "SELECT `subdomain_mount` as domainpath FROM `subdomain` WHERE `subdomain_id` = ?";
-			$rsdomainpath = exec_query($sql, $querydomainpath, array($posted_subdomain_id));
+			$rsdomainpath = exec_query($sql, $querydomainpath, $posted_subdomain_id);
 			$domain_path = $rsdomainpath->fields['domainpath'];
 			$domain_path = str_replace("/", "\/", $domain_path);
 		} elseif($posted_aliassubdomain_id > 0){
 			$querydomainpath = "SELECT `subdomain_alias_mount` as domainpath FROM `subdomain_alias` WHERE `subdomain_alias_id` = ?";
-			$rsdomainpath = exec_query($sql, $querydomainpath, array($posted_aliassubdomain_id));
+			$rsdomainpath = exec_query($sql, $querydomainpath, $posted_aliassubdomain_id);
 			$domain_path = $rsdomainpath->fields['domainpath'];
 			$domain_path = str_replace("/", "\/", $domain_path);
 		} else {
@@ -96,10 +96,10 @@ if (isset($_POST['Submit2'])) {
 		$domain_path = $posted_mountpath;
 	}
 	if($rs->fields['software_db'] == "1") {
-		$selected_db = clean_input($_POST['selected_db']);
-		$sql_user = clean_input($_POST['sql_user']);
+		$selected_db = clean_input($_POST['selected_db'], true);
+		$sql_user = clean_input($_POST['sql_user'], true);
 		$querydbuser = "SELECT `sqlu_pass` FROM `sql_user` WHERE `sqlu_name` = ?";
-		$rsdatabase = exec_query($sql, $querydbuser, array($sql_user));
+		$rsdatabase = exec_query($sql, $querydbuser, $sql_user);
 		$sql_pass = decrypt_db_password($rsdatabase->fields['sqlu_pass']);
 		$connect = @mysql_connect($cfg->DATABASE_HOST, $sql_user, $sql_pass);
 		$db_selected = @mysql_select_db($selected_db, $connect);
@@ -121,7 +121,7 @@ if (isset($_POST['Submit2'])) {
 		set_page_message(tr('You choose a directory, which doesn\'t match with the domain directory!'));
 	} elseif(!$list && $createdir === '0'){
 			set_page_message(tr('The directory \''.$other_dir.'\' doesn\'t exist. Please create it!'));
-	} elseif ($rspath->RecordCount() > 0) {
+	} elseif ($rspath->recordCount() > 0) {
 		set_page_message(tr('Please select another directory! '.$rspath->fields['swname'].' ('.$rspath->fields['swversion'].') is installed there!'));
 	} else {
 		$sw_db_required = $rs->fields['software_db'];
@@ -133,7 +133,7 @@ if (isset($_POST['Submit2'])) {
 		
 		
 		$query="SELECT `software_prefix` FROM `web_software` WHERE `software_id` = ?";
-		$rs = exec_query($sql, $query, array($_GET['id']));
+		$rs = exec_query($sql, $query, $_GET['id']);
 		
 		$prefix = $rs->fields['software_prefix'];
 		if($sw_db_required == "1") {
@@ -178,7 +178,7 @@ if (isset($_POST['Submit2'])) {
 		$tpl->assign(
 				array(
 					'VAL_OTHER_DIR' => $other_dir,
-					'CHECKED_CREATEDIR' =>  ($createdir === '1') ? ' checked="checked"' : '',
+					'CHECKED_CREATEDIR' =>  ($createdir === '1') ? $cfg->HTML_CHECKED : '',
 					'VAL_INSTALL_USERNAME' => $install_username,
 					'VAL_INSTALL_PASSWORD' => $install_password,
 					'VAL_INSTALL_EMAIL' => $install_email
@@ -188,7 +188,7 @@ if (isset($_POST['Submit2'])) {
 		$tpl->assign(
 				array(
 					'VAL_OTHER_DIR' => $other_dir,
-					'CHECKED_CREATEDIR' =>  ($createdir === '1') ? ' checked="checked"' : '',
+					'CHECKED_CREATEDIR' =>  ($createdir === '1') ? $cfg->HTML_CHECKED : '',
 					'VAL_INSTALL_USERNAME' => $install_username,
 					'VAL_INSTALL_PASSWORD' => $install_password,
 					'VAL_INSTALL_EMAIL' => $install_email
@@ -226,7 +226,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		AND
 			`domain_id` = ?
 	";
-	$rsdomain = exec_query($sql, $querydomain, array($domain_id));
+	$rsdomain = exec_query($sql, $querydomain, $domain_id);
 	
 	//Get Aliase
 	$queryaliase = "
@@ -243,7 +243,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		AND
 			`domain_id` = ?
 	";
-	$rsaliase = exec_query($sql, $queryaliase, array($domain_id));
+	$rsaliase = exec_query($sql, $queryaliase, $domain_id);
 	
 	//Get Subdomains
 	$querysubdomain = "
@@ -261,7 +261,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		AND
 			`subdomain`.`domain_id` = ?
 	";
-	$rssubdomain = exec_query($sql, $querysubdomain, array($domain_id));
+	$rssubdomain = exec_query($sql, $querysubdomain, $domain_id);
 	
 	//Get Subaliase
 	$querysubaliase = "
@@ -279,15 +279,15 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 		AND
 			`domain_id` = ?
 	";
-	$rssubaliase = exec_query($sql, $querysubaliase, array($domain_id));
+	$rssubaliase = exec_query($sql, $querysubaliase, $domain_id);
 	
 	if (isset($_POST['selected_domain'])){
-		list ($posted_domain_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $posted_mountpath) = split(';', $_POST['selected_domain']);
+		list ($posted_domain_id, $posted_aliasdomain_id, $posted_subdomain_id, $posted_aliassubdomain_id, $posted_mountpath) = explode(";", $_POST['selected_domain']);
 	} else {
 		$selecteddomain = '';
 	}
 	
-	if (($rsaliase->RecordCount() + $rssubdomain->RecordCount() + $rssubaliase->RecordCount()) > 0) {
+	if (($rsaliase->recordCount() + $rssubdomain->recordCount() + $rssubaliase->recordCount()) > 0) {
 		while (!$rsaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliasdomain_id != 0){
 				if($posted_aliasdomain_id == $rsaliase->fields['alias_id']) {
@@ -306,7 +306,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$tpl->parse('SHOW_DOMAIN_LIST', '.show_domain_list');
-			$rsaliase->MoveNext();
+			$rsaliase->moveNext();
 		}
 		while (!$rssubdomain->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_subdomain_id != 0){
@@ -327,7 +327,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$tpl->parse('SHOW_DOMAIN_LIST', '.show_domain_list');
-			$rssubdomain->MoveNext();
+			$rssubdomain->moveNext();
 		}
 		while (!$rssubaliase->EOF) {
 			if (isset($_POST['selected_domain']) && $posted_aliassubdomain_id != 0){
@@ -348,7 +348,7 @@ function gen_user_domain_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$tpl->parse('SHOW_DOMAIN_LIST', '.show_domain_list');
-			$rssubaliase->MoveNext();
+			$rssubaliase->moveNext();
 		}
 		$tpl->assign(
 				array(
@@ -381,8 +381,8 @@ function check_db_user_list(&$tpl, &$sql, $db_id) {
 		ORDER BY
 			`sqlu_name`
 	";
-	$rs = exec_query($sql, $query, array($db_id));
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query, $db_id);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 				array(
 					'STATUS_COLOR' 				=> 'red',
@@ -416,7 +416,7 @@ function check_db_user_list(&$tpl, &$sql, $db_id) {
 					)
 				);
 			$tpl -> parse('INSTALLDBUSER_ITEM', '.installdbuser_item');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->parse('SELECT_INSTALLDBUSER', 'select_installdbuser');
 	}
@@ -436,8 +436,8 @@ function check_db_avail(&$tpl, &$sql, $dmn_id, $dmn_sqld_limit) {
 		ORDER BY
 			`sqld_name` ASC
 	";
-  $rs = exec_query($sql, $check_db, array($dmn_id));
-  if ($rs->RecordCount() > 0) {
+  $rs = exec_query($sql, $check_db, $dmn_id);
+  if ($rs->recordCount() > 0) {
 	while (!$rs->EOF) {
 				if (isset($_POST['selected_db']) && $_POST['selected_db'] == $rs->fields['sqld_name']){
 					$selecteddb = $cfg->HTML_SELECTED;
@@ -453,7 +453,7 @@ function check_db_avail(&$tpl, &$sql, $dmn_id, $dmn_sqld_limit) {
 				$tpl->parse('INSTALLDB_ITEM', '.installdb_item');
 				$existdbuser = check_db_user_list($tpl, $sql, $rs->fields['sqld_id']);
 				$existdbuser = +$existdbuser;
-				$rs->MoveNext();
+				$rs->moveNext();
 		}
 		if($existdbuser == 0) {
 			$tpl->assign(
@@ -481,7 +481,7 @@ function check_db_avail(&$tpl, &$sql, $dmn_id, $dmn_sqld_limit) {
 				);
 		$tpl -> parse('CREATE_MESSAGE_DB', '.create_message_db');
 	}
-  if($rs -> RecordCount() < $dmn_sqld_limit OR $dmn_sqld_limit == 0) {
+  if($rs -> recordCount() < $dmn_sqld_limit OR $dmn_sqld_limit == 0) {
 	$tpl -> assign(
 				array(
 					'ADD_DB_LINK' => 'sql_database_add.php',
@@ -513,7 +513,7 @@ function check_software_avail(&$sql, $software_id, $dmn_created_id) {
 			`reseller_id` = ?
 	";
   $sa = exec_query($sql, $check_avail, array($software_id, $dmn_created_id));
-  if ($sa -> RecordCount() == 0) {
+  if ($sa -> recordCount() == 0) {
 	return FALSE;
   } else {
 	return TRUE;
@@ -532,7 +532,7 @@ function check_is_installed(&$tpl, &$sql, $dmn_id, $software_id) {
 			`software_id` = ?
 	";
   $is_inst = exec_query($sql, $is_installed, array($dmn_id, $software_id));
-  if ($is_inst -> RecordCount() == 0) {
+  if ($is_inst -> recordCount() == 0) {
 	$tpl -> assign (
 				array(
 					'SOFTWARE_INSTALL_BUTTON' => 'software_install.php?id='.$software_id

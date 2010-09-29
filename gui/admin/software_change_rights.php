@@ -24,7 +24,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 				WHERE
 						`software_id` = ?
 				";
-		$rs = exec_query($sql, $query, array($software_id));
+		$rs = exec_query($sql, $query, $software_id);
 		$query="
 				INSERT INTO
 					`web_software`
@@ -54,7 +54,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 					AND
 						`softwaredepot_allowed` = 'yes'";
 			$rs2 = exec_query($sql, $query2, array());
-			if ($rs2->RecordCount() > 0){
+			if ($rs2->recordCount() > 0){
 				while(!$rs2->EOF) {
 					$query3 = "SELECT 
 									`reseller_id`
@@ -65,7 +65,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 								AND 
 									`software_master_id` = ?";
 					$rs3 = exec_query($sql, $query3, array($rs2->fields['reseller_id'],$software_id));
-					if ($rs3->RecordCount() === 0){
+					if ($rs3->recordCount() === 0){
 						exec_query(
 									$sql,
 									$query,
@@ -122,7 +122,7 @@ if (isset($_GET['id']) || isset($_POST['id'])) {
 						`software_master_id` = ?
 				";
 		exec_query($sql, $delete, array($software_id, $reseller_id));
-		exec_query($sql, $update, array($software_id));
+		exec_query($sql, $update, $software_id);
 		set_page_message(tr('Rights succesfully removed.'));
 		header('Location: software_rights.php?id='.$software_id);
 	}

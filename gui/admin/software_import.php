@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 	$query="
@@ -16,8 +16,8 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		AND
 			`software_active` = 0
 		";
-	$rs = exec_query($sql, $query, array($_GET['id']));
-	if ($rs->RecordCount() != 1) {
+	$rs = exec_query($sql, $query, $_GET['id']);
+	if ($rs->recordCount() != 1) {
 		set_page_message(tr('Wrong software id.'));
 		header('Location: software_manage.php');
 	} else {
@@ -37,7 +37,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		@copy($source_file, $dest_file);
 		@unlink($source_file);
 		
-		$res = exec_query($sql, $update, array($_GET['id']));
+		$res = exec_query($sql, $update, $_GET['id']);
 		$query="
 				INSERT INTO
 					`web_software`

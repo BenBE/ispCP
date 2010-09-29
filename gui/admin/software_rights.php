@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_rights.tpl');
@@ -31,11 +31,11 @@ function get_reseller_rights (&$tpl, &$sql, $software_id) {
 					a.`software_depot` = 'yes'
 				AND
 					a.`software_master_id` = ?";
-	$rs = exec_query($sql, $query, array($software_id));
-	if ($rs->RecordCount() > 0){
+	$rs = exec_query($sql, $query, $software_id);
+	if ($rs->recordCount() > 0){
 		while(!$rs->EOF) {
 			$adminquery = "SELECT `admin_name` as administrator from admin WHERE `admin_id` = ?";
-			$rs_admin = exec_query($sql, $adminquery, array($rs->fields['rights_add_by']));
+			$rs_admin = exec_query($sql, $adminquery, $rs->fields['rights_add_by']);
 			if ($rs_admin->fields['administrator'] == ""){
 				$added_by = tr('Admin not available');
 			}else{
@@ -52,7 +52,7 @@ function get_reseller_rights (&$tpl, &$sql, $software_id) {
 						)
 					);
 			$tpl->parse('LIST_RESELLER', '.list_reseller');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_RESELLER_LIST', '');
 	} else {
@@ -65,7 +65,7 @@ function get_reseller_rights (&$tpl, &$sql, $software_id) {
 		$tpl->parse('NO_RESELLER_LIST', '.no_reseller_list');
 	}
 	
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }	
 
 function get_reseller_list (&$tpl, &$sql, $software_id) {
@@ -82,7 +82,7 @@ function get_reseller_list (&$tpl, &$sql, $software_id) {
 				AND
 					a.`softwaredepot_allowed` = 'yes'";
 	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() > 0){
+	if ($rs->recordCount() > 0){
 		$reseller_count = 0;
 		while(!$rs->EOF) {
 			$query2 = "SELECT 
@@ -94,7 +94,7 @@ function get_reseller_list (&$tpl, &$sql, $software_id) {
 					AND 
 						`software_master_id` = ?";
 			$rs2 = exec_query($sql, $query2, array($rs->fields['reseller_id'],$software_id));
-			if ($rs2->RecordCount() === 0){
+			if ($rs2->recordCount() === 0){
 				$tpl->assign(
 						array(
 							'ALL_RESELLER_NAME' => tr('All reseller'),
@@ -106,7 +106,7 @@ function get_reseller_list (&$tpl, &$sql, $software_id) {
 				$tpl->parse('RESELLER_ITEM', '.reseller_item');
 				$reseller_count++;
 			}
-		$rs->MoveNext();
+		$rs->moveNext();
 		}
 		if ($reseller_count > 0){
 			$tpl->parse('SELECT_RESELLER', '.select_reseller');
@@ -161,7 +161,7 @@ $res_cnt = get_reseller_rights (&$tpl, &$sql, $software_id);
 $res_list = get_reseller_list (&$tpl, &$sql, $software_id);
 
 $query = "SELECT `software_name`, `software_version`, `software_language` FROM `web_software` WHERE `software_id` = ?";
-$rs = exec_query($sql, $query, array($software_id));
+$rs = exec_query($sql, $query, $software_id);
 $tpl->assign(
 		array(
 			'TR_SOFTWARE_DEPOT' => tr('Softwaredepot'),

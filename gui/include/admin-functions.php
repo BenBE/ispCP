@@ -2482,7 +2482,7 @@ function delete_domain($domain_id, $goto, $breseller = false) {
 	
 	// Delete AppSoftware:
 	$query = "DELETE FROM `web_software_inst` WHERE `domain_id` = ?";
-	exec_query($sql, $query, array($domain_id));
+	exec_query($sql, $query, $domain_id);
 
 	// Delete user gui properties
 	$query = "
@@ -2665,7 +2665,7 @@ function update_existing_client_installations_sw_depot($software_id, $software_m
 		AND
 			`domain_created_id` = ?
 	";
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 	if ($res->RecordCount() > 0) {
 		while(!$res->EOF) {
 			$updatequery = "
@@ -2704,7 +2704,7 @@ function get_reseller_sw_installer($reseller_id) {
 		WHERE
 			`reseller_id` = ?
 	";
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 	return $res->fields['software_allowed'];
 }
 
@@ -2722,7 +2722,7 @@ function send_activated_sw($reseller_id, $file_name, $sw_id) {
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
 	$to_name = $res->fields['reseller'];
 	$to_email = $res->fields['res_email'];
@@ -2738,7 +2738,7 @@ function send_activated_sw($reseller_id, $file_name, $sw_id) {
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($admin_id));
+	$res = exec_query($sql, $query, $admin_id);
 
 	$from_name = $res->fields['admin'];
 	$from_email = $res->fields['adm_email'];
@@ -2793,7 +2793,7 @@ function send_deleted_sw($reseller_id, $file_name, $sw_id, $subjectinput, $messa
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
 	$to_name = $res->fields['reseller'];
 	$to_email = $res->fields['res_email'];
@@ -2809,7 +2809,7 @@ function send_deleted_sw($reseller_id, $file_name, $sw_id, $subjectinput, $messa
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($admin_id));
+	$res = exec_query($sql, $query, $admin_id);
 
 	$from_name = $res->fields['admin'];
 	$from_email = $res->fields['adm_email'];

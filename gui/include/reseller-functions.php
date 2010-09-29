@@ -257,7 +257,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 		WHERE
 			`reseller_id` = ?
 	";
-	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
 	if ($rs->fields('software_allowed') == 'yes') {
 		$tpl->assign(array('SOFTWARE_MENU' => tr('yes')));
 		$tpl->parse('T_SOFTWARE_MENU', '.t_software_menu');
@@ -1916,7 +1916,7 @@ function send_new_sw_upload($reseller_id, $file_name, $sw_id) {
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
 	$from_name = $res->fields['reseller'];
 	$from_email = $res->fields['res_email'];
@@ -1932,7 +1932,7 @@ function send_new_sw_upload($reseller_id, $file_name, $sw_id) {
 			`admin_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($admin_id));
+	$res = exec_query($sql, $query, $admin_id);
 
 	$to_name = $res->fields['admin'];
 	$to_email = $res->fields['adm_email'];

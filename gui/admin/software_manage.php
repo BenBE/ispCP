@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/software_manage.tpl');
@@ -132,14 +132,14 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 				if($remote_file_size < 1){
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-					exec_query($sql, $query, array($sw_id));
+					exec_query($sql, $query, $sw_id);
 					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Your remote filesize (%1$d B) is lower than 1 Byte. Please check your URL!', $show_remote_file_size));
 					$upload = 0;
 				} elseif($remote_file_size > $cfg->MAX_REMOTE_FILESIZE) {
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-					exec_query($sql, $query, array($sw_id));
+					exec_query($sql, $query, $sw_id);
 					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Max. remote filesize (%1$d MB) is reached. Your remote file is %2$d MB', $show_max_remote_filesize, $show_remote_file_size));
 					$upload = 0;
@@ -152,7 +152,7 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 					} else {
 						// Delete software entry
 						$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-						exec_query($sql, $query, array($sw_id));
+						exec_query($sql, $query, $sw_id);
 						set_page_message(tr('ERROR: Remote File not found!'));
 						$upload = 0;
 					}
@@ -160,7 +160,7 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
    			}else{
 				// Delete software entry
 				$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-				exec_query($sql, $query, array($sw_id));
+				exec_query($sql, $query, $sw_id);
 				set_page_message(tr('ERROR: Could not upload the file. File not found!'));
 				$upload = 0;
 			}
@@ -225,7 +225,7 @@ function get_avail_software (&$tpl, &$sql) {
 			a.`software_name` ASC
 		";
 	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() > 0) {
+	if ($rs->recordCount() > 0) {
 		while(!$rs->EOF) {
 			$import_url = "software_import.php?id=".$rs->fields['id'];
 			$act_url = "software_activate.php?id=".$rs->fields['id'];
@@ -250,7 +250,7 @@ function get_avail_software (&$tpl, &$sql) {
 						)
 					);
 			$tpl->parse('LIST_SOFTWARE', '.list_software');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_SOFTWARE_LIST', '');
 	} else {
@@ -262,7 +262,7 @@ function get_avail_software (&$tpl, &$sql) {
 		$tpl->parse('NO_SOFTWARE_LIST', '.no_software_list');
 		$tpl->assign('LIST_SOFTWARE', '');
 	}
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }
 
 function get_avail_softwaredepot (&$tpl, &$sql) {
@@ -294,12 +294,12 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 			a.`software_name` ASC
 		";
 	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() > 0) {
+	if ($rs->recordCount() > 0) {
 		while(!$rs->EOF) {
 			if($rs->fields['swstatus'] == "ok" || $rs->fields['swstatus'] == "ready") {
 				if($rs->fields['swstatus'] == "ready") {
 					$updatequery = "UPDATE `web_software` SET `software_status` = 'ok' WHERE `software_id` = ?";
-					exec_query($sql, $updatequery, array($rs->fields['id']));
+					exec_query($sql, $updatequery, $rs->fields['id']);
 					set_page_message(tr('Package installed successfully!'));
 				}
 				$del_url = "software_delete.php?id=".$rs->fields['id'];
@@ -421,17 +421,17 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 										a.`software_id` = ?
 									AND
 										a.`reseller_id` = b.`admin_id`";
-							$rs_res = exec_query($sql, $query, array($exist_software_id));
+							$rs_res = exec_query($sql, $query, $exist_software_id);
 							set_page_message(tr('This package already exist in the depot of the reseller "'.$rs_res->fields['resellername'].'"!'));
 						}
 						$del_path = $cfg->GUI_SOFTWARE_DEPOT_DIR."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
 						@unlink($del_path);
 						$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
-						$res = exec_query($sql, $delete, array($rs->fields['id']));
+						$res = exec_query($sql, $delete, $rs->fields['id']);
 					}
 			}
 			$tpl->parse('LIST_SOFTWAREDEPOT', '.list_softwaredepot');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_SOFTWAREDEPOT_LIST', '');
 	} else {
@@ -443,7 +443,7 @@ function get_avail_softwaredepot (&$tpl, &$sql) {
 		$tpl->parse('NO_SOFTWAREDEPOT_LIST', '.no_softwaredepot_list');
 		$tpl->assign('LIST_SOFTWAREDEPOT', '');
 	}
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }
 
 function get_reseller_software (&$tpl, &$sql) {
@@ -463,20 +463,20 @@ function get_reseller_software (&$tpl, &$sql) {
 			t1.`admin_id` ASC
 		";
 	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() > 0) {
+	if ($rs->recordCount() > 0) {
 		while(!$rs->EOF) {
 			$query="SELECT `software_id` FROM `web_software` WHERE `reseller_id` = ?";
-			$rssoftware = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rssoftware = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$software_ids = array();
-			while ($data = $rssoftware->FetchRow()) {
+			while ($data = $rssoftware->fetchRow()) {
 				$software_ids[] = $data['software_id'];
 			}
 			$query="SELECT count(`software_id`) as swdepot FROM `web_software` WHERE `software_active` = 1 AND software_depot = 'yes' AND `reseller_id` = ?";
-			$rscountswdepot = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountswdepot = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$query="SELECT count(`software_id`) as waiting FROM `web_software` WHERE `software_active` = 0 AND `reseller_id` = ?";
-			$rscountwaiting = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountwaiting = exec_query($sql, $query, $rs->fields['reseller_id']);
 			$query="SELECT count(`software_id`) as activated FROM `web_software` WHERE `software_active` = 1 AND `reseller_id` = ?";
-			$rscountactivated = exec_query($sql, $query, array($rs->fields['reseller_id']));
+			$rscountactivated = exec_query($sql, $query, $rs->fields['reseller_id']);
 			if(count($software_ids) > 0){
 				$query="SELECT count(`domain_id`) as in_use FROM `web_software_inst` WHERE `software_id` IN (".implode(',', $software_ids ).") AND `software_status` = 'ok'";
 				$rscountin_use = exec_query($sql, $query, array());
@@ -495,7 +495,7 @@ function get_reseller_software (&$tpl, &$sql) {
 						)
 					);
 			$tpl->parse('LIST_RESELLER', '.list_reseller');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 		$tpl->assign('NO_RESELLER_LIST', '');
 	} else {
@@ -507,7 +507,7 @@ function get_reseller_software (&$tpl, &$sql) {
 		$tpl->parse('NO_RESELLER_LIST', '.no_reseller_list');
 		$tpl->assign('LIST_RESELLER', '');
 	}
-	return $rs->RecordCount();
+	return $rs->recordCount();
 }
 
 $tpl->assign(

@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/software_upload.tpl');
@@ -119,14 +119,14 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 				if($remote_file_size < 1){
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-					exec_query($sql, $query, array($sw_id));
+					exec_query($sql, $query, $sw_id);
 					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Your remote filesize (%1$d B) is lower than 1 Byte. Please check your URL!', $show_remote_file_size));
 					$upload = 0;
 				} elseif($remote_file_size > $cfg->MAX_REMOTE_FILESIZE) {
 					// Delete software entry
 					$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-					exec_query($sql, $query, array($sw_id));
+					exec_query($sql, $query, $sw_id);
 					$show_max_remote_filesize = formatFilesize($cfg->MAX_REMOTE_FILESIZE);
 					set_page_message(tr('ERROR: Max. remote filesize (%1$d MB) is reached. Your remote file ist %2$d MB', $show_max_remote_filesize, $show_remote_file_size));
 					$upload = 0;
@@ -139,7 +139,7 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
 					} else {
 						// Delete software entry
 						$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-						exec_query($sql, $query, array($sw_id));
+						exec_query($sql, $query, $sw_id);
 						set_page_message(tr('ERROR: Remote File not found!'));
 						$upload = 0;
 					}
@@ -147,7 +147,7 @@ if (isset($_POST['Button']) && $_SESSION['software_upload_token'] == $_POST['sen
    			}else{
 				// Delete software entry
 				$query = "DELETE FROM `web_software` WHERE `software_id` = ?";
-				exec_query($sql, $query, array($sw_id));
+				exec_query($sql, $query, $sw_id);
 				set_page_message(tr('ERROR: Could not upload the file. File not found!'));
 				$upload = 0;
 			}
@@ -195,7 +195,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 				`reseller_id` = ?
 	";
 
-    $rs = exec_query($sql, $query, array($user_id));
+    $rs = exec_query($sql, $query, $user_id);
     $software_allowed = $rs->fields('software_allowed');
 	
 	if ($software_allowed == 'yes') {
@@ -237,13 +237,13 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 			ORDER BY
 				".$ordertype;
 				
-		$rs = exec_query($sql, $query, array($user_id));
-		if ($rs->RecordCount() > 0) {
+		$rs = exec_query($sql, $query, $user_id);
+		if ($rs->recordCount() > 0) {
 			while(!$rs->EOF) {
 				if($rs->fields['swstatus'] == "ok" || $rs->fields['swstatus'] == "ready") {
 					if($rs->fields['swstatus'] == "ready") {
 						$updatequery = "UPDATE `web_software` set software_status = 'ok' WHERE `software_id` = ?";
-						exec_query($sql, $updatequery, array($rs->fields['id']));
+						exec_query($sql, $updatequery, $rs->fields['id']);
 						send_new_sw_upload ($user_id,$rs->fields['filename'].".tar.gz",$rs->fields['id']);
 						set_page_message(tr('Package installed successfully... Awaiting release from Admin!'));
 					}
@@ -266,13 +266,13 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 							AND
 									`domain`.`domain_id` = `web_software_inst`.`domain_id`
                         	";
-					$rs2 = exec_query($sql, $query2, array($rs->fields['id']));
-					if ($rs2->RecordCount() > 0) {
+					$rs2 = exec_query($sql, $query2, $rs->fields['id']);
+					if ($rs2->recordCount() > 0) {
 						$swinstalled_domain = tr('This software is installed on following domain(s):');
 						$swinstalled_domain .= "<ul>";
 						while(!$rs2->EOF) {
 							$swinstalled_domain .= "<li>".$rs2->fields['domain']."</li>";
-							$rs2->MoveNext();
+							$rs2->moveNext();
 						}
 						$swinstalled_domain .= "</ul>";
 						$tpl->assign(
@@ -393,11 +393,11 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 						$del_path = $cfg->GUI_SOFTWARE_DIR."/".$rs->fields['resellerid']."/".$rs->fields['filename']."-".$rs->fields['id'].".tar.gz";
 						@unlink($del_path);
 						$delete="DELETE FROM `web_software` WHERE `software_id` = ?";
-						$res = exec_query($sql, $delete, array($rs->fields['id']));
+						$res = exec_query($sql, $delete, $rs->fields['id']);
 					}
 				}
 				$tpl->parse('LIST_SOFTWARE', '.list_software');
-				$rs->MoveNext();
+				$rs->moveNext();
 			}
 			$tpl->assign('NO_SOFTWARE_LIST', '');
 		} else {
@@ -409,7 +409,7 @@ function get_avail_software (&$tpl, &$sql, $user_id) {
 				);
 			$tpl->parse('NO_SOFTWARE_LIST', '.no_software_list');
 		}
-		return $rs->RecordCount();
+		return $rs->recordCount();
 	} else {
 		$tpl->assign(
 				array(

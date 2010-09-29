@@ -3,8 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
-
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 	$query="
@@ -18,7 +17,7 @@ if (isset($_GET['id']) AND is_numeric($_GET['id'])) {
 		WHERE
 			`software_id` = ?
 		";
-	$rs = exec_query($sql, $query, array($_GET['id']));
+	$rs = exec_query($sql, $query, $_GET['id']);
 	if($rs->fields['software_depot'] == "yes") {
 		$filename = $cfg->GUI_SOFTWARE_DEPOT_DIR."/".$rs->fields['software_archive']."-".$rs->fields['software_id'].".tar.gz";
 	}else{

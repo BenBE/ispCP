@@ -3,7 +3,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 $tpl = new pTemplate();
 $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/software.tpl');
@@ -37,7 +37,7 @@ function gen_user_software_action($software_id, $dmn_id, &$sql, &$tpl) {
 				`domain_id` = ?
 		";
 	$sw = exec_query($sql, $find_software, array($software_id, $dmn_id));
-	if ($sw -> RecordCount() == 0) {
+	if ($sw -> recordCount() == 0) {
 		$software_status = 'not installed';
 		$software_icon = 'edit';
 	} else {
@@ -103,7 +103,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 			WHERE
 				`domain_admin_id` = ?
 		";
-	$rs = exec_query($sql, $query, array($admin_id));
+	$rs = exec_query($sql, $query, $admin_id);
 	if ($rs->fields('domain_software_allowed') == 'yes' && $rs->fields('domain_ftpacc_limit') != "-1") {
 		$find_deleted_software = "
 								SELECT
@@ -119,8 +119,8 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 								AND
 										software_res_del = 1
 								";
-		$deleted_sw = exec_query($sql, $find_deleted_software, array($dmn_id));
-		if ($deleted_sw->RecordCount() == 0) {
+		$deleted_sw = exec_query($sql, $find_deleted_software, $dmn_id);
+		if ($deleted_sw->recordCount() == 0) {
 			$tpl->assign('SOFTWARE_DEL_ITEM', '');
 			$tpl->assign('DEL_SOFTWARE_SUPPORT', '');
 		}else{
@@ -174,7 +174,7 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 							)
 						);
 				$tpl -> parse('DEL_SOFTWARE_ITEM', '.del_software_item');
-				$deleted_sw->MoveNext();
+				$deleted_sw->moveNext();
 				$delcounter ++;
 			}
 			$tpl->assign(
@@ -225,8 +225,8 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 					ORDER BY
 							".$ordertype;
 				
-		$rs = exec_query($sql, $list_query, array($reseller_id));
-		if ($rs -> RecordCount() == 0) {
+		$rs = exec_query($sql, $list_query, $reseller_id);
+		if ($rs -> recordCount() == 0) {
 			$tpl->assign('SOFTWARE_ITEM', '');
 			$tpl->assign(
 					array(
@@ -281,10 +281,10 @@ function gen_software_list(&$tpl, &$sql, $dmn_id, $dmn_name, $reseller_id, $admi
 					$tpl->parse('SOFTWARE_ACTION_INSTALL', 'software_action_install');
 				}
 				$tpl -> parse('SOFTWARE_ITEM', '.software_item');
-				$rs->MoveNext();
+				$rs->moveNext();
 				$counter ++;
 			}
-			return $rs -> RecordCount();		
+			return $rs -> recordCount();		
 		}
 	} else {
 		$tpl->assign(
