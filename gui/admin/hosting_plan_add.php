@@ -32,13 +32,13 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
@@ -132,8 +132,8 @@ if ($cfg->DUMP_GUI_DEBUG) {
  */
 function gen_empty_ahp_page(&$tpl) {
 
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
 			array(
 					'HP_NAME_VALUE'			=> '',
@@ -185,8 +185,8 @@ function gen_data_ahp_page(&$tpl) {
 	global $hp_backup, $hp_dns, $hp_allowsoftware;
 	global $tos;
 
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
 			array(
 					'HP_NAME_VALUE'			=> tohtml($hp_name),
@@ -346,7 +346,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_backup, $hp_dns, $hp_allowsoftware;
 	global $tos;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "SELECT `id` FROM `hosting_plans` WHERE `name` = ? AND `reseller_id` = ?";
 	$query = "
@@ -365,7 +365,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 	";
 	$res = exec_query($sql, $query, array('admin', $hp_name));
 
-	if ($res->RowCount() == 1) {
+	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
 		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {

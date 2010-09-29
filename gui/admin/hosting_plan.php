@@ -33,13 +33,13 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -125,8 +125,8 @@ function gen_hp_message() {
  */
 function gen_hp_table(&$tpl, $reseller_id) {
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -142,10 +142,10 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		ORDER BY
 			t1.`name`
 	";
-	$rs = exec_query($sql, $query, array('admin'));
+	$rs = exec_query($sql, $query, 'admin');
 	$tr_edit = tr('Edit');
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		// if ($externel_event == '_off_') {
 		set_page_message(tr('Hosting plans not found!'));
 		// }
@@ -168,7 +168,7 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		$coid = $cfg->exists('CUSTOM_ORDERPANEL_ID') ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 		$i = 1;
 
-		while (($data = $rs->FetchRow())) {
+		while (($data = $rs->fetchRow())) {
 			$tpl->assign(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
 			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');
 

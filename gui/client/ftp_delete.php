@@ -38,41 +38,38 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	$query = "
 		SELECT
-			t1.`userid`,
-			t1.`uid`,
-			t2.`domain_gid`
+			`t1`.`userid`, `t1`.`uid`, `t2`.`domain_uid`
 		FROM
-			`ftp_users` AS t1,
-			`domain` AS t2
+			`ftp_users` AS `t1`, `domain` AS `t2`
 		WHERE
-			t1.`userid` = ?
+			`t1`.`userid` = ?
 		AND
-			t1.`uid` = t2.`domain_gid`
+			`t1`.`uid` = t2.`domain_uid`
 		AND
-			t2.`domain_name` = ?
+			`t2`.`domain_name` = ?
+		;
 	";
 
 	$rs = exec_query($sql, $query, array($ftp_id, $dmn_name));
 	$ftp_name = $rs->fields['userid'];
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('ftp_accounts.php');
 	}
 
 	$query = "
 		SELECT
-			t1.`gid`,
-			t2.`members`
+			`t1`.`gid`, t2.`members`
 		FROM
-			`ftp_users` AS t1,
-			`ftp_group` AS t2
+			`ftp_users` AS `t1`, `ftp_group` AS `t2`
 		WHERE
-			t1.`gid` = t2.`gid`
+			`t1`.`gid` = `t2`.`gid`
 		AND
-			t1.`userid` = ?
+			`t1`.`userid` = ?
+		;
 	";
 
-	$rs = exec_query($sql, $query, array($ftp_id));
+	$rs = exec_query($sql, $query, $ftp_id);
 
 	$ftp_gid = $rs->fields['gid'];
 	$ftp_members = $rs->fields['members'];
@@ -87,9 +84,10 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 				`ftp_group`
 			WHERE
 				`gid` = ?
+			;
 		";
 
-		$rs = exec_query($sql, $query, array($ftp_gid));
+		$rs = exec_query($sql, $query, $ftp_gid);
 
 	} else {
 		$query = "
@@ -99,6 +97,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 				`members` = ?
 			WHERE
 				`gid` = ?
+			;
 		";
 
 		$rs = exec_query($sql, $query, array($members, $ftp_gid));
@@ -109,9 +108,10 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`ftp_users`
 		WHERE
 			`userid` = ?
+		;
 	";
 
-	$rs = exec_query($sql, $query, array($ftp_id));
+	$rs = exec_query($sql, $query, $ftp_id);
 
 	$domain_props = get_domain_default_props($sql, $_SESSION['user_id']);
 	update_reseller_c_props($domain_props[4]);

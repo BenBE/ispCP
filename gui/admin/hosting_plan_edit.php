@@ -32,13 +32,13 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
@@ -157,7 +157,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  */
 function restore_form(&$tpl) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
 		array(
@@ -201,7 +201,7 @@ function restore_form(&$tpl) {
  */
 function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$_SESSION['hpid'] = $hpid;
 
@@ -215,17 +215,17 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 		;
 	";
 
-	$res = exec_query($sql, $query, array($hpid));
+	$res = exec_query($sql, $query, $hpid);
 
 	$readonly = '';
 	$disabled = '';
 	$edit_hp = tr('Edit hosting plan');
 
-	if ($res->RowCount() !== 1) {
+	if ($res->rowCount() !== 1) {
 		user_goto('hosting_plan.php');
 	}
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 	$props = $data['props'];
 	$description = $data['description'];
 	$price = $data['price'];
@@ -310,6 +310,7 @@ function check_data_iscorrect(&$tpl) {
 	global $hp_backup, $hp_dns, $hp_allowsoftware;
 
 	$ahp_error = array();
+
 	$hp_name = clean_input($_POST['hp_name']);
 	$hp_sub = clean_input($_POST['hp_sub']);
 	$hp_als = clean_input($_POST['hp_als']);
@@ -396,11 +397,13 @@ function check_data_iscorrect(&$tpl) {
 		$ahp_error[] = tr('Incorrect disk quota limit!');
 	}
 
-	if (!isset($ahp_error)) {
+	if (empty($ahp_error)) {
 		$tpl->assign('MESSAGE', '');
+
 		return true;
 	} else {
 		set_page_message(format_message($ahp_error));
+
 		return false;
 	}
 } // end of check_data_iscorrect()
@@ -418,7 +421,7 @@ function save_data_to_db() {
 	global $hp_backup, $hp_dns, $hp_allowsoftware;
 	//global $tos;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$description = clean_input($_POST['hp_description']);
 	$price = clean_input($_POST['hp_price']);
@@ -442,7 +445,7 @@ function save_data_to_db() {
 			`setup_fee` = ?,
 			`value` = ?,
 			`payment` = ?,
-			`status` = ?
+			`status` = ?,
 			`tos` = ?
 		WHERE
 			`id` = ?

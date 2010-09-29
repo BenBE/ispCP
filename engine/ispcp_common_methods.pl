@@ -31,30 +31,35 @@
 
 BEGIN {
 
-	my @needed 	= (
-		'strict',
-		'warnings',
-		IO::Socket,
-		DBI,
-		DBD::mysql,
-		MIME::Entity,
-		MIME::Parser,
-		Crypt::CBC,
-		Crypt::Blowfish,
-		Crypt::PasswdMD5,
-		MIME::Base64,
-		Term::ReadPassword,
-		File::Basename,
-		File::Path,
-		HTML::Entities
+	my %needed 	= (
+		'strict' => '',
+		'warnings' => '',
+		'IO::Socket'=> '',
+		'DBI'=> '',
+		DBD::mysql => '',
+		MIME::Entity => '',
+		MIME::Parser => '',
+		Crypt::CBC => '',
+		Crypt::Blowfish => '',
+		Crypt::PasswdMD5 => '',
+		MIME::Base64 => '',
+		Term::ReadPassword => '',
+		File::Basename => '',
+		File::Path => '',
+		HTML::Entities=> '',
+		File::Temp => 'qw(tempdir)',
+		File::Copy::Recursive => 'qw(rcopy)',
+		DateTime::TimeZone => ''
 	);
 
 	my ($mod, $mod_err, $mod_missing) = ('', '_off_', '');
 
-	for $mod (@needed) {
+	for $mod (keys %needed) {
 
 		if (eval "require $mod") {
-			$mod -> import();
+
+			eval "use $mod $needed{$mod}";
+
 		} else {
 
 			print STDERR "\nCRITICAL ERROR: Module [$mod] WAS NOT FOUND !\n" ;
@@ -79,6 +84,9 @@ BEGIN {
 	}
 }
 
+# Hide the "used only once: possible typo" warnings
+no warnings 'once';
+
 # Global variables;
 
 $main::cc_stdout = '/tmp/ispcp-cc.stdout';
@@ -87,6 +95,7 @@ $main::cc_stderr = '/tmp/ispcp-cc.stderr';
 
 $main::el_sep = "\t#\t";
 
+# Initialize the stack that will contain all logging messages
 @main::el = ();
 
 %main::domain_id_name = ();
@@ -138,24 +147,50 @@ $SIG{PIPE} = 'IGNORE';
 
 $SIG{HUP} = 'IGNORE';
 
+################################################################################
+#                                Logging subroutines                           #
+################################################################################
+
+################################################################################
+# Add a new message in the logging stack and print it
+#
+# Note:  Printing is only done in DEBUG mode
+#
+# @param arrayref $el Reference to the global logging stack array
+# @param scalar $sub_name Subroutine name that cause log message
+# @param scalar $msg message to be logged
+# @void
+#
 sub push_el {
 
 	my ($el, $sub_name, $msg) = @_;
 
 	push @$el, "$sub_name".$main::el_sep."$msg";
 
-	if (defined($main::engine_debug)) {
+	if (defined $main::engine_debug) {
         print STDOUT "DEBUG: push_el() sub_name: $sub_name, msg: $msg\n";
     }
 }
 
+################################################################################
+# Print and return the last message from the logging stack
+#
+# Note: Printing is only done in DEBUG mode.
+#
+# This subroutine take the last message in the logging stack and print and
+# return it. Note that the message is completely removed from the logging stack.
+#
+# @param arrayref $el Reference to the global logging stack array
+# @return mixed Last message from the log stack or undef if the logging stack is
+# empty
+#
 sub pop_el {
 
 	my ($el) = @_;
 	my $data = pop @$el;
 
-	if (!defined($data)) {
-		if (defined($main::engine_debug)) {
+	if (!defined $data) {
+		if (defined $main::engine_debug) {
 			print STDOUT "DEBUG: pop_el() Empty 'EL' Stack !\n";
 		}
 
@@ -164,25 +199,30 @@ sub pop_el {
 
 	my ($sub_name, $msg) = split(/$main::el_sep/, $data);
 
-	if (defined($main::engine_debug)) {
+	if (defined $main::engine_debug) {
 		print STDOUT "DEBUG: pop_el() sub_name: $sub_name, msg: $msg\n";
 	}
 
     return $data;
 }
 
-
+################################################################################
+# Dump the logging stack
+#
+# @param arrayref $el Reference to the global Logging stack array
+# @param [string $fname Logfile name]
+# @return int
+#
 sub dump_el {
 
 	my ($el, $fname) = @_;
-	my $res;
+
 
 	if ($fname ne 'stdout' && $fname ne 'stderr') {
-		$res = open(FP, ">", $fname);
-		return 0 if(!defined($res));
+		return 0 if(!open(FP, '>', $fname));
 	}
 
-	my $el_data = undef;
+	my $el_data;
 
 	while (defined($el_data = pop_el(\@main::el))) {
 		my ($sub_name, $msg) = split(/$main::el_sep/, $el_data);
@@ -196,8 +236,12 @@ sub dump_el {
 		}
 	}
 
-	close(FP);
+	close FP;
 }
+
+################################################################################
+#                                SQL subroutines                               #
+################################################################################
 
 sub doSQL {
 
@@ -206,21 +250,19 @@ sub doSQL {
 	my ($sql) = @_;
 	my $qr = undef;
 
-	if (!defined($sql) || ($sql eq '')) {
+	if (!defined $sql || $sql eq '') {
 		push_el(\@main::el, 'doSQL()', 'ERROR: Undefined SQL query !');
 
 		return (-1, '');
 	}
 
-	if (!defined($main::db) || !ref($main::db)) {
+	if (!defined $main::db || !ref $main::db) {
 		$main::db = DBI->connect(@main::db_connect, {PrintError => 0});
 
-		if ( !defined($main::db) ) {
+		if (!defined $main::db) {
 
 			push_el(
-				\@main::el,
-				'doSQL()',
-				'ERROR: Unable to connect SQL server !'
+				\@main::el, 'doSQL()', 'ERROR: Unable to connect SQL server !'
 			);
 
 			return (-1, '');
@@ -239,14 +281,13 @@ sub doSQL {
 		$qr = $main::db->do($sql);
 	}
 
-	if (defined($qr)) {
+	if (defined $qr) {
 		push_el(\@main::el, 'doSQL()', 'Ending...');
 		return (0, $qr);
 	} else {
 
 		push_el(
-			\@main::el,
-			'doSQL()',
+			\@main::el, 'doSQL()',
 			'ERROR: Incorrect SQL Query -> '.$main::db -> errstr
 		);
 
@@ -258,24 +299,22 @@ sub doHashSQL {
 
 	push_el(\@main::el, 'doHashSQL()', 'Starting...');
 
-	my ($sql) = @_;
-	my $qr = undef;
+	my ($sql, $kField) = @_;
+	my $qr;
 
-	if (!defined($sql) || ($sql eq '')) {
+	if (!defined $sql || $sql eq '') {
 		push_el(\@main::el, 'doHashSQL()', 'ERROR: Undefined SQL query !');
 
 		return (-1, '');
 	}
 
-	if (!defined($main::db) || !ref($main::db)) {
+	if (!defined $main::db || !ref $main::db) {
 		$main::db = DBI -> connect(@main::db_connect, {PrintError => 0});
 
-		if ( !defined($main::db) ) {
+		if (!defined $main::db) {
 
 		push_el(
-			\@main::el,
-			'doHashSQL()',
-			'ERROR: Unable to connect SQL server !'
+			\@main::el, 'doHashSQL()', 'ERROR: Unable to connect SQL server !'
 		);
 
 		return (-1, '');
@@ -285,23 +324,20 @@ sub doHashSQL {
 		}
 	}
 
-	if ($sql =~ /select/i) {
-		$qr = $main::db -> selectall_hashref($sql);
-	} elsif ($sql =~ /show/i) {
-		$qr = $main::db -> selectall_hashref($sql);
+	if (defined $kField && $kField ne '' && $sql =~ /^[\s]*?(select|show)/i) {
+		$qr = $main::db ->selectall_hashref($sql, $kField);
 	} else {
-		$qr = $main::db -> do($sql);
+		$qr = $main::db->do($sql);
 	}
 
-	if (defined($qr)) {
+	if (defined $qr) {
 		push_el(\@main::el, 'doHashSQL()', 'Ending...');
 
 		return (0, $qr);
 
 	} else {
 		push_el(
-			\@main::el,
-			'doHashSQL()',
+			\@main::el, 'doHashSQL()',
 			'ERROR: Incorrect SQL Query -> '.$main::db -> errstr
 		);
 
@@ -309,34 +345,38 @@ sub doHashSQL {
 	}
 }
 
-##
-# setfmode
-# sets user, group and rights of a file.
-# If $fgroup set to 'null' this function will get the GID from /etc/passwd.
+################################################################################
+#                                Other subroutines                             #
+################################################################################
+
+################################################################################
+# set file user, group and permissions
 #
-# @author		VHCS/ispCP Team
-# @author		Benedikt Heintel
-# @copyright 	2006-2009 by ispCP | http://isp-control.net
-# @version		1.1
+# Note:
 #
+# If $fgroup is set to 'null' this subroutine will get the GID from /etc/passwd.
+#
+# @author   VHCS/ispCP Team
+# @author	Benedikt Heintel
+# @version	1.1
 # @access	public
-# @param	String 	$fname	File or Folder Name
-# @param	Mixed 	$fuser	Linux User or UserID
-# @param	Mixed	$fgroup	Linux Group, GroupID or 'null'
-# @param	int		$fperms	Linux Permissions
-# @return	int				success (0) or error (-1)
+# @param	scalar $fname File or Folder Name
+# @param	mixed $fuser Linux User or UserID
+# @param	mixed $fgroup Linux Group, GroupID or 'null'
+# @param	int $fperms	Linux Permissions
+# @return	int on success, -1 otherwise
+#
 sub setfmode {
 
 	push_el(\@main::el, 'setfmode()', 'Starting...');
 
 	my ($fname, $fuser, $fgroup, $fperms) = @_;
 
-	if (!defined($fname) || !defined($fuser) || !defined($fperms) ||
-		$fname eq '' || $fname eq '' || $fgroup eq '' || $fperms eq '') {
+	if (!defined $fname || !defined $fuser || !defined $fperms || $fname eq ''
+		|| $fname eq '' || $fgroup eq '' || $fperms eq '') {
 
 		push_el(
-			\@main::el,
-			'setfmode()',
+			\@main::el, 'setfmode()',
 			"ERROR: Undefined input data, fname: |$fname|, fuid: |$fuser|, " .
 				"fgid: |$fgroup|, fperms: |$fperms| !"
 		);
@@ -344,11 +384,9 @@ sub setfmode {
 		return -1;
 	}
 
-	if (! -e $fname) {
+	if (!-e $fname) {
 		push_el(
-			\@main::el,
-			'setfmode()',
-			"ERROR: File '$fname' does not exist !"
+			\@main::el, 'setfmode()', "ERROR: File '$fname' does not exist !"
 		);
 
 		return -1;
@@ -357,7 +395,7 @@ sub setfmode {
 	my @udata = ();
 	my @gdata = ();
 
-	my ($uid, $gid) = (undef, undef);
+	my ($uid, $gid);
 
 	# get UID of user
 	if ($fuser =~ /^\d+$/) {
@@ -366,11 +404,7 @@ sub setfmode {
 		@udata = getpwnam($fuser);
 
 		if (scalar(@udata) == 0) {
-			push_el(
-				\@main::el,
-				'setfmode()',
-				"ERROR: Unknown user '$fuser' !"
-			);
+			push_el(\@main::el, 'setfmode()', "ERROR: Unknown user '$fuser' !");
 
 			return -1;
 		}
@@ -388,9 +422,7 @@ sub setfmode {
 
 		if (scalar(@udata) == 0) {
 			push_el(
-				\@main::el,
-				'setfmode()',
-				"ERROR: Unknown user '$fgroup' !"
+				\@main::el, 'setfmode()', "ERROR: Unknown user '$fgroup' !"
 			);
 
 			return -1;
@@ -403,8 +435,7 @@ sub setfmode {
 
 	if ($res != 1) {
 		push_el(
-			\@main::el,
-			'setfmode()',
+			\@main::el, 'setfmode()',
 			"ERROR: cannot change permissions of file '$fname' !"
 		);
 
@@ -414,8 +445,8 @@ sub setfmode {
 	$res = chown($uid, $gid, $fname);
 
 	if ($res != 1) {
-		push_el(\@main::el,
-			'setfmode()',
+		push_el(
+			\@main::el, 'setfmode()',
 			"ERROR: cannot change user/group of file '$fname' !"
 		);
 
@@ -427,39 +458,37 @@ sub setfmode {
 	0;
 }
 
+################################################################################
+# Get file content in string
+#
+# @return int 0 on success, -1 otherwise
+#
 sub get_file {
 
 	push_el(\@main::el, 'get_file()', 'Starting...');
 
 	my ($fname) = @_;
 
-	if (!defined($fname) || ($fname eq '')) {
+	if (!defined $fname || $fname eq '') {
 		push_el(
-			\@main::el,
-			'get_file()',
+			\@main::el, 'get_file()',
 			"ERROR: Undefined input data, fname: |$fname| !"
 		);
 
 		return 1;
 	}
 
-	if (! -e $fname) {
+	if (!-e $fname) {
 		push_el(
-			\@main::el,
-			'get_file()',
-			"ERROR: File '$fname' does not exist !"
+			\@main::el, 'get_file()', "ERROR: File '$fname' does not exist !"
 		);
 
 		return 1;
 	}
 
-	my $res = open(F, '<', $fname);
-
-	if (!defined($res)) {
+	if (!open(F, '<', $fname)) {
 		push_el(
-			\@main::el,
-			'get_file()',
-			"ERROR: Can't open '$fname' for reading: $!"
+			\@main::el, 'get_file()', "ERROR: Can't open '$fname' for reading: $!"
 		);
 
 		return 1;
@@ -475,33 +504,39 @@ sub get_file {
 	return (0, $line);
 }
 
-##
-# store_file
-# Changes the content of a file and sets user, group and rights of that file.
-# If $fgid set to 'null' this function will get the GID from /etc/passwd.
+################################################################################
+# Stores a string in a file
+#
+# This subroutine allow to store a string in a file. If the file already exit,
+# all the current content will be replaced by the new one from the string.
+#
+# Note:
+#
+# The file is created with rights and permissions defined during the call. If
+# the group is not defined, he will be get from the /etc/passwd file.
 #
 # @author		VHCS/ispCP Team
 # @copyright 	2006-2009 by ispCP | http://isp-control.net
-# @version		1.0
+# @version		1.1
 #
 # @access	public
-# @param	String 	$fname	File Name
-# @param	String	$fdata	Data to write to file
-# @param	Mixed 	$fuser	Linux User or UserID
-# @param	Mixed	$fgroup	Linux Group, GroupID or null
-# @param	int		$fperms	Linux Permissions
-# @return	int				success (0) or error (-1)
+# @param	scalar $fname File Name
+# @param	scalar $fdata Data to write to file
+# @param	mixed $fuser Linux User or UserID
+# @param	mixed $fgroup Linux Group, GroupID or null
+# @param	int $fperms Linux Permissions
+# @return	int	 0 on success, -1 otherwise
+#
 sub store_file {
 
 	push_el(\@main::el, 'store_file()', 'Starting...');
 
 	my ($fname, $fdata, $fuid, $fgid, $fperms) = @_;
 
-	if (!defined($fname) || $fname eq '' || $fuid eq '' || $fgid eq '' ||
+	if (!defined $fname || $fname eq '' || $fuid eq '' || $fgid eq '' ||
 		$fperms eq '') {
 		push_el(
-			\@main::el,
-			'store_file()',
+			\@main::el, 'store_file()',
 			"ERROR: Undefined input data, fname: |$fname|, fdata, " .
 				"fuid: '$fuid', fgid: '$fgid', fperms: '$fperms'"
 		);
@@ -509,12 +544,9 @@ sub store_file {
 		return -1;
 	}
 
-	my $res = open(F, '>', $fname);
-
-	if (!defined($res)) {
+	if (!open(F, '>', $fname)) {
 		push_el(
-			\@main::el,
-			'store_file()',
+			\@main::el, 'store_file()',
 			"ERROR: Can't open file |$fname| for writing: $!"
 		);
 
@@ -532,40 +564,39 @@ sub store_file {
 	0;
 }
 
-##
-# save_file
-# Changes the content of a file.
+################################################################################
+# Save a string in a file
+#
+# Note:
+#
+# This subroutine don't set any user/group and permissions on the file.
 #
 # @author		VHCS/ispCP Team
 # @copyright 	2006-2009 by ispCP | http://isp-control.net
-# @version		1.0
+# @version		1.1
 #
 # @access	public
-# @param	String 	$fname	File Name
-# @param	String	$fdata	Data to write to file
-# @return	int				success (0) or error (-1)
+# @param	scalar $fname File Name
+# @param	scalar $fdata Data to write to file
+# @return	int	0 on success -1 otherwise
 sub save_file {
 
 	push_el(\@main::el, 'save_file()', 'Starting...');
 
 	my ($fname, $fdata) = @_;
 
-	if (!defined($fname) || $fname eq '' ) {
+	if (!defined $fname || $fname eq '' ) {
 		push_el(
-			\@main::el,
-			'save_file()',
+			\@main::el, 'save_file()',
 			"ERROR: Undefined input data, fname: |$fname|"
 		);
 
 		return -1;
 	}
 
-	my $res = open(F, '>', $fname);
-
-	if (!defined($res)) {
+	if (!open(F, '>', $fname)) {
 		push_el(
-			\@main::el,
-			'save_file()',
+			\@main::el, 'save_file()',
 			"ERROR: Can't open file |$fname| for writing: $!"
 		);
 
@@ -580,16 +611,21 @@ sub save_file {
 	0;
 }
 
+################################################################################
+# Delete a file
+#
+# @param scalar $fname File name to be deleted
+# @return 0 on sucess, -1 otherwise
+#
 sub del_file {
 
 	push_el(\@main::el, 'del_file()', 'Starting...');
 
 	my ($fname) = @_;
 
-	if (!defined($fname) || ($fname eq '')) {
+	if (!defined $fname || $fname eq '') {
 		push_el(
-			\@main::el,
-			'del_file()',
+			\@main::el, 'del_file()',
 			"ERROR: Undefined input data, fname: |$fname| !"
 		);
 
@@ -598,9 +634,7 @@ sub del_file {
 
 	if (! -e $fname) {
 		push_el(
-			\@main::el,
-			'del_file()',
-			"ERROR: File '$fname' does not exist !"
+			\@main::el, 'del_file()', "ERROR: File '$fname' does not exist !"
 		);
 
 		return -1;
@@ -610,9 +644,7 @@ sub del_file {
 
 	if ($res != 1) {
 		push_el(
-			\@main::el,
-			'del_file()',
-			"ERROR: Can't unlink '$fname' !"
+			\@main::el, 'del_file()', "ERROR: Can't unlink '$fname' !"
 		);
 
 		return -1;
@@ -639,7 +671,7 @@ sub set_zone {
 	while(length($fdata) > 0) {
 		$ll = index($fdata, "\n");
 
-		if( $ll < 0 ) {
+		if($ll < 0) {
 			$ll = length( $fdata );
 		} else {
 			$ll++;
@@ -648,23 +680,23 @@ sub set_zone {
 		$curline = substr( $fdata, 0, $ll );
 		$fdata = substr( $fdata, $ll );
 
-		if( $zs == 0 ) {
-			if( index($curline, $comment."## START ISPCP ".$zone." ###") == 0 ) {
+		if($zs == 0) {
+			if(index($curline, $comment."## START ISPCP ".$zone." ###") == 0 ) {
 				$zs = 1;
 			} else {
 				$bz .= $curline;
 			}
-		} elsif( $ze == 0 ) {
-			if( index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
+		} elsif($ze == 0) {
+			if(index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
 				$ze = 1;
 			}
-		} elsif( $ze == 1 ) {
+		} elsif($ze == 1) {
 			$az .= $curline;
 		}
 	}
 
 	return
-		$bz.($zs == 1 ? "" : "\n").
+		$bz . ($zs == 1 ? "" : "\n").
 		$comment."## START ISPCP ".$zone." ###\n".
 		$data."\n".
 		$comment."## END ISPCP ".$zone." ###\n".
@@ -684,21 +716,21 @@ sub get_zone {
 	while(length($fdata) > 0) {
 		$ll = index($fdata, "\n");
 
-		if( $ll < 0 ) {
-			$ll = length( $fdata );
+		if($ll < 0) {
+			$ll = length($fdata);
 		} else {
 			$ll++;
 		}
 
-		$curline = substr( $fdata, 0, $ll );
-		$fdata = substr( $fdata, $ll );
+		$curline = substr($fdata, 0, $ll);
+		$fdata = substr($fdata, $ll);
 
-		if( $zs == 0 ) {
-			if( index($curline, $comment."## START ISPCP ".$zone." ###") == 0 ) {
+		if($zs == 0) {
+			if(index($curline, $comment."## START ISPCP ".$zone." ###") == 0) {
 				$zs = 1;
 			}
-		} elsif( $ze == 0 ) {
-			if( index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
+		} elsif($ze == 0) {
+			if(index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
 				$ze = 1;
 			} else {
 				$zonecontent .= $curline;
@@ -723,26 +755,26 @@ sub del_zone {
 	while(length($fdata) > 0) {
 		$ll = index($fdata, "\n");
 
-		if( $ll < 0 ) {
-			$ll = length( $fdata );
+		if($ll < 0) {
+			$ll = length($fdata);
 		} else {
 			$ll++;
 		}
 
-		$curline = substr( $fdata, 0, $ll );
+		$curline = substr($fdata, 0, $ll);
 		$fdata = substr( $fdata, $ll );
 
-		if( $zs == 0 ) {
-			if( index($curline, $comment."## START ISPCP ".$zone." ###") == 0 ){
+		if($zs == 0) {
+			if(index($curline, $comment."## START ISPCP ".$zone." ###") == 0) {
 				$zs = 1;
 			} else {
 				$bz .= $curline;
 			}
-		} elsif( $ze == 0 ) {
-			if( index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
+		} elsif($ze == 0) {
+			if(index($curline, $comment."## END ISPCP ".$zone." ###") == 0) {
 				$ze = 1;
 			}
-		} elsif( $ze == 1 ) {
+		} elsif($ze == 1) {
 			$az .= $curline;
 		}
 	}
@@ -750,13 +782,17 @@ sub del_zone {
 	return $bz.$az;
 }
 
-# Execute a system command and returns a message that contain
-# a small description about the command that was failed
+################################################################################
+# Execute an external command
 #
-# If you want gets the real exit code, use the sys_command_rs()
-# subroutine instead
+# Note:
 #
-# @return string that contain a smal error description
+# If you want gets the real exit code from the external command, use the
+# sys_command_rs() subroutine instead
+#
+# @param scalar $cmd External command to be executed
+# @return int 0 on success, -1 otherwise
+#
 sub sys_command {
 
 	my ($cmd) = @_;
@@ -785,9 +821,12 @@ sub sys_command {
 	}
 }
 
-# Execute a system command and return the real exit code
+################################################################################
+# Execute an external command and return the real exit code
 #
+# @param scalar $cmd External command to be executed
 # @return int command exit code
+#
 sub sys_command_rs {
 
 	my ($cmd) = @_;
@@ -805,22 +844,48 @@ sub sys_command_rs {
 	return $exit_value;
 }
 
+################################################################################
+# Execute an external command and return any output from her
+#
+# @param scalar $cmd External command to be executed
+# @return 0 on success, [-1, errMsg] otherwise
+#
+sub sys_command_stderr {
+
+	push_el(\@main::el, 'sys_command_stderr()', 'Starting...');
+
+	my ($cmd) = @_;
+
+	my $stderr = `$cmd 2>&1`;
+
+	my $exit_value = $? >> 8;
+	my $signal_num = $? & 127;
+	my $dumped_core = $? & 128;
+
+	if($exit_value != 0) {
+		push_el(\@main::el, 'sys_command_stderr()', "ERROR: $stderr");
+		return (-1, $stderr);
+	}
+
+	push_el(\@main::el, 'sys_command_stderr()', 'Ending...');
+
+	0;
+}
+
 sub make_dir {
 
 	push_el(\@main::el, 'make_dir()', 'Starting...');
+	push_el(
+		\@main::el, 'make_dir()',
+		'WARNING: This function is deprecated. Use makepath() instead ...'
+	);
 
 	my ($dname, $duid, $dgid, $dperms) = @_;
 
-	my ($rs, $rdata) = ('', '');
-
-	if (!defined($dname) || !defined($duid) ||
-		!defined($dgid) || !defined($dperms) ||
-		$dname eq '' || $duid eq '' ||
-		$dgid eq '' || $dperms eq ''
-		) {
+	if (!defined $dname || !defined $duid || !defined $dgid || !defined $dperms
+		|| $dname eq '' || $duid eq '' || $dgid eq '' || $dperms eq '' ) {
 		push_el(
-			\@main::el,
-			'make_dir()',
+			\@main::el, 'make_dir()',
 			"ERROR: Undefined input data, dname: |$dname|, duid: |$duid|, " .
 				"dgid: |$dgid|, dperms: |$dperms| !"
 		);
@@ -828,10 +893,11 @@ sub make_dir {
 		return -1;
 	}
 
-	if (-e $dname && -f $dname ) {
+	my ($rs, $rdata) = ('', '');
+
+	if (-e $dname && -f $dname) {
 		push_el(
-			\@main::el,
-			'make_dir()',
+			\@main::el, 'make_dir()',
 			"'$dname' exists as file ! removing file first..."
 		);
 
@@ -840,8 +906,7 @@ sub make_dir {
 
 	if (!(-e $dname && -d $dname)) {
 		push_el(
-			\@main::el,
-			'make_dir()',
+			\@main::el, 'make_dir()',
 			"'$dname' doesn't exists as directory! creating..."
 		);
 
@@ -849,8 +914,7 @@ sub make_dir {
 
 		if (!$rs) {
 			push_el(
-				\@main::el,
-				'make_dir()',
+				\@main::el, 'make_dir()',
 				"ERROR: mkdir() returned '$rs' status !"
 			);
 
@@ -859,8 +923,7 @@ sub make_dir {
 
 	} else {
 		push_el(
-			\@main::el,
-			'make_dir()',
+			\@main::el, 'make_dir()',
 			"'$dname' exists ! Setting its permissions..."
 		);
 	}
@@ -872,6 +935,12 @@ sub make_dir {
 	0;
 }
 
+################################################################################
+# Delete a directory
+#
+# @param scalar $dname Directory to be deleted
+# @return int 0 on success, -1 otherwise
+#
 sub del_dir {
 
 	push_el(\@main::el, 'del_dir()', 'Starting...');
@@ -881,16 +950,16 @@ sub del_dir {
 	if (!defined($dname) || ($dname eq '')) {
 		push_el(
 			\@main::el,
-			'make_dir()',
+			'del_dir()',
 			"ERROR: Undefined input data, dname: |$dname| !"
 		);
 
 		return -1;
 	}
 
-	push_el(\@main::el, 'make_dir()', "Trying to remove '$dname'...");
+	push_el(\@main::el, 'del_dir()', "Trying to remove '$dname'...");
 
-	return -1 if (sys_command("rm -rf $dname") != 0);
+	return -1 if (sys_command("$main::cfg{'CMD_RM'} -rf $dname") != 0);
 
 	push_el(\@main::el, 'del_dir()', 'Ending...');
 
@@ -905,8 +974,7 @@ sub gen_rand_num {
 
 	if (!defined($len) || ($len eq '')) {
 		push_el(
-			\@main::el,
-			'gen_rand_num()',
+			\@main::el, 'gen_rand_num()',
 			"ERROR: Undefined input data, len: |$len| !"
 		);
 
@@ -915,8 +983,7 @@ sub gen_rand_num {
 
 	if (!(0 < $len && $len < 11)) {
 		push_el(
-			\@main::el,
-			'gen_rand_num()',
+			\@main::el, 'gen_rand_num()',
 			"ERROR: Input data length '$len' out of limits [1, 10] !"
 		);
 
@@ -942,10 +1009,9 @@ sub gen_sys_rand_num {
 
 	my ($len) = @_;
 
-	if (!defined($len) || ($len eq '')) {
+	if (!defined $len || $len eq '') {
 		push_el(
-			\@main::el,
-			'gen_sys_rand_num()',
+			\@main::el, 'gen_sys_rand_num()',
 			"ERROR: Undefined input data, len: |$len| !"
 		);
 
@@ -954,8 +1020,7 @@ sub gen_sys_rand_num {
 
 	if (0 >= $len ) {
 		push_el(
-			\@main::el,
-			'gen_sys_rand_num()',
+			\@main::el, 'gen_sys_rand_num()',
 			"ERROR: Input data length '$len' is zero or negative !"
 		);
 
@@ -971,18 +1036,15 @@ sub gen_sys_rand_num {
 
 		if ($pool_size <= ($len + 10)) {
 			push_el(
-				\@main::el,
-				'gen_sys_rand_num()',
+				\@main::el, 'gen_sys_rand_num()',
 				"WARNING: entropy pool is $pool_size, but we require more or less $len"
 			);
 		}
 	}
 
 	if (-e '/dev/urandom') {
-
 		push_el(
-			\@main::el,
-			'gen_sys_rand_num()',
+			\@main::el, 'gen_sys_rand_num()',
 			"NOTICE: seeding the entropy pool (possible current size: $pool_size)"
 		);
 
@@ -1009,8 +1071,7 @@ sub gen_sys_rand_num {
 		$pool_size = int(get_file('/proc/sys/kernel/random/entropy_avail'));
 
 		push_el(
-			\@main::el,
-			'gen_sys_rand_num()',
+			\@main::el, 'gen_sys_rand_num()',
 			"NOTICE: new entropy pool size is $pool_size"
 		);
 	}
@@ -1021,13 +1082,12 @@ sub gen_sys_rand_num {
 
 	my $rs = open(F, '<', '/dev/urandom');
 
-	if (!defined($rs)) {
+	if (!defined $rs) {
 		$rs = open(F, '<', '/dev/urandom');
 
-		if (!defined($rs)) {
+		if (!defined $rs) {
 			push_el(
-				\@main::el,
-				'gen_sys_rand_num()',
+				\@main::el, 'gen_sys_rand_num()',
 				"ERROR: Couldn't open the pseudo-random characters generator: $!"
 			);
 
@@ -1064,10 +1124,9 @@ sub crypt_md5_data {
 
 	my ($data) = @_;
 
-	if (!defined($data) || $data eq '') {
+	if (!defined $data || $data eq '') {
 		push_el(
-			\@main::el,
-			'crypt_md5_data()',
+			\@main::el, 'crypt_md5_data()',
 			"ERROR: Undefined input data, data: |$data| !"
 		);
 
@@ -1090,10 +1149,9 @@ sub crypt_data {
 
 	my ($data) = @_;
 
-	if (!defined($data) || $data eq '') {
+	if (!defined $data || $data eq '') {
 		push_el(
-			\@main::el,
-			'crypt_data()',
+			\@main::el, 'crypt_data()',
 			"ERROR: Undefined input data, data: |$data| !"
 		);
 
@@ -1112,16 +1170,17 @@ sub crypt_data {
 
 sub get_tag {
 
-	push_el(\@main::el, 'get_tag()', "Starting...");
+	push_el(\@main::el, 'get_tag()', 'Starting...');
 
-	my ($bt, $et, $src) = @_;
+	my ($bt, $et, $src, $function) = @_;
 
-	if (!defined($bt) || !defined($et) || !defined($src) || $bt eq '' ||
+	$function = 'undefined' if(!defined $function);
+
+	if (!defined $bt || !defined $et || !defined $src || $bt eq '' ||
 		$et eq '' || $src eq '') {
 		push_el(
-			\@main::el,
-			'get_tag()',
-			"ERROR: Undefined intput data, bt: |$bt|, et: |$et|, src !"
+			\@main::el, 'get_tag()',
+			"ERROR: Undefined input data, bt: |$bt|, et: |$et|, src !"
 		);
 
 		return (-1, '');
@@ -1135,11 +1194,12 @@ sub get_tag {
 
 		if ($tag_pos < 0) {
 
-			push_el(
-				\@main::el,
-				'get_tag()',
-				"ERROR: '$bt' eq '$et', missing '$bt' in src !"
-			);
+			if($function ne 'repl_tag') {
+				push_el(
+					\@main::el, 'get_tag()',
+					"ERROR: '$bt' eq '$et', missing '$bt' in src !"
+				);
+			}
 
 			return (-4, '');
 
@@ -1152,8 +1212,7 @@ sub get_tag {
 	} else {
 		if ($bt_len + $et_len > $src_len) {
 			push_el(
-				\@main::el,
-				'get_tag()',
+				\@main::el, 'get_tag()',
 				"ERROR: len($bt) + len($et) > len(src) !"
 			);
 
@@ -1176,8 +1235,7 @@ sub get_tag {
 
 		if ($et_pos < $bt_pos + $bt_len) {
 			push_el(
-				\@main::el,
-				'get_tag()',
+				\@main::el, 'get_tag()',
 				"ERROR: '$bt' ne '$et', '$et' overlaps '$bt' in src !"
 			);
 
@@ -1194,27 +1252,26 @@ sub get_tag {
 
 sub repl_tag {
 
-	push_el(\@main::el, 'repl_tag()', "Starting...");
+	push_el(\@main::el, 'repl_tag()', 'Starting...');
 
 	my ($bt, $et, $src, $rwith, $function) = @_;
 
-	if (!defined($function)) {
+	if (!defined $function) {
 		$function = "not defined function"
 	}
 
-	if (!defined($rwith)) {
+	if (!defined $rwith) {
 		push_el(
-			\@main::el,
-			'repl_tag()',
-			"ERROR: Undefined template replacement data in ".$function."!"
+			\@main::el, 'repl_tag()',
+			"ERROR: Undefined template replacement data in $function!"
 		);
 
 		return (-1, '');
 
 	}
 
-	my ($rs, $rdata) = get_tag($bt, $et, $src);
-	return $rs if ($rs != 0);
+	my ($rs, $rdata) = get_tag($bt, $et, $src, 'repl_tag');
+	return ($rs, $src) if ($rs != 0);
 
 	my $tag = $rdata;
 	my ($tag_pos, $tag_len) = (index($src, $tag), length($tag));
@@ -1225,21 +1282,20 @@ sub repl_tag {
 		substr($src, $tag_pos, $tag_len, $rwith);
 	}
 
-	push_el(\@main::el, 'repl_tag()', "Ending...");
+	push_el(\@main::el, 'repl_tag()', 'Ending...');
 
 	return (0, $src);
 }
 
 sub add_tag {
 
-	push_el(\@main::el, 'add_tag()', "Starting...");
+	push_el(\@main::el, 'add_tag()', 'Starting...');
 
 	my ($bt, $et, $src, $adata) = @_;
 
-	if (!defined($adata) || $adata eq '') {
+	if (!defined $adata || $adata eq '') {
 		push_el(
-			\@main::el,
-			'add_tag()',
+			\@main::el, 'add_tag()',
 			"ERROR: Undefined input data, adata: |$adata| !"
 		);
 
@@ -1260,36 +1316,24 @@ sub add_tag {
 	($rs, $rdata) = repl_tag($bt, $et, $src, $rwith, "add_tag: ($adata)");
 	return (-1, '') if ($rs != 0);
 
-	push_el(\@main::el, 'add_tag()', "Ending...");
+	push_el(\@main::el, 'add_tag()', 'Ending...');
 
 	return (0, $rdata);
 }
 
 sub del_tag {
 
-	push_el(\@main::el, 'del_tag()', "Starting...");
+	push_el(\@main::el, 'del_tag()', 'Starting...');
 
 	my ($bt, $et, $src) = @_;
 
 	my ($rs, $rdata) = get_tag($bt, $et, $src);
-	# Modified to allow to continue working with src.
-	# This avoids multiple calls to the function get_tag() in
-	# some circumstances where the administrator wants to do
-	# nothing if the tags are not found.
-	#
-	# Example:
-	# When the DNS entries for a domain must be removed in the
-	# named.conf file, we can call this method directly without
-	# having to use the function get_tag () separately to test
-	# that the entries exist or not. The status code (-5)
-	# returned here is sufficient
-    #return ($rs, '') if ($rs != 0);
 	return ($rs, $src) if ($rs != 0);
 
 	($rs, $rdata) = repl_tag($bt, $et, $src, '', 'del_tag');
 	return (-1, '') if ($rs != 0);
 
-	push_el(\@main::el, 'del_tag()', "Ending...");
+	push_el(\@main::el, 'del_tag()', 'Ending...');
 
 	return (0, $rdata);
 }
@@ -1311,7 +1355,7 @@ sub get_var {
 
 sub repl_var {
 
-	push_el(\@main::el, 'repl_var()', "Starting...");
+	push_el(\@main::el, 'repl_var()', 'Starting...');
 
 	my ($var, $src, $rwith) = @_;
 	my ($rs, $rdata, $result) = (0, $src, '');
@@ -1323,42 +1367,42 @@ sub repl_var {
 		return -1 if ($rs != 0 && $rs != -4);
 	}
 
-	push_el(\@main::el, 'repl_var()', "Ending...");
+	push_el(\@main::el, 'repl_var()', 'Ending...');
 
 	return (0, $result);
 }
 
 sub add_var {
 
-	push_el(\@main::el, 'add_var()', "Starting...");
+	push_el(\@main::el, 'add_var()', 'Starting...');
 
 	my ($var, $src, $adata) = @_;
 
 	my ($rs, $rdata) = add_tag($var, $var, $src, $adata);
 	return -1 if ($rs != 0);
 
-	push_el(\@main::el, 'add_var()', "Ending...");
+	push_el(\@main::el, 'add_var()', 'Ending...');
 
 	return (0, $rdata);
 }
 
 sub del_var {
 
-	push_el(\@main::el, 'del_var()', "Starting...");
+	push_el(\@main::el, 'del_var()', 'Starting...');
 
 	my ($var, $src) = @_;
 
 	my ($rs, $rdata) = repl_var($var, $src, '');
 	return -1 if ($rs != 0);
 
-	push_el(\@main::el, 'del_var()', "Ending...");
+	push_el(\@main::el, 'del_var()', 'Ending...');
 
 	return ($rs, $rdata);
 }
 
 sub get_tpl {
 
-	push_el(\@main::el, 'get_tpl()', "Starting...");
+	push_el(\@main::el, 'get_tpl()', 'Starting...');
 
 	my $tpl_dir = $_[0];
 	my @tpls = @_;
@@ -1386,14 +1430,14 @@ sub get_tpl {
 		push (@res, $rdata);
 	}
 
-	push_el(\@main::el, 'get_tpl()', "Ending...");
+	push_el(\@main::el, 'get_tpl()', 'Ending...');
 
 	return @res;
 }
 
 sub prep_tpl {
 
-	push_el(\@main::el, 'prep_tpl()', "Starting...");
+	push_el(\@main::el, 'prep_tpl()', 'Starting...');
 
 	my $hash_ptr = $_[0];
 	my @tpls = @_;
@@ -1428,22 +1472,23 @@ sub prep_tpl {
 		push (@res, $tpls[$i]);
 	}
 
-	push_el(\@main::el, 'prep_tpl()', "Ending...");
+	push_el(\@main::el, 'prep_tpl()', 'Ending...');
 
 	return @res;
 }
 
+################################################################################
+# Should be documented
+#
+# @return int 0 on success, -1 otherwise
+#
 sub lock_system {
 
 	push_el(\@main::el, 'lock_system()', 'Starting...');
 
-	my $res = open(my $fh, '>', $main::lock_file);
-
-	if (!$res) {
+	if(!open($main::fh_lock_file, '>', $main::lock_file)) {
 		push_el(
-			\@main::el,
-			'lock_system()',
-			'ERROR: unable to open lock file!'
+			\@main::el, 'lock_system()', '[ERROR] Unable to open lock file!'
 		);
 
 		return -1;
@@ -1451,13 +1496,10 @@ sub lock_system {
 
 	# Import LOCK_* constants.
 	use Fcntl ":flock";
-	$res = flock($fh, LOCK_EX);
 
-	if (!$res) {
+	if(!flock($main::fh_lock_file, LOCK_EX)) {
 		push_el(
-			\@main::el,
-			'lock_system()',
-			'ERROR: unable to acquire global lock!'
+			\@main::el, 'lock_system()','[ERROR] Unable to acquire global lock!'
 		);
 
 		return -1;
@@ -1478,7 +1520,7 @@ sub connect_ispcp_daemon {
 		PeerPort => '8668'
 	);
 
-	if (!defined($fd)) {
+	if (!defined $fd) {
 
 		push_el(
 			\@main::el,
@@ -1505,11 +1547,9 @@ sub recv_line {
 	do {
 		$res = recv($fd, $ch, 1, 0);
 
-		if (!defined($res)) {
+		if (!defined $res) {
 			push_el(
-				\@main::el,
-				'recv_line()',
-				"ERROR: unexpected IO problems !"
+				\@main::el, 'recv_line()', 'ERROR: unexpected IO problems !'
 			);
 
 			return (-1, '');
@@ -1536,11 +1576,9 @@ sub send_line {
 		$ch = substr($line, $i, 1);
 		$res = send($fd, $ch, 0);
 
-		if (!defined($res)) {
+		if (!defined $res) {
 			push_el(
-				\@main::el,
-				'send_line()',
-				"ERROR: unexpected IO problems !"
+				\@main::el, 'send_line()', "ERROR: unexpected IO problems !"
 			);
 
 			return (-1, '');
@@ -1608,7 +1646,6 @@ sub license_request {
 	# 'bye' cmd;
 
 	($rs, $rdata) = send_line($fd, "bye\r\n");
-
 	($rs, $rdata) = recv_line($fd);
 
 	close_ispcp_daemon($fd);
@@ -1620,11 +1657,11 @@ sub license_request {
 
 sub check_master {
 
-	if (defined($main::engine_debug)) {
+	if (defined $main::engine_debug) {
 		push_el(\@$main::el, 'check_master()', 'Starting...');
 	}
 
-	sys_command(
+	sys_command_rs(
 		"export COLUMNS=120;/bin/ps auxww | awk '\$0 ~ /$main::master_name/ " .
 			"&& \$0 !~ /awk/ { print \$2 ;}' 1>$main::cc_stdout 2>$main::cc_stderr"
 	);
@@ -1634,8 +1671,7 @@ sub check_master {
 		del_file($main::cc_stderr);
 
 		push_el(
-			\@main::el,
-			'check_master()',
+			\@main::el, 'check_master()',
 			'ERROR: Master manager process is not running !'
 		);
 
@@ -1645,7 +1681,7 @@ sub check_master {
 	del_file($main::cc_stdout);
 	del_file($main::cc_stderr);
 
-	if (defined($main::engine_debug)) {
+	if (defined$main::engine_debug) {
 		push_el(\@$main::el, 'check_master()', 'Ending...');
 	}
 
@@ -1658,11 +1694,9 @@ sub encrypt_db_password {
 
 	my ($pass) = @_;
 
-	if (!defined($pass) || $pass eq '') {
+	if (!defined $pass || $pass eq '') {
 		push_el(
-			\@main::el,
-			'encrypt_db_password()',
-			'ERROR: Undefined input data ($pass)...'
+			\@main::el, 'encrypt_db_password()', 'ERROR: Undefined input data...'
 		);
 
 		return (1, '');
@@ -1670,8 +1704,7 @@ sub encrypt_db_password {
 
 	if (length($main::db_pass_key) != 32 || length($main::db_pass_iv) != 8) {
 		push_el(
-			\@main::el,
-			'encrypt_db_password()',
+			\@main::el, 'encrypt_db_password()',
 			'WARNING: KEY or IV has invalid length'
 		);
 
@@ -1680,13 +1713,13 @@ sub encrypt_db_password {
 
 	my $cipher = Crypt::CBC -> new(
 		{
-			'key'             => $main::db_pass_key,
-			'keysize'         => 32,
-			'cipher'          => 'Blowfish',
-			'iv'              => $main::db_pass_iv,
-			'regenerate_key'  => 0,
-			'padding'         => 'space',
-			'prepend_iv'      => 0
+			'key' => $main::db_pass_key,
+			'keysize' => 32,
+			'cipher' => 'Blowfish',
+			'iv'  => $main::db_pass_iv,
+			'regenerate_key' => 0,
+			'padding' => 'space',
+			'prepend_iv' => 0
 		}
 	);
 
@@ -1704,11 +1737,9 @@ sub decrypt_db_password {
 
 	my ($pass) = @_;
 
-	if (!defined($pass) || $pass eq '') {
+	if (!defined $pass || $pass eq '') {
 		push_el(
-			\@main::el,
-			'decrypt_db_password()',
-			'ERROR: Undefined input data ($pass)...'
+			\@main::el, 'decrypt_db_password()', 'ERROR: Undefined input data...'
 		);
 
 		return (1, '');
@@ -1716,9 +1747,8 @@ sub decrypt_db_password {
 
 	if (length($main::db_pass_key) != 32 || length($main::db_pass_iv) != 8) {
 		push_el(
-			\@main::el,
-			'decrypt_db_password()',
-			'WARNING: KEY or IV has invalid length'
+			\@main::el, 'decrypt_db_password()',
+			'ERROR: KEY or IV has invalid length'
 		);
 
 		return (1, '');
@@ -1726,13 +1756,13 @@ sub decrypt_db_password {
 
 	my $cipher = Crypt::CBC -> new(
 		{
-			'key'             => $main::db_pass_key,
-			'keysize'         => 32,
-			'cipher'          => 'Blowfish',
-			'iv'              => $main::db_pass_iv,
-			'regenerate_key'  => 0,
-			'padding'         => 'space',
-			'prepend_iv'      => 0
+			'key' => $main::db_pass_key,
+			'keysize' => 32,
+			'cipher' => 'Blowfish',
+			'iv' => $main::db_pass_iv,
+			'regenerate_key' => 0,
+			'padding' => 'space',
+			'prepend_iv' => 0
 		}
 	);
 
@@ -1744,6 +1774,11 @@ sub decrypt_db_password {
 	return (0, $plaintext);
 }
 
+################################################################################
+# Setup the global database variables and redefines the DSN
+#
+# @return int 0
+#
 sub setup_main_vars {
 
 	push_el(\@main::el, 'setup_main_vars()', 'Starting...');
@@ -1767,9 +1802,7 @@ sub setup_main_vars {
 	}
 
 	@main::db_connect = (
-		"DBI:mysql:$main::db_name:$main::db_host",
-		$main::db_user,
-		$main::db_pwd
+		"DBI:mysql:$main::db_name:$main::db_host", $main::db_user, $main::db_pwd
 	);
 
 	push_el(\@main::el, 'setup_main_vars()', 'Ending...');
@@ -1777,13 +1810,27 @@ sub setup_main_vars {
 	0;
 }
 
+################################################################################
+# Load all configuration parameters from a specific configuration file
+#
+# This subroutine load all configuration parameters from a specific file where
+# each of them are represented by a pair of key/value separated by the equal
+# sign.
+#
+# This subroutine also calls the setup_main_vars() subroutine that setup all the
+# global database variables and redefines the DSN.
+#
+# @param [scalar $file_name filename from where the configuration must be loaded]
+# Default value is the main ispCP configuration file (ispcp.conf)
+# @return int 0 on success, 1 otherwise
+#
 sub get_conf {
 
 	push_el(\@main::el, 'get_conf()', 'Starting...');
 
 	my $file_name;
 
-	if ( defined($_[0]) ) {
+	if ( defined $_[0] ) {
 		$file_name = $_[0];
 	} else {
 		$file_name = $main::cfg_file;
@@ -1812,14 +1859,28 @@ sub get_conf {
 	0;
 }
 
+################################################################################
+# Store a configuration parameter in the global $main::cfg_reg hash
+#
+# The $main::cfg_reg global hash is used by the store_conf() subroutine to
+# update the configuration parameters in a specific file.
+#
+# Note: For now, it's useless to add new configuration parameters that don't
+# already exist in the updated configuration file due to the current
+# implementation of the store_conf() subroutine that don't allows that.
+#
+# @param scalar $name Configuration parameter key
+# @param scalar $value Configuration parameter value
+# @return int 0 on success, 1 otherwise
+#
 sub set_conf_val {
 
 	my ($name, $value) = @_;
 
 	push_el(\@main::el, 'set_conf_val()', 'Starting...');
 
-	if (!defined($name) || $name eq '') {
-		push_el(\@main::el, 'set_conf_val()', 'ERROR: Undefined input data ($name)...');
+	if (!defined $name || $name eq '') {
+		push_el(\@main::el, 'set_conf_val()', 'ERROR: Undefined input data...');
 
 		return 1;
 	}
@@ -1831,21 +1892,35 @@ sub set_conf_val {
 	0;
 }
 
+################################################################################
+# Store all cached configuration parameters in the ispcp.conf file
+#
+# This function updates the configuration settings to a file with those stored
+# in the global $main::cfg_reg hash . Only parameters that have a different
+# value are updated.
+#
+# Note:
+#
+# This subroutine is currently not able to add configuration settings that do
+# not exist in the configuration file.
+#
+# @param [scalar optional filename where the configuration must be stored]
+# Default value is the main ispCP configuration file (ispcp.conf)
+# @return int 0 on success, 1 otherwise
+#
 sub store_conf {
 
 	push_el(\@main::el, 'store_conf()', 'Starting...');
 
-	my ($key, $value, $fline, $rs) = (undef, undef, undef, undef);
-	my $rwith = undef;
-	my $file_name = undef;
+	my ($key, $value, $rwith, $file_name);
 
-	if ( defined($_[0]) ) {
+	if (defined $_[0]) {
 		$file_name = $_[0];
 	} else {
 		$file_name = $main::cfg_file;
 	}
 
-	($rs, $fline) = get_file($file_name);
+	my ($rs, $fline) = get_file($file_name);
 	return 1 if ($rs != 0);
 
 	if (scalar(keys(%main::cfg_reg)) > 0) {
@@ -1873,13 +1948,12 @@ sub get_domain_ids {
 
 	$sql = "
 		SELECT
-			domain_id,
-			domain_name,
-			domain_ip_id
+			`domain_id`, `domain_name`, `domain_ip_id`
 		FROM
-			domain
+			`domain`
 		ORDER BY
-			domain_id;
+			`domain_id`
+		;
 	";
 
 	($rs, $rows) = doSQL($sql);
@@ -1900,13 +1974,12 @@ sub get_subdom_ids {
 
 	$sql = "
 		SELECT
-			subdomain_id,
-			subdomain_name,
-			domain_id
+			`subdomain_id`, `subdomain_name`, `domain_id`
 		FROM
-			subdomain
+			`subdomain`
 		ORDER BY
-			subdomain_id;
+			subdomain_id
+		;
 	";
 
 	($rs, $rows) = doSQL($sql);
@@ -1927,13 +2000,11 @@ sub get_alssub_ids {
 
     $sql = "
     	SELECT
-    		subdomain_alias_id,
-    		subdomain_alias_name,
-    		alias_id
+    		`subdomain_alias_id`, `subdomain_alias_name`,  `alias_id`
     	FROM
-    		subdomain_alias
+    		`subdomain_alias`
     	ORDER BY
-    		subdomain_alias_id;
+    		`subdomain_alias_id`;
     ";
 
 	($rs, $rows) = doSQL($sql);
@@ -1954,13 +2025,12 @@ sub get_alias_ids {
 
 	$sql = "
 		SELECT
-			 alias_id,
-			 domain_id,
-			 alias_name
+			 `alias_id`, `domain_id`, `alias_name`
 		FROM
-			domain_aliasses
+			`domain_aliasses`
 		ORDER BY
-			alias_id;
+			`alias_id`
+		;
 	";
 
 	($rs, $rows) = doSQL($sql);
@@ -1981,11 +2051,12 @@ sub get_ip_nums {
 
 	$sql = "
 		SELECT
-			ip_id, ip_number
+			`ip_id`, `ip_number`
 		FROM
-			server_ips
+			`server_ips`
 		ORDER BY
-			ip_id;
+			`ip_id`
+		;
 	";
 
 	($rs, $rows) = doSQL($sql);
@@ -2025,11 +2096,7 @@ sub get_human_date {
 
 	push_el(\@main::el, 'get_human_date()', 'Starting...');
 
-	my (
-		$sec, $min, $hour,
-		$mday, $mon, $year,
-		$wday, $yday, $isdst
-	) = localtime(time);
+	my ($sec, $min, $hour,$mday, $mon, $year,$wday, $yday) = localtime;
 
 	$year += 1900;
 	$mon += 1;
@@ -2055,8 +2122,7 @@ sub check_uid_gid_available {
 
 	if($sys_uid > $max_uid){
 		push_el(
-			\@main::el,
-			'check_uid_gid_available()',
+			\@main::el, 'check_uid_gid_available()',
 			"ERROR: Maximum user id for this system is reached!"
 		);
 
@@ -2064,10 +2130,8 @@ sub check_uid_gid_available {
 	}
 
 	if($sys_gid > $max_gid){
-
 		push_el(
-			\@main::el,
-			'check_uid_gid_available()',
+			\@main::el, 'check_uid_gid_available()',
 			"ERROR: Maximum group id for this system is reached!"
 		);
 
@@ -2078,8 +2142,7 @@ sub check_uid_gid_available {
 
 	if( defined($name) ) {
 		push_el(
-			\@main::el,
-			'check_uid_gid_available()',
+			\@main::el, 'check_uid_gid_available()',
 			"INFO: Group id $sys_gid already in use!"
 		);
 
@@ -2090,8 +2153,7 @@ sub check_uid_gid_available {
 
 	if ( defined($name) ) {
 		push_el(
-			\@main::el,
-			'check_uid_gid_available()',
+			\@main::el, 'check_uid_gid_available()',
 			"INFO: User id $sys_uid already in use!"
 		);
 
@@ -2143,7 +2205,7 @@ sub add_dmn_suexec_user {
 
 		# group data - BSD has another format:
 		# BSD/NUX Command
-		if ($main::cfg{'ROOT_GROUP'} eq "wheel") {
+		if ($main::cfg{'ROOT_GROUP'} eq 'wheel') {
 			$cmd = "$main::cfg{'CMD_GROUPADD'} $sys_group -g $sys_gid";
 		} else {
 			$cmd = "$main::cfg{'CMD_GROUPADD'} -g $sys_gid $sys_group";
@@ -2159,7 +2221,7 @@ sub add_dmn_suexec_user {
 
 		# BSD has another format:
 		# BSD/NUX Command
-		if ($main::cfg{'ROOT_GROUP'} eq "wheel") {
+		if ($main::cfg{'ROOT_GROUP'} eq 'wheel') {
 			$cmd = "$main::cfg{'CMD_USERADD'} $sys_user -c virtual-user -d " .
 				"$homedir -g $sys_group -s /bin/false -u $sys_uid";
 		} else {
@@ -2172,12 +2234,11 @@ sub add_dmn_suexec_user {
 
 		$sql = "
 			UPDATE
-				domain
+				`domain`
 			SET
-				domain_uid = '$sys_uid',
-				domain_gid = '$sys_gid'
+				`domain_uid` = '$sys_uid', `domain_gid` = '$sys_gid'
 			WHERE
-				domain_id = $dmn_id
+				`domain_id` = $dmn_id
 			;
 		";
 
@@ -2198,11 +2259,11 @@ sub get_dmn_suexec_user {
 
 	my $sql = "
 		SELECT
-			domain_uid, domain_gid
+			`domain_uid`, `domain_gid`
 		FROM
-			domain
+			`domain`
 		WHERE
-			domain_id = $dmn_id
+			`domain_id` = $dmn_id
 		;
 	";
 
@@ -2254,12 +2315,11 @@ sub del_dmn_suexec_user {
 
 		$sql = "
 			UPDATE
-				domain
+				`domain`
 			SET
-				domain_uid = '0',
-				domain_gid = '0'
+				`domain_uid` = '0', `domain_gid` = '0'
 			WHERE
-				domain_id = $dmn_id
+				`domain_id` = $dmn_id
 			;
 		";
 
@@ -2287,12 +2347,123 @@ sub sort_domains {
 	@domains = sort(@domains);
 
 	for (($i, $dmn) = (0, ''); $i < $len; $i++) {
-			$dmn = $domains[$i];
-			$dmn=join(".",reverse(split(/\./,$dmn)));
-			$domains[$i] = $dmn;
+		$dmn = $domains[$i];
+		$dmn=join(".",reverse(split(/\./,$dmn)));
+		$domains[$i] = $dmn;
 	}
 
 	return reverse(@domains);
+}
+
+################################################################################
+## Get a serial number generated according RFC 1912
+##
+## This subroutine can be used both to get and update serial number. $src must
+## contains the SN tag that must be replaced. $wrkFile must contains the current
+## SN tag. In case  where the SN tag was never generated, $wrkFile should
+## contains the prepared SN tag like:
+##
+## ; dmn [ispcp.net] timestamp entry BEGIN.
+##                {TIMESTAMPS}      ; Serial
+## ; dmn [ispcp.net] timestamp entry END.
+##
+## @author  Laurent Declercq <laurent.declercq@ispcp.net>
+## @since   1.0.7
+## @version 1.0.3
+## @param   scalarref $dmnName Domain name
+## @param   scalarref $src String that contains SN tag to be replaced
+## @param   scalarref|refscalarref $wrkFile String that contains current SN tag
+## @return  int on success, negative int otherwise
+#
+sub getSerialNumber {
+
+	push_el(\@main::el, 'getSerialNumber()', 'Begin...');
+
+	my ($dmnName, $src, $wrkFile) = @_;
+
+	if (!defined $dmnName || $dmnName eq '' || !defined $src || $src eq '' ||
+		!defined $wrkFile || $wrkFile eq '') {
+
+		push_el(\@main::el, 'getSerialNumber()', 'FATAL: Undefined args!');
+
+		return -1;
+	} elsif(ref $dmnName eq '' || ref $src eq '' || ref $wrkFile eq '') {
+		push_el(
+			\@main::el, 'getSerialNumber()', 'FATAL: Args must be references!'
+		);
+
+		return -1;
+	} elsif(ref $wrkFile eq 'REF') {
+		# We ensure that we work with a scalar reference (and not a ref to ref)
+		$wrkFile = $$wrkFile;
+	}
+
+	my ($rs, $tagB, $tagE, $serial);
+
+	# Get Begin/End SN templates tag
+	($rs, $tagB, $tagE) = get_tpl(
+		"$main::cfg{CONF_DIR}/bind/parts", 'db_time_b.tpl', 'db_time_e.tpl'
+	);
+	return -1 if($rs != 0);
+
+	# Build Begin/End SN tag for the current domain name
+	($rs, $tagB, $tagE) = prep_tpl({'{DMN_NAME}' => $$dmnName}, $tagB, $tagE);
+	return -1 if($rs != 0);
+
+	# Get the SN tag from working file
+	($rs, $serial) = get_tag($tagB, $tagE, $$wrkFile, 'getSerialNumber()');
+	return -1 if($rs != 0);
+
+	# Get current date (ex. 20100703)
+	my ($sec, $min, $hour, $mday, $mon, $year) = localtime;
+	my $curDate = sprintf '%4d%02d%02d', $year+1900, $mon+1, $mday;
+
+	# Build serial number
+
+	my $regExp = '[\s](?:(\d{4})(\d{2})(\d{2})(\d{2})|\{TIMESTAMP\})';
+
+	if(($year, $mon, $mday, my $nn) = ($serial =~ /$regExp/)) {
+		if(defined $nn) {
+			if($nn >= 99 && $curDate <= "$year$mon$mday") {
+				push_el(
+					\@main::el, 'getSerialNumber()',
+					"[NOTICE] $$dmnName: Maximum number of modifications is " .
+					'reached! +1 day added to avoid any problems.'
+				);
+
+				use POSIX qw /mktime/;
+
+				(undef, undef, undef, $mday, $mon, $year) = localtime(
+					mktime($sec, $min, $hour, $mday, $mon-1, $year-1900) + 86400
+				);
+
+				$serial = sprintf '%4d%02d%02d00', $year+1900, $mon+1, $mday;
+			} else {
+				$serial = ($curDate <= "$year$mon$mday")
+					? "$year$mon$mday$nn"+1 : "${curDate}00";
+			}
+		} else {
+			$serial = "${curDate}00";
+		}
+	} else {
+		push_el(
+			\@main::el, 'getSerialNumber()',
+			"[FATAL] $$dmnName: Unable to generate new serial number!"
+		);
+
+		return -1;
+	}
+
+	# Create the new SN tag
+	my $newTag = $tagB . "\t" x2 ."$serial\t; Serial\n$tagE";
+
+	# Replaces the current SN tag with the newly created
+	($rs, $$src) = repl_tag($tagB, $tagE, $$src, $newTag, 'getSerialNumber()');
+	return $rs if ($rs != 0);
+
+	push_el(\@main::el, 'getSerialNumber()', 'Ending...');
+
+	0;
 }
 
 sub send_error_mail {
@@ -2308,25 +2479,29 @@ sub send_error_mail {
 	my $server_ip = $main::cfg{'BASE_SERVER_IP'};
 
 	my $msg_data ="
-Hey There,
+Dear admin,
 
-I'm the automatic email sent by on your $server_name ($server_ip) server.
+I'm an automatic email sent by your $server_name ($server_ip) server.
 
-A critical error just was encountered while executing function $fname in ".$0."
+A critical error just was encountered while executing function $fname in $0.
 
 Error encountered was:
 
-========================================================================
+=====================================================================
 $errmsg
-========================================================================
+=====================================================================
 ";
+
+    use Text::Wrap;
+	$Text::Wrap::columns = 70;
+    $msg_data = wrap('', '', $msg_data);
 
 	my $out = new MIME::Entity;
 
 	$out -> build(
-		From => "$server_name ($server_ip) <".$admin_email.">",
+		From => "$server_name ($server_ip) <$admin_email>",
 		To => $admin_email,
-		Subject => "[$date] Error report.",
+		Subject => "[$date] ispCP Error report",
 		Data => $msg_data,
 		'X-Mailer' => "ispCP $main::cfg{'Version'} Automatic Error Messenger"
 	);
@@ -2338,4 +2513,364 @@ $errmsg
 	close MAIL;
 
 	push_el(\@main::el, 'send_error_mail()', 'Ending...');
+}
+
+
+################################################################################
+## makepath
+##
+## Creates a directory path and set ownership and rights for newly created
+## folders
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	scalar $dname File Name
+## @param	mixed $duid	Linux User or UserID
+## @param	mixed $dgid	Linux Group, GroupID or null
+## @param	int $dperms	Linux Permissions
+## @return	int	0 on success, -1 otherwise
+#
+sub makepath {
+
+	push_el(\@main::el, 'makepath()', 'Starting...');
+
+	my ($dname, $duid, $dgid, $dperms) = @_;
+
+	if (!defined $dname || !defined $duid || !defined $dgid || !defined $dperms
+		|| $dname eq '' || $duid eq '' || $dgid eq '' || $dperms eq '' ) {
+		push_el(
+			\@main::el, 'make_path()',
+			"ERROR: Undefined input data, dname: |$dname|, duid: |$duid|, " .
+				"dgid: |$dgid|, dperms: |$dperms| !"
+		);
+
+		return -1;
+	}
+
+	if (-e $dname && -f $dname) {
+		push_el(
+			\@main::el, 'makepath()',
+			"[NOTICE] '$dname' exists as file ! removing file first..."
+		);
+
+		return -1 if del_file($dname);
+	}
+
+	if (!(-e $dname && -d $dname)) {
+		push_el(
+			\@main::el, 'makepath()',
+			"'$dname' doesn't exists as directory! creating..."
+		);
+
+		my @lines =  mkpath(
+			$dname, {owner => $duid, group => $duid, mode => 0755}
+		);
+
+		if (!@lines) {
+			push_el(
+				\@main::el, 'makepath()',
+				"[ERROR] mkpath() returned empty path!"
+			);
+
+			return -1;
+		}
+		foreach (@lines){
+			return -1 if setfmode($_, $duid, $dgid, $dperms);
+		}
+
+	} else {
+		push_el(
+			\@main::el, 'makepath()',
+			"[NOTICE] '$dname' exists ! Setting its permissions..."
+		);
+
+		return -1 if setfmode($dname, $duid, $dgid, $dperms);
+
+	}
+
+	push_el(\@main::el, 'makepath()', 'Ending...');
+
+	0;
+}
+
+
+################################################################################
+## get_domain_mount_points
+##
+## return a list with mounting points for aliases domains and subdomains for a
+## domain
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	int $dmn_id	domain id
+## @return [0 on success |error code, list of mount points]
+sub get_domain_mount_points {
+
+	push_el(\@main::el, 'get_domain_mount_points()', 'Starting...');
+
+	my ($dmn_id) = @_;
+
+	my $sql = "
+		SELECT
+			`alias_id` AS 'id',
+			`alias_mount` AS 'mount_point',
+			'alias' AS 'type'
+		FROM
+			`domain_aliasses`
+		WHERE
+			`domain_id` = '$dmn_id'
+		UNION
+		SELECT
+			`subdomain_id` AS 'id',
+			`subdomain_mount` AS 'mount_point',
+			'subdomain' AS 'type'
+		FROM
+			`subdomain`
+		WHERE
+			`domain_id` = '$dmn_id'
+		UNION
+		SELECT
+			`subdomain_alias_id` AS 'id',
+			`subdomain_alias_mount` AS 'mount_point',
+			'alias_subdomain' AS 'type'
+		FROM
+			`subdomain_alias`
+		WHERE
+			`alias_id` = ANY (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = '$dmn_id')
+		ORDER BY `mount_point` ASC
+		;
+	";
+
+	my ($rs, $rdata) = doHashSQL($sql, 'id');
+
+	return (-1, '') if( $rs != 0 );
+
+	push_el(\@main::el, 'get_domain_mount_points()', 'Ending...');
+
+	return ($rs, $rdata);
+}
+
+################################################################################
+## check_mount_point_in_use
+##
+## check if a mount point is shared
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	string $dtype shared point to be deleted is used by
+##  alias/subdomain/alias subdomain
+## @param	int $did id of alias/subdomain/alias subdomain to be deleted
+## @param	string $dmount_point Mount point to be deleted
+## @param	array $data	list of shared point in use
+## @return array list of shared mount point to be saved
+sub check_mount_point_in_use {
+
+	push_el(\@main::el, 'check_mount_point_in_use()', 'Starting...');
+
+	my($dtype, $dmn_id, $did, $dmount_point, $data) = @_;
+
+	my @to_save = ();
+
+	while ( my($k, $v) = each %$data ) {
+
+		my ($id, $mount_point, $type) = (@$v{'id'}, @$v{'mount_point'}, @$v{'type'});
+
+		push_el(
+			\@main::el, 'check_mount_point_in_use()',
+			"Test $id ne $did or $type ne $dtype (we do not save folder that supose to be deleted)"
+		);
+
+		if(!(($id eq $did) && ($type eq $dtype))) {
+			push_el(\@main::el, 'check_mount_point_in_use()', "ok. Continue...");
+
+			push_el(
+				\@main::el, 'check_mount_point_in_use()',
+				"Test $mount_point or system folders are subfolder in $dmount_point (if we will not save it will be deleted)"
+			);
+
+			my @mpoints = (
+				$mount_point, "$mount_point/backups", "$mount_point/cgi-bin",
+				"$mount_point/disabled", "$mount_point/errors",
+				"$mount_point/htdocs", "$mount_point/logs", "$mount_point/phptmp"
+			);
+
+			foreach my $mpoint (@mpoints){
+				push_el(
+					\@main::el, 'check_mount_point_in_use()',
+					"Test $mpoint is subfolder in $dmount_point (if we will not save it will be deleted)"
+				);
+
+				if($mpoint =~ /^$dmount_point.*$/){
+					push_el(
+						\@main::el, 'check_mount_point_in_use()',
+						'it is. Continue...'
+					);
+
+					my $save = 1;
+
+					foreach(@to_save){
+						push_el(
+							\@main::el, 'check_mount_point_in_use()',
+							"Test $mpoint is subfolder in a scheduled to save folder"
+						);
+
+						if($mpoint =~ /^$_.*$/){
+							push_el(
+								\@main::el, 'check_mount_point_in_use()',
+								'yes. Not need to save again!'
+							);
+
+							$save = 0;
+						}
+					}
+
+					if( $save != 0) {
+						push_el(
+							\@main::el, 'check_mount_point_in_use()',
+							"Schedule to be saved: $mpoint"
+						);
+
+						push(@to_save, $mpoint);
+					}
+				}
+			}
+		}
+	}
+
+	push_el(\@main::el, 'check_mount_point_in_use()', 'Ending...');
+
+	return @to_save;
+}
+
+###################################################################################
+## save_as_temp_folder
+##
+## move content from a list of folders in temporary created folders
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	String 	$path	path to user domain
+## @param	array 	$to_save	list of shared mount point to be saved
+## @return	int	0 on success, err code otherwise
+## @return	hash	list of temporary folder as $temporary folder
+## name => source folder
+sub save_as_temp_folder {
+
+	push_el(\@main::el, 'save_as_temp_folder()', 'Starting...');
+
+	my ($path, @to_save )= @_;
+	my %dirs = ();
+	my ($rs, $dir) = (0, undef);
+
+	foreach (@to_save) {
+
+		eval{
+			$dir = tempdir( DIR => $path, CLEANUP => 0 );
+		};
+		if ($@) {
+			push_el(
+				\@main::el, 'save_as_temp_folder()',
+				"ERROR while creating temporary folder: $@"
+			);
+		}
+
+		$dirs{$dir} = "$path$_";
+
+		push_el(
+			\@main::el, 'save_as_temp_folder()',
+			"Mount point to be saved $_ in $dir"
+		);
+
+		$rs = move_dir_content("$path$_", $dir);
+		return $rs if ($rs != 0);
+
+	}
+
+	push_el(\@main::el, 'save_as_temp_folder()', 'Ending...');
+
+	return ($rs, %dirs);
+}
+
+################################################################################
+## move_list_folder
+##
+## move content from a list of folders in folders provided by list
+## and set owner and rights on folder created according to input parameters
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	octal $perm	permissions
+## @param	Mixed $duid	Linux User or UserID
+## @param	Mixed $dgid	Linux Group, GroupID or null
+## @param	hash %to_restore	list of folders to be restored as source
+##  path => destination path
+## @return	int	0 on success, err code otherwise
+sub restore_list_folder {
+
+	push_el(\@main::el, 'move_list_folder()', 'Starting...');
+
+	my ($perm, $duid, $dgid, %to_restore) = @_;
+
+	 while( my ($folder, $path) = each %to_restore ) {
+		my $rs = makepath($path, $duid, $dgid, $perm);
+		return $rs if ($rs != 0);
+
+		$rs = move_dir_content("$folder", $path);
+		return $rs if ($rs != 0);
+
+		$rs = del_dir($folder);
+		return $rs if ($rs != 0);
+	}
+
+	push_el(\@main::el, 'move_list_folder()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+## move_dir_content
+##
+## move content of source folder in destination (not source folder itself)
+##
+## @author Daniel Andreca <sci2tech@gmail.com>
+## @since   1.0.7
+## @version 1.0.7
+## @param	String 	$source	Source folder
+## @param	String 	$destination	Destination folder
+## @return	int	0 on success, -1 otherwise
+
+sub move_dir_content{
+
+	push_el(\@main::el, 'move_dir_content()', 'Starting...');
+
+	my ($source, $destination) = @_;
+
+	push_el(
+		\@main::el, 'move_dir_content()',
+		"Trying to move content of $source in $destination"
+	);
+
+	my @folders = <$source/*>;
+
+	if (@folders){ #move only if not empty
+		my @res = rcopy("$source/*", "$destination");
+
+		if(!@res){
+			push_el(
+				\@main::el, 'move_dir_content()',
+				"Failed to move content of $source in $destination!"
+			);
+
+			return -1;
+		}
+	}
+
+	push_el(\@main::el, 'move_dir_content()', 'Ending...');
+
+	0;
 }

@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ispcp_updates.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('update_message', 'page');
@@ -53,7 +53,7 @@ $tpl->assign(
 /* BEGIN common functions */
 function get_update_infos(&$tpl) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	if (!$cfg->CHECK_FOR_UPDATES) {
 		$tpl->assign(
@@ -67,7 +67,7 @@ function get_update_infos(&$tpl) {
 		return false;
 	}
 
-	if (versionUpdate::getInstance()->checkUpdateExists()) {
+	if (ispCP_Update_Version::getInstance()->checkUpdateExists()) {
 		$tpl->assign(
 			array(
 				'UPDATE_MESSAGE' => '',
@@ -78,8 +78,8 @@ function get_update_infos(&$tpl) {
 
 		$tpl->parse('UPDATE_INFOS', 'update_infos');
 	} else {
-		if (versionUpdate::getInstance()->getErrorMessage() != "") {
-			$tpl->assign(array('TR_MESSAGE' => versionUpdate::getInstance()->getErrorMessage()));
+		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
+			$tpl->assign(array('TR_MESSAGE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
 		} else {
 			$tpl->assign('TABLE_HEADER', '');
 		}

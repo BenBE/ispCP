@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (!isset($_GET['domain_id'])) {
 	user_goto('manage_users.php');
@@ -56,7 +56,7 @@ $query = "
 		`domain_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($domain_id));
+$rs = exec_query($sql, $query, $domain_id);
 
 $location = 'admin';
 

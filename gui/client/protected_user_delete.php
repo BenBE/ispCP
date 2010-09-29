@@ -32,6 +32,8 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 $dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
 
 if (isset($_GET['uname'])
@@ -56,7 +58,7 @@ $query = "
 $rs = exec_query($sql, $query, array($dmn_id, $uuser_id));
 $uname = $rs->fields['uname'];
 
-$change_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
+$change_status = $cfg->ITEM_DELETE_STATUS;
 // let's delete the user from the SQL
 $query = "
 	UPDATE
@@ -81,9 +83,9 @@ $query = "
 	WHERE
 		`dmn_id` = ?
 ";
-$rs = exec_query($sql, $query, array($dmn_id));
+$rs = exec_query($sql, $query, $dmn_id);
 
- if ($rs->RecordCount() !== 0) {
+ if ($rs->recordCount() !== 0) {
 
 	 while (!$rs->EOF) {
 		$members = explode(',',$rs->fields['members']);
@@ -92,7 +94,7 @@ $rs = exec_query($sql, $query, array($dmn_id));
 		if ($key !== false) {
 			unset($members[$key]);
 			$members = implode(",", $members);
-			$change_status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+			$change_status = $cfg->ITEM_CHANGE_STATUS;
 			$update_query = "
 				UPDATE
 					`htaccess_groups`
@@ -104,7 +106,7 @@ $rs = exec_query($sql, $query, array($dmn_id));
 			";
 			$rs_update = exec_query($sql, $update_query, array($members, $change_status, $group_id));
 		}
-		$rs->MoveNext();
+		$rs->moveNext();
 	 }
  }
 
@@ -118,7 +120,7 @@ $query = "
 		`dmn_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($dmn_id));
+$rs = exec_query($sql, $query, $dmn_id);
 
 while (!$rs->EOF) {
 	$ht_id = $rs->fields['id'];
@@ -130,10 +132,10 @@ while (!$rs->EOF) {
 	if ($key !== false) {
 		unset($usr_id_splited[$key]);
 		if (count($usr_id_splited) == 0) {
-			$status = Config::getInstance()->get('ITEM_DELETE_STATUS');
+			$status = $cfg->ITEM_DELETE_STATUS;
 		} else {
 			$usr_id = implode(",", $usr_id_splited);
-			$status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+			$status = $cfg->ITEM_CHANGE_STATUS;
 		}
 		$update_query = "
 			UPDATE
@@ -148,7 +150,7 @@ while (!$rs->EOF) {
 		$rs_update = exec_query($sql, $update_query, array($usr_id, $status, $ht_id));
 	}
 
-	$rs->MoveNext();
+	$rs->moveNext();
 }
 
 send_request();

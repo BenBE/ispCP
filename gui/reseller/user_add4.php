@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add4.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -73,7 +73,7 @@ if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 
 	$result = exec_query($sql, $query, array($domain_id, $reseller_id));
 
-	if ($result->RecordCount() == 0) {
+	if ($result->recordCount() == 0) {
 		set_page_message(
 			tr('User does not exist or you do not have permission to access this interface!')
 		);
@@ -81,7 +81,7 @@ if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 		// Back to the users page
 		user_goto('users.php');
 	} else {
-		$row = $result->FetchRow();
+		$row = $result->fetchRow();
 		$dmn_status = $row['domain_status'];
 
 		if ($dmn_status != $cfg->ITEM_OK_STATUS && $dmn_status != $cfg->ITEM_ADD_STATUS) {
@@ -146,9 +146,9 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 function init_empty_data() {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point, $tpl;
-	
-	$cfg = IspCP_Registry::get('Config');
-	
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$cr_user_id = $alias_name = $domain_ip = $forward = $mount_point = '';
 
 	if (isset($_POST['status']) && $_POST['status'] == 1) {
@@ -208,7 +208,7 @@ function init_empty_data() {
  * Show data fields
  */
 function gen_al_page(&$tpl, $reseller_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$dmn_id = $_SESSION['dmn_id'];
 
@@ -223,9 +223,9 @@ function gen_al_page(&$tpl, $reseller_id) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('ALIAS_LIST', '');
 	} else {
 		$i = 0;
@@ -245,17 +245,17 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 			$i++;
 			$tpl->parse('ALIAS_ENTRY', '.alias_entry');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 } // End of gen_al_page()
 
 function add_domain_alias(&$sql, &$err_al) {
-	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point, $tpl;
-	global $validation_err_msg;
+	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
+		$mount_point, $validation_err_msg;
 
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$cr_user_id = $dmn_id = $_SESSION['dmn_id'];
 	$alias_name = strtolower(clean_input($_POST['ndomain_name']));
 	$domain_ip = $_SESSION['dmn_ip'];
@@ -268,9 +268,6 @@ function add_domain_alias(&$sql, &$err_al) {
 		$forward = 'no';
 		$forward_prefix = '';
 	}
-
-	// Should be perfomed after domain names syntax validation now
-	//$alias_name = encode_idna($alias_name);
 
 	// Check if input string is a valid domain names
 	if (!validates_dname($alias_name)) {
@@ -298,10 +295,10 @@ function add_domain_alias(&$sql, &$err_al) {
 		}
 	} else {
 		$query = "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?";
-		$res = exec_query($sql, $query, array($alias_name));
+		$res = exec_query($sql, $query, $alias_name);
 		$query = "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?";
-		$res2 = exec_query($sql, $query, array($alias_name));
-		if ($res->RowCount() > 0 || $res2->RowCount() > 0) {
+		$res2 = exec_query($sql, $query, $alias_name);
+		if ($res->rowCount() > 0 || $res2->rowCount() > 0) {
 			// we already have a domain with this name
 			$err_al = tr("Domain with this name already exist");
 		}

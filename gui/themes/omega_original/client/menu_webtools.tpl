@@ -3,7 +3,7 @@
   <td style="width:100%; background-image:url({THEME_COLOR_PATH}/images/top/menu_top.jpg);padding-left:5px;vertical-align:middle;">
    <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-     <td><img src="{THEME_COLOR_PATH}/images/icons/webtools_big.gif" width="32" height="33" alt="" /></td>
+     <td><img src="{THEME_COLOR_PATH}/images/icons/webtools_big.png" width="32" height="33" alt="" /></td>
      <td><span class="titlemenu">{TR_MENU_WEBTOOLS}</span></td>
     </tr>
    </table>
@@ -58,13 +58,13 @@
   <tr>
     <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
   </tr>
-    <!-- BDP: t_software_menu -->
-	<tr>
-		<td><a href="software.php" class="submenu">{TR_SOFTWARE_MENU}</a></td>
-	</tr>
-	<tr>
-		<td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" /></td>
-	</tr>
+  <!-- BDP: t_software_menu -->
+  <tr>
+	<td><a href="software.php" class="submenu">{TR_SOFTWARE_MENU}</a></td>
+  </tr>
+  <tr>
+	<td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" /></td>
+  </tr>
   <!-- EDP: t_software_menu -->
   <!-- BDP: active_awstats -->
   <tr>

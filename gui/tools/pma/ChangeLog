@@ -5,6 +5,88 @@ phpMyAdmin - ChangeLog
 $Id$
 $HeadURL: https://phpmyadmin.svn.sourceforge.net/svnroot/phpmyadmin/trunk/phpMyAdmin/ChangeLog $
 
+3.3.7.0 (2010-09-07)
+- patch #3050492 [PDF scratchboard] Cannot drag table box to the edge after
+  a page size increase, thanks to Martin Schönberger - mad05
+- bug #3054458 [core] Fixed displaying number of rows.
+- bug #3035300 [parser] Fixed wrong definition of keywords.
+- [setup] Fixed escaping of server name.
+
+3.3.6.0 (2010-08-28)
+- bug #3033063 [core] Navi gets wrong db name
+- bug #3031705 [core] Fix generating condition for real numbers by comparing
+  them to string.
+- bug #3034026 [confirmation] TRUNCATE queries get no confirmation request
+- bug #3036132 [core] Triggers not fetched if dbname has an hyphen
+- patch #3039269 [dbi] Wrong variable checked for nopassword option,
+  thanks to Will Palmer - wpalmer
+- bug #3040226 [XHTML] LockFromUpdate checkbox not checked by default
+- bug [doc] Withdraw or edit FAQ entries related to older MySQL or PHP 
+- bug #3042706 [pmadb] Relations, bookmarks, etc deleted after table drop
+- bug #3044189 [doc] Cleared documentation for hide_db.
+- bug #3042495 [core] Move PMA_sendHeaderLocation to core.lib.php.
+
+3.3.5.1 (2010-08-20)
+- [core] Fixed various XSS issues, see PMASA-2010-5 for more details.
+
+3.3.5.0 (2010-07-26)
+- patch #2932113 [information_schema] Slow export when having lots of
+  databases, thanks to Stéphane Pontier - shadow_walker
+- bug #3022705 [import] Import button does not work in Catalan when there
+  is no progress bar possible
+- bug [replication] Do not offer information_schema in the list of databases
+- bug [js] Avoid loading twice a js file
+- bug #3024344 [setup] Setup forces numeric MemoryLimit
+- bug #3025975 [auth] Odd LoginCookieValidity default value
+- bug #3026400 [PHP] ereg functions are deprecated
+- bug #3027557 [PHP] split() deprecated in PHP 5.3 (backport fixes from master)
+- bug #3023507 [core] No result set display from stored procedure SELECT
+- bug [export] CSV for MS Excel (Windows) should have semi-colon as separator
+- [core] Update library PHPExcel to version 1.7.3c
+- bug #2994885, bug #3029168 [import] Convert Excel column name correctly
+- bug [scripts] MySQL 5.5.5 does not accept TIMESTAMP(14) in create_tables.sql
+
+3.3.4.0 (2010-06-28)
+- bug #2996161 [import] properly escape import value
+- bug #2998889 [import] Import button does not work in Catalan
+- [browse] Fix handling of sort order if only column is specified.
++ [lang] Greek update, thanks to Panagiotis Papazoglou - panos78
++ [lang] Updated lot of translation based on work done in master branch.
+- bug #3008411 [databases] Last dropped database remains active in navi
+- bug #2986383 [parser] Not all data being shown / counted
+- bug [synchronize] Rows were deleted in target table regardless of the
+  "Would you like to delete..." option
+- bug [privileges] List of tables not shown when the db name has a wildcard
+- bug #3011126 [display] Edit link missing after long query
+- patch #3013264 [doc] FAQ 1.40 uses a comma instead of a period,
+  thanks to Isaac Bennetch - ibennetch
+- [engines] Fix getting InnoDB status.
+- bug #2986422 [import] Results for query are not displayed
+
+3.3.3.0 (2010-05-10)
+- patch #2982480 [navi] Do not group if there would be one table in group,
+  thanks to Lorikeet Lee.
+- patch #2983492 [sync] When asking to synchronize Structure and Data,
+  only Structure is done, thanks to Ankit Gupta - ankitgupta3
+- patch #2984893 [engines] InnoDB storage page emits a warning,
+  thanks to Madhura Jayaratne - madhuracj
+- bug #2974687, bug #2974692 [compatibility] PHPExcel : IBM AIX iconv() does not work,
+  thanks to Björn Wiberg - bwiberg
+- bug #2983066 [interface] Flush table on table operations shows the query twice, 
+  thanks to Martynas Mickevičius - BlinK_
+- bug #2983060, patch #2987900 [interface] Fix initial state of tables in
+  designer, thanks to Sutharshan Balachandren.
+- bug #2983062, patch #2989408 [engines] Fix warnings when changing table
+  engine to Maria, thanks to Madhura Jayaratne.
+- bug #2974067 [display] non-binary fields shown as hex
+- bug #2983065 [operations] Error when changing from Maria to MyISAM engine
+- bug #2975408 [tracking] Data too long for column data_sql
+- bug [tracking] Tracking report should obey MaxCharactersInDisplayedSQL 
+- bug [edit] Avoid selecting UNHEX function by default for a BLOB column for
+  which editing is protected
+- bug #2994168 [structure] Show auto_increment in uppercase 
+- bug #2993970 [pdf schema] Page numbering in Table of Contents 
+
 3.3.2.0 (2010-04-13)
 - patch #2969449 [core] Name for MERGE engine varies depending on the
   MySQL version, thanks to Dieter Adriaenssens - ruleant

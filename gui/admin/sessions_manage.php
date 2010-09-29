@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/sessions_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -61,7 +61,7 @@ function kill_session($sql) {
 				`session_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($admin_name));
+		$rs = exec_query($sql, $query, $admin_name);
 		set_page_message(tr('User session was killed!'));
 		write_log($_SESSION['user_logged'] . ": killed user session: $admin_name!");
 	}
@@ -75,7 +75,7 @@ function gen_user_sessions(&$tpl, &$sql) {
 			`login`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$row = 1;
 	while (!$rs->EOF) {
@@ -111,7 +111,7 @@ function gen_user_sessions(&$tpl, &$sql) {
 
 		$tpl->parse('USER_SESSION', '.user_session');
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 }
 

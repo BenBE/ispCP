@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/hosting_plan_update.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/hosting_plan_update.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -64,6 +66,8 @@ function check_update_current_value($curr, $new) {
 
 function gen_hp(&$tpl, &$sql, $user_id) {
 
+	$cfg = ispCP_Registry::get('Config');
+
 	// get domain id
 	$query = "
 		SELECT
@@ -74,7 +78,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			`domain_admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 	$domain_id = $rs->fields['domain_id'];
 
 	// get current domain settings
@@ -87,7 +91,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($domain_id));
+	$rs = exec_query($sql, $query, $domain_id);
 	$current = $rs->fetchRow();
 
 	$availabe_order = 0;
@@ -106,7 +110,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 
 	$rs = exec_query($sql, $query, array($user_id, 'added'));
 
-	if ($rs->RecordCount() > 0) {
+	if ($rs->recordCount() > 0) {
 		$availabe_order = 1;
 		$availabe_hp_id = $rs->fields['plan_id'];
 
@@ -119,15 +123,14 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				`id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($availabe_hp_id));
+		$rs = exec_query($sql, $query, $availabe_hp_id);
 		$count = 2;
 		$purchase_text = tr('Cancel order');
 		$purchase_link = 'delete_id';
 		$hp_title = tr('Your order');
 	} else {
 		// generate all hosting plans available for purchasing
-		if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
-			&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+		if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 			$query = "
 				SELECT
 					t1.*,
@@ -145,9 +148,9 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 					t1.`name`
 			";
 
-			$rs = exec_query($sql, $query, array('admin'));
+			$rs = exec_query($sql, $query, 'admin');
 
-			$count = $rs->RecordCount();
+			$count = $rs->recordCount();
 			$count++;
 		} else {
 			$query = "
@@ -172,8 +175,8 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 					`status` = '1'
 			";
 
-			$cnt = exec_query($sql, $count_query, array($_SESSION['user_created_by']));
-			$rs = exec_query($sql, $query, array($_SESSION['user_created_by']));
+			$cnt = exec_query($sql, $count_query, $_SESSION['user_created_by']);
+			$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
 			$count = $cnt->fields['cnum'] + 1;
 		}
 
@@ -181,7 +184,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 		$purchase_link = 'order_id';
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'TR_HOSTING_PLANS'	=> $hp_title,
@@ -389,7 +392,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				)
 			);
 
-			if ($check->RecordCount() == 0) {
+			if ($check->recordCount() == 0) {
 
 				$link_purchase = '<a href="hosting_plan_update.php?'
 				. $purchase_link.'='.$rs->fields['id']
@@ -409,7 +412,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$link_purchase .= '</a>';
 			} else {
 				$warning_text = '';
-				$link_purchase .= '</a>';
+				$link_purchase .= '{TR_PURCHASE}</a>';
 			}
 
 			$tpl->assign(
@@ -433,7 +436,7 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			}
 			$purchase_text = tr('Purchase');
 			$purchase_link = 'order_id';
-			$rs->MoveNext();
+			$rs->moveNext();
 		} 
 	}
 	if ($i == 0) {
@@ -450,11 +453,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	}
 }
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 $tpl->assign(
 	array(
 		'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan'),
-		'THEME_COLOR_PATH'		=> "../themes/$theme_color",
+		'THEME_COLOR_PATH'		=> "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET'			=> tr('encoding'),
 		'ISP_LOGO'				=> get_logo($_SESSION['user_id'])
 	)
@@ -464,6 +466,9 @@ $tpl->assign(
  * @todo the 2nd query has 2 identical tables in FROM-clause, is this OK?
  */
 function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	// get domain id
 	$query = "
 		SELECT
@@ -474,7 +479,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 			`domain_admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 	$domain_id = $rs->fields['domain_id'];
 
 	// get current domain settings
@@ -487,7 +492,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($domain_id));
+	$rs = exec_query($sql, $query, $domain_id);
 	$current = $rs->fetchRow();
 
 	$query = "
@@ -500,7 +505,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 	";
 
 	$error_msgs = array();
-	$rs = exec_query($sql, $query, array($order_id));
+	$rs = exec_query($sql, $query, $order_id);
 	list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware) = explode(";", $rs->fields['props']);
 
 	$traffic = get_user_traffic($domain_id);
@@ -604,7 +609,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 	$message = tr("You have an update order for the account %s\n\nPlease login into your ispCP control panel at %s for more details",
 		true,
 		$_SESSION['user_logged'],
-		Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX') . Config::getInstance()->get('BASE_SERVER_VHOST'));
+		$cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST);
 
 	$mail_result = mail($to, $subject, $message, $headers);
 }
@@ -640,8 +645,8 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
 gen_hp($tpl, $sql, $_SESSION['user_id']);
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -660,7 +665,8 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

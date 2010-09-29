@@ -30,9 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/index.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
@@ -43,8 +45,10 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_packages_list(&$tpl, &$sql, $user_id) {
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
-		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				t1.*,
@@ -62,7 +66,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 				t1.`id`
 		";
 
-		$rs = exec_query($sql, $query, array('admin'));
+		$rs = exec_query($sql, $query, 'admin');
 	} else {
 		$query = "
 			SELECT
@@ -75,11 +79,13 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 				`status` = '1'
 		";
 
-		$rs = exec_query($sql, $query, array($user_id));
+		$rs = exec_query($sql, $query, $user_id);
 	}
 
-	if ($rs->RecordCount() == 0) {
-		system_message(tr('No available hosting packages'));
+	if ($rs->recordCount() == 0) {
+		throw new ispCP_Exception_Production(
+			tr('No available hosting packages')
+		);
 	} else {
 		while (!$rs->EOF) {
 			$description = $rs->fields['description'];
@@ -104,7 +110,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 
 			$tpl->parse('PURCHASE_LIST', '.purchase_list');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
@@ -118,7 +124,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
  * static page messages.
  *
  */
-$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['user_id']) && is_numeric($_GET['user_id']) && $bcoid) {
@@ -145,7 +151,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 

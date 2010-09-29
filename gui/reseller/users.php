@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/users.tpl');
 $tpl->define_dynamic('users_list', 'page');
 $tpl->define_dynamic('user_entry', 'users_list');
@@ -131,11 +131,10 @@ unset_messages();
 // Begin function block
 
 function generate_users_list(&$tpl, $admin_id) {
-	global $externel_event;
 
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
-	
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
 	$start_index = 0;
 
 	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
@@ -328,7 +327,7 @@ function generate_users_list(&$tpl, $admin_id) {
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
 			$tpl->parse('USER_ENTRY', '.user_entry');
 			$i++;
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 
 		$tpl->parse('USER_LIST', 'users_list');
@@ -336,7 +335,8 @@ function generate_users_list(&$tpl, $admin_id) {
 }
 
 function check_externel_events(&$tpl) {
-	global $user_add3_added, $externel_event, $edit, $es_sbmt, $user_has_domain, $user_deleted;
+
+	global $externel_event;
 
 	if (isset($_SESSION["user_add3_added"])) {
 		if ($_SESSION["user_add3_added"] === '_yes_') {

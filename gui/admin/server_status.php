@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_status.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('service_status', 'page');
@@ -150,7 +150,7 @@ class status {
 
 function get_server_status(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -163,7 +163,7 @@ function get_server_status(&$tpl, &$sql) {
 			`name` ASC
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$ispcp_status = new status;
 
@@ -181,7 +181,7 @@ function get_server_status(&$tpl, &$sql) {
 			$ispcp_status->AddService(($ip == '127.0.0.1' ? 'localhost' : (empty($ip) ? $cfg->BASE_SERVER_IP : $ip)), (int)$port, $name, $protocol);
 		}
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	} // end while
 
 	$ispcp_status->CheckStatus(5);

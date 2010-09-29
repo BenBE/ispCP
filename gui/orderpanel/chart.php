@@ -30,8 +30,10 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/chart.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/chart.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('tos_field', 'page');
@@ -43,8 +45,10 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
-		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL)&& $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				*
@@ -54,7 +58,7 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 				`id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($plan_id));
+		$rs = exec_query($sql, $query, $plan_id);
 	} else {
 		$query = "
 			SELECT
@@ -70,7 +74,7 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 		$rs = exec_query($sql, $query, array($user_id, $plan_id));
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('index.php');
 	} else {
 		$price = $rs->fields['price'];
@@ -171,7 +175,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);
@@ -206,7 +212,7 @@ $tpl->assign(
 		'TR_PERSONAL_DATA' => tr('Personal Data'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
-		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_WIDTH') . '" height="' . Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_HEIGHT') . '" border="0" alt="captcha image" />',
+		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image" />',
 		'THEME_CHARSET' => tr('encoding'),
 	)
 );
@@ -214,7 +220,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 

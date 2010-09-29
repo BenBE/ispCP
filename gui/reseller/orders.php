@@ -31,11 +31,11 @@
 // Begin page line
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('page_message', 'page');
@@ -62,14 +62,16 @@ $tpl->assign(
  */
 
 function gen_order_page(&$tpl, &$sql, $user_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$start_index = 0;
-	$current_psi = 0;
+	// NXW: Unused variable so...
+	// $current_psi = 0;
 
 	if (isset($_GET['psi']) && is_numeric($_GET['psi'])) {
 		$start_index = $_GET['psi'];
-		$current_psi = $_GET['psi'];
+		// NXW: Unused variable so...
+		// $current_psi = $_GET['psi'];
 	}
 
 	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
@@ -130,7 +132,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 		);
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('You do not have new orders!'));
 		$tpl->assign('ORDERS_TABLE', '');
 		$tpl->assign('SCROLL_NEXT_GRAY', '');
@@ -149,7 +151,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 				WHERE
 					`id` = ?
 			";
-			$rs_planname = exec_query($sql, $planname_query, array($plan_id));
+			$rs_planname = exec_query($sql, $planname_query, $plan_id);
 			$plan_name = $rs_planname->fields['name'];
 
 			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
@@ -165,7 +167,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 					WHERE
 						`admin_id` = ?
 				";
-				$rs_customer = exec_query($sql, $cusrtomer_query, array($customer_id));
+				$rs_customer = exec_query($sql, $cusrtomer_query, $customer_id);
 				$user_details = tohtml($rs_customer->fields['fname']) . "&nbsp;"
 					. tohtml($rs_customer->fields['lname'])
 					. "<br /><a href=\"mailto:" . tohtml($rs_customer->fields['email'])
@@ -198,7 +200,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 			);
 
 			$tpl->parse('ORDER', '.order');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$counter++;
 		}
 	}

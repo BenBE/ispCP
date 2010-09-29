@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['edit_id'])) {
 	$edit_id = $_GET['edit_id'];
@@ -42,7 +42,7 @@ if (isset($_GET['edit_id'])) {
 	user_goto('manage_users.php');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -58,7 +58,7 @@ $tpl->assign(
 function update_data(&$sql) {
 
 	global $edit_id;
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($_POST['Submit']) && isset($_POST['uaction']) && $_POST['uaction'] === 'edit_user') {
 		if (check_user_data()) {
@@ -181,8 +181,8 @@ function update_data(&$sql) {
 						`user_name` = ?
 				";
 
-				$rs = exec_query($sql, $query, array($admin_name));
-				if ($rs->RecordCount() != 0) {
+				$rs = exec_query($sql, $query, $admin_name);
+				if ($rs->recordCount() != 0) {
 					set_page_message(tr('User session was killed!'));
 					write_log($_SESSION['user_logged'] . " killed " . $admin_name . "'s session because of password change");
 				}
@@ -197,7 +197,7 @@ function update_data(&$sql) {
 			if (isset($_POST['send_data']) && !empty($_POST['pass'])) {
 				$query = "SELECT admin_type FROM admin WHERE admin_id='" . addslashes(htmlspecialchars($edit_id)) . "'";
 
-				$res = exec_query($sql, $query, array());
+				$res = exec_query($sql, $query);
 
 				if ($res->fields['admin_type'] == 'admin') {
 					$admin_type = tr('Administrator');
@@ -267,9 +267,9 @@ $query = "
 		`admin_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($edit_id));
+$rs = exec_query($sql, $query, $edit_id);
 
-if ($rs->RecordCount() <= 0) {
+if ($rs->recordCount() <= 0) {
 	user_goto('manage_users.php');
 }
 

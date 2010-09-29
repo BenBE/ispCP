@@ -30,8 +30,10 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/address.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/address.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -41,6 +43,9 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['fname'])) {
 		$first_name = clean_input($_POST['fname']);
 	} else if (isset($_SESSION['fname'])) {
@@ -159,9 +164,9 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 			'VL_STREET2'		=> tohtml($street2),
 			'VL_PHONE'			=> tohtml($phone),
 			'VL_FAX'			=> tohtml($fax),
-			'VL_MALE'			=> (($gender === 'M') ? Config::getInstance()->get('HTML_SELECTED') : ''),
-			'VL_FEMALE'			=> (($gender === 'F') ? Config::getInstance()->get('HTML_SELECTED') : ''),
-			'VL_UNKNOWN'		=> (($gender == 'U') ? Config::getInstance()->get('HTML_SELECTED') : '')
+			'VL_MALE'			=> (($gender === 'M') ? $cfg->HTML_SELECTED : ''),
+			'VL_FEMALE'			=> (($gender === 'F') ? $cfg->HTML_SELECTED : ''),
+			'VL_UNKNOWN'		=> (($gender == 'U') ? $cfg->HTML_SELECTED : '')
 		)
 	);
 }
@@ -175,7 +180,6 @@ function check_address_data(&$tpl) {
 		&& (isset($_POST['lname']) && $_POST['lname'] != '')
 		&& (isset($_POST['zip']) && $_POST['zip'] != '')
 		&& (isset($_POST['city']) && $_POST['city'] != '')
-		&& (isset($_POST['state']) && $_POST['state'] != '')
 		&& (isset($_POST['country']) && $_POST['country'] != '')
 		&& (isset($_POST['street1']) && $_POST['street1'] != '')
 		&& (isset($_POST['phone']) && $_POST['phone'] != '')
@@ -216,21 +220,16 @@ function check_address_data(&$tpl) {
 	}
 }
 
-/*
- * functions end
- */
+// functions end
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'address')
@@ -283,7 +282,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 

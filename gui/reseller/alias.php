@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_alias.tpl');
 $tpl->define_dynamic('page_message', 'page');
@@ -103,9 +103,11 @@ unset_messages();
  * @todo Use prepared statements (min. with placeholders like ":search_for")
  */
 function generate_als_list(&$tpl, $reseller_id, &$als_err) {
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
+	// NXW: Unused variables so..
+	/*
 	list($udmn_current, $udmn_max, $udmn_uf,
 		$usub_current, $usub_max, $usub_uf,
 		$uals_current, $uals_max, $uals_uf,
@@ -116,7 +118,11 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		$utraff_current, $utraff_max, $utraff_uf,
 		$udisk_current, $udisk_max, $udisk_uf
 	) = generate_reseller_user_props($reseller_id);
+	*/
+	list(,,,,,,$uals_current) = generate_reseller_user_props($reseller_id);
 
+	// NXW: Unused variables so...
+	/*
 	list($rdmn_current, $rdmn_max,
 		$rsub_current, $rsub_max,
 		$rals_current, $rals_max,
@@ -127,12 +133,15 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		$rtraff_current, $rtraff_max,
 		$rdisk_current, $rdisk_max
 	) = get_reseller_default_props($sql, $reseller_id);
+	*/
+	list(,,,,,$rals_max) = get_reseller_default_props($sql, $reseller_id);
 
 	if ($uals_current >= $rals_max && $rals_max != "0") {
 		$tpl->assign('ALS_ADD_BUTTON', '');
 	}
 
-	$have_aliases = '_no_';
+	// NXW: Unused variable so...
+	//$have_aliases = '_no_';
 
 	$start_index = 0;
 
@@ -165,7 +174,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	$tpl->assign(
 		array(
 			'PSI'				=> $current_psi,
-			'SEARCH_FOR'		=> $search_for,
+			'SEARCH_FOR'		=> tohtml($search_for),
 			'TR_SEARCH'			=> tr('Search'),
 			'M_ALIAS_NAME'		=> tr('Alias name'),
 			'M_ACCOUNT_NAME'	=> tr('Account name'),
@@ -277,10 +286,10 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		";
 	}
 	// let's count
-	$rs = exec_query($sql, $count_query, array($reseller_id));
+	$rs = exec_query($sql, $count_query, $reseller_id);
 	$records_count = $rs->fields['cnt'];
 	// Get all alias records
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
 	if ($records_count == 0) {
 		if (isset($_SESSION['search_for']) && $_SESSION['search_for'] != '') {
@@ -353,7 +362,8 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 	while (!$rs->EOF) {
 		$als_id = $rs->fields['alias_id'];
-		$domain_id = $rs->fields['domain_id'];
+		// NXW: Unused variabe so...
+		// $domain_id = $rs->fields['domain_id'];
 		$als_name = $rs->fields['alias_name'];
 		$als_mount_point = ($rs->fields['alias_mount'] != '')
 			? $rs->fields['alias_mount']
@@ -367,8 +377,8 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$query = "SELECT `ip_number`, `ip_domain` FROM `server_ips` WHERE `ip_id` = ?";
 
-		$alsip_r = exec_query($sql, $query, array($als_ip_id));
-		$alsip_d = $alsip_r->FetchRow();
+		$alsip_r = exec_query($sql, $query, $als_ip_id);
+		$alsip_d = $alsip_r->fetchRow();
 
 		$als_ip = $alsip_d['ip_number'];
 		$als_ip_name = $alsip_d['ip_domain'];
@@ -425,7 +435,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$i++;
 		$tpl->parse('TABLE_ITEM', '.table_item');
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 } // End of generate_als_list()
 

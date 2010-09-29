@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
@@ -57,7 +57,7 @@ $tpl->assign(
  */
 function get_server_ip(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -68,13 +68,13 @@ function get_server_ip(&$tpl, &$sql) {
 			`ip_number`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$i = 0;
 
 	$reseller_ips = '';
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'RSL_IP_MESSAGE' => tr('Reseller IP list is empty!'),
@@ -124,7 +124,7 @@ function get_server_ip(&$tpl, &$sql) {
 
 			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -140,7 +140,7 @@ function get_server_ip(&$tpl, &$sql) {
 function add_reseller(&$tpl, &$sql) {
 
 	global $reseller_ips;
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_reseller') {
 		if (check_user_data()) {
@@ -222,7 +222,7 @@ function add_reseller(&$tpl, &$sql) {
 					$gender)
 			);
 
-			$new_admin_id = $sql->Insert_ID();
+			$new_admin_id = $sql->insertId();
 
 			$user_logged = $_SESSION['user_logged'];
 
@@ -352,18 +352,18 @@ function add_reseller(&$tpl, &$sql) {
 					'VL_FEMALE' => (($_POST['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
 					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? $cfg->HTML_SELECTED : ''),
 
-					'MAX_DOMAIN_COUNT' => clean_input($_POST['nreseller_max_domain_cnt']),
-					'MAX_SUBDOMAIN_COUNT' => clean_input($_POST['nreseller_max_subdomain_cnt']),
-					'MAX_ALIASES_COUNT' => clean_input($_POST['nreseller_max_alias_cnt']),
-					'MAX_MAIL_USERS_COUNT' => clean_input($_POST['nreseller_max_mail_cnt']),
-					'MAX_FTP_USERS_COUNT' => clean_input($_POST['nreseller_max_ftp_cnt']),
-					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt']),
-					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt']),
-					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic']),
-					'SUPPORT_SYSTEM' => clean_input($_POST['support_system']),
-					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk']),
-					'SOFTWARE_ALLOWED' => clean_input($_POST['nreseller_software_allowed']),
-					'SOFTWAREDEPOT_ALLOWED' => clean_input($_POST['nreseller_softwaredepot_allowed']),
+					'MAX_DOMAIN_COUNT' => clean_input($_POST['nreseller_max_domain_cnt'], true),
+					'MAX_SUBDOMAIN_COUNT' => clean_input($_POST['nreseller_max_subdomain_cnt'], true),
+					'MAX_ALIASES_COUNT' => clean_input($_POST['nreseller_max_alias_cnt'], true),
+					'MAX_MAIL_USERS_COUNT' => clean_input($_POST['nreseller_max_mail_cnt'], true),
+					'MAX_FTP_USERS_COUNT' => clean_input($_POST['nreseller_max_ftp_cnt'], true),
+					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt'], true),
+					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt'], true),
+					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic'], true),
+					'SUPPORT_SYSTEM' => clean_input($_POST['support_system'], true),
+					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'], true),
+					'SOFTWARE_ALLOWED' => clean_input($_POST['nreseller_software_allowed'], true),
+					'SOFTWAREDEPOT_ALLOWED' => clean_input($_POST['nreseller_softwaredepot_allowed'], true),
 					'VL_SOFTWAREY' => (($_POST['nreseller_software_allowed'] == 'yes') ? 'checked="checked"' : ''),
 					'VL_SOFTWAREN' => (($_POST['nreseller_software_allowed'] != 'yes') ? 'checked="checked"' : ''),
 					'VL_SOFTWAREDEPOTY' => (($_POST['nreseller_softwaredepot_allowed'] == 'yes') ? 'checked="checked"' : ''),
@@ -416,8 +416,8 @@ function check_user_data() {
 
 	global $reseller_ips;
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$username = clean_input($_POST['username']);
 
@@ -430,9 +430,9 @@ function check_user_data() {
 			`admin_name` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($username));
+	$rs = exec_query($sql, $query, $username);
 
-	if ($rs->RecordCount() != 0) {
+	if ($rs->recordCount() != 0) {
 		set_page_message(tr('This user name already exist!'));
 
 		return false;

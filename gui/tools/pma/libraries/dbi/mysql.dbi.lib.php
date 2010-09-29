@@ -321,6 +321,12 @@ function PMA_DBI_get_client_info()
 function PMA_DBI_getError($link = null)
 {
     $GLOBALS['errno'] = 0;
+
+    /* Treat false same as null because of controllink */
+    if ($link === false) {
+        $link = null;
+    }
+
     if (null === $link && isset($GLOBALS['userlink'])) {
         $link =& $GLOBALS['userlink'];
 
@@ -347,6 +353,8 @@ function PMA_DBI_getError($link = null)
     if (! empty($error_message)) {
         $error_message = PMA_DBI_convert_message($error_message);
     }
+
+    $error_message = htmlspecialchars($error_message);
 
     // Some errors messages cannot be obtained by mysql_error()
     if ($error_number == 2002) {

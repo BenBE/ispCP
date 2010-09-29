@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/personal_change.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -56,7 +56,7 @@ gen_admin_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -79,7 +79,7 @@ function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$tpl->assign(
 		array(

@@ -7,9 +7,12 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="pngfix.js"></script>
+<![endif]-->
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
 <tr>
@@ -57,9 +60,9 @@
             <td width="230" class="content2">{ACCOUNT_NAME}</td>
           </tr>
           <tr>
-	     <td>&nbsp;</td> 
-	     <td class="content">{TR_DMN_TMP_ACCESS}</td> 
-	     <td class="content2"><a href=" http://vu{DOMAIN_UID}" target="_blank"> http://vu{DOMAIN_UID}</a></td> 
+	     <td>&nbsp;</td>
+	     <td class="content">{TR_DMN_TMP_ACCESS}</td>
+	     <td class="content2"><a href="{DOMAIN_ALS_URL}" target="_blank">{DOMAIN_ALS_URL}</a></td> 
 	   </tr>
 	   <tr>
             <td width="25">&nbsp;</td>
@@ -139,7 +142,7 @@
             <td width="230" class="content2">{SQL_USERS}</td>
           </tr>
           <!-- EDP: t_sql2_support -->
-		  <!-- BDP: t_software_allowed -->
+          <!-- BDP: t_software_allowed -->
 			<tr>
 				<td width="25">&nbsp;</td>
 				<td class="content">{SW_ALLOWED}</td>

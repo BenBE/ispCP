@@ -32,20 +32,20 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/protect_it.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protect_it.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('group_item', 'page');
 $tpl->define_dynamic('user_item', 'page');
 $tpl->define_dynamic('unprotect_it', 'page');
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
 		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
+		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET' => tr('encoding'),
 		'ISP_LOGO' => get_logo($_SESSION['user_id'])
 	)
@@ -55,6 +55,9 @@ $tpl->assign(
  * @todo use db prepared statements
  */
 function protect_area(&$tpl, &$sql, $dmn_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction']) || $_POST['uaction'] != 'protect_it') {
 		return;
 	}
@@ -96,7 +99,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 
 	// Check for existing directory
 	// We need to use the virtual file system
-	$vfs = new vfs($domain, $sql);
+	$vfs = new ispCP_VirtualFileSystem($domain, $sql);
 	$res = $vfs->exists($path);
 	if (!$res) {
 		set_page_message(tr("%s doesn't exist", $path));
@@ -156,10 +159,10 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $path, $alt_path));
-	$toadd_status = Config::getInstance()->get('ITEM_ADD_STATUS');
-	$tochange_status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+	$toadd_status = $cfg->ITEM_ADD_STATUS;
+	$tochange_status = $cfg->ITEM_CHANGE_STATUS;
 
-	if ($rs->RecordCount() !== 0) {
+	if ($rs->recordCount() !== 0) {
 		$update_id = $rs->fields['id'];
 		// @todo Can we move $update_id to the prepared statement variables?
 		$query = <<<SQL_QUERY
@@ -195,6 +198,9 @@ SQL_QUERY;
 }
 
 function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_GET['id'])) {
 		$edit = 'no';
 		$type = 'user';
@@ -227,7 +233,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 
 		$rs = exec_query($sql, $query, array($dmn_id, $ht_id));
 
-		if ($rs->RecordCount() == 0) {
+		if ($rs->recordCount() == 0) {
 			user_goto('protected_areas_add.php');
 		}
 
@@ -236,7 +242,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		$status = $rs->fields['status'];
 		$path = $rs->fields['path'];
 		$auth_name = $rs->fields['auth_name'];
-		$ok_status = Config::getInstance()->get('ITEM_OK_STATUS');
+		$ok_status = $cfg->ITEM_OK_STATUS;
 		if ($status !== $ok_status) {
 			set_page_message(tr('Protected area status should be OK if you want to edit it!'));
 			user_goto('protected_areas.php');
@@ -261,10 +267,10 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		}
 	}
 	// this area is not secured by htaccess
-	if ($edit = 'no' || $rs->RecordCount() == 0 || $type == 'user') {
+	if ($edit = 'no' || $rs->recordCount() == 0 || $type == 'user') {
 		$tpl->assign(
 			array(
-				'USER_CHECKED' => Config::getInstance()->get('HTML_CHECKED'),
+				'USER_CHECKED' => $cfg->HTML_CHECKED,
 				'GROUP_CHECKED' => "",
 				'USER_FORM_ELEMENS' => "false",
 				'GROUP_FORM_ELEMENS' => "true",
@@ -276,7 +282,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		$tpl->assign(
 			array(
 				'USER_CHECKED' => "",
-				'GROUP_CHECKED' => Config::getInstance()->get('HTML_CHECKED'),
+				'GROUP_CHECKED' => $cfg->HTML_CHECKED,
 				'USER_FORM_ELEMENS' => "true",
 				'GROUP_FORM_ELEMENS' => "false",
 			)
@@ -292,9 +298,9 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			`dmn_id` = ?;
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'USER_VALUE' => "-1",
@@ -309,7 +315,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			for ($i = 0, $cnt_usr_id = count($usr_id); $i < $cnt_usr_id; $i++) {
 				if ($edit == 'yes' && $usr_id[$i] == $rs->fields['id']) {
 					$i = $cnt_usr_id + 1;
-					$usr_selected = Config::getInstance()->get('HTML_SELECTED');
+					$usr_selected = $cfg->HTML_SELECTED;
 				} else {
 					$usr_selected = '';
 				}
@@ -325,7 +331,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 
 			$tpl->parse('USER_ITEM', '.user_item');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 
@@ -338,9 +344,9 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			`dmn_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'GROUP_VALUE' => "-1",
@@ -355,7 +361,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			for ($i = 0, $cnt_grp_id = count($grp_id); $i < $cnt_grp_id; $i++) {
 				if ($edit == 'yes' && $grp_id[$i] == $rs->fields['id']) {
 					$i = $cnt_grp_id + 1;
-					$grp_selected = Config::getInstance()->get('HTML_SELECTED');
+					$grp_selected = $cfg->HTML_SELECTED;
 				} else {
 					$grp_selected = '';
 				}
@@ -369,7 +375,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				)
 			);
 			$tpl->parse('GROUP_ITEM', '.group_item');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
@@ -380,8 +386,8 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
 gen_logged_from($tpl);
 
@@ -418,7 +424,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

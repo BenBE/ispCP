@@ -22,7 +22,21 @@ require './libraries/replication.inc.php';
 if (empty($_REQUEST['sort_by'])) {
     $sort_by = 'SCHEMA_NAME';
 } else {
-    $sort_by = PMA_sanitize($_REQUEST['sort_by']);
+    $sort_by_whitelist = array(
+        'SCHEMA_NAME',
+        'DEFAULT_COLLATION_NAME',
+        'SCHEMA_TABLES',
+        'SCHEMA_TABLE_ROWS',
+        'SCHEMA_DATA_LENGTH',
+        'SCHEMA_INDEX_LENGTH',
+        'SCHEMA_LENGTH',
+        'SCHEMA_DATA_FREE'
+    );
+    if (in_array($_REQUEST['sort_by'], $sort_by_whitelist)) {
+        $sort_by = $_REQUEST['sort_by'];
+    } else {
+        $sort_by = 'SCHEMA_NAME';
+    }
 }
 
 if (isset($_REQUEST['sort_order'])
@@ -58,7 +72,7 @@ if ((isset($_REQUEST['drop_selected_dbs']) || isset($_REQUEST['query_type']))
             $selected_db = $_REQUEST['selected_dbs'];
         }
         require './libraries/mult_submits.inc.php';
-        unset($action, $submit_mult, $err_url, $selected_db);
+        unset($action, $submit_mult, $err_url, $selected_db, $GLOBALS['db']);
         if (empty($message)) {
             $message = PMA_Message::success('strDatabasesDropped');
             if ($mult_btn == $strYes) {
@@ -342,11 +356,11 @@ if ($databases_count > 0) {
     unset($column_order, $stat_name, $stat, $databases, $table_columns);
 
     if ($is_superuser || $cfg['AllowUserDropDatabase']) {
-        $common_url_query = PMA_generate_common_url() . '&amp;sort_by=' . $sort_by . '&amp;sort_order=' . $sort_order . '&amp;dbstats=' . $dbstats;
+        $common_url_query = PMA_generate_common_url(array('sort_by' => $sort_by, 'sort_order' => $sort_order, 'dbstats' => $dbstats));
         echo '<img class="selectallarrow" src="' . $pmaThemeImage . 'arrow_' . $text_dir . '.png" width="38" height="22" alt="' . $strWithChecked . '" />' . "\n"
-           . '<a href="./server_databases.php?' . $common_url_query . '&amp;checkall=1" onclick="if (markAllRows(\'tabledatabases\')) return false;">' . "\n"
+           . '<a href="./server_databases.php' . $common_url_query . '&amp;checkall=1" onclick="if (markAllRows(\'tabledatabases\')) return false;">' . "\n"
            . '    ' . $strCheckAll . '</a> / ' . "\n"
-           . '<a href="./server_databases.php?' . $common_url_query . '" onclick="if (unMarkAllRows(\'tabledatabases\')) return false;">' . "\n"
+           . '<a href="./server_databases.php' . $common_url_query . '" onclick="if (unMarkAllRows(\'tabledatabases\')) return false;">' . "\n"
            . '    ' . $strUncheckAll . '</a>' . "\n"
            . '<i>' . $strWithChecked . '</i>' . "\n";
         PMA_buttonOrImage('drop_selected_dbs', 'mult_submit', 'drop_selected_dbs', $strDrop, 'b_deltbl.png');

@@ -942,6 +942,8 @@ if (isset($_REQUEST['adduser_submit']) || isset($_REQUEST['change_copy'])) {
                         $message = PMA_Message::rawError(PMA_DBI_getError());
                         break;
                     }
+                    // this is needed in case tracking is on:
+                    $GLOBALS['db'] = $username;
                     $GLOBALS['reload'] = TRUE;
                     PMA_reloadNavigation();
 
@@ -1151,7 +1153,7 @@ if (!empty($update_privs)) {
     }
     $sql_query = $sql_query0 . ' ' . $sql_query1 . ' ' . $sql_query2;
     $message = PMA_Message::success('strUpdatePrivMessage');
-    $message->addParam('\'' . $username . '\'@\'' . $hostname . '\'');
+    $message->addParam('\'' . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname) . '\'');
 }
 
 
@@ -1175,7 +1177,7 @@ if (isset($_REQUEST['revokeall'])) {
     }
     $sql_query = $sql_query0 . ' ' . $sql_query1;
     $message = PMA_Message::success('strRevokeMessage');
-    $message->addParam('\'' . $username . '\'@\'' . $hostname . '\'');
+    $message->addParam('\'' . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname) . '\'');
     if (! isset($tablename)) {
         unset($dbname);
     } else {
@@ -1211,7 +1213,7 @@ if (isset($_REQUEST['change_pw'])) {
         PMA_DBI_try_query($local_query)
             or PMA_mysqlDie(PMA_DBI_getError(), $sql_query, FALSE, $err_url);
         $message = PMA_Message::success('strPasswordChanged');
-        $message->addParam('\'' . $username . '\'@\'' . $hostname . '\'');
+        $message->addParam('\'' . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname) . '\'');
     }
 }
 
@@ -1255,6 +1257,9 @@ if (isset($_REQUEST['delete']) || (isset($_REQUEST['change_copy']) && $_REQUEST[
                     }
                 }
             }
+            // tracking sets this, causing the deleted db to be shown in navi
+            unset($GLOBALS['db']);
+
             $sql_query = join("\n", $queries);
             if (! empty($drop_user_error)) {
                 $message = PMA_Message::rawError($drop_user_error);
@@ -1590,8 +1595,8 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
 
         if (isset($dbname)) {
             echo ' <i><a href="server_privileges.php?'
-                . $GLOBALS['url_query'] . '&amp;username=' . urlencode($username)
-                . '&amp;hostname=' . urlencode($hostname) . '&amp;dbname=&amp;tablename=">\''
+                . $GLOBALS['url_query'] . '&amp;username=' . htmlspecialchars(urlencode($username))
+                . '&amp;hostname=' . htmlspecialchars(urlencode($hostname)) . '&amp;dbname=&amp;tablename=">\''
                 . htmlspecialchars($username) . '\'@\'' . htmlspecialchars($hostname)
                 . '\'</a></i>' . "\n";
             $url_dbname = urlencode(str_replace(array('\_', '\%'), array('_', '%'), $dbname));
@@ -1599,8 +1604,8 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
             echo ' - ' . ($dbname_is_wildcard ? $GLOBALS['strDatabases'] : $GLOBALS['strDatabase'] );
             if (isset($tablename)) {
                 echo ' <i><a href="server_privileges.php?' . $GLOBALS['url_query']
-                    . '&amp;username=' . urlencode($username) . '&amp;hostname=' . urlencode($hostname)
-                    . '&amp;dbname=' . $url_dbname . '&amp;tablename=">' . htmlspecialchars($dbname) . '</a></i>';
+                    . '&amp;username=' . htmlspecialchars(urlencode($username)) . '&amp;hostname=' . htmlspecialchars(urlencode($hostname))
+                    . '&amp;dbname=' . htmlspecialchars($url_dbname) . '&amp;tablename=">' . htmlspecialchars($dbname) . '</a></i>';
                 echo ' - ' . $GLOBALS['strTable'] . ' <i>' . htmlspecialchars($tablename) . '</i>';
             } else {
                 echo ' <i>' . htmlspecialchars($dbname) . '</i>';
@@ -1834,16 +1839,16 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
                     }
                     echo '</td>' . "\n"
                        . '    <td>';
-                    printf($link_edit, urlencode($username),
-                        urlencode($hostname),
-                        urlencode((! isset($dbname)) ? $row['Db'] : $dbname),
+                    printf($link_edit, htmlspecialchars(urlencode($username)),
+                        urlencode(htmlspecialchars($hostname)),
+                        urlencode((! isset($dbname)) ? $row['Db'] : htmlspecialchars($dbname)),
                         urlencode((! isset($dbname)) ? '' : $row['Table_name']));
                     echo '</td>' . "\n"
                        . '    <td>';
                     if (! empty($row['can_delete']) || isset($row['Table_name']) && strlen($row['Table_name'])) {
-                        printf($link_revoke, urlencode($username),
-                            urlencode($hostname),
-                            urlencode((! isset($dbname)) ? $row['Db'] : $dbname),
+                        printf($link_revoke, htmlspecialchars(urlencode($username)),
+                            urlencode(htmlspecialchars($hostname)),
+                            urlencode((! isset($dbname)) ? $row['Db'] : htmlspecialchars($dbname)),
                             urlencode((! isset($dbname)) ? '' : $row['Table_name']));
                     }
                     echo '</td>' . "\n"
@@ -1883,7 +1888,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
             } else {
                 echo '    <input type="hidden" name="dbname" value="' . htmlspecialchars($dbname) . '"/>' . "\n"
                    . '    <label for="text_tablename">' . $GLOBALS['strAddPrivilegesOnTbl'] . ':</label>' . "\n";
-                if ($res = @PMA_DBI_try_query('SHOW TABLES FROM ' . PMA_backquote($dbname) . ';', null, PMA_DBI_QUERY_STORE)) {
+                if ($res = @PMA_DBI_try_query('SHOW TABLES FROM ' . PMA_backquote(PMA_unescape_mysql_wildcards($dbname)) . ';', null, PMA_DBI_QUERY_STORE)) {
                     $pred_tbl_array = array();
                     while ($row = PMA_DBI_fetch_row($res)) {
                         if (!isset($found_rows) || !in_array($row[0], $found_rows)) {
@@ -1923,7 +1928,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
             if (isset($tablename)) {
                 echo ' [ ' . $GLOBALS['strTable'] . ' <a href="'
                     . $GLOBALS['cfg']['DefaultTabTable'] . '?' . $GLOBALS['url_query']
-                    . '&amp;db=' . $url_dbname . '&amp;table=' . urlencode($tablename)
+                    . '&amp;db=' . $url_dbname . '&amp;table=' . htmlspecialchars(urlencode($tablename))
                     . '&amp;reload=1">' . htmlspecialchars($tablename) . ': '
                     . PMA_getTitleForTarget($GLOBALS['cfg']['DefaultTabTable'])
                     . "</a> ]\n";
@@ -2150,7 +2155,7 @@ if (empty($_REQUEST['adduser']) && (! isset($checkprivs) || ! strlen($checkprivs
 
     // Offer to create a new user for the current database
     echo '<fieldset id="fieldset_add_user">' . "\n"
-       . '    <a href="server_privileges.php?' . $GLOBALS['url_query'] . '&amp;adduser=1&amp;dbname=' . $checkprivs .'">' . "\n"
+       . '    <a href="server_privileges.php?' . $GLOBALS['url_query'] . '&amp;adduser=1&amp;dbname=' . htmlspecialchars($checkprivs) .'">' . "\n"
        . PMA_getIcon('b_usradd.png')
        . '        ' . $GLOBALS['strAddUser'] . '</a>' . "\n"
        . '</fieldset>' . "\n";

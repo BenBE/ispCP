@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
@@ -47,8 +47,8 @@ if (isset($_GET['hpid']) && is_numeric($_GET['hpid'])) {
 }
 
 // Check if there is no order for this plan
-$res = exec_query($sql, "SELECT COUNT(`id`) FROM `orders` WHERE `plan_id` = ? AND `status` = 'new'", array($hpid));
-$data = $res->FetchRow();
+$res = exec_query($sql, "SELECT COUNT(`id`) FROM `orders` WHERE `plan_id` = ? AND `status` = 'new'", $hpid);
+$data = $res->fetchRow();
 
 if ($data['0'] > 0) {
 	$_SESSION['hp_deleted_ordererror'] = '_yes_';
@@ -57,7 +57,7 @@ if ($data['0'] > 0) {
 
 // Try to delete hosting plan from db
 $query = 'DELETE FROM `hosting_plans` WHERE `id` = ?';
-$res = exec_query($sql, $query, array($hpid));
+$res = exec_query($sql, $query, $hpid);
 
 $_SESSION['hp_deleted'] = '_yes_';
 

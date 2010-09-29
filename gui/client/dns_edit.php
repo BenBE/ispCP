@@ -30,12 +30,12 @@ require_once '../include/Net_DNS/DNS.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/dns_edit.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/dns_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
-
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $DNS_allowed_types = array('A', 'AAAA', 'SRV', 'CNAME', 'MX');
 
@@ -46,7 +46,7 @@ $tpl->assign(
 		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode)
 			? tr("ispCP - Manage Domain Alias/Add DNS zone's record")
 			: tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
-		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
+		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET'				=> tr('encoding'),
 		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
 		'ACTION_MODE'				=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}'
@@ -62,7 +62,8 @@ $tpl->assign(
 		'TR_CANCEL'				=> tr('Cancel'),
 		'TR_ADD'				=> tr('Add'),
 		'TR_DOMAIN'				=> tr('Domain'),
-		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record (EXPERIMENTAL)") : tr("Edit DNS zone's record (EXPERIMENTAL)"),
+		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record (EXPERIMENTAL)") :
+										tr("Edit DNS zone's record (EXPERIMENTAL)"),
 		'TR_DNS'				=> tr("DNS zone's records"),
 		'TR_DNS_NAME'			=> tr('Name'),
 		'TR_DNS_CLASS'			=> tr('Class'),
@@ -82,8 +83,8 @@ $tpl->assign(
 	)
 );
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 $tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', '');
@@ -125,18 +126,22 @@ gen_editdns_page($tpl, $editid);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
 
 // Begin function block
 
 function mysql_get_enum(&$sql, $object, &$default = null) {
+
 	list($table, $col) = explode(".", $object);
+
 	$res = exec_query($sql, "SHOW COLUMNS FROM ".$table." LIKE '".$col."'");
 	$row = $res->fetchRow();
 	$default = $row['Default'];
+
 	return (($row)
 		? explode("','", preg_replace("/(enum|set)\('(.+?)'\)/","\\2", $row['Type']))
 		: array(0 => 'None'));
@@ -146,22 +151,28 @@ function mysql_get_enum(&$sql, $object, &$default = null) {
  * @todo use template loop instead of this hardcoded HTML
  */
 function create_options($data, $value = null) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$res = '';
 	reset($data);
+
 	foreach ($data as $item) {
-		$res .= '<option value="'.$item.'"'.(($item == $value) ? Config::getInstance()->get('HTML_SELECTED') : '') . '>' . $item . '</option>';
+		$res .= '<option value="' . $item . '"' .
+				(($item == $value) ? $cfg->HTML_SELECTED : '') . '>' . $item .
+				'</option>';
 	}
 	return $res;
 }
 
 // Show user data
-
 function not_allowed() {
 	$_SESSION['dnsedit'] = '_no_';
 	user_goto('domains_manage.php');
 }
 
 function decode_zone_data($data) {
+
 	$address = $addressv6 = $srv_name = $srv_proto = $cname = $txt = $name = '';
 	$srv_TTL = $srv_prio = $srv_weight = $srv_host = $srv_port = '';
 
@@ -212,8 +223,9 @@ function decode_zone_data($data) {
  * @todo use template loop instead of this hardcoded HTML
  */
 function gen_editdns_page(&$tpl, $edit_id) {
-	global $sql;
-	global $DNS_allowed_types;
+
+	global $sql, $DNS_allowed_types;
+	$cfg = ispCP_Registry::get('Config');
 
 	list($dmn_id,
 		$dmn_name,
@@ -264,18 +276,26 @@ function gen_editdns_page(&$tpl, $edit_id) {
 			AND `alias_status` <> :state
 		";
 
-		$res = exec_query($sql, $query, array('domain_id' => $dmn_id, 'state' => Config::getInstance()->get('ITEM_ORDERED_STATUS')));
+		$res = exec_query($sql, $query, array('domain_id' => $dmn_id, 'state' => $cfg->ITEM_ORDERED_STATUS));
 		$sel = '';
-		while ($row = $res->FetchRow()) {
-			$sel.= '<option value="'.$row['alias_id'].'">'.$row['domain_name'].'</option>';
+		while ($row = $res->fetchRow()) {
+			$sel.= '<option value="' . $row['alias_id'] . '">' .
+					$row['domain_name'] . '</option>';
 		}
 		$tpl->assign('SELECT_ALIAS', $sel);
 
 	} else {
-		$res = exec_query($sql, "SELECT * FROM `domain_dns` WHERE `domain_dns_id` = ? AND `domain_id` = ?", array($edit_id, $dmn_id));
-		if ( $res->RecordCount() <= 0)
+		$query = "SELECT * FROM
+					`domain_dns`
+				WHERE
+					`domain_dns_id` = ?
+				AND
+					`domain_id` = ?
+			;";
+		$res = exec_query($sql, $query, array($edit_id, $dmn_id));
+		if ($res->recordCount() <= 0)
 		not_allowed();
-		$data = $res->FetchRow();
+		$data = $res->fetchRow();
 		$tpl->assign('ADD_RECORD', '');
 	}
 
@@ -319,8 +339,8 @@ function gen_editdns_page(&$tpl, $edit_id) {
 }
 
 // Check input data
-
 function tryPost($id, $data) {
+
 	if (array_key_exists($id, $_POST)) {
 		return $_POST[$id];
 	}
@@ -328,6 +348,7 @@ function tryPost($id, $data) {
 }
 
 function validate_CNAME($record, &$err = null) {
+
 	if (preg_match('~([^a-z,A-Z,0-9\.])~u', $record['dns_cname'], $e)) {
 		$err .= sprintf(tr('Use of disallowed char("%s") in CNAME'), $e[1]);
 		return false;
@@ -340,6 +361,7 @@ function validate_CNAME($record, &$err = null) {
 }
 
 function validate_A($record, &$err = null) {
+
 	if (filter_var($record['dns_A_address'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
 		$err .= sprintf(tr('Wrong IPv4 address ("%s").'), $record['dns_A_address']);
 		return false;
@@ -352,38 +374,47 @@ function validate_A($record, &$err = null) {
 }
 
 function validate_AAAA($record, &$err = null) {
+
 	if (filter_var($record['dns_AAAA_address'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
 		$err .= sprintf(tr('Wrong IPv6 address ("%s").'), $record['dns_AAAA_address']);
 		return false;
 	}
+
 	if (empty($record['dns_name'])) {
 		$err .= tr('Name must be filled.');
 		return false;
 	}
+
 	return true;
 }
 
 function validate_SRV($record, &$err, &$dns, &$text) {
+
 	if (!preg_match('~^([\d]+)$~', $record['dns_srv_port'])) {
 		$err .= tr('Port must be a number!');
 		return false;
 	}
+
 	if (!preg_match('~^([\d]+)$~', $record['dns_srv_ttl'])) {
 		$err .= tr('TTL must be a number!');
 		return false;
 	}
+
 	if (!preg_match('~^([\d]+)$~', $record['dns_srv_prio'])) {
 		$err .= tr('Priority must be a number!');
 		return false;
 	}
+
 	if (!preg_match('~^([\d]+)$~', $record['dns_srv_weight'])) {
 		$err .= tr('Relative weight must be a number!');
 		return false;
 	}
+
 	if (empty($record['dns_srv_name'])) {
 		$err .= tr('Service must be filled.');
 		return false;
 	}
+
 	if (empty($record['dns_srv_host'])) {
 		$err .= tr('Host must be filled.');
 		return false;
@@ -396,25 +427,37 @@ function validate_SRV($record, &$err, &$dns, &$text) {
 }
 
 function validate_MX($record, &$err, &$text) {
+
+	// Add a dot in the end if not
+	if (substr($record['dns_srv_host'], -1) != '.') {
+		$record['dns_srv_host'] .= '.';
+	}
+
+
 	if (!preg_match('~^([\d]+)$~', $record['dns_srv_prio'])) {
 		$err .= tr('Priority must be a number!');
 		return false;
 	}
+
 	if (empty($record['dns_srv_host'])) {
 		$err .= tr('Host must be filled.');
 		return false;
 	}
+
 	$text = sprintf("%d\t%s", $record['dns_srv_prio'], $record['dns_srv_host']);
 	return true;
 }
 
 function check_CNAME_conflict($domain,&$err) {
+
 	$resolver = new Net_DNS_resolver();
 	$resolver->nameservers = array('localhost');
 	$res = $resolver->query($domain, 'CNAME');
+
 	if ($res === false) {
 		return true;
 	}
+
 	$err .= tr('conflict with CNAME record');
 	return false;
 }
@@ -434,7 +477,9 @@ function validate_NAME($domain, &$err) {
 }
 
 function check_fwd_data(&$tpl, $edit_id) {
+
 	global $sql;
+	$cfg = ispCP_Registry::get('Config');
 
 	$add_mode = $edit_id === true;
 
@@ -473,10 +518,10 @@ function check_fwd_data(&$tpl, $edit_id) {
 				IFNULL(`tbl`.`alias_id`, 0) = ?
 		";
 		$res = exec_query($sql, $query, array($dmn_id, $dmn_id, $_POST['alias_id']));
-		if ($res->RecordCount() <= 0) {
+		if ($res->recordCount() <= 0) {
 			not_allowed();
 		}
-		$alias_id = $res->FetchRow();
+		$alias_id = $res->fetchRow();
 		$record_domain = $alias_id['domain_name'];
 		// if no alias is selected, ID is 0 else the real alias_id
 		$alias_id = $alias_id['alias_id'];
@@ -494,10 +539,10 @@ function check_fwd_data(&$tpl, $edit_id) {
 		AND
 		`domain_id` = ?
 		", array($edit_id, $dmn_id));
-		if ($res->RecordCount() <= 0) {
+		if ($res->recordCount() <= 0) {
 			not_allowed();
 		}
-		$data = $res->FetchRow();
+		$data = $res->fetchRow();
 		$record_domain = $data['domain_name'];
 		$alias_id = $data['alias_id'];
 		$_dns = $data['domain_dns'];
@@ -535,8 +580,11 @@ function check_fwd_data(&$tpl, $edit_id) {
 			break;
 		case 'MX':
 			$_dns = '';
-			if (!validate_MX($_POST, $err, $_text))
+			if (!validate_MX($_POST, $err, $_text)) {
 				$ed_error = sprintf(tr('Cannot validate %s record. Reason \'%s\'.'), $_POST['type'], $err);
+			} else {
+				$_dns = $record_domain . '.';
+			}
 			break;
 		default :
 			$ed_error = sprintf(tr('Unknown zone type %s!'), $_POST['type']);
@@ -547,61 +595,73 @@ function check_fwd_data(&$tpl, $edit_id) {
 		if ($add_mode) {
 			$query = "
 				INSERT INTO
-					`domain_dns`
-				(
-					`domain_id`,
-					`alias_id`,
-					`domain_dns`,
-					`domain_class`,
-					`domain_type`,
-					`domain_text`
-				)
-				VALUES
-				(
-					?,
-					?,
-					?,
-					?,
-					?,
-					?
-				)
+					`domain_dns` (
+						`domain_id`, `alias_id`, `domain_dns`, `domain_class`,
+						`domain_type`, `domain_text`
+					) VALUES (
+						?, ?, ?, ?, ?, ?
+					)
+				;
 			";
-			exec_query($sql, $query, array($dmn_id, $alias_id, $_dns, $_class, $_type, $_text));
+
+			$rs = exec_query(
+				$sql, $query,
+				array($dmn_id, $alias_id, $_dns, $_class, $_type, $_text),
+				false
+			);
+
+			# Error because duplicate entry ? (SQLSTATE 23000)
+			if($rs === false) {
+				if($sql->getLastErrorCode() == 23000) {
+					$tpl->assign(
+						'MESSAGE', tr('Error: DNS record already exist!')
+					);
+					$tpl->parse('PAGE_MESSAGE', 'page_message');
+
+					return false;
+				} else { # Another error ? Throw exception
+					throw new ispCP_Exception_Database(
+						$sql->getLastErrorMessage() . " - Query: $query"
+					);
+				}
+			}
+
 		} else {
+
 			$query = "
 				UPDATE
 					`domain_dns`
 				SET
-					`domain_dns` = ?,
-					`domain_class` = ?,
-					`domain_type` = ?,
+					`domain_dns` = ?, `domain_class` = ?, `domain_type` = ?,
 					`domain_text` = ?
 				WHERE
 					`domain_dns_id` = ?
+				;
 			";
-			exec_query($sql, $query, array($_dns, $_class, $_type, $_text, $edit_id));
+
+			exec_query(
+				$sql, $query, array($_dns, $_class, $_type, $_text, $edit_id)
+			);
 		}
 
 		if ($alias_id == 0) {
+
 			$query = "
 				UPDATE
 					`domain`
  				SET
-					 `domain`.`domain_status` = ?
+					`domain`.`domain_status` = ?
  				WHERE
-    					`domain`.`domain_id` = ?
+    				`domain`.`domain_id` = ?
+    			;
    			";
-			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_DNSCHANGE_STATUS'), $dmn_id));
-			$query = "
-				UPDATE
-					`subdomain`
-				SET
-    				`subdomain`.`subdomain_status` = ?
-    			WHERE
-    				`subdomain`.`domain_id` = ?
-				";
-			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_DNSCHANGE_STATUS'), $dmn_id));
+
+			exec_query(
+				$sql, $query, array($cfg->ITEM_DNSCHANGE_STATUS, $dmn_id)
+			);
+
 		} else {
+
 			$query = "
  				UPDATE
  					`domain_aliasses`
@@ -611,19 +671,14 @@ function check_fwd_data(&$tpl, $edit_id) {
 					`domain_aliasses`.`domain_id` = ?
 				AND	`domain_aliasses`.`alias_id` = ?
 			";
-			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_CHANGE_STATUS'), $dmn_id, $alias_id));
 
-			$query = "
- 				UPDATE
-					`subdomain_alias`
- 				SET
-					`subdomain_alias`.`subdomain_alias_status` = ?
- 				WHERE
-					`subdomain_alias`.`alias_id` = ?
-			";
-			exec_query($sql, $query, array(Config::getInstance()->get('ITEM_CHANGE_STATUS'), $alias_id));
+			exec_query(
+				$sql, $query,
+				array($cfg->ITEM_DNSCHANGE_STATUS, $dmn_id, $alias_id)
+			);
 		}
 
+		// Send request to ispCP daemon
 		send_request();
 
 		$admin_login = $_SESSION['user_logged'];

@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ticket_closed.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -45,140 +45,7 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-// page functions.
-function gen_tickets_list(&$tpl, &$sql, $user_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
-	$start_index = 0;
-
-	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
-
-	if (isset($_GET['psi'])) {
-		$start_index = $_GET['psi'];
-	}
-
-	$count_query = "
-		SELECT
-			COUNT(`ticket_id`) AS cnt
-		FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` = 0
-		AND
-			`ticket_reply` = 0
-	";
-
-	$rs = exec_query($sql, $count_query, array($user_id, $user_id));
-	$records_count = $rs->fields['cnt'];
-
-	$query = <<<SQL_QUERY
-		SELECT
-			`ticket_id`,
-			`ticket_status`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`
-		FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` = 0
-		AND
-			`ticket_reply` = 0
-		ORDER BY
-			`ticket_date` DESC
-		LIMIT
-			$start_index, $rows_per_page
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	if ($rs->RecordCount() == 0) {
-		$tpl->assign(
-			array(
-				'TICKETS_LIST' => '',
-				'SCROLL_PREV' => '',
-				'SCROLL_NEXT' => ''
-			)
-		);
-
-		set_page_message(tr('You have no support tickets.'));
-	} else {
-		$prev_si = $start_index - $rows_per_page;
-
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
-
-		$next_si = $start_index + $rows_per_page;
-
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
-
-		global $i;
-
-		while (!$rs->EOF) {
-			$ticket_id		= $rs->fields['ticket_id'];
-			$ticket_urgency = $rs->fields['ticket_urgency'];
-			$ticket_status	= $rs->fields['ticket_status'];
-			$date			= ticketGetLastDate($sql, $ticket_id);
-
-			$tpl->assign(array('URGENCY' => get_ticket_urgency($ticket_urgency)));
-
-			$tpl->assign(array('NEW' => " "));
-
-			$tpl->assign(
-				array(
-					'LAST_DATE'	=> $date,
-					'SUBJECT'	=> tohtml($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
-					'MESSAGE'	=> tohtml($rs->fields['ticket_message']),
-					'ID'		=> $ticket_id,
-					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
-				)
-			);
-
-			$tpl->parse('TICKETS_ITEM', '.tickets_item');
-			$rs->MoveNext();
-			$i++;
-		}
-	}
-}
-
-// common page data.
-$query = "
-  SELECT
-    `support_system`
-  FROM
-    `reseller_props`
-  WHERE
-    `reseller_id` = ?
-";
-
-$rs = exec_query($sql, $query, array($_SESSION['user_id']));
-
-if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-	user_goto('index.php');
-}
+// common page data
 
 $tpl->assign(
 	array(
@@ -189,9 +56,23 @@ $tpl->assign(
 	)
 );
 
-gen_tickets_list($tpl, $sql, $_SESSION['user_id']);
+// dynamic page data
 
-// static page messages.
+$admin_id = $_SESSION['user_created_by'];
+
+if (!hasTicketSystem($admin_id)) {
+	user_goto('index.php');
+}
+if (isset($_GET['psi'])) {
+	$start = $_GET['psi'];
+} else {
+	$start = 0;
+}
+
+generateTicketList($tpl, $_SESSION['user_id'], $start,
+		$cfg->DOMAIN_ROWS_PER_PAGE, 'reseller', 'closed');
+
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_ticket_system.tpl');
@@ -200,19 +81,20 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_SUPPORT_SYSTEM' => tr('Support system'),
-		'TR_SUPPORT_TICKETS' => tr('Support tickets'),
-		'TR_STATUS' => tr('Status'),
-		'TR_NEW' => ' ',
-		'TR_ACTION' => tr('Action'),
-		'TR_URGENCY' => tr('Priority'),
-		'TR_SUBJECT' => tr('Subject'),
-		'TR_LAST_DATA' => tr('Last reply'),
-		'TR_DELETE_ALL' => tr('Delete all'),
-		'TR_OPEN_TICKETS' => tr('Open tickets'),
-		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
+		'TR_SUPPORT_TICKETS'=> tr('Support tickets'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_NEW'			=> ' ',
+		'TR_ACTION'			=> tr('Action'),
+		'TR_URGENCY'		=> tr('Priority'),
+		'TR_SUBJECT'		=> tr('Subject'),
+		'TR_LAST_DATA'		=> tr('Last reply'),
+		'TR_DELETE_ALL'		=> tr('Delete all'),
+		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
+		'TR_CLOSED_TICKETS'	=> tr('Closed tickets'),
+		'TR_DELETE'			=> tr('Delete'),
+		'TR_TICKET_FROM'	=> tr('From'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
 	)
 );
 
@@ -224,4 +106,5 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

@@ -32,11 +32,11 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 
-$interfaces=new networkCard();
+$interfaces=new ispCP_NetworkCard();
 
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ip_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
@@ -56,8 +56,8 @@ $tpl->assign(
 );
 
 function gen_ip_action($ip_id, $status) {
-	
-	$cfg = IspCP_Registry::get('Config');
+
+	$cfg = ispCP_Registry::get('Config');
 
 	if ($status == $cfg->ITEM_OK_STATUS) {
 		return array(tr('Remove IP'), 'ip_delete.php?delete_id=' . $ip_id);
@@ -68,7 +68,7 @@ function gen_ip_action($ip_id, $status) {
 
 function show_IPs(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -76,12 +76,12 @@ function show_IPs(&$tpl, &$sql) {
 		FROM
 			`server_ips`
 	";
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$row = 1;
 	$single = false;
 
-	if ($rs->RecordCount() < 2) {
+	if ($rs->recordCount() < 2) {
 		$single = true;
 	}
 
@@ -120,14 +120,14 @@ function show_IPs(&$tpl, &$sql) {
 
 		$tpl->parse('IP_ROW', '.ip_row');
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	} // end while
 }
 
 function add_ip(&$tpl, &$sql) {
 
 	global $ip_number, $domain, $alias, $ip_card;
-	$cfg = IspCP_Registry::get('Config');	
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_ip') {
 		if (check_user_data()) {
@@ -155,10 +155,10 @@ function add_ip(&$tpl, &$sql) {
 	if (!isset($sucess) && isset($_POST['ip_number_1'])) {
 		$tpl->assign(
 			array(
-				'VALUE_IP1'		=> $_POST['ip_number_1'],
-				'VALUE_IP2'		=> $_POST['ip_number_2'],
-				'VALUE_IP3'		=> $_POST['ip_number_3'],
-				'VALUE_IP4'		=> $_POST['ip_number_4'],
+				'VALUE_IP1'		=> tohtml($_POST['ip_number_1']),
+				'VALUE_IP2'		=> tohtml($_POST['ip_number_2']),
+				'VALUE_IP3'		=> tohtml($_POST['ip_number_3']),
+				'VALUE_IP4'		=> tohtml($_POST['ip_number_4']),
 				'VALUE_DOMAIN'	=> clean_input($_POST['domain'], true),
 				'VALUE_ALIAS'	=> clean_input($_POST['alias'], true),
 			)
@@ -215,7 +215,7 @@ function check_user_data() {
 
 function IP_exists() {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	global $ip_number;
 
@@ -228,9 +228,9 @@ function IP_exists() {
 			`ip_number` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($ip_number));
+	$rs = exec_query($sql, $query, $ip_number);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		return false;
 	}
 	return true;

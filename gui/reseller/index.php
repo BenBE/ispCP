@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_RESELLER);
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('def_layout', 'page');
@@ -58,7 +58,12 @@ function gen_system_message(&$tpl, &$sql) {
 		WHERE
 			(`ticket_to` = ? OR `ticket_from` = ?)
 		AND
-			(`ticket_status` = '1' OR `ticket_status` = '4')
+			(`ticket_status` IN ('1', '4')
+			AND
+			`ticket_level` = 1) OR
+			(`ticket_status` IN ('2')
+			AND
+			`ticket_level` = 2)
 		AND
 			`ticket_reply` = 0
 	";
@@ -122,9 +127,9 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 
 function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	global $crnt_month, $crnt_year;
-	
-	$sql = Database::getInstance();
-	
+
+	$sql = ispCP_Registry::get('Db');
+
 	$crnt_month = date("m");
 	$crnt_year = date("Y");
 	// global
@@ -154,6 +159,8 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 		) = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
+	// NXW: Unused variables so...
+	/*
 	list($udmn_current, $udmn_max, $udmn_uf,
 		$usub_current, $usub_max, $usub_uf,
 		$uals_current, $uals_max, $uals_uf,
@@ -164,6 +171,13 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 		$utraff_current, $utraff_max, $utraff_uf,
 		$udisk_current, $udisk_max, $udisk_uf
 	) = generate_reseller_user_props($reseller_id);
+	*/
+
+	list($udmn_current,,,$usub_current,,,$uals_current,,,$umail_current,,,
+		$uftp_current,,,$usql_db_current,,,$usql_user_current,,,$utraff_current,
+		$utraff_max,,$udisk_current, $udisk_max
+	) = generate_reseller_user_props($reseller_id);
+
 	// Convert into MB values
 	$rtraff_max = $rtraff_max * 1024 * 1024;
 
@@ -179,7 +193,8 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 
 	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $rtraff_max);
 
-	list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $rdisk_max);
+	// NXW: Unused variables so ...
+	// list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $rdisk_max);
 
 	gen_traff_usage($tpl, $utraff_current, $rtraff_max, 400);
 
@@ -273,7 +288,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 }
 
 function gen_messages_table(&$tpl, $admin_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -283,13 +298,13 @@ function gen_messages_table(&$tpl, $admin_id) {
 		WHERE
 			(`ticket_from` = ? OR `ticket_to` = ?)
 		AND
-			`ticket_reply` = '0'
+			`ticket_status` IN ('1', '4')
 		AND
-			(`ticket_status` = '1' OR `ticket_status` = '4')
-	";
+			`ticket_reply` = '0'
+	;";
 	$res = exec_query($sql, $query, array($admin_id, $admin_id));
 
-	$questions = $res->RowCount();
+	$questions = $res->rowCount();
 
 	if ($questions == 0) {
 		$tpl->assign(

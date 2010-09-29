@@ -32,18 +32,18 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/alias_add.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('user_entry', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'THEME_COLOR_PATH' => '../themes/' . $theme_color,
+		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET' => tr('encoding'),
 		'ISP_LOGO' => get_logo($_SESSION['user_id']),
 	)
@@ -55,8 +55,8 @@ $tpl->assign(
  *
  */
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 
@@ -148,12 +148,16 @@ function init_empty_data() {
  * Show data fields
  */
 function gen_al_page(&$tpl, $reseller_id) {
+
 	global $alias_name, $forward, $forward_prefix, $mount_point;
 
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['status']) && $_POST['status'] == 1) {
+
 		$forward_prefix = clean_input($_POST['forward_prefix']);
 
-		$check_en = Config::getInstance()->get('HTML_CHECKED');
+		$check_en = $cfg->HTML_CHECKED;
 		$check_dis = '';
 		$forward = strtolower(clean_input($_POST['forward']));
 
@@ -161,20 +165,20 @@ function gen_al_page(&$tpl, $reseller_id) {
 			array(
 				'READONLY_FORWARD'	=> '',
 				'DISABLE_FORWARD'	=> '',
-				'HTTP_YES'			=> ($forward_prefix === 'http://') ? Config::getInstance()->get('HTML_SELECTED') : '',
-				'HTTPS_YES'			=> ($forward_prefix === 'https://') ? Config::getInstance()->get('HTML_SELECTED') : '',
-				'FTP_YES'			=> ($forward_prefix === 'ftp://') ? Config::getInstance()->get('HTML_SELECTED') : ''
+				'HTTP_YES'			=> ($forward_prefix === 'http://') ? $cfg->HTML_SELECTED : '',
+				'HTTPS_YES'			=> ($forward_prefix === 'https://') ? $cfg->HTML_SELECTED : '',
+				'FTP_YES'			=> ($forward_prefix === 'ftp://') ? $cfg->HTML_SELECTED : ''
 			)
 		);
 	} else {
 		$check_en = '';
-		$check_dis = Config::getInstance()->get('HTML_CHECKED');
+		$check_dis = $cfg->HTML_CHECKED;
 		$forward = '';
 
 		$tpl->assign(
 			array(
-				'READONLY_FORWARD'	=> Config::getInstance()->get('HTML_READONLY'),
-				'DISABLE_FORWARD'	=> Config::getInstance()->get('HTML_DISABLED'),
+				'READONLY_FORWARD'	=> $cfg->HTML_READONLY,
+				'DISABLE_FORWARD'	=> $cfg->HTML_DISABLED,
 				'HTTP_YES'			=> '',
 				'HTTPS_YES'			=> '',
 				'FTP_YES'			=> ''
@@ -195,8 +199,11 @@ function gen_al_page(&$tpl, $reseller_id) {
 } // End of gen_al_page()
 
 function add_domain_alias(&$sql, &$err_al) {
-	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point;
-	global $validation_err_msg;
+
+	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
+		$mount_point, $validation_err_msg;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$cr_user_id = $domain_id = get_user_domain_id($sql, $_SESSION['user_id']);
 	$alias_name	= strtolower($_POST['ndomain_name']);
@@ -219,7 +226,7 @@ function add_domain_alias(&$sql, &$err_al) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($cr_user_id));
+	$rs = exec_query($sql, $query, $cr_user_id);
 	$domain_ip = $rs->fields['domain_ip_id'];
 
 	// Should be perfomed after domain names syntax validation now
@@ -242,7 +249,7 @@ function add_domain_alias(&$sql, &$err_al) {
 	 $err_al = tr('Domain with that name already exists on the system!');
 	} else if (!validates_mpoint($mount_point) && $mount_point != '/') {
 		$err_al = tr("Incorrect mount point syntax");
-	} else if ($alias_name == Config::getInstance()->get('BASE_SERVER_VHOST')) {
+	} else if ($alias_name == $cfg->BASE_SERVER_VHOST) {
 		$err_al = tr('Master domain cannot be used!');
 	} else if ($_POST['status'] == 1) {
 		$aurl = @parse_url($forward_prefix.$forward);
@@ -269,6 +276,8 @@ function add_domain_alias(&$sql, &$err_al) {
 				}
 				if (isset($aurl['path'])) {
 					$forward .= $aurl['path'];
+				} else {
+					$forward .= '/';
 				}
 				if (isset($aurl['query'])) {
 					$forward .= '?'.$aurl['query'];
@@ -283,20 +292,20 @@ function add_domain_alias(&$sql, &$err_al) {
 		$mount_point = array_decode_idna($mount_point, true);
 
 		$query = "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?";
-		$res = exec_query($sql, $query, array($alias_name));
+		$res = exec_query($sql, $query, $alias_name);
 		$query = "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?";
-		$res2 = exec_query($sql, $query, array($alias_name));
-		if ($res->RowCount() > 0 || $res2->RowCount() > 0) {
+		$res2 = exec_query($sql, $query, $alias_name);
+		if ($res->rowCount() > 0 || $res2->rowCount() > 0) {
 			// we already have domain with this name
 			$err_al = tr("Domain with this name already exist");
 		}
 
 		$query = "SELECT COUNT(`subdomain_id`) AS cnt FROM `subdomain` WHERE `domain_id` = ? AND `subdomain_mount` = ?";
 		$subdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
-		$subdomdata = $subdomres->FetchRow();
+		$subdomdata = $subdomres->fetchRow();
 		$query = "SELECT COUNT(`subdomain_alias_id`) AS alscnt FROM `subdomain_alias` WHERE `alias_id` IN (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = ?) AND `subdomain_alias_mount` = ?";
 		$alssubdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
-		$alssubdomdata = $alssubdomres->FetchRow();
+		$alssubdomdata = $alssubdomres->fetchRow();
 		if ($subdomdata['cnt'] > 0 || $alssubdomdata['alscnt'] > 0) {
 			$err_al = tr("There is a subdomain with the same mount point!");
 		}
@@ -307,20 +316,19 @@ function add_domain_alias(&$sql, &$err_al) {
 	}
 
 	// Begin add new alias domain
-	$alias_name = htmlspecialchars($alias_name, ENT_QUOTES, "UTF-8");
 
-	$status = Config::getInstance()->get('ITEM_ORDERED_STATUS');
+	$status = $cfg->ITEM_ORDERED_STATUS;
 
 	$query = "INSERT INTO `domain_aliasses` (`domain_id`, `alias_name`, `alias_mount`, `alias_status`, `alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)";
 	exec_query($sql, $query, array($cr_user_id, $alias_name, $mount_point, $status, $domain_ip, $forward));
 
-	$als_id = $sql->Insert_ID();
+	$als_id = $sql->insertId();
 
 	update_reseller_c_props(get_reseller_id($cr_user_id));
 
 	$admin_login = $_SESSION['user_logged'];
 
-	if ($status == Config::getInstance()->get('ITEM_ORDERED_STATUS')) {
+	if ($status == $cfg->ITEM_ORDERED_STATUS) {
 		// notify the reseller:
 		send_alias_order_email($alias_name);
 
@@ -355,6 +363,6 @@ gen_page_msg($tpl, $err_txt);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

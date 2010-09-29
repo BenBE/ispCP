@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/password_change.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -85,7 +85,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 }
 
 function check_udata($id, $pass) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -100,7 +100,7 @@ function check_udata($id, $pass) {
 
 	$rs = exec_query($sql, $query, array($id, md5($pass)));
 
-	return (($rs->RecordCount()) != 1) ? false : true;
+	return (($rs->recordCount()) != 1) ? false : true;
 }
 
 /*

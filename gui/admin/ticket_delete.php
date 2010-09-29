@@ -32,6 +32,13 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+if (!hasTicketSystem()) {
+	user_goto('index.php');
+}
+
+$back_url = 'ticket_system.php';
+$user_id = $_SESSION['user_id'];
+
 if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 
 	$ticket_id = $_GET['ticket_id'];
@@ -43,81 +50,37 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] !== '') {
 			`tickets`
 		WHERE
 			`ticket_id` = ?
-		ORDER BY
-			`ticket_date` ASC
-	";
+		AND
+			(`ticket_from` = ? OR `ticket_to` = ?)
+	;";
 
-	$rs = exec_query($sql, $query, array($ticket_id));
-	$ticket_status = $rs->fields['ticket_status'];
+	$rs = exec_query($sql, $query, array($ticket_id, $user_id, $user_id));
 
-	$back_url = ($ticket_status == 0) ? 'ticket_closed.php' : 'ticket_system.php';
-
-	$ticket_id = $_GET['ticket_id'];
-
-
-	$query = "
-		DELETE FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-		OR
-			`ticket_reply` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_id, $ticket_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
+	if ($rs->recordCount() == 0) {
+		user_goto('ticket_system.php');
 	}
 
+	$back_url = (getTicketStatus($ticket_id) == 0) ?
+		'ticket_closed.php' : 'ticket_system.php';
+
+	deleteTicket($ticket_id);
+
+	write_log(sprintf("%s: deletes support ticket %d", $_SESSION['user_logged'],
+			$ticket_id));
 	set_page_message(tr('Support ticket deleted successfully!'));
-
-	user_goto($back_url);
-
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'open') {
 
-	$user_id = $_SESSION['user_id'];
+	deleteTickets('open', $user_id);
 
-	$query = "
-		DELETE FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` != '0'
-	";
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
-	}
+	write_log(sprintf("%s: deletes all open support tickets.", $_SESSION['user_logged']));
 	set_page_message(tr('All open support tickets deleted successfully!'));
-
-	user_goto('ticket_system.php');
-
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'closed') {
 
-	$user_id = $_SESSION['user_id'];
+	deleteTickets('closed', $user_id);
 
-	$query = "
-		DELETE FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` = '0'
-	";
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	while (!$rs->EOF) {
-		$rs->MoveNext();
-	}
+	write_log(sprintf("%s: deletes all closed support ticket.", $_SESSION['user_logged']));
 	set_page_message(tr('All closed support tickets deleted successfully!'));
-
-	user_goto('ticket_closed.php');
-
-} else {
-	user_goto('ticket_system.php');
+	$back_url = 'ticket_closed.php';
 }
+
+user_goto($back_url);

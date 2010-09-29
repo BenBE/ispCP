@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -85,8 +85,8 @@ $tpl->assign(
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 	global $rid;
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$start_index = 0;
 
@@ -131,10 +131,10 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 			$start_index, $rows_per_page
 SQL_QUERY;
 
-	$rs = exec_query($sql, $count_query, array($reseller_id));
+	$rs = exec_query($sql, $count_query, $reseller_id);
 	$records_count = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
 	$tpl->assign(
 		array(
@@ -143,7 +143,7 @@ SQL_QUERY;
 		)
 	);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		$tpl->assign(
 			array(
 				'DOMAIN_LIST' => '',
@@ -201,13 +201,13 @@ SQL_QUERY;
 					`domain_admin_id` = ?
 			";
 
-			$dres = exec_query ($sql, $query, array($admin_id));
+			$dres = exec_query ($sql, $query, $admin_id);
 
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
 
 			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }

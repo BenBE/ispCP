@@ -30,8 +30,10 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/addon.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/addon.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -61,8 +63,10 @@ function addon_domain($dmn_name) {
 }
 
 function is_plan_available(&$sql, $plan_id, $user_id) {
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') &&
-		Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				*
@@ -72,7 +76,7 @@ function is_plan_available(&$sql, $plan_id, $user_id) {
 				`id` = ?
 			";
 
-		$rs = exec_query($sql, $query, array($plan_id));
+		$rs = exec_query($sql, $query, $plan_id);
 	} else {
 		$query = "
 			SELECT
@@ -88,7 +92,7 @@ function is_plan_available(&$sql, $plan_id, $user_id) {
 		$rs = exec_query($sql, $query, array($user_id, $plan_id));
 	}
 
-	return $rs->RecordCount() > 0 && $rs->fields['status'] != 0;
+	return $rs->recordCount() > 0 && $rs->fields['status'] != 0;
 }
 
 /**
@@ -109,13 +113,19 @@ if (isset($_SESSION['user_id'])) {
 		if (is_plan_available($sql, $plan_id, $user_id)) {
 			$_SESSION['plan_id'] = $plan_id;
 		} else {
-			system_message(tr('This hosting plan is not available for purchase'));
+			throw new ispCP_Exception_Production(
+				tr('This hosting plan is not available for purchase')
+			);
 		}
 	} else {
-		system_message(tr('You do not have permission to access this interface!'));
+		throw new ispCP_Exception_Production(
+			tr('You do not have permission to access this interface!')
+		);
 	}
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (isset($_SESSION['domainname'])) {
@@ -142,7 +152,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 

@@ -33,7 +33,7 @@
  */
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 /*******************************************************************************
  * Functions
@@ -100,7 +100,7 @@ function get_clean_input_data() {
  */
 function check_data(&$errFields) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	// Get needed data
 	$rdata =& get_data();
@@ -455,7 +455,7 @@ function check_user_ip_data($reseller_id, $r_ips, $u_ips) {
  */
 function get_reseller_prop($reseller_id) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -474,9 +474,9 @@ function get_reseller_prop($reseller_id) {
 			r.`reseller_id` = a.`admin_id`
 	";
 
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
-	if ($rs->RecordCount() <= 0) {
+	if ($rs->recordCount() <= 0) {
 			set_page_message(
 				tr('ERROR: The reseller account you trying to edit does not exist!')
 			);
@@ -501,8 +501,8 @@ function get_reseller_prop($reseller_id) {
  */
 function get_servers_ips(&$tpl, $rip_lst) {
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -513,12 +513,12 @@ function get_servers_ips(&$tpl, $rip_lst) {
 			`ip_number`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$i = 0;
 	$reseller_ips = '';
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'RSL_IP_MESSAGE' => tr('Reseller IP list is empty!'),
@@ -577,7 +577,7 @@ function get_servers_ips(&$tpl, $rip_lst) {
 			);
 
 			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -595,7 +595,7 @@ function get_servers_ips(&$tpl, $rip_lst) {
  */
 function have_reseller_ip_users($reseller_id, $ip, &$ip_num, &$ip_name) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -606,9 +606,9 @@ function have_reseller_ip_users($reseller_id, $ip, &$ip_num, &$ip_name) {
 			`created_by` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
-	if ($res->RowCount() == 0) {
+	if ($res->rowCount() == 0) {
 		return false;
 	}
 
@@ -632,13 +632,13 @@ function have_reseller_ip_users($reseller_id, $ip, &$ip_num, &$ip_name) {
 
 		$dres = exec_query($sql, $query, array($reseller_id, $ip));
 
-		if ($dres->RowCount() != 0) {
+		if ($dres->rowCount() != 0) {
 			$ip_num = $dres->fields['ip_number'];
 			$ip_name = $dres->fields['ip_domain'];
 			return true;
 		}
 
-		$res->MoveNext();
+		$res->moveNext();
 	}
 
 	return false;
@@ -655,7 +655,7 @@ function update_reseller() {
 	$rdata =& get_data();
 
 	// Get database instance
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	/**
 	 * Update reseller additional data
@@ -812,7 +812,7 @@ function &get_data(&$tpl = false) {
 
 	if(empty($rdata) && $tpl !== false) {
 
-		$sql = Database::getInstance();
+		$sql = ispCP_Registry::get('Db');
 
 		// Update action
 		if(isset($_POST['uaction']) && $_POST['uaction'] == 'update_reseller') {
@@ -829,7 +829,7 @@ function &get_data(&$tpl = false) {
 					`admin_id` = ?
 			";
 
-			$rs = exec_query($sql, $query, array($rdata['edit_id']));
+			$rs = exec_query($sql, $query, $rdata['edit_id']);
 
 			if ($rs->RecordCount() <= 0)
 				user_goto('manage_users.php');
@@ -913,7 +913,7 @@ if(isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 			exit;
 	}
 
-	$tpl = new pTemplate();
+	$tpl = new ispCP_pTemplate();
 	$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH .'/reseller_edit.tpl');
 	$tpl->define_dynamic('page_message', 'page');
 	$tpl->define_dynamic('hosting_plans', 'page');

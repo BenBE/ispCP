@@ -7,9 +7,12 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="pngfix.js"></script>
+<![endif]-->
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <tr>
 <td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
@@ -71,7 +74,7 @@
                             <td class="content2" width="193">{TR_DNS_SUPP}</td>
                             <td class="content" colspan="2">{VL_DNS_SUPP}</td>
                           </tr>
-						  <tr>
+                          <tr>
 							<td width="25">&nbsp;</td>
 							<td class="content2" width="193">{TR_SOFTWARE_SUPP}</td>
 							<td  class="content" colspan="2">{VL_SOFTWARE_SUPP}</td>
@@ -160,7 +163,7 @@
                           <tr>
                             <td>&nbsp;</td>
                             <td colspan="3"><form name="buttons" method="post" action="?">
-                                <input name="Submit" type="submit" class="button" onclick="MM_goToURL('parent','manage_users.php');return document.MM_returnValue" value="  {TR_BACK}  " />
+                                <input name="Submit" type="submit" class="button" onClick="MM_goToURL('parent','manage_users.php');return document.MM_returnValue" value="  {TR_BACK}  " />
                               &nbsp;&nbsp;&nbsp;
                             </form></td>
                           </tr>

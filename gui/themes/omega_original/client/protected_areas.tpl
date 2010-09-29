@@ -7,6 +7,9 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="pngfix.js"></script>
+<![endif]-->
 <script type="text/javascript">
 <!--
 function action_delete(url, subject) {
@@ -16,7 +19,7 @@ function action_delete(url, subject) {
 </script>
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
 <tr>
@@ -68,15 +71,15 @@ function action_delete(url, subject) {
                           <u>{AREA_PATH}</u></td>
                       <td width="80" class="{CLASS}" nowrap="nowrap" align="center">{STATUS}</td>
                       <td width="60" class="{CLASS}" nowrap="nowrap" align="center"><img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="protected_areas_add.php?id={PID}" class="link">{TR_EDIT}</a> </td>
-                      <td width="60" class="{CLASS}" nowrap="nowrap" align="center"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="protected_areas_delete.php?id={PID}" onclick="return action_delete('protected_areas_delete.php?id={PID}', '{JS_AREA_NAME}')" class="link">{TR_DELETE}</a></td>
+                      <td width="60" class="{CLASS}" nowrap="nowrap" align="center"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="protected_areas_delete.php?id={PID}" onClick="return action_delete('protected_areas_delete.php?id={PID}', '{JS_AREA_NAME}')" class="link">{TR_DELETE}</a></td>
                     </tr>
                     <!-- EDP: dir_item -->
                     <!-- EDP: protected_areas -->
                     <tr>
                       <td width="25" align="center" nowrap="nowrap">&nbsp;</td>
-                      <td colspan="4" nowrap="nowrap"><input name="Button" type="button" class="button" onclick="MM_goToURL('parent','protected_areas_add.php');return document.MM_returnValue" value="{TR_ADD_AREA}" />
+                      <td colspan="4" nowrap="nowrap"><input name="Button" type="button" class="button" onClick="MM_goToURL('parent','protected_areas_add.php');return document.MM_returnValue" value="{TR_ADD_AREA}" />
                         &nbsp;&nbsp;&nbsp;
-                        <input name="Button2" type="button" class="button" onclick="MM_goToURL('parent','protected_user_manage.php');return document.MM_returnValue" value="{TR_MANAGE_USRES}" /></td>
+                        <input name="Button2" type="button" class="button" onClick="MM_goToURL('parent','protected_user_manage.php');return document.MM_returnValue" value="{TR_MANAGE_USRES}" /></td>
                     </tr>
                 </table></td>
                 <td>&nbsp;</td>

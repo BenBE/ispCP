@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic_day.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hour_list', 'page');
@@ -63,7 +63,7 @@ if (isset($_GET['month']) && isset($_GET['year']) && isset($_GET['day'])
 }
 
 function generate_page(&$tpl) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	global $month, $year, $day;
 
 	$all[0] = 0;
@@ -160,7 +160,7 @@ function generate_page(&$tpl) {
 
 			$tpl->parse('HOUR_LIST', '.hour_list');
 
-			$rs1->MoveNext();
+			$rs1->moveNext();
 		} // end for
 		$all_other_in = $all[6] - ($all[0] + $all[2] + $all[4]);
 		$all_other_out = $all[7] - ($all[1] + $all[3] + $all[5]);

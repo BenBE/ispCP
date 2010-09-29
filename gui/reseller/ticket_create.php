@@ -30,63 +30,16 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ticket_create.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-// page functions.
-
-function send_user_message(&$sql, $user_id, $user_created_by) {
-	if (!isset($_POST['uaction']))
-		return;
-
-	if (empty($_POST['subj'])) {
-		set_page_message(tr('Please specify message subject!'));
-		return;
-	}
-
-	if (empty($_POST['user_message'])) {
-		set_page_message(tr('Please type your message!'));
-		return;
-	}
-
-	$ticket_date = time();
-	$urgency = $_POST['urgency'];
-	$subject = clean_input($_POST['subj']);
-	$user_message = clean_input($_POST["user_message"]);
-	$ticket_status = 2;
-	$ticket_reply = 0;
-	$ticket_level = 2;
-
-	$query = "
-		INSERT INTO `tickets`
-			(`ticket_level`,
-			`ticket_from`,
-			`ticket_to`,
-			`ticket_status`,
-			`ticket_reply`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`)
-		VALUES
-			(?, ?, ?, ?, ?, ?, ?, ?, ?)
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_level,	$user_id, $user_created_by,
-			$ticket_status,	$ticket_reply, $urgency, $ticket_date, $subject, $user_message));
-
-	set_page_message(tr('Message was sent.'));
-	send_tickets_msg($user_created_by, $user_id, $subject, $user_message, $ticket_reply, $urgency);
-	header('Location: ticket_system.php');
-}
-
-// common page data.
+// common page data
 
 $tpl->assign(
 	array(
@@ -97,25 +50,27 @@ $tpl->assign(
 	)
 );
 
-// dynamic page data.
-$query = "
-	SELECT
-		`support_system`
-	FROM
-		`reseller_props`
-	WHERE
-		`reseller_id` = ?
-";
+// dynamic page data
 
-$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+$admin_id = $_SESSION['user_created_by'];
 
-if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
+if (!hasTicketSystem($admin_id)) {
 	user_goto('index.php');
 }
 
-send_user_message($sql, $_SESSION['user_id'], $_SESSION['user_created_by']);
+if (isset($_POST['uaction'])) {
+	if (empty($_POST['subj'])) {
+		set_page_message(tr('Please specify message subject!'));
+	} else if (empty($_POST['user_message'])) {
+		set_page_message(tr('Please type your message!'));
+	} else {
+		createTicket($_SESSION['user_id'], $_SESSION['user_created_by'],
+				$_POST['urgency'], $_POST['subj'], $_POST['user_message'], 2);
+		user_goto('ticket_system.php');
+	}
+}
 
-// static page messages.
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_ticket_system.tpl');
@@ -128,11 +83,13 @@ $userdata = array(
 	'OPT_URGENCY_3' => '',
 	'OPT_URGENCY_4' => ''
 );
+
 if (isset($_POST['urgency'])) {
 	$userdata['URGENCY'] = intval($_POST['urgency']);
 } else {
 	$userdata['URGENCY'] = 2;
 }
+
 switch ($userdata['URGENCY']) {
 	case 1:
 		$userdata['OPT_URGENCY_1'] = $cfg->HTML_SELECTED;
@@ -145,10 +102,11 @@ switch ($userdata['URGENCY']) {
 		break;
 	default:
 		$userdata['OPT_URGENCY_2'] = $cfg->HTML_SELECTED;
-		break;
 }
+
 $userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj'], true) : '';
-$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? clean_input($_POST['user_message'], true) : '';
+$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ?
+    clean_input($_POST['user_message'], true) : '';
 $tpl->assign($userdata);
 
 $tpl->assign(
@@ -171,10 +129,10 @@ $tpl->assign(
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
-
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

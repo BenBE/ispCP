@@ -154,23 +154,18 @@ function crypt_user_pass_with_salt($data) {
 	return $res;
 }
 
-
-function check_user_pass($crdata, $data) {
-	$salt = get_salt_from($crdata);
-	$udata = crypt($data, $salt);
-	return ($udata == $crdata);
-}
-
 /**
  * Generates random password of size specified in Config Var 'PASSWD_CHARS'
  *
  * @return String password
  */
 function _passgen() {
+
+	$cfg = ispCP_Registry::get('Config');
 	$pw = '';
 
 
-	for ($i = 0, $passwd_chars = Config::getInstance()->get('PASSWD_CHARS'); $i <= $passwd_chars; $i++) {
+	for ($i = 0, $passwd_chars = $cfg->PASSWD_CHARS; $i <= $passwd_chars; $i++) {
 		$z = 0;
 
 		do {

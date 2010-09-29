@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/password_change.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -50,8 +50,8 @@ $tpl->assign(
 
 function update_password() {
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 		if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
@@ -90,7 +90,7 @@ function update_password() {
 
 function check_udata($id, $pass) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -101,10 +101,10 @@ function check_udata($id, $pass) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($id));
+	$rs = exec_query($sql, $query, $id);
 
-	if ($rs->RecordCount() == 1) {
-		$rs = $rs->FetchRow();
+	if ($rs->recordCount() == 1) {
+		$rs = $rs->fetchRow();
 
 		if ((crypt($pass, $rs['admin_pass']) == $rs['admin_pass'])
 			|| (md5($pass) == $rs['admin_pass'])) {

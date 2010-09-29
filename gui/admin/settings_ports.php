@@ -41,7 +41,7 @@ check_login(__FILE__);
 /**
  * Prepare and put data in session on error(s)
  *
- * @since 1.0.6
+ * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
  * @param boolean TRUE on add, FALSE otherwise
  * @return void
@@ -49,7 +49,7 @@ check_login(__FILE__);
 function to_session($mode) {
 
 	// Get a reference to the array that contain all error fields ids
-	$error_fields_ids = &IspCP_Registry::get('Error_Fields_Ids');
+	$error_fields_ids = &ispCP_Registry::get('Error_Fields_Ids');
 
 	// Create a json object that will be used by client browser for fields
 	// highlighting
@@ -89,7 +89,7 @@ function to_session($mode) {
 /**
  * Validates a service port and sets an appropriate message on error
  *
- * @since 1.0.6
+ * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
  * @param string $name Service port name
  * @param string $ip Ip address
@@ -102,13 +102,13 @@ function to_session($mode) {
 function validates_service($name, $ip, $port, $proto, $show, $index = '') {
 
 	// Get a reference to the IspCP_ConfigHandler_Db instance
-	$db_cfg = IspCP_Registry::get('Db_Config');
+	$db_cfg = ispCP_Registry::get('Db_Config');
 
 	// Get a reference to the array that contain all errors messages
-	$messages = &IspCP_Registry::get('Page_Messages');
+	$messages = &ispCP_Registry::get('Page_Messages');
 
 	// Get a reference to the array that contain all error fields ids
-	$error_fields_ids = &IspCP_Registry::get('Error_Fields_Ids');
+	$error_fields_ids = &ispCP_Registry::get('Error_Fields_Ids');
 
 	// Accounting for errors messages
 	static $msg_cnt = 0;
@@ -155,7 +155,7 @@ function validates_service($name, $ip, $port, $proto, $show, $index = '') {
 /**
  * Adds or updates a services ports
  *
- * @since 1.0.6
+ * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
  * @param boolean $mode TRUE on add, FALSE on update
  * @return void
@@ -163,13 +163,13 @@ function validates_service($name, $ip, $port, $proto, $show, $index = '') {
 function add_update_services($mode) {
 
 	// Gets a reference to the IspCP_ConfigHandler_Db instance
-	$db_cfg = IspCP_Registry::get('Db_Config');
-	
+	$db_cfg = ispCP_Registry::get('Db_Config');
+
 	// Create a pool for messages on error and gets a reference to him
-	$messages = &IspCP_Registry::set('Page_Messages', array());
+	$messages = &ispCP_Registry::set('Page_Messages', array());
 
 	// Create a pool for error fields ids and gets a reference to him
-	$error_fields_ids = &IspCP_Registry::set('Error_Fields_Ids', array());
+	$error_fields_ids = &ispCP_Registry::set('Error_Fields_Ids', array());
 
 	// Adds a service port
 	if($mode) {
@@ -195,7 +195,7 @@ function add_update_services($mode) {
 	// Updates one or more services ports
 	} else {
 		// Reset counter of update queries
-		$db_cfg->reset_queries_counter('update');
+		$db_cfg->resetQueriesCounter('update');
 
 		foreach($_POST['name'] as $index => $name) {
 
@@ -226,7 +226,7 @@ function add_update_services($mode) {
 	// Prepares message for page on update
 	} else {
 		// gets the number of queries that were been executed
-		$updt_count = $db_cfg->count_queries('update');
+		$updt_count = $db_cfg->countQueries('update');
 
 		// An Update was been made in the database ?
 		if($updt_count > 0) {
@@ -242,24 +242,24 @@ function add_update_services($mode) {
  *
  * This function is used for generation of both pages (show page and error page)
  *
- * @since 1.0.6
+ * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
- * @param pTemplate &$tpl Reference to a pTemplate instance
+ * @param ispCP_pTemplate &$tpl Reference to a pTemplate instance
  * @return void;
  */
 function show_services(&$tpl) {
 
 	// Gets reference to the ispCP_ConfigHandler_File object
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	// Gets the needed data
 
 	if(isset($_SESSION['error_on_updt'])) {
-		$values = new IspCP_ConfigHandler($_SESSION['error_on_updt']);
+		$values = new IspCP_Config_Handler($_SESSION['error_on_updt']);
 		unset($_SESSION['error_on_updt']);
 		$services = array_keys($values->toArray());
 	} else {
-		$values = IspCP_Registry::get('Db_Config');
+		$values = ispCP_Registry::get('Db_Config');
 
 		// Filter function to get only the services ports names
 		$filter = create_function(
@@ -270,7 +270,7 @@ function show_services(&$tpl) {
 		$services = array_filter(array_keys($values->toArray()), $filter);
 
 		if(isset($_SESSION['error_on_add'])) {
-			$error_on_add = new IspCP_ConfigHandler($_SESSION['error_on_add']);
+			$error_on_add = new IspCP_Config_Handler($_SESSION['error_on_add']);
 			unset($_SESSION['error_on_add']);
 		}
 	}
@@ -319,7 +319,7 @@ function show_services(&$tpl) {
 
 				$tpl->assign(
 					array(
-						'SERVICE' => 
+						'SERVICE' =>
 							'<input name="name[]" type="text" id="name' .
 								$index . '" value="' . tohtml($name) .
 								'" class="textinput" maxlength="25" />',
@@ -388,7 +388,7 @@ function show_services(&$tpl) {
  */
 function delete_service($port_name) {
 
-	$db_cfg = IspCP_Registry::get('Db_Config');
+	$db_cfg = ispCP_Registry::get('Db_Config');
 
 	if (!isset($db_cfg->$port_name)) {
 		set_page_message(tr('ERROR: Unknown service port name!'));
@@ -440,9 +440,9 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 
 // Show and Error pages
 } else {
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
-	$tpl = new pTemplate();
+	$tpl = new ispCP_pTemplate();
 	$tpl->define_dynamic(
 		'page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_ports.tpl'
 	);

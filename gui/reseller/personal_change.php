@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/personal_change.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -56,8 +56,8 @@ gen_reseller_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 
 function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$query = "
 		SELECT
 			`fname`,
@@ -79,7 +79,7 @@ function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$tpl->assign(
 		array(
@@ -138,7 +138,16 @@ function update_reseller_personal_data(&$sql, $user_id) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($fname, $lname, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $gender, $user_id));
+	// NXW: Unused variable so...
+	// $rs = exec_query($sql, $query, array($fname, $lname, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $gender, $user_id));
+	exec_query(
+			$sql,
+			$query,
+			array(
+				$fname, $lname, $firm, $zip, $city, $state, $country, $email,
+				$phone, $fax, $street1, $street2, $gender, $user_id
+			)
+	);
 
 	set_page_message(tr('Personal data updated successfully!'));
 }

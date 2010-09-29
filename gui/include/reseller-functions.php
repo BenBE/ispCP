@@ -43,7 +43,9 @@ define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
 function gen_reseller_mainmenu(&$tpl, $menu_file) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$tpl->define_dynamic('menu', $menu_file);
 	$tpl->define_dynamic('isactive_support', 'menu');
@@ -71,8 +73,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
-			'SUPPORT_SYSTEM_PATH' => Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM_PATH'),
-			'SUPPORT_SYSTEM_TARGET' => Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM_TARGET'),
+			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
+			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
 			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
 			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
@@ -91,8 +93,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			`menu_level` = 'all'
 	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('CUSTOM_BUTTONS', '');
 	} else {
 		global $i;
@@ -117,7 +119,7 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			);
 
 			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
@@ -130,9 +132,9 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 		`reseller_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
 
-	if (!Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_system'] == 'no') {
+	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
  	}
 
@@ -143,7 +145,9 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
  * Function to generate the menu data for reseller
  */
 function gen_reseller_menu(&$tpl, $menu_file) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$tpl->define_dynamic('menu', $menu_file);
 
@@ -173,16 +177,16 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LANGUAGE' => tr('Language'),
 			'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
 				? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
-			'SUPPORT_SYSTEM_PATH' => Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM_PATH'),
-			'SUPPORT_SYSTEM_TARGET' => Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM_TARGET'),
+			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
+			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
 			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
 			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
 			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
-			'VERSION' => Config::getInstance()->get('Version'),
-			'BUILDDATE' => Config::getInstance()->get('BuildDate'),
-			'CODENAME' => Config::getInstance()->get('CodeName'),
-			'TR_SOFTWARE_MENU' => tr('Software management')
+			'TR_SOFTWARE_MENU' => tr('Software management'),
+			'VERSION' => $cfg->Version,
+			'BUILDDATE' => $cfg->BuildDate,
+			'CODENAME' => $cfg->CodeName
 		)
 	);
 
@@ -197,8 +201,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			`menu_level` = 'all'
 	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('CUSTOM_BUTTONS', '');
 	} else {
 		global $i;
@@ -223,7 +227,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			);
 
 			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
@@ -236,12 +240,12 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 		`reseller_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($_SESSION['user_id']));
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
 
-	if (!Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_system'] == 'no') {
+	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
 	}
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL') && strtolower(Config::getInstance()->get('HOSTING_PLANS_LEVEL')) === 'admin') {
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && strtolower($cfg->HOSTING_PLANS_LEVEL) === 'admin') {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
 	
@@ -278,9 +282,9 @@ function get_reseller_default_props(&$sql, $reseller_id) {
 			`reseller_id` = ?
 	";
 	// send sql query
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
-	if (0 == $rs->RowCount()) {
+	if (0 == $rs->rowCount()) {
 		return NULL;
 	}
 
@@ -311,7 +315,7 @@ function get_reseller_default_props(&$sql, $reseller_id) {
  * Making users props
  */
 function generate_reseller_user_props($reseller_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	// Init with empty variables
 	$rdmn_current = 0;
 	$rdmn_max = 0;
@@ -350,13 +354,13 @@ function generate_reseller_user_props($reseller_id) {
 			`created_by` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
-	if ($res->RowCount() == 0) {
+	if ($res->rowCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 	// Process all users of this group
-	while ($data = $res->FetchRow()) {
+	while ($data = $res->fetchRow()) {
 		$admin_id = $data['admin_id'];
 
 		$query = "
@@ -368,9 +372,9 @@ function generate_reseller_user_props($reseller_id) {
 				`domain_admin_id` = ?
 		";
 
-		$dres = exec_query($sql, $query, array($admin_id));
+		$dres = exec_query($sql, $query, $admin_id);
 
-		$ddata = $dres->FetchRow();
+		$ddata = $dres->fetchRow();
 
 		$user_id = $ddata['domain_id'];
 
@@ -471,7 +475,7 @@ function generate_reseller_user_props($reseller_id) {
  */
 function get_user_traffic($user_id) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	global $crnt_month, $crnt_year;
 
 	$query = "
@@ -489,14 +493,14 @@ function get_user_traffic($user_id) {
 			`domain_id`
 	";
 
-	$res = exec_query($sql, $query, array($user_id));
+	$res = exec_query($sql, $query, $user_id);
 
-	if ($res->RowCount() == 0 || $res->RowCount() > 1) {
+	if ($res->rowCount() == 0 || $res->rowCount() > 1) {
 		// write_log("TRAFFIC WARNING: >$user_id< manages incorrect number of
 		// domains >".$res->RowCount()."<");
 		return array('n/a', 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	} else {
-		$data = $res->FetchRow();
+		$data = $res->fetchRow();
 
 		$domain_id = $data['domain_id'];
 
@@ -528,13 +532,13 @@ function get_user_traffic($user_id) {
 				`tyear`, `tmonth`
 		";
 
-		$res = exec_query($sql, $query, array($domain_id));
+		$res = exec_query($sql, $query, $domain_id);
 
 		$max_traffic_month =
 		$data['web'] = $data['ftp'] = $data['smtp'] =
 		$data['pop'] = $data['total'] = 0;
 
-		while ($row = $res->FetchRow()) {
+		while ($row = $res->fetchRow()) {
 			$data['web'] += $row['web'];
 			$data['ftp'] += $row['ftp'];
 			$data['smtp'] += $row['smtp'];
@@ -567,7 +571,8 @@ function get_user_traffic($user_id) {
  */
 function get_user_props($user_id) {
 
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -578,13 +583,13 @@ function get_user_props($user_id) {
 			`domain_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($user_id));
+	$res = exec_query($sql, $query, $user_id);
 
-	if ($res->RowCount() == 0) {
+	if ($res->rowCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$sub_current = get_domain_running_sub_cnt($sql, $user_id);
 	$sub_max = $data['domain_subd_limit'];
@@ -592,7 +597,7 @@ function get_user_props($user_id) {
 	$als_current = records_count('domain_aliasses', 'domain_id', $user_id);
 	$als_max = $data['domain_alias_limit'];
 
-	if (Config::getInstance()->get('COUNT_DEFAULT_EMAIL_ADDRESSES')) {
+	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES) {
 		// Catch all is not a mailbox and haven't to be count
 		$mail_current = records_count('mail_users', 'mail_type NOT RLIKE \'_catchall\' AND domain_id', $user_id);
 	} else {
@@ -642,44 +647,12 @@ function get_user_props($user_id) {
 } // end of get_user_props();
 
 /**
- * @deprecated function deprecated in revision r2228
- */
-/*
-function rsl_full_domain_check($data) {
-
-	$data .= '.';
-	$match = array();
-
-	$res = preg_match_all(
-							"/([^\.]*\.)/",
-							$data,
-							$match,
-							PREG_PATTERN_ORDER
-	);
-
-	if ($res == 0) return 0;
-
-	$last = $res - 1;
-
-	for ($i = 0; $i < $last; $i++) {
-		$token = chop($match[0][$i], ".");
-
-		if (!check_dn_rsl_token($token)) {
-			return 0;
-		}
-	}
-
-	$res = preg_match("/^[A-Za-z][A-Za-z0-9]*[A-Za-z]\.$/", $match[0][$last]);
-
-	return ($res == 0) ? 0 : 1;
-} // end of full_domain_check()
-*/
-
-/**
  * Generate IP list
  */
 function generate_ip_list(&$tpl, &$reseller_id) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 	global $domain_ip;
 
 	$query = "
@@ -691,21 +664,21 @@ function generate_ip_list(&$tpl, &$reseller_id) {
 			`reseller_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$reseller_ips = $data['reseller_ips'];
 
 	$query = "SELECT * FROM `server_ips`";
 
-	$res = exec_query($sql, $query, array());
+	$res = exec_query($sql, $query);
 
-	while ($data = $res->FetchRow()) {
+	while ($data = $res->fetchRow()) {
 		$ip_id = $data['ip_id'];
 
 		if (preg_match("/$ip_id;/", $reseller_ips) == 1) {
-			$selected = ($domain_ip === $ip_id) ? Config::getInstance()->get('HTML_SELECTED') : '';
+			$selected = ($domain_ip === $ip_id) ? $cfg->HTML_SELECTED : '';
 
 			$tpl->assign(
 				array(
@@ -733,6 +706,8 @@ function check_ruser_data(&$tpl, $noPass) {
 	global $city, $state, $country, $street_one;
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$user_add_error = '_off_';
 	$inpass_re = '';
@@ -803,10 +778,10 @@ function check_ruser_data(&$tpl, $noPass) {
 		} else if ($inpass_re !== $inpass) {
 			$user_add_error = tr("Passwords don't match!");
 		} else if (!chk_password($inpass)) {
-			if (Config::getInstance()->get('PASSWD_STRONG')) {
-				$user_add_error = sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS'));
+			if ($cfg->PASSWD_STRONG) {
+				$user_add_error = sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS);
 			} else {
-				$user_add_error = sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS'));
+				$user_add_error = sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS);
 			}
 		}
 	}
@@ -845,16 +820,28 @@ function check_ruser_data(&$tpl, $noPass) {
  * Translate domain status
  */
 function translate_dmn_status($status) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	switch ($status) {
-		case Config::getInstance()->get('ITEM_OK_STATUS'): return tr('OK');
-		case Config::getInstance()->get('ITEM_ADD_STATUS'): return tr('Addition in progress');
-		case Config::getInstance()->get('ITEM_CHANGE_STATUS'): return tr('Modification in progress');
-		case Config::getInstance()->get('ITEM_DELETE_STATUS'): return tr('Deletion in progress');
-		case Config::getInstance()->get('ITEM_DISABLED_STATUS'): return tr('Suspended');
-		case Config::getInstance()->get('ITEM_TOENABLE_STATUS'): return tr('Being enabled');
-		case Config::getInstance()->get('ITEM_TODISABLED_STATUS'): return tr('Being suspended');
-		case Config::getInstance()->get('ITEM_ORDERED_STATUS'): return tr('Awaiting for approval');
-		default: return tr('Unknown error');
+		case $cfg->ITEM_OK_STATUS:
+			return tr('OK');
+		case $cfg->ITEM_ADD_STATUS:
+			return tr('Addition in progress');
+		case $cfg->ITEM_CHANGE_STATUS:
+			return tr('Modification in progress');
+		case $cfg->ITEM_DELETE_STATUS:
+			return tr('Deletion in progress');
+		case $cfg->ITEM_DISABLED_STATUS:
+			return tr('Suspended');
+		case $cfg->ITEM_TOENABLE_STATUS:
+			return tr('Being enabled');
+		case $cfg->ITEM_TODISABLED_STATUS:
+			return tr('Being suspended');
+		case $cfg->ITEM_ORDERED_STATUS:
+			return tr('Awaiting approval');
+		default:
+			return tr('Unknown error');
 	}
 } // end of translate_dmn_status()
 
@@ -862,7 +849,7 @@ function translate_dmn_status($status) {
  * Check if the domain already exist
  */
 function ispcp_domain_exists($domain_name, $reseller_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	// query to check if the domain name exist in the table for domains/accounts
 	$query_domain = "
 		SELECT
@@ -873,7 +860,7 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 			`domain_name` = ?
 	";
 
-	$res_domain = exec_query($sql, $query_domain, array($domain_name));
+	$res_domain = exec_query($sql, $query_domain, $domain_name);
 	// query to check if the domain name exists in the table for domain aliases
 	$query_alias = "
 		SELECT
@@ -886,7 +873,7 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 			t1.`alias_name` = ?
 	";
 
-	$res_aliases = exec_query($sql, $query_alias, array($domain_name));
+	$res_aliases = exec_query($sql, $query_alias, $domain_name);
 	// redefine query to check in the table domain/acounts if 3rd level for this reseller is allowed
 	$query_domain = "
 		SELECT
@@ -961,10 +948,10 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 	";
 
 	$subdomains = array();
-	$res_build_sub = exec_query($sql, $query_build_subdomain, array($reseller_id));
+	$res_build_sub = exec_query($sql, $query_build_subdomain, $reseller_id);
 	while (!$res_build_sub->EOF) {
 		$subdomains[] = $res_build_sub->fields['subdomain_name'] . "." . $res_build_sub->fields['domain_name'];
-		$res_build_sub->MoveNext();
+		$res_build_sub->moveNext();
 	}
 
 	if ($res_domain->fields['cnt'] == 0 && $res_aliases->fields['cnt'] == 0 && !in_array($domain_name, $subdomains)) {
@@ -1102,14 +1089,15 @@ function gen_manage_domain_query(&$search_query, &$count_query,
 	}
 }
 
-function gen_manage_domain_search_options(&$tpl,
-	$search_for,
-	$search_common,
+function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 	$search_status) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if ($search_for === 'n/a' && $search_common === 'n/a'
 		&& $search_status === 'n/a') {
 		// we have no search and let's genarate search fields empty
-		$domain_selected = Config::getInstance()->get('HTML_SELECTED');
+		$domain_selected = $cfg->HTML_SELECTED;
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
@@ -1117,12 +1105,12 @@ function gen_manage_domain_search_options(&$tpl,
 		$state_selected = '';
 		$country_selected = '';
 
-		$all_selected = Config::getInstance()->get('HTML_SELECTED');
+		$all_selected = $cfg->HTML_SELECTED;
 		$ok_selected = '';
 		$suspended_selected = '';
 	}
 	if ($search_common === 'domain_name') {
-		$domain_selected = Config::getInstance()->get('HTML_SELECTED');
+		$domain_selected = $cfg->HTML_SELECTED;
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
@@ -1131,7 +1119,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$country_selected = '';
 	} else if ($search_common === 'customer_id') {
 		$domain_selected = '';
-		$customerid_selected = Config::getInstance()->get('HTML_SELECTED');
+		$customerid_selected = $cfg->HTML_SELECTED;
 		$lastname_selected = '';
 		$company_selected = '';
 		$city_selected = '';
@@ -1140,7 +1128,7 @@ function gen_manage_domain_search_options(&$tpl,
 	} else if ($search_common === 'lname') {
 		$domain_selected = '';
 		$customerid_selected = '';
-		$lastname_selected = Config::getInstance()->get('HTML_SELECTED');
+		$lastname_selected = $cfg->HTML_SELECTED;
 		$company_selected = '';
 		$city_selected = '';
 		$state_selected = '';
@@ -1149,7 +1137,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$domain_selected = '';
 		$customerid_selected = '';
 		$lastname_selected = '';
-		$company_selected = Config::getInstance()->get('HTML_SELECTED');
+		$company_selected = $cfg->HTML_SELECTED;
 		$city_selected = '';
 		$state_selected = '';
 		$country_selected = '';
@@ -1158,7 +1146,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
-		$city_selected = Config::getInstance()->get('HTML_SELECTED');
+		$city_selected = $cfg->HTML_SELECTED;
 		$state_selected = '';
 		$country_selected = '';
 	} else if ($search_common === 'state') {
@@ -1167,7 +1155,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$lastname_selected = '';
 		$company_selected = '';
 		$city_selected = '';
-		$state_selected = Config::getInstance()->get('HTML_SELECTED');
+		$state_selected = $cfg->HTML_SELECTED;
 		$country_selected = '';
 	} else if ($search_common === 'country') {
 		$domain_selected = '';
@@ -1176,20 +1164,20 @@ function gen_manage_domain_search_options(&$tpl,
 		$company_selected = '';
 		$city_selected = '';
 		$state_selected = '';
-		$country_selected = Config::getInstance()->get('HTML_SELECTED');
+		$country_selected = $cfg->HTML_SELECTED;
 	}
 	if ($search_status === 'all') {
-		$all_selected = Config::getInstance()->get('HTML_SELECTED');
+		$all_selected = $cfg->HTML_SELECTED;
 		$ok_selected = '';
 		$suspended_selected = '';
 	} else if ($search_status === 'ok') {
 		$all_selected = '';
-		$ok_selected = Config::getInstance()->get('HTML_SELECTED');
+		$ok_selected = $cfg->HTML_SELECTED;
 		$suspended_selected = '';
 	} else if ($search_status === 'disabled') {
 		$all_selected = '';
 		$ok_selected = '';
-		$suspended_selected = Config::getInstance()->get('HTML_SELECTED');
+		$suspended_selected = HTML_SELECTED;
 	}
 
 	if ($search_for === "n/a" || $search_for === '') {
@@ -1198,7 +1186,7 @@ function gen_manage_domain_search_options(&$tpl,
 		);
 	} else {
 		$tpl->assign(
-			array('SEARCH_FOR' => $search_for)
+			array('SEARCH_FOR' => tohtml($search_for))
 		);
 	}
 
@@ -1236,71 +1224,78 @@ function gen_manage_domain_search_options(&$tpl,
  * @todo implement use of more secure dynamic table in SQL query
  */
 function gen_def_language(&$tpl, &$sql, $user_def_language) {
-	$matches = array();
+
+	$cfg = ispCP_Registry::get('Config');
 	$languages = array();
-	$query = "SHOW TABLES";
+	$htmlSelected = $cfg->HTML_SELECTED;
+	$query = "SHOW TABLES LIKE 'lang_%'";
 
-	$rs = exec_query($sql, $query, array());
+	$stmt = exec_query($sql, $query);
 
-	while (!$rs->EOF) {
-		$lang_table = $rs->fields[0];
+	$stmt->setFetchStyle(PDO::FETCH_NUM);
 
-		if (preg_match("/lang_([A-Za-z0-9][A-Za-z0-9]+)/", $lang_table, $matches)) {
-			$query = "
-				SELECT
-					`msgstr`
-				FROM
-					$lang_table
-				WHERE
-					`msgid` = 'ispcp_language'
-			";
+	while (!$stmt->EOF) {
+		$lang_table = $stmt->fields[0];
 
-			$res2 = exec_query($sql, $query, array());
+		$query = "
+			SELECT
+				`msgstr`
+			FROM
+				`$lang_table`
+			WHERE
+				`msgid` = 'ispcp_language'
+			;
+		";
 
-			$query = "
-				SELECT
-					`msgstr`
-				FROM
-					$lang_table
-				WHERE
-					`msgid` = 'ispcp_languageSetlocaleValue'
-			";
+		$stmt2 = exec_query($sql, $query);
 
-			$res3 = exec_query($sql, $query, array());
+		$query = "
+			SELECT
+				`msgstr`
+			FROM
+				`$lang_table`
+			WHERE
+				`msgid` = 'ispcp_languageSetlocaleValue'
+			;
+		";
 
-			if ($res2->RecordCount() == 0 || $res3->RecordCount() == 0) {
-				$language_name = tr('Unknown');
-			} else {
-				$tr_langcode = tr($res3->fields['msgstr']);
-				if ($res3->fields['msgstr'] == $tr_langcode) { // no translation found
-					$language_name = $res2->fields['msgstr'];
-				} else { // found translation
-					$language_name = $tr_langcode;
-				}
+		$stmt3 = exec_query($sql, $query);
+
+		if ($stmt2->recordCount() == 0 || $stmt3->recordCount() == 0) {
+			$language_name = tr('Unknown');
+		} else {
+			$tr_langcode = tr($stmt3->fields['msgstr']);
+
+			if ($stmt3->fields['msgstr'] == $tr_langcode) { // no translation found
+				$language_name = $stmt2->fields['msgstr'];
+			} else { // found translation
+				$language_name = $tr_langcode;
 			}
-
-			$selected = ($matches[0] === $user_def_language) ? Config::getInstance()->get('HTML_SELECTED') : '';
-
-			array_push($languages, array($matches[0], $selected, $language_name));
 		}
 
-		$rs->MoveNext();
+		$selected = ($lang_table === $user_def_language) ? $htmlSelected : '';
+
+		array_push($languages, array($lang_table, $selected, $language_name));
+
+		$stmt->moveNext();
 	}
 
 	asort($languages[0], SORT_STRING);
 	foreach ($languages as $lang) {
 		$tpl->assign(
 			array(
-				'LANG_VALUE'	=> $lang[0],
+				'LANG_VALUE' => $lang[0],
 				'LANG_SELECTED' => $lang[1],
-				'LANG_NAME'		=> tohtml($lang[2])
+				'LANG_NAME' => tohtml($lang[2])
 			)
 		);
+
 		$tpl->parse('DEF_LANGUAGE', '.def_language');
 	}
 }
 
 function gen_domain_details(&$tpl, &$sql, $domain_id) {
+
 	$tpl->assign('USER_DETAILS', '');
 
 	if (isset($_SESSION['details']) && $_SESSION['details'] == 'hide') {
@@ -1330,9 +1325,9 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 			ORDER BY
 				`alias_id` DESC
 		";
-		$alias_rs = exec_query($sql, $alias_query, array($domain_id));
+		$alias_rs = exec_query($sql, $alias_query, $domain_id);
 
-		if ($alias_rs->RecordCount() == 0) {
+		if ($alias_rs->recordCount() == 0) {
 			$tpl->assign('USER_DETAILS', '');
 		} else {
 			while (!$alias_rs->EOF) {
@@ -1341,7 +1336,7 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 				$tpl->assign('ALIAS_DOMAIN', tohtml(decode_idna($alias_name)));
 				$tpl->parse('USER_DETAILS', '.user_details');
 
-				$alias_rs->MoveNext();
+				$alias_rs->moveNext();
 			}
 		}
 	} else {
@@ -1354,35 +1349,6 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 
 		return;
 	}
-}
-
-function add_domain_extras(&$dmn_id, &$admin_id, &$sql) {
-	$query = "
-		INSERT INTO `domain_extras`
-			(`dmn_id`,
-			`admin_id`,
-			`frontpage`,
-			`htaccess`,
-			`supportsystem`,
-			`backup`,
-			`errorpages`,
-			`webmail`,
-			`filemanager`,
-			`installer`)
-		VALUES
-			(?,
-			?,
-			'0',
-			'1',
-			'1',
-			'1',
-			'1',
-			'1',
-			'1',
-			'0')
-	";
-
-	$rs = exec_query($sql, $query, array($dmn_id, $admin_id));
 }
 
 function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops = "") {
@@ -1402,8 +1368,8 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 					`id` = ?
 			";
 
-			$res = exec_query($sql, $query, array($hpid));
-			$data = $res->FetchRow();
+			$res = exec_query($sql, $query, $hpid);
+			$data = $res->fetchRow();
 			$props = $data['props'];
 		}
 	} else {
@@ -1425,8 +1391,8 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 			`reseller_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $reseller_id);
+	$data = $res->fetchRow();
 	$dmn_current = $data['current_dmn_cnt'];
 	$dmn_max = $data['max_dmn_cnt'];
 
@@ -1559,8 +1525,11 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 	return true;
 }
 
+function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
+	$order_id) {
 
-function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $order_id) {
+	$cfg = ispCP_Registry::get('Config');
+
 	$data = get_order_email($admin_id);
 
 	$from_name = $data['sender_name'];
@@ -1588,8 +1557,8 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $
 		$to = $uemail;
 	}
 
-	$activate_link = Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX').Config::getInstance()->get('BASE_SERVER_VHOST');
-	$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+	$activate_link = $cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST;
+	$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 	$key = sha1($order_id.'-'.$domain_name.'-'.$admin_id.'-'.$coid);
 	$activate_link .= '/orderpanel/activate.php?id='.$order_id.'&k='.$key;
 
@@ -1611,13 +1580,18 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $
 	$subject = encode($subject);
 
 	$headers = "From: ". $from . "\n";
-	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . Config::getInstance()->get('Version') . " Service Mailer";
+	$headers .= "MIME-Version: 1.0\n";
+	$headers .= "Content-Type: text/plain; charset=utf-8\n";
+	$headers .= "Content-Transfer-Encoding: 8bit\n";
+	$headers .= "X-Mailer: ispCP " . $cfg->Version . " Service Mailer";
 
 	mail($to, $subject, $message, $headers);
 }
 
 function send_alias_order_email($alias_name) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$user_id = $_SESSION['user_id'];
 
@@ -1662,9 +1636,9 @@ function send_alias_order_email($alias_name) {
 	$search [] = '{ALIAS}';
 	$replace[] = $alias_name;
 	$search [] = '{BASE_SERVER_VHOST}';
-	$replace[] = Config::getInstance()->get('BASE_SERVER_VHOST');
+	$replace[] = $cfg->BASE_SERVER_VHOST;
 	$search [] = '{BASE_SERVER_VHOST_PREFIX}';
-	$replace[] = Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX');
+	$replace[] = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
@@ -1672,7 +1646,10 @@ function send_alias_order_email($alias_name) {
 	$subject = encode($subject);
 
 	$headers = "From: ". $from ."\n";
-	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . Config::getInstance()->get('Version') . " Service Mailer";
+	$headers .= "MIME-Version: 1.0\n";
+	$headers .= "Content-Type: text/plain; charset=utf-8\n";
+	$headers .= "Content-Transfer-Encoding: 8bit\n";
+	$headers .= "X-Mailer: ispCP {$cfg->Version} Service Mailer";
 
 	$mail_result = mail($to, $subject, $message, $headers);
 
@@ -1683,11 +1660,13 @@ function send_alias_order_email($alias_name) {
 /**
  * add the 3 mail accounts/forwardings to a new domain...
  */
-function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part, $dmn_type = 'domain', $sub_id = 0) {
+function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part,
+	$dmn_type = 'domain', $sub_id = 0) {
 
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
-	if (Config::getInstance()->get('CREATE_DEFAULT_EMAIL_ADDRESSES')) {
+	if ($cfg->CREATE_DEFAULT_EMAIL_ADDRESSES) {
 
 		$forward_type = ($dmn_type == 'alias') ? 'alias_forward' : 'normal_forward';
 
@@ -1709,88 +1688,38 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part, $dmn_
 		";
 
 		// create default forwarder for webmaster@domain.tld to the account's owner
-		$rs = exec_query($sql, $query,
-			array('webmaster',
-				'_no_',
-				$user_email,
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::getInstance()->get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'webmaster@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'webmaster', '_no_', $user_email, $dmn_id, $forward_type,
+				$sub_id, $cfg->ITEM_ADD_STATUS, '_no_', 10485760,
+				'webmaster@' . $dmn_part
 			)
 		);
 
 		// create default forwarder for postmaster@domain.tld to the account's reseller
-		$rs = exec_query($sql, $query,
-			array('postmaster',
-				'_no_',
-				$_SESSION['user_email'],
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::getInstance()->get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'postmaster@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'postmaster', '_no_', $_SESSION['user_email'], $dmn_id,
+				$forward_type, $sub_id, $cfg->ITEM_ADD_STATUS, '_no_',
+				10485760, 'postmaster@' . $dmn_part
 			)
 		);
 
 		// create default forwarder for abuse@domain.tld to the account's reseller
-		$rs = exec_query($sql, $query,
-			array('abuse',
-				'_no_',
-				$_SESSION['user_email'],
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::getInstance()->get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'abuse@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'abuse', '_no_', $_SESSION['user_email'], $dmn_id,
+				$forward_type, $sub_id, $cfg->ITEM_ADD_STATUS, '_no_',
+				10485760, 'abuse@' . $dmn_part
 			)
 		);
 
 	}
 
 } // end client_mail_add_default_accounts
-
-/**
- * Get count from table by given domain_id's
- *
- * @param $tablename string database table name
- * @param $ua array domain_ids
- * @return int count
- */
-function get_reseller_detail_count($tablename, $ua) {
-	global $sql;
-
-	$delstatus = Config::getInstance()->get('ITEM_DELETE_STATUS');
-
-	$query = "SELECT COUNT(*) AS cnt FROM `".$tablename;
-	if ($tablename == 'ftp_users') {
-		$fieldname = 'uid';
-	} else {
-		$fieldname = 'domain_id';
-	}
-	$query .= "` WHERE `".$fieldname."` IN (".implode(',', $ua).")";
-	if ($tablename == 'mail_users') {
-		$query .= " AND `mail_acc` != 'abuse'
-			AND `mail_acc` != 'postmaster'
-			AND `mail_acc` != 'webmaster'
-			AND `mail_type` NOT RLIKE '_catchall'";
-		$query .= " AND status != '".$delstatus."'";
-	} else if ($tablename == 'subdomain') {
-		$query .= " AND subdomain_status != '".$delstatus."'";
-	} else if ($tablename == 'domain_aliasses') {
-		$query .= " AND alias_status != '".$delstatus."'";
-	}
-	$res = exec_query($sql, $query);
-
-	return $res->fields['cnt'];
-}
 
 /**
  * Recalculate current_ properties of reseller
@@ -1800,19 +1729,10 @@ function get_reseller_detail_count($tablename, $ua) {
  */
 function recalc_reseller_c_props($reseller_id) {
 
-	global $sql;
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
-	// current_dmn_cnt = domain
-	// current_sub_cnt = subdomain
-	// current_als_cnt = domain_aliasses
-	// current_mail_cnt = mail_users
-	// current_ftp_cnt = ftp_users
-	// current_sql_db_cnt = sql_database
-	// current_sql_user_cnt = sql_user
-	// current_disk_amnt = disk_space
-	// current_traff_amnt = traffic
-
-	$delstatus = Config::getInstance()->get('ITEM_DELETE_STATUS');
+	$delstatus = $cfg->ITEM_DELETE_STATUS;
 
 	// Get all users of reseller:
 	$query = "
@@ -1912,7 +1832,7 @@ function update_reseller_c_props($reseller_id) {
  */
 function get_reseller_id($domain_id) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -1925,13 +1845,13 @@ function get_reseller_id($domain_id) {
 			d.`domain_admin_id` = a.`admin_id`
 	";
 
-	$rs = exec_query($sql, $query, array($domain_id));
+	$rs = exec_query($sql, $query, $domain_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return 0;
 	}
 
-	$data = $rs->FetchRow();
+	$data = $rs->fetchRow();
 	return $data['created_by'];
 }
 
@@ -1943,7 +1863,7 @@ function get_reseller_id($domain_id) {
  */
 function check_reseller_permissions($reseller_id, $permission) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	list($rdmn_current, $rdmn_max,
 			$rsub_current, $rsub_max,
@@ -1978,7 +1898,7 @@ function check_reseller_permissions($reseller_id, $permission) {
 	} else if ($permission == "sql_user" && $rsql_user_max == "-1") {
 		return false;
 	}
-	
+
 	return true;
 }
 

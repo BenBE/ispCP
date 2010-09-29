@@ -69,8 +69,7 @@ function check_input($value = '') {
 			if (preg_match($VAR, $value) > 0) {
 				$message = "Possible hacking attempt. Script terminated.";
 				write_log($message);
-				system_message(tr($message));
-				die();
+				throw new ispCP_Exception(tr($message));
 			}
 		}
 	}
@@ -157,6 +156,18 @@ function tohtml($text) {
 }
 
 /**
+ * Convert any text to JavaScript text
+ * @param  $text
+ * @return string JavaScript text
+ */
+function tojs($text) {
+	$result = htmlentities($text, ENT_COMPAT, "UTF-8");
+	$result = strtr($result, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+
+	return $result;
+}
+
+/**
  * Passwort check
  *
  * Check if a password is valid
@@ -173,7 +184,8 @@ function tohtml($text) {
  * @return	boolean				valid password or not
  */
 function chk_password($password, $num = 50, $permitted = "") {
-	global $cfg;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	if ($num > 255) {
 		$num = 255;
@@ -182,7 +194,7 @@ function chk_password($password, $num = 50, $permitted = "") {
 	}
 
 	$len = strlen($password);
-	if ($len < Config::getInstance()->get('PASSWD_CHARS') || $len > $num) {
+	if ($len < $cfg->PASSWD_CHARS || $len > $num) {
 		return false;
 	}
 
@@ -190,41 +202,13 @@ function chk_password($password, $num = 50, $permitted = "") {
 		return false;
 	}
 
-	if (Config::getInstance()->get('PASSWD_STRONG')) {
+	if ($cfg->PASSWD_STRONG) {
 		return (bool)(preg_match("/[0-9]/", $password)
 			&& preg_match("/[a-zA-Z]/", $password));
 	} else {
 		return true;
 	}
 }
-
-/**
- * chk_username
- *
- * @param String $data username to be checked
- * @param int $max_char number of max. chars
- * @param int $min_char number of min. chars
- * @return boolean valid username or not
- * @deprecated function deprecated in revision xxxx
- */
-/*
-function chk_username($username, $max_char = null, $min_char = 2) {
-
-	if ($min_char === null || $min_char <= 2) {
-		$min_char = 2;
-	}
-	if ($max_char !== null) {
-		(int) $max_char -= 2;
-	}
-	$pattern = '/^[A-Za-z0-9]([A-Za-z0-9]|[_.]{1,1}|[-]{1,2}){'.(int) ($min_char-2).','.$max_char.'}[A-Za-z0-9]?$/';
-
-	if (preg_match($pattern, $username)) {
-		return true;
-	}
-
-	return false;
-}
-*/
 
 /**
  * Validates a username
@@ -340,9 +324,10 @@ function ispcp_check_local_part($email, $num = 50) {
 function validates_dname($dname, $subdname_process = false) {
 
 	global $validation_err_msg;
+	$cfg = ispCP_Registry::get('Config');
 	$validation_err_msg = tr('Wrong domain name syntax or number of labels');
 
-	$max_labels = ($subdname_process) ? 99 : Config::getInstance()->get('MAX_DNAMES_LABELS');
+	$max_labels = ($subdname_process) ? 99 : $cfg->MAX_DNAMES_LABELS;
 
 	if (!$subdname_process) {
 
@@ -406,6 +391,7 @@ function validates_dname($dname, $subdname_process = false) {
  */
 function validates_subdname($subdname, $dname) {
 
+	$cfg = ispCP_Registry::get('Config');
 	global $validation_err_msg;
 	$validation_err_msg = tr('Wrong subdomain syntax or number of labels!');
 
@@ -419,7 +405,7 @@ function validates_subdname($subdname, $dname) {
 	$dname_nb_labels = count(explode('.', $dname)) -1;
 
 	// Retrieves the maximum number of labels for the subdomain
-	$subdname_nb_labels = Config::getInstance()->get('MAX_SUBDNAMES_LABELS');
+	$subdname_nb_labels = $cfg->MAX_SUBDNAMES_LABELS;
 
 	$matches = array();
 
@@ -533,12 +519,13 @@ function _validates_dname_label($label) {
  */
 function _validates_tld($tld) {
 
+	$cfg = ispCP_Registry::get('Config');
 	global $validation_err_msg;
 	$validation_err_msg = tr('Wrong Top Level Domain syntax: <b>%s</b>', $tld);
 
 	$matches = array();
 
-	if (Config::getInstance()->get('TLD_STRICT_VALIDATION')) {
+	if ($cfg->TLD_STRICT_VALIDATION) {
 
 		// This pattern Matches only Top Level Domain listed in Iana root database
 		// ( only ccTLDs and gTLDs, not IDNs )
@@ -619,8 +606,9 @@ function _validates_tld($tld) {
 function _validates_sld($sld) {
 
 	global $validation_err_msg;
+	$cfg = ispCP_Registry::get('Config');
 
-	if (Config::getInstance()->get('SLD_STRICT_VALIDATION')) {
+	if ($cfg->SLD_STRICT_VALIDATION) {
 
 		// Single-Character SLD
 		// Note: All another SC SLD are presently reserved in
@@ -716,64 +704,6 @@ function isACE($label) {
  */
 
 /**
- * full_domain_check checks the domain for validity
- *
- * @param String $data domain name to be checked
- * @return boolean valid domain name or not
- * @deprecated function deprecated in revision r2228
- */
-/*
-function full_domain_check($data) {
-	$data .= ".";
-	$match = array();
-
-	$res = preg_match_all("/([^\.]*\.)/", $data, $match, PREG_PATTERN_ORDER);
-
-	if (!$res) {
-		return false;
-	}
-
-	$last = $res - 1;
-
-	for ($i = 0; $i < $last; $i++) {
-		$token = chop($match[0][$i], ".");
-
-		$res = chk_dmn_token($token);
-
-		if (!$res) {
-			return false;
-		}
-	}
-
-	$res = preg_match("/^[A-Za-z0-9]{2,}\.$/", $match[0][$last]);
-
-	if (!$res) {
-		return false;
-	}
-	return true;
-}
-*/
-
-/**
- * check_dmn_token checks for a valid domain name token
- *
- * @param String $data domain name token to be checked
- * @return boolean valid domain name token or not
- * @deprecated function deprecated in revision r2228
- */
-/*
-function chk_dmn_token($data) {
-
-	if ((preg_match("/^-|-$/", $data)) ||
-		(preg_match("/[^A-Za-z0-9\-]|\-{2,}/", $data) || $data == '')) {
-		return false;
-	}
-
-	return true;
-}
-*/
-
-/**
  * Function for checking ispcp limits.
  *
  * @param string $data ispcp 'limit' field data (by default valids are numbers greater equal 0)
@@ -805,110 +735,6 @@ function ispcp_limit_check($data, $extra = -1) {
 
 	return (bool)preg_match("/^(${extra}0|[1-9][0-9]*)$/D", $data);
 }
-
-/**
- * Function for checking domain name tokens; Internel function,
- * for usage in ispcp_* functions
- *
- * @param string $data token data without eol
- * @return boolean true for correct syntax, false otherwise
- * @deprecated function deprecated in revision r2228
- */
-/*
-function check_dn_rsl_token($data) {
-
-	$pattern = (strlen($data) == 1) ? '/^[A-Za-z0-9]$/D' :
-	 '/^[A-Za-z0-9][a-z0-9A-Z\-]*[A-Za-z0-9]$/D';
-
-	return (preg_match($pattern, $data)) ? true : false;
-}
-*/
-
-/**
- * Function for checking ispCP domains syntax. Here domains are
- * limited to {dname}.{ext} parts
- *
- * @param String $dname ispcp domain data
- * @param int $num number of max. chars
- * @return boolean	false	incorrect syntax
- * 					true	correct syntax
- * @deprecated function deprecated in revision r2228
- */
-/*
-function chk_dname($dname) {
-	// Check for invalid characters first
-	if (preg_match('/[^a-z0-9\.\-]+/', $dname)) {
-		return false;
-	}
-
-	if (!rsl_full_domain_check($dname)) {
-		return false;
-	}
-	$match = array();
-
-	if (preg_match_all("/\./", $dname, $match, PREG_PATTERN_ORDER) <= 0) {
-		return false;
-	}
-	return true;
-}
-*/
-
-/**
- * Function for checking URL syntax
- *
- * @param String $url URL data
- * @return boolean	false	incorrect syntax
- * 					true	correct syntax
- */
-/*function chk_forward_url($url) {
-	$dom_mainpart = '[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\.';
-	$dom_subpart = '(?:[a-zA-Z0-9][a-zA-Z0-9.-]*\.)*';
-	$dom_tldpart = '[a-zA-Z]{2,5}';
-	$domain = $dom_subpart . $dom_mainpart . $dom_tldpart;
-
-	if (!preg_match("/^(http|https|ftp)\:\/\/" . $domain . "/", $url)) {
-		return false;
-	}
-	return true;
-}*/
-
-/**
- * chk_mountp checks if the mount point is valid
- *
- * @param String $data mountpoint data
- * @param int $max_char number of max. chars
- * @param int $min_char number of min. chars
- * @return boolean false incorrect syntax
- *	true correct syntax
- * @deprecated function deprecated in revision r2228
- */
-/*
-function chk_mountp($data, $max_char = 50, $min_char = 2) {
-	if (!preg_match("@^/(.*)$@D", $data)) {
-		return false;
-	}
-	$pattern = "@^/(htdocs|backpus|cgi-bin|errors|logs)$@D";
-	if (preg_match($pattern, $data)) {
-		return false;
-	}
-
-	$match = array();
-	$count = preg_match_all("(\/[^\/]*)", $data, $match, PREG_PATTERN_ORDER);
-
-	if (!$count) {
-		return false;
-	}
-	for ($i = 0; $i < $count; $i++) {
-		$token = substr($match[0][$i], 1);
-
-		if (!chk_username($token, $max_char, $min_char)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-*/
 
 /**
  * Validates a mount point
@@ -972,17 +798,6 @@ function _validates_mpoint_token($token, $max_char = null) {
 /**
  * @todo document this function
  */
-function get_post($value) {
-	if (array_key_exists($value, $_POST)) {
-		return $_POST[$value];
-	} else {
-		return null;
-	}
-}
-
-/**
- * @todo document this function
- */
 function get_session($value) {
 	if (array_key_exists($value, $_SESSION)) {
 		return $_SESSION[$value];
@@ -990,52 +805,6 @@ function get_session($value) {
 		return null;
 	}
 }
-
-/**
- * @todo document this function
- */
-function is_subdir_of($base_domain, $subdomain, $realPath = true) {
-	if ($realPath) {
-		$base_domain = realpath($base_domain);
-		$subdomain = realpath($subdomain);
-	}
-
-	$t = explode($base_domain, $subdomain);
-
-	return (count($t) > 1 && $t[0] === '');
-}
-
-/**
- * Function for checking ispCP subdomain syntax.
- *
- * Here subdomains are limited to {subname}.{dname}.{ext} parts.
- * Data passed to this function must be in the upper form, not
- * only subdomain part for example.
- *
- * @param string $subdname ispcp subdomain data;
- * @return	false - incorrect syntax;
- *			true - correct syntax;
- * @deprecated function deprecated in revision r2228
- */
-/*
-function chk_subdname($subdname) {
-	if (!full_domain_check($subdname)) {
-		return false;
-	}
-
-	$match = array();
-
-	$res = preg_match_all("/\./", $subdname, $match, PREG_PATTERN_ORDER);
-
-	if ($res < 1) {
-		return false;
-	}
-
-	$res = preg_match("/^(www|ftp|mail|ns)\./", $subdname);
-
-	return !($res == 1);
-}
-*/
 
 /**
  * All in one function to check who owns what.
@@ -1046,7 +815,7 @@ function chk_subdname($subdname) {
  * @return numeric The id of the admin who owns the id $id of $type type
  */
 function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$who = null;
 	// Fix $type according to type or by alias
@@ -1277,11 +1046,11 @@ function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
 		if ($r['query']) {
 			$matches = array();
 			if (!preg_match('/SELECT[ \t]+`([\w]+)`[ \t]+FROM/i', $r['query'], $matches)) {
-				system_message(tr('Unknown Error'));
+				throw new ispCP_Exception(tr('Unknown Error'));
 			}
 			$select = $matches[1];
 			$rs = exec_query($sql, $r['query'], $id);
-			if ($rs->RecordCount() != 0) {
+			if ($rs->recordCount() != 0) {
 				if ($r['is_final'] || $forcefinal) {
 					$who = $rs->fields[$select];
 				} else {

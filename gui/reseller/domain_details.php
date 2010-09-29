@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('t_software_support', 'page');
@@ -114,9 +114,9 @@ unset_messages();
 // Begin function block
 
 function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
-	
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
 	// Get domain data
 	$query = "
 		SELECT
@@ -128,25 +128,28 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			`domain_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($domain_id));
+	$res = exec_query($sql, $query, $domain_id);
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
-	if ($res->RecordCount() <= 0) {
+	if ($res->recordCount() <= 0) {
 		user_goto('users.php');
 	}
 	// Get admin data
 	$created_by = $_SESSION['user_id'];
 	$query = "SELECT `admin_name` FROM `admin` WHERE `admin_id` = ? AND `created_by` = ?";
 	$res1 = exec_query($sql, $query, array($data['domain_admin_id'], $created_by));
-	$data1 = $res1->FetchRow();
-	if ($res1->RecordCount() <= 0) {
+
+	// NXW: Unused variable so...
+	// $data1 = $res1->fetchRow();
+	$res1->fetchRow();
+	if ($res1->recordCount() <= 0) {
 		user_goto('users.php');
 	}
 	// Get IP info
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
-	$ipres = exec_query($sql, $query, array($data['domain_ip_id']));
-	$ipdat = $ipres->FetchRow();
+	$ipres = exec_query($sql, $query, $data['domain_ip_id']);
+	$ipdat = $ipres->fetchRow();
 	// Get staus name
 	$dstatus = translate_dmn_status($data['domain_status']);
 
@@ -168,23 +171,28 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 			`dtraff_time` < ?
 	";
 	$res7 = exec_query($sql, $query, array($data['domain_id'], $fdofmnth, $ldofmnth));
-	$dtraff = $res7->FetchRow();
+	$dtraff = $res7->fetchRow();
 
 	$sumtraff = $dtraff['dtraff_web'] + $dtraff['dtraff_ftp'] + $dtraff['dtraff_mail'] + $dtraff['dtraff_pop'];
-	$dtraffmb = sprintf("%.1f", ($sumtraff / 1024) / 1024);
 
+	// NXW: Unused variables so ...
+	/*
+	$dtraffmb = sprintf("%.1f", ($sumtraff / 1024) / 1024);
 	$month = date("m");
 	$year = date("Y");
+	*/
 
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
-	$res8 = exec_query($sql, $query, array($data['domain_ip_id']));
-	$ipdat = $res8->FetchRow();
+	$res8 = exec_query($sql, $query, $data['domain_ip_id']);
+	$ipdat = $res8->fetchRow();
 
 	$domain_traffic_limit = $data['domain_traffic_limit'];
-	$domain_all_traffic = $sumtraff; //$dtraff['traffic'];
+	$domain_all_traffic = $sumtraff;
 
 	$traff = ($domain_all_traffic / 1024) / 1024;
-	$mtraff = sprintf("%.2f", $traff);
+
+	// NXW: Unused variable so ...
+	// $mtraff = sprintf("%.2f", $traff);
 
 	if ($domain_traffic_limit == 0) {
 		$pr = 0;
@@ -193,9 +201,15 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		$pr = sprintf("%.2f", $pr);
 	}
 
-	$indx = (int)$pr;
+	// NXW: Unused variable so ...
+	//$indx = (int) $pr;
 
-	list($traffic_percent, $indx, $a) = make_usage_vals($domain_all_traffic, $domain_traffic_limit * 1024 * 1024);
+	// NXW: Unused variables so ...
+	// list($traffic_percent, $indx, $a) = make_usage_vals($domain_all_traffic, $domain_traffic_limit * 1024 * 1024);
+	list($traffic_percent) = make_usage_vals(
+		$domain_all_traffic, $domain_traffic_limit * 1024 * 1024
+	);
+
 	// Get disk status
 	$domdu = $data['domain_disk_usage'];
 	$domdl = $data['domain_disk_limit'];
@@ -211,10 +225,14 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		$dpr = sprintf("%.2f", $dpr);
 	}
 
-	$dindx = (int) $dpr;
+	// NXW: Unused variable so ...
+	// $dindx = (int) $dpr;
 	$domduh = sizeit($domdu);
 
-	list($disk_percent, $dindx, $b) = make_usage_vals($domdu, $domdl * 1024 * 1024);
+	// NXW: Unused variables so ...
+	// list($disk_percent, $dindx, $b) = make_usage_vals($domdu, $domdl * 1024 * 1024);
+	list($disk_percent) = make_usage_vals($domdu, $domdl * 1024 * 1024);
+
 	// Get current mail count
 	$query = "SELECT COUNT(`mail_id`) AS mcnt "
 			. "FROM `mail_users` "
@@ -225,47 +243,47 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 				. "AND `mail_acc` != 'postmaster' "
 				. "AND `mail_acc` != 'webmaster'";
 	}
-	$res6 = exec_query($sql, $query, array($data['domain_id']));
+	$res6 = exec_query($sql, $query, $data['domain_id']);
 
-	$dat3 = $res6->FetchRow();
+	$dat3 = $res6->fetchRow();
 	$mail_limit = translate_limit_value($data['domain_mailacc_limit']);
 	// FTP stat
 	$query = "SELECT `gid` FROM `ftp_group` WHERE `groupname` = ?";
-	$res4 = exec_query($sql, $query, array($data['domain_name']));
-	$ftp_gnum = $res4->RowCount();
+	$res4 = exec_query($sql, $query, $data['domain_name']);
+	$ftp_gnum = $res4->rowCount();
 	if ($ftp_gnum == 0) {
 		$used_ftp_acc = 0;
 	} else {
-		$dat1 = $res4->FetchRow();
+		$dat1 = $res4->fetchRow();
 		$query = "SELECT COUNT(*) AS ftp_cnt FROM `ftp_users` WHERE `gid` = ?";
-		$res5 = exec_query($sql, $query, array($dat1['gid']));
-		$dat2 = $res5->FetchRow();
+		$res5 = exec_query($sql, $query, $dat1['gid']);
+		$dat2 = $res5->fetchRow();
 
 		$used_ftp_acc = $dat2['ftp_cnt'];
 	}
 	$ftp_limit = translate_limit_value($data['domain_ftpacc_limit']);
 	// Get sql database count
 	$query = "SELECT COUNT(*) AS dnum FROM `sql_database` WHERE `domain_id` = ?";
-	$res = exec_query($sql, $query, array($data['domain_id']));
-	$dat5 = $res->FetchRow();
+	$res = exec_query($sql, $query, $data['domain_id']);
+	$dat5 = $res->fetchRow();
 	$sql_db = translate_limit_value($data['domain_sqld_limit']);
 	// Get sql users count
 	$query = "SELECT COUNT(u.`sqlu_id`) AS ucnt FROM sql_user u, sql_database d WHERE u.`sqld_id` = d.`sqld_id` AND d.`domain_id` = ?";
-	$res = exec_query($sql, $query, array($data['domain_id']));
-	$dat6 = $res->FetchRow();
+	$res = exec_query($sql, $query, $data['domain_id']);
+	$dat6 = $res->fetchRow();
 	$sql_users = translate_limit_value($data['domain_sqlu_limit']);
 	// Get subdomain
 	$query = "SELECT COUNT(`subdomain_id`) AS sub_num FROM `subdomain` WHERE `domain_id` = ?";
-	$res1 = exec_query($sql, $query, array($domain_id));
-	$sub_num_data = $res1->FetchRow();
+	$res1 = exec_query($sql, $query, $domain_id);
+	$sub_num_data = $res1->fetchRow();
 	$query = "SELECT COUNT(`subdomain_alias_id`) AS sub_num FROM `subdomain_alias` WHERE `alias_id` IN (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = ?)";
-	$res1 = exec_query($sql, $query, array($domain_id));
-	$alssub_num_data = $res1->FetchRow();
+	$res1 = exec_query($sql, $query, $domain_id);
+	$alssub_num_data = $res1->fetchRow();
 	$sub_dom = translate_limit_value($data['domain_subd_limit']);
 	// Get domain aliases
 	$query = "SELECT COUNT(*) AS alias_num FROM `domain_aliasses` WHERE `domain_id` = ?";
-	$res1 = exec_query($sql, $query, array($domain_id));
-	$alias_num_data = $res1->FetchRow();
+	$res1 = exec_query($sql, $query, $domain_id);
+	$alias_num_data = $res1->fetchRow();
 
 	// Check if Backup support is available for this user
 	switch($data['allowbackup']){

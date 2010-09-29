@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_log.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('log_row', 'page');
@@ -54,9 +54,9 @@ $tpl->assign(
 );
 
 function generate_page(&$tpl) {
-	
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$start_index = 0;
 	$rows_per_page = 15;
@@ -88,7 +88,7 @@ function generate_page(&$tpl) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		// set_page_message(tr('Log is empty!'));
 		$tpl->assign(
 			array(
@@ -172,13 +172,13 @@ function generate_page(&$tpl) {
 
 			$tpl->parse('LOG_ROW', '.log_row');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		} // end while
 	}
 }
 
 function clear_log() {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'clear_log') {
 		$query = null;
@@ -244,8 +244,7 @@ function clear_log() {
 
 				break;
 			default:
-				system_message(tr('Invalid time period!'));
-				break;
+				throw new ispCP_Exception(tr('Invalid time period!'));
 		}
 
 		$rs = execute_query($sql, $query);

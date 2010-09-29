@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
@@ -49,8 +49,8 @@ $tpl->assign(
 
 function add_user(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {
 		if (check_user_data()) {
 			$upass = crypt_user_pass($_POST['pass']);
@@ -136,7 +136,7 @@ function add_user(&$tpl, &$sql) {
 					$street2,
 					$gender));
 
-			$new_admin_id = $sql->Insert_ID();
+			$new_admin_id = $sql->insertId();
 
 			$user_logged = $_SESSION['user_logged'];
 
@@ -221,8 +221,8 @@ function add_user(&$tpl, &$sql) {
 
 function check_user_data() {
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	if (!validates_username($_POST['username'])) {
 		set_page_message(tr("Incorrect username length or syntax!"));
@@ -260,9 +260,9 @@ function check_user_data() {
 
 	$username = clean_input($_POST['username']);
 
-	$rs = exec_query($sql, $query, array($username));
+	$rs = exec_query($sql, $query, $username);
 
-	if ($rs->RecordCount() != 0) {
+	if ($rs->recordCount() != 0) {
 		set_page_message(tr('This user name already exist!'));
 
 		return false;

@@ -30,9 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/package_info.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/package_info.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
@@ -63,8 +65,10 @@ function translate_sse($value) {
 }
 
 function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::getInstance()->exists('HOSTING_PLANS_LEVEL')
-		&& Config::getInstance()->get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				*
@@ -74,7 +78,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				`id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($plan_id));
+		$rs = exec_query($sql, $query, $plan_id);
 	} else {
 		$query = "
 			SELECT
@@ -90,7 +94,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		$rs = exec_query($sql, $query, array($user_id, $plan_id));
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('index.php?user_id=' . $user_id);
 	} else {
 		$props = $rs->fields['props'];
@@ -116,7 +120,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 
 		$hp_traff = translate_limit_value($hp_traff, true);
 
-		$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+		$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 
 		$tpl->assign(
 			array(
@@ -160,7 +164,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
  *
  */
 
-$coid = Config::getInstance()->exists('CUSTOM_ORDERPANEL_ID') ? Config::getInstance()->get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['id']) && $bcoid) {
@@ -172,10 +176,14 @@ if (isset($_GET['id']) && $bcoid) {
 		$user_id = $_GET['user_id'];
 		$_SESSION['user_id'] = $user_id;
 	} else {
-		system_message(tr('You do not have permission to access this interface!'));
+		throw new ispCP_Exception_Production(
+			tr('You do not have permission to access this interface!')
+		);
 	}
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);
@@ -232,7 +240,7 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

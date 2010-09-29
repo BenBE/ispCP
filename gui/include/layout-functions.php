@@ -40,6 +40,9 @@ if (isset($_SESSION['user_id'])
 // THEME_COLOR management stuff.
 
 function get_user_gui_props(&$sql, $user_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$query = "
 		SELECT
 			`lang`, `layout`
@@ -49,18 +52,18 @@ function get_user_gui_props(&$sql, $user_id) {
 			`user_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
-	if ($rs->RecordCount() == 0
+	if ($rs->recordCount() == 0
 		|| (empty($rs->fields['lang']) && empty($rs->fields['layout']))) {
 		// values for user id, some default stuff
-		return array(Config::getInstance()->get('USER_INITIAL_LANG'), Config::getInstance()->get('USER_INITIAL_THEME'));
+		return array($cfg->USER_INITIAL_LANG, $cfg->USER_INITIAL_THEME);
 	} else if (empty($rs->fields['lang'])) {
 
-		return array(Config::getInstance()->get('USER_INITIAL_LANG'), $rs->fields['layout']);
+		return array($cfg->USER_INITIAL_LANG, $rs->fields['layout']);
 	} else if (empty($rs->fields['layout'])) {
 
-		return array($rs->fields['lang'], Config::getInstance()->get('USER_INITIAL_THEME'));
+		return array($rs->fields['lang'], $cfg->USER_INITIAL_THEME);
 	} else {
 
 		return array($rs->fields['lang'], $rs->fields['layout']);
@@ -68,6 +71,7 @@ function get_user_gui_props(&$sql, $user_id) {
 }
 
 function gen_page_message(&$tpl) {
+
 	if (!isset($_SESSION['user_page_message'])) {
 		$tpl->assign('PAGE_MESSAGE', '');
 		$tpl->assign('MESSAGE', '');
@@ -77,13 +81,8 @@ function gen_page_message(&$tpl) {
 	}
 }
 
-function check_language_exist($lang_table) {
-	$sql = Database::getInstance();
-
-	return (in_array($lang_table, $sql->MetaTables()) == true) ? true : false;
-}
-
 function set_page_message($message) {
+
 	if (isset($_SESSION['user_page_message'])) {
 		$_SESSION['user_page_message'] .= "\n<br />$message";
 	} else {
@@ -110,21 +109,23 @@ function format_message($message) {
  * @todo remove checks for DATABASE_REVISION >= 11, this produces unmaintainable code
  */
 function get_menu_vars($menu_link) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$user_id = $_SESSION['user_id'];
 
 	$query = "
 		SELECT
 			`customer_id`, `fname`, `lname`, `firm`, `zip`, `city`,"
-			. (Config::getInstance()->get('DATABASE_REVISION') >= 11 ? '`state`, ' : '')
+			. ($cfg->DATABASE_REVISION >= 11 ? '`state`, ' : '')
 			. "`country`, `email`, `phone`, `fax`, `street1`, `street2`
 		FROM
 			`admin`
 		WHERE
 			`admin_id` = ?
 	";
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$search = array();
 	$replace = array();
@@ -145,10 +146,12 @@ function get_menu_vars($menu_link) {
 	$replace[] = tohtml($rs->fields['zip']);
 	$search [] = '{city}';
 	$replace[] = tohtml($rs->fields['city']);
-	if (Config::getInstance()->get('DATABASE_REVISION') >= 11) {
+
+	if ($cfg->DATABASE_REVISION >= 11) {
 		$search [] = '{state}';
 		$replace[] = $rs->fields['state'];
 	}
+
 	$search [] = '{country}';
 	$replace[] = tohtml($rs->fields['country']);
 	$search [] = '{email}';
@@ -171,7 +174,7 @@ function get_menu_vars($menu_link) {
 			`domain_admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$search [] = '{domain_name}';
 	$replace[] = $rs->fields['domain_name'];
@@ -184,10 +187,12 @@ function get_menu_vars($menu_link) {
  * @todo currently not being used because there's only one layout/theme
  */
 function gen_def_layout(&$tpl, $user_def_layout) {
+
+	$cfg = ispCP_Registry::get('Config');
 	$layouts = array('blue', 'green', 'red', 'yellow');
 
 	foreach ($layouts as $layout) {
-		$selected = ($layout === $user_def_layout) ? Config::getInstance()->get('HTML_SELECTED') : '';
+		$selected = ($layout === $user_def_layout) ? $cfg->HTML_SELECTED : '';
 
 		$tpl->assign(
 			array(

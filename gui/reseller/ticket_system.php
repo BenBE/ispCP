@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ticket_system.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -45,189 +45,7 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-// page functions
-
-function gen_tickets_list(&$tpl, &$sql, $user_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
-	$start_index = 0;
-
-	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
-
-	if (isset($_GET['psi'])) {
-		$start_index = $_GET['psi'];
-	}
-
-	$count_query = "
-		SELECT
-			COUNT(`ticket_id`) AS cnt
-		FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` != 0
-		AND
-			`ticket_reply` = 0
-	";
-
-	$rs = exec_query($sql, $count_query, array($user_id, $user_id));
-	$records_count = $rs->fields['cnt'];
-
-	$query = "
-		SELECT
-			`ticket_id`,
-			`ticket_status`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`
-		FROM
-			`tickets`
-		WHERE
-			(`ticket_from` = ? OR `ticket_to` = ?)
-		AND
-			`ticket_status` != 0
-		AND
-			`ticket_reply` = 0
-		ORDER BY
-			`ticket_date` DESC
-		LIMIT
-			$start_index, $rows_per_page
-		";
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	if ($rs->RecordCount() == 0) {
-		$tpl->assign(
-			array(
-				'TICKETS_LIST' => '',
-				'SCROLL_PREV' => '',
-				'SCROLL_NEXT' => ''
-				)
-			);
-
-		set_page_message(tr('You have no support tickets.'));
-	} else {
-		$prev_si = $start_index - $rows_per_page;
-
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
-
-		$next_si = $start_index + $rows_per_page;
-
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
-
-		global $i;
-
-		while (!$rs->EOF) {
-			$ticket_id		= $rs->fields['ticket_id'];
-			$from			= get_ticket_from($tpl, $sql, $ticket_id);
-			$ticket_urgency = $rs->fields['ticket_urgency'];
-			$date			= ticketGetLastDate($sql, $ticket_id);
-			$ticket_status	= $rs->fields['ticket_status'];
-
-			$tpl->assign(array('URGENCY' => get_ticket_urgency($ticket_urgency)));
-
-			if ($ticket_status == 1) {
-				$tpl->assign(array('NEW' => tr("[New]")));
-			} elseif ($ticket_status == 4) {
-				$tpl->assign(array('NEW' => tr("[Re]")));
-			} else {
-				$tpl->assign(array('NEW' => " "));
-			}
-
-			$tpl->assign(
-				array(
-					'LAST_DATE' => $date,
-					'FROM'		=> tohtml($from),
-					'SUBJECT'	=> tohtml($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
-					'ID'		=> $ticket_id,
-					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
-				)
-			);
-
-			$tpl->parse('TICKETS_ITEM', '.tickets_item');
-			$rs->MoveNext();
-			$i++;
-		}
-	}
-}
-
-function get_ticket_from(&$tpl, &$sql, &$ticket_id) {
-	$query = "
-		SELECT
-			`ticket_from`,
-			`ticket_to`,
-			`ticket_status`,
-			`ticket_reply`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_id` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_id));
-	$ticket_from = $rs->fields['ticket_from'];
-	$ticket_to = $rs->fields['ticket_to'];
-	$ticket_status = $rs->fields['ticket_status'];
-	$ticket_reply = clean_html($rs->fields['ticket_reply']);
-
-	$query = "
-		SELECT
-			`admin_name`,
-			`admin_type`,
-			`fname`,
-			`lname`
-		FROM
-			`admin`
-		WHERE
-			`admin_id` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($ticket_from));
-	$from_user_name = decode_idna($rs->fields['admin_name']);
-	$admin_type = $rs->fields['admin_type'];
-	$from_first_name = $rs->fields['fname'];
-	$from_last_name = $rs->fields['lname'];
-
-	$from_name = $from_first_name . " " . $from_last_name . " (" . $from_user_name . ")";
-
-	return $from_name;
-}
-
-// common page data.
-$query = "
-  SELECT
-    `support_system`
-  FROM
-    `reseller_props`
-  WHERE
-    `reseller_id` = ?
-";
-
-$rs = exec_query($sql, $query, array($_SESSION['user_id']));
-
-if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-	user_goto('index.php');
-}
+// common page data
 
 $tpl->assign(
 	array(
@@ -238,9 +56,23 @@ $tpl->assign(
 	)
 );
 
-gen_tickets_list($tpl, $sql, $_SESSION['user_id']);
+// dynamic page data
 
-// static page messages.
+$admin_id = $_SESSION['user_created_by'];
+
+if (!hasTicketSystem($admin_id)) {
+	user_goto('index.php');
+}
+if (isset($_GET['psi'])) {
+	$start = $_GET['psi'];
+} else {
+	$start = 0;
+}
+
+generateTicketList($tpl, $_SESSION['user_id'], $start,
+		$cfg->DOMAIN_ROWS_PER_PAGE, 'reseller', 'open');
+
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_ticket_system.tpl');
@@ -274,4 +106,5 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

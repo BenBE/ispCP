@@ -30,11 +30,13 @@
 
 require '../include/ispcp-lib.php';
 
-check_login(__FILE__, Config::getInstance()->get('PREVENT_EXTERNAL_LOGIN_CLIENT'));
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_CLIENT);
 
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/index.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('def_layout', 'page');
 $tpl->define_dynamic('no_messages', 'page');
@@ -77,7 +79,7 @@ function gen_system_message(&$tpl, &$sql) {
 		WHERE
 			(`ticket_to` = ? OR `ticket_from` = ?)
 		AND
-			`ticket_status` IN ('1', '2')
+			`ticket_status` IN ('2')
 		AND
 			`ticket_reply` = 0
 	";
@@ -241,14 +243,14 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
  * Calculate the usege traffic/ return array (persent/value)
  */
 function make_traff_usege($domain_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$res = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_admin_id` = ?", array($domain_id));
-	$dom_id = $res->FetchRow();
+	$res = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_admin_id` = ?", $domain_id);
+	$dom_id = $res->fetchRow();
 	$domain_id = $dom_id['domain_id'];
 
-	$res = exec_query($sql, "SELECT `domain_traffic_limit` FROM `domain` WHERE `domain_id` = ?", array($domain_id));
-	$dat = $res->FetchRow();
+	$res = exec_query($sql, "SELECT `domain_traffic_limit` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+	$dat = $res->fetchRow();
 
 	$fdofmnth = mktime(0, 0, 0, date("m"), 1, date("Y"));
 	$ldofmnth = mktime(1, 0, 0, date("m") + 1, 0, date("Y"));
@@ -256,7 +258,7 @@ function make_traff_usege($domain_id) {
 		"SELECT IFNULL(SUM(`dtraff_web`) + SUM(`dtraff_ftp`) + SUM(`dtraff_mail`) + SUM(`dtraff_pop`), 0) "
 		. "AS traffic FROM `domain_traffic` " . "WHERE `domain_id` = ? AND `dtraff_time` > ? AND `dtraff_time` < ?",
 		array($domain_id, $fdofmnth, $ldofmnth));
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 	$traff = ($data['traffic'] / 1024) / 1024;
 	$mtraff = sprintf("%.2f", $traff);
 	if ($dat['domain_traffic_limit'] == 0) {
@@ -282,7 +284,7 @@ function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
 			`ticket_status` = '2'
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 	$num_question = $rs->fields('cnum');
 
 	if ($num_question == 0) {
@@ -337,7 +339,7 @@ function gen_remain_time($dbtime){
  *
  */
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
+$theme_color = $cfg->USER_INITIAL_THEME;
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 	$user_id = $_SESSION['user_id'];
@@ -417,7 +419,7 @@ $account_name = decode_idna($_SESSION['user_logged']);
 if ($dmn_expires == 0) {
 	$dmn_expires_date = tr('Not Set');
 } else {
-	$date_formt = Config::getInstance()->get('DATE_FORMAT');
+	$date_formt = $cfg->DATE_FORMAT;
 	$dmn_expires_date = "( <strong style=\"text-decoration:underline;\">".date($date_formt, $dmn_expires)."</strong> )";
 }
 
@@ -452,10 +454,15 @@ if (time() < $dmn_expires) {
 	);
 }
 
+// Prepare alternative customer URL
+// @todo alternative ports and ssl support
+$domainAlsUrl =
+	"http://{$cfg->APACHE_SUEXEC_USER_PREF}$dmn_uid.{$_SERVER['SERVER_NAME']}";
+
 $tpl->assign(
 	array(
 		'ACCOUNT_NAME'		=> tohtml($account_name),
-		'DOMAIN_UID' 		=> $dmn_uid.".".Config::getInstance()->get('BASE_SERVER_VHOST'),
+		'DOMAIN_ALS_URL' 	=> $domainAlsUrl,
 		'MAIN_DOMAIN'		=> tohtml($dmn_name),
 		'DMN_EXPIRES_DATE'	=> $dmn_expires_date,
 		'MYSQL_SUPPORT'		=> ($dmn_sqld_limit != -1 && $dmn_sqlu_limit != -1) ? tr('yes') : tr('no'),
@@ -474,8 +481,8 @@ $tpl->assign(
  *
  */
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -523,6 +530,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

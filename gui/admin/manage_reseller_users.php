@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_users.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -47,7 +47,7 @@ $tpl->define_dynamic('dst_reseller_option', 'dst_reseller');
 
 function gen_user_table(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -60,9 +60,9 @@ function gen_user_table(&$tpl, &$sql) {
 			`admin_name`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('Reseller or user list is empty!'));
 		user_goto('manage_users.php');
 	}
@@ -104,7 +104,7 @@ function gen_user_table(&$tpl, &$sql) {
 
 		$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
 		$tpl->parse('DST_RESELLER_OPTION', '.dst_reseller_option');
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 
 	if (isset($_POST['src_reseller']) && $_POST['src_reseller'] == 0) {
@@ -137,7 +137,7 @@ function gen_user_table(&$tpl, &$sql) {
 				`admin_name`
 		";
 		$not_in = implode(',', $all_resellers);
-		$rs = exec_query($sql, $query, array($not_in));
+		$rs = exec_query($sql, $query, $not_in);
 	} else {
 		$query = "
 			SELECT
@@ -151,11 +151,11 @@ function gen_user_table(&$tpl, &$sql) {
 			ORDER BY
 				`admin_name`
 		";
-		$rs = exec_query($sql, $query, array($reseller_id));
+		$rs = exec_query($sql, $query, $reseller_id);
 	}
 
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User list is empty!'));
 
 		$tpl->assign('RESELLER_LIST', '');
@@ -183,7 +183,7 @@ function gen_user_table(&$tpl, &$sql) {
 			);
 
 			$tpl->parse('RESELLER_ITEM', '.reseller_item');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -201,7 +201,7 @@ function update_reseller_user($sql) {
 }
 
 function check_user_data() {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -214,7 +214,7 @@ function check_user_data() {
 			`admin_name`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$selected_users = '';
 
@@ -252,7 +252,7 @@ function check_user_data() {
 			`reseller_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($dst_reseller));
+	$rs = exec_query($sql, $query, $dst_reseller);
 
 	$mru_error = '_off_';
 
@@ -275,7 +275,7 @@ function check_user_data() {
 
 function manage_reseller_limits($dest_reseller, $src_reseller, $users, &$err) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	list($dest_dmn_current, $dest_dmn_max,
 		$dest_sub_current, $dest_sub_max,
@@ -311,7 +311,7 @@ function manage_reseller_limits($dest_reseller, $src_reseller, $users, &$err) {
 				`domain_admin_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($users_array[$i]));
+		$rs = exec_query($sql, $query, $users_array[$i]);
 
 		$domain_name = $rs->fields['domain_name'];
 
@@ -454,7 +454,7 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 
 function check_ip_sets($dest, $users, &$err) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$users_array = explode(";", $users);
 
@@ -468,7 +468,7 @@ function check_ip_sets($dest, $users, &$err) {
 				`domain_admin_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($users_array[$i]));
+		$rs = exec_query($sql, $query, $users_array[$i]);
 
 		$domain_ip_id = $rs->fields['domain_ip_id'];
 

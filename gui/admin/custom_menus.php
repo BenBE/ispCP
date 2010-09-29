@@ -37,8 +37,8 @@ function gen_button_list(&$tpl, &$sql) {
 			`custom_menus`
 	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('BUTTON_LIST', '');
 
 		set_page_message(tr('You have no custom menus.'));
@@ -74,7 +74,7 @@ function gen_button_list(&$tpl, &$sql) {
 			);
 
 			$tpl->parse('BUTTON_LIST', '.button_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
@@ -142,7 +142,7 @@ function delete_button(&$sql) {
 				`menu_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($delete_id));
+		$rs = exec_query($sql, $query, $delete_id);
 
 		set_page_message(tr('Custom menu deleted successful!'));
 		return;
@@ -150,9 +150,9 @@ function delete_button(&$sql) {
 }
 
 function edit_button(&$tpl, &$sql) {
-	
-	$cfg = IspCP_Registry::get('Config');
-	
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if ($_GET['edit_id'] === '' || !is_numeric($_GET['edit_id'])) {
 		set_page_message(tr('Missing or incorrect data input!'));
 		return;
@@ -168,8 +168,8 @@ function edit_button(&$tpl, &$sql) {
 				`menu_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($edit_id));
-		if ($rs->RecordCount() == 0) {
+		$rs = exec_query($sql, $query, $edit_id);
+		if ($rs->recordCount() == 0) {
 			set_page_message(tr('Missing or incorrect data input!'));
 			$tpl->assign('EDIT_BUTTON', '');
 			return;
@@ -280,9 +280,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/custom_menus.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');

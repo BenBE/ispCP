@@ -110,9 +110,8 @@ function PMA_DBI_connect($user, $password, $is_controluser = false, $server = nu
     
     if (!$server) {
       $return_value = @mysqli_real_connect($link, $GLOBALS['cfg']['Server']['host'], $user, $password, false, $server_port, $server_socket, $client_flags);
-
       // Retry with empty password if we're allowed to
-      if ($return_value == false && isset($cfg['Server']['nopassword']) && $cfg['Server']['nopassword'] && !$is_controluser) {
+      if ($return_value == false && isset($GLOBALS['cfg']['Server']['nopassword']) && $GLOBALS['cfg']['Server']['nopassword'] && !$is_controluser) {
 	  $return_value = @mysqli_real_connect($link, $GLOBALS['cfg']['Server']['host'], $user, '', false, $server_port, $server_socket, $client_flags);
       }
     } else {
@@ -380,6 +379,11 @@ function PMA_DBI_getError($link = null)
 {
     $GLOBALS['errno'] = 0;
 
+    /* Treat false same as null because of controllink */
+    if ($link === false) {
+        $link = null;
+    }
+
     if (null === $link && isset($GLOBALS['userlink'])) {
         $link =& $GLOBALS['userlink'];
         // Do not stop now. We still can get the error code
@@ -405,6 +409,8 @@ function PMA_DBI_getError($link = null)
     if (! empty($error_message)) {
         $error_message = PMA_DBI_convert_message($error_message);
     }
+
+    $error_message = htmlspecialchars($error_message);
 
     if ($error_number == 2002) {
         $error = '#' . ((string) $error_number) . ' - ' . $GLOBALS['strServerNotResponding'] . ' ' . $GLOBALS['strSocketProblem'];

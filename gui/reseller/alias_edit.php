@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/alias_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -120,9 +120,9 @@ unset_messages();
  * Show user data
  */
 function gen_editalias_page(&$tpl, $edit_id) {
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
-	
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
 	$reseller_id = $_SESSION['user_id'];
 
 	$query = "
@@ -145,21 +145,21 @@ function gen_editalias_page(&$tpl, $edit_id) {
 
 	$rs = exec_query($sql, $query, array($edit_id, $reseller_id));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
 		user_goto('alias.php');
 	}
 	// Get data from sql
-	$res = exec_query($sql, "SELECT * FROM `domain_aliasses` WHERE `alias_id` = ?", array($edit_id));
+	$res = exec_query($sql, "SELECT * FROM `domain_aliasses` WHERE `alias_id` = ?", $edit_id);
 
-	if ($res->RecordCount() <= 0) {
+	if ($res->recordCount() <= 0) {
 		$_SESSION['aledit'] = '_no_';
 		user_goto('alias.php');
 	}
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 	// Get IP data
-	$ipres = exec_query($sql, "SELECT * FROM `server_ips` WHERE `ip_id` = ?", array($data['alias_ip_id']));
-	$ipdat = $ipres->FetchRow();
+	$ipres = exec_query($sql, "SELECT * FROM `server_ips` WHERE `ip_id` = ?", $data['alias_ip_id']);
+	$ipdat = $ipres->fetchRow();
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
 	if (isset($_POST['uaction']) && ($_POST['uaction'] == 'modify')) {
@@ -215,13 +215,15 @@ function gen_editalias_page(&$tpl, $edit_id) {
  * Check input data
  */
 function check_fwd_data(&$tpl, $alias_id) {
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	$forward_url = strtolower(clean_input($_POST['forward']));
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
+	// NXW: Unused variable so...
+	// $admin_login = '';
 
 	if (isset($_POST['status']) && $_POST['status'] == 1) {
 		$forward_prefix = clean_input($_POST['forward_prefix']);
@@ -288,8 +290,11 @@ function check_fwd_data(&$tpl, $alias_id) {
 
 		send_request();
 
+		// NXW: oh my god... Should be review...
+		/*
 		$admin_login = $_SESSION['user_logged'];
 		write_log("$admin_login: changes domain alias forward: " . $rs->fields['t1.alias_name']);
+		*/
 		unset($_SESSION['edit_ID']);
 		$tpl->assign('MESSAGE', "");
 		return true;

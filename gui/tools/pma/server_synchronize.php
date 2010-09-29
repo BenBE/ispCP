@@ -535,20 +535,20 @@ if (isset($_REQUEST['Table_ids'])) {
       
     for ($i = 0; isset($_REQUEST[$i]); $i++ ) {
         if (isset($_REQUEST[$i])) { 
-            $table_id = split("US", $_REQUEST[$i]);
+            $table_id = explode("US", $_REQUEST[$i]);
             if (isset($table_id[1])) {
                 $uncommon_table_structure_diff[] = $table_id[1];
             }
-            $table_id = split("UD", $_REQUEST[$i]);
+            $table_id = explode("UD", $_REQUEST[$i]);
             if (isset($table_id[1])) {
                 $uncommon_table_data_diff[] = $table_id[1];
             }
-            $table_id = split("MS", $_REQUEST[$i]);
+            $table_id = explode("MS", $_REQUEST[$i]);
             if (isset($table_id[1])) {
                 $matching_table_structure_diff[] = $table_id[1];
             }
             
-            $table_id = split("MD", $_REQUEST[$i]);
+            $table_id = explode("MD", $_REQUEST[$i]);
             if (isset($table_id[1])) {
                  $matching_table_data_diff[] = $table_id[1];
             }
@@ -1037,7 +1037,7 @@ if (isset($_REQUEST['synchronize_db'])) {
             $criteria, $matching_tables_keys, $target_tables_keys, $p, true);
             unset($alter_str_array[$p]);        
         }                                                           
-        if (isset($add_column_array[$p])) {
+        if (! empty($add_column_array[$p])) {
             PMA_findDeleteRowsFromTargetTables($delete_array, $matching_tables, $p, $target_tables_keys, $matching_tables_keys,
             $trg_db, $trg_link, $src_db, $src_link);
              

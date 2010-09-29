@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add2.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -184,7 +184,7 @@ function get_init_au2_page(&$tpl) {
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
 	global $hp_allowsoftware;
 	
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
 			array(
@@ -225,14 +225,14 @@ function get_hp_data($hpid, $admin_id) {
 	global $hp_traff, $hp_disk, $hp_backup, $hp_dns;
 	global $hp_allowsoftware;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "SELECT `name`, `props` FROM `hosting_plans` WHERE `reseller_id` = ? AND `id` = ?";
 
 	$res = exec_query($sql, $query, array($admin_id, $hpid));
 
-	if (0 !== $res->RowCount()) {
-		$data = $res->FetchRow();
+	if (0 !== $res->rowCount()) {
+		$data = $res->fetchRow();
 
 		$props = $data['props'];
 
@@ -268,7 +268,7 @@ function check_user_data(&$tpl) {
 	global $hp_traff, $hp_disk, $hp_dmn, $hp_backup, $hp_dns;
 	global $dmn_chp, $hp_allowsoftware;
 
-	//$sql = Database::getInstance();
+	//$sql = ispCP_Registry::get('Db');
 
 	$ehp_error = array();
 
@@ -408,12 +408,12 @@ function check_user_data(&$tpl) {
  */
 function check_hosting_plan_name($admin_id) {
 	global $hp_name;
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "SELECT `id` FROM `hosting_plans` WHERE `name` = ? AND `reseller_id` = ?";
 	$res = exec_query($sql, $query, array($hp_name, $admin_id));
 
-	if ($res->RowCount() !== 0) {
+	if ($res->rowCount() !== 0) {
 		return false;
 	}
 

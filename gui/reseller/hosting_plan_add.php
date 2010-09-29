@@ -30,16 +30,16 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
+
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($cfg->HOSTING_PLANS_LEVEL)
 	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 		user_goto('hosting_plan.php');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -157,8 +157,8 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * Generate empty form
  */
 function gen_empty_ahp_page(&$tpl) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
 		array(
 			'HP_NAME_VALUE'			=> '',
@@ -208,8 +208,8 @@ function gen_data_ahp_page(&$tpl) {
 	global $hp_backup, $hp_dns;
 	global $tos, $hp_allowsoftware;
 
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
 			array(
 				'HP_NAME_VALUE'			=> tohtml($hp_name),
@@ -323,7 +323,7 @@ function check_data_correction(&$tpl) {
 	if (!is_numeric($setup_fee)) {
 		$ahp_error[] = tr('Setup fee must be a number!');
 	}
-	
+
 	list(
 		$rsub_max,
 		$rals_max,
@@ -332,31 +332,31 @@ function check_data_correction(&$tpl) {
 		$rsql_db_max,
 		$rsql_user_max
 		) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
-		
+
 	if ($rsub_max == "-1") {
 		$hp_sub = "-1";
 	} elseif (!ispcp_limit_check($hp_sub, -1)) {
 		$ahp_error[] = tr('Incorrect subdomains limit!');
 	}
-	
+
 	if ($rals_max == "-1") {
 		$hp_als = "-1";
 	} elseif (!ispcp_limit_check($hp_als, -1)) {
 		$ahp_error[] = tr('Incorrect aliases limit!');
 	}
-	
+
 	if ($rmail_max == "-1") {
 		$hp_mail = "-1";
 	} elseif (!ispcp_limit_check($hp_mail, -1)) {
 		$ahp_error[] = tr('Incorrect mail accounts limit!');
 	}
-	
+
 	if ($rftp_max == "-1") {
 		$hp_ftp = "-1";
 	} elseif (!ispcp_limit_check($hp_ftp, -1)) {
 		$ahp_error[] = tr('Incorrect FTP accounts limit!');
 	}
-	
+
 	if ($rsql_db_max == "-1") {
 		$hp_sql_db = "-1";
 	} elseif (!ispcp_limit_check($hp_sql_db, -1)) {
@@ -364,7 +364,7 @@ function check_data_correction(&$tpl) {
 	} else if ($hp_sql_user != -1 && $hp_sql_db == -1) {
 		$ahp_error[] = tr('SQL users limit is <i>disabled</i>!');
 	}
-	
+
 	if ($rsql_user_max == "-1") {
 		$hp_sql_user = "-1";
 	} elseif (!ispcp_limit_check($hp_sql_user, -1)) {
@@ -372,7 +372,7 @@ function check_data_correction(&$tpl) {
 	} else if ($hp_sql_user == -1 && $hp_sql_db != -1) {
 		$ahp_error[] = tr('SQL databases limit is not <i>disabled</i>!');
 	}
-	
+
 	if (!ispcp_limit_check($hp_traff, null)) {
 		$ahp_error[] = tr('Incorrect traffic limit!');
 	}
@@ -404,13 +404,13 @@ function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_backup, $hp_dns;
 	global $tos, $hp_allowsoftware;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	$err_msg = '';
 
 	$query = "SELECT `id` FROM `hosting_plans` WHERE `name` = ? AND `reseller_id` = ?";
 	$res = exec_query($sql, $query, array($hp_name, $admin_id));
 
-	if ($res->RowCount() == 1) {
+	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
 		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {

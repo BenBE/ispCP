@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
@@ -155,15 +155,19 @@ gen_editdomain_page($tpl);
  * Load data from sql
  */
 function load_user_data($user_id, $domain_id) {
+
+	// NXW: Some unused variables so...
+	/*
 	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
 	global $username;
 	global $dns_supp;
-	global $software_supp;
-	
-	$sql = Database::getInstance();
+	*/
+	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk, $software_supp;
+
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -178,12 +182,14 @@ function load_user_data($user_id, $domain_id) {
 
 	$rs = exec_query($sql, $query, array($domain_id, $user_id));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
 
 		user_goto('users.php');
 	}
 
+	// NXW: Unused variables so...
+	/*
 	list($a, $sub,
 		$b, $als,
 		$c, $mail,
@@ -191,7 +197,10 @@ function load_user_data($user_id, $domain_id) {
 		$e, $sql_db,
 		$f, $sql_user,
 		$traff, $disk
-	) = generate_user_props($domain_id);;
+	) = generate_user_props($domain_id);
+	*/
+	list(,$sub,,$als,,$mail,,$ftp,,$sql_db,,$sql_user,$traff,$disk) =
+		generate_user_props($domain_id);
 
 	load_additional_data($user_id, $domain_id);
 } // End of load_user_data()
@@ -205,8 +214,8 @@ function load_additional_data($user_id, $domain_id) {
 	global $dns_supp;
 	global $software_supp;
 	
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 	
 	// Get domain data
 	$query = "
@@ -227,7 +236,7 @@ function load_additional_data($user_id, $domain_id) {
 	";
 
 	$res = exec_query($sql, $query, $domain_id);
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$domain_name = $data['domain_name'];
 
@@ -259,8 +268,8 @@ function load_additional_data($user_id, $domain_id) {
 			`ip_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($domain_ip_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $domain_ip_id);
+	$data = $res->fetchRow();
 
 	$domain_ip = $data['ip_number'] . '&nbsp;(' . $data['ip_domain'] . ')';
 	// Get username of domain
@@ -278,7 +287,7 @@ function load_additional_data($user_id, $domain_id) {
 	";
 
 	$res = exec_query($sql, $query, array($domain_admin_id, $user_id));
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$username = $data['admin_name'];
 } // End of load_additional_data()
@@ -294,7 +303,7 @@ function gen_editdomain_page(&$tpl) {
 	global $username, $allowbackup;
 	global $dns_supp, $software_supp;
 	
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');;
 	
 	// Fill in the fields
 	$domain_name = decode_idna($domain_name);
@@ -340,7 +349,7 @@ function gen_editdomain_page(&$tpl) {
 			)
 		);
 	}
-	
+
 	list(
 		$rsub_max,
 		$rals_max,
@@ -356,7 +365,7 @@ function gen_editdomain_page(&$tpl) {
 	if ($rftp_max == "-1") $tpl->assign('FTP_EDIT', '');
 	if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_EDIT', '');
 	if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_EDIT', '');
-	
+
 	$tpl->assign(
 		array(
 			'PHP_YES'					=> ($php_sup == 'yes') ? $cfg->HTML_SELECTED : '',
@@ -396,13 +405,10 @@ function gen_editdomain_page(&$tpl) {
  * Check input data
  */
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
-	global $sub, $als, $mail, $ftp;
-	global $sql_db, $sql_user, $traff;
-	global $disk, $sql, $domain_ip, $domain_php;
-	global $domain_cgi, $allowbackup;
-	global $domain_dns;
-	global $domain_expires, $domain_new_expire;
-	global $domain_software_allowed;
+
+	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk, $sql,
+		$domain_php, $domain_cgi, $allowbackup, $domain_dns, $domain_expires,
+		$domain_new_expire, $domain_software_allowed;
 
 	$domain_new_expire = clean_input($_POST['dmn_expire']);
 	$sub 			= clean_input($_POST['dom_sub']);
@@ -413,6 +419,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$sql_user 		= clean_input($_POST['dom_sql_users']);
 	$traff 			= clean_input($_POST['dom_traffic']);
 	$disk 			= clean_input($_POST['dom_disk']);
+
 	// $domain_ip = $_POST['domain_ip'];
 	$domain_php		= preg_replace("/\_/", "", $_POST['domain_php']);
 	$domain_cgi		= preg_replace("/\_/", "", $_POST['domain_cgi']);
@@ -421,7 +428,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$domain_software_allowed = preg_replace("/\_/", "", $_POST['domain_software_allowed']);
 
 	$ed_error = '';
-	
+
 	list(
 		$rsub_max,
 		$rals_max,
@@ -430,31 +437,31 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$rsql_db_max,
 		$rsql_user_max
 		) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
-		
+
 	if ($rsub_max == "-1") {
 		$sub = "-1";
 	} elseif (!ispcp_limit_check($sub, -1)) {
 		$ed_error .= tr('Incorrect subdomains limit!');
 	}
-	
+
 	if ($rals_max == "-1") {
 		$als = "-1";
 	} elseif (!ispcp_limit_check($als, -1)) {
 		$ed_error .= tr('Incorrect aliases limit!');
 	}
-	
+
 	if ($rmail_max == "-1") {
 		$mail = "-1";
 	} elseif (!ispcp_limit_check($mail, -1)) {
 		$ed_error .= tr('Incorrect mail accounts limit!');
 	}
-	
+
 	if ($rftp_max == "-1") {
 		$ftp = "-1";
 	} elseif (!ispcp_limit_check($ftp, -1)) {
 		$ed_error .= tr('Incorrect FTP accounts limit!');
 	}
-	
+
 	if ($rsql_db_max == "-1") {
 		$sql_db = "-1";
 	} elseif (!ispcp_limit_check($sql_db, -1)) {
@@ -462,7 +469,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	} else if ($sql_db == -1 && $sql_user != -1) {
 		$ed_error .= tr('SQL databases limit is <i>disabled</i>!');
 	}
-	
+
 	if ($rsql_user_max == "-1") {
 		$sql_user = "-1";
 	} elseif (!ispcp_limit_check($sql_user, -1)) {
@@ -470,7 +477,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	} else if ($sql_user == -1 && $sql_db != -1) {
 		$ed_error .= tr('SQL users limit is <i>disabled</i>!');
 	}
-	
+
 	if (!ispcp_limit_check($traff, null)) {
 		$ed_error .= tr('Incorrect traffic limit!');
 	}
@@ -503,8 +510,11 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$rsql_user_current, $rsql_user_max,
 		$rtraff_current, $rtraff_max,
 		$rdisk_current, $rdisk_max
-	) = get_reseller_default_props($sql, $reseller_id); //generate_reseller_props($reseller_id);
-	list($a, $b, $c, $d, $e, $f, $utraff_current, $udisk_current, $i, $h) = generate_user_traffic($user_id);
+	) = get_reseller_default_props($sql, $reseller_id);
+
+	// NXW: Unused variables so...
+	//list($a, $b, $c, $d, $e, $f, $utraff_current, $udisk_current, $i, $h) = generate_user_traffic($user_id);
+	list(,,,,,,$utraff_current, $udisk_current) = generate_user_traffic($user_id);
 
 	if (empty($ed_error)) {
 		calculate_user_dvals($sub, $usub_current, $usub_max, $rsub_current, $rsub_max, $ed_error, tr('Subdomain'));
@@ -527,7 +537,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 				sd.`domain_id` = ?
 ";
 
-		$rs = exec_query($sql, $query, array($_SESSION['edit_id']));
+		$rs = exec_query($sql, $query, $_SESSION['edit_id']);
 		calculate_user_dvals($sql_user, $rs->fields['cnt'], $usql_user_max, $rsql_user_current, $rsql_user_max, $ed_error, tr('SQL User'));
 	}
 
@@ -540,9 +550,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		// Set domains status to 'change' to update mod_cband's limit
 		if ($previous_utraff_max != $utraff_max) {
 			$query = "UPDATE `domain` SET `domain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			$query = "UPDATE `subdomain` SET `subdomain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			send_request();
 		}
 
@@ -599,7 +609,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$temp_dmn_name = $rs->fields['domain_name'];
 
 		$query = "SELECT COUNT(`name`) AS cnt FROM `quotalimits` WHERE `name` = ?";
-		$rs = exec_query($sql, $query, array($temp_dmn_name));
+		$rs = exec_query($sql, $query, $temp_dmn_name);
 		if ($rs->fields['cnt'] > 0) {
 			// we need to update it
 			if ($disk == 0) {

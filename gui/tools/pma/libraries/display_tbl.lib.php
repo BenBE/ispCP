@@ -1368,7 +1368,7 @@ function PMA_displayTableBody(&$dt_result, &$is_display, $map, $analyzed_sql) {
                         if ($_SESSION['tmp_user_values']['display_binary']) {
                             // user asked to see the real contents of BINARY
                             // fields
-                            if ($_SESSION['tmp_user_values']['display_binary_as_hex']) {
+                            if ($_SESSION['tmp_user_values']['display_binary_as_hex'] && PMA_contains_nonprintable_ascii($row[$i])) {
                             	$row[$i] = bin2hex($row[$i]);
 							}
 							else {
@@ -1882,7 +1882,12 @@ function PMA_displayTable(&$dt_result, &$the_disp_mode, $analyzed_sql)
     // 1.4 Prepares display of first and last value of the sorted column
 
     if (! empty($sort_expression_nodirection)) {
-        list($sort_table, $sort_column) = explode('.', $sort_expression_nodirection);
+        if (strpos($sort_expression_nodirection, '.') === false) {
+            $sort_table = $table;
+            $sort_column = $sort_expression_nodirection;
+        } else {
+            list($sort_table, $sort_column) = explode('.', $sort_expression_nodirection);
+        }
         $sort_table = PMA_unQuote($sort_table);
         $sort_column = PMA_unQuote($sort_column);
         // find the sorted column index in row result

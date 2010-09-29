@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -152,7 +152,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * Restore form on any error
  */
 function restore_form(&$tpl, &$sql) {
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
 		array(
@@ -167,7 +167,7 @@ function restore_form(&$tpl, &$sql) {
 			'HP_TRAFF_VALUE' => clean_input($_POST['hp_traff'], true),
 			'HP_TRAFF' => clean_input($_POST['hp_traff'], true),
 			'HP_DISK_VALUE' => clean_input($_POST['hp_disk'], true),
-			'HP_PRICE' => clean_input($_POST['hp_price']),
+			'HP_PRICE' => clean_input($_POST['hp_price'], true),
 			'HP_SETUPFEE' => clean_input($_POST['hp_setupfee'], true),
 			'HP_CURRENCY' => clean_input($_POST['hp_currency'], true),
 			'HP_PAYMENT' => clean_input($_POST['hp_payment'], true),
@@ -194,8 +194,8 @@ function restore_form(&$tpl, &$sql) {
  * Generate load data from sql for requested hosting plan
  */
 function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$_SESSION['hpid'] = $hpid;
 
 	if (isset($cfg->HOSTING_PLANS_LEVEL)
@@ -210,7 +210,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			;
 		";
 
-		$res = exec_query($sql, $query, array($hpid));
+		$res = exec_query($sql, $query, $hpid);
 
 		$readonly = $cfg->HTML_READONLY;
 		$disabled = $cfg->HTML_DISABLED;
@@ -237,11 +237,11 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 		$edit_hp = tr('Edit hosting plan');
 	}
 
-	if ($res->RowCount() !== 1) { // Error
+	if ($res->rowCount() !== 1) { // Error
 		user_goto('hosting_plan.php');
 	}
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$props = $data['props'];
 	$description = $data['description'];
@@ -273,7 +273,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 	if ($value == '') {
 		$value = '';
 	}
-	
+
 	list(
 		$rsub_max,
 		$rals_max,
@@ -303,8 +303,8 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			'HP_TRAFF_VALUE' => $hp_traff,
 			'HP_DISK_VALUE' => $hp_disk,
 			'HP_DESCRIPTION_VALUE' => tohtml($description),
-			'HP_PRICE' => $price,
-			'HP_SETUPFEE' => $setup_fee,
+			'HP_PRICE' => tohtml($price),
+			'HP_SETUPFEE' => tohtml($setup_fee),
 			'HP_CURRENCY' => tohtml($value),
 			'READONLY' => $readonly,
 			'DISBLED' => $disabled,
@@ -379,6 +379,7 @@ function check_data_iscorrect(&$tpl) {
     if (isset($_POST['backup'])) {
     	$hp_backup = $_POST['backup'];
     }
+    
 	if (isset($_POST['software_allowed'])) {
 		$hp_allowsoftware = $_POST['software_allowed'];
 	} else {
@@ -417,7 +418,7 @@ function check_data_iscorrect(&$tpl) {
 	} elseif (!ispcp_limit_check($hp_ftp, -1)) {
 		$ahp_error[] = tr('Incorrect FTP accounts limit!');
 	}
-	
+
 	if ($rsql_db_max == "-1") {
 		$hp_sql_db = "-1";
 	} elseif (!ispcp_limit_check($hp_sql_db, -1)) {
@@ -476,7 +477,7 @@ function save_data_to_db() {
 	global $hp_backup, $hp_dns, $hp_allowsoftware;
 //	global $tos;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$err_msg = '';
 	$description = clean_input($_POST['hp_description']);

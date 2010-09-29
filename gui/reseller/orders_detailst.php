@@ -31,11 +31,11 @@
 // Begin page line
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders_detailst.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
@@ -55,8 +55,8 @@ $tpl->assign(
  */
 
 function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$query = "
 		SELECT
 			*
@@ -68,7 +68,7 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 			`user_id` = ?
 	";
 	$rs = exec_query($sql, $query, array($order_id, $user_id));
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('Permission deny!'));
 		user_goto('orders.php');
 	}
@@ -117,7 +117,7 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 		WHERE
 			`id` = ?
 	";
-	$rs = exec_query($sql, $query, array($plan_id));
+	$rs = exec_query($sql, $query, $plan_id);
 	$plan_name = $rs->fields['name'] . "<br />" . $rs->fields['description'];
 
 	generate_ip_list($tpl, $_SESSION['user_id']);

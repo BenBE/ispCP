@@ -9,6 +9,9 @@
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.ispcpTooltips.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="pngfix.js"></script>
+<![endif]-->
 
 <script type="text/javascript">
 /*<![CDATA[*/
@@ -95,7 +98,7 @@
 </style>
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/ftp_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/email_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif'); begin_js();">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png'); begin_js();">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
@@ -152,7 +155,7 @@
               </tr>
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type1" value="dmn" {MAIL_DMN_CHECKED} onclick="changeDom('real');" />
+                  <input type="radio" name="dmn_type" id="dmn_type1" value="dmn" {MAIL_DMN_CHECKED} onClick="changeDom('real');" />
                   <label for="dmn_type1">{TR_TO_MAIN_DOMAIN}</label>
                 </td>
                 <td nowrap="nowrap" class="content" colspan="2">@{DOMAIN_NAME}</td>
@@ -160,7 +163,7 @@
 			  <!-- BDP: to_alias_domain -->
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type2" value="als" {MAIL_ALS_CHECKED} onclick="changeDom('alias');" />
+                  <input type="radio" name="dmn_type" id="dmn_type2" value="als" {MAIL_ALS_CHECKED} onClick="changeDom('alias');" />
                   <label for="dmn_type2">{TR_TO_DMN_ALIAS}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="als_id">
@@ -173,7 +176,7 @@
 			  <!-- BDP: to_subdomain -->
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type3" value="sub" {MAIL_SUB_CHECKED} onclick="changeDom('subdom');" />
+                  <input type="radio" name="dmn_type" id="dmn_type3" value="sub" {MAIL_SUB_CHECKED} onClick="changeDom('subdom');" />
                   <label for="dmn_type3">{TR_TO_SUBDOMAIN}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="sub_id">
@@ -186,7 +189,7 @@
 			  <!-- BDP: to_alias_subdomain -->
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type4" value="als_sub" {MAIL_ALS_SUB_CHECKED} onclick="changeDom('als_subdom');" />
+                  <input type="radio" name="dmn_type" id="dmn_type4" value="als_sub" {MAIL_ALS_SUB_CHECKED} onClick="changeDom('als_subdom');" />
                   <label for="dmn_type4">{TR_TO_ALS_SUBDOMAIN}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="als_sub_id">
@@ -198,7 +201,7 @@
 			  <!-- EDP: to_alias_subdomain -->
               <tr>
                 <td nowrap="nowrap" class="content2" colspan="2">
-                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_normal" value="1" onclick="changeType();" {NORMAL_MAIL_CHECKED} />{TR_NORMAL_MAIL}</td>
+                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_normal" value="1" onClick="changeType();" {NORMAL_MAIL_CHECKED} />{TR_NORMAL_MAIL}</td>
               </tr>
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">&nbsp;&nbsp;&nbsp;&nbsp;{TR_PASSWORD}</td>
@@ -210,7 +213,7 @@
               </tr>
               <tr>
                 <td nowrap="nowrap" class="content2" colspan="2">
-                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_forward" value="1" {FORWARD_MAIL_CHECKED} onclick="changeType();" />{TR_FORWARD_MAIL}</td>
+                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_forward" value="1" {FORWARD_MAIL_CHECKED} onClick="changeType();" />{TR_FORWARD_MAIL}</td>
               </tr>
               <tr>
                 <td class="content2" style="width:200px;vertical-align:top;">

@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/alias_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -135,10 +135,19 @@ function init_empty_data() {
  * Show data fields
  */
 function gen_al_page(&$tpl, $reseller_id) {
-	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point;
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	// NXW Some unused variables so...
+	/*
+	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
+	$mount_point;
+	*/
 
+	global $alias_name, $forward, $forward_prefix, $mount_point;
+
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
+	// NXW: Unused variables so...
+	/*
 	list($udmn_current, $udmn_max, $udmn_uf,
 		$usub_current, $usub_max, $usub_uf,
 		$uals_current, $uals_max, $uals_uf,
@@ -149,7 +158,11 @@ function gen_al_page(&$tpl, $reseller_id) {
 		$utraff_current, $utraff_max, $utraff_uf,
 		$udisk_current, $udisk_max, $udisk_uf
 	) = generate_reseller_user_props($reseller_id);
+	*/
+	list(,,,,,,$uals_current) = generate_reseller_user_props($reseller_id);
 
+	// NXW: Unused variables so ...
+	/*
 	list($rdmn_current, $rdmn_max,
 		$rsub_current, $rsub_max,
 		$rals_current, $rals_max,
@@ -160,6 +173,8 @@ function gen_al_page(&$tpl, $reseller_id) {
 		$rtraff_current, $rtraff_max,
 		$rdisk_current, $rdisk_max
 	) = get_reseller_default_props($sql, $reseller_id);
+	*/
+	list(,,,,,$rals_max) = get_reseller_default_props($sql, $reseller_id);
 
 	if ($uals_current >= $rals_max && $rals_max != "0") {
 		$_SESSION['almax'] = '_yes_';
@@ -225,11 +240,14 @@ function gen_al_page(&$tpl, $reseller_id) {
 } // End of gen_al_page()
 
 function add_domain_alias(&$sql, &$err_al) {
-	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point;
-	global $validation_err_msg;
-	$cfg = IspCP_Registry::get('Config');
 
-	$cr_user_id = $dmn_id = $_POST['usraccounts'];
+	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
+		$mount_point, $validation_err_msg;
+	$cfg = ispCP_Registry::get('Config');
+
+	// NXW: Unused variable so...
+	// $cr_user_id = $dmn_id = $_POST['usraccounts'];
+	$cr_user_id = $_POST['usraccounts'];
 
 	// Should be perfomed after domain names syntax validation now
 	//$alias_name = encode_idna(strtolower($_POST['ndomain_name']));
@@ -254,7 +272,7 @@ function add_domain_alias(&$sql, &$err_al) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($cr_user_id));
+	$rs = exec_query($sql, $query, $cr_user_id);
 	$domain_ip = $rs->fields['domain_ip_id'];
 
 	// $mount_point = "/".$mount_point;
@@ -275,33 +293,58 @@ function add_domain_alias(&$sql, &$err_al) {
 	} else if ($alias_name == $cfg->BASE_SERVER_VHOST) {
 		$err_al = tr('Master domain cannot be used!');
 	} else if ($_POST['status'] == 1) {
-		if (substr_count($forward, '.') <= 2) {
-			$ret = validates_dname($forward);
+		$aurl = @parse_url($forward_prefix.$forward);
+		if ($aurl === false) {
+			$err_al = tr("Wrong address in forward URL!");
 		} else {
-			$ret = validates_dname($forward, true);
-		}
-		if (!$ret) {
-			$err_al = tr("Wrong domain part in forward URL!");
-		} else {
-			$forward = encode_idna($forward_prefix.$forward);
+			$domain = $aurl['host'];
+			if (substr_count($domain, '.') <= 2) {
+				$ret = validates_dname($domain);
+			} else {
+				$ret = validates_dname($domain, true);
+			}
+			if (!$ret) {
+				$err_al = tr("Wrong domain part in forward URL!");
+			} else {
+				$domain = encode_idna($aurl['host']);
+				$forward = $aurl['scheme'].'://';
+				if (isset($aurl['user'])) {
+					$forward .= $aurl['user'] . (isset($aurl['pass']) ? ':' . $aurl['pass'] : '') .'@';
+				}
+				$forward .= $domain;
+				if (isset($aurl['port'])) {
+					$forward .= ':'.$aurl['port'];
+				}
+				if (isset($aurl['path'])) {
+					$forward .= $aurl['path'];
+				} else {
+					$forward .= '/';
+				}
+				if (isset($aurl['query'])) {
+					$forward .= '?'.$aurl['query'];
+				}
+				if (isset($aurl['fragment'])) {
+					$forward .= '#'.$aurl['fragment'];
+				}
+			}
 		}
 	} else {
 		// now let's fix the mountpoint
 		$mount_point = array_decode_idna($mount_point, true);
 
-		$res = exec_query($sql, "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?", array($alias_name));
-		$res2 = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?", array($alias_name));
-		if ($res->RowCount() > 0 || $res2->RowCount() > 0) {
+		$res = exec_query($sql, "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?", $alias_name);
+		$res2 = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?", $alias_name);
+		if ($res->rowCount() > 0 || $res2->rowCount() > 0) {
 			// we already have domain with this name
 			$err_al = tr("Domain with this name already exist");
 		}
 
 		$query = "SELECT COUNT(`subdomain_id`) AS cnt FROM `subdomain` WHERE `domain_id` = ? AND `subdomain_mount` = ?";
 		$subdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
-		$subdomdata = $subdomres->FetchRow();
+		$subdomdata = $subdomres->fetchRow();
 		$query = "SELECT COUNT(`subdomain_alias_id`) AS alscnt FROM `subdomain_alias` WHERE `alias_id` IN (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = ?) AND `subdomain_alias_mount` = ?";
 		$alssubdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
-		$alssubdomdata = $alssubdomres->FetchRow();
+		$alssubdomdata = $alssubdomres->fetchRow();
 		if ($subdomdata['cnt'] > 0 || $alssubdomdata['alscnt'] > 0) {
 			$err_al = tr("There is a subdomain with the same mount point!");
 		}
@@ -320,7 +363,7 @@ function add_domain_alias(&$sql, &$err_al) {
 		 "`alias_status`, `alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)",
 		array($cr_user_id, $alias_name, $mount_point, $cfg->ITEM_ADD_STATUS, $domain_ip, $forward));
 
-	$als_id = $sql->Insert_ID();
+	$als_id = $sql->insertId();
 
 	update_reseller_c_props(get_reseller_id($cr_user_id));
 
@@ -342,8 +385,8 @@ function add_domain_alias(&$sql, &$err_al) {
 
 function gen_users_list(&$tpl, $reseller_id) {
 	global $cr_user_id;
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -358,9 +401,9 @@ function gen_users_list(&$tpl, $reseller_id) {
 			`admin_name`
 	";
 
-	$ar = exec_query($sql, $query, array($reseller_id));
+	$ar = exec_query($sql, $query, $reseller_id);
 
-	if ($ar->RowCount() == 0) {
+	if ($ar->rowCount() == 0) {
 		set_page_message(tr('There is no user records for this reseller to add an alias for.'));
 		user_goto('alias.php');
 		$tpl->assign('USER_ENTRY', '');
@@ -368,7 +411,7 @@ function gen_users_list(&$tpl, $reseller_id) {
 	}
 
 	$i = 1;
-	while ($ad = $ar->FetchRow()) { // Process all founded users
+	while ($ad = $ar->fetchRow()) { // Process all founded users
 		$admin_id = $ad['admin_id'];
 		$selected = '';
 		// Get domain data
@@ -382,8 +425,8 @@ function gen_users_list(&$tpl, $reseller_id) {
 				`domain_admin_id` = ?
 		";
 
-		$dr = exec_query($sql, $query, array($admin_id));
-		$dd = $dr->FetchRow();
+		$dr = exec_query($sql, $query, $admin_id);
+		$dd = $dr->fetchRow();
 
 		$domain_id = $dd['domain_id'];
 		$domain_name = $dd['domain_name'];

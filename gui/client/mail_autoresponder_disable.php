@@ -32,7 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 function check_email_user(&$sql) {
+
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];
 
@@ -55,7 +58,7 @@ function check_email_user(&$sql) {
 	$rs = exec_query($sql, $query, array($mail_id, $dmn_name));
 	$mail_acc = $rs->fields['mail_acc'];
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
 		user_goto('mail_accounts.php');
 	}
@@ -65,7 +68,7 @@ check_email_user($sql);
 
 if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$mail_id = $_GET['id'];
-	$item_change_status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+	$item_change_status = $cfg->ITEM_CHANGE_STATUS;
 
 	$query = "
 		UPDATE
@@ -100,7 +103,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`mail_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($mail_id));
+	$rs = exec_query($sql, $query, $mail_id);
 	$mail_name = $rs->fields['mailbox'];
 	write_log($_SESSION['user_logged'].": disabled mail autoresponder: ".$mail_name);
 	set_page_message(tr('Mail account scheduled for modification!'));

@@ -3,7 +3,7 @@
 		<td style="width:100%; background-image:url({THEME_COLOR_PATH}/images/top/menu_top.jpg);padding-left:5px;vertical-align:middle;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td><img src="{THEME_COLOR_PATH}/images/icons/manage_users_big.gif" width="32" height="33" alt="" /></td>
+					<td><img src="{THEME_COLOR_PATH}/images/icons/manage_users_big.png" width="32" height="33" alt="" /></td>
 					<td><span class="titlemenu">{TR_MENU_MANAGE_USERS}</span></td>
 				</tr>
 			</table>
@@ -56,8 +56,6 @@
 				</tr>
 				<tr>
 					<td><a href="software_manage.php" class="submenu">{TR_MENU_MANAGE_SOFTWARE}</a></td>
-				<tr>
-					<td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>

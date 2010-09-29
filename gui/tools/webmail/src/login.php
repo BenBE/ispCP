@@ -112,7 +112,11 @@ if (!empty($sel)) {
         sqsession_register($sep, 'session_expired_post');
 }
 
+// Disable Browser Caching
+//
+header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
+header('Expires: Sat, 1 Jan 2000 00:00:00 GMT');
 
 do_hook('login_cookie');
 
@@ -187,7 +191,7 @@ if (isset($org_logo) && $org_logo) {
 }
 
 //
-// Modified by ispCP Omega - http://isp-control.net
+// @modified by ispCP Omega - http://isp-control.net
 //
 
 echo html_tag ( 'div',
@@ -208,7 +212,7 @@ echo html_tag ( 'div',
             	sprintf(_("SquirrelMail version %s"), $version) . '<br />' . "\n"),
 				NULL, NULL, 'class="login small"'
 			),
-			NULL, NULL, '" class="login'
+			NULL, NULL, 'class="login"'
         ),
 		NULL, NULL, 'id="container"' );
 

@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_owners.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -48,7 +48,7 @@ $tpl->define_dynamic('select_admin_option', 'select_admin');
  */
 function gen_reseller_table(&$tpl, &$sql) {
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -65,11 +65,11 @@ function gen_reseller_table(&$tpl, &$sql) {
 			`admin_id`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$i = 0;
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'MESSAGE' => tr('Reseller list is empty!'),
@@ -102,7 +102,7 @@ function gen_reseller_table(&$tpl, &$sql) {
 
 			$tpl->parse('RESELLER_ITEM', '.reseller_item');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -123,7 +123,7 @@ function gen_reseller_table(&$tpl, &$sql) {
 			`admin_name`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	while (!$rs->EOF) {
 
@@ -145,7 +145,7 @@ function gen_reseller_table(&$tpl, &$sql) {
 
 		$tpl->parse('SELECT_ADMIN_OPTION', '.select_admin_option');
 
-		$rs->MoveNext();
+		$rs->moveNext();
 
 		$i++;
 	}
@@ -191,7 +191,7 @@ function update_reseller_owner($sql) {
 				$up = exec_query($sql, $query, array($dest_admin, $admin_id));
 			}
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }

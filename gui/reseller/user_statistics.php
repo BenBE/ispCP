@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -78,8 +78,8 @@ $tpl->assign(
 );
 
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	$rows_per_page = (int)($cfg->DOMAIN_ROWS_PER_PAGE / 2);
 
@@ -108,7 +108,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 			`created_by` = ?
 	";
 
-	$rs = exec_query($sql, $count_query, array($reseller_id));
+	$rs = exec_query($sql, $count_query, $reseller_id);
 	$records_count = $rs->fields['cnt'];
 
 	$query = "
@@ -126,7 +126,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 			$start_index, $rows_per_page
 		";
 
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 	$tpl->assign(
 		array(
 			'RESELLER_NAME' => tohtml($reseller_name),
@@ -134,7 +134,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 		)
 	);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		$tpl->assign(
 			array(
 				'DOMAIN_LIST' => '',
@@ -181,15 +181,16 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 					`domain_admin_id` = ?
 			";
 
-			$dres = exec_query ($sql, $query, array($admin_id));
+			$dres = exec_query ($sql, $query, $admin_id);
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
 			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
 
 function generate_domain_entry(&$tpl, $user_id, $row) {
+
 	global $crnt_month, $crnt_year;
 
 	list($domain_name,
@@ -199,9 +200,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 		$smtp,
 		$pop3,
 		$utraff_current,
-		$udisk_current,
-		$i,
-		$j
+		$udisk_current
 	) = generate_user_traffic($user_id);
 
 	list($usub_current, $usub_max,

@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/order_settings.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 // Table with orders
@@ -69,9 +69,9 @@ function save_haf(&$tpl, &$sql) {
 		WHERE
 			`user_id` = ?
 	";
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
-	if ($rs->RecordCount() !== 0) {
+	if ($rs->recordCount() !== 0) {
 		// update query
 		$query = "
 			UPDATE
@@ -115,7 +115,7 @@ gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
 
 gen_logged_from($tpl);
 
-$coid = $cfg->exists('HOSTING_PLANS_LEVEL') ? $cfg->CUSTOM_ORDERPANEL_ID : '';
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 
 $url = $cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST . '/orderpanel/index.php?';
 $url .= 'coid='.$coid;
@@ -138,7 +138,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if ($cfg-DUMP_GUI_DEBUG) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

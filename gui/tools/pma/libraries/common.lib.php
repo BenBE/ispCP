@@ -575,7 +575,7 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
         $formatted_sql = '';
     } else {
         if (strlen($the_query) > $GLOBALS['cfg']['MaxCharactersInDisplayedSQL']) {
-            $formatted_sql = substr($the_query, 0, $GLOBALS['cfg']['MaxCharactersInDisplayedSQL']) . '[...]';
+            $formatted_sql = htmlspecialchars(substr($the_query, 0, $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'])) . '[...]';
         } else {
             $formatted_sql = PMA_formatSql(PMA_SQP_parse($the_query), $the_query);
         }
@@ -682,77 +682,6 @@ function PMA_mysqlDie($error_message = '', $the_query = '',
         echo $error_msg_output;
     }
 } // end of the 'PMA_mysqlDie()' function
-
-/**
- * Send HTTP header, taking IIS limits into account (600 seems ok)
- *
- * @uses    PMA_IS_IIS
- * @uses    PMA_COMING_FROM_COOKIE_LOGIN
- * @uses    PMA_get_arg_separator()
- * @uses    SID
- * @uses    strlen()
- * @uses    strpos()
- * @uses    header()
- * @uses    session_write_close()
- * @uses    headers_sent()
- * @uses    function_exists()
- * @uses    debug_print_backtrace()
- * @uses    trigger_error()
- * @uses    defined()
- * @param   string   $uri the header to send
- * @return  boolean  always true
- */
-function PMA_sendHeaderLocation($uri)
-{
-    if (PMA_IS_IIS && strlen($uri) > 600) {
-
-        echo '<html><head><title>- - -</title>' . "\n";
-        echo '<meta http-equiv="expires" content="0">' . "\n";
-        echo '<meta http-equiv="Pragma" content="no-cache">' . "\n";
-        echo '<meta http-equiv="Cache-Control" content="no-cache">' . "\n";
-        echo '<meta http-equiv="Refresh" content="0;url=' .$uri . '">' . "\n";
-        echo '<script type="text/javascript">' . "\n";
-        echo '//<![CDATA[' . "\n";
-        echo 'setTimeout("window.location = unescape(\'"' . $uri . '"\')", 2000);' . "\n";
-        echo '//]]>' . "\n";
-        echo '</script>' . "\n";
-        echo '</head>' . "\n";
-        echo '<body>' . "\n";
-        echo '<script type="text/javascript">' . "\n";
-        echo '//<![CDATA[' . "\n";
-        echo 'document.write(\'<p><a href="' . $uri . '">' . $GLOBALS['strGo'] . '</a></p>\');' . "\n";
-        echo '//]]>' . "\n";
-        echo '</script></body></html>' . "\n";
-
-    } else {
-        if (SID) {
-            if (strpos($uri, '?') === false) {
-                header('Location: ' . $uri . '?' . SID);
-            } else {
-                $separator = PMA_get_arg_separator();
-                header('Location: ' . $uri . $separator . SID);
-            }
-        } else {
-            session_write_close();
-            if (headers_sent()) {
-                if (function_exists('debug_print_backtrace')) {
-                    echo '<pre>';
-                    debug_print_backtrace();
-                    echo '</pre>';
-                }
-                trigger_error('PMA_sendHeaderLocation called when headers are already sent!', E_USER_ERROR);
-            }
-            // bug #1523784: IE6 does not like 'Refresh: 0', it
-            // results in a blank page
-            // but we need it when coming from the cookie login panel)
-            if (PMA_IS_IIS && defined('PMA_COMING_FROM_COOKIE_LOGIN')) {
-                header('Refresh: 0; ' . $uri);
-            } else {
-                header('Location: ' . $uri);
-            }
-        }
-    }
-}
 
 /**
  * returns array with tables of given db with extended information and grouped
@@ -1151,6 +1080,9 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice')
 
         // Basic url query part
         $url_params = array();
+        if (! isset($GLOBALS['db'])) {
+            $GLOBALS['db'] = '';
+        }
         if (strlen($GLOBALS['db'])) {
             $url_params['db'] = $GLOBALS['db'];
             if (strlen($GLOBALS['table'])) {
@@ -1191,7 +1123,9 @@ function PMA_showMessage($message, $sql_query = null, $type = 'notice')
         $url_params['sql_query']  = $sql_query;
         $url_params['show_query'] = 1;
 
-        if (! empty($cfg['SQLQuery']['Edit']) && ! $query_too_big) {
+        // even if the query is big and was truncated, offer the chance
+        // to edit it (unless it's enormous, see PMA_linkOrButton() )
+        if (! empty($cfg['SQLQuery']['Edit'])) {
             if ($cfg['EditInWindow'] == true) {
                 $onclick = 'window.parent.focus_querywindow(\'' . PMA_jsFormat($sql_query, false) . '\'); return false;';
             } else {
@@ -1397,7 +1331,7 @@ function PMA_formatByteDown($value, $limes = 6, $comma = 0)
         $return_value = PMA_formatNumber($value, 0);
     }
 
-    return array($return_value, $unit);
+    return array(trim($return_value), $unit);
 } // end of the 'PMA_formatByteDown' function
 
 /**
@@ -1689,6 +1623,13 @@ function PMA_generate_html_tabs($tabs, $url_params)
 function PMA_linkOrButton($url, $message, $tag_params = array(),
     $new_form = true, $strip_img = false, $target = '')
 {
+    $url_length = strlen($url);
+    // with this we should be able to catch case of image upload
+    // into a (MEDIUM) BLOB; not worth generating even a form for these
+    if ($url_length > $GLOBALS['cfg']['LinkLengthLimit'] * 100) {
+        return '';
+    }
+
     if (! is_array($tag_params)) {
         $tmp = $tag_params;
         $tag_params = array();
@@ -1710,7 +1651,7 @@ function PMA_linkOrButton($url, $message, $tag_params = array(),
         $tag_params_strings[] = $par_name . '="' . $par_value . '"';
     }
 
-    if (strlen($url) <= $GLOBALS['cfg']['LinkLengthLimit']) {
+    if ($url_length <= $GLOBALS['cfg']['LinkLengthLimit']) {
         // no whitespace within an <a> else Safari will make it part of the link
         $ret = "\n" . '<a href="' . $url . '" '
             . implode(' ', $tag_params_strings) . '>'
@@ -2016,7 +1957,8 @@ function PMA_getUniqueCondition($handle, $fields_cnt, $fields_meta, $row, $force
             $condition .= 'IS NULL AND';
         } else {
             // timestamp is numeric on some MySQL 4.1
-            if ($meta->numeric && $meta->type != 'timestamp') {
+            // for real we use CONCAT above and it should compare to string
+            if ($meta->numeric && $meta->type != 'timestamp' && $meta->type != 'real') {
                 $condition .= '= ' . $row[$i] . ' AND';
             } elseif (($meta->type == 'blob' || $meta->type == 'string')
                 // hexify only if this is a true not empty BLOB or a BINARY
@@ -2593,6 +2535,17 @@ function PMA_printable_bit_value($value, $length) {
     }
     $printable = substr($printable, -$length);
     return $printable;
+}
+
+/**
+ * Verifies whether the value contains a non-printable character 
+ *
+ * @uses    preg_match()
+ * @param   string $value 
+ * @return  boolean 
+ */
+function PMA_contains_nonprintable_ascii($value) {
+    return preg_match('@[^[:print:]]@', $value);
 }
 
 /**

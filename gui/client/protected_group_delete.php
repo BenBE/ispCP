@@ -32,6 +32,8 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 $dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
 
 
@@ -43,8 +45,8 @@ if (isset($_GET['gname'])
 	user_goto('protected_areas.php');
 }
 
-$change_status = Config::getInstance()->get('ITEM_DELETE_STATUS');
-$awstats_auth = Config::getInstance()->get('AWSTATS_GROUP_AUTH');
+$change_status = $cfg->ITEM_DELETE_STATUS;
+$awstats_auth = $cfg->AWSTATS_GROUP_AUTH;
 
 $query = "
 	UPDATE
@@ -71,7 +73,7 @@ $query = "
 		`dmn_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($dmn_id));
+$rs = exec_query($sql, $query, $dmn_id);
 
 while (!$rs->EOF) {
 
@@ -84,10 +86,10 @@ while (!$rs->EOF) {
 	if ($key !== false) {
 		unset($grp_id_splited[$key]);
 		if (count($grp_id_splited) == 0) {
-			$status = Config::getInstance()->get('ITEM_DELETE_STATUS');
+			$status = $cfg->ITEM_DELETE_STATUS;
 		} else {
 			$grp_id = implode(",", $grp_id_splited);
-			$status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+			$status = $cfg->ITEM_CHANGE_STATUS;
 		}
 		$update_query = "
 			UPDATE
@@ -101,7 +103,7 @@ while (!$rs->EOF) {
 		$rs_update = exec_query($sql, $update_query, array($grp_id, $status, $ht_id));
 	}
 
-	$rs->MoveNext();
+	$rs->moveNext();
 }
 
 send_request();

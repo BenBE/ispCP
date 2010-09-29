@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -65,7 +65,7 @@ if (isset($_GET['month']) && isset($_GET['year'])) {
 }
 
 function get_server_trafic($from, $to) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -85,7 +85,7 @@ function get_server_trafic($from, $to) {
 
 	$rs = exec_query($sql, $query, array($from, $to));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	} else {
 		return array($rs->fields['swbin'], $rs->fields['swbout'],
@@ -100,7 +100,7 @@ function get_server_trafic($from, $to) {
 function generate_page(&$tpl) {
 
 	global $month, $year;
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 
 	if ($month == date('m') && $year == date('Y')) {
@@ -138,7 +138,7 @@ function generate_page(&$tpl) {
 		$rs = exec_query($sql, $query, array($ftm, $ltm));
 		$has_data = false;
 		// if ($rs->fields['cnt'] > 0) {
-		if ($rs->RecordCount() > 0) {
+		if ($rs->recordCount() > 0) {
 			list($web_in,
 				$web_out,
 				$smtp_in,

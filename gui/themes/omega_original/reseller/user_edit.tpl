@@ -7,9 +7,12 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="pngfix.js"></script>
+<![endif]-->
 </head>
 
-<body onload="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.gif','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.gif','{THEME_COLOR_PATH}/images/icons/domains_a.gif','{THEME_COLOR_PATH}/images/icons/general_a.gif' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.gif','{THEME_COLOR_PATH}/images/icons/webtools_a.gif','{THEME_COLOR_PATH}/images/icons/statistics_a.gif','{THEME_COLOR_PATH}/images/icons/support_a.gif')">
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
 <!-- BDP: logged_from -->
 <tr>
@@ -117,6 +120,18 @@
                         </td>
                       </tr>
                       <tr>
+                        <td width="35">&nbsp;</td>
+                        <td width="200" class="content2">{TR_STREET1}</td>
+                        <td class="content"><input type="text" name="userstreet1" value="{VL_STREET1}" style="width:210px" class="textinput" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="35">&nbsp;</td>
+                        <td width="200" class="content2">{TR_STREET2}</td>
+                        <td class="content"><input type="text" name="userstreet2" value="{VL_STREET2}" style="width:210px" class="textinput" />
+                        </td>
+                      </tr>
+                      <tr>
                         <td width="25">&nbsp;</td>
                         <td width="200" class="content2">{TR_POST_CODE}</td>
                         <td class="content"><input type="text" name="userzip" value="{VL_USR_POSTCODE}" style="width:80px" class="textinput" />
@@ -138,18 +153,6 @@
                         <td width="35">&nbsp;</td>
                         <td width="200" class="content2">{TR_COUNTRY}</td>
                         <td class="content"><input type="text" name="usercountry" value="{VL_COUNTRY}" style="width:210px" class="textinput" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="35">&nbsp;</td>
-                        <td width="200" class="content2">{TR_STREET1}</td>
-                        <td class="content"><input type="text" name="userstreet1" value="{VL_STREET1}" style="width:210px" class="textinput" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="35">&nbsp;</td>
-                        <td width="200" class="content2">{TR_STREET2}</td>
-                        <td class="content"><input type="text" name="userstreet2" value="{VL_STREET2}" style="width:210px" class="textinput" />
                         </td>
                       </tr>
                       <tr>

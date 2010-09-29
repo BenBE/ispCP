@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/mail_edit.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('normal_mail', 'page');
@@ -42,6 +44,9 @@ $tpl->define_dynamic('forward_mail', 'page');
 // page functions
 
 function edit_mail_account(&$tpl, &$sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_GET['id']) || $_GET['id'] === '' || !is_numeric($_GET['id'])) {
 		set_page_message(tr('Email account not found!'));
 		user_goto('mail_accounts.php');
@@ -67,7 +72,7 @@ function edit_mail_account(&$tpl, &$sql) {
 
 	$rs = exec_query($sql, $query, array($mail_id, $dmn_name));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
 		user_goto('mail_accounts.php');
 	} else {
@@ -80,57 +85,57 @@ function edit_mail_account(&$tpl, &$sql) {
 		foreach (explode(',', $mail_type_list) as $mail_type) {
 			if ($mail_type == MT_NORMAL_MAIL) {
 				$mtype[] = 1;
-				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", array($domain_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $tmp1['domain_name'];
 			} else if ($mail_type == MT_NORMAL_FORWARD) {
 				$mtype[] = 4;
-				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", array($domain_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $tmp1['domain_name'];
 			} else if ($mail_type == MT_ALIAS_MAIL) {
 				$mtype[] = 2;
-				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $tmp1['alias_name'];
 			} else if ($mail_type == MT_ALIAS_FORWARD) {
 				$mtype[] = 5;
-				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow();
+				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow();
 				$maildomain = $tmp1['alias_name'];
 			} else if ($mail_type == MT_SUBDOM_MAIL) {
 				$mtype[] = 3;
-				$res1 = exec_query($sql, "SELECT `subdomain_name` FROM `subdomain` WHERE `subdomain_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow();
+				$res1 = exec_query($sql, "SELECT `subdomain_name` FROM `subdomain` WHERE `subdomain_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow();
 				$maildomain = $tmp1['subdomain_name'];
-				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", array($domain_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $maildomain . "." . $tmp1['domain_name'];
 			} else if ($mail_type == MT_SUBDOM_FORWARD) {
 				$mtype[] = 6;
-				$res1 = exec_query($sql, "SELECT `subdomain_name` FROM `subdomain` WHERE `subdomain_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow();
+				$res1 = exec_query($sql, "SELECT `subdomain_name` FROM `subdomain` WHERE `subdomain_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow();
 				$maildomain = $tmp1['subdomain_name'];
-				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", array($domain_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $maildomain . "." . $tmp1['domain_name'];
 			} else if ($mail_type == MT_ALSSUB_MAIL) {
 				$mtype[] = 7;
-				$res1 = exec_query($sql, "SELECT `subdomain_alias_name`, `alias_id` FROM `subdomain_alias` WHERE `subdomain_alias_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow();
+				$res1 = exec_query($sql, "SELECT `subdomain_alias_name`, `alias_id` FROM `subdomain_alias` WHERE `subdomain_alias_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow();
 				$maildomain = $tmp1['subdomain_alias_name'];
 				$alias_id = $tmp1['alias_id'];
-				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", array($alias_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", $alias_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $maildomain . "." . $tmp1['alias_name'];
 			} else if ($mail_type == MT_ALSSUB_FORWARD) {
 				$mtype[] = 8;
-				$res1 = exec_query($sql, "SELECT `subdomain_alias_name`, `alias_id` FROM `subdomain_alias` WHERE `subdomain_alias_id` = ?", array($sub_id));
-				$tmp1 = $res1->FetchRow();
+				$res1 = exec_query($sql, "SELECT `subdomain_alias_name`, `alias_id` FROM `subdomain_alias` WHERE `subdomain_alias_id` = ?", $sub_id);
+				$tmp1 = $res1->fetchRow();
 				$maildomain = $tmp1['subdomain_alias_name'];
 				$alias_id = $tmp1['alias_id'];
-				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", array($alias_id));
-				$tmp1 = $res1->FetchRow(0);
+				$res1 = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", $alias_id);
+				$tmp1 = $res1->fetchRow(0);
 				$maildomain = $maildomain . "." . $tmp1['alias_name'];
 			}
 		}
@@ -155,7 +160,7 @@ function edit_mail_account(&$tpl, &$sql) {
 				array(
 					'ACTION'				=> 'update_pass,update_forward',
 					'FORWARD_MAIL'			=> '',
-					'FORWARD_MAIL_CHECKED'	=> Config::getInstance()->get('HTML_CHECKED'),
+					'FORWARD_MAIL_CHECKED'	=> $cfg->HTML_CHECKED,
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
@@ -185,6 +190,9 @@ function edit_mail_account(&$tpl, &$sql) {
 }
 
 function update_email_pass($sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction'])) {
 		return false;
 	}
@@ -210,15 +218,15 @@ function update_email_pass($sql) {
 		set_page_message(tr('Entered passwords differ!'));
 		return false;
 	} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^$]/i")) { // Not permitted chars
-		if (Config::getInstance()->get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::getInstance()->get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::getInstance()->get('PASSWD_CHARS')));
+			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
 		}
 		return false;
 	} else {
 		$pass=encrypt_db_password($pass);
-		$status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+		$status = $cfg->ITEM_CHANGE_STATUS;
 		$query = "UPDATE `mail_users` SET `mail_pass` = ?, `status` = ? WHERE `mail_id` = ?";
 		$rs = exec_query($sql, $query, array($pass, $status, $mail_id));
 		write_log($_SESSION['user_logged'] . ": change mail account password: $mail_account");
@@ -227,6 +235,9 @@ function update_email_pass($sql) {
 }
 
 function update_email_forward(&$tpl, &$sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction'])) {
 		return false;
 	}
@@ -283,7 +294,7 @@ function update_email_forward(&$tpl, &$sql) {
 		}
 	}
 
-	$status = Config::getInstance()->get('ITEM_CHANGE_STATUS');
+	$status = $cfg->ITEM_CHANGE_STATUS;
 
 	$query = "UPDATE `mail_users` SET `mail_forward` = ?, `mail_type` = ?, `status` = ? WHERE `mail_id` = ?";
 
@@ -295,12 +306,11 @@ function update_email_forward(&$tpl, &$sql) {
 
 // end page functions.
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
 		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
-		'THEME_COLOR_PATH'					=> "../themes/$theme_color",
+		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET'						=> tr('encoding'),
 		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
 	)
@@ -318,8 +328,8 @@ if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -342,7 +352,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

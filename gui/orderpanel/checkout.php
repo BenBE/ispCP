@@ -30,8 +30,10 @@
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('PURCHASE_TEMPLATE_PATH') . '/checkout.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/checkout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -92,7 +94,7 @@ function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
 
 	$rs = exec_query($sql, $query, array($user_id, $plan_id, $date, $domain_name, $fname, $lname, $gender, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $status));
 
-	$order_id = $sql->Insert_ID();
+	$order_id = $sql->insertId();
 	send_order_emails($user_id, $domain_name, $fname, $lname, $email, $order_id);
 
 	// Remove useless data
@@ -130,7 +132,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (!isset($_POST['capcode']) || $_POST['capcode'] != $_SESSION['image']) {
@@ -176,6 +180,6 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

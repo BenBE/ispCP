@@ -31,11 +31,11 @@
 // Begin page line
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -125,8 +125,8 @@ function gen_hp_message(&$tpl) {
 function gen_hp_table(&$tpl, $reseller_id) {
 	global $external_event;
 
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($cfg->HOSTING_PLANS_LEVEL)
 		&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
@@ -147,11 +147,11 @@ function gen_hp_table(&$tpl, $reseller_id) {
 				t1.`name`
 		";
 
-		$rs = exec_query($sql, $query, array('admin'));
+		$rs = exec_query($sql, $query, 'admin');
 		$tr_edit = tr('View details');
 		$tpl->assign('HP_MENU_ADD', '');
 	} else {
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`id`, `name`, `props`, `status`
 			FROM
@@ -160,12 +160,12 @@ function gen_hp_table(&$tpl, $reseller_id) {
 				`reseller_id` = ?
 			ORDER BY
 				`name`
-SQL_QUERY;
-		$rs = exec_query($sql, $query, array($reseller_id));
+		";
+		$rs = exec_query($sql, $query, $reseller_id);
 		$tr_edit = tr('Edit');
 	}
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		// if ($external_event == '_off_') {
 		set_page_message(tr('Hosting plans not found!'));
 		// }
@@ -185,13 +185,13 @@ SQL_QUERY;
 				)
 		);
 
-		$coid = $cfg->CUSTOM_ORDERPANEL_ID
+		$coid = isset($cfg->CUSTOM_ORDERPANEL_ID)
 			? $cfg->CUSTOM_ORDERPANEL_ID
 			: '';
 
 		$i = 1;
 		$orders_count = 0;
-		while ($data = $rs->FetchRow()) {
+		while ($data = $rs->fetchRow()) {
 			list(
 				$hp_php,
 				$hp_cgi,

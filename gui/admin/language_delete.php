@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 // Test if we have a proper delete_id.
 if (!isset($_GET['delete_lang'])) {
@@ -58,10 +58,10 @@ $query = "
 		`lang` = ?
 ";
 
-$rs = exec_query($sql, $query, array($delete_lang));
+$rs = exec_query($sql, $query, $delete_lang);
 
 // ERROR - we have domains that use this IP
-if ($rs->RecordCount () > 0) {
+if ($rs->recordCount () > 0) {
 	set_page_message('Error we have user that uses that language!');
 
 	user_goto('multilanguage.php');
@@ -69,7 +69,7 @@ if ($rs->RecordCount () > 0) {
 
 $query = "DROP TABLE $delete_lang";
 
-$rs = exec_query($sql, $query, array());
+$rs = exec_query($sql, $query);
 
 write_log(sprintf("%s removed language: %s", $_SESSION['user_logged'], $delete_lang));
 

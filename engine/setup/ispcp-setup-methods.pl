@@ -28,14 +28,20 @@
 
 use strict;
 use warnings;
+use version 0.74;
+use DateTime;
+use DateTime::TimeZone;
 
 # Hide the "used only once: possible typo" warnings
 no warnings 'once';
 
-#
-## Ask subroutines - Begin
-#
+################################################################################
+##                              Ask subroutines                                #
+################################################################################
 
+################################################################################
+# Should be documented
+#
 sub ask_hostname {
 
 	push_el(\@main::el, 'ask_hostname()', 'Starting...');
@@ -85,16 +91,20 @@ sub ask_hostname {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_eth {
 
 	push_el(\@main::el, 'ask_eth()', 'Starting...');
 
-	my ($rs, $rdata, $warn_msg) = (undef, undef, '');
+	my ($rs, $rdata, $warn_msg);
 
-	# TODO: Replace ifconfig, grep, awk with paths in ispcp.conf
 	my $cmd =
-		"/sbin/ifconfig |grep -v inet6|grep inet|grep -v 127.0.0.1|awk ' " .
-		"{print \$2}'|head -n 1|awk -F: '{print \$NF}' 1>/tmp/ispcp-setup.ip";
+		"$main::cfg{'CMD_IFCONFIG'}|$main::cfg{'CMD_GREP'} -v inet6|" .
+		"$main::cfg{'CMD_GREP'} inet|$main::cfg{'CMD_GREP'} -v 127.0.0.1|" .
+		"$main::cfg{'CMD_AWK'} ' {print \$2}'|head -n 1|" .
+		"$main::cfg{'CMD_AWK'} -F: '{print \$NF}' 1>/tmp/ispcp-setup.ip";
 
 	# FIXME: No error correction, if /tmp/ispcp-setup.ip not readable
 	$rs = sys_command($cmd);
@@ -108,7 +118,7 @@ sub ask_eth {
 
 	($rs, $rdata) = get_file('/tmp/ispcp-setup.ip');
 
-	unless(!$rs){
+	unless(!$rs) {
 		$warn_msg = colored(['bold red'], "\n\tERROR: ") .
 			'Unable to get the file /tmp/ispcp-setup.ip!'. "\n";
 		return ($rs, $warn_msg);
@@ -143,6 +153,9 @@ sub ask_eth {
 	return (0, '');
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_host {
 
 	push_el(\@main::el, 'ask_db_host()', 'Starting...');
@@ -166,6 +179,9 @@ sub ask_db_host {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_name {
 
 	push_el(\@main::el, 'ask_db_name()', 'Starting...');
@@ -189,6 +205,9 @@ sub ask_db_name {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_user {
 
 	push_el(\@main::el, 'ask_db_user()', 'Starting...');
@@ -212,6 +231,9 @@ sub ask_db_user {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_password {
 
 	push_el(\@main::el, 'ask_db_password()', 'Starting...');
@@ -249,6 +271,9 @@ sub ask_db_password {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_ftp_user {
 
 	push_el(\@main::el, 'ask_db_ftp_user()', 'Starting...');
@@ -283,6 +308,9 @@ sub ask_db_ftp_user {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_ftp_password {
 
 	push_el(\@main::el, 'ask_db_ftp_password()', 'Starting...');
@@ -326,6 +354,9 @@ sub ask_db_ftp_password {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_admin {
 
 	push_el(\@main::el, 'ask_admin()', 'Starting...');
@@ -349,6 +380,9 @@ sub ask_admin {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_admin_password {
 
 	push_el(\@main::el, 'ask_admin_password()', 'Starting...');
@@ -401,6 +435,9 @@ sub ask_admin_password {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_admin_email {
 
 	push_el(\@main::el, 'ask_admin_email()', 'Starting...');
@@ -478,6 +515,9 @@ sub ask_admin_email {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_vhost {
 
 	push_el(\@main::el, 'ask_vhost()', 'Starting...');
@@ -498,7 +538,7 @@ sub ask_vhost {
 		$addr = $main::ua{'hostname'};
 	}
 
-	# Todo [INTERNAL DISCUSSION] : It's a not good idea to remove hostname part
+	# TODO [INTERNAL DISCUSSION] : It's a not good idea to remove hostname part
 	# of the long hostname to purpose admin.domain.tld instead of admin.hostname.domain.tld ?
 	my $vhost = "admin.$addr";
 	my $qmsg = "\n\tPlease enter the domain name where ispCP OMEGA will run on [$vhost]: ";
@@ -526,6 +566,9 @@ sub ask_vhost {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_second_dns {
 
 	push_el(\@main::el, 'ask_second_dns()', 'Starting...');
@@ -557,6 +600,9 @@ sub ask_second_dns {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_mysql_prefix {
 
 	push_el(\@main::el, 'ask_mysql_prefix()', 'Starting...');
@@ -599,6 +645,9 @@ sub ask_mysql_prefix {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_pma_user {
 
 	push_el(\@main::el, 'ask_db_pma_user()', 'Starting...');
@@ -647,6 +696,9 @@ sub ask_db_pma_user {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_db_pma_password {
 
 	push_el(\@main::el, 'ask_db_pma_password()', 'Starting...');
@@ -688,37 +740,28 @@ sub ask_db_pma_password {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_fastcgi {
-
 	push_el(\@main::el, 'ask_fastcgi()', 'Starting...');
 
 	my $rdata = undef;
-
 	my $qmsg = "\n\tFastCGI Version: [f]cgid or fast[c]gi. [fcgid]: ";
 
 	print STDOUT $qmsg;
-
 	chomp($rdata = readline \*STDIN);
 
 	if (!defined($rdata) || $rdata eq '') {
-
 		$main::ua{'php_fastcgi'} = 'fcgid';
-
 	} else {
-
 		if ($rdata eq 'fcgid' || $rdata eq 'f') {
-
 			$main::ua{'php_fastcgi'} = 'fcgid';
-
 		} elsif ($rdata eq 'fastcgi' || $rdata eq 'c') {
-
 			$main::ua{'php_fastcgi'} = 'fastcgi';
-
 		} else {
-
 			print STDOUT colored(['bold red'], "\n\tERROR:") .
 				 " Only '[f]cgid' or 'fast[c]gi' are allowed!";
-
 			return 1;
 		}
 	}
@@ -728,33 +771,81 @@ sub ask_fastcgi {
 	0;
 }
 
-sub ask_awstats_on {
+################################################################################
+# Should be documented
+#
+sub ask_timezone {
+	push_el(\@main::el, 'ask_timezone()', 'Starting...');
 
+	my $error = 0;
+
+	# Get the user's default timezone
+	my ($sec, $min, $hour, $mday, $mon, $year, @misc) = localtime(time);
+	my $datetime  = DateTime->new(
+						year => $year + 1900,
+						month => $mon,
+						day => $mday,
+						hour => $hour,
+						minute => $min,
+						second => $sec,
+						time_zone => 'local'
+					);
+	my $timezone_name = $datetime->time_zone_long_name();
+
+	my $rdata;
+	my $qmsg = "\n\tServer's Timezone [$timezone_name]: ";
+
+	print STDOUT $qmsg;
+	chomp($rdata = readline \*STDIN);
+
+	# Copy $timezone_name to $rdata if $rdata is empty
+	if (!defined($rdata) || $rdata eq '') {
+		$rdata = $timezone_name;
+	}
+
+	# DateTime::TimeZone::is_olson exits with die if the given data is not valid
+	# eval catches the die() and keeps this program alive
+	eval {
+		my $timezone = DateTime::TimeZone->new(name => $rdata);
+		$timezone->is_olson;
+	};
+	$error = 1 if $@; # $@ contains the die() message
+
+	if ($error == 1) {
+		print STDOUT colored(['bold red'], "\n\tERROR: ") .
+			$rdata . " is not a valid Timezone!" .
+			"\n\tThe continent and the city both must start with a capital letter, " .
+			"e.g. Europe/London\n";
+		return 1;
+	} else {
+		$main::ua{'php_timezone'} = $rdata;
+	}
+
+	push_el(\@main::el, 'ask_timezone()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+# Should be documented
+#
+sub ask_awstats_on {
 	push_el(\@main::el, 'ask_awstats_on()', 'Starting...');
 
 	my $rdata = undef;
 	my $qmsg = "\n\tActivate AWStats. [no]: ";
 
 	print STDOUT $qmsg;
-
 	chomp($rdata = readline \*STDIN);
 
 	if (!defined($rdata) || $rdata eq '') {
-
 		$main::ua{'awstats_on'} = 'no';
-
 	} else {
-
 		if ($rdata eq 'yes' || $rdata eq 'y') {
-
 			$main::ua{'awstats_on'} = 'yes';
-
 		} elsif ($rdata eq 'no' || $rdata eq 'n') {
-
 			$main::ua{'awstats_on'} = 'no';
-
 		} else {
-
 			print STDOUT colored(['bold red'], "\n\tERROR:") .
 				" Only '(y)es' and '(n)o' are allowed!";
 			return 1;
@@ -766,36 +857,28 @@ sub ask_awstats_on {
 	0;
 }
 
+################################################################################
+# Should be documented
+#
 sub ask_awstats_dyn {
-
 	push_el(\@main::el, 'ask_awstats_dyn()', 'Starting...');
 
 	my $rdata = undef;
 	my $qmsg = "\n\tAWStats Mode:\n\tPossible values [d]ynamic and [s]tatic. [dynamic]: ";
 
 	print STDOUT $qmsg;
-
 	chomp($rdata = readline \*STDIN);
 
 	if (!defined($rdata) || $rdata eq '') {
-
 		$main::ua{'awstats_dyn'} = '0';
-
 	} else {
-
 		if ($rdata eq 'dynamic' || $rdata eq 'd') {
-
 			$main::ua{'awstats_dyn'} = '0';
-
 		} elsif ($rdata eq 'static' || $rdata eq 's') {
-
 			$main::ua{'awstats_dyn'} = '1';
-
 		} else {
-
 			print STDOUT colored(['bold red'], "\n\tERROR:") .
 				 " Only '[d]ynamic' or '[s]tatic' are allowed!";
-
 			return 1;
 		}
 	}
@@ -805,23 +888,19 @@ sub ask_awstats_dyn {
 	0;
 }
 
-#
-## Ask subroutines - End
-#
+################################################################################
+#                         Setup / Update subroutines                           #
+################################################################################
 
-#
-## Setup / Update subroutines - Begin
-#
-
+################################################################################
 # IspCP crontab setup / update
-# Built, store and install the ispCP crontab file
+#
+# This subroutine built, store and install the ispCP crontab file
+#
 sub setup_crontab {
-
 	push_el(\@main::el, 'setup_crontab()', 'Starting...');
 
-	my ($rs, $rdata, $cmd) = (undef, undef, undef);
-
-	my $cfg_tpl = undef;
+	my ($rs, $rdata, $cmd, $cfg_tpl);
 	my $cfg = \$cfg_tpl;
 
 	my ($awstats, $rkhunter, $chkrootkit) = ('', undef, undef);
@@ -834,11 +913,8 @@ sub setup_crontab {
 
 	# Determines the path of production directory
 	if ($main::cfg{'ROOT_GROUP'} eq 'wheel') {
-
 		$prod_dir = '/usr/local/etc/ispcp/cron.d';
-
 	} else {
-
 		$prod_dir = '/etc/cron.d'
 	}
 
@@ -923,9 +999,13 @@ sub setup_crontab {
 	0;
 }
 
+################################################################################
 # IspCP named main configuration setup / update
-# Built, store and install main named configuration file
+#
+# This subroutine built, store and install the main named configuration file
+#
 # @TODO Change related Makefile
+#
 sub setup_named {
 
 	push_el(\@main::el, 'setup_named()', 'Starting...');
@@ -1023,15 +1103,19 @@ sub setup_named {
 	0;
 }
 
+################################################################################
 # IspCP php main configuration setup / update
-# Built, store and install all system php related configuration files
-# Enable required modules and disable unused
+#
+# This subroutine do the following tasks:
+#  - Built, store and install all system php related configuration files
+#  - Enable required modules and disable unused
+#
 sub setup_php {
 
 	push_el(\@main::el, 'setup_php()', 'Starting...');
 
 	# Do not generate cfg files if the service is disabled
-	return 0 if($main::cfg{'APACHE_CMD'} =~ /^no$/i);
+	return 0 if($main::cfg{'CMD_HTTPD'} =~ /^no$/i);
 
 	my ($rs, $cmd) = (undef, undef);
 
@@ -1083,7 +1167,7 @@ sub setup_php {
 	foreach(qw/fastcgi fcgid/) {
 
 		# Loading the template from /etc/ispcp/apache
-		($rs, $cfg_tpl) = get_file("$cfg_dir/$_\_ispcp.conf");
+		($rs, $cfg_tpl) = get_file("$cfg_dir/${_}_ispcp.conf");
 		return $rs if ($rs != 0);
 
 		# Building the new configuration file
@@ -1092,7 +1176,7 @@ sub setup_php {
 
 		# Store the new file
 		$rs = store_file(
-			"$wrk_dir/$_\_ispcp.conf",
+			"$wrk_dir/${_}_ispcp.conf",
 			$$cfg,
 			$main::cfg{'ROOT_USER'},
 			$main::cfg{'ROOT_GROUP'},
@@ -1101,7 +1185,7 @@ sub setup_php {
 		return $rs if ($rs != 0);
 
 		# Install the new file
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/$_\_ispcp.conf $main::cfg{'APACHE_MODS_DIR'}/";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/${_}_ispcp.conf $main::cfg{'APACHE_MODS_DIR'}/";
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 	}
@@ -1120,7 +1204,7 @@ sub setup_php {
 
 		# Store the new file
 		$rs = store_file(
-			"$wrk_dir/$_\_ispcp.load",
+			"$wrk_dir/${_}_ispcp.load",
 			$$cfg,
 			$main::cfg{'ROOT_USER'},
 			$main::cfg{'ROOT_GROUP'},
@@ -1129,7 +1213,7 @@ sub setup_php {
 		return $rs if ($rs != 0);
 
 		# Install the new file
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/$_\_ispcp.load $main::cfg{'APACHE_MODS_DIR'}/";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/${_}_ispcp.load $main::cfg{'APACHE_MODS_DIR'}/";
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 	}
@@ -1179,15 +1263,19 @@ sub setup_php {
 	0;
 }
 
+################################################################################
 # IspCP httpd main vhost setup / update
-# Build, store and install ispCP main vhost configuration file
-# Enable required modules (cgid, rewrite, suexec)
+#
+# This subroutine do the following tasks:
+#  - Built, store and install ispCP main vhost configuration file
+#  - Enable required modules (cgid, rewrite, suexec)
+#
 sub setup_httpd_main_vhost {
 
 	push_el(\@main::el, 'setup_httpd_main_vhost()', 'Starting...');
 
 	# Do not generate cfg files if the service is disabled
-	return 0 if($main::cfg{'APACHE_CMD'} =~ /^no$/i);
+	return 0 if($main::cfg{'CMD_HTTPD'} =~ /^no$/i);
 
 	my ($rs, $cmd) = (undef, undef);
 
@@ -1219,17 +1307,28 @@ sub setup_httpd_main_vhost {
 
 	# Building, storage and installation of new file - Begin
 
+	# Using alternative syntax for piped logs scripts when possible
+	# The alternative syntax does not involve the Shell (from Apache 2.2.12)
+	my $pipeSyntax = '|';
+
+	if(`$main::cfg{'CMD_HTTPD'} -v` =~ m!Apache/([\d.]+)! &&
+		version->new($1) >= version->new('2.2.12')) {
+		$pipeSyntax .= '|';
+	}
+
 	# Loading the template from /etc/ispcp/apache/
 	($rs, $cfg_tpl) = get_file("$cfg_dir/httpd.conf");
 	return $rs if ($rs != 0);
 
-	# Tags preparation
-	my %tags_hash = (
-		'{HOST_IP}' => $main::cfg{'BASE_SERVER_IP'}
-	);
-
 	# Building the new file
-	($rs, $$cfg) = prep_tpl(\%tags_hash, $cfg_tpl);
+	($rs, $$cfg) = prep_tpl(
+		{
+			'{APACHE_WWW_DIR}' => $main::cfg{'APACHE_WWW_DIR'},
+			'{ROOT_DIR}' => $main::cfg{'ROOT_DIR'},
+			'{PIPE}' => $pipeSyntax
+		},
+		$cfg_tpl
+	);
 	return $rs if ($rs != 0);
 
 	# Store the new file in working directory
@@ -1276,10 +1375,14 @@ sub setup_httpd_main_vhost {
 	0;
 }
 
+################################################################################
 # IspCP awstats vhost setup / update
-# Build, store and install awstats vhost configuration file
-# Change proxy module configuration file if it exits
-# Enable proxy module
+#
+# This subroutine do the following tasks:
+#  - Built, store and install awstats vhost configuration file
+#  - Change proxy module configuration file if it exits
+#  - Enable proxy module
+#
 sub setup_awstats_vhost {
 
 	push_el(\@main::el, 'setup_awstats_vhost()', 'Starting...');
@@ -1415,7 +1518,6 @@ sub setup_awstats_vhost {
 		# Enable awstats vhost - Begin
 
 		if(-e '/usr/sbin/a2ensite') {
-
 			sys_command("/usr/sbin/a2ensite 01_awstats.conf $main::rlogfile");
 		}
 
@@ -1423,8 +1525,10 @@ sub setup_awstats_vhost {
 
 		# Update Apache logrotate file - Begin
 
-		# FIXME: check for openSUSE and other dists...
-		# Todo create dedicated directory for backup logrotate configuration file
+		# if the distribution provides an apache or apache2 logrotation file,
+		# update it with the awstats information. If not, use the ispcp file.
+		# logrotation should be never executed twice. Therefore it is sane to
+		# define it two times in different scopes.
 		foreach(qw/apache apache2/) {
 
 			next if(! -e "$bk_dir/$_.system");
@@ -1463,8 +1567,11 @@ sub setup_awstats_vhost {
 	0;
 }
 
+################################################################################
 # IspCP Postfix setup / update
-# Build, store and install Postfix configuration file
+#
+# This subroutine built, store and install Postfix configuration files
+#
 sub setup_mta {
 
 	push_el(\@main::el, 'setup_mta()', 'Starting...');
@@ -1640,10 +1747,13 @@ sub setup_mta {
 	0;
 }
 
+################################################################################
 # IspCP Courier setup / update
-# Build, store and install Courier, related configuration
-# files (authdaemonrc userdb)
-# Creates userdb.dat from the contents of userdb
+#
+# This subroutine do the following tasks:
+#  - Built, store and install Courier, related configuration files
+#  - Creates userdb.dat from the contents of userdb file
+#
 sub setup_po {
 
 	push_el(\@main::el, 'setup_po()', 'Starting...');
@@ -1755,9 +1865,13 @@ sub setup_po {
 	0;
 }
 
+################################################################################
 # IspCP Proftpd setup / update
-# Build, store and install Proftpd main configuration files
-# Create Ftpd Sql account if needed
+#
+# This subroutine do the following tasks:
+#  - Built, store and install Proftpd main configuration files
+#  - Create Ftpd SQL account if needed
+#
 sub setup_ftpd {
 
 	push_el(\@main::el, 'setup_ftpd()', 'Starting...');
@@ -1968,11 +2082,8 @@ sub setup_ftpd {
 
 	# Store the new file in working directory
 	$rs = store_file(
-		"$wrk_dir/proftpd.conf",
-		$$cfg,
-		$main::cfg{'ROOT_USER'},
-		$main::cfg{'ROOT_GROUP'},
-		0600
+		"$wrk_dir/proftpd.conf", $$cfg, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0600
 	);
 	return $rs if ($rs != 0);
 
@@ -1989,10 +2100,8 @@ sub setup_ftpd {
 
 	if (! -e "$main::cfg{'TRAFF_LOG_DIR'}/proftpd") {
 		$rs = make_dir(
-			"$main::cfg{'TRAFF_LOG_DIR'}/proftpd",
-			$main::cfg{'ROOT_USER'},
-			$main::cfg{'ROOT_GROUP'},
-			0755
+			"$main::cfg{'TRAFF_LOG_DIR'}/proftpd", $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0755
 		);
 		return $rs if ($rs != 0);
 	}
@@ -2000,11 +2109,8 @@ sub setup_ftpd {
 	if(! -e "$main::cfg{'TRAFF_LOG_DIR'}$main::cfg{'FTP_TRAFF_LOG'}") {
 
 		$rs = store_file(
-			"$main::cfg{'TRAFF_LOG_DIR'}$main::cfg{'FTP_TRAFF_LOG'}",
-			"\n",
-			$main::cfg{'ROOT_USER'},
-			$main::cfg{'ROOT_GROUP'},
-			0644
+			"$main::cfg{'TRAFF_LOG_DIR'}$main::cfg{'FTP_TRAFF_LOG'}", "\n",
+			$main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644
 		);
 		return $rs if ($rs != 0);
 	}
@@ -2014,8 +2120,11 @@ sub setup_ftpd {
 	0;
 }
 
+################################################################################
 #  IspCP Daemon, network setup / update
-#  Install or update the ispCP daemon and network init scripts
+#
+# This subroutine install or update the ispCP daemon and network init scripts
+#
 sub setup_ispcp_daemon_network {
 
 	push_el(\@main::el, 'setup_ispcp_daemon_network()', 'Starting...');
@@ -2080,8 +2189,11 @@ sub setup_ispcp_daemon_network {
 	0;
 }
 
+################################################################################
 # IspCP GUI apache vhost setup / update
-# Build, store and install ispCP GUI vhost configuration file
+#
+# this subroutine built, store and install ispCP GUI vhost configuration file
+#
 sub setup_gui_httpd {
 
 	push_el(\@main::el, 'setup_gui_httpd()', 'Starting...');
@@ -2148,11 +2260,8 @@ sub setup_gui_httpd {
 	# Storage and installation of new file - Begin
 
 	$rs = store_file(
-		"$wrk_dir/00_master.conf",
-		$$cfg,
-		$main::cfg{'ROOT_USER'},
-		$main::cfg{'ROOT_GROUP'},
-		0644
+		"$wrk_dir/00_master.conf", $$cfg, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
 	);
 	return $rs if ($rs != 0);
 
@@ -2208,9 +2317,12 @@ sub setup_gui_httpd {
 	0;
 }
 
+################################################################################
 # ispCP GUI PHP configuration files - Setup / Update
-# Create gui fcgi directory
-# Build, store and install gui php related files (starter script, php.ini)
+#
+# This subroutine do the following tasks:
+#  - Create the master fcgi directory
+#  - Built, store and install gui php related files (starter script, php.ini...)
 sub setup_gui_php {
 
 	push_el(\@main::el, 'setup_gui_php()', 'Starting...');
@@ -2231,7 +2343,7 @@ sub setup_gui_php {
 
 		my $timestamp = time();
 
-		foreach(qw{php5-fcgi-starter php5/php.ini}) {
+		foreach(qw{php5-fcgi-starter php5/php.ini php5/browscap.ini}) {
 
 			if(-e "$main::cfg{'PHP_STARTER_DIR'}/master/$_") {
 				my (undef, $file) = split('/');
@@ -2245,13 +2357,11 @@ sub setup_gui_php {
 		}
 	}
 
-	# Create the fcgi directory for gui user if it doesn't exists - Begin
+	# Create the fcgi directories tree for gui user if it doesn't exists - Begin
 
 	$rs = make_dir(
-		"$main::cfg{'PHP_STARTER_DIR'}/master/php5",
-		$main::cfg{'ROOT_USER'},
-		$main::cfg{'ROOT_GROUP'},
-		0755
+		"$main::cfg{'PHP_STARTER_DIR'}/master/php5", $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0755
 	);
 	return $rs if ($rs != 0);
 
@@ -2277,8 +2387,7 @@ sub setup_gui_php {
 
 	# Store the new file in working directory
 	$rs = store_file(
-		"$wrk_dir/master.php5-fcgi-starter",
-		$$cfg,
+		"$wrk_dir/master.php5-fcgi-starter", $$cfg,
 		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_UID'},
 		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_GID'},
 		0755
@@ -2309,7 +2418,10 @@ sub setup_gui_php {
 		'{PEAR_DIR}' => $main::cfg{'PEAR_DIR'},
 		'{RKHUNTER_LOG}' => $main::cfg{'RKHUNTER_LOG'},
 		'{CHKROOTKIT_LOG}' => $main::cfg{'CHKROOTKIT_LOG'},
-		'{OTHER_ROOTKIT_LOG}' => ($main::cfg{'OTHER_ROOTKIT_LOG'} ne '') ? ":$main::cfg{'OTHER_ROOTKIT_LOG'}" : ''
+		'{OTHER_ROOTKIT_LOG}' => ($main::cfg{'OTHER_ROOTKIT_LOG'} ne '')
+			? ":$main::cfg{'OTHER_ROOTKIT_LOG'}" : '',
+		'{PHP_STARTER_DIR}' => $main::cfg{'PHP_STARTER_DIR'},
+		'{PHP_TIMEZONE}' => $main::cfg{'PHP_TIMEZONE'}
 	);
 
 	# Building the new file
@@ -2318,8 +2430,7 @@ sub setup_gui_php {
 
 	# Store the new file in working directory
 	$rs = store_file(
-		"$wrk_dir/master.php.ini",
-		$$cfg,
+		"$wrk_dir/master.php.ini", $$cfg,
 		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_UID'},
 		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_GID'},
 		0644
@@ -2328,18 +2439,47 @@ sub setup_gui_php {
 
 	# Install the new file
 	$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/master.php.ini $main::cfg{'PHP_STARTER_DIR'}/master/php5/php.ini";
+
 	$rs = sys_command($cmd);
 	return $rs if ($rs != 0);
 
 	# PHP5 php.ini file - End
+
+	# PHP Browser Capabilities support file - Begin
+
+	# Store the new file in working directory
+	$cmd = "$main::cfg{'CMD_CP'} -pf $cfg_dir/parts/master/php5/browscap.ini $wrk_dir/browscap.ini";
+
+	$rs = sys_command($cmd);
+	return $rs if ($rs != 0);
+
+	# Set file permissions
+	$rs = setfmode(
+		"$wrk_dir/browscap.ini",
+		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_UID'},
+		$main::cfg{'APACHE_SUEXEC_USER_PREF'} . $main::cfg{'APACHE_SUEXEC_MIN_GID'},
+		0644
+	);
+	return $rs if ($rs != 0);
+
+	# Install the new file
+	$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/browscap.ini $main::cfg{'PHP_STARTER_DIR'}/master/php5/browscap.ini";
+
+	$rs = sys_command($cmd);
+	return $rs if ($rs != 0);
+
+	# PHP Browser Capabilities support file - End
 
 	push_el(\@main::el, 'setup_gui_php()', 'Ending...');
 
 	0;
 }
 
+################################################################################
 # IspCP GUI pma configuration file and pma slq controluser - Setup / Update
-# Build, store and install ispCP GUI pma configuration file (config.inc.php)
+#
+# This subroutine built, store and install the ispCP GUI pma configuration file
+#
 sub setup_gui_pma {
 
 	push_el(\@main::el, 'setup_gui_pma()', 'Starting...');
@@ -2360,14 +2500,12 @@ sub setup_gui_pma {
 
 	# Install
 	if(!defined &update_engine) {
-
 		$pma_sql_user = $main::ua{'db_pma_user'};
 		$pma_sql_password = $main::ua{'db_pma_password'};
 		$hostname = $main::ua{'db_host'};
 
 	# Update:
 	} else {
-
 		if($cfg_file =~ /\{(?:HOSTNAME|PMA_USER|PMA_PASS|BLOWFISH|TMP_DIR)\}/) {
 
 			print STDOUT colored(['bold yellow'], "\n\n\tWARNING: ") .
@@ -2394,7 +2532,6 @@ sub setup_gui_pma {
 	#
 
 	if(defined $pma_sql_user && defined $pma_sql_password) {
-
 		$main::db = undef;
 
 		@main::db_connect = (
@@ -2487,11 +2624,9 @@ sub setup_gui_pma {
 
 		$sql = "
 			GRANT SELECT (
-				Host, User, Select_priv, Insert_priv,
-				 Update_priv, Delete_priv, Create_priv,
-				 Drop_priv, Reload_priv, Shutdown_priv,
-				 Process_priv, File_priv, Grant_priv,
-				 References_priv, Index_priv, Alter_priv,
+				Host, User, Select_priv, Insert_priv, Update_priv, Delete_priv,
+				Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv,
+				File_priv, Grant_priv, References_priv, Index_priv, Alter_priv,
 				 Show_db_priv, Super_priv, Create_tmp_table_priv,
 				 Lock_tables_priv, Execute_priv, Repl_slave_priv,
 				 Repl_client_priv
@@ -2589,17 +2724,19 @@ sub setup_gui_pma {
 	0;
 }
 
+################################################################################
 # IspCP Gui named configuration
-# Add Gui named cfg data in main configuration file
-# Building GUI named dns record's file
+#
+# This subroutine do the following tasks:
+#  - Add Gui named cfg data in main configuration file
+#  - Built GUI named dns record's file
+#
 sub setup_gui_named {
 
 	push_el(\@main::el, 'setup_gui_named()', 'Starting...');
 
-	my $rs = undef;
-
 	# Add GUI named cfg data
-	$rs = setup_gui_named_cfg_data($main::cfg{'BASE_SERVER_VHOST'});
+	my $rs = setup_gui_named_cfg_data($main::cfg{'BASE_SERVER_VHOST'});
 	return $rs if($rs != 0);
 
 	# Building GUI named dns records file
@@ -2614,8 +2751,10 @@ sub setup_gui_named {
 	0;
 }
 
+################################################################################
 # IspCP Gui named cfg file Setup / Update
 # Add Gui named cfg data in main configuration file
+#
 sub setup_gui_named_cfg_data {
 
 	push_el(\@main::el, 'setup_gui_named_cfg_data()', 'Starting...');
@@ -2658,15 +2797,9 @@ sub setup_gui_named_cfg_data {
 	# Loading all needed templates from /etc/ispcp/bind/parts
 	my ($entry_b, $entry_e, $entry) = ('', '', '');
 
-	(	$rs,
-		$entry_b,
-		$entry_e,
-		$entry
+	(	$rs, $entry_b, $entry_e, $entry
 	) = get_tpl(
-		$tpl_dir,
-		'cfg_entry_b.tpl',
-		'cfg_entry_e.tpl',
-		'cfg_entry.tpl'
+		$tpl_dir, 'cfg_entry_b.tpl', 'cfg_entry_e.tpl', 'cfg_entry.tpl'
 	);
 	return $rs if ($rs != 0);
 
@@ -2679,15 +2812,8 @@ sub setup_gui_named_cfg_data {
 	# Replacement tags
 	my ($entry_b_val, $entry_e_val, $entry_val) = ('', '', '');
 
-	(	$rs,
-		$entry_b_val,
-		$entry_e_val,
-		$entry_val
-	) = prep_tpl(
-		\%tags_hash,
-		$entry_b,
-		$entry_e,
-		$entry
+	($rs, $entry_b_val, $entry_e_val, $entry_val) = prep_tpl(
+		\%tags_hash, $entry_b, $entry_e, $entry
 	);
 	return $rs if ($rs != 0);
 
@@ -2699,11 +2825,7 @@ sub setup_gui_named_cfg_data {
 	my $entry_repl = "$entry_b_val$entry_val$entry_e_val\n$entry_b$entry_e";
 
 	($rs, $cfg) = repl_tag(
-		$entry_b,
-		$entry_e,
-		$cfg,
-		$entry_repl,
-		'setup_gui_named_cfg_data'
+		$entry_b, $entry_e, $cfg, $entry_repl, 'setup_gui_named_cfg_data'
 	);
 	return $rs if ($rs != 0);
 
@@ -2717,11 +2839,8 @@ sub setup_gui_named_cfg_data {
 
 	# Store the new builded file in the working directory
 	$rs = store_file(
-		"$wrk_dir/named.conf",
-		$cfg,
-		$main::cfg{'ROOT_USER'},
-		$main::cfg{'ROOT_GROUP'},
-		0644
+		"$wrk_dir/named.conf", $cfg, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
 	);
 	return $rs if ($rs != 0);
 
@@ -2739,6 +2858,7 @@ sub setup_gui_named_cfg_data {
 	0;
 }
 
+################################################################################
 # IspCP Gui named dns record's Setup / Update
 # Building GUI named dns record's file
 sub setup_gui_named_db_data {
@@ -2747,17 +2867,19 @@ sub setup_gui_named_db_data {
 
 	my ($base_ip, $base_vhost) = @_;
 
+	if (!defined($base_vhost) || $base_vhost eq '') {
+		push_el(
+			\@main::el, 'add_named_db_data()', 'FATAL: Undefined Input Data...'
+		);
+
+		return 1;
+	}
+
+	my ($rs, $cmd, $wrk_file_content, $entries);
 	# Slave DNS  - Address IP
 	my $sec_dns_ip = $main::cfg{'SECONDARY_DNS'};
-
-	my ($rs, $cmd) = (undef, undef);
-
-	# SOA Record - Serial number related data
-	my ($serial, $otime, $ctime, $rev_nbr) = (undef, '', undef, undef);
-
 	# Directories paths
 	my $cfg_dir = "$main::cfg{'CONF_DIR'}/bind";
-	my $tpl_dir = "$cfg_dir/parts";
 	my $bk_dir = "$cfg_dir/backup";
 	my $wrk_dir = "$cfg_dir/working";
 	my $db_dir = $main::cfg{'BIND_DB_DIR'};
@@ -2770,134 +2892,90 @@ sub setup_gui_named_db_data {
 	my $wrk_cfg = "$wrk_dir/$db_fname";
 	my $bk_cfg = "$bk_dir/$db_fname";
 
-	if (!defined($base_vhost) || $base_vhost eq '') {
-		push_el(
-			\@main::el,
-			'add_named_db_data()',
-			'FATAL: Undefined Input Data...'
-		);
+	## Dedicated tasks for Install or Updates process - Begin
 
-		return 1;
-	}
-
-	#
-	## Dedicated tasks for the Install or Updates process - Begin
-	#
-
-	# Update
 	if (defined &update_engine) {
-
-		my $timestamp = time();
-
 		# Saving the current production file if it exists
 		if(-e $sys_cfg) {
+			$cmd = "$main::cfg{'CMD_CP'} -p $sys_cfg $bk_cfg." . time;
 
-			$cmd = "$main::cfg{'CMD_CP'} -p $sys_cfg $bk_cfg.$timestamp";
 			$rs = sys_command_rs($cmd);
 			return $rs if ($rs != 0);
 		}
 
-		#
-		## Get the time and revision number data in SOA record - Begin
-		#
+		# Load the current working db file
+		($rs, $wrk_file_content) = get_file($wrk_cfg);
 
-		# First, loading the current working db file
-		($rs, $_) = get_file($wrk_cfg);
-		return $rs if($rs != 0);
-
-		# Extraction of old time data and revision number
-		unless ( ($otime, $rev_nbr) = /^.+?(\d{8})(\d{2}).*?;/s ) {
+		if($rs != 0) {
 			push_el(
-				\@main::el,
-				'add_named_db_data()',
-				"FATAL: Can't retrieve the serial number in the master domain SOA record..."
+				\@main::el, 'add_named_db_data()',
+				"[WARNING] $base_vhost: Working db file not found!. " .
+				'Re-creation from scratch is needed...'
 			);
 
-			return 1;
+			$wrk_file_content = \$entries;
 		}
-
-		#
-		## Get the time and revision number data in SOA record - End
-		#
+	} else {
+		$wrk_file_content = \$entries;
 	}
 
-	#
-	## Dedicated tasks for the Install or Updates process - End
-	#
+	## Dedicated tasks for Install or Updates process - End
 
-	#
-	## Building the serial for SOA record (according RFC 1912) - Begin
-	#
-
-	# Get the current time in human readable format
-	my (undef, undef, undef, $mday, $mon, $year) = localtime;
-	$ctime = sprintf '%4d%02d%02d', $year+1900, $mon+1, $mday;
-
-	# Building the new serial
-	$serial = $ctime . (($otime eq $ctime) ? ++$rev_nbr : '00');
-
-	#
-	## Building the serial for SOA record (according RFC 1912) - End
-	#
-
-	#
 	## Building new configuration file - Begin
-	#
 
 	# Loading the template from /etc/ispcp/bind/parts
-	my $entry = '';
-	($rs, $entry) = get_tpl($tpl_dir, 'db_master_e.tpl');
+	($rs, $entries) = get_file("$cfg_dir/parts/db_master_e.tpl");
 	return $rs if ($rs != 0);
-
-	# Tags preparation
-	my %tags_hash = (
-		'{DMN_NAME}' => $base_vhost,
-		'{DMN_IP}' => $base_ip,
-		'{BASE_SERVER_IP}' => $base_ip,
-		'{SECONDARY_DNS_IP}' => ($sec_dns_ip) ? $sec_dns_ip : $base_ip ,
-		'{TIMESTAMP}' => $serial
-	);
 
 	# Replacement tags
-	($rs, $entry) = prep_tpl( \%tags_hash, $entry);
+	($rs, $entries) = prep_tpl(
+		{
+			'{DMN_NAME}' => $base_vhost,
+			'{DMN_IP}' => $base_ip,
+			'{BASE_SERVER_IP}' => $base_ip,
+			'{SECONDARY_DNS_IP}' => ($sec_dns_ip ne '') ? $sec_dns_ip : $base_ip
+		},
+		$entries
+	);
 	return $rs if ($rs != 0);
 
-	#
-	## Building new configuration file - End
-	#
+	# Create or Update serial number according RFC 1912
+	$rs = getSerialNumber(\$base_vhost, \$entries, \$wrk_file_content);
+	return $rs if($rs != 0);
 
-	#
-	## Storage and installation of new file - Begin
-	#
+	## Build new configuration file - End
 
-	# Store the new builded file in the working directory
+	## Store and install - Begin
+
+	# Store the file in the working directory
 	$rs = store_file(
-		$wrk_cfg,
-		$entry,
-		$main::cfg{'ROOT_USER'},
-		$main::cfg{'ROOT_GROUP'},
+		$wrk_cfg, $entries, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'},
 		0644
 	);
 	return $rs if ($rs != 0);
 
-	# Install the new file in the production directory
+	# Install the file in the production directory
 	$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_cfg $db_dir/";
+
 	$rs = sys_command_rs($cmd);
 	return $rs if ($rs != 0);
 
-	#
-	## Storage and installation of new file - End
-	#
+	## Store and install - End
 
 	push_el(\@main::el, 'setup_gui_named_db_data()', 'Ending...');
 
 	0;
 }
 
+################################################################################
 # Setup/updates rkhunter
-# - update rkhunter database files (only during setup process)
-# - Debian specific: Updates the configuration file and cron task, and
+#
+# This subroutine process the following tasks:
+#
+#  - update rkhunter database files (only during setup process)
+#  - Debian specific: Updates the configuration file and cron task, and
 #  remove default unreadable created log file
+#
 sub setup_rkhunter {
 
 	push_el(\@main::el, 'setup_rkhunter()', 'Starting...');
@@ -2959,7 +3037,9 @@ sub setup_rkhunter {
 	0;
 }
 
-# Remove all's empty files in ispCP configuration directories
+################################################################################
+# Remove all empty files in ispCP configuration directories
+#
 sub setup_cleanup {
 
 	push_el(\@main::el, 'setup_cleanup()', 'Starting...');
@@ -2975,15 +3055,13 @@ sub setup_cleanup {
 	0;
 }
 
-#
-## Setup / Update subroutines - End
-#
+################################################################################
+##                              Others subroutines                             #
+################################################################################
 
-#
-## Others subroutines - Begin
-#
-
+################################################################################
 # Get and return the fully qualified hostname
+#
 sub get_sys_hostname {
 
 	push_el(\@main::el, 'get_sys_hostname()', 'Starting...');
@@ -3022,7 +3100,11 @@ sub get_sys_hostname {
 	return (0, $rdata);
 }
 
-# Check ip
+################################################################################
+# Check the format of an IpV4 address
+#
+# @param IpV4 address (dot-decimal notation)
+#
 sub check_eth {
 
 	return 0 if(
@@ -3034,11 +3116,13 @@ sub check_eth {
 	1;
 }
 
+################################################################################
 # Check Sql connection
-# This subroutine can check the connections Sql
 #
-# [param: string Sql username]
-# [param: string Sql plaintext password]
+# This subroutine can be used to check an SQL connections
+#
+# [param: string SQL username]
+# [param: string SQL plain text password]
 #
 sub check_sql_connection {
 
@@ -3076,35 +3160,37 @@ sub check_sql_connection {
 	0;
 }
 
-# Implements the hook for the pre-installation scripts
+################################################################################
+# Implements the hook for the maintainers pre-installation scripts
 #
-# Hook that can be used by maintainers to perform any required tasks before the
-# common SETUP/UPDATE process via a dedicated `preinst` script. This hook is
-# automatically called after stopping services action.
+# Hook that can be used by distribution maintainers to perform any required
+# tasks before that the actions of the main process are executed. This hook
+# allow to add a specific script named `preinst` that will be run before the
+# both setup and update process actions. This hook is automatically called after
+# that all services are shutting down.
 #
-# Note: the `preinst` script can be written in SHELL, PERL or PHP, and should
-# live in the engine/setup directory. A shared library to the scripts that are
-# written in SHELL is available in the engine/setup directory.
+# Note:
 #
-# Argument that will be be passed to the maintainer script
+#  The `preinst` script can be written in PERL, PHP or SHELL (POSIX compliant),
+#  and must be copied in the engine/setup directory during the make process. A
+#  shared library for the scripts that are written in SHELL is available in the
+#  engine/setup directory.
+#
+# @param mixed Argument that will be be passed to the maintainer script
+#
 sub preinst {
 
 	push_el(\@main::el, 'preinst()', 'Starting...');
 
 	my $task = shift;
-
-	my ($rs, $cmd) = (undef, undef);
-
 	my $mime_type = mimetype("$main::cfg{'ROOT_DIR'}/engine/setup/preinst");
 
 	($mime_type =~ /(shell|perl|php)/) ||
 		exit_msg(
-			1,
-			'ERROR: Unable to determine the mimetype of the `preinst` script!'
+			1, '[err] Unable to determine the mimetype of the `preinst` script!'
 		);
 
-	$cmd = "$main::cfg{'CMD_'.uc($1)} preinst $task";
-	$rs = sys_command_rs($cmd);
+	my $rs = sys_command_rs("$main::cfg{'CMD_'.uc($1)} preinst $task");
 	return $rs if($rs != 0);
 
 	push_el(\@main::el, 'preinst()', 'Ending...');
@@ -3112,35 +3198,37 @@ sub preinst {
 	0;
 }
 
-# Implements the hook for the post-installation scripts
+################################################################################
+# Implements the hook for the maintainers post-installation scripts
 #
-# Hook that can be used by maintainers to perform any required tasks before the
-# common SETUP/UPDATE process via a dedicated `postinst` script. This hook is
-# automatically called after stopping services action.
+# Hook that can be used by distribution maintainers to perform any required
+# tasks after that the actions of the main process are executed. This hook
+# allow to add a specific script named `postinst` that will be run after the
+# both setup and update process actions. This hook is automatically called
+# before that all services are restarting.
 #
-# Note: the `postinst` script can be written in SHELL, PERL or PHP, and should
-# live in the engine/setup directory. A shared library to the scripts that are
-# written in SHELL is available in the engine/setup directory.
+# Note:
 #
-# Argument that will be be passed to the maintainer script
+#  The `postinst` script can be written in PERL, PHP or SHELL (POSIX compliant),
+#  and must be copied in the engine/setup directory during the make process. A
+#  shared library for the scripts that are written in SHELL is available in the
+#  engine/setup directory.
+#
+# @param mixed Argument that will be be passed to the maintainer script
+#
 sub postinst {
 
 	push_el(\@main::el, 'postinst()', 'Starting...');
 
 	my $task = shift;
-
-	my ($rs, $cmd) = (undef, undef);
-
 	my $mime_type = mimetype("$main::cfg{'ROOT_DIR'}/engine/setup/postinst");
 
 	($mime_type =~ /(shell|perl|php)/) ||
 		exit_msg(
-			1,
-			'ERROR: Unable to determine the mimetype of the `postinst` script!'
+			1, '[err] Unable to determine the mimetype of the `postinst` script!'
 		);
 
-	$cmd = "$main::cfg{'CMD_'.uc($1)} postinst $task";
-	$rs = sys_command_rs($cmd);
+	my $rs = sys_command_rs("$main::cfg{'CMD_'.uc($1)} postinst $task");
 	return $rs if($rs != 0);
 
 	push_el(\@main::el, 'postinst()', 'Ending...');
@@ -3148,16 +3236,21 @@ sub postinst {
 	0;
 }
 
-# Print a title
-# Param: string title to be displayed
+################################################################################
+# Convenience subroutine to print a title
+#
+# @param string title to be printed (without EOL)
+#
 sub title {
         my $title = shift;
         print STDOUT colored(['bold'], "\t$title\n");
 }
 
-# Print a subtitle
+################################################################################
+# Convenience subroutine  to print a subtitle
 #
-# Param: string subtitle to be displayed
+# @param string subtitle to be printed (without EOL)
+#
 sub subtitle {
         my $subtitle = shift;
         print STDOUT "\t $subtitle";
@@ -3166,17 +3259,22 @@ sub subtitle {
         $main::subtitle_length = length $subtitle;
 }
 
-# Insert a blanc line
+################################################################################
+# Convenience subroutine to insert a white line
+#
 sub spacer {
         print "\n";
 }
 
+################################################################################
 # Can be used in a loop to reflect the action progression
+#
 sub progress {
         print '.';
         $main::dyn_length++;
 }
 
+################################################################################
 # Print status string
 #
 # Note: Should be always called after the subtitle subroutine
@@ -3195,7 +3293,7 @@ sub print_status {
 	}
 
 	my ($term_width) = GetTerminalSize();
-	my $status_string = ($status ==0) ? colored(['green'], 'Done') :
+	my $status_string = ($status == 0) ? colored(['green'], 'Done') :
 		colored(['red'], 'Failed');
 
 	$status_string = sprintf('%'.($term_width-($length+1)).'s', $status_string);
@@ -3208,10 +3306,12 @@ sub print_status {
 	}
 }
 
+################################################################################
 # Exit with an error message
 #
 # [param: int exit code]
 # [param: string optional user message]
+#
 sub exit_msg {
 
 	push_el(\@main::el, 'exit_msg()', 'Starting...');
@@ -3222,11 +3322,11 @@ sub exit_msg {
 		$exit_code = 1;
 	}
 
-	my $msg = "\n\t" . colored(['red'], 'FATAL:')  .
-		" An error was occured during update process!\n" .
+	my $msg = "\n\t" . colored(['red'], '[err]:')  .
+		" An error occurred during update process!\n" .
 		"\tCorrect it and re-run this program." .
 		"\n\n\tYou can find help at http://isp-control.net/forum\n\n";
-		
+
 	if(defined $user_msg && $user_msg ne '') {
 		$msg = "\n\t$user_msg\n" . $msg;
 	}
@@ -3238,57 +3338,49 @@ sub exit_msg {
 	exit $exit_code;
 }
 
+################################################################################
 # Starting services
+#
+# This subroutine start all serviced that are not marked as no in the main ispCP
+# configuration file
+#
 sub start_services {
 
 	push_el(\@main::el, 'start_services()', 'Starting...');
 
 	foreach(
-		qw/CMD_ISPCPN CMD_ISPCPD
-		CMD_NAMED
-		CMD_HTTPD CMD_FTPD
-		CMD_MTA CMD_AUTHD
-		CMD_POP CMD_POP_SSL
-		CMD_IMAP CMD_IMAP_SSL/
+		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_MTA CMD_AUTHD
+		CMD_POP CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
 	) {
 		if( $main::cfg{$_} !~ /^no$/i && -e $main::cfg{$_}) {
 			sys_command("$main::cfg{$_} start $main::rlogfile");
 
 			progress();
-			sleep 1;
 		}
 	}
 
 	push_el(\@main::el, 'start_services()', 'Ending...');
 }
 
+################################################################################
 # Stopping services
-# Stop all service who are marked as 'no' in ispcp.conf
+#
 sub stop_services {
 
 	push_el(\@main::el, 'stop_services()', 'Starting...');
 
 	foreach(
-		qw/CMD_ISPCPN CMD_ISPCPD
-		CMD_NAMED
-		CMD_HTTPD CMD_FTPD
-		CMD_MTA CMD_AUTHD
-		CMD_POP CMD_POP_SSL
-		CMD_IMAP CMD_IMAP_SSL/
+		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_MTA CMD_AUTHD
+		CMD_POP CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
 	) {
-		if( $main::cfg{$_} !~ /^no$/i && -e $main::cfg{$_}) {
+		if(-e $main::cfg{$_}) {
 			sys_command("$main::cfg{$_} stop $main::rlogfile");
 
 			progress();
-			sleep 1;
 		}
 	}
 
 	push_el(\@main::el, 'stop_services()', 'Ending...');
 }
-
-#
-## Others Setup / Update subroutines - End
-#
 
 1;

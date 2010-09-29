@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/settings_layout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -55,9 +55,9 @@ if (get_own_logo($_SESSION['user_id']) !== $cfg->IPS_LOGO_PATH . '/isp_logo.gif'
 
 function save_layout() {
 	global $theme_color;
-	
-	$sql = Database::getInstance();
-	
+
+	$sql = ispCP_Registry::get('Db');
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 
 		$user_id = $_SESSION['user_id'];
@@ -70,12 +70,14 @@ function save_layout() {
 			WHERE
 				`user_id` = ?
 		";
-		$rs = exec_query($sql, $query, array($user_layout, $user_id));
+
+		// NXW: Unused variable so...
+		//$rs = exec_query($sql, $query, array($user_layout, $user_id));
+		exec_query($sql, $query, array($user_layout, $user_id));
 		$theme_color = $user_layout;
 		$_SESSION['user_theme_color'] = $user_layout;
 	}
 }
-
 
 function update_logo() {
 
@@ -123,7 +125,7 @@ function update_logo() {
 		}
 
 		// get the size of the image to prevent over large images
-		list($fwidth, $fheight, $ftype, $fattr) = getimagesize($fname);
+		list($fwidth, $fheight) = getimagesize($fname);
 		if ($fwidth > 195 || $fheight > 195) {
 			set_page_message(tr('Images have to be smaller than 195 x 195 pixels!'));
 			return;
@@ -141,7 +143,7 @@ function update_logo() {
 
 
 function update_user_gui_props($file_name, $user_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		UPDATE
@@ -151,7 +153,8 @@ function update_user_gui_props($file_name, $user_id) {
 		WHERE
 			`user_id` = ?
 	";
-	$rs = exec_query($sql, $query, array($file_name, $user_id));
+
+	exec_query($sql, $query, array($file_name, $user_id));
 }
 
 $tpl->assign(

@@ -39,38 +39,87 @@ $main::mail_task_id = undef;
 
 sub mbox_get_dmn_full_name {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_get_dmn_full_name()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
-		push_el(\@main::el, 'mbox_get_dmn_full_name()', 'ERROR: Undefined Input Data...');
-		return (-1,'');
+		push_el(\@main::el, 'mbox_get_dmn_full_name()',
+			'ERROR: Undefined Input Data...');
+
+		return (-1, '');
 	}
 
-	my ($rs, $rows, $dmn_full, $entry) = ( undef, undef, undef, undef);
+	my ($rs, $rows, $dmn_full, $entry, $sql);
 
 	my $mail_dmn_id = @$mbox_data[4];
 	my $mail_type   = @$mbox_data[5];
 	my $mail_sub_id = @$mbox_data[6];
 
-	my $sql = "
-		SELECT
-			`domain_name`
-		FROM
-			`domain`
-		WHERE
-			`domain_id` = " . $mail_dmn_id;
+	if ($mail_sub_id == 0) {
+
+		$sql = "
+			SELECT
+				`domain_name`
+			FROM
+				`domain`
+			WHERE
+				`domain_id` = " . $mail_dmn_id;
+	} else {
+		if ($mail_type =~ /.*alias_(mail|forward|catchall).*/) {
+			$sql = "
+				SELECT
+					`alias_name`
+				FROM
+					`domain_aliasses`
+				WHERE
+					`alias_id` = $mail_sub_id
+				;
+			";
+
+		} elsif ($mail_type =~ /.*subdom_(mail|forward|catchall).*/) {
+			$sql = "
+				SELECT
+					CONCAT(`subdomain`.`subdomain_name`, '.',
+					`domain`.`domain_name`) AS `domain_name`
+				FROM
+					`subdomain`
+				LEFT JOIN
+					`domain`
+				ON
+					(`subdomain`.`domain_id` = `domain`.`domain_id`)
+				WHERE
+					`subdomain`.`subdomain_id` = $mail_sub_id
+				;
+			";
+		} else { # $mail_type = alssub_(mail|forward|catchall)
+			$sql = "
+				SELECT
+					CONCAT(`subdomain_alias`.`subdomain_alias_name`, '.',
+						`domain_aliasses`.`alias_name`) AS `domain_name`
+				FROM
+					`subdomain_alias`
+				LEFT JOIN
+					`domain_aliasses`
+				ON
+					(`subdomain_alias`.`alias_id` = `domain_aliasses`.`alias_id`)
+				WHERE
+					`subdomain_alias`.`subdomain_alias_id` = $mail_dmn_id
+				;
+			";
+		}
+	}
 
 	($rs, $rows) = doSQL($sql);
 	return ($rs,'') if ($rs != 0);
 
 	if (@$rows != 1) {
 		push_el(
-				\@main::el, 
-				'mbox_get_dmn_full_name()',		
+				\@main::el,
+				'mbox_get_dmn_full_name()',
 				'ERROR: Unable to find the corresponding domain name...'
 		);
+
 		return (-1, '');
 	}
 
@@ -78,20 +127,23 @@ sub mbox_get_dmn_full_name {
 	$dmn_full = @$entry[0];
 
 	push_el(\@main::el, 'mbox_get_dmn_full_name()', 'Ending...');
+
 	return (0, $dmn_full);
 }
 
 sub get_mta_hash_value {
 
-	my ($hfile, $key) = @_;
-
 	push_el(\@main::el, 'get_mta_hash_value()', 'Starting...');
 
+	my ($hfile, $key) = @_;
+
 	if (!defined($hfile) || $hfile eq '' || !defined($key) || $key eq '') {
+		push_el(
+			\@main::el, 'get_mta_hash_value()',
+			'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'get_mta_hash_value()', 'ERROR: Undefined Input Data...');
 		return (-1, '');
-
 	}
 
 	my ($rs, $rdata, $ekey) = (undef, undef, $key);
@@ -106,21 +158,22 @@ sub get_mta_hash_value {
 	if (!defined($rdata)) { $rdata = ''; }
 
 	push_el(\@main::el, 'get_mta_hash_value()', 'Ending...');
-	return (0, $rdata);
 
+	return (0, $rdata);
 }
 
 sub del_mta_hash_value {
 
-	my ($hfile, $key) = @_;
-
 	push_el(\@main::el, 'del_mta_hash_value()', 'Starting...');
 
+	my ($hfile, $key) = @_;
+
 	if (!defined($hfile) || $hfile eq '' || !defined($key) || $key eq '') {
+		push_el(
+			\@main::el, 'del_mta_hash_value()', 'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'del_mta_hash_value()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
 	my ($rs, $rdata, $ekey) = (undef, undef, $key);
@@ -134,25 +187,29 @@ sub del_mta_hash_value {
 
 	$rdata =~ s/^$ekey\t+([^\n]+)\n//gim;
 
-	$rs = store_file($hfile, $rdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$hfile, $rdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'del_mta_hash_value()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub set_mta_hash_value {
 
-	my ($hfile, $key, $value) = @_;
-
 	push_el(\@main::el, 'set_mta_hash_value()', 'Starting...');
 
-	if (!defined($hfile) || $hfile eq '' || !defined($key) || $key eq '' || !defined($value) || $value eq '') {
+	my ($hfile, $key, $value) = @_;
 
-		push_el(\@main::el, 'set_mta_hash_value()', 'ERROR: Undefined Input Data...');
+	if (!defined($hfile) || $hfile eq '' || !defined($key) || $key eq '' ||
+		!defined($value) || $value eq '') {
+		push_el(
+			\@main::el, 'set_mta_hash_value()', 'ERROR: Undefined Input Data...'
+		);
+
 		return -1;
-
 	}
 
 	my ($rs, $rdata, $fdata, $ekey) = (undef, undef, undef, $key);
@@ -167,22 +224,23 @@ sub set_mta_hash_value {
 	$fdata =~ s/^$ekey\t+([^\n]+)\n//gim if ($rdata ne '');
 	$fdata .= "$key\t$value\n";
 
-	$rs = store_file($hfile, $fdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$hfile, $fdata, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'set_mta_hash_value()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_mngr_start_up {
 
-	my ($rs, $rdata) = (undef, undef);
-
 	push_el(\@main::el, 'mbox_mngr_start_up()', 'Starting...');
 
-	# checking for master process;
+	my $rs;
 
+	# checking for master process;
 	$rs = check_master();
 	return $rs if ($rs != 0);
 
@@ -193,53 +251,43 @@ sub mbox_mngr_start_up {
 		return $rs if ($rs != 0);
 	}
 
-	# config check;
-	$rs = get_conf();
-	return $rs if ($rs != 0);
-
 	$main::mail_task_id = $ARGV[0];
 
 	push_el(\@main::el, 'mbox_mngr_start_up()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_mngr_shut_down {
 
-	my $rs = undef;
-
 	push_el(\@main::el, 'mbox_mngr_shut_down()', 'Starting...');
 	push_el(\@main::el, 'mbox_mngr_shut_down()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_check_sasl_user {
 
-	my ($uname) = @_;
-
 	push_el(\@main::el, 'mbox_check_sasl_user()', 'Starting...');
 
-	my ($rs, $rdata) = (undef, undef);
+	my ($uname) = @_;
+
+	my ($rs, $rdata);
 	my $check_file = "/tmp/ispcp-mbox-check-sasl-user";
-	my $cmd = "$main::cfg{'CMD_SASLDB_LISTUSERS2'} -f $main::cfg{'MTA_SASLDB_FILE'} | $main::cfg{'CMD_GREP'} '$uname' &> $check_file";
+
+	my $cmd = "$main::cfg{'CMD_SASLDB_LISTUSERS2'} -f " .
+		"$main::cfg{'MTA_SASLDB_FILE'} | $main::cfg{'CMD_GREP'} '$uname' " .
+		"&> $check_file";
 
 	sys_command_rs($cmd);
 
-	if (-z $check_file) {
-
-		$rdata = 0;
-
-	} else {
-
-		$rdata = 1;
-	}
+	$rdata = (-z $check_file) ? 0 : 1;
 
 	$rs = del_file($check_file);
 
 	push_el(\@main::el, 'mbox_check_sasl_user()', 'Starting...');
-	return (0, $rdata);
 
+	return (0, $rdata);
 }
 
 # Adds an new user into sasldb file
@@ -252,15 +300,14 @@ sub mbox_add_sasl_data {
 	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
+		push_el(
+			\@main::el, 'mbox_add_sasl_data()', 'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'mbox_add_sasl_data()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
-	my ($rs, $rdata, $cmd) = (undef, undef, undef);
-
-	my ($dmn_name, $cmd_add_user, $cmd_del_user) = (undef,undef, undef);
+	my ($rs, $rdata, $cmd, $dmn_name, $cmd_add_user, $cmd_del_user);
 
 	# Working data
 	my $mail_id = @$mbox_data[0];
@@ -282,22 +329,26 @@ sub mbox_add_sasl_data {
 	my $etc_sasldb_file = $main::cfg{'ETC_SASLDB_FILE'};
 
 	do {
-
 		($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 		return $rs if ($rs != 0);
 
 		$mail_pass=decrypt_db_password($mail_pass);
 
-		$cmd_del_user = "$main::cfg{'CMD_SASLDB_PASSWD2'} -d -f $etc_sasldb_file -u $dmn_name $mail_acc";
+		$cmd_del_user = "$main::cfg{'CMD_SASLDB_PASSWD2'} -d -f " .
+			"$etc_sasldb_file -u $dmn_name $mail_acc";
 
 		if($etc_sasldb_file ne $mta_sasldb_file) {
-			$cmd_del_user .= " && $main::cfg{'CMD_CP'} -pf $etc_sasldb_file $mta_sasldb_file";
+			$cmd_del_user .=
+			" && $main::cfg{'CMD_CP'} -pf $etc_sasldb_file $mta_sasldb_file";
 		}
 
-		$cmd_add_user = "$main::cfg{'CMD_ECHO'} \"$mail_pass\" | $main::cfg{'CMD_SASLDB_PASSWD2'} -p -c -f $etc_sasldb_file -u $dmn_name $mail_acc";
+		$cmd_add_user = "$main::cfg{'CMD_ECHO'} \"$mail_pass\" | " .
+			"$main::cfg{'CMD_SASLDB_PASSWD2'} -p -c -f $etc_sasldb_file " .
+			"-u $dmn_name $mail_acc";
 
 		if($etc_sasldb_file ne $mta_sasldb_file) {
-			$cmd_add_user .= " && $main::cfg{'CMD_CP'} -pf $etc_sasldb_file $mta_sasldb_file";
+			$cmd_add_user .=
+				" && $main::cfg{'CMD_CP'} -pf $etc_sasldb_file $mta_sasldb_file";
 		}
 
 		# Check if the user already exits in sasldb file
@@ -305,9 +356,8 @@ sub mbox_add_sasl_data {
 		return $rs if ($rs != 0);
 
 		# if the user already exit in sasldb file, remove it before.
-		if ($rdata) {
-			sys_command_rs($cmd_del_user);
-		}
+		sys_command_rs($cmd_del_user) if ($rdata);
+
 
 		# Adds the new user account in sasldb file
 		$rs = sys_command($cmd_add_user);
@@ -315,38 +365,43 @@ sub mbox_add_sasl_data {
 
 		# Sets the rights owner, group and permissions
 		$rs = setfmode(
-			$mta_sasldb_file,
-			$main::cfg{'ROOT_USER'},
-			$main::cfg{'ROOT_GROUP'},
+			$mta_sasldb_file, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'},
 			0644
 		);
 		return $rs if ($rs != 0);
 
 		# Saving the current sender-access file if it exits
-		if(-e $main::cfg{'MTA_SENDER_ACCESS_HASH'})
-		{
+		if(-e $main::cfg{'MTA_SENDER_ACCESS_HASH'})	{
 			my $timestamp = time;
 
-			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'MTA_SENDER_ACCESS_HASH'} $bkp_dir/sender-access.$timestamp";
+			$cmd = "$main::cfg{'CMD_CP'} -p $main::cfg{'MTA_SENDER_ACCESS_HASH'} " .
+				"$bkp_dir/sender-access.$timestamp";
 			$rs = sys_command_rs($cmd);
+
 			return $rs if($rs != 0);
 		}
 
 		# Building, store and installation of new sender-access file - Begin
 
 		# Building and store the new file
-		$rs = set_mta_hash_value("$wrk_dir/sender-access", "$mail_acc\@$dmn_name", 'OK');
+		$rs = set_mta_hash_value(
+			"$wrk_dir/sender-access", "$mail_acc\@$dmn_name", 'OK'
+		);
 		return $rs if ($rs != 0);
 
 		# Install the new file in production directory
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/sender-access $main::cfg{'MTA_SENDER_ACCESS_HASH'}";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/sender-access " .
+			"$main::cfg{'MTA_SENDER_ACCESS_HASH'}";
+
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 
 		# Building, store and installation of sender-access file - End
 
 		# Update the related btree file from the new sender-access file
-		$rs = sys_command("$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_SENDER_ACCESS_HASH'}");
+		$rs = sys_command(
+			"$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_SENDER_ACCESS_HASH'}"
+		);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /^(?:normal|alias|subdom|alssub)_mail.*/);
@@ -358,19 +413,20 @@ sub mbox_add_sasl_data {
 
 sub mbox_add_po_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_add_po_data()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_add_po_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_add_po_data()', 'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rdata) = (undef, undef);
-	my ($sys, $working) = (undef, undef);
+	my ($rs, $rdata, $sys, $working);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -398,13 +454,15 @@ sub mbox_add_po_data {
 	($rs, $sys) = get_file($userdb_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($userdb_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$userdb_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	my ($hash_key, $hash_value) = (undef, undef);
 
 	do {
-
 		$mail_pass=decrypt_db_password($mail_pass);
 
 		my ($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
@@ -414,7 +472,10 @@ sub mbox_add_po_data {
 		return $rs if ($rs != 0);
 
 		$hash_key = "$mail_acc\@$dmn_name";
-		$hash_value = "uid=$mbox_uid|gid=$mbox_gid|home=$virtual_mail_dir/$dmn_name/$mail_acc|shell=/bin/false|systempw=$rdata|mail=$virtual_mail_dir/$dmn_name/$mail_acc";
+
+		$hash_value = "uid=$mbox_uid|gid=$mbox_gid|home=$virtual_mail_dir/".
+			"$dmn_name/$mail_acc|shell=/bin/false|systempw=$rdata|mail=" .
+			"$virtual_mail_dir/$dmn_name/$mail_acc";
 
 		$rs = set_mta_hash_value($userdb_working_cfg, $hash_key, $hash_value);
 		return $rs if ($rs != 0);
@@ -424,31 +485,37 @@ sub mbox_add_po_data {
 	($rs, $working) = get_file($userdb_working_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($userdb_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0600);
+	$rs = store_file(
+		$userdb_cfg, $working, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0600
+	);
 	return $rs if ($rs != 0);
 
 	$rs = sys_command($cmd_makeuserdb);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_add_po_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_add_mta_file_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_add_mta_file_data()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_add_mta_file_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_add_mta_file_data()',
+			'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rdata) = (undef, undef);
+	my ($rs, $rdata);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -463,7 +530,6 @@ sub mbox_add_mta_file_data {
 	my $mailbox_gid_name = $main::cfg{'MTA_MAILBOX_GID_NAME'};
 
 	do {
-
 		my ($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 		return $rs if ($rs != 0);
 
@@ -486,8 +552,8 @@ sub mbox_add_mta_file_data {
 	} if ($mail_type =~ /^(normal|alias|subdom|alssub)(_mail|_forward).*/);
 
 	push_el(\@main::el, 'mbox_add_mta_file_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_add_mta_cfg_autorespond_data {
@@ -497,15 +563,15 @@ sub mbox_add_mta_cfg_autorespond_data {
 	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
-		push_el(\@main::el, 'mbox_add_mta_cfg_autorespond_data()', 'ERROR: Undefined Input Data...');
+		push_el(
+			\@main::el, 'mbox_add_mta_cfg_autorespond_data()',
+			'ERROR: Undefined Input Data...'
+		);
+
 		return -1;
 	}
 
-	my ($rs, $rdata, $cmd) = (undef, undef,undef);
-
-	my $working = undef;
-
-	my ($hash_key, $hash_value, $dmn_name) = (undef, undef, undef);
+	my ($rs, $rdata, $cmd, $working, $hash_key, $hash_value, $dmn_name);
 
 	# Working data
 	my $mail_id = @$mbox_data[0];
@@ -533,8 +599,9 @@ sub mbox_add_mta_cfg_autorespond_data {
 	}
 
 	# Saving all current production files it they exist
-	foreach($main::cfg{'MTA_VIRTUAL_ALIAS_HASH'}, $main::cfg{'MTA_TRANSPORT_HASH'})
-	{
+	foreach($main::cfg{'MTA_VIRTUAL_ALIAS_HASH'},
+		$main::cfg{'MTA_TRANSPORT_HASH'})	{
+
 		next if(!-e $_);
 		my ($fname) = /.*\/(.*)$/;
 
@@ -547,28 +614,23 @@ sub mbox_add_mta_cfg_autorespond_data {
 	return $rs if ($rs != 0);
 
 	do {
-
 		$hash_key = "$mail_acc\@$dmn_name";
 
-		if ($mail_type =~ /.*_forward.*/)
-		{
+		if ($mail_type =~ /.*_forward.*/) {
 			$hash_value = undef;
 
 			($rs, $rdata) = get_mta_hash_value("$wrk_dir/aliases", $hash_key);
 			return $rs if ($rs != 0);
 
-			if ($rdata eq '')
-			{
-				$hash_value = "$mail_acc\@$dmn_name,$mail_acc\@ispcp-arpl.$dmn_name";
-			}
-			else
-			{
+			if ($rdata eq '') {
+				$hash_value =
+					"$mail_acc\@$dmn_name,$mail_acc\@ispcp-arpl.$dmn_name";
+			} else {
 				$hash_value = $rdata.",$mail_acc\@ispcp-arpl.$dmn_name";
 			}
-		}
-		else
-		{
-			$hash_value = "$mail_acc\@$dmn_name$mail_forward_list,$mail_acc\@ispcp-arpl.$dmn_name";
+		} else {
+			$hash_value = "$mail_acc\@$dmn_name$mail_forward_list," .
+				"$mail_acc\@ispcp-arpl.$dmn_name";
 
 			$rs = del_mta_hash_value("$wrk_dir/aliases", $hash_key);
 			return $rs if ($rs != 0);
@@ -581,7 +643,9 @@ sub mbox_add_mta_cfg_autorespond_data {
 		return $rs if ($rs != 0);
 
 		# Install the new file in production directory
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/aliases $main::cfg{'MTA_VIRTUAL_ALIAS_HASH'}";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/aliases " .
+			"$main::cfg{'MTA_VIRTUAL_ALIAS_HASH'}";
+
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 
@@ -597,7 +661,9 @@ sub mbox_add_mta_cfg_autorespond_data {
 		return $rs if ($rs != 0);
 
 		# Install the new file in production directory
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/transport $main::cfg{'MTA_TRANSPORT_HASH'}";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/transport " .
+			"$main::cfg{'MTA_TRANSPORT_HASH'}";
+
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 
@@ -605,7 +671,9 @@ sub mbox_add_mta_cfg_autorespond_data {
 
 	} if ($mail_type =~ /.*(?:normal|alias|subdom|alssub)(_mail|_forward).*/);
 
-	$rs = sys_command("$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_TRANSPORT_HASH'}");
+	$rs = sys_command(
+		"$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_TRANSPORT_HASH'}"
+	);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_add_mta_cfg_autorespond_data()', 'Ending...');
@@ -615,18 +683,21 @@ sub mbox_add_mta_cfg_autorespond_data {
 
 sub mbox_del_last_transport_entry {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_del_last_transport_entry()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_del_last_transport_entry()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_del_last_transport_entry()',
+			'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rdata, $dmn_name) = (undef, undef, undef);
+	my ($rs, $rdata, $dmn_name);
 
 	my $mail_dmn_id = @$mbox_data[4];
 	my $mail_sub_id = @$mbox_data[6];
@@ -647,24 +718,26 @@ sub mbox_del_last_transport_entry {
 
 	push_el(\@main::el, 'mbox_del_last_transport_entry()', 'Ending...');
 
-	return 0;
-
+	0;
 }
 
 sub mbox_check_last_transport_entry {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_check_last_transport_entry()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_check_last_transport_entry()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_check_last_transport_entry()',
+			'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rows, $sql) = (undef, undef, undef);
+	my ($rs, $rows, $sql);
 
 	my $mail_dmn_id = @$mbox_data[4];
 	my $mail_sub_id = @$mbox_data[6];
@@ -673,50 +746,83 @@ sub mbox_check_last_transport_entry {
 	if ($mail_type =~ /^(alias_).*/) {
 
 		$sql = "
-			select count(mail_id) as cnt
-			from mail_users
-			where (status = 'ok' or status = 'change')
-			and mail_auto_respond != '_no_'
-			and domain_id = $mail_dmn_id
-			and sub_id = $mail_sub_id
-			and mail_type like 'alias_%';
+			SELECT
+				count(mail_id) AS `cnt`
+			FROM
+				`mail_users`
+			WHERE
+				(`status` = 'ok' or `status` = 'change')
+			AND
+				`mail_auto_respond` != '_no_'
+			AND
+				`domain_id` = $mail_dmn_id
+			AND
+				`sub_id` = $mail_sub_id
+			AND
+				`mail_type` LIKE 'alias_%';
+			;
 		";
 
 	} elsif ($mail_type =~ /^(subdom_).*/) {
 
 		$sql = "
-			select count(mail_id) as cnt
-			from mail_users
-			where (status = 'ok' or status = 'change')
-			and mail_auto_respond != '_no_'
-			and domain_id = $mail_dmn_id
-			and sub_id = $mail_sub_id
-			and mail_type like 'subdom_%';
+			SELECT
+				count(`mail_id`) AS `cnt`
+			FROM
+				`mail_users`
+			WHERE
+				(`status` = 'ok' or `status` = 'change')
+			AND
+				`mail_auto_respond` != '_no_'
+			AND
+				`domain_id` = $mail_dmn_id
+			AND
+				`sub_id` = $mail_sub_id
+			AND
+				`mail_type` LIKE 'subdom_%'
+			;
 		";
 
 	}  elsif ($mail_type =~ /^(alssub_).*/) {
 
 		$sql = "
-			select count(mail_id) as cnt
-			from mail_users
-			where (status = 'ok' or status = 'change')
-			and mail_auto_respond != '_no_'
-			and domain_id = $mail_dmn_id
-			and sub_id = $mail_sub_id
-			and mail_type like 'alssub_%';
+			SELECT
+				count(mail_id) AS `cnt`
+			FROM
+				`mail_users`
+			WHERE
+				(`status` = 'ok' or `status` = 'change')
+			AND
+				`mail_auto_respond` != '_no_'
+			AND
+				`domain_id` = $mail_dmn_id
+			AND
+				`sub_id` = $mail_sub_id
+			AND
+				`mail_type` like 'alssub_%'
+			;
 		";
 
 	} else {
 
 		$sql = "
-			select count(mail_id) as cnt
-			from mail_users
-			where (status = 'ok' or status = 'change')
-			and mail_auto_respond != '_no_'
-			and domain_id = $mail_dmn_id
-			and sub_id = 0
-			and mail_type != 'normal_catchall'
-			and mail_type != 'alias_catchall';
+			SELECT
+				count(`mail_id`) AS `cnt`
+			FROM
+				`mail_users`
+			WHERE
+				(`status` = 'ok' or `status` = 'change')
+			AND
+				`mail_auto_respond` != '_no_'
+			AND
+				`domain_id` = $mail_dmn_id
+			AND
+				`sub_id` = 0
+			AND
+				`mail_type` != 'normal_catchall'
+			AND
+				`mail_type` != 'alias_catchall'
+			;
 		";
 
 	}
@@ -733,20 +839,20 @@ sub mbox_check_last_transport_entry {
 
 sub mbox_del_mta_cfg_autorespond_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_del_mta_cfg_autorespond_data()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
+		push_el(
+			\@main::el, 'mbox_del_mta_cfg_autorespond_data()',
+			'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'mbox_del_mta_cfg_autorespond_data()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
-	my ($rs, $rdata) = (undef, undef);
-	my ($hash_key, $hash_value, $dmn_name) = (undef, undef, undef);
-	my ($sys, $working) = (undef, undef);
+	my ($rs, $rdata, $hash_key, $hash_value, $dmn_name, $sys, $working);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -772,20 +878,25 @@ sub mbox_del_mta_cfg_autorespond_data {
 	($rs, $sys) = get_file($aliases_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $sys) = get_file($transport_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($transport_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$transport_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 	return $rs if ($rs != 0);
 
 	do {
-
 		$hash_key = "$mail_acc\@$dmn_name";
 
 		($rs, $rdata) = get_mta_hash_value($aliases_working_cfg, $hash_key);
@@ -803,26 +914,28 @@ sub mbox_del_mta_cfg_autorespond_data {
 		($rs, $working) = get_file($aliases_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($aliases_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$aliases_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 		$rs = mbox_check_last_transport_entry($mbox_data);
 
 		if ($rs == 0) {
-
 			$rs = mbox_del_last_transport_entry($mbox_data);
 			return $rs if ($rs != 0);
-
 		} elsif ($rs == -1) {
-
 			return $rs;
-
 		}
 
 		($rs, $working) = get_file($transport_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($transport_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$transport_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /^(?:normal|alias|subdom|alssub)(_mail|_forward).*/);
@@ -831,26 +944,26 @@ sub mbox_del_mta_cfg_autorespond_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_del_mta_cfg_autorespond_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_add_mta_cfg_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_add_mta_cfg_data()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
+		push_el(
+			\@main::el, 'mbox_add_mta_cfg_data()',
+			'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'mbox_add_mta_cfg_data()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
-	my ($rs, $rdata, $dmn_name) = (undef, undef, undef);
-	my ($sys, $working) = (undef, undef);
-	my ($hash_key, $hash_value) = (undef, undef);
+	my ($rs, $rdata, $dmn_name, $sys, $working, $hash_key, $hash_value);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -877,20 +990,25 @@ sub mbox_add_mta_cfg_data {
 	($rs, $sys) = get_file($mailboxes_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($mailboxes_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$mailboxes_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $sys) = get_file($aliases_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 	return $rs if ($rs != 0);
 
 	do {
-
 		$hash_key = "$mail_acc\@$dmn_name";
 		$hash_value = "$dmn_name/$mail_acc/";
 
@@ -900,7 +1018,10 @@ sub mbox_add_mta_cfg_data {
 		($rs, $working) = get_file($mailboxes_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($mailboxes_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$mailboxes_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 		if ($mail_type =~ /.*_mail.*/){
@@ -919,7 +1040,10 @@ sub mbox_add_mta_cfg_data {
 		($rs, $working) = get_file($aliases_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($aliases_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$aliases_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 		if ($mail_autorespond != 0) {
@@ -933,7 +1057,6 @@ sub mbox_add_mta_cfg_data {
 	} if ($mail_type =~ /^(normal|alias|subdom|alssub)(_mail|_forward).*/);
 
 	do {
-
 		my $hash_key = "\@$dmn_name";
 		my $hash_value = undef;
 
@@ -955,7 +1078,10 @@ sub mbox_add_mta_cfg_data {
 		($rs, $working) = get_file($aliases_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($aliases_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$aliases_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /.*(normal|alias|subdom|alssub)_catchall.*/);
@@ -967,52 +1093,56 @@ sub mbox_add_mta_cfg_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_add_mta_cfg_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_change_data {
 
-	my ($mbox_data) = @_;
-
-	my $rs = undef;
-
 	push_el(\@main::el, 'mbox_change_data()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_change_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_change_data()','ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	$rs = mbox_add_data($mbox_data);
+	my $rs = mbox_add_data($mbox_data);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_change_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_disable_data {
 
+	push_el(\@main::el, 'mbox_disable_data()', 'Starting...');
+
 	my ($mbox_data) = @_;
 
-	my $rs = undef;
 
-	push_el(\@main::el, 'mbox_disable_data()', 'Starting...');
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_disable_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_disable_data()', 'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
 	#
 	# Remove all entries from the several config files
 	# but do not delete any file
 	#
+
+	my $rs;
 
 	$rs = mbox_del_mta_cfg_data($mbox_data);
 	return $rs if ($rs != 0);
@@ -1024,8 +1154,8 @@ sub mbox_disable_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_disable_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 # Delete an user in sasldb file
@@ -1038,14 +1168,14 @@ sub mbox_del_sasl_data {
 	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
+		push_el(
+			\@main::el, 'mbox_del_sasl_data()', 'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'mbox_del_sasl_data()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
-	my ($rs, $rdata, $cmd, $dmn_name) = (undef, undef, undef, undef);
-	my $cmd_del_user =  undef;
+	my ($rs, $rdata, $cmd, $dmn_name, $cmd_del_user);
 
 	# Working data
 	my $mail_id = @$mbox_data[0];
@@ -1067,7 +1197,6 @@ sub mbox_del_sasl_data {
 	my $etc_sasldb_file = $main::cfg{'ETC_SASLDB_FILE'};
 
 	do {
-
 		($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 		return $rs if ($rs != 0);
 
@@ -1075,10 +1204,12 @@ sub mbox_del_sasl_data {
 		return $rs if ($rs != 0);
 
 		# Prepare cmd for deletion
-		$cmd_del_user = "$main::cfg{'CMD_SASLDB_PASSWD2'} -d -f $etc_sasldb_file -u $dmn_name $mail_acc";
+		$cmd_del_user = "$main::cfg{'CMD_SASLDB_PASSWD2'} -d " .
+			"-f $etc_sasldb_file -u $dmn_name $mail_acc";
 
 		if($etc_sasldb_file ne $mta_sasldb_file) {
-			$cmd_del_user .= " && $main::cfg{'CMD_CP'} $etc_sasldb_file $mta_sasldb_file";
+			$cmd_del_user .=
+				" && $main::cfg{'CMD_CP'} $etc_sasldb_file $mta_sasldb_file";
 		}
 
 		# Remove the user in the sasldb file
@@ -1088,9 +1219,7 @@ sub mbox_del_sasl_data {
 
 		# Sets rights owner, group and permissions
 		$rs = setfmode(
-			$mta_sasldb_file,
-			$main::cfg{'ROOT_USER'},
-			$main::cfg{'ROOT_GROUP'},
+			$mta_sasldb_file, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'},
 			0644
 		);
 		return $rs if ($rs != 0);
@@ -1108,18 +1237,24 @@ sub mbox_del_sasl_data {
 		# Building, store and installation of new sender-access file - Begin
 
 		# Remove the user entries in the senders-access file and store it
-		$rs = del_mta_hash_value("$wrk_dir/sender-access", "$mail_acc\@$dmn_name", 'OK');
+		$rs = del_mta_hash_value(
+			"$wrk_dir/sender-access", "$mail_acc\@$dmn_name", 'OK'
+		);
 		return $rs if ($rs != 0);
 
 		# Install the new file in production directory
-		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/sender-access $main::cfg{'MTA_SENDER_ACCESS_HASH'}";
+		$cmd = "$main::cfg{'CMD_CP'} -pf $wrk_dir/sender-access " .
+			"$main::cfg{'MTA_SENDER_ACCESS_HASH'}";
+
 		$rs = sys_command_rs($cmd);
 		return $rs if($rs != 0);
 
 		# Building, store and installation of new sender-access file - End
 
 		# Update the related btree file from the new sender-access file
-		$rs = sys_command("$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_SENDER_ACCESS_HASH'}");
+		$rs = sys_command(
+			"$main::cfg{'CMD_POSTMAP'} $main::cfg{'MTA_SENDER_ACCESS_HASH'}"
+		);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /^(?:normal|alias|subdom|alssub)_mail.*/);
@@ -1131,19 +1266,20 @@ sub mbox_del_sasl_data {
 
 sub mbox_del_po_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_del_po_data()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_del_po_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_del_po_data()', 'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rdata, $dmn_name) = (undef, undef, undef);
-	my ($sys, $working) = (undef, undef);
+	my ($rs, $rdata, $dmn_name, $sys, $working);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -1171,7 +1307,10 @@ sub mbox_del_po_data {
 	($rs, $sys) = get_file($userdb_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($userdb_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$userdb_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	my $hash_key = undef;
@@ -1180,7 +1319,6 @@ sub mbox_del_po_data {
 	return $rs if ($rs != 0);
 
 	do {
-
 		$hash_key = "$mail_acc\@$dmn_name";
 
 		$rs = del_mta_hash_value($userdb_working_cfg, $hash_key);
@@ -1191,31 +1329,36 @@ sub mbox_del_po_data {
 	($rs, $working) = get_file($userdb_working_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($userdb_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0600);
+	$rs = store_file(
+		$userdb_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'},
+		0600
+	);
 	return $rs if ($rs != 0);
 
 	$rs = sys_command($cmd_makeuserdb);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_del_po_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_del_mta_file_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_del_mta_file_data()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
+		push_el(
+			\@main::el, 'mbox_del_mta_file_data()',
+			'ERROR: Undefined Input Data...'
+		);
 
-		push_el(\@main::el, 'mbox_del_mta_file_data()', 'ERROR: Undefined Input Data...');
 		return -1;
-
 	}
 
-	my ($rs, $rdata, $dmn_name) = (undef, undef, undef);
+	my ($rs, $rdata, $dmn_name);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -1233,7 +1376,6 @@ sub mbox_del_mta_file_data {
 	return $rs if ($rs != 0);
 
 	do {
-
 		my $dir_name = "$virtual_mail_dir/$dmn_name/$mail_acc";
 
 		$rs = del_dir($dir_name);
@@ -1242,26 +1384,27 @@ sub mbox_del_mta_file_data {
 	} if ($mail_type =~ /.*normal_mail.*/ || $mail_type =~/.*normal_forward.*/);
 
 	push_el(\@main::el, 'mbox_del_mta_file_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_del_mta_cfg_data {
 
-	my ($mbox_data) = @_;
-
 	push_el(\@main::el, 'mbox_del_mta_cfg_data()', 'Starting...');
+
+	my ($mbox_data) = @_;
 
 	if (!defined($mbox_data) || $mbox_data eq '') {
 
-		push_el(\@main::el, 'mbox_del_mta_cfg_data()', 'ERROR: Undefined Input Data...');
-		return -1;
+		push_el(
+			\@main::el, 'mbox_del_mta_cfg_data()',
+			'ERROR: Undefined Input Data...'
+		);
 
+		return -1;
 	}
 
-	my ($rs, $rdata, $dmn_name) = (undef, undef, undef);
-	my ($hash_key, $hash_value) = (undef, undef);
-	my ($sys, $working) = (undef, undef);
+	my ($rs, $rdata, $dmn_name, $hash_key, $hash_value, $sys, $working);
 
 	my $mail_id = @$mbox_data[0];
 	my $mail_acc = @$mbox_data[1];
@@ -1288,20 +1431,25 @@ sub mbox_del_mta_cfg_data {
 	($rs, $sys) = get_file($mailboxes_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($mailboxes_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$mailboxes_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $sys) = get_file($aliases_cfg);
 	return $rs if ($rs != 0);
 
-	$rs = store_file($aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+	$rs = store_file(
+		$aliases_backup_cfg, $sys, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	($rs, $dmn_name) = mbox_get_dmn_full_name($mbox_data);
 	return $rs if ($rs != 0);
 
 	do {
-
 		$hash_key = "$mail_acc\@$dmn_name";
 
 		$rs = del_mta_hash_value($mailboxes_working_cfg, $hash_key);
@@ -1310,7 +1458,10 @@ sub mbox_del_mta_cfg_data {
 		($rs, $working) = get_file($mailboxes_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($mailboxes_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$mailboxes_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 		$rs = del_mta_hash_value($aliases_working_cfg, $hash_key);
@@ -1319,21 +1470,20 @@ sub mbox_del_mta_cfg_data {
 		($rs, $working) = get_file($aliases_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($aliases_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$aliases_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644)
+		;
 		return $rs if ($rs != 0);
 
 		if ($mail_autorespond != 0) {
-
 			$rs = mbox_del_mta_cfg_autorespond_data($mbox_data);
-
 			return $rs if ($rs != 0);
-
 		}
 
 	} if ($mail_type =~ /^(normal|alias|subdom|alssub)(_mail|_forward).*/);
 
 	do {
-
 		$hash_key = "\@$dmn_name";
 		$hash_value = undef;
 
@@ -1343,7 +1493,10 @@ sub mbox_del_mta_cfg_data {
 		($rs, $working) = get_file($aliases_working_cfg);
 		return $rs if ($rs != 0);
 
-		$rs = store_file($aliases_cfg, $working, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0644);
+		$rs = store_file(
+			$aliases_cfg, $working, $main::cfg{'ROOT_USER'},
+			$main::cfg{'ROOT_GROUP'}, 0644
+		);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /.*(normal|alias|subdom|alssub)_catchall.*/);
@@ -1355,24 +1508,23 @@ sub mbox_del_mta_cfg_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_del_mta_cfg_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_del_data {
 
-	my ($mbox_data) = @_;
-
-	my $rs = undef;
-
 	push_el(\@main::el, 'mbox_del_data()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
-
 		push_el(\@main::el, 'mbox_del_data()', 'ERROR: Undefined Input Data...');
-		return -1;
 
+		return -1;
 	}
+
+	my $rs;
 
 	$rs = mbox_del_mta_cfg_data($mbox_data);
 	return $rs if ($rs != 0);
@@ -1387,23 +1539,23 @@ sub mbox_del_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_del_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_add_data {
 
-	my ($mbox_data) = @_;
-	my $rs = undef;
-
 	push_el(\@main::el, 'mbox_add_data()', 'Starting...');
 
+	my ($mbox_data) = @_;
+
 	if (!defined($mbox_data) || $mbox_data eq '') {
-
 		push_el(\@main::el, 'mbox_add_data()', 'ERROR: Undefined Input Data...');
-		return -1;
 
+		return -1;
 	}
+
+	my $rs;
 
 	$rs = mbox_add_mta_cfg_data($mbox_data);
 	return $rs if ($rs != 0);
@@ -1418,25 +1570,25 @@ sub mbox_add_data {
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'mbox_add_data()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub mbox_mngr_engine {
 
 	push_el(\@main::el, 'mbox_mngr_engine()', 'Starting...');
 
+	my ($rs, $rows, $rdata, $timestamp, $sub_name, $msg);
 
-	my ($rs, $rows, $rdata) = (undef, undef, undef);
-	my ($timestamp, $sub_name, $msg) = (undef, undef, undef);
 	my $sql = "
 		SELECT
-			mail_id, mail_acc, mail_pass,
-			mail_forward, domain_id, mail_type,
-			sub_id, status, mail_auto_respond, quota,
-			mail_addr	FROM mail_users
+			mail_id, mail_acc, mail_pass, mail_forward, domain_id, mail_type,
+			sub_id, status, mail_auto_respond, quota, mail_addr
+		FROM
+			mail_users
 		WHERE
 			mail_id = $main::mail_task_id
+		;
 	";
 
 	($rs, $rows) = doSQL($sql);
@@ -1446,14 +1598,19 @@ sub mbox_mngr_engine {
 	my ($mbox_status, $mbox_id) = (@$entry[7], @$entry[0]);
 
 	if ($mbox_status eq 'toadd') {
-
 		$rs = mbox_add_data($entry);
-
-		$timestamp = time();
 
 		if ($rs == 0) {
 
-			$sql = "update mail_users set status='ok' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = 'ok'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		} else {
 
@@ -1461,7 +1618,15 @@ sub mbox_mngr_engine {
 
 			$msg =~ s/\'/\\\'/g;
 
-			$sql = "update mail_users set status='$sub_name | $msg' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = '$sub_name | $msg'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		}
 
@@ -1472,11 +1637,17 @@ sub mbox_mngr_engine {
 
 		$rs = mbox_change_data($entry);
 
-		$timestamp = time();
-
 		if ($rs == 0) {
 
-			$sql = "update mail_users set status='ok' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = 'ok'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		} else {
 
@@ -1484,7 +1655,15 @@ sub mbox_mngr_engine {
 
 			$msg =~ s/\'/\\\'/g;
 
-			$sql = "update mail_users set status='$sub_name | $msg' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = '$sub_name | $msg'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		}
 
@@ -1495,11 +1674,15 @@ sub mbox_mngr_engine {
 
 		$rs = mbox_del_data($entry);
 
-		$timestamp = time();
-
 		if ($rs == 0) {
 
-			$sql = "delete from mail_users where mail_id = $mbox_id;";
+			$sql = "
+				DELETE FROM
+					`mail_users`
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		} else {
 
@@ -1507,7 +1690,15 @@ sub mbox_mngr_engine {
 
 			$msg =~ s/\'/\\\'/g;
 
-			$sql = "update mail_users set status='$sub_name | $msg' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = '$sub_name | $msg'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		}
 
@@ -1517,12 +1708,17 @@ sub mbox_mngr_engine {
 	} elsif ($mbox_status eq 'todisable') {
 
 		$rs = mbox_disable_data($entry);
-
-		$timestamp = time();
-
 		if ($rs == 0) {
 
-			$sql = "update mail_users set status='disabled' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = 'disabled'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		} else {
 
@@ -1530,7 +1726,15 @@ sub mbox_mngr_engine {
 
 			$msg =~ s/\'/\\\'/g;
 
-			$sql = "update mail_users set status='$sub_name | $msg' where mail_id = $mbox_id;";
+			$sql = "
+				UPDATE
+					`mail_users`
+				SET
+					`status` = '$sub_name | $msg'
+				WHERE
+					`mail_id` = $mbox_id
+				;
+			";
 
 		}
 
@@ -1539,16 +1743,12 @@ sub mbox_mngr_engine {
 
 	}
 
-	# We'll wait a little, to build full backup history;
-
-	sleep(1);
-
 	push_el(\@main::el, 'mbox_mngr_engine()', 'Ending...');
-	return 0;
 
+	0;
 }
 
-my $rs = undef;
+my $rs;
 
 $rs = mbox_mngr_start_up();
 
@@ -1559,7 +1759,6 @@ if ($rs != 0) {
 	mbox_mngr_shut_down();
 
 	exit 1;
-
 }
 
 $rs = mbox_mngr_engine();
@@ -1571,7 +1770,6 @@ if ($rs != 0) {
 	mbox_mngr_shut_down();
 
 	exit 1;
-
 }
 
 $rs = mbox_mngr_shut_down();
@@ -1581,7 +1779,6 @@ if ($rs != 0) {
 	dump_el(\@main::el, $main::ispcp_mbox_mngr_el);
 
 	exit 1;
-
 }
 
 exit 0;

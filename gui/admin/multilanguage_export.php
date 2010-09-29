@@ -28,47 +28,103 @@
  * isp Control Panel. All Rights Reserved.
  */
 
+// Include needed libraries
 require '../include/ispcp-lib.php';
 
-// Security
+// Check for login
 check_login(__FILE__);
 
 if (isset($_GET['export_lang']) && $_GET['export_lang'] !== '') {
+
+	$sql = ispCP_Registry::get('Db');
+
 	$language_table = $_GET['export_lang'];
-	$encoding = $sql->Execute("SELECT `msgstr` FROM `" . $language_table . "` WHERE `msgid` = 'encoding';");
-	if ($encoding
-		&& $encoding->RowCount() > 0
-		&& $encoding->fields['msgstr'] != '') {
-		$encoding = $encoding->fields['msgstr'];
+
+	$query = "
+		SELECT
+			`msgstr`
+		FROM
+			`$language_table`
+		WHERE
+			`msgid` = 'encoding'
+		;
+	";
+
+	$stmt = execute_query($sql, $query);
+
+	if ($stmt->RowCount() > 0 && $stmt->fields['msgstr'] != '') {
+
+		$encoding = $stmt->fields['msgstr'];
 	} else {
 		$encoding = 'UTF-8';
 	}
-	$query = <<<SQL_QUERY
-			SELECT
-				`msgid`,
-				`msgstr`
-			FROM
-				$language_table
-SQL_QUERY;
 
-	$rs = exec_query($sql, $query, array());
+	$query = "
+		SELECT
+			`msgid`,
+			`msgstr`
+		FROM
+			`$language_table`
+		;
+	";
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr("Incorrect data input!"));
+	$rs = exec_query($sql, $query);
+
+	if ($rs->recordCount() == 0) {
+		set_page_message(tr('Incorrect data input!'));
 		user_goto('multilanguage.php');
 	} else {
-		$GLOBALS['class']['output']->showSize = false;
-		header('Content-type: text/plain; charset=' . $encoding);
+		// Avoids to grab information about the buffer compression
+		ispCP_Registry::get('bufferFilter')->compressionInformation = false;
+
+		// Get all translation strings
+		$data = '';
+
 		while (!$rs->EOF) {
 			$msgid = $rs->fields['msgid'];
 			$msgstr = $rs->fields['msgstr'];
+
 			if ($msgid !== '' && $msgstr !== '') {
-				echo $msgid . " = " . $msgstr."\n";
+				$data .= "$msgid = $msgstr\n";
 			}
-			$rs->MoveNext();
+
+			$rs->moveNext();
 		}
+
+		$filename = str_replace('lang_', '', $language_table) . '.txt';
+
+		if(isset($_GET['compress'])) {
+			$filter = new ispCP_Filter_Compress_Gzip();
+			$data = $filter->filter($data);
+			$filename .= '.gz';
+			$mime_type = 'application/x-gzip';
+		} else {
+			$mime_type = 'text/plain;';
+		}
+
+		// Common headers
+		header("Content-type: $mime_type;");
+		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+		// Get client browser information
+		$browserInfo = get_browser();
+
+		// Headers according client browser
+		if($browserInfo->browser == 'msie') {
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+		} else {
+			header('Pragma: no-cache');
+
+			if($browserInfo->browser == 'safari') {
+				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			}
+		}
+
+		print $data;
 	}
 } else {
-	set_page_message(tr("Incorrect data input!"));
+	set_page_message(tr('Incorrect data input!'));
 	user_goto('multilanguage.php');
 }

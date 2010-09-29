@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 // Test if we have a proper delete_id.
 if (!isset($_GET['delete_id'])) {
@@ -56,7 +56,7 @@ $query = "
 		`domain_ip_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($delete_id));
+$rs = exec_query($sql, $query, $delete_id);
 
 if ($rs->fields['dcnt'] > 0) {
 	// ERROR - we have domain(s) that use this IP
@@ -68,9 +68,9 @@ if ($rs->fields['dcnt'] > 0) {
 // check if the IP is assigned to reseller
 $query = "SELECT `reseller_ips` FROM `reseller_props`";
 
-$res = exec_query($sql, $query, array());
+$res = exec_query($sql, $query);
 
-while (($data = $res->FetchRow())) {
+while (($data = $res->fetchRow())) {
 	if (preg_match("/$delete_id;/", $data['reseller_ips'])) {
 		set_page_message(tr('Error: we have a reseller using this IP!'));
 		user_goto('ip_manage.php');
@@ -86,7 +86,7 @@ $query = "
 		`ip_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($delete_id));
+$rs = exec_query($sql, $query, $delete_id);
 
 $user_logged = $_SESSION['user_logged'];
 

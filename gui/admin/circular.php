@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/circular.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
@@ -73,7 +73,7 @@ function gen_page_data(&$tpl, &$sql) {
 				`email`
 		";
 
-		$rs = exec_query($sql, $query, array($user_id));
+		$rs = exec_query($sql, $query, $user_id);
 
 		if (isset($rs->fields['fname']) && isset($rs->fields['lname'])) {
 			$sender_name = $rs->fields['fname'] . ' ' . $rs->fields['lname'];
@@ -150,7 +150,7 @@ function send_reseller_message(&$sql) {
 			`email`
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	while (!$rs->EOF) {
 		if ($_POST['rcpt_to'] == 'rslrs' || $_POST['rcpt_to'] == 'usrs_rslrs') {
@@ -163,7 +163,7 @@ function send_reseller_message(&$sql) {
 			send_reseller_users_message($sql, $rs->fields['admin_id']);
 		}
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 
 	set_page_message(tr('You send email to your users successfully!'));
@@ -198,12 +198,12 @@ function send_reseller_users_message(&$sql, $admin_id) {
 			`email`
 	";
 
-	$rs = exec_query($sql, $query, array($admin_id));
+	$rs = exec_query($sql, $query, $admin_id);
 
 	while (!$rs->EOF) {
 		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
 		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 }
 

@@ -33,9 +33,9 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 // Get a reference to the Config object
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings.tpl');
 $tpl->define_dynamic('def_language', 'page');
 
@@ -77,7 +77,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	$sld_strict_validation = $_POST['sld_strict_validation'];
 	$max_dnames_labels = clean_input($_POST['max_dnames_labels']);
 	$max_subdnames_labels = clean_input($_POST['max_subdnames_labels']);
-	$log_level = constant($_POST['log_level']);
+	$log_level = defined($_POST['log_level']) ? constant($_POST['log_level']) : false;
 
 	if ((!is_number($lostpwd_timeout))
 		|| (!is_number($pwd_chars))
@@ -129,9 +129,28 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		$db_cfg->MAX_DNAMES_LABELS = $max_dnames_labels;
 		$db_cfg->MAX_SUBDNAMES_LABELS = $max_subdnames_labels;
 
-		$cfg->replace_with($db_cfg);
+		$cfg->replaceWith($db_cfg);
 
-		set_page_message(tr('Settings saved!'));
+		// gets the number of queries that were been executed
+		$updt_count = $db_cfg->countQueries('update');
+		$new_count = $db_cfg->countQueries('insert');
+
+		// An Update was been made in the database ?
+		if($updt_count > 0) {
+			set_page_message(
+				tr('%d configuration parameter(s) was updated!', $updt_count)
+			);
+		}
+
+		if($new_count > 0){
+			set_page_message(
+				tr('%d configuration parameter(s) was created!', $new_count)
+			);
+		}
+
+		if($new_count == 0 && $updt_count == 0){
+			set_page_message(tr("Nothing's been changed!"));
+		}
 	}
 }
 
@@ -148,7 +167,7 @@ $tpl->assign(
 		'BRUTEFORCE_BETWEEN_TIME_VALUE' => $cfg->BRUTEFORCE_BETWEEN_TIME,
 		'BRUTEFORCE_MAX_CAPTCHA' => $cfg->BRUTEFORCE_MAX_CAPTCHA,
 		'DOMAIN_ROWS_PER_PAGE' => $cfg->DOMAIN_ROWS_PER_PAGE,
-		'CUSTOM_ORDERPANEL_ID' => $coid,
+		'CUSTOM_ORDERPANEL_ID' => tohtml($coid),
 		'MAX_DNAMES_LABELS_VALUE' => $cfg->MAX_DNAMES_LABELS,
 		'MAX_SUBDNAMES_LABELS_VALUE' => $cfg->MAX_SUBDNAMES_LABELS
 	)
@@ -157,7 +176,7 @@ $tpl->assign(
 gen_def_language($tpl, $sql, $cfg['USER_INITIAL_LANG']);
 
 // Grab the value only once to improve performances
-$html_selected = $cfg['HTML_SELECTED'];
+$html_selected = $cfg->HTML_SELECTED;
 
 if ($cfg->LOSTPASSWORD) {
 	$tpl->assign('LOSTPASSWORD_SELECTED_ON', $html_selected);
@@ -288,7 +307,7 @@ if ($cfg->PREVENT_EXTERNAL_LOGIN_CLIENT) {
 }
 
 switch ($cfg->LOG_LEVEL) {
-	case E_USER_OFF:
+	case false:
 		$tpl->assign('LOG_LEVEL_SELECTED_OFF', $html_selected);
 		$tpl->assign('LOG_LEVEL_SELECTED_NOTICE', '');
 		$tpl->assign('LOG_LEVEL_SELECTED_WARNING', '');

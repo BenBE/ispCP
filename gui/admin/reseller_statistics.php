@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
@@ -74,8 +74,8 @@ function generate_page(&$tpl) {
 
 	global $month, $year;
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$start_index = 0;
 
@@ -116,12 +116,12 @@ function generate_page(&$tpl) {
 			$start_index, $rows_per_page
 SQL_QUERY;
 
-	$rs = exec_query($sql, $count_query, array());
+	$rs = exec_query($sql, $count_query);
 	$records_count = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 
 		$tpl->assign(
 			array(
@@ -173,7 +173,7 @@ SQL_QUERY;
 		while (!$rs->EOF) {
 			generate_reseller_entry($tpl, $rs->fields['admin_id'], $rs->fields['admin_name'], $row++);
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 

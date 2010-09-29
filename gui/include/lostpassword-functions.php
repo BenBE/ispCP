@@ -36,17 +36,23 @@ function check_gd() {
  * @todo use file_exists in try-catch block
  */
 function captcha_fontfile_exists() {
-	return file_exists(Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_FONT'));
+
+	$cfg = ispCP_Registry::get('Config');
+
+	return file_exists($cfg->LOSTPASSWORD_CAPTCHA_FONT);
 }
 
 function createImage($strSessionVar) {
-	$rgBgColor = Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_BGCOLOR');
-	$rgTextColor = Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_TEXTCOLOR');
 
-	$x = Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_WIDTH');
-	$y = Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_HEIGHT');
+	$cfg = ispCP_Registry::get('Config');
 
-	$font = Config::getInstance()->get('LOSTPASSWORD_CAPTCHA_FONT');
+	$rgBgColor = $cfg->LOSTPASSWORD_CAPTCHA_BGCOLOR;
+	$rgTextColor = $cfg->LOSTPASSWORD_CAPTCHA_TEXTCOLOR;
+
+	$x = $cfg->LOSTPASSWORD_CAPTCHA_WIDTH;
+	$y = $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT;
+
+	$font = $cfg->LOSTPASSWORD_CAPTCHA_FONT;
 
 	$iRandVal = strrand(8, $strSessionVar);
 
@@ -113,7 +119,7 @@ function strrand($length, $strSessionVar) {
 }
 
 function removeOldKeys($ttl) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$boundary = date('Y-m-d H:i:s', time() - $ttl * 60);
 
@@ -127,11 +133,11 @@ function removeOldKeys($ttl) {
 			`uniqkey_time` < ?
 	";
 
-	exec_query($sql, $query, array($boundary));
+	exec_query($sql, $query, $boundary);
 }
 
 function setUniqKey($admin_name, $uniqkey) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$timestamp = date('Y-m-d H:i:s', time());
 
@@ -149,7 +155,7 @@ function setUniqKey($admin_name, $uniqkey) {
 }
 
 function setPassword($uniqkey, $upass) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	if ($uniqkey == '') {
 		die();
@@ -168,7 +174,7 @@ function setPassword($uniqkey, $upass) {
 }
 
 function uniqkeyexists($uniqkey) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -179,9 +185,9 @@ function uniqkeyexists($uniqkey) {
 			`uniqkey` = ?
 	";
 
-	$res = exec_query($sql, $query, array($uniqkey));
+	$res = exec_query($sql, $query, $uniqkey);
 
-	return ($res->RecordCount() != 0) ? true : false;
+	return ($res->recordCount() != 0) ? true : false;
 }
 
 /**
@@ -198,7 +204,9 @@ function uniqkeygen() {
 }
 
 function sendpassword($uniqkey) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -209,9 +217,9 @@ function sendpassword($uniqkey) {
 			`uniqkey` = ?
 	";
 
-	$res = exec_query($sql, $query, array($uniqkey));
+	$res = exec_query($sql, $query, $uniqkey);
 
-	if ($res->RecordCount() == 1) {
+	if ($res->recordCount() == 1) {
 		$admin_name = $res->fields['admin_name'];
 
 		$created_by = $res->fields['created_by'];
@@ -252,9 +260,9 @@ function sendpassword($uniqkey) {
 
 		$message = $data['message'];
 
-		$base_vhost = Config::getInstance()->get('BASE_SERVER_VHOST');
+		$base_vhost = $cfg->BASE_SERVER_VHOST;
 
-		$base_vhost_prefix = Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX');
+		$base_vhost_prefix = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 		if ($from_name) {
 			$from = '"' . $from_name . '" <' . $from_email . '>';
@@ -298,7 +306,9 @@ function sendpassword($uniqkey) {
 }
 
 function requestpassword($admin_name) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -309,9 +319,9 @@ function requestpassword($admin_name) {
 			`admin_name` = ?
 	";
 
-	$res = exec_query($sql, $query, array($admin_name));
+	$res = exec_query($sql, $query, $admin_name);
 
-	if ($res->RecordCount() == 0) {
+	if ($res->recordCount() == 0) {
 		return false;
 	}
 
@@ -337,8 +347,8 @@ function requestpassword($admin_name) {
 	$subject = $data['subject'];
 	$message = $data['message'];
 
-	$base_vhost = Config::getInstance()->get('BASE_SERVER_VHOST');
-	$base_vhost_prefix = Config::getInstance()->get('BASE_SERVER_VHOST_PREFIX');
+	$base_vhost = $cfg->BASE_SERVER_VHOST;
+	$base_vhost_prefix = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 	if ($from_name) {
 		$from = '"' . $from_name . "\" <" . $from_email . ">";

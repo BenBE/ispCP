@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_ADMIN);
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('def_layout', 'page');
@@ -55,12 +55,12 @@ function gen_system_message(&$tpl, &$sql) {
 		WHERE
 			`ticket_to` = ?
 		AND
-			(`ticket_status` = '2' OR `ticket_status` = '5')
+			`ticket_status` IN ('1', '2')
 		AND
 			`ticket_reply` = 0
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$num_question = $rs->fields('cnum');
 
@@ -80,9 +80,10 @@ function gen_system_message(&$tpl, &$sql) {
 
 function get_update_infos(&$tpl) {
 
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
-	if (databaseUpdate::getInstance()->checkUpdateExists()) {
+	if (ispCP_Update_Database::getInstance()->checkUpdateExists()) {
 		$tpl->assign(array('DATABASE_UPDATE' => '<a href="database_update.php" class="link">' . tr('A database update is available') . '</a>'));
 		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	} else {
@@ -95,12 +96,12 @@ function get_update_infos(&$tpl) {
 		return false;
 	}
 
-	if (versionUpdate::getInstance()->checkUpdateExists()) {
+	if (ispCP_Update_Version::getInstance()->checkUpdateExists()) {
 		$tpl->assign(array('UPDATE' => '<a href="ispcp_updates.php" class="link">' . tr('New ispCP update is now available') . '</a>'));
 		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 	} else {
-		if (versionUpdate::getInstance()->getErrorMessage() != "") {
-			$tpl->assign(array('UPDATE' => versionUpdate::getInstance()->getErrorMessage()));
+		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
+			$tpl->assign(array('UPDATE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
 			$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		} else {
 			$tpl->assign(array('UPDATE_MESSAGE' => ''));
@@ -111,7 +112,7 @@ function get_update_infos(&$tpl) {
 function gen_server_trafic(&$tpl, &$sql) {
 	$query = "SELECT `straff_max`, `straff_warn` FROM `straff_settings`";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$straff_max = (($rs->fields['straff_max']) * 1024) * 1024;
 

@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add3.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -171,14 +171,11 @@ function init_in_values() {
  * generate page add user 3
  */
 function gen_user_add3_page(&$tpl) {
-	global $dmn_name, $dmn_expire, $hpid, $dmn_user_name;
-	global $user_email, $customer_id, $first_name;
-	global $last_name, $gender, $firm, $zip;
-	global $city, $state, $country, $street_one;
-	global $street_two, $mail, $phone;
-	global $fax;
-	
-	$cfg = IspCP_Registry::get('Config');
+	global $dmn_name, $hpid, $dmn_user_name, $user_email, $customer_id,
+		$first_name, $last_name, $gender, $firm, $zip, $city, $state, $country,
+		$street_one, $street_two, $mail, $phone, $fax;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$dmn_user_name = decode_idna($dmn_user_name);
 	// Fill in the fields
@@ -215,10 +212,10 @@ function gen_user_add3_page(&$tpl) {
  * Init global value with empty values
  */
 function gen_empty_data() {
-	global $user_email, $customer_id, $first_name;
-	global $last_name, $gender, $firm, $zip;
-	global $city, $state, $country, $street_one;
-	global $street_two, $mail, $phone, $fax;
+
+	global $user_email, $customer_id, $first_name, $last_name, $gender, $firm,
+		$zip, $city, $state, $country, $street_one, $street_two, $mail, $phone,
+		$fax, $domain_ip;
 
 	$user_email		= '';
 	$customer_id	= '';
@@ -252,8 +249,8 @@ function add_user_data($reseller_id) {
 	global $fax, $inpass, $domain_ip;
 	global $dns, $backup, $software_allowed;
 
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	// Let's get Desired Hosting Plan Data;
 	$err_msg = '';
@@ -271,13 +268,13 @@ function add_user_data($reseller_id) {
 		if (isset($cfg->HOSTING_PLANS_LEVEL)
 			&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 			$query = 'SELECT `props` FROM `hosting_plans` WHERE `id` = ?';
-			$res = exec_query($sql, $query, array($hpid));
+			$res = exec_query($sql, $query, $hpid);
 		} else {
 			$query = "SELECT `props` FROM `hosting_plans` WHERE `reseller_id` = ? AND `id` = ?";
 			$res = exec_query($sql, $query, array($reseller_id, $hpid));
 		}
 
-		$data = $res->FetchRow();
+		$data = $res->fetchRow();
 		$props = $data['props'];
 	}
 
@@ -355,9 +352,9 @@ function add_user_data($reseller_id) {
 						)
 	);
 
-	print $sql->ErrorMsg();
+	print $sql->errorMsg();
 
-	$record_id = $sql->Insert_ID();
+	$record_id = $sql->insertId();
 
 	$expire = $dmn_expire * 2635200; // months * 30.5 days
 
@@ -403,7 +400,7 @@ function add_user_data($reseller_id) {
 		)
 	);
 
-	$dmn_id = $sql->Insert_ID();
+	$dmn_id = $sql->insertId();
 
 	// Add statistics group
 
@@ -414,14 +411,14 @@ function add_user_data($reseller_id) {
 			(?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query,
+	exec_query($sql, $query,
 					array(
 							$dmn_id, $dmn_name,
 							crypt_user_pass_with_salt($pure_user_pass), $cfg->ITEM_ADD_STATUS
 					)
 	);
 
-	$user_id = $sql->Insert_ID();
+	$user_id = $sql->insertId();
 
 	$query = "
 		INSERT INTO `htaccess_groups`
@@ -430,7 +427,13 @@ function add_user_data($reseller_id) {
 			(?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id, $cfg->AWSTATS_GROUP_AUTH, $user_id, $cfg->ITEM_ADD_STATUS));
+	exec_query(
+		$sql,
+		$query,
+		array(
+			$dmn_id, $cfg->AWSTATS_GROUP_AUTH, $user_id, $cfg->ITEM_ADD_STATUS
+		)
+	);
 
 	// Create the 3 default addresses if wanted
 	if ($cfg->CREATE_DEFAULT_EMAIL_ADDRESSES) {

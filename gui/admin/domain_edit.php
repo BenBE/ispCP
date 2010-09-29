@@ -32,9 +32,9 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$cfg = IspCP_Registry::get('Config');
+$cfg = ispCP_Registry::get('Config');
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
@@ -142,7 +142,7 @@ gen_editdomain_page($tpl);
  */
 function load_user_data($user_id, $domain_id) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
@@ -160,9 +160,9 @@ function load_user_data($user_id, $domain_id) {
 			`domain_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($domain_id));
+	$rs = exec_query($sql, $query, $domain_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
 		user_goto('manage_users.php');
 	}
@@ -188,8 +188,8 @@ function load_additional_data($user_id, $domain_id) {
 	global $cgi_supp, $username, $allowbackup;
 	global $dns_supp, $software_supp;
 
-	$cfg = IspCP_Registry::get('Config');
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	// Get domain data
 	$query = "
@@ -210,7 +210,7 @@ function load_additional_data($user_id, $domain_id) {
 	";
 
 	$res = exec_query($sql, $query, $domain_id);
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$domain_name		= $data['domain_name'];
 
@@ -243,8 +243,8 @@ function load_additional_data($user_id, $domain_id) {
 			`ip_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($domain_ip_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $domain_ip_id);
+	$data = $res->fetchRow();
 
 	$domain_ip = $data['ip_number'] . '&nbsp;(' . $data['ip_domain'] . ')';
 	// Get username of domain
@@ -259,8 +259,8 @@ function load_additional_data($user_id, $domain_id) {
 			`admin_type` = 'user'
 	";
 
-	$res = exec_query($sql, $query, array($domain_admin_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $domain_admin_id);
+	$data = $res->fetchRow();
 
 	$username = $data['admin_name'];
 } // End of load_additional_data()
@@ -277,7 +277,7 @@ function gen_editdomain_page(&$tpl) {
 	global $username, $allowbackup;
 	global $dns_supp, $software_supp;
 
-	$cfg = IspCP_Registry::get('Config');
+	$cfg = ispCP_Registry::get('Config');
 
 	// Fill in the fields
 	$domain_name = decode_idna($domain_name);
@@ -464,7 +464,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 				sd.`domain_id` = ?
 ";
 
-		$rs = exec_query($sql, $query, array($_SESSION['edit_id']));
+		$rs = exec_query($sql, $query, $_SESSION['edit_id']);
 		calculate_user_dvals($sql_user, $rs->fields['cnt'], $usql_user_max, $rsql_user_current, $rsql_user_max, $ed_error, tr('SQL User'));
 	}
 
@@ -477,9 +477,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		// Set domains status to 'change' to update mod_cband's limit
 		if ($previous_utraff_max != $utraff_max) {
 			$query = "UPDATE `domain` SET `domain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			$query = "UPDATE `subdomain` SET `subdomain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			send_request();
 		}
 

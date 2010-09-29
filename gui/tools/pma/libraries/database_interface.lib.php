@@ -205,6 +205,10 @@ function PMA_usort_comparison_callback($a, $b)
     } else {
         $sorter = 'strcasecmp';
     }
+    /* No sorting when key is not present */
+    if (!isset($a[$GLOBALS['callback_sort_by']]) || ! isset($b[$GLOBALS['callback_sort_by']])) {
+        return 0;
+    }
     // produces f.e.:
     // return -1 * strnatcasecmp($a["SCHEMA_TABLES"], $b["SCHEMA_TABLES"])
     return ($GLOBALS['callback_sort_order'] == 'ASC' ? 1 : -1) * $sorter($a[$GLOBALS['callback_sort_by']], $b[$GLOBALS['callback_sort_by']]);
@@ -1401,7 +1405,7 @@ function PMA_DBI_get_triggers($db, $table, $delimiter = '//')
     // instead of WHERE EVENT_OBJECT_SCHEMA='dbname'
         $triggers = PMA_DBI_fetch_result("SELECT TRIGGER_SCHEMA, TRIGGER_NAME, EVENT_MANIPULATION, ACTION_TIMING, ACTION_STATEMENT, EVENT_OBJECT_SCHEMA, EVENT_OBJECT_TABLE FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA= '" . PMA_sqlAddslashes($db,true) . "' and EVENT_OBJECT_TABLE = '" . PMA_sqlAddslashes($table, true) . "';");
     } else {
-        $triggers = PMA_DBI_fetch_result("SHOW TRIGGERS FROM " . PMA_sqlAddslashes($db,true) . " LIKE '" . PMA_sqlAddslashes($table, true) . "';");
+        $triggers = PMA_DBI_fetch_result("SHOW TRIGGERS FROM " . PMA_backquote(PMA_sqlAddslashes($db,true)) . " LIKE '" . PMA_sqlAddslashes($table, true) . "';");
     }
 
     if ($triggers) {

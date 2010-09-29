@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/ticket_system.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ticket_system.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('tickets_list', 'page');
@@ -43,156 +45,36 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-// page functions.
-
-function gen_tickets_list(&$tpl, &$sql, $user_id) {
-	$start_index = 0;
-	$rows_per_page = Config::getInstance()->get('DOMAIN_ROWS_PER_PAGE');
-
-	if (isset($_GET['psi'])) $start_index = $_GET['psi'];
-
-	$count_query = "
-		SELECT
-			COUNT(`ticket_id`) AS cnt
-		FROM
-			`tickets`
-		WHERE
-			`ticket_from`= ?
-		AND
-			`ticket_status` != 0
-		AND
-			`ticket_reply` = 0
-	";
-
-	$rs = exec_query($sql, $count_query, array($user_id));
-	$records_count = $rs->fields['cnt'];
-
-	$query = <<<SQL_QUERY
-		SELECT
-			`ticket_id`,
-			`ticket_status`,
-			`ticket_urgency`,
-			`ticket_date`,
-			`ticket_subject`,
-			`ticket_message`
-		FROM
-			`tickets`
-		WHERE
-			`ticket_from` = ?
-		AND
-			`ticket_status` != 0
-		AND
-			`ticket_reply` = 0
-		ORDER BY
-			`ticket_date` DESC
-		LIMIT
-			$start_index, $rows_per_page
-SQL_QUERY;
-
-	$rs = exec_query($sql, $query, array($user_id));
-
-	if ($rs->RecordCount() == 0) {
-		$tpl->assign(
-			array(
-				'TICKETS_LIST' => '',
-				'SCROLL_PREV' => '',
-				'SCROLL_NEXT' => ''
-			)
-		);
-		set_page_message(tr('You have no support tickets.'));
-	} else {
-		$prev_si = $start_index - $rows_per_page;
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
-		$next_si = $start_index + $rows_per_page;
-
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
-
-		global $i;
-
-		while (!$rs->EOF) {
-			$ticket_id		= $rs->fields['ticket_id'];
-			$date			= ticketGetLastDate($sql, $ticket_id);
-			$ticket_urgency = $rs->fields['ticket_urgency'];
-			$ticket_status	= $rs->fields['ticket_status'];
-
-			$tpl->assign(array('URGENCY' => get_ticket_urgency($ticket_urgency)));
-
-			if ($ticket_status == 1 || $ticket_status == 2) {
-				$tpl->assign(array('NEW' => tr("[New]")));
-			} else if ($ticket_status == 4 || $ticket_status == 5) {
-				$tpl->assign(array('NEW' => tr("[Re]")));
-			} else {
-				$tpl->assign(array('NEW' => " "));
-			}
-
-			$tpl->assign(
-				array(
-					'LAST_DATE'	=> $date,
-					'SUBJECT'	=> tohtml($rs->fields['ticket_subject']),
-					'SUBJECT2'	=> addslashes(clean_html($rs->fields['ticket_subject'])),
-					'ID'		=> $ticket_id,
-					'CONTENT'	=> ($i % 2 == 0) ? 'content' : 'content2'
-				)
-			);
-			$tpl->parse('TICKETS_ITEM', '.tickets_item');
-			$rs->MoveNext();
-			$i++;
-		}
-	}
-}
-
 // common page data.
 
-$theme_color = Config::getInstance()->get('USER_INITIAL_THEME');
 $tpl->assign(
 	array(
 		'TR_CLIENT_QUESTION_PAGE_TITLE'	=> tr('ispCP - Client/Questions & Comments'),
-		'THEME_COLOR_PATH'				=> "../themes/$theme_color",
+		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
 		'THEME_CHARSET'					=> tr('encoding'),
 		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
 	)
 );
 
-// dynamic page data.
-$query = "
-  SELECT
-    `support_system`
-  FROM
-    `reseller_props`
-  WHERE
-    `reseller_id` = ?
-";
+// dynamic page data
 
-$rs = exec_query($sql, $query, array($_SESSION['user_created_by']));
+$reseller_id = $_SESSION['user_created_by'];
 
-if (!Config::getInstance()->get('ISPCP_SUPPORT_SYSTEM') || $rs->fields['support_system'] == 'no') {
+if (!hasTicketSystem($reseller_id)) {
 	user_goto('index.php');
 }
+if (isset($_GET['psi'])) {
+	$start = $_GET['psi'];
+} else {
+	$start = 0;
+}
 
-gen_tickets_list($tpl, $sql, $_SESSION['user_id']);
+generateTicketList($tpl, $_SESSION['user_id'], $start,
+		$cfg->DOMAIN_ROWS_PER_PAGE, 'client', 'open');
+// static page messages
 
-// static page messages.
-
-gen_client_mainmenu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/main_menu_ticket_system.tpl');
-gen_client_menu($tpl, Config::getInstance()->get('CLIENT_TEMPLATE_PATH') . '/menu_ticket_system.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ticket_system.tpl');
 
 gen_logged_from($tpl);
 
@@ -221,7 +103,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::getInstance()->get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

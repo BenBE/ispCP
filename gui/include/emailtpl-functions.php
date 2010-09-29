@@ -30,7 +30,7 @@
 
 function get_email_tpl_data($admin_id, $tpl_name) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -41,7 +41,7 @@ function get_email_tpl_data($admin_id, $tpl_name) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($admin_id));
+	$rs = exec_query($sql, $query, $admin_id);
 
 	if ((trim($rs->fields('fname')) != '') && (trim($rs->fields('lname')) != '')) {
 		$data['sender_name'] = $rs->fields('fname') . ' ' . $rs->fields('lname');
@@ -76,7 +76,7 @@ function get_email_tpl_data($admin_id, $tpl_name) {
 
 	$rs = exec_query($sql, $query, array($admin_id, $tpl_name));
 
-	if ($rs->RowCount() == 1) {
+	if ($rs->rowCount() == 1) {
 		$data['subject'] = $rs->fields['subject'];
 		$data['message'] = $rs->fields['message'];
 	} else {
@@ -89,7 +89,7 @@ function get_email_tpl_data($admin_id, $tpl_name) {
 
 function set_email_tpl_data($admin_id, $tpl_name, $data) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -104,7 +104,7 @@ function set_email_tpl_data($admin_id, $tpl_name, $data) {
 
 	$rs = exec_query($sql, $query, array($admin_id, $tpl_name));
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 
 		$query = "
 			INSERT INTO `email_tpls`
@@ -296,8 +296,4 @@ The ispCP Team
 	}
 
 	return $data;
-}
-
-function set_alias_order_email($admin_id, $data) {
-	set_email_tpl_data($admin_id, 'alias-order-msg', $data);
 }

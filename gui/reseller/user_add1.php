@@ -30,11 +30,11 @@
 
 require '../include/ispcp-lib.php';
 
-$cfg = IspCP_Registry::get('Config');
-
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add1.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -115,8 +115,8 @@ function check_user_data() {
 	global $dmn_pt;
 	global $validation_err_msg;
 
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	// personal template
 	$even_txt = '';
@@ -196,8 +196,8 @@ function check_user_data() {
  * Show empty page
  */
 function get_empty_au1_page(&$tpl) {
-	$cfg = IspCP_Registry::get('Config');
-	
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
 		array(
 			'DMN_NAME_VALUE'		=> '',
@@ -222,23 +222,30 @@ function get_empty_au1_page(&$tpl) {
 function get_data_au1_page(&$tpl) {
 	global $dmn_name; // Domain name
 	global $dmn_expire; // Domain expire date
-	global $dmn_chp; // choosed hosting plan;
+	//global $dmn_chp; // choosed hosting plan;
 	global $dmn_pt; // personal template
-	
-	$cfg = IspCP_Registry::get('Config');
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
 		array(
-			'DMN_NAME_VALUE'		=> tohtml($dmn_name),
-			'CHTPL1_VAL'			=> $dmn_pt === "_yes_" ? $cfg->HTML_CHECKED : '',
-			'CHTPL2_VAL'			=> $dmn_pt === "_yes_" ? '' : $cfg->HTML_CHECKED,
-			'EXPIRE_NEVER_SET'		=> ($dmn_expire === '0') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_MONTH_SET'	=> ($dmn_expire === '1') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_MONTH_SET'	=> ($dmn_expire === '2') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_3_MONTH_SET'	=> ($dmn_expire === '3') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_6_MONTH_SET'	=> ($dmn_expire === '6') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_YEAR_SET'		=> ($dmn_expire === '12') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_YEARS_SET'	=> ($dmn_expire === '24') ? $cfg->HTML_SELECTED : '',
+			'DMN_NAME_VALUE' => tohtml($dmn_name),
+			'CHTPL1_VAL' => $dmn_pt === "_yes_" ? $cfg->HTML_CHECKED : '',
+			'CHTPL2_VAL' => $dmn_pt === "_yes_" ? '' : $cfg->HTML_CHECKED,
+			'EXPIRE_NEVER_SET' =>
+				($dmn_expire === '0') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_1_MONTH_SET' =>
+				($dmn_expire === '1') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_2_MONTH_SET' =>
+				($dmn_expire === '2') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_3_MONTH_SET' =>
+				($dmn_expire === '3') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_6_MONTH_SET' =>
+				($dmn_expire === '6') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_1_YEAR_SET' =>
+				($dmn_expire === '12') ? $cfg->HTML_SELECTED : '',
+			'EXPIRE_2_YEARS_SET' =>
+				($dmn_expire === '24') ? $cfg->HTML_SELECTED : '',
 		)
 	);
 } // End of get_data_au1_page()
@@ -249,8 +256,8 @@ function get_data_au1_page(&$tpl) {
 function get_hp_data_list(&$tpl, $reseller_id) {
 	global $dmn_chp;
 
-	$sql = Database::getInstance();
-	$cfg = IspCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($cfg->HOSTING_PLANS_LEVEL)
 		&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
@@ -276,10 +283,10 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 				t1.`name`
 		";
 
-		$rs = exec_query($sql, $query, array('admin'));
+		$rs = exec_query($sql, $query, 'admin');
 		$tpl->assign('PERSONALIZE', '');
 
-		if ($rs->RecordCount() == 0) {
+		if ($rs->recordCount() == 0) {
 			set_page_message(tr('You have no hosting plans. Please contact your system administrator.'));
 			$tpl->assign('ADD_USER', '');
 			$tpl->assign('ADD_FORM', '');
@@ -300,10 +307,10 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 				`name`
 		";
 
-		$rs = exec_query($sql, $query, array($reseller_id));
+		$rs = exec_query($sql, $query, $reseller_id);
 	}
 
-	if (0 !== $rs->RowCount()) { // There are data
+	if (0 !== $rs->rowCount()) { // There are data
 		$orders_count = 0;
 		while (($data = $rs->FetchRow())) {
 			list(
