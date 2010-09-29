@@ -8,7 +8,7 @@
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
 <!--[if lt IE 7.]>
-<script defer type="text/javascript" src="pngfix.js"></script>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
 <![endif]-->
 </head>
 
@@ -75,15 +75,15 @@
                             <td class="content" colspan="2">{VL_DNS_SUPP}</td>
                           </tr>
                           <tr>
-							<td width="25">&nbsp;</td>
-							<td class="content2" width="193">{TR_SOFTWARE_SUPP}</td>
-							<td  class="content" colspan="2">{VL_SOFTWARE_SUPP}</td>
-						  </tr>
-                          <tr>
                             <td width="25">&nbsp;</td>
                             <td class="content2" width="193">{TR_MYSQL_SUPP}</td>
                             <td class="content" colspan="2">{VL_MYSQL_SUPP}</td>
                           </tr>
+                          <tr>
+							<td width="25">&nbsp;</td>
+							<td class="content2" width="193">{TR_SOFTWARE_SUPP}</td>
+							<td  class="content" colspan="2">{VL_SOFTWARE_SUPP}</td>
+						  </tr>
                           <tr>
                             <td width="25">&nbsp;</td>
                             <td class="content2" width="193">{TR_TRAFFIC}</td>
