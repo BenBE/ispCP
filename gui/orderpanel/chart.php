@@ -32,13 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/chart.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('tos_field', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
-
+$tpl = ispCP_Registry::get('template');
 
 /*
  * functions start
@@ -120,7 +114,7 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 
 			$_SESSION['tos'] = true;
 		} else {
-			$tpl->assign(array('TOS_FIELD' => ''));
+			$tpl->assign(array('TOS_FIELD' => 'no'));
 			$_SESSION['tos'] = false;
 		}
 	}
@@ -212,13 +206,11 @@ $tpl->assign(
 		'TR_PERSONAL_DATA' => tr('Personal Data'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
-		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image" />',
-		'THEME_CHARSET' => tr('encoding'),
+		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image" />'
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/chart.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

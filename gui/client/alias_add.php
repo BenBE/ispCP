@@ -34,20 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('user_entry', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP Client : Add Alias'));
+$tpl->assign('PAGE_CONTENT', 'alias_add.tpl');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
@@ -55,8 +45,7 @@ $tpl->assign(
  *
  */
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_menu($tpl, 'manage_domains');
 
 gen_logged_from($tpl);
 
@@ -348,7 +337,6 @@ function gen_page_msg(&$tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
@@ -360,7 +348,6 @@ gen_page_msg($tpl, $err_txt);
 
 //gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

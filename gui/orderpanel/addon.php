@@ -32,11 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/addon.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
+$tpl = ispCP_Registry::get('template');
 
 /**
  * functions start
@@ -144,13 +140,11 @@ $tpl->assign(
 		'DOMAIN_ADDON'		=> tr('Add On A Domain'),
 		'TR_DOMAIN_NAME'	=> tr('Domain name'),
 		'TR_CONTINUE'		=> tr('Continue'),
-		'TR_EXAMPLE'		=> tr('(e.g. domain-of-your-choice.com)'),
-		'THEME_CHARSET'		=> tr('encoding'),
+		'TR_EXAMPLE'		=> tr('(e.g. domain-of-your-choice.com)')
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/addon.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

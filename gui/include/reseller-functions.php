@@ -42,44 +42,38 @@ define('MT_SUBDOM_CATCHALL', 'subdom_catchall');
 define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
-function gen_reseller_mainmenu(&$tpl, $menu_file) {
-
+/**
+ * Populate the main & sub menus
+ *
+ * @param object $tpl template object
+ * @param string $name section name
+ */
+function gen_reseller_menu(&$tpl, $name) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
+    add_main_menu_item($tpl, tr('General information'), 'general', 'index.php', $name == 'general_information');
+    add_main_menu_item($tpl, tr('Manage users'), 'manage_users', 'users.php', $name == 'users_manage');
+	add_main_menu_item($tpl, tr('Manage hosting plans'), 'hosting_plans', 'hosting_plan.php', $name == 'hosting_plan');
+    add_main_menu_item($tpl, tr('Manage Orders'), 'purchasing', 'orders.php', $name == 'orders');
+    add_main_menu_item($tpl, tr('Domain statistics'), 'statistics', 'user_statistics.php', $name == 'user_statistics');
 
-	$tpl->assign(
-		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_HOSTING_PLANS' => tr('Manage hosting plans'),
-			'TR_MENU_ADD_HOSTING' => tr('Add hosting plan'),
-			'TR_MENU_MANAGE_USERS' => tr('Manage users'),
-			'TR_MENU_ADD_USER' => tr('Add user'),
-			'TR_MENU_E_MAIL_SETUP' => tr('Email setup'),
-			'TR_MENU_CIRCULAR' => tr('Email marketing'),
-			'TR_MENU_MANAGE_DOMAINS' => tr('Manage domains'),
-			'TR_MENU_DOMAIN_ALIAS' => tr('Domain alias'),
-			'TR_MENU_SUBDOMAINS' => tr('Subdomains'),
-			'TR_MENU_DOMAIN_STATISTICS' => tr('Domain statistics'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_NEW_TICKET' => tr('New ticket'),
-			'TR_MENU_LAYOUT_SETTINGS' => tr('Layout settings'),
-			'TR_MENU_LOGOUT' => tr('Logout'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'TR_MENU_ORDERS' => tr('Manage Orders'),
-			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
-			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
-			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup')
-		)
-	);
+	$query = "
+	SELECT
+		`support_system`
+	FROM
+		`reseller_props`
+	WHERE
+		`reseller_id` = ?
+	";
+
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+	if ($cfg->ISPCP_SUPPORT_SYSTEM && $rs->fields['support_system'] == 'yes') {
+		add_main_menu_item($tpl, tr('Support system'), 'support',
+			$cfg->ISPCP_SUPPORT_SYSTEM_PATH, $name == 'ticket_system',
+			$cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+	}
 
 	$query = "
 		SELECT
@@ -93,9 +87,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 	";
 
 	$rs = exec_query($sql, $query);
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+
+	if ($rs->recordCount() > 0) {
 		global $i;
 		$i = 100;
 
@@ -108,147 +101,76 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
+			add_main_menu_item($tpl, tohtml($menu_name), 'custom_link',
+				tohtml($menu_link), $menu_target);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
-		} // end while
-	} // end else
-	$query = "
-	SELECT
-		`support_system`
-	FROM
-		`reseller_props`
-	WHERE
-		`reseller_id` = ?
-	";
+		}
+	}
 
-	$rs = exec_query($sql, $query, $_SESSION['user_id']);
+	switch ($name) {
+	case 'general_information':
+		$tpl->assign('SIDE_MENU_TITLE', tr('General information'));
+		$tpl->assign('SIDE_MENU_ICON', 'general_big.png');
 
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
- 	}
+		add_sub_menu_item($tpl, tr('Overview'), 'index.php');
+		add_sub_menu_item($tpl, tr('Change password'), 'password_change.php');
+		add_sub_menu_item($tpl, tr('Change personal data'), 'personal_change.php');
+		add_sub_menu_item($tpl, tr('Language'), 'language.php');
+		add_sub_menu_item($tpl, tr('Layout settings'), 'settings_layout.php');
+		break;
+	case 'users_manage':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage users'));
+		$tpl->assign('SIDE_MENU_ICON', 'manage_users_big.png');
 
-	$tpl->parse('MAIN_MENU', 'menu');
-} // end of gen_reseller_menu()
+		add_sub_menu_item($tpl, tr('Overview'), 'users.php');
+		add_sub_menu_item($tpl, tr('Add user'), 'user_add1.php');
+		add_sub_menu_item($tpl, tr('Domain alias'), 'alias.php');
+		add_sub_menu_item($tpl, tr('Email setup'), 'settings_welcome_mail.php');
+		add_sub_menu_item($tpl, tr('Lostpw email setup'), 'settings_lostpassword.php');
+		add_sub_menu_item($tpl, tr('Email marketing'), 'circular.php');
+		break;
+	case 'hosting_plan':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage hosting plans'));
+		$tpl->assign('SIDE_MENU_ICON', 'hosting_plans_big.png');
 
-/**
- * Function to generate the menu data for reseller
- */
-function gen_reseller_menu(&$tpl, $menu_file) {
+		add_sub_menu_item($tpl, tr('Overview'), 'hosting_plan.php');
+		if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL !== 'admin')
+			add_sub_menu_item($tpl, tr('Add hosting plan'), 'hosting_plan_add.php');
+		break;
+	case 'orders':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage orders'));
+		$tpl->assign('SIDE_MENU_ICON', 'purchasing_big.png');
 
-	$cfg = ispCP_Registry::get('Config');
-	$sql = ispCP_Registry::get('Db');
+		add_sub_menu_item($tpl, tr('Overview'), 'orders.php');
+		add_sub_menu_item($tpl, tr('Order settings'), 'order_settings.php');
+		add_sub_menu_item($tpl, tr('Order email setup'), 'order_email.php');
+		break;
+	case 'user_statistics':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Domain statistics'));
+		$tpl->assign('SIDE_MENU_ICON', 'statistics_big.png');
+		break;
+	case 'ticket_system':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Support system'));
+		$tpl->assign('SIDE_MENU_ICON', 'support_big.png');
 
-	$tpl->define_dynamic('menu', $menu_file);
+		add_sub_menu_item($tpl, tr('Open tickets'),
+			$cfg->ISPCP_SUPPORT_SYSTEM_PATH, $cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+		add_sub_menu_item($tpl, tr('Closed tickets'), 'ticket_closed.php');
+		add_sub_menu_item($tpl, tr('New ticket'), 'ticket_create.php');
+		break;
+	}
 
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('alias_menu', 'page');
-
-	$tpl->assign(
+    $tpl->assign(
 		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_HOSTING_PLANS' => tr('Manage hosting plans'),
-			'TR_MENU_ADD_HOSTING' => tr('Add hosting plan'),
-			'TR_MENU_MANAGE_USERS' => tr('Manage users'),
-			'TR_MENU_ADD_USER' => tr('Add user'),
-			'TR_MENU_E_MAIL_SETUP' => tr('Email setup'),
-			'TR_MENU_CIRCULAR' => tr('Email marketing'),
-			'TR_MENU_MANAGE_DOMAINS' => tr('Manage domains'),
-			'TR_MENU_DOMAIN_ALIAS' => tr('Domain alias'),
-			'TR_MENU_SUBDOMAINS' => tr('Subdomains'),
-			'TR_MENU_DOMAIN_STATISTICS' => tr('Domain statistics'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_NEW_TICKET' => tr('New ticket'),
-			'TR_MENU_LAYOUT_SETTINGS' => tr('Layout settings'),
 			'TR_MENU_LOGOUT' => tr('Logout'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
-				? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'TR_MENU_ORDERS' => tr('Manage Orders'),
-			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
-			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
-			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
 			'VERSION' => $cfg->Version,
 			'BUILDDATE' => $cfg->BuildDate,
 			'CODENAME' => $cfg->CodeName
 		)
 	);
-
-	$query = "
-		SELECT
-			*
-		FROM
-			`custom_menus`
-		WHERE
-			`menu_level` = 'reseller'
-		OR
-			`menu_level` = 'all'
-	";
-
-	$rs = exec_query($sql, $query);
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
-		global $i;
-		$i = 100;
-
-		while (!$rs->EOF) {
-			$menu_name = $rs->fields['menu_name'];
-			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
-
-			if ($menu_target !== "") {
-				$menu_target = 'target="' . tohtml($menu_target) . '"';
-			}
-
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
-
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->moveNext();
-			$i++;
-		} // end while
-	} // end else
-	$query = "
-	SELECT
-		`support_system`
-	FROM
-		`reseller_props`
-	WHERE
-		`reseller_id` = ?
-	";
-
-	$rs = exec_query($sql, $query, $_SESSION['user_id']);
-
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
-	}
-	if (isset($cfg->HOSTING_PLANS_LEVEL) && strtolower($cfg->HOSTING_PLANS_LEVEL) === 'admin') {
-		$tpl->assign('HP_MENU_ADD', '');
-	}
-
-	$tpl->parse('MENU', 'menu');
-} // end of gen_reseller_menu()
+}
 
 /**
  * Get data for page of reseller
@@ -661,7 +583,7 @@ function generate_ip_list(&$tpl, &$reseller_id) {
 		if (preg_match("/$ip_id;/", $reseller_ips) == 1) {
 			$selected = ($domain_ip === $ip_id) ? $cfg->HTML_SELECTED : '';
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'IP_NUM' => $data['ip_number'],
 					'IP_NAME' => tohtml($data['ip_domain']),
@@ -669,8 +591,6 @@ function generate_ip_list(&$tpl, &$reseller_id) {
 					'IP_SELECTED' => $selected
 				)
 			);
-
-			$tpl->parse('IP_ENTRY', '.ip_entry');
 		}
 	} // end loop
 } // end of generate_ip_list()
@@ -1263,38 +1183,24 @@ function gen_def_language(&$tpl, &$sql, $user_def_language) {
 
 	asort($languages[0], SORT_STRING);
 	foreach ($languages as $lang) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'LANG_VALUE' => $lang[0],
 				'LANG_SELECTED' => $lang[1],
 				'LANG_NAME' => tohtml($lang[2])
 			)
 		);
-
-		$tpl->parse('DEF_LANGUAGE', '.def_language');
 	}
 }
 
 function gen_domain_details(&$tpl, &$sql, $domain_id) {
 
-	$tpl->assign('USER_DETAILS', '');
-
-	if (isset($_SESSION['details']) && $_SESSION['details'] == 'hide') {
-		$tpl->assign(
-			array(
-				'TR_VIEW_DETAILS' => tr('view aliases'),
-				'SHOW_DETAILS' => "show",
-			)
-		);
-
-		return;
-	} else if (isset($_SESSION['details']) && $_SESSION['details'] === "show") {
-		$tpl->assign(
-			array(
+	if (isset($_SESSION['details']) && $_SESSION['details'] === "show")
+	{
+		$tpl->assign( array(
 				'TR_VIEW_DETAILS' => tr('hide aliases'),
 				'SHOW_DETAILS' => "hide",
-			)
-		);
+			) );
 
 		$alias_query = "
 			SELECT
@@ -1308,26 +1214,25 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 		";
 		$alias_rs = exec_query($sql, $alias_query, $domain_id);
 
-		if ($alias_rs->recordCount() == 0) {
-			$tpl->assign('USER_DETAILS', '');
-		} else {
+		$aliases = array();
+		if ($alias_rs->recordCount() > 0) {
 			while (!$alias_rs->EOF) {
 				$alias_name = $alias_rs->fields['alias_name'];
 
-				$tpl->assign('ALIAS_DOMAIN', tohtml(decode_idna($alias_name)));
-				$tpl->parse('USER_DETAILS', '.user_details');
+				$aliases[] = tohtml(decode_idna($alias_name));
 
 				$alias_rs->moveNext();
 			}
 		}
-	} else {
-		$tpl->assign(
-			array(
+		$tpl->append( 'USR_DETAILS', $aliases );
+	}
+	else
+	{
+		$tpl->append( 'USR_DETAILS', '' );
+		$tpl->assign( array(
 				'TR_VIEW_DETAILS' => tr('view aliases'),
 				'SHOW_DETAILS' => "show",
-			)
-		);
-
+			) );
 		return;
 	}
 }

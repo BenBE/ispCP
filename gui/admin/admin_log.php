@@ -34,24 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_log.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('log_row', 'page');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('clear_log', 'page');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADMIN_LOG_PAGE_TITLE'	=> tr('ispCP - Admin/Admin Log'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Admin Log'));
+$tpl->assign('PAGE_CONTENT', 'admin_log.tpl');
 
 function generate_page(&$tpl) {
 
@@ -92,23 +77,15 @@ function generate_page(&$tpl) {
 		// set_page_message(tr('Log is empty!'));
 		$tpl->assign(
 			array(
-				'LOG_ROW'		=> '',
 				'PAG_MESSAGE'	=> tr('Log is empty!'),
-				'USERS_LIST'	=> '',
-				'SCROLL_PREV'	=> '',
-				'SCROLL_NEXT'	=> '',
-				'CLEAR_LOG'		=> ''
 			)
 		);
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
+		if ($start_index > 0) {
 			$tpl->assign(
 				array(
-					'SCROLL_PREV_GRAY'	=> '',
 					'PREV_PSI'			=> $prev_si
 				)
 			);
@@ -116,12 +93,9 @@ function generate_page(&$tpl) {
 
 		$next_si = $start_index + $rows_per_page;
 
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
+		if ($next_si + 1 <= $records_count) {
 			$tpl->assign(
 				array(
-					'SCROLL_NEXT_GRAY'	=> '',
 					'NEXT_PSI'			=> $next_si
 				)
 			);
@@ -136,7 +110,7 @@ function generate_page(&$tpl) {
 		$row = 1;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ROW_CLASS' => ($row++ % 2 == 0) ? 'content' : 'content2',
 				)
@@ -163,14 +137,12 @@ function generate_page(&$tpl) {
 			}
 
 			$date_formt = $cfg->DATE_FORMAT . ' H:i';
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MESSAGE'	=> $log_message,
 					'DATE'		=> date($date_formt, strtotime($rs->fields['dat'])),
 				)
 			);
-
-			$tpl->parse('LOG_ROW', '.log_row');
 
 			$rs->moveNext();
 		} // end while
@@ -257,8 +229,7 @@ function clear_log() {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_admin_menu($tpl, 'general_information');
 
 clear_log();
 
@@ -281,7 +252,6 @@ $tpl->assign(
 );
 // gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

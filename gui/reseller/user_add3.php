@@ -34,29 +34,17 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add3.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
-$tpl->define_dynamic('alias_add', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - User/Add user'));
+$tpl->assign('PAGE_CONTENT', 'user_add3.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
  * static page messages.
  *
  */
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -118,10 +106,9 @@ gen_user_add3_page($tpl);
 gen_page_message($tpl);
 
 if (!check_reseller_permissions($_SESSION['user_id'], 'alias')) {
-	$tpl->assign('ALIAS_ADD', '');
+	$tpl->assign('ALIAS_ADD', 'no');
 }
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

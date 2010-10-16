@@ -34,22 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add1.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('add_user', 'page');
-$tpl->define_dynamic('hp_entry', 'page');
-$tpl->define_dynamic('personalize', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Users/Add user'));
+$tpl->assign('PAGE_CONTENT', 'user_add1.tpl');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Users/Add user'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
@@ -57,8 +45,7 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -95,7 +82,6 @@ if (isset($_POST['uaction'])) {
 get_hp_data_list($tpl, $_SESSION['user_id']);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -284,12 +270,12 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 		";
 
 		$rs = exec_query($sql, $query, 'admin');
-		$tpl->assign('PERSONALIZE', '');
+		$tpl->assign('PERSONALIZE', 'no');
 
 		if ($rs->recordCount() == 0) {
 			set_page_message(tr('You have no hosting plans. Please contact your system administrator.'));
-			$tpl->assign('ADD_USER', '');
-			$tpl->assign('ADD_FORM', '');
+			$tpl->assign('ADD_USER', 'no');
+			$tpl->assign('ADD_FORM', 'no');
 		}
 
 	} else {
@@ -313,19 +299,17 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 	if (0 !== $rs->rowCount()) { // There are data
 		while (($data = $rs->fetchRow())) {
 			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
-			$tpl->assign(
+			$tpl->append(
 					array(
 						'HP_NAME'			=> tohtml($data['name']),
 						'CHN'				=> $data['id'],
-						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
+						'CH_SEL'			=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
 					)
 			);
-
-			$tpl->parse('HP_ENTRY', '.hp_entry');
 		}
 
 	} else {
 		// set_page_message(tr('You have no hosting plans. Please add first hosting plan or contact your system administrator.'));
-		$tpl->assign('ADD_USER', '');
+		$tpl->assign('ADD_USER', 'no');
 	}
 } // End of get_hp_data_list()

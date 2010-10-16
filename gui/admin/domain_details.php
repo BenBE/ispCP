@@ -34,19 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_details.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('custom_buttons', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Domain/Details'));
+$tpl->assign('PAGE_CONTENT', 'domain_details.tpl');
 
-$tpl->assign(
-	array(
-		'TR_DETAILS_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
@@ -81,8 +72,7 @@ $tpl->assign(
 	)
 );
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 
 gen_page_message($tpl);
 
@@ -94,7 +84,6 @@ if (!isset($_GET['domain_id'])) {
 $editid = $_GET['domain_id'];
 gen_detaildom_page($tpl, $_SESSION['user_id'], $editid);
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

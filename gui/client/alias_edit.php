@@ -34,19 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Manage Domain Alias/Edit Alias'));
+$tpl->assign('PAGE_CONTENT', 'alias_edit.tpl');
 
-$tpl->assign(
-	array(
-		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -72,8 +63,7 @@ $tpl->assign(
 	)
 );
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_menu($tpl, 'manage_domains');
 
 gen_logged_from($tpl);
 
@@ -105,7 +95,6 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 }
 gen_editalias_page($tpl, $editid);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -277,7 +266,6 @@ function check_fwd_data(&$tpl, $alias_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return false;
 	}
 } // End of check_user_data()

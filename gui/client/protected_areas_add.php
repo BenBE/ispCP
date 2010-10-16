@@ -34,22 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protect_it.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('group_item', 'page');
-$tpl->define_dynamic('user_item', 'page');
-$tpl->define_dynamic('unprotect_it', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Webtools'));
+$tpl->assign('PAGE_CONTENT', 'protect_it.tpl');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /**
  * @todo use db prepared statements
@@ -210,7 +198,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			array(
 				'PATH' => '',
 				'AREA_NAME' => '',
-				'UNPROTECT_IT' => '',
+				'UNPROTECT_IT' => 'no',
 			)
 		);
 	} else {
@@ -218,7 +206,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		$ht_id = $_GET['id'];
 
 		$tpl->assign('CDIR', $ht_id);
-		$tpl->parse('UNPROTECT_IT', 'unprotect_it');
 
 		$query = "
 			SELECT
@@ -301,14 +288,13 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 	$rs = exec_query($sql, $query, $dmn_id);
 
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'USER_VALUE' => "-1",
 				'USER_LABEL' => tr('You have no users !'),
 				'USER_SELECTED' => ''
 			)
 		);
-		$tpl->parse('USER_ITEM', 'user_item');
 	} else {
 		while (!$rs->EOF) {
 			$usr_id = explode(',', $user_id);
@@ -321,15 +307,13 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				}
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USER_VALUE' => $rs->fields['id'],
 					'USER_LABEL' => tohtml($rs->fields['uname']),
 					'USER_SELECTED' => $usr_selected,
 				)
 			);
-
-			$tpl->parse('USER_ITEM', '.user_item');
 
 			$rs->moveNext();
 		}
@@ -347,14 +331,13 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 	$rs = exec_query($sql, $query, $dmn_id);
 
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'GROUP_VALUE' => "-1",
 				'GROUP_LABEL' => tr('You have no groups!'),
 				'GROUP_SELECTED' => ''
 			)
 		);
-		$tpl->parse('GROUP_ITEM', 'group_item');
 	} else {
 		while (!$rs->EOF) {
 			$grp_id = explode(',', $group_id);
@@ -367,14 +350,13 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				}
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'GROUP_VALUE' => $rs->fields['id'],
 					'GROUP_LABEL' => tohtml($rs->fields['ugroup']),
 					'GROUP_SELECTED' => $grp_selected,
 				)
 			);
-			$tpl->parse('GROUP_ITEM', '.group_item');
 			$rs->moveNext();
 		}
 	}
@@ -386,8 +368,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -421,7 +402,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

@@ -42,18 +42,9 @@ if (isset($_GET['edit_id'])) {
 	user_goto('manage_users.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_CONTENT', 'admin_edit.tpl');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'		=> tr('encoding'),
-		'ISP_LOGO'			=> get_logo($_SESSION['user_id']),
-	)
-);
 
 function update_data(&$sql) {
 
@@ -273,8 +264,8 @@ if ($rs->recordCount() <= 0) {
 	user_goto('manage_users.php');
 }
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+$tpl->assign('PAGE_TITLE', ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')));
+gen_admin_menu($tpl, 'users_manage');
 
 update_data($sql);
 
@@ -342,7 +333,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

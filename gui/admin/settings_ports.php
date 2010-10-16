@@ -286,7 +286,7 @@ function show_services(&$tpl) {
 
 		foreach($services as $index => $service) {
 
-			$tpl->assign('CLASS', ($index % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('CLASS', ($index % 2 == 0) ? 'content' : 'content2');
 
 			$v = (count(explode(';', $values->$service)) < 6)
 				? $values->$service . ';' : $values->$service;
@@ -300,7 +300,7 @@ function show_services(&$tpl) {
 			$selected_off = $status == '1' ? '' : $cfg->HTML_SELECTED;
 
 			if ($custom == 0) {
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'SERVICE' => tohtml($name) .
 							'<input name="name[]" type="hidden" id="name' .
@@ -308,16 +308,17 @@ function show_services(&$tpl) {
 
 						'PORT_READONLY' => $cfg->HTML_READONLY,
 						'PROTOCOL_READONLY' => $cfg->HTML_DISABLED,
+						'NAME' => '',
 						'TR_DELETE' => '-',
+						'URL_DELETE' => '',
 						'PORT_DELETE_LINK' => '',
+						'PORT_DELETE_SHOW' => true,
 						'NUM' => $index
 					)
 				);
-
-				$tpl->parse('PORT_DELETE_SHOW', '');
 			} else {
 
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'SERVICE' =>
 							'<input name="name[]" type="text" id="name' .
@@ -329,15 +330,14 @@ function show_services(&$tpl) {
 						'PROTOCOL_READONLY' => '',
 						'TR_DELETE' => tr('Delete'),
 						'URL_DELETE' => "?delete=$service",
+						'PORT_DELETE_LINK' => true,
 						'PORT_DELETE_SHOW' => '',
 						'NUM' => $index
 					)
 				);
-
-				$tpl->parse('PORT_DELETE_LINK', 'port_delete_link');
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CUSTOM' => tohtml($custom),
 					'VAR_NAME' => tohtml($service),
@@ -351,8 +351,6 @@ function show_services(&$tpl) {
 					'SELECTED_OFF' => $selected_off
 				)
 			);
-
-			$tpl->parse('SERVICE_PORTS', '.service_ports');
 		}
 
 		// Add fields
@@ -442,27 +440,12 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 } else {
 	$cfg = ispCP_Registry::get('Config');
 
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic(
-		'page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_ports.tpl'
-	);
-	$tpl->define_dynamic('service_ports', 'page');
-	$tpl->define_dynamic('port_delete_link', 'service_ports');
-	$tpl->define_dynamic('port_delete_show', 'service_ports');
+	$tpl = ispCP_Registry::get('template');
+	$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Settings'));
+	$tpl->assign('PAGE_CONTENT', 'settings_ports.tpl');
 
-	$tpl->assign(
-		array(
-			'TR_ADMIN_SETTINGS_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo(get_session('user_id'))
-		)
-	);
 
-	gen_admin_mainmenu(
-		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl'
-	);
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
+	gen_admin_menu($tpl, 'settings');
 
 	show_services($tpl);
 
@@ -494,7 +477,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 
 	gen_page_message($tpl);
 
-	$tpl->parse('PAGE', 'page');
 	$tpl->prnt();
 }
 

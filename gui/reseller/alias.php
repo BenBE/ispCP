@@ -34,27 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Manage Domain/Alias'));
+$tpl->assign('PAGE_CONTENT', 'domain_alias.tpl');
 
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_alias.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('table_list', 'page');
-$tpl->define_dynamic('table_header', 'page');
-$tpl->define_dynamic('table_item', 'table_list');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('als_add_button', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias'),
-		'THEME_COLOR_PATH'		=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'			=> tr('encoding'),
-		'ISP_LOGO'				=> get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
@@ -62,8 +46,7 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -86,7 +69,6 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
@@ -137,7 +119,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	list(,,,,,$rals_max) = get_reseller_default_props($sql, $reseller_id);
 
 	if ($uals_current >= $rals_max && $rals_max != "0") {
-		$tpl->assign('ALS_ADD_BUTTON', '');
+		$tpl->assign('ALS_ADD_BUTTON', 'no');
 	}
 
 	// NXW: Unused variable so...
@@ -295,8 +277,8 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		if (isset($_SESSION['search_for']) && $_SESSION['search_for'] != '') {
 			$tpl->assign(
 				array(
-					'TABLE_LIST'				=> '',
-					'USERS_LIST'				=> '',
+					'TABLE_LIST'				=> 'no',
+					'USERS_LIST'				=> 'no',
 					'SCROLL_PREV'				=> '',
 					'SCROLL_NEXT'				=> '',
 					'M_DOMAIN_NAME_SELECTED'	=> '',
@@ -306,9 +288,9 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		} else {
 			$tpl->assign(
 				array(
-					'TABLE_LIST'	=> '',
-					'TABLE_HEADER'	=> '',
-					'USERS_LIST'	=> '',
+					'TABLE_LIST'	=> 'no',
+					'TABLE_HEADER'	=> 'no',
+					'USERS_LIST'	=> 'no',
 					'SCROLL_PREV'	=> '',
 					'SCROLL_NEXT'	=> '',
 				)
@@ -333,12 +315,9 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
+		if ($start_index > 0) {
 			$tpl->assign(
 				array(
-					'SCROLL_PREV_GRAY'	=> '',
 					'PREV_PSI'			=> $prev_si
 				)
 			);
@@ -346,12 +325,9 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$next_si = $start_index + $rows_per_page;
 
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
+		if ($next_si + 1 <= $records_count) {
 			$tpl->assign(
 				array(
-					'SCROLL_NEXT_GRAY'	=> '',
 					'NEXT_PSI'			=> $next_si
 				)
 			);
@@ -414,7 +390,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 			$account_name_selected = '';
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'NAME'						=> tohtml($als_name),
 				'ALIAS_IP'					=> tohtml("$als_ip ($als_ip_name)"),
@@ -434,7 +410,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		);
 
 		$i++;
-		$tpl->parse('TABLE_ITEM', '.table_item');
 		$rs->moveNext();
 	}
 } // End of generate_als_list()
@@ -444,7 +419,6 @@ function generate_als_messages(&$tpl, $als_err) {
 		$tpl->assign(
 			array('MESSAGE' => $als_err)
 		);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return;
 	} else if (isset($_SESSION["dahavemail"])) {
 		$tpl->assign('MESSAGE', tr('Domain alias you are trying to remove has email accounts !<br>First remove them!'));

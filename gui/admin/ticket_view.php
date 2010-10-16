@@ -34,22 +34,12 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ticket_view.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client: Support System: View Ticket'));
+$tpl->assign('PAGE_CONTENT', 'ticket_view.tpl');
 
 // common page data
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_VIEW_TICKET_PAGE_TITLE' => tr('ispCP - Client: Support System: View Ticket'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data
 
@@ -105,8 +95,7 @@ if (isset($_GET['ticket_id'])) {
 
 // static page messages
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
+gen_admin_menu($tpl, 'ticket_system');
 
 $tpl->assign(
 	array(
@@ -126,7 +115,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

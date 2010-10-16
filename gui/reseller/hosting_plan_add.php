@@ -39,25 +39,10 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 		user_goto('hosting_plan.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('mail_add', 'page');
-$tpl->define_dynamic('ftp_add', 'page');
-$tpl->define_dynamic('sql_db_add', 'page');
-$tpl->define_dynamic('sql_user_add', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Reseller/Add hosting plan'));
+$tpl->assign('PAGE_CONTENT', 'hosting_plan_add.tpl');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Add hosting plan'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -65,15 +50,14 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'hosting_plan');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
 		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
-		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
+		'TR_HOSTING_PLAN_PROPS'		=> tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME'			=> tr('Template name'),
 		'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
 		'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
@@ -134,14 +118,13 @@ list(
 	$rsql_user_max
 	) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
 
-if ($rsub_max == "-1") $tpl->assign('ALIAS_ADD', '');
-if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_ADD', '');
-if ($rmail_max == "-1") $tpl->assign('MAIL_ADD', '');
-if ($rftp_max == "-1") $tpl->assign('FTP_ADD', '');
-if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', '');
-if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', '');
+if ($rsub_max == "-1") $tpl->assign('ALIAS_ADD', 'no');
+if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_ADD', 'no');
+if ($rmail_max == "-1") $tpl->assign('MAIL_ADD', 'no');
+if ($rftp_max == "-1") $tpl->assign('FTP_ADD', 'no');
+if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', 'no');
+if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', 'no');
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -399,7 +382,6 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
-		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
 		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 		// this id is just for fake and is not used in reseller_limits_check.

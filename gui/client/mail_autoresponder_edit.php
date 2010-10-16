@@ -34,10 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_autoresponder_enable.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Enable Mail Auto Responder'));
+$tpl->assign('PAGE_CONTENT', 'mail_autoresponder_enable.tpl');
 
 // page functions.
 
@@ -159,14 +158,6 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 }
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -175,8 +166,7 @@ gen_page_dynamic_data($tpl, $sql, $mail_id, !isset($_POST['uaction']));
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 
 gen_logged_from($tpl);
 
@@ -193,7 +183,6 @@ $tpl->assign(
 );
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

@@ -34,13 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('db_list', 'page');
-$tpl->define_dynamic('db_message', 'db_list');
-$tpl->define_dynamic('user_list', 'db_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Manage SQL'));
+$tpl->assign('PAGE_CONTENT', 'sql_manage.tpl');
 
 $count = -1;
 
@@ -62,37 +58,23 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 
 	$rs = exec_query($sql, $query, $db_id);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'DB_MSG'	=> tr('Database user list is empty!'),
-				'USER_LIST'	=> ''
-			)
-		);
-		$tpl->parse('DB_MESSAGE', 'db_message');
-	} else {
-		$tpl->assign(
-			array(
-				'USER_LIST'		=> '',
-				'DB_MESSAGE'	=> ''
-			)
-		);
-
+	$users = array();
+	if ($rs->recordCount() > 0) {
 		while (!$rs->EOF) {
 			$count++;
 			$user_id = $rs->fields['sqlu_id'];
 			$user_mysql = $rs->fields['sqlu_name'];
-			$tpl->assign(
+			$users[] =
 				array(
 					'DB_USER'	=> tohtml($user_mysql),
 					'DB_USER_JS'=> tojs($user_mysql),
 					'USER_ID'	=> $user_id
-				)
-			);
-			$tpl->parse('USER_LIST', '.user_list');
+				);
 			$rs->moveNext();
 		}
 	}
+	$tpl->append( 'DB_USERLIST', $users );
+	return count($users);
 }
 
 function gen_db_list(&$tpl, &$sql, $user_id) {
@@ -114,20 +96,19 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 
 	if ($rs->recordCount() == 0) {
 		set_page_message(tr('Database list is empty!'));
-		$tpl->assign('DB_LIST', '');
 	} else {
 		while (!$rs->EOF) {
 			$db_id = $rs->fields['sqld_id'];
 			$db_name = $rs->fields['sqld_name'];
-			gen_db_user_list($tpl, $sql, $db_id);
-			$tpl->assign(
+			$num = gen_db_user_list($tpl, $sql, $db_id);
+			$tpl->append(
 				array(
 					'DB_ID'		=> $db_id,
 					'DB_NAME'	=> tohtml($db_name),
-					'DB_NAME_JS'=> tojs($db_name)
+					'DB_NAME_JS'=> tojs($db_name),
+					'DB_MSG'	=> $num ? '' : tr('Database user list is empty!')
 				)
 			);
-			$tpl->parse('DB_LIST', '.db_list');
 			$rs->moveNext();
 		}
 	}
@@ -140,24 +121,13 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_SQL_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 // dynamic page data.
 
 gen_db_list($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
+gen_client_menu($tpl, 'manage_sql');
 
 gen_logged_from($tpl);
 
@@ -182,7 +152,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

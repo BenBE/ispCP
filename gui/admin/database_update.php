@@ -46,29 +46,12 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 	header('Location: ' . $_SERVER['PHP_SELF']);
 } else {
 
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic(
-		'page', $cfg->ADMIN_TEMPLATE_PATH . '/database_update.tpl'
-	);
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('database_update_message', 'page');
-	$tpl->define_dynamic('database_update_infos', 'page');
-	$tpl->define_dynamic('table_header', 'page');
+	$tpl = ispCP_Registry::get('template');
+	$tpl->assign('PAGE_TITLE', tr('ispCP - Virtual Hosting Control System'));
+	$tpl->assign('PAGE_CONTENT', 'database_update.tpl');
 
-	$tpl->assign(
-		array(
-			'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE'	=>
-				tr('ispCP - Virtual Hosting Control System'),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id'])
-		)
-	);
 
-	gen_admin_mainmenu(
-		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl'
-	);
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+	gen_admin_menu($tpl, 'system_tools');
 	gen_page_message($tpl);
 
 	$tpl->assign(
@@ -91,7 +74,6 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_INFOS', 'database_update_infos');
 	} else {
 		$tpl->assign(
 			array(
@@ -101,10 +83,8 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	}
 
-	$tpl->parse('PAGE', 'page');
 	$tpl->prnt();
 
 	if ($cfg->DUMP_GUI_DEBUG) {

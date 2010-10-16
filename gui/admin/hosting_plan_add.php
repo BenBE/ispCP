@@ -38,19 +38,11 @@ if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Administrator/Add hosting plan'));
+$tpl->assign('PAGE_CONTENT', 'hosting_plan_add.tpl');
 
 
-$tpl->assign(
-	array(
-			'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Administrator/Add hosting plan'),
-			'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET'						=> tr('encoding'),
-			'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -58,13 +50,12 @@ $tpl->assign(
  *
  */
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
+gen_admin_menu($tpl, 'hosting_plan');
 
 $tpl->assign(
 		array(
 				'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
-				'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
+				'TR_HOSTING_PLAN_PROPS'		=> tr('Hosting plan properties'),
 				'TR_TEMPLATE_NAME'			=> tr('Template name'),
 				'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
 				'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
@@ -118,7 +109,6 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -366,7 +356,6 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
-		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
 		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 		$query = "

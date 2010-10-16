@@ -34,17 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_maintenance_mode.tpl');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Maintenance mode'));
+$tpl->assign('PAGE_CONTENT', 'settings_maintenance_mode.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MAINTENANCEMODE_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 $selected_on = '';
 $selected_off = '';
@@ -75,8 +68,7 @@ if ($cfg->MAINTENANCEMODE) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+gen_admin_menu($tpl, 'system_tools');
 
 $tpl->assign(
 	array(
@@ -94,7 +86,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

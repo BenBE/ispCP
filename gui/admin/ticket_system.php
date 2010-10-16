@@ -27,33 +27,15 @@
  * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
-
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ticket_system.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Autoresponder'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Support System'));
+$tpl->assign('PAGE_CONTENT', 'ticket_system.tpl');
 
 // dynamic page data
 
@@ -71,8 +53,7 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 
 // static page messages
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
+gen_admin_menu($tpl, 'ticket_system');
 
 $tpl->assign(
 	array(
@@ -95,7 +76,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -103,3 +83,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

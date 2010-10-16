@@ -34,17 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Add Mail User'));
+$tpl->assign('PAGE_CONTENT', 'mail_add.tpl');
 
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('als_sub_list', 'page');
-$tpl->define_dynamic('to_alias_domain', 'page');
-$tpl->define_dynamic('to_subdomain', 'page');
-$tpl->define_dynamic('to_alias_subdomain', 'page');
 
 // page functions.
 
@@ -121,8 +114,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
+		$tpl->assign('TO_ALIAS_DOMAIN', 'no');
 	} else {
 		$first_passed = false;
 		while (!$rs->EOF) {
@@ -147,14 +139,13 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			}
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_ID'		=> $rs->fields['alias_id'],
 					'ALS_SELECTED'	=> $als_selected,
 					'ALS_NAME'		=> tohtml($alias_name)
 				)
 			);
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -192,8 +183,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				'SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('SUB_LIST', 'sub_list');
-		$tpl->assign('TO_SUBDOMAIN', '');
+		$tpl->assign('TO_SUBDOMAIN', 'no');
 	} else {
 		$first_passed = false;
 
@@ -220,14 +210,13 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 			$sub_name = decode_idna($rs->fields['sub_name']);
 			$dmn_name = decode_idna($dmn_name);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_ID'		=> $rs->fields['sub_id'],
 					'SUB_SELECTED'	=> $sub_selected,
 					'SUB_NAME'		=> tohtml($sub_name . '.' . $dmn_name)
 				)
 			);
-			$tpl->parse('SUB_LIST', '.sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -268,8 +257,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_SUB_LIST', 'sub_list');
-		$tpl->assign('TO_ALIAS_SUBDOMAIN', '');
+		$tpl->assign('TO_ALIAS_SUBDOMAIN', 'no');
 	} else {
 		$first_passed = false;
 
@@ -296,14 +284,13 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 			$als_sub_name = decode_idna($rs->fields['als_sub_name']);
 			$als_name = decode_idna($rs->fields['als_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_SUB_ID'		=> $rs->fields['als_sub_id'],
 					'ALS_SUB_SELECTED'	=> $als_sub_selected,
 					'ALS_SUB_NAME'		=> tohtml($als_sub_name . '.' . $als_name)
 				)
 			);
-			$tpl->parse('ALS_SUB_LIST', '.als_sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -621,14 +608,6 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 	header("Location: index.php");
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE'	=> tr('ispCP - Client/Add Mail User'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -636,8 +615,7 @@ gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 
 gen_logged_from($tpl);
 
@@ -663,7 +641,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

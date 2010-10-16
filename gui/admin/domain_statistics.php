@@ -34,23 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('traffic_table', 'page');
-$tpl->define_dynamic('traffic_table_item', 'traffic_table');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Domain Statistics Data'));
+$tpl->assign('PAGE_CONTENT', 'domain_statistics.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 if (isset($_POST['domain_id'])) {
 	$domain_id = $_POST['domain_id'];
@@ -160,11 +147,8 @@ function generate_page(&$tpl, $domain_id) {
 
 		$date_formt = $cfg->DATE_FORMAT;
 		if ($web_trf == 0 && $ftp_trf == 0 && $smtp_trf == 0 && $pop_trf == 0) {
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MONTH' => $month,
-					'YEAR' => $year,
-					'DOMAIN_ID' => $domain_id,
 					'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => 0,
 					'FTP_TRAFFIC' => 0,
@@ -181,7 +165,7 @@ function generate_page(&$tpl, $domain_id) {
 			$sum_mail += $smtp_trf;
 			$sum_pop += $pop_trf;
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => sizeit($web_trf),
@@ -191,26 +175,21 @@ function generate_page(&$tpl, $domain_id) {
 					'ALL_TRAFFIC' => sizeit($web_trf + $ftp_trf + $smtp_trf + $pop_trf),
 				)
 			);
-			$tpl->parse('TRAFFIC_TABLE_ITEM', '.traffic_table_item');
-
 			$counter++;
 		}
-
-		$tpl->assign(
-			array(
-				'MONTH' => $month,
-				'YEAR' => $year,
-				'DOMAIN_ID' => $domain_id,
-				'ALL_WEB_TRAFFIC' => sizeit($sum_web),
-				'ALL_FTP_TRAFFIC' => sizeit($sum_ftp),
-				'ALL_SMTP_TRAFFIC' => sizeit($sum_mail),
-				'ALL_POP3_TRAFFIC' => sizeit($sum_pop),
-				'ALL_ALL_TRAFFIC' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop),
-			)
-		);
-
-		$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 	}
+	$tpl->assign(
+		array(
+			'MONTH' => $month,
+			'YEAR' => $year,
+			'DOMAIN_ID' => $domain_id,
+			'ALL_WEB_TRAFFIC' => sizeit($sum_web),
+			'ALL_FTP_TRAFFIC' => sizeit($sum_ftp),
+			'ALL_SMTP_TRAFFIC' => sizeit($sum_mail),
+			'ALL_POP3_TRAFFIC' => sizeit($sum_pop),
+			'ALL_ALL_TRAFFIC' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop),
+		)
+	);
 }
 
 /*
@@ -219,8 +198,7 @@ function generate_page(&$tpl, $domain_id) {
  *
  */
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_admin_menu($tpl, 'statistics');
 
 $tpl->assign(
 	array(
@@ -244,7 +222,6 @@ generate_page($tpl, $domain_id);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

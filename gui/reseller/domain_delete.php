@@ -34,30 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page',  $cfg->RESELLER_TEMPLATE_PATH . '/domain_delete.tpl');
-$tpl->define_dynamic('mail_list', 'page');
-$tpl->define_dynamic('ftp_list', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('db_list', 'page');
-$tpl->define_dynamic('mail_item', 'mail_list');
-$tpl->define_dynamic('sub_item', 'sub_list');
-$tpl->define_dynamic('als_item', 'als_list');
-$tpl->define_dynamic('ftp_item', 'ftp_list');
-$tpl->define_dynamic('db_item', 'db_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Delete Domain'));
+$tpl->assign('PAGE_CONTENT', 'domain_delete.tpl');
 
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
 
 if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	validate_domain_deletion(intval($_GET['domain_id']));
@@ -69,14 +50,12 @@ if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	user_goto('users.php?psi=last');
 }
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -132,14 +111,13 @@ function validate_domain_deletion($domain_id) {
 			}
 			$mdisplay_txt = implode(', ', $mdisplay_a);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ADDR' => tohtml($res->fields['mail_addr']),
 					'MAIL_TYPE' => $mdisplay_txt
 				)
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$res->moveNext();
 		}
 	} else {
@@ -152,14 +130,13 @@ function validate_domain_deletion($domain_id) {
 	if (!$res->EOF) {
 		while (!$res->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'FTP_USER' => tohtml($res->fields['userid']),
 					'FTP_HOME' => tohtml($res->fields['homedir'])
 				)
 			);
 
-			$tpl->parse('FTP_ITEM', '.ftp_item');
 			$res->moveNext();
 		}
 	} else {
@@ -174,14 +151,13 @@ function validate_domain_deletion($domain_id) {
 		while (!$res->EOF) {
 			$alias_a[] = $res->fields['alias_id'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_NAME' => tohtml($res->fields['alias_name']),
 					'ALS_MNT' => tohtml($res->fields['alias_mount'])
 				)
 			);
 
-			$tpl->parse('ALS_ITEM', '.als_item');
 			$res->moveNext();
 		}
 	} else {
@@ -194,14 +170,13 @@ function validate_domain_deletion($domain_id) {
 	$res = exec_query($sql, $query, $domain_id);
 	while (!$res->EOF) {
 		$any_sub_found = true;
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'SUB_NAME' => tohtml($res->fields['subdomain_name']),
 				'SUB_MNT' => tohtml($res->fields['subdomain_mount'])
 			)
 		);
 
-		$tpl->parse('SUB_ITEM', '.sub_item');
 		$res->moveNext();
 	}
 
@@ -217,14 +192,13 @@ function validate_domain_deletion($domain_id) {
 		$res = exec_query($sql, $query);
 		while (!$res->EOF) {
 			$any_sub_found = true;
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME' => tohtml($res->fields['subdomain_alias_name']),
 					'SUB_MNT' => tohtml($res->fields['subdomain_alias_mount'])
 				)
 			);
 
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$res->moveNext();
 		}
 	}
@@ -246,14 +220,13 @@ function validate_domain_deletion($domain_id) {
 			}
 			$users_txt = implode(', ', $users_a);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DB_NAME' => tohtml($res->fields['sqld_name']),
 					'DB_USERS' => tohtml($users_txt)
 				)
 			);
 
-			$tpl->parse('DB_ITEM', '.db_item');
 			$res->moveNext();
 		}
 	} else {

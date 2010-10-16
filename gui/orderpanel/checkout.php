@@ -32,12 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/checkout.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
-
+$tpl = ispCP_Registry::get('template');
 
 /*
  * functions start
@@ -156,14 +151,14 @@ if ((isset($_SESSION['fname']) && $_SESSION['fname'] != '')
 	&& (isset($_SESSION['email']) && $_SESSION['email'] != '')
 	&& (isset($_SESSION['zip']) && $_SESSION['zip'] != '')
 	&& (isset($_SESSION['city']) && $_SESSION['city'] != '')
-	&& (isset($_SESSION['state']) && $_SESSION['state'] != '')
 	&& (isset($_SESSION['country']) && $_SESSION['country'] != '')
 	&& (isset($_SESSION['street1']) && $_SESSION['street1'] != '')
 	&& (isset($_SESSION['phone']) && $_SESSION['phone'] != '')
 	) {
 	gen_checkout($tpl, $sql, $user_id, $plan_id);
 } else {
-	user_goto('index.php?user_id=' . $user_id);
+	set_page_message(tr('Personal data missing!'));
+	user_goto('chart.php');
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);
@@ -173,12 +168,10 @@ $tpl->assign(
 	array(
 		'CHECK_OUT' => tr('Check Out'),
 		'THANK_YOU_MESSAGE' => tr('<strong>Thank you for purchasing.</strong><br />You will receive an e-mail with more details and information.'),
-		'THEME_CHARSET' => tr('encoding'),
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/checkout.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

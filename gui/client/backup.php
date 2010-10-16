@@ -34,10 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/backup.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Daily Backup'));
+$tpl->assign('PAGE_CONTENT', 'backup.tpl');
 
 // page functions.
 
@@ -63,14 +62,6 @@ function send_backup_restore_request(&$sql, $user_id) {
 
 // common page data.
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_BACKUP_PAGE_TITLE' => tr('ispCP - Client/Daily Backup'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -78,8 +69,7 @@ send_backup_restore_request($sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -111,7 +101,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

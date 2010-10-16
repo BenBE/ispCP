@@ -34,24 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_assign.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('already_in', 'page');
-$tpl->define_dynamic('grp_avlb', 'page');
-$tpl->define_dynamic('add_button', 'page');
-$tpl->define_dynamic('remove_button', 'page');
-$tpl->define_dynamic('in_group', 'page');
-$tpl->define_dynamic('not_in_group', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('Protected areas'));
+$tpl->assign('PAGE_CONTENT', 'puser_assign.tpl');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'		=> tr('encoding'),
-		'ISP_LOGO'			=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  * functions
@@ -125,26 +111,24 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 			// let's generete all groups wher the user is assigned
 			for ($i = 0, $cnt_members = count($members); $i < $cnt_members; $i++) {
 				if ($uuser_id == $members[$i]) {
-					$tpl->assign(
+					$tpl->append(
 						array(
 							'GRP_IN' => tohtml($group_name),
 							'GRP_IN_ID' => $group_id,
 						)
 					);
 
-					$tpl->parse('ALREADY_IN', '.already_in');
 					$grp_in = $group_id;
 					$added_in++;
 				}
 			}
 			if ($grp_in !== $group_id) {
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'GRP_NAME' => tohtml($group_name),
 						'GRP_ID' => $group_id,
 					)
 				);
-				$tpl->parse('GRP_AVLB', '.grp_avlb');
 				$not_added_in++;
 			}
 
@@ -152,10 +136,10 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 		}
 		// generate add/remove buttons
 		if ($added_in < 1) {
-			$tpl->assign('IN_GROUP', '');
+			$tpl->assign('IN_GROUP', 'no');
 		}
 		if ($not_added_in < 1) {
-			$tpl->assign('NOT_IN_GROUP', '');
+			$tpl->assign('NOT_IN_GROUP', 'no');
 		}
 	}
 }
@@ -274,8 +258,7 @@ function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
 
 // ** end of funcfions
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -291,7 +274,7 @@ gen_user_assign($tpl, $sql, $dmn_id);
 
 $tpl->assign(
 	array(
-		'TR_HTACCESS'			=> tr('Protected areas'),
+		'TR_HTACCESS_TITLE'			=> tr('Protected areas'),
 		'TR_DELETE'				=> tr('Delete'),
 		'TR_USER_ASSIGN'		=> tr('User assign'),
 		'TR_ALLREADY'			=> tr('Already in:'),
@@ -305,7 +288,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

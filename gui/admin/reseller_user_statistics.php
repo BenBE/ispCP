@@ -34,21 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('no_domains', 'page');
-$tpl->define_dynamic('domain_list', 'page');
-$tpl->define_dynamic('domain_entry', 'domain_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Reseller User Statistics'));
+$tpl->assign('PAGE_CONTENT', 'reseller_user_statistics.tpl');
 
 if (isset($_POST['rid']) && isset($_POST['name'])) {
 	$rid = $_POST['rid'];
@@ -73,14 +61,6 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
@@ -205,8 +185,6 @@ SQL_QUERY;
 
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
 
-			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
-
 			$rs->moveNext();
 		}
 	}
@@ -258,7 +236,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 	}
 
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2',
 		)
@@ -266,7 +244,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	$domain_name = decode_idna($domain_name);
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'DOMAIN_NAME' => tohtml($domain_name),
 
@@ -342,8 +320,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_admin_menu($tpl, 'statistics');
 
 $tpl->assign(
 	array(
@@ -376,7 +353,6 @@ generate_page($tpl, $rid, $name);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

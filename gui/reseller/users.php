@@ -34,27 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/users.tpl');
-$tpl->define_dynamic('users_list', 'page');
-$tpl->define_dynamic('user_entry', 'users_list');
-$tpl->define_dynamic('user_details', 'users_list');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('edit_option', 'page');
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Users'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Users'));
+$tpl->assign('PAGE_CONTENT', 'users.tpl');
 
 // TODO: comment!
 unset($_SESSION['dmn_name']);
@@ -76,8 +58,7 @@ unset($GLOBALS['dmn_id']);
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -111,16 +92,15 @@ $tpl->assign(
 	)
 );
 
-if (isset($cfg->HOSTING_PLANS_LEVEL)
-	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
-	$tpl->assign('EDIT_OPTION', '');
+if (!isset($cfg->HOSTING_PLANS_LEVEL)
+	|| $cfg->HOSTING_PLANS_LEVEL !== 'admin') {
+	$tpl->assign('EDIT_OPTION', true);
 }
 
 generate_users_list($tpl, $_SESSION['user_id']);
 check_externel_events($tpl);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -214,9 +194,6 @@ function generate_users_list(&$tpl, $admin_id) {
 		if (isset($_SESSION['search_for'])) {
 			$tpl->assign(
 				array(
-					'USERS_LIST' => '',
-					'SCROLL_PREV' => '',
-					'SCROLL_NEXT' => '',
 					'TR_VIEW_DETAILS' => tr('View aliases'),
 					'SHOW_DETAILS' => tr("Show")
 				)
@@ -230,9 +207,6 @@ function generate_users_list(&$tpl, $admin_id) {
 		} else {
 			$tpl->assign(
 				array(
-					'USERS_LIST' => '',
-					'SCROLL_PREV' => '',
-					'SCROLL_NEXT' => '',
 					'TR_VIEW_DETAILS' => tr('View aliases'),
 					'SHOW_DETAILS' => tr("Show")
 				)
@@ -243,29 +217,14 @@ function generate_users_list(&$tpl, $admin_id) {
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
+		if ($start_index > 0)
+			$tpl->assign( 'PREV_PSI', $prev_si );
 
 		$next_si = $start_index + $rows_per_page;
 
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
+		if ($next_si + 1 <= $records_count)
+			$tpl->assign( 'NEXT_PSI', $next_si );
+
 		$i = 1;
 
 		while (!$rs->EOF) {
@@ -285,7 +244,7 @@ function generate_users_list(&$tpl, $admin_id) {
 			}
 			$status_url = $rs->fields['domain_id'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -294,7 +253,7 @@ function generate_users_list(&$tpl, $admin_id) {
 
 			$admin_name = decode_idna($rs->fields['domain_name']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -316,7 +275,7 @@ function generate_users_list(&$tpl, $admin_id) {
 				$dom_expires = date($cfg->DATE_FORMAT, $dom_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CREATION_DATE' => $dom_created,
 					'EXPIRE_DATE' => $dom_expires,
@@ -332,12 +291,9 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$tpl->parse('USER_ENTRY', '.user_entry');
 			$i++;
 			$rs->moveNext();
 		}
-
-		$tpl->parse('USER_LIST', 'users_list');
 	}
 }
 

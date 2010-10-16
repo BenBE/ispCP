@@ -50,25 +50,12 @@ if (!captcha_fontfile_exists()) {
 // remove old uniqkeys
 removeOldKeys($cfg->LOSTPASSWORD_TIMEOUT);
 
-if (isset($_SESSION['user_theme'])) {
-	$theme_color = $_SESSION['user_theme'];
-} else {
-	$theme_color = $cfg->USER_INITIAL_THEME;
-}
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Virtual Hosting Control System'));
 
 if (isset($_GET['key'])) {
 	if ($_GET['key'] != "") {
 		check_input($_GET['key']);
-
-		$tpl = new ispCP_pTemplate();
-		$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
-		$tpl->assign(
-			array(
-				'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-				'THEME_COLOR_PATH' => "themes/$theme_color",
-				'THEME_CHARSET' => tr('encoding')
-			)
-		);
 
 		if (sendpassword($_GET['key'])) {
 			$tpl->assign(
@@ -86,8 +73,7 @@ if (isset($_GET['key'])) {
 			);
 		}
 
-		$tpl->parse('PAGE', 'page');
-		$tpl->prnt();
+		$tpl->prnt('lostpassword_message.tpl');
 
 		if ($cfg->DUMP_GUI_DEBUG) {
 			dump_gui_debug();
@@ -102,16 +88,6 @@ if (isset($_POST['uname'])) {
 	if (($_POST['uname'] != "") && isset($_SESSION['image']) && isset($_POST['capcode'])) {
 		check_input(trim($_POST['uname']));
 		check_input($_POST['capcode']);
-
-		$tpl = new ispCP_pTemplate();
-		$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
-		$tpl->assign(
-			array(
-				'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-				'THEME_COLOR_PATH' => "themes/$theme_color",
-				'THEME_CHARSET' => tr('encoding')
-			)
-		);
 
 		if ($_SESSION['image'] == $_POST['capcode'] && requestpassword($_POST['uname'])) {
 			$tpl->assign(
@@ -129,8 +105,7 @@ if (isset($_POST['uname'])) {
 			);
 		}
 
-		$tpl->parse('PAGE', 'page');
-		$tpl->prnt();
+		$tpl->prnt('lostpassword_message.tpl');
 
 		if ($cfg->DUMP_GUI_DEBUG) {
 			dump_gui_debug();
@@ -142,13 +117,8 @@ if (isset($_POST['uname'])) {
 unblock($cfg->BRUTEFORCE_BLOCK_TIME, 'captcha');
 is_ipaddr_blocked(null, 'captcha', true);
 
-$tpl = new ispCP_pTemplate();
-$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword.tpl');
 $tpl->assign(
 	array(
-		'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => $cfg->LOGIN_TEMPLATE_PATH,
-		'THEME_CHARSET' => tr('encoding'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
 		'TR_IMGCAPCODE' => '<img src="imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image">',
@@ -158,8 +128,7 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('lostpassword.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

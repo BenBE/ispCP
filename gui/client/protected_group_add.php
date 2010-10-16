@@ -34,24 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_gadd.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('usr_msg', 'page');
-$tpl->define_dynamic('grp_msg', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('pusres', 'page');
-$tpl->define_dynamic('pgroups', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Webtools'));
+$tpl->assign('PAGE_CONTENT', 'puser_gadd.tpl');
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
-	)
-);
 
 function padd_group(&$tpl, &$sql, $dmn_id) {
 
@@ -116,8 +103,7 @@ function padd_group(&$tpl, &$sql, $dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -148,7 +134,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

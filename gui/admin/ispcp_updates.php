@@ -34,21 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ispcp_updates.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('update_message', 'page');
-$tpl->define_dynamic('update_infos', 'page');
-$tpl->define_dynamic('table_header', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Virtual Hosting Control System'));
+$tpl->assign('PAGE_CONTENT', 'ispcp_updates.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /* BEGIN common functions */
 function get_update_infos(&$tpl) {
@@ -63,7 +52,7 @@ function get_update_infos(&$tpl) {
 				'INFOS'				=> tr('Enable update at') . " <a href=\"settings.php\">" . tr('Settings') . "</a>"
 			)
 		);
-		$tpl->parse('UPDATE_INFOS', 'update_infos');
+		$tpl->assign('TABLE_HEADER', 'no');
 		return false;
 	}
 
@@ -76,12 +65,9 @@ function get_update_infos(&$tpl) {
 			)
 		);
 
-		$tpl->parse('UPDATE_INFOS', 'update_infos');
 	} else {
 		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
 			$tpl->assign(array('TR_MESSAGE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
-		} else {
-			$tpl->assign('TABLE_HEADER', '');
 		}
 		$tpl->assign('UPDATE_INFOS', '');
 	}
@@ -94,8 +80,7 @@ function get_update_infos(&$tpl) {
  *
  */
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+gen_admin_menu($tpl, 'system_tools');
 
 $tpl->assign(
 	array(
@@ -111,7 +96,6 @@ gen_page_message($tpl);
 
 get_update_infos($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

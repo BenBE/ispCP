@@ -79,11 +79,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	public function __construct($templateFile = '') {
 
 		if($templateFile !='') {
-			if(is_readable($templateFile = $templateFile) ||
-				is_readable($templateFile = "../$templateFile")) {
-
-				$this->_templateFile = $templateFile;
-			}
+			$this->_templateFile = $templateFile;
 		}
 	}
 
@@ -94,9 +90,8 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 * @todo Add inline template for rescue
 	 */
 	protected function _write() {
-
 		if($this->_pTemplate != null) {
-			$this->_pTemplate->prnt();
+			$this->_pTemplate->prnt($this->_templateFile);
 		} else {
 			echo $this->_message;
 		}
@@ -144,9 +139,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	protected function _prepareTemplate() {
 
-		$this->_pTemplate = new ispCP_pTemplate();
-		$this->_pTemplate->define('page', $this->_templateFile);
-
+		$this->_pTemplate = ispCP_Registry::get('template');
 
 		if(ispCP_Registry::isRegistered('backButtonDestination')) {
 			$backButtonDest = ispCP_Registry::get('backButtonDestination');
@@ -156,7 +149,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 
 		$this->_pTemplate->assign(
 			array(
-				'THEME_COLOR_PATH' => '/themes/' . 'omega_original',
+/*				'THEME_COLOR_PATH' => '/themes/' . 'omega_original',*/
 				'BACKBUTTONDESTINATION' => $backButtonDest,
 				'MESSAGE' => $this->_message
 			)
@@ -167,7 +160,6 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 			$this->_pTemplate->assign(
 				array(
 					'TR_SYSTEM_MESSAGE_PAGE_TITLE' => tr('ispCP Error'),
-					'THEME_CHARSET' => tr('encoding'),
 					'TR_BACK' => tr('Back'),
 					'TR_ERROR_MESSAGE' => tr('Error Message'),
 
@@ -177,13 +169,10 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 			$this->_pTemplate->assign(
 				array(
 					'TR_SYSTEM_MESSAGE_PAGE_TITLE' => 'ispCP Error',
-					'THEME_CHARSET' => 'UTF-8',
 					'TR_BACK' => 'Back',
 					'TR_ERROR_MESSAGE' => 'Error Message',
 				)
 			);
 		}
-
-		$this->_pTemplate->parse('PAGE', 'page');
 	} // end prepareTemplate()
 }

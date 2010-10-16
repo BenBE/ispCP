@@ -38,12 +38,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_catchall.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('catchall_message', 'page');
-$tpl->define_dynamic('catchall_item', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Manage Users'));
+$tpl->assign('PAGE_CONTENT', 'mail_catchall.tpl');
 
 
 // page functions.
@@ -80,7 +77,7 @@ function gen_catchall_item(&$tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_a
 	$show_dmn_name = decode_idna($dmn_name);
 
 	if ($action === 'create') {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'CATCHALL_DOMAIN'			=> tohtml($show_dmn_name),
 				'CATCHALL_ACC'				=> tr('None'),
@@ -95,7 +92,7 @@ function gen_catchall_item(&$tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_a
 		$show_dmn_name = decode_idna($dmn_name);
 		$show_mail_acc = decode_idna($mail_acc);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'CATCHALL_DOMAIN' => tohtml($show_dmn_name),
 				'CATCHALL_ACC' => tohtml($show_mail_acc),
@@ -141,13 +138,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				$rs->fields['mail_acc'],
 				$rs->fields['status'], 'normal');
 		}
-		$tpl->assign(
-			array(
-				'ITEM_CLASS' => 'content',
-			)
-		);
-
-		$tpl->parse('CATCHALL_ITEM', 'catchall_item');
 
 		$query = "
 			SELECT
@@ -163,7 +153,7 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		$rs = execute_query($sql, $query);
 
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
 
 			$als_id = $rs->fields['alias_id'];
 
@@ -198,8 +188,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				);
 			}
 
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
-
 			$rs->moveNext();
 			$counter++;
 		}
@@ -220,7 +208,7 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		$rs = execute_query($sql, $query);
 
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
 
 			$als_id = $rs->fields['subdomain_alias_id'];
 
@@ -255,8 +243,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				);
 			}
 
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
-
 			$rs->moveNext();
 			$counter++;
 		}
@@ -277,7 +263,7 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		$rs = execute_query($sql, $query);
 
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content2' : 'content');
 
 			$als_id = $rs->fields['subdomain_id'];
 
@@ -309,8 +295,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 					$rs_als->fields['mail_acc'],
 					$rs_als->fields['status'], 'subdom');
 			}
-
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -350,27 +334,18 @@ function gen_page_lists(&$tpl, &$sql, $user_id)
 
 // common page data.
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
 if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
-	$tpl->assign('NO_MAILS', '');
+	$tpl->assign('NO_MAILS', 'no');
 }
 
 gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 
 gen_logged_from($tpl);
 check_permissions($tpl);
@@ -388,7 +363,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

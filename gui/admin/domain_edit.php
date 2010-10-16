@@ -34,23 +34,14 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Edit Domain'));
+$tpl->assign('PAGE_CONTENT', 'domain_edit.tpl');
 
 if ($cfg->HOSTING_PLANS_LEVEL && $cfg->HOSTING_PLANS_LEVEL !== 'admin') {
 	user_goto('manage_users.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE' => tr('ispCP - Admin/Edit Domain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -90,8 +81,7 @@ $tpl->assign(
 	)
 );
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 gen_page_message($tpl);
 
 if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
@@ -540,7 +530,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 
 		return false;
 	}
@@ -673,7 +662,6 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 	}
 } // End of calculate_user_dvals()
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

@@ -34,14 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_item', 'page');
-$tpl->define_dynamic('year_item', 'page');
-$tpl->define_dynamic('traff_list', 'page');
-$tpl->define_dynamic('traff_item', 'traff_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Domain Statistics'));
+$tpl->assign('PAGE_CONTENT', 'domain_statistics.tpl');
 
 // page functions.
 
@@ -50,23 +45,21 @@ function gen_page_date(&$tpl, $month, $year) {
 	$cfg = ispCP_Registry::get('Config');
 
 	for ($i = 1; $i <= 12; $i++) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'MONTH_SELECTED' => ($i == $month) ? $cfg->HTML_SELECTED : '',
 				'MONTH' => $i
 			)
 		);
-		$tpl->parse('MONTH_ITEM', '.month_item');
 	}
 
 	for ($i = $year - 1; $i <= $year + 1; $i++) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'YEAR_SELECTED' => ($i == $year) ? $cfg->HTML_SELECTED : '',
 				'YEAR' => $i
 			)
 		);
-		$tpl->parse('YEAR_ITEM', '.year_item');
 	}
 }
 
@@ -183,7 +176,7 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 			$pop_trf,
 			$smtp_trf) = get_domain_trafic($ftm, $ltm, $domain_id);
 
-		$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+		$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 		$sum_web += $web_trf;
 		$sum_ftp += $ftp_trf;
@@ -192,7 +185,7 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 		$date_formt = $cfg->DATE_FORMAT;
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
 				'WEB_TRAFFIC' => sizeit($web_trf),
@@ -208,21 +201,20 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				'CONTENT' => ($i % 2 == 0) ? 'content' : 'content2'
 			)
 		);
-		$tpl->assign(
-			array(
-				'MONTH' => $month,
-				'YEAR' => $year,
-				'DOMAIN_ID' => $domain_id,
-				'WEB_ALL' => sizeit($sum_web),
-				'FTP_ALL' => sizeit($sum_ftp),
-				'SMTP_ALL' => sizeit($sum_mail),
-				'POP_ALL' => sizeit($sum_pop),
-				'SUM_ALL' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop)
-			)
-		);
-		$tpl->parse('TRAFF_ITEM', '.traff_item');
 		$counter++;
 	}
+	$tpl->assign(
+		array(
+			'DATA_MONTH' => $month,
+			'DATA_YEAR' => $year,
+			'DOMAIN_ID' => $domain_id,
+			'WEB_ALL' => sizeit($sum_web),
+			'FTP_ALL' => sizeit($sum_ftp),
+			'SMTP_ALL' => sizeit($sum_mail),
+			'POP_ALL' => sizeit($sum_pop),
+			'SUM_ALL' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop)
+		)
+	);
 
 	/*
 	$start_date = mktime(0,0,0, $month, 1, $year);
@@ -305,18 +297,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 }
 
-// common page data.
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 // dynamic page data.
 
 $current_month = date("m", time());
@@ -327,8 +307,7 @@ gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_client_menu($tpl, 'domain_statistics');
 
 gen_logged_from($tpl);
 
@@ -354,7 +333,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

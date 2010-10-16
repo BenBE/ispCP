@@ -34,19 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_status.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('service_status', 'page');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_STATUS_PAGE_TITLE' => tr('ispCP Admin / System Tools / Server Status'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP Admin / System Tools / Server Status'));
+$tpl->assign('PAGE_CONTENT', 'server_status.tpl');
 
 /*
  * Site functions
@@ -208,7 +198,7 @@ function get_server_status(&$tpl, &$sql) {
 			}
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'HOST' => $data[$i]['ip'],
 				'PORT' => $data[$i]['port'],
@@ -217,8 +207,6 @@ function get_server_status(&$tpl, &$sql) {
 				'CLASS' => $class,
 			)
 		);
-
-		$tpl->parse('SERVICE_STATUS', '.service_status');
 	}
 }
 
@@ -227,8 +215,7 @@ function get_server_status(&$tpl, &$sql) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_admin_menu($tpl, 'general_information');
 
 $tpl->assign(
 	array(
@@ -243,7 +230,6 @@ get_server_status($tpl, $sql);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

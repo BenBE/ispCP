@@ -32,13 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/index.tpl');
-$tpl->define_dynamic('purchase_list', 'page');
-$tpl->define_dynamic('purchase_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
+$tpl = ispCP_Registry::get('template');
 
 /*
  * functions start
@@ -97,7 +91,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 				$price = "/ " . $price . " " . tohtml($rs->fields['value']) . " " . tohtml($rs->fields['payment']);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'PACK_NAME'	=> tohtml($rs->fields['name']),
 					'PACK_ID'	=> $rs->fields['id'],
@@ -107,8 +101,6 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 					'PRICE'		=> $price,
 				)
 			);
-
-			$tpl->parse('PURCHASE_LIST', '.purchase_list');
 
 			$rs->moveNext();
 		}
@@ -142,14 +134,7 @@ gen_packages_list($tpl, $sql, $user_id);
 
 gen_page_message($tpl);
 
-$tpl->assign(
-	array(
-		'THEME_CHARSET' => tr('encoding'),
-	)
-);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/index.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

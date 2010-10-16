@@ -34,16 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add2.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('mail_add', 'page');
-$tpl->define_dynamic('ftp_add', 'page');
-$tpl->define_dynamic('sql_db_add', 'page');
-$tpl->define_dynamic('sql_user_add', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - User/Add user(step2)'));
+$tpl->assign('PAGE_CONTENT', 'user_add2.tpl');
 
 // check if we have only hosting plans for admins - reseller should not edit them
 if (isset($cfg->HOSTING_PLANS_LEVEL)
@@ -51,21 +44,12 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 	user_goto('users.php?psi=last');
 }
 
-$tpl->assign(
-	array(
-			'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - User/Add user(step2)'),
-			'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET'								=> tr('encoding'),
-			'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  * static page messages.
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -135,14 +119,13 @@ list(
 	$rsql_user_max
 	) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
 
-if ($rsub_max == "-1") $tpl->assign('ALIAS_ADD', '');
-if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_ADD', '');
-if ($rmail_max == "-1") $tpl->assign('MAIL_ADD', '');
-if ($rftp_max == "-1") $tpl->assign('FTP_ADD', '');
-if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', '');
-if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', '');
+if ($rsub_max == "-1") $tpl->assign('ALIAS_ADD', 'no');
+if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_ADD', 'no');
+if ($rmail_max == "-1") $tpl->assign('MAIL_ADD', 'no');
+if ($rftp_max == "-1") $tpl->assign('FTP_ADD', 'no');
+if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', 'no');
+if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', 'no');
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

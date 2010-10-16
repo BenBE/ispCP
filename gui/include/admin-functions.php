@@ -69,67 +69,31 @@ function encode($in_str, $charset = 'UTF-8') {
 	return $out_str;
 }
 
-function gen_admin_mainmenu(&$tpl, $menu_file) {
-
+/**
+ * Populate the main & sub menus
+ *
+ * @param object $tpl template object
+ * @param string $name section name
+ */
+function gen_admin_menu(&$tpl, $name) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->assign(
-		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_HOSTING_PLANS' => tr('Manage hosting plans'),
-			'TR_MENU_SYSTEM_TOOLS' => tr('System tools'),
-			'TR_MENU_MANAGE_USERS' => tr('Manage users'),
-			'TR_MENU_STATISTICS' => tr('Statistics'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'TR_MENU_SUPPORT_SYSTEM' => tr('Support system'),
-			'TR_MENU_SETTINGS' => tr('Settings'),
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_HOSTING_PLANS' => tr('Manage hosting plans'),
-			'TR_MENU_SYSTEM_TOOLS' => tr('System tools'),
-			'TR_MENU_MANAGE_USERS' => tr('Manage users'),
-			'TR_MENU_STATISTICS' => tr('Statistics'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'TR_MENU_SUPPORT_SYSTEM' => tr('Support system'),
-			'TR_MENU_SETTINGS' => tr('Settings'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_ADD_ADMIN' => tr('Add admin'),
-			'TR_MENU_ADD_RESELLER' => tr('Add reseller'),
-			'TR_MENU_RESELLER_ASIGNMENT' => tr('Reseller assignment'),
-			'TR_MENU_USER_ASIGNMENT' => tr('User assignment'),
-			'TR_MENU_EMAIL_SETUP' => tr('Email setup'),
-			'TR_MENU_CIRCULAR' => tr('Email marketing'),
-			'TR_MENU_ADD_HOSTING' => tr('Add hosting plan'),
-			'TR_MENU_RESELLER_STATISTICS' => tr('Reseller statistics'),
-			'TR_MENU_SERVER_STATISTICS' => tr('Server statistics'),
-			'TR_MENU_ADMIN_LOG' => tr('Admin log'),
-			'TR_MENU_MANAGE_IPS' => tr('Manage IPs'),
-			'TR_MENU_SYSTEM_INFO' => tr('System info'),
-			'TR_MENU_I18N' => tr('Internationalisation'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'TR_MENU_LAYOUT_TEMPLATES' => tr('Layout'),
-			'TR_MENU_LOGOUT' => tr('Logout'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
-			'TR_MENU_SERVER_STATUS' => tr('Server status'),
-			'TR_MENU_ISPCP_UPDATE' => tr('ispCP updates'),
-			'TR_MENU_ISPCP_DATABASE_UPDATE' => tr('ispCP database updates'),
-			'TR_MENU_ISPCP_DEBUGGER' => tr('ispCP debugger'),
-			'TR_CUSTOM_MENUS' => tr('Custom menus'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_MANAGE_SESSIONS' => tr('User sessions'),
-			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
-			'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
-			'TR_GENERAL_SETTINGS' => tr('General settings'),
-			'TR_SERVERPORTS' => tr('Server ports')
-		)
-	);
+    add_main_menu_item($tpl, tr('General information'), 'general', 'index.php', $name == 'general_information');
+    add_main_menu_item($tpl, tr('Manage users'), 'manage_users', 'manage_users.php', $name == 'users_manage');
+
+	if(strtolower($cfg->HOSTING_PLANS_LEVEL) == 'admin')
+        add_main_menu_item($tpl, tr('Manage hosting plans'), 'hosting_plans', 'hosting_plan.php', $name == 'hosting_plan');
+	
+    add_main_menu_item($tpl, tr('System tools'), 'webtools', 'system_info.php', $name == 'system_tools');
+    add_main_menu_item($tpl, tr('Statistics'), 'statistics', 'server_statistic.php', $name == 'statistics');
+
+	if( $cfg->ISPCP_SUPPORT_SYSTEM )
+		add_main_menu_item($tpl, tr('Support system'), 'support',
+			$cfg->ISPCP_SUPPORT_SYSTEM_PATH, $name == 'ticket_system',
+			$cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+
+    add_main_menu_item($tpl, tr('Settings'), 'settings', 'settings.php', $name == 'settings');
 
 	$query = "
 		SELECT
@@ -143,9 +107,7 @@ function gen_admin_mainmenu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() > 0) {
 		global $i;
 		$i = 100;
 
@@ -158,138 +120,96 @@ function gen_admin_mainmenu(&$tpl, $menu_file) {
 				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
+    		add_main_menu_item($tpl, tohtml($menu_name), 'custom_link', tohtml($menu_link), $menu_target);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
-		} // end while
-	} // end else
-
-	if(!$cfg->ISPCP_SUPPORT_SYSTEM) {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
+		}
 	}
-
-	if(strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
-		$tpl->assign('HOSTING_PLANS', '');
-	}
-
-	$tpl->parse('MAIN_MENU', 'menu');
-}
-
-function gen_admin_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->assign(
+	switch ($name) {
+	case 'general_information':
+		$tpl->assign('SIDE_MENU_TITLE', tr('General information'));
+		$tpl->assign('SIDE_MENU_ICON', 'general_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'index.php');
+		add_sub_menu_item($tpl, tr('Change password'), 'password_change.php');
+		add_sub_menu_item($tpl, tr('Change personal data'), 'personal_change.php');
+		add_sub_menu_item($tpl, tr('Language'), 'language.php');
+		add_sub_menu_item($tpl, tr('Server status'), 'server_status.php');
+		add_sub_menu_item($tpl, tr('Admin log'), 'admin_log.php');
+		break;
+	case 'users_manage';
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage users'));
+		$tpl->assign('SIDE_MENU_ICON', 'manage_users_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'manage_users.php');
+		add_sub_menu_item($tpl, tr('Add admin'), 'admin_add.php');
+		add_sub_menu_item($tpl, tr('Add reseller'), 'reseller_add.php');
+		add_sub_menu_item($tpl, tr('Reseller assignment'), 'manage_reseller_owners.php');
+		add_sub_menu_item($tpl, tr('User assignment'), 'manage_reseller_users.php');
+		add_sub_menu_item($tpl, tr('Email marketing'), 'circular.php');
+		add_sub_menu_item($tpl, tr('User sessions'), 'sessions_manage.php');
+		break;
+	case 'hosting_plan':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage hosting plans'));
+		$tpl->assign('SIDE_MENU_ICON', 'hosting_plans_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'hosting_plan.php');
+		add_sub_menu_item($tpl, tr('Add hosting plan'), 'hosting_plan_add.php');
+		break;
+	case 'system_tools':
+		$tpl->assign('SIDE_MENU_TITLE', tr('System tools'));
+		$tpl->assign('SIDE_MENU_ICON', 'webtools_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'system_info.php');
+		add_sub_menu_item($tpl, tr('Maintenance mode'), 'settings_maintenance_mode.php');
+		add_sub_menu_item($tpl, tr('ispCP updates'), 'ispcp_updates.php');
+		add_sub_menu_item($tpl, tr('ispCP database updates'), 'database_update.php');
+		add_sub_menu_item($tpl, tr('ispCP debugger'), 'ispcp_debugger.php');
+		add_sub_menu_item($tpl, tr('Rootkit Log'), 'rootkit_log.php');
+		break;
+	case 'statistics':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Statistics'));
+		$tpl->assign('SIDE_MENU_ICON', 'statistics_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'server_statistic.php');
+		add_sub_menu_item($tpl, tr('Reseller statistics'), 'reseller_statistics.php');
+		break;
+	case 'ticket_system':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Support system'));
+		$tpl->assign('SIDE_MENU_ICON', 'support_big.png');
+
+		add_sub_menu_item($tpl, tr('Open tickets'), $cfg->ISPCP_SUPPORT_SYSTEM_PATH, $cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+		add_sub_menu_item($tpl, tr('Closed tickets'), 'ticket_closed.php');
+		break;
+	case 'settings':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Settings') );
+		$tpl->assign('SIDE_MENU_ICON', 'settings_big.png' );
+
+		add_sub_menu_item($tpl, tr('General settings'), 'settings.php');
+		add_sub_menu_item($tpl, tr('Internationalisation'), 'multilanguage.php');
+		add_sub_menu_item($tpl, tr('Layout'), 'settings_layout.php');
+		add_sub_menu_item($tpl, tr('Custom menus'), 'custom_menus.php');
+		add_sub_menu_item($tpl, tr('Manage IPs'), 'ip_manage.php');
+		add_sub_menu_item($tpl, tr('Server traffic settings'), 'settings_server_traffic.php');
+		add_sub_menu_item($tpl, tr('Email setup'), 'settings_welcome_mail.php');
+		add_sub_menu_item($tpl, tr('Lostpw email setup'), 'settings_lostpassword.php');
+		add_sub_menu_item($tpl, tr('Server ports'), 'settings_ports.php');
+		break;
+	}
+
+    $tpl->assign(
 		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_MANAGE_USERS' => tr('Manage users'),
-			'TR_MENU_ADD_ADMIN' => tr('Add admin'),
-			'TR_MENU_ADD_RESELLER' => tr('Add reseller'),
-			'TR_MENU_RESELLER_ASIGNMENT' => tr('Reseller assignment'),
-			'TR_MENU_USER_ASIGNMENT' => tr('User assignment'),
-			'TR_MENU_EMAIL_SETUP' => tr('Email setup'),
-			'TR_MENU_CIRCULAR' => tr('Email marketing'),
-			'TR_MENU_HOSTING_PLANS' => tr('Manage hosting plans'),
-			'TR_MENU_ADD_HOSTING' => tr('Add hosting plan'),
-			'TR_MENU_ROOTKIT_LOG' => tr('Rootkit Log'),
-			'TR_MENU_RESELLER_STATISTICS' => tr('Reseller statistics'),
-			'TR_MENU_SERVER_STATISTICS' => tr('Server statistics'),
-			'TR_MENU_ADMIN_LOG' => tr('Admin log'),
-			'TR_MENU_MANAGE_IPS' => tr('Manage IPs'),
-			'TR_MENU_SUPPORT_SYSTEM' => tr('Support system'),
-			'TR_MENU_SYSTEM_INFO' => tr('System info'),
-			'TR_MENU_I18N' => tr('Internationalisation'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'TR_MENU_LAYOUT_TEMPLATES' => tr('Layout'),
 			'TR_MENU_LOGOUT' => tr('Logout'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_STATISTICS' => tr('Statistics'),
-			'TR_MENU_SYSTEM_TOOLS' => tr('System tools'),
-			'TR_MENU_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
-			'TR_MENU_SERVER_STATUS' => tr('Server status'),
-			'TR_MENU_ISPCP_UPDATE' => tr('ispCP updates'),
-			'TR_MENU_ISPCP_DEBUGGER' => tr('ispCP debugger'),
-			'TR_CUSTOM_MENUS' => tr('Custom menus'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_MANAGE_SESSIONS' => tr('User sessions'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
-			'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
-			'TR_MENU_SETTINGS' => tr('Settings'),
-			'TR_GENERAL_SETTINGS' => tr('General settings'),
-			'TR_SERVERPORTS' => tr('Server ports'),
 			'VERSION' => $cfg->Version,
 			'BUILDDATE' => $cfg->BuildDate,
 			'CODENAME' => $cfg->CodeName
 		)
 	);
-
-	$query = "
-		SELECT
-			*
-		FROM
-			`custom_menus`
-		WHERE
-			`menu_level` = 'admin1'
-		;
-	";
-
-	$rs = exec_query($sql, $query);
-
-	if($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
-		global $i;
-		$i = 100;
-
-		while(!$rs->EOF) {
-			$menu_name = $rs->fields['menu_name'];
-			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
-
-			if($menu_target !== '') {
-				$menu_target = 'target="' . tohtml($menu_target) . '"';
-			}
-
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
-
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->moveNext();
-			$i++;
-		} // end while
-	} // end else
-
-	if(!$cfg->ISPCP_SUPPORT_SYSTEM) {
-		$tpl->assign('SUPPORT_SYSTEM', '');
-	}
-
-	if(strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
-		$tpl->assign('HOSTING_PLANS', '');
-	}
-
-	$tpl->parse('MENU', 'menu');
 }
 
 function get_sql_user_count($sql) {
@@ -402,14 +322,7 @@ function gen_admin_list(&$tpl, &$sql) {
 	$rs = exec_query($sql, $query);
 
 	if($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ADMIN_MESSAGE' => tr('Administrators list is empty!'),
-				'ADMIN_LIST' => ''
-			)
-		);
-
-		$tpl->parse('ADMIN_MESSAGE', 'admin_message');
+		$tpl->assign( 'ADMIN_MESSAGE', tr('Administrators list is empty!') );
 	} else {
 		$tpl->assign(
 			array(
@@ -423,7 +336,7 @@ function gen_admin_list(&$tpl, &$sql) {
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -440,16 +353,10 @@ function gen_admin_list(&$tpl, &$sql) {
 
 			if($rs->fields['created_by'] == '' ||
 				$rs->fields['admin_id'] == $_SESSION['user_id']) {
-
-				$tpl->assign(
-					array('ADMIN_DELETE_LINK' => '')
-				);
-
-				$tpl->parse('ADMIN_DELETE_SHOW', 'admin_delete_show');
+				$tpl->append( 'ADMIN_DELETE_LINK', false );
 			} else {
-				$tpl->assign(
+				$tpl->append( 'ADMIN_DELETE_LINK',
 					array(
-						'ADMIN_DELETE_SHOW' => '',
 						'TR_DELETE' => tr('Delete'),
 						'URL_DELETE_ADMIN' =>
 							'user_delete.php?delete_id=' .
@@ -459,11 +366,9 @@ function gen_admin_list(&$tpl, &$sql) {
 						'ADMIN_USERNAME' => tohtml($rs->fields['admin_name'])
 					)
 				);
-
-				$tpl->parse('ADMIN_DELETE_LINK', 'admin_delete_link');
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_USERNAME' => tohtml($rs->fields['admin_name']),
 					'ADMIN_CREATED_ON' => tohtml($admin_created),
@@ -474,13 +379,9 @@ function gen_admin_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('ADMIN_ITEM', '.admin_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('ADMIN_LIST', 'admin_list');
-		$tpl->assign('ADMIN_MESSAGE', '');
 	}
 }
 
@@ -507,59 +408,37 @@ function gen_reseller_list(&$tpl, &$sql) {
 	$rs = exec_query($sql, $query);
 
 	if($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'RSL_MESSAGE' => tr('Resellers list is empty!'),
-				'RSL_LIST' => ''
-			)
-		);
-
-		$tpl->parse('RSL_MESSAGE', 'rsl_message');
+		$tpl->assign( 'RSL_MESSAGE', tr('Resellers list is empty!') );
 	} else {
 		$tpl->assign(
 			array(
-				'TR_RSL_USERNAME' => tr('Username'),
-				'TR_RSL_CREATED_BY' => tr('Created by'),
-				'TR_RSL_OPTIONS' => tr('Options')
+                'TR_RSL_USERNAME' => tr('Username'),
+                'TR_RSL_CREATED_BY' => tr('Created by'),
+                'TR_RSL_OPTIONS' => tr('Options'),
+                'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
+                'GO_TO_USER_INTERFACE' => tr('Switch'),
 			)
 		);
 
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
 			if($rs->fields['created_by'] == '') {
-				$tpl->assign(
-					array(
-						'TR_DELETE' => tr('Delete'),
-						'RSL_DELETE_LINK' => '',
-					)
-				);
-
-				$tpl->parse('RSL_DELETE_SHOW', 'rsl_delete_show');
+				$tpl->append( 'RSL_DELETE_LINK', false );
 			} else {
-				$tpl->assign(
+				$tpl->append( 'RSL_DELETE_LINK',
 					array(
-						'RSL_DELETE_SHOW' => '',
-						'TR_DELETE' => tr('Delete'),
 						'URL_DELETE_RSL' => 'user_delete.php?delete_id=' .
 							$rs->fields['admin_id'] . '&amp;delete_username=' .
 								$rs->fields['admin_name'],
-						'TR_CHANGE_USER_INTERFACE' =>
-							tr('Switch to user interface'),
-								'GO_TO_USER_INTERFACE' => tr('Switch'),
-						'URL_CHANGE_INTERFACE' =>
-							'change_user_interface.php?to_id=' .
-								$rs->fields['admin_id']
 					)
 				);
-
-				$tpl->parse('RSL_DELETE_LINK', 'rsl_delete_link');
 			}
 
 			$reseller_created = $rs->fields['domain_created'];
@@ -571,23 +450,19 @@ function gen_reseller_list(&$tpl, &$sql) {
 				$reseller_created = date($date_formt, $reseller_created);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_USERNAME' => tohtml($rs->fields['admin_name']),
 					'RESELLER_CREATED_ON' => tohtml($reseller_created),
 					'RSL_CREATED_BY' => tohtml($rs->fields['created_by']),
-					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' .
-						$rs->fields['admin_id']
+					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' . $rs->fields['admin_id'],
+					'URL_CHANGE_INTERFACE' => 'change_user_interface.php?to_id=' . $rs->fields['admin_id']
 				)
 			);
 
-			$tpl->parse('RSL_ITEM', '.rsl_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('RSL_LIST', 'rsl_list');
-		$tpl->assign('RSL_MESSAGE', '');
 	}
 }
 
@@ -686,34 +561,16 @@ function gen_user_list(&$tpl, &$sql) {
 				)
 			);
 		}
-
-		$tpl->parse('USR_MESSAGE', 'usr_message');
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
-		if($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
+		if($start_index != 0)
+			$tpl->assign( 'PREV_PSI', $prev_si );
 
 		$next_si = $start_index + $rows_per_page;
 
-		if($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
+		if($next_si + 1 <= $records_count)
+			$tpl->assign( 'NEXT_PSI', $next_si );
 
 		$tpl->assign(
 			array(
@@ -721,12 +578,20 @@ function gen_user_list(&$tpl, &$sql) {
 				'TR_USR_CREATED_BY' => tr('Created by'),
 				'TR_USR_OPTIONS' => tr('Options'),
 				'TR_USER_STATUS' => tr('Status'),
-				'TR_DETAILS' => tr('Details')
+				'TR_DETAILS' => tr('Details'),
+				'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
+				'TR_EDIT_DOMAIN' => tr('Edit domain'),
+				'TR_EDIT_USR' => tr('Edit user'),
+				'GO_TO_USER_INTERFACE' => tr('Switch'),
+				'TR_MESSAGE_CHANGE_STATUS' =>
+					tr('Are you sure you want to change the status of domain account?', true),
+				'TR_MESSAGE_DELETE' =>
+					tr('Are you sure you want to delete %s?', true, '%s')
 			)
 		);
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -759,24 +624,15 @@ function gen_user_list(&$tpl, &$sql) {
 			// Get disk usage by user
 			// NXW Reported as unused by IDE profiler so...
 			// $traffic = get_user_traffic($rs->fields['domain_id']);
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'USR_DELETE_SHOW' => '',
-					'DOMAIN_ID' => $rs->fields['domain_id'],
-					'TR_DELETE' => tr('Delete'),
+					'USR_DOMAIN_ID' => $rs->fields['domain_id'],
 					'URL_DELETE_USR' => 'user_delete.php?domain_id=' .
 							$rs->fields['domain_id'],
-					'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
-					'GO_TO_USER_INTERFACE' => tr('Switch'),
-					'URL_CHANGE_INTERFACE' => 'change_user_interface.php?to_id=' .
-							$rs->fields['domain_admin_id'],
-					'USR_USERNAME' => tohtml($rs->fields['domain_name']),
-					'TR_EDIT_DOMAIN' => tr('Edit domain'),
-					'TR_EDIT_USR' => tr('Edit user')
+					'URL_CHANGE_INTERFACE_USR' => 'change_user_interface.php?to_id=' .
+							$rs->fields['domain_admin_id']
 				)
 			);
-
-			$tpl->parse('USR_DELETE_LINK', 'usr_delete_link');
 
 			if($rs->fields['domain_status'] == $cfg->ITEM_OK_STATUS) {
 				$status_icon = 'ok.png';
@@ -801,7 +657,7 @@ function gen_user_list(&$tpl, &$sql) {
 					$rs->fields['domain_id'];
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -828,7 +684,7 @@ function gen_user_list(&$tpl, &$sql) {
 				$domain_expires = date($date_formt, $domain_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_USERNAME' => tohtml($admin_name),
 					'USER_CREATED_ON' => tohtml($domain_created),
@@ -837,21 +693,13 @@ function gen_user_list(&$tpl, &$sql) {
 					'USR_OPTIONS' => '',
 					'URL_EDIT_USR' => 'admin_edit.php?edit_id=' .
 						$rs->fields['domain_admin_id'],
-					'TR_MESSAGE_CHANGE_STATUS' =>
-						tr('Are you sure you want to change the status of domain account?', true),
-					'TR_MESSAGE_DELETE' =>
-						tr('Are you sure you want to delete %s?', true, '%s'),
 				)
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$tpl->parse('USR_ITEM', '.usr_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('USR_LIST', 'usr_list');
-		$tpl->assign('USR_MESSAGE', '');
 	}
 }
 
@@ -868,7 +716,8 @@ function get_admin_manage_users(&$tpl, &$sql) {
 			'TR_EXPIRES_ON' => tr('Expire date'),
 			'TR_MESSAGE_DELETE' =>
 				tr('Are you sure you want to delete %s?', true, '%s'),
-			'TR_EDIT' => tr("Edit")
+			'TR_EDIT' => tr("Edit"),
+			'TR_DELETE' => tr("Delete")
 		)
 	);
 
@@ -1482,26 +1331,22 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 
 	for($i = 1 ; $i <= 12 ; $i++) {
 		$selected = ($i == $crnt_month) ? $cfg->HTML_SELECTED : '';
-		$tpl->assign(
+		$tpl->append(
 			array(
-				'OPTION_SELECTED' => $selected,
+				'MONTH_SELECTED' => $selected,
 				'MONTH_VALUE' => $i
 			)
 		);
-
-		$tpl->parse('MONTH_LIST', '.month_list');
 	}
 
 	for($i = $crnt_year - 1 ; $i <= $crnt_year + 1 ; $i++) {
 		$selected = ($i == $crnt_year) ? $cfg->HTML_SELECTED : '';
-		$tpl->assign(
+		$tpl->append(
 			array(
-				'OPTION_SELECTED' => $selected,
+				'YEAR_SELECTED' => $selected,
 				'YEAR_VALUE' => $i
 			)
 		);
-
-		$tpl->parse('YEAR_LIST', '.year_list');
 	}
 }
 
@@ -1800,6 +1645,7 @@ function update_reseller_props($reseller_id, $props) {
 function gen_logged_from(&$tpl) {
 
 	if(isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])) {
+		$tpl->assign('LOGGED_FROM', true);
 		$tpl->assign(
 			array(
 				'YOU_ARE_LOGGED_AS' => tr(
@@ -1810,10 +1656,6 @@ function gen_logged_from(&$tpl) {
 				'TR_GO_BACK' => tr('Go back')
 			)
 		);
-
-		$tpl->parse('LOGGED_FROM', '.logged_from');
-	} else {
-		$tpl->assign('LOGGED_FROM', '');
 	}
 }
 

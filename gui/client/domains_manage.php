@@ -34,22 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domains_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_message', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('als_item', 'als_list');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('sub_message', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('sub_item', 'sub_list');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('isactive_dns', 'page');
-$tpl->define_dynamic('dns_message', 'page');
-$tpl->define_dynamic('dns_list', 'page');
-$tpl->define_dynamic('dns_item', 'dns_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Manage Domains'));
+$tpl->assign('PAGE_CONTENT', 'domains_manage.tpl');
 
 // page functions.
 
@@ -84,15 +71,14 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, $domain_id);
 	if ($rs->recordCount() == 0) {
 		$tpl->assign(array('DNS_MSG' => tr("Manual zone's records list is empty!"), 'DNS_LIST' => ''));
-		$tpl->parse('DNS_MESSAGE', 'dns_message');
 	} else {
 		$counter = 0;
 
 		while (!$rs->EOF) {
 			if ($counter % 2 == 0) {
-				$tpl->assign('ITEM_CLASS', 'content');
+				$tpl->append('ITEM_CLASS', 'content');
 			} else {
-				$tpl->assign('ITEM_CLASS', 'content2');
+				$tpl->append('ITEM_CLASS', 'content2');
 			}
 
 			list($dns_action_delete, $dns_action_script_delete) = gen_user_dns_action('Delete', $rs->fields['domain_dns_id'], $rs->fields['domain_status']);
@@ -101,7 +87,7 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 			$domain_name = decode_idna($rs->fields['domain_name']);
 			$sbd_name = $rs->fields['domain_dns'];
 			$sbd_data = $rs->fields['domain_text'];
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DNS_DOMAIN'				=> tohtml($domain_name),
 					'DNS_NAME'					=> tohtml($sbd_name),
@@ -116,13 +102,9 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 					'DNS_TYPE_RECORD'			=> tr("%s record", $rs->fields['domain_type'])
 				)
 			);
-			$tpl->parse('DNS_ITEM', '.dns_item');
 			$rs->moveNext();
 			$counter++;
 		}
-
-		$tpl->parse('DNS_LIST', 'dns_list');
-		$tpl->assign('DNS_MESSAGE', '');
 	}
 }
 
@@ -230,17 +212,16 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 
 	if (($rs->recordCount() + $rs2->recordCount()) == 0) {
 		$tpl->assign(array('SUB_MSG' => tr('Subdomain list is empty!'), 'SUB_LIST' => ''));
-		$tpl->parse('SUB_MESSAGE', 'sub_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($sub_action, $sub_action_script) = gen_user_sub_action($rs->fields['subdomain_id'], $rs->fields['subdomain_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs->fields['subdomain_id'], $rs->fields['subdomain_status'], $rs->fields['subdomain_url_forward'], 'dmn');
 			$sbd_name = decode_idna($rs->fields['subdomain_name']);
 			$sub_forward = decode_idna($sub_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME'			=> tohtml($sbd_name),
 					'SUB_ALIAS_NAME'	=> tohtml($rs->fields['domain_name']),
@@ -253,18 +234,17 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs->moveNext();
 			$counter++;
 		}
 		while (!$rs2->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($sub_action, $sub_action_script) = gen_user_alssub_action($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status'], $rs2->fields['subdomain_alias_url_forward'], 'als');
 			$sbd_name = decode_idna($rs2->fields['subdomain_alias_name']);
 			$sub_forward = decode_idna($sub_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME'			=> tohtml($sbd_name),
 					'SUB_ALIAS_NAME'	=> tohtml($rs2->fields['alias_name']),
@@ -277,12 +257,10 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs2->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('SUB_LIST', 'sub_list');
 		$tpl->assign('SUB_MESSAGE', '');
 	}
 }
@@ -346,18 +324,17 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign(array('ALS_MSG' => tr('Alias list is empty!'), 'ALS_LIST' => ''));
-		$tpl->parse('ALS_MESSAGE', 'als_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($als_action, $als_action_script) = gen_user_als_action($rs->fields['alias_id'], $rs->fields['alias_status']);
 			list($als_forward, $alias_edit_link, $als_edit) = gen_user_als_forward($rs->fields['alias_id'], $rs->fields['alias_status'], $rs->fields['url_forward']);
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
 			$als_forward = decode_idna($als_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_NAME'			=> tohtml($alias_name),
 					'ALS_MOUNT'			=> tohtml($rs->fields['alias_mount']),
@@ -369,26 +346,13 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 					'ALS_ACTION_SCRIPT'	=> $als_action_script
 				)
 			);
-			$tpl->parse('ALS_ITEM', '.als_item');
 			$rs->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('ALS_MESSAGE', '');
 	}
 }
-
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_DOMAINS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Domains'),
-		'THEME_COLOR_PATH'						=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -397,8 +361,7 @@ gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
 gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_menu($tpl, 'manage_domains');
 
 gen_logged_from($tpl);
 
@@ -432,7 +395,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

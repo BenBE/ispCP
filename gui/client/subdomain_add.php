@@ -34,11 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Add Subdomain'));
+$tpl->assign('PAGE_CONTENT', 'subdomain_add.tpl');
 
 // page functions.
 
@@ -184,15 +182,14 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'ALS_ID' => '0',
 				'ALS_SELECTED' => $cfg->HTML_SELECTED,
 				'ALS_NAME' => tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
+		$tpl->assign('TO_ALIAS_DOMAIN', 'no');
 		$_SESSION['alias_count'] = "no";
 	} else {
 		$first_passed = false;
@@ -205,14 +202,13 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			}
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_ID' => $rs->fields['alias_id'],
 					'ALS_SELECTED' => $als_selected,
 					'ALS_NAME' => tohtml($alias_name)
 				)
 			);
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed) {
@@ -515,19 +511,10 @@ if (isset($_SESSION['subdomain_support']) && $_SESSION['subdomain_support'] == "
 	header('Location: index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_menu($tpl, 'manage_domains');
 
 gen_logged_from($tpl);
 
@@ -562,7 +549,6 @@ check_subdomain_data($tpl, $sql, $err_txt, $_SESSION['user_id'], $dmn_name);
 
 gen_page_msg($tpl, $err_txt);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

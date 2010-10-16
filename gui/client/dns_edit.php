@@ -32,23 +32,18 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/dns_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
+$tpl->assign('PAGE_TITLE', ($add_mode) ? tr("ispCP - Manage Domain Alias/Add DNS zone's record") : tr("ispCP - Manage Domain Alias/Edit DNS zone's record"));
+$tpl->assign('PAGE_CONTENT', 'dns_edit.tpl');
 
 $DNS_allowed_types = array('A', 'AAAA', 'SRV', 'CNAME', 'MX');
-
-$add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 
 $tpl->assign(
 	array(
 		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode)
 			? tr("ispCP - Manage Domain Alias/Add DNS zone's record")
 			: tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
 		'ACTION_MODE'				=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}'
 	)
 );
@@ -83,11 +78,10 @@ $tpl->assign(
 	)
 );
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_menu($tpl, 'manage_domains');
 
 gen_logged_from($tpl);
-$tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', '');
+$tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', 'no');
 
 // "Modify" button has been pressed
 $editid = null;
@@ -123,7 +117,6 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 
 gen_editdns_page($tpl, $editid);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
@@ -296,7 +289,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 		if ($res->recordCount() <= 0)
 		not_allowed();
 		$data = $res->fetchRow();
-		$tpl->assign('ADD_RECORD', '');
+		$tpl->assign('ADD_RECORD', 'no');
 	}
 
 	list(
@@ -616,7 +609,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 					$tpl->assign(
 						'MESSAGE', tr('Error: DNS record already exist!')
 					);
-					$tpl->parse('PAGE_MESSAGE', 'page_message');
 
 					return false;
 				} else { # Another error ? Throw exception
@@ -689,7 +681,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return false;
 	}
 } // End of check_user_data()

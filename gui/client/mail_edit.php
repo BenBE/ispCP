@@ -34,12 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('normal_mail', 'page');
-$tpl->define_dynamic('forward_mail', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Manage Mail and FTP / Edit mail account'));
+$tpl->assign('PAGE_CONTENT', 'mail_edit.tpl');
 
 // page functions
 
@@ -159,32 +156,29 @@ function edit_mail_account(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_pass,update_forward',
-					'FORWARD_MAIL'			=> '',
+					'FORWARD_MAIL'			=> 'no',
 					'FORWARD_MAIL_CHECKED'	=> $cfg->HTML_CHECKED,
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
-			$tpl->parse('NORMAL_MAIL', '.normal_mail');
 		} else if ($mail_forward === '_no_') {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_pass',
-					'FORWARD_MAIL'			=> '',
+					'FORWARD_MAIL'			=> 'no',
 					'FORWARD_MAIL_CHECKED'	=> '',
 					'FORWARD_LIST'			=> '',
 					'FORWARD_LIST_DISABLED'	=> 'true'
 				)
 			);
-			$tpl->parse('NORMAL_MAIL', '.normal_mail');
 		} else {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_forward',
-					'NORMAL_MAIL'			=> '',
+					'NORMAL_MAIL'			=> 'no',
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
-			$tpl->parse('FORWARD_MAIL', '.forward_mail');
 		}
 	}
 }
@@ -307,14 +301,6 @@ function update_email_forward(&$tpl, &$sql) {
 // end page functions.
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -328,8 +314,7 @@ if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 
 gen_logged_from($tpl);
 
@@ -349,7 +334,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

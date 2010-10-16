@@ -479,64 +479,56 @@ function get_domain_running_props_cnt(&$sql, $domain_id) {
 	return array($sub_cnt, $als_cnt, $mail_acc_cnt, $ftp_acc_cnt, $sqld_acc_cnt, $sqlu_acc_cnt);
 }
 
-function gen_client_mainmenu(&$tpl, $menu_file) {
-
+/**
+ * Populate the main & sub menus
+ *
+ * @param object $tpl template object
+ * @param string $name section name
+ */
+function gen_client_menu(&$tpl, $name) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
+      
+	add_main_menu_item($tpl, tr('General information'), 'general', 'index.php', $name == 'general_information');
+	
+    list(,,,,,,,,$dmn_mailacc_limit,$dmn_ftpacc_limit,,$dmn_sqld_limit,,,$dmn_als_limit,$dmn_subd_limit,,,,,,,$domain_dns)
+		= get_domain_default_props($sql, $_SESSION['user_id']);
 
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_awstats', 'menu');
-	$tpl->define_dynamic('isactive_domain', 'menu');
-	$tpl->define_dynamic('isactive_email', 'menu');
-	$tpl->define_dynamic('isactive_ftp', 'menu');
-	$tpl->define_dynamic('isactive_sql', 'menu');
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
+	if ($dmn_als_limit != -1 || $dmn_subd_limit != -1 || $domain_dns == 'yes')
+        add_main_menu_item($tpl, tr('Manage domains'), 'domains', 'domains_manage.php', $name == 'manage_domains');
 
-	$tpl->assign(
-		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_MANAGE_DOMAINS' => tr('Manage domains'),
-			'TR_MENU_ADD_SUBDOMAIN' => tr('Add subdomain'),
-			'TR_MENU_MANAGE_USERS' => tr('Email and FTP accounts'),
-			'TR_MENU_ADD_MAIL_USER' => tr('Add mail user'),
-			'TR_MENU_ADD_FTP_USER' => tr('Add FTP user'),
-			'TR_MENU_MANAGE_SQL' => tr('Manage SQL'),
-			'TR_MENU_ERROR_PAGES' => tr('Error pages'),
-			'TR_MENU_ADD_SQL_DATABASE' => tr('Add SQL database'),
-			'TR_MENU_DOMAIN_STATISTICS' => tr('Domain statistics'),
-			'TR_MENU_DAILY_BACKUP' => tr('Daily backup'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_NEW_TICKET' => tr('New ticket'),
-			'TR_MENU_LOGOUT' => tr('Logout'),
-			'PHP_MY_ADMIN' => tr('PhpMyAdmin'),
-			'TR_WEBMAIL' => tr('Webmail'),
-			'TR_FILEMANAGER' => tr('Filemanager'),
-			'TR_MENU_WEBTOOLS' => tr('Webtools'),
-			'TR_HTACCESS' => tr('Protected areas'),
-			'TR_AWSTATS' => tr('Web statistics'),
-			'TR_HTACCESS_USER' => tr('Group/User management'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_EMAIL_ACCOUNTS' => tr('Email Accounts'),
-			'TR_MENU_FTP_ACCOUNTS' => tr('FTP Accounts'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'TR_MENU_CATCH_ALL_MAIL' => tr('Catch all'),
-			'TR_MENU_ADD_ALIAS' => tr('Add alias'),
-			'TR_MENU_UPDATE_HP' => tr('Update Hosting Package'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'WEBMAIL_PATH' => $cfg->WEBMAIL_PATH,
-			'WEBMAIL_TARGET' => $cfg->WEBMAIL_TARGET,
-			'PMA_PATH' => $cfg->PMA_PATH,
-			'PMA_TARGET' => $cfg->PMA_TARGET,
-			'FILEMANAGER_PATH' => $cfg->FILEMANAGER_PATH,
-			'FILEMANAGER_TARGET' => $cfg->FILEMANAGER_TARGET,
-			'TR_MENU_ADD_DNS' => tr("Add DNS zone's record"),
-			'TR_MENU_SSL_MANAGE'	=> tr('Manage SSL certificate')
-		)
-	);
+	if ($dmn_mailacc_limit != -1)
+        add_main_menu_item($tpl,  tr('Email Accounts'), 'email', 'mail_accounts.php', $name == 'email_accounts');
+
+	if ($dmn_ftpacc_limit != -1)
+        add_main_menu_item($tpl,  tr('FTP Accounts'), 'ftp', 'ftp_accounts.php', $name == 'ftp_accounts');
+
+    if ($dmn_sqld_limit != -1)
+        add_main_menu_item($tpl,  tr('Manage SQL'), 'database', 'sql_manage.php', $name == 'manage_sql');
+    
+    add_main_menu_item($tpl,  tr('Webtools'), 'webtools', 'webtools.php', $name == 'webtools');
+    add_main_menu_item($tpl,  tr('Domain statistics'), 'statistics', 'domain_statistics.php', $name == 'domain_statistics');
+
+	$query = "
+		SELECT
+			`support_system`
+		FROM
+			`reseller_props`
+		WHERE
+			`reseller_id` = ?
+		;
+	";
+
+	$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
+
+	if ($cfg->ISPCP_SUPPORT_SYSTEM && $rs->fields['support_system'] == 'yes')
+		add_main_menu_item($tpl, tr('Support system'), 'support',
+			$cfg->ISPCP_SUPPORT_SYSTEM_PATH, $name == 'ticket_system',
+			$cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+
+/*	if ($cfg->AWSTATS_ACTIVE == 'yes')
+        add_main_menu_item($tpl, tr('Web statistics'), 'statistics', 'http://' . $_SESSION['user_logged'] . '/stats/', false, '_blank');
+*/
 
 	$query = "
 		SELECT
@@ -552,9 +544,7 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if ( $rs->recordCount() > 0) {
 		global $i;
 		$i = 100;
 
@@ -568,296 +558,155 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
+			add_main_menu_item($tpl, tohtml($menu_name), 'custom_link', tohtml($menu_link), $menu_target);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
-		} // end while
-	} // end else
-
-	list(
-		$dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$domain_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$domain_dns
-	) = get_domain_default_props($sql, $_SESSION['user_id']);
-
-	if ($dmn_mailacc_limit == -1)
-		$tpl->assign('ISACTIVE_EMAIL', '');
-
-	if ($dmn_als_limit == -1 && $dmn_subd_limit == -1 && $domain_dns != 'yes')
-		$tpl->assign('ISACTIVE_DOMAIN', '');
-
-	if ($dmn_ftpacc_limit == -1)
-		$tpl->assign('ISACTIVE_FTP', '');
-
-	if ($dmn_sqld_limit == -1)
-		$tpl->assign('ISACTIVE_SQL', '');
-
-	$query = "
-		SELECT
-			`support_system`
-		FROM
-			`reseller_props`
-		WHERE
-			`reseller_id` = ?
-		;
-	";
-
-	$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
-
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
+		}
 	}
 
-	if ($cfg->AWSTATS_ACTIVE == 'no') {
-		$tpl->assign('ISACTIVE_AWSTATS', '');
-	} else {
-		$tpl->assign(
-			array(
-				'AWSTATS_PATH' => 'http://' . $_SESSION['user_logged'] . '/stats/',
-				'AWSTATS_TARGET' => '_blank'
-			)
-		);
+	switch ($name) {
+	case 'general_information':
+		$tpl->assign( 'SIDE_MENU_TITLE', tr('General information') );
+		$tpl->assign( 'SIDE_MENU_ICON', 'general_big.png' );
+
+		add_sub_menu_item($tpl, tr('Overview'), 'index.php');
+		add_sub_menu_item($tpl, tr('Change password'), 'password_change.php');
+		add_sub_menu_item($tpl, tr('Change personal data'), 'personal_change.php');
+		add_sub_menu_item($tpl, tr('Language'), 'language.php');
+
+		// Hide 'Update Hosting Package'-Button, if there are none
+		$query = "
+			SELECT
+				`id`
+			FROM
+				`hosting_plans`
+			WHERE
+				`reseller_id` = ?
+			AND
+				`status` = '1';
+		";
+
+		$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
+		if ($rs->recordCount() > 0 && $cfg->HOSTING_PLANS_LEVEL != 'admin')
+			add_sub_menu_item($tpl, tr('Update Hosting Package'), 'hosting_plan_update.php');
+		break;
+	case 'manage_domains':
+		$query = "
+			SELECT
+				`domain_id`, `domain_alias_limit`, `domain_subd_limit`, `domain_dns`
+			FROM
+				`domain`
+			WHERE
+				`domain_admin_id` = ?;
+		";
+		$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage domains'));
+		$tpl->assign('SIDE_MENU_ICON', 'domain_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'domains_manage.php');
+		if ($rs->fields['domain_subd_limit'] == 0
+			|| get_domain_running_sub_cnt($sql, $rs->fields['domain_id']) < $rs->fields['domain_subd_limit'])
+		{
+			$tpl->assign( 'SUBDOMAIN_ADD', true );
+			add_sub_menu_item($tpl, tr('Add subdomain'), 'subdomain_add.php');
+		}
+		if ($rs->fields['domain_alias_limit'] == 0
+			|| get_domain_running_als_cnt($sql, $rs->fields['domain_id']) < $rs->fields['domain_alias_limit'])
+		{
+			$tpl->assign( 'ALIAS_ADD', true );
+			add_sub_menu_item($tpl, tr('Add alias'), 'alias_add.php');
+		}
+		if ($rs->fields['domain_dns'] == 'yes')
+		{
+			$tpl->assign( 'ISACTIVE_DNS', true );
+			add_sub_menu_item($tpl, tr("Add DNS zone's record"), 'dns_add.php');
+		}
+		break;
+	case 'email_accounts':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Email Accounts'));
+		$tpl->assign('SIDE_MENU_ICON', 'email_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'mail_accounts.php');
+		add_sub_menu_item($tpl, tr('Add mail user'), 'mail_add.php');
+		add_sub_menu_item($tpl, tr('Catch all'), 'mail_catchall.php');
+		add_sub_menu_item($tpl, tr('Webmail'), $cfg->WEBMAIL_PATH, $cfg->WEBMAIL_TARGET);
+		break;
+	case 'ftp_accounts':
+		$tpl->assign('SIDE_MENU_TITLE', tr('FTP Accounts'));
+		$tpl->assign('SIDE_MENU_ICON', 'ftp_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'ftp_accounts.php');
+		add_sub_menu_item($tpl, tr('Add FTP user'), 'ftp_add.php');
+		add_sub_menu_item($tpl, tr('Filemanager'), $cfg->FILEMANAGER_PATH, $cfg->FILEMANAGER_TARGET);
+		break;
+	case 'manage_sql':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Manage SQL'));
+		$tpl->assign('SIDE_MENU_ICON', 'database_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'sql_manage.php');
+		add_sub_menu_item($tpl, tr('Add SQL database'), 'sql_database_add.php');
+		add_sub_menu_item($tpl, tr('PhpMyAdmin'), $cfg->PMA_PATH, $cfg->PMA_TARGET);
+		break;
+	case 'webtools':
+		$query = "
+			SELECT
+				`domain_mailacc_limit`, `allowbackup`, `domain_dns`
+			FROM
+				`domain`
+			WHERE
+				`domain_admin_id` = ?;
+		";
+		$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+		$tpl->assign('SIDE_MENU_TITLE', tr('Webtools'));
+		$tpl->assign('SIDE_MENU_ICON', 'webtools_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'webtools.php');
+		add_sub_menu_item($tpl, tr('Protected areas'), 'protected_areas.php');
+		add_sub_menu_item($tpl, tr('Group/User management'), 'protected_user_manage.php');
+		add_sub_menu_item($tpl, tr('Error pages'), 'error_pages.php');
+		if ($rs->fields['allowbackup'] == 'yes')
+			add_sub_menu_item($tpl, tr('Daily backup'), 'backup.php');
+		if ($rs->fields['domain_mailacc_limit'] != -1)
+			add_sub_menu_item($tpl, tr('Webmail'), $cfg->WEBMAIL_PATH, $cfg->WEBMAIL_TARGET);
+		add_sub_menu_item($tpl, tr('Filemanager'), $cfg->FILEMANAGER_PATH, $cfg->FILEMANAGER_TARGET);
+		if ($cfg->AWSTATS_ACTIVE == 'yes')
+		{
+			$tpl->assign('ACTIVE_AWSTATS', true);
+			add_sub_menu_item($tpl, tr('Web statistics'), 'http://' . $_SESSION['user_logged'] . '/stats/', '_blank');
+		}
+		break;
+	case 'domain_statistics':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Domain statistics'));
+		$tpl->assign('SIDE_MENU_ICON', 'statistics_big.png');
+
+		add_sub_menu_item($tpl, tr('Overview'), 'domain_statistics.php');
+		if ($cfg->AWSTATS_ACTIVE == 'yes')
+		{
+			$tpl->assign('ACTIVE_AWSTATS', true);
+			add_sub_menu_item($tpl, tr('Web statistics'), 'http://' . $_SESSION['user_logged'] . '/stats/', '_blank');
+		}
+		break;
+	case 'ticket_system':
+		$tpl->assign('SIDE_MENU_TITLE', tr('Support system'));
+		$tpl->assign('SIDE_MENU_ICON', 'support_big.png');
+
+		add_sub_menu_item($tpl, tr('Open tickets'), $cfg->ISPCP_SUPPORT_SYSTEM_PATH, $cfg->ISPCP_SUPPORT_SYSTEM_TARGET);
+		add_sub_menu_item($tpl, tr('Closed tickets'), 'ticket_closed.php');
+		add_sub_menu_item($tpl, tr('New ticket'), 'ticket_create.php');
+		break;
 	}
-
-	$tpl->parse('MAIN_MENU', 'menu');
-}
-
-function gen_client_menu(&$tpl, $menu_file) {
-
-	$cfg = ispCP_Registry::get('Config');
-	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('isactive_update_hp', 'menu');
-	$tpl->define_dynamic('isactive_alias_menu', 'menu');
-	$tpl->define_dynamic('isactive_subdomain_menu', 'menu');
-	$tpl->define_dynamic('isactive_dns_menu', 'menu');
-
-	$tpl->assign(
+	
+    $tpl->assign(
 		array(
-			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
-			'TR_MENU_CHANGE_PASSWORD' => tr('Change password'),
-			'TR_MENU_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
-			'TR_MENU_MANAGE_DOMAINS' => tr('Manage domains'),
-			'TR_MENU_ADD_SUBDOMAIN' => tr('Add subdomain'),
-			'TR_MENU_MANAGE_USERS' => tr('Email and FTP accounts'),
-			'TR_MENU_ADD_MAIL_USER' => tr('Add mail user'),
-			'TR_MENU_ADD_FTP_USER' => tr('Add FTP user'),
-			'TR_MENU_MANAGE_SQL' => tr('Manage SQL'),
-			'TR_MENU_ERROR_PAGES' => tr('Error pages'),
-			'TR_MENU_ADD_SQL_DATABASE' => tr('Add SQL database'),
-			'TR_MENU_DOMAIN_STATISTICS' => tr('Domain statistics'),
-			'TR_MENU_DAILY_BACKUP' => tr('Daily backup'),
-			'TR_MENU_QUESTIONS_AND_COMMENTS' => tr('Support system'),
-			'TR_MENU_NEW_TICKET' => tr('New ticket'),
 			'TR_MENU_LOGOUT' => tr('Logout'),
-			'PHP_MY_ADMIN' => tr('PhpMyAdmin'),
-			'TR_WEBMAIL' => tr('Webmail'),
-			'TR_FILEMANAGER' => tr('Filemanager'),
-			'TR_MENU_WEBTOOLS' => tr('Webtools'),
-			'TR_HTACCESS' => tr('Protected areas'),
-			'TR_AWSTATS' => tr('Web statistics'),
-			'TR_HTACCESS_USER' => tr('Group/User management'),
-			'TR_MENU_OVERVIEW' => tr('Overview'),
-			'TR_MENU_EMAIL_ACCOUNTS' => tr('Email Accounts'),
-			'TR_MENU_FTP_ACCOUNTS' => tr('FTP Accounts'),
-			'TR_MENU_LANGUAGE' => tr('Language'),
-			'TR_MENU_CATCH_ALL_MAIL' => tr('Catch all'),
-			'TR_MENU_ADD_ALIAS' => tr('Add alias'),
-			'TR_MENU_UPDATE_HP' => tr('Update Hosting Package'),
-			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
-			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
-			'WEBMAIL_PATH' => $cfg->WEBMAIL_PATH,
-			'WEBMAIL_TARGET' => $cfg->WEBMAIL_TARGET,
-			'PMA_PATH' => $cfg->PMA_PATH,
-			'PMA_TARGET' => $cfg->PMA_TARGET,
-			'FILEMANAGER_PATH' => $cfg->FILEMANAGER_PATH,
-			'FILEMANAGER_TARGET' => $cfg->FILEMANAGER_TARGET,
 			'VERSION' => $cfg->Version,
 			'BUILDDATE' => $cfg->BuildDate,
 			'CODENAME' => $cfg->CodeName
 		)
 	);
-
-	$query = "
-		SELECT
-			*
-		FROM
-			`custom_menus`
-		WHERE
-			`menu_level` = 'user'
-		OR
-			`menu_level` = 'all'
-		;
-	";
-
-	$rs = exec_query($sql, $query);
-
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
-		global $i;
-		$i = 100;
-
-		while (!$rs->EOF) {
-			$menu_name = $rs->fields['menu_name'];
-			$menu_link = get_menu_vars($rs->fields['menu_link']);
-			$menu_target = $rs->fields['menu_target'];
-
-			if ($menu_target !== '') {
-				$menu_target = 'target="' . tohtml($menu_target) . '"';
-			}
-
-			$tpl->assign(
-				array(
-					'BUTTON_LINK' => tohtml($menu_link),
-					'BUTTON_NAME' => tohtml($menu_name),
-					'BUTTON_TARGET' => $menu_target,
-					'BUTTON_ID' => $i,
-				)
-			);
-
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->moveNext();
-			$i++;
-		} // end while
-	} // end else
-
-	$query = "
-		SELECT
-			`support_system`
-		FROM
-			`reseller_props`
-		WHERE
-			`reseller_id` = ?
-		;
-	";
-
-	$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
-
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('SUPPORT_SYSTEM', '');
-	}
-
-	list(
-		$dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
-	) = get_domain_default_props($sql, $_SESSION['user_id']);
-
-	if ($dmn_mailacc_limit == -1)	$tpl->assign('ACTIVE_EMAIL', '');
-	if ($dmn_als_limit == -1)		$tpl->assign(
-										array(
-											'ISACTIVE_ALIAS_MENU'		=>	'',
-											'ALIAS_ADD'					=>	''
-										)
-									);
-	if ($dmn_subd_limit == -1)		$tpl->assign(
-										array(
-											'ISACTIVE_SUBDOMAIN_MENU'	=>	'',
-											'SUBDOMAIN_ADD'				=>	''
-										)
-									);
-	if ($dmn_dns != 'yes')			$tpl->assign(
-										array(
-											'ISACTIVE_DNS_MENU'			=>	'',
-											'ISACTIVE_DNS'				=>	''
-										)
-									);
-
-	$sub_cnt = get_domain_running_sub_cnt($sql, $dmn_id);
-	if ($dmn_subd_limit != 0 && $sub_cnt >= $dmn_subd_limit) {
-		$tpl->assign('ISACTIVE_SUBDOMAIN_MENU', '');
-	}
-
-	$als_cnt = get_domain_running_als_cnt($sql, $dmn_id);
-	if ($dmn_als_limit != 0 && $als_cnt >= $dmn_als_limit) {
-		$tpl->assign('ISACTIVE_ALIAS_MENU', '');
-	}
-
-	if ($cfg->AWSTATS_ACTIVE != 'yes') {
-		$tpl->assign('ACTIVE_AWSTATS', '');
-	} else {
-		$tpl->assign(
-			array(
-				'AWSTATS_PATH' => 'http://' . $_SESSION['user_logged'] . '/stats/',
-				'AWSTATS_TARGET' => '_blank'
-			)
-		);
-	}
-
-	// Hide 'Update Hosting Package'-Button, if there are none
-	$query = "
-		SELECT
-			`id`
-		FROM
-			`hosting_plans`
-		WHERE
-			`reseller_id` = ?
-		AND
-			`status` = '1'
-		;
-	";
-
-	$rs = exec_query($sql, $query, $_SESSION['user_created_by']);
-
-	if ($rs->recordCount() == 0) {
-		if ($cfg->HOSTING_PLANS_LEVEL != 'admin') {
-			$tpl->assign('ISACTIVE_UPDATE_HP', '');
-		}
-	}
-
-	$tpl->parse('MENU', 'menu');
 }
 
 function get_user_domain_id(&$sql, $user_id) {

@@ -34,10 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_change_password.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Change SQL User Password'));
+$tpl->assign('PAGE_CONTENT', 'sql_change_password.tpl');
 
 if (isset($_GET['id'])) {
 	$db_user_id = $_GET['id'];
@@ -140,14 +139,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_SQL_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change SQL User Password'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 
 // dynamic page data.
@@ -156,8 +147,7 @@ check_usr_sql_perms($sql, $db_user_id);
 change_sql_user_pass($sql, $db_user_id, $db_user_name);
 
 // static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
+gen_client_menu($tpl, 'manage_sql');
 
 gen_logged_from($tpl);
 
@@ -177,7 +167,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

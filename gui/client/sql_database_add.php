@@ -34,15 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_database_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mysql_prefix_no', 'page');
-$tpl->define_dynamic('mysql_prefix_yes', 'page');
-$tpl->define_dynamic('mysql_prefix_infront', 'page');
-$tpl->define_dynamic('mysql_prefix_behind', 'page');
-$tpl->define_dynamic('mysql_prefix_all', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Add SQL Database'));
+$tpl->assign('PAGE_CONTENT', 'sql_database_add.tpl');
 
 // page functions.
 
@@ -51,22 +45,19 @@ function gen_page_post_data(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
 
 	if ($cfg->MYSQL_PREFIX === 'yes') {
-		$tpl->assign('MYSQL_PREFIX_YES', '');
+		$tpl->assign('MYSQL_PREFIX_YES', 'no');
 
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
-			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_INFRONT', 'no');
+			$tpl->assign('MYSQL_PREFIX_ALL', 'no');
 		} else {
-			$tpl->parse('MYSQL_PREFIX_INFRONT', 'mysql_prefix_infront');
-			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_BEHIND', 'no');
+			$tpl->assign('MYSQL_PREFIX_ALL', 'no');
 		}
 	} else {
-		$tpl->assign('MYSQL_PREFIX_NO', '');
-		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
+		$tpl->assign('MYSQL_PREFIX_NO', 'no');
+		$tpl->assign('MYSQL_PREFIX_INFRONT', 'no');
+		$tpl->assign('MYSQL_PREFIX_BEHIND', 'no');
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_db') {
@@ -217,14 +208,6 @@ function check_sql_permissions($sql, $user_id) {
 	}
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_SQL_DATABASE_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -234,8 +217,7 @@ gen_page_post_data($tpl);
 
 add_sql_database($sql, $_SESSION['user_id']);
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
+gen_client_menu($tpl, 'manage_sql');
 
 gen_logged_from($tpl);
 
@@ -254,7 +236,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

@@ -34,20 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/sessions_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('user_session', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Manage Sessions'));
+$tpl->assign('PAGE_CONTENT', 'sessions_manage.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_SESSIONS_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 function kill_session($sql) {
 
@@ -79,21 +69,21 @@ function gen_user_sessions(&$tpl, &$sql) {
 
 	$row = 1;
 	while (!$rs->EOF) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'ADMIN_CLASS' => ($row++ % 2 == 0) ? 'content2' : 'content',
 			)
 		);
 
 		if ($rs->fields['user_name'] === NULL) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_USERNAME' => tr('Unknown'),
 					'LOGIN_TIME' => date("G:i:s", $rs->fields['lastaccess'])
 				)
 			);
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_USERNAME' => $rs->fields['user_name'],
 					'LOGIN_TIME' => date("G:i:s", $rs->fields['lastaccess'])
@@ -104,12 +94,10 @@ function gen_user_sessions(&$tpl, &$sql) {
 		$sess_id = session_id();
 
 		if ($sess_id === $rs->fields['session_id']) {
-			$tpl->assign('KILL_LINK', 'sessions_manage.php');
+			$tpl->append('KILL_LINK', 'sessions_manage.php');
 		} else {
-			$tpl->assign('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
+			$tpl->append('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
 		}
-
-		$tpl->parse('USER_SESSION', '.user_session');
 
 		$rs->moveNext();
 	}
@@ -120,8 +108,7 @@ function gen_user_sessions(&$tpl, &$sql) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 
 kill_session($sql);
 
@@ -140,7 +127,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

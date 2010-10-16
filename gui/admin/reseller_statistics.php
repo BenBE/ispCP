@@ -34,28 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Reseller statistics'));
+$tpl->assign('PAGE_CONTENT', 'reseller_statistics.tpl');
 
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('traffic_table', 'page');
-$tpl->define_dynamic('month_list', 'traffic_table');
-$tpl->define_dynamic('year_list', 'traffic_table');
-$tpl->define_dynamic('reseller_entry', 'traffic_table');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_RESELLER_STATISTICS_PAGE_TITLE' => tr('ispCP - Reseller statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 $year = 0;
 $month = 0;
@@ -136,12 +119,9 @@ SQL_QUERY;
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
+		if ($start_index > 0) {
 			$tpl->assign(
 				array(
-					'SCROLL_PREV_GRAY' => '',
 					'PREV_PSI' => $prev_si
 				)
 			);
@@ -149,12 +129,9 @@ SQL_QUERY;
 
 		$next_si = $start_index + $rows_per_page;
 
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
+		if ($next_si + 1 <= $records_count) {
 			$tpl->assign(
 				array(
-					'SCROLL_NEXT_GRAY' => '',
 					'NEXT_PSI' => $next_si
 				)
 			);
@@ -176,8 +153,6 @@ SQL_QUERY;
 			$rs->moveNext();
 		}
 	}
-
-	$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 }
 
 function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
@@ -235,11 +210,11 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 		$disk_percent = 100;
 	}
 
-	$tpl->assign(
+	$tpl->append(
 		array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2')
 	);
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'RESELLER_NAME' => tohtml($reseller_name),
 			'RESELLER_ID' => $reseller_id,
@@ -289,8 +264,6 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 				: (($rsql_user_max === "-1") ? tr('<b>disabled</b>') : tr('%1$d / %2$d <br/>of<br/> <b>unlimited</b>', $usql_user_current, $rsql_user_current))
 		)
 	);
-
-	$tpl->parse('RESELLER_ENTRY', '.reseller_entry');
 }
 
 /*
@@ -302,8 +275,7 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 $crnt_month = '';
 $crnt_year = '';
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_admin_menu($tpl, 'statistics');
 
 generate_page ($tpl);
 
@@ -328,7 +300,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

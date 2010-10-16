@@ -34,15 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_owners.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('reseller_list', 'page');
-$tpl->define_dynamic('reseller_item', 'reseller_list');
-$tpl->define_dynamic('select_admin', 'page');
-$tpl->define_dynamic('select_admin_option', 'select_admin');
-
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Manage users/Reseller assignment'));
+$tpl->assign('PAGE_CONTENT', 'manage_reseller_owners.tpl');
 /**
  * @todo check if it's useful to have the table admin two times in the same query
  */
@@ -77,11 +71,10 @@ function gen_reseller_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		while (!$rs->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -91,7 +84,7 @@ function gen_reseller_table(&$tpl, &$sql) {
 
 			$admin_id_var_name = "admin_id_".$admin_id;
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'NUMBER' => $i + 1,
 					'RESELLER_NAME' => tohtml($rs->fields['admin_name']),
@@ -100,16 +93,10 @@ function gen_reseller_table(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RESELLER_ITEM', '.reseller_item');
-
 			$rs->moveNext();
 
 			$i++;
 		}
-
-		$tpl->parse('RESELLER_LIST', 'reseller_list');
-
-		$tpl->assign('PAGE_MESSAGE', '');
 	}
 
 	$query = "
@@ -135,7 +122,7 @@ function gen_reseller_table(&$tpl, &$sql) {
 			$selected = '';
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'OPTION' => tohtml($rs->fields['admin_name']),
 				'VALUE' => $rs->fields['admin_id'],
@@ -143,16 +130,10 @@ function gen_reseller_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('SELECT_ADMIN_OPTION', '.select_admin_option');
-
 		$rs->moveNext();
 
 		$i++;
 	}
-
-	$tpl->parse('SELECT_ADMIN', 'select_admin');
-
-	$tpl->assign('PAGE_MESSAGE', '');
 }
 
 function update_reseller_owner($sql) {
@@ -202,17 +183,7 @@ function update_reseller_owner($sql) {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_RESELLER_OWNERS_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Reseller assignment'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 
 update_reseller_owner($sql);
 
@@ -231,7 +202,6 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

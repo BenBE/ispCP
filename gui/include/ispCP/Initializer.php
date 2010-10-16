@@ -40,6 +40,7 @@
  * @since       1.0.7
  * @version     1.1.2
  */
+
 class ispCP_Initializer {
 
 	/**
@@ -165,6 +166,8 @@ class ispCP_Initializer {
 		// Initialize output buffering
 		$this->_initializeOutputBuffering();
 
+		$this->_startTemplateEngine();
+
 		// Initialize internationalization libraries
 		// $this->_initializeI18n();
 
@@ -183,6 +186,45 @@ class ispCP_Initializer {
 
 		 self::$_initialized = true;
 	}
+
+	/**
+	 * Creates and initializes the template object
+	 */
+    function _startTemplateEngine() {
+		require('smarty/Smarty.php');
+		require('i18n.php');
+		require('sql.php');
+		require('admin-functions.php');
+		
+		$smarty = new ispCP_Smarty;
+        
+		$userType = @$_SESSION['user_type'] == 'user' ? 'client' : @$_SESSION['user_type'];
+		if (!$userType)
+			$userType = 'client';
+		
+		$theme = (isset($_SESSION['user_theme']))
+			? $_SESSION['user_theme']
+			: $this->_config->USER_INITIAL_THEME;
+   
+        $smarty->template_dir = array(
+			$_SERVER['DOCUMENT_ROOT'] . "/themes/$theme/",
+			$_SERVER['DOCUMENT_ROOT'] . "/themes/$theme/$userType/"
+			);
+        
+		$smarty->compile_dir = $_SERVER['DOCUMENT_ROOT'] . "/themes/$theme/compiled";
+        //$smarty->force_compile = TRUE;
+		//$smarty->debugging = TRUE;
+
+        $smarty->assign( array(
+				'THEME_COLOR_PATH'	=> "/themes/$theme",
+				'THEME_CHARSET'		=> tr('encoding'),
+				'ISP_LOGO'			=> @$_SESSION['user_id'] ? get_logo($_SESSION['user_id']) : '',
+				'SUB_MENU'			=> 'menu_sub.tpl',
+				'MAIN_MENU'			=> 'menu_main.tpl'
+	          ) );
+      
+		ispCP_Registry::set('template', $smarty);
+    }   
 
 	/**
 	 * Executes all of the available initialization routines for CLI interface

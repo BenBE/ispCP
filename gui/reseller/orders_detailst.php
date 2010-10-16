@@ -35,20 +35,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders_detailst.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Reseller/Order details'));
+$tpl->assign('PAGE_CONTENT', 'orders_detailst.tpl');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order details'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  * Functions
@@ -223,8 +213,7 @@ if (isset($_POST['uaction'])) {
 
 gen_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
+gen_reseller_menu($tpl, 'orders');
 
 gen_logged_from($tpl);
 
@@ -264,7 +253,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

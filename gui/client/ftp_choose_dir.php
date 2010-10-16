@@ -34,13 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('dir_item', 'page');
-$tpl->define_dynamic('action_link', 'page');
-$tpl->define_dynamic('list_item', 'page');
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_choose_dir.tpl');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Webtools'));
+$tpl->assign('PAGE_CONTENT', 'ftp_choose_dir.tpl');
 
 
 function gen_directories(&$tpl) {
@@ -61,8 +57,8 @@ function gen_directories(&$tpl) {
 	$parent = explode('/', $path);
 	array_pop($parent);
 	$parent = implode('/', $parent);
-	$tpl->assign('ACTION_LINK', '');
-	$tpl->assign(
+	$tpl->append('ACTION_LINK', 'no');
+	$tpl->append(
 		array(
 			'ACTION' => '',
 			'ICON' => "parent",
@@ -70,7 +66,6 @@ function gen_directories(&$tpl) {
 			'LINK' => 'ftp_choose_dir.php?cur_dir=' . $parent,
 		)
 	);
-	$tpl->parse('DIR_ITEM', '.dir_item');
 	// Show directories only
 	foreach ($list as $entry) {
 		// Skip non-directory entries
@@ -90,7 +85,7 @@ function gen_directories(&$tpl) {
 			$image = "folder";
 		}
 		// Create the directory link
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'ACTION' => tr('Protect it'),
 				'PROTECT_IT' => "protected_areas_add.php?file=".$dr,
@@ -100,21 +95,11 @@ function gen_directories(&$tpl) {
 				'LINK' => "ftp_choose_dir.php?cur_dir=".$dr,
 			)
 		);
-		$tpl->parse('ACTION_LINK', 'action_link');
-		$tpl->parse('DIR_ITEM' , '.dir_item');
 	}
 }
 
 // functions end
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 gen_directories($tpl);
 
@@ -129,8 +114,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('ftp_choose_dir.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

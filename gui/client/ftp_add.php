@@ -34,20 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Add FTP User'));
+$tpl->assign('PAGE_CONTENT', 'ftp_add.tpl');
 
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('to_subdomain', 'page');
-$tpl->define_dynamic('to_alias_domain', 'page');
 // JavaScript
-$tpl->define_dynamic('js_to_subdomain', 'page');
-$tpl->define_dynamic('js_to_alias_domain', 'page');
-$tpl->define_dynamic('js_to_all_domain', 'page');
-$tpl->define_dynamic('js_not_domain', 'page');
 
 // page functions.
 
@@ -119,15 +110,14 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'ALS_ID' => 'n/a',
 				'ALS_SELECTED' => $cfg->HTML_SELECTED,
 				'ALS_NAME' => tr('Empty List')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
+		$tpl->assign('TO_ALIAS_DOMAIN', 'no');
 		$_SESSION['alias_count'] = "no";
 	} else {
 		$first_passed = false;
@@ -143,7 +133,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 			$als_menu_name = decode_idna($rs->fields['alias_name']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_ID' => tohtml($rs->fields['alias_name']),
 					'ALS_SELECTED' => $als_selected,
@@ -151,7 +141,6 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				)
 			);
 
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed) $first_passed = true;
@@ -180,7 +169,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'SUB_ID' => 'n/a',
 				'SUB_SELECTED' => $cfg->HTML_SELECTED,
@@ -188,8 +177,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 			)
 		);
 
-		$tpl->parse('SUB_LIST', 'sub_list');
-		$tpl->assign('TO_SUBDOMAIN', '');
+		$tpl->assign('TO_SUBDOMAIN', 'no');
 		$_SESSION['subdomain_count'] = "no";
 	} else {
 		$first_passed = false;
@@ -205,14 +193,13 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 			$sub_menu_name = decode_idna($rs->fields['sub_name']);
 			$dmn_menu_name = decode_idna($dmn_name);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_ID' => tohtml($rs->fields['sub_name']),
 					'SUB_SELECTED' => $sub_selected,
 					'SUB_NAME' => tohtml($sub_menu_name . '.' . $dmn_menu_name)
 				)
 			);
-			$tpl->parse('SUB_LIST', '.sub_list');
 			$rs->moveNext();
 			if (!$first_passed) $first_passed = true;
 		}
@@ -544,27 +531,23 @@ function gen_page_js(&$tpl) {
 
 	if (isset($_SESSION['subdomain_count'])
 		&& isset($_SESSION['alias_count'])) { // no subdomains and no alias
-		$tpl->parse('JS_NOT_DOMAIN', 'js_not_domain');
-		$tpl->assign('JS_TO_SUBDOMAIN', '');
-		$tpl->assign('JS_TO_ALIAS_DOMAIN', '');
-		$tpl->assign('JS_TO_ALL_DOMAIN', '');
+		$tpl->assign('JS_TO_SUBDOMAIN', 'no');
+		$tpl->assign('JS_TO_ALIAS_DOMAIN', 'no');
+		$tpl->assign('JS_TO_ALL_DOMAIN', 'no');
 	} else if (isset($_SESSION['subdomain_count'])
 		&& !isset($_SESSION['alias_count'])) { // no subdomains - alaias available
-		$tpl->assign('JS_NOT_DOMAIN', '');
-		$tpl->assign('JS_TO_SUBDOMAIN', '');
-		$tpl->parse('JS_TO_ALIAS_DOMAIN', 'js_to_alias_domain');
-		$tpl->assign('JS_TO_ALL_DOMAIN', '');
+		$tpl->assign('JS_NOT_DOMAIN', 'no');
+		$tpl->assign('JS_TO_SUBDOMAIN', 'no');
+		$tpl->assign('JS_TO_ALL_DOMAIN', 'no');
 	} else if (!isset($_SESSION['subdomain_count'])
 		&& isset($_SESSION['alias_count'])) { // no alias - subdomain available
-		$tpl->assign('JS_NOT_DOMAIN', '');
-		$tpl->parse('JS_TO_SUBDOMAIN', 'js_to_subdomain');
-		$tpl->assign('JS_TO_ALIAS_DOMAIN', '');
-		$tpl->assign('JS_TO_ALL_DOMAIN', '');
+		$tpl->assign('JS_NOT_DOMAIN', 'no');
+		$tpl->assign('JS_TO_ALIAS_DOMAIN', 'no');
+		$tpl->assign('JS_TO_ALL_DOMAIN', 'no');
 	} else { // there are subdomains and aliases
-		$tpl->assign('JS_NOT_DOMAIN', '');
-		$tpl->assign('JS_TO_SUBDOMAIN', '');
-		$tpl->assign('JS_TO_ALIAS_DOMAIN', '');
-		$tpl->parse('JS_TO_ALL_DOMAIN', 'js_to_all_domain');
+		$tpl->assign('JS_NOT_DOMAIN', 'no');
+		$tpl->assign('JS_TO_SUBDOMAIN', 'no');
+		$tpl->assign('JS_TO_ALIAS_DOMAIN', 'no');
 	}
 
 	unset($GLOBALS['subdomain_count']);
@@ -576,14 +559,6 @@ function gen_page_js(&$tpl) {
 // common page data.
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -591,8 +566,7 @@ gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
+gen_client_menu($tpl, 'ftp_accounts');
 
 gen_logged_from($tpl);
 
@@ -616,7 +590,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

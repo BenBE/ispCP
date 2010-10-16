@@ -1,9 +1,19 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-10-16 Daniel Hofer
+	- GUI:
+		* Smarty conversion:
+			- Added Smarty libs
+			- Added Smarty wrapper class
+			- Converted all templates
+			- Removed unused menu and main_menu templates
+			- Converted all PHP files
+
 2010-10-13 Daniel Hofer
 	- GUI:
 		* Added base Smarty templates
+
 2010-10-11 Laurent Declercq
 	- SETUP:
 		* Fixed #2483: Output from external commands must be captured and logged

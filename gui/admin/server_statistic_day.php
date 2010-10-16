@@ -34,19 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic_day.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hour_list', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Server day stats'));
+$tpl->assign('PAGE_CONTENT', 'server_statistic_day.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_DAY_STATS_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 global $month, $year, $day;
 
@@ -126,13 +117,13 @@ function generate_page(&$tpl) {
 			$other_in = $rs1->fields['sbin'] - ($rs1->fields['swbin'] + $rs1->fields['smbin'] + $rs1->fields['spbin']);
 			$other_out = $rs1->fields['sbout'] - ($rs1->fields['swbout'] + $rs1->fields['smbout'] + $rs1->fields['spbout']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ITEM_CLASS' => ($row++ % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'HOUR' => $ttime,
 					'WEB_IN' => sizeit($rs1->fields['swbin']),
@@ -157,8 +148,6 @@ function generate_page(&$tpl) {
 			$all[5] = $all[5] + $rs1->fields['spbout'];
 			$all[6] = $all[6] + $rs1->fields['sbin'];
 			$all[7] = $all[7] + $rs1->fields['sbout'];
-
-			$tpl->parse('HOUR_LIST', '.hour_list');
 
 			$rs1->moveNext();
 		} // end for
@@ -189,8 +178,7 @@ function generate_page(&$tpl) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_admin_menu($tpl, 'statistics');
 
 $tpl->assign(
 	array(
@@ -221,7 +209,6 @@ $tpl->assign(
 gen_page_message($tpl);
 generate_page ($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

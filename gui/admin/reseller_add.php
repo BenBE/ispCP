@@ -34,23 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('rsl_ip_message', 'page');
-$tpl->define_dynamic('rsl_ip_list', 'page');
-$tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADD_RESELLER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Manage users/Add reseller'));
+$tpl->assign('PAGE_CONTENT', 'reseller_add.tpl');
 
 /**
  * Get Server IPs
@@ -81,8 +67,6 @@ function get_server_ip(&$tpl, &$sql) {
 				'RSL_IP_LIST' => ''
 			)
 		);
-
-		$tpl->parse('RSL_IP_MESSAGE', 'rsl_ip_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -93,7 +77,7 @@ function get_server_ip(&$tpl, &$sql) {
 			)
 		);
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_IP_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -111,7 +95,7 @@ function get_server_ip(&$tpl, &$sql) {
 				$ip_item_assigned = '';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_IP_NUMBER' => $i + 1,
 					'RSL_IP_LABEL' => $rs->fields['ip_domain'],
@@ -122,16 +106,10 @@ function get_server_ip(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
-
 			$rs->moveNext();
 
 			$i++;
 		}
-
-		$tpl->parse('RSL_IP_LIST', 'rsl_ip_list');
-
-		$tpl->assign('RSL_IP_MESSAGE', '');
 	}
 
 	return $reseller_ips;
@@ -510,8 +488,7 @@ function check_user_data() {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 
 $reseller_ips = get_server_ip($tpl, $sql);
 
@@ -579,7 +556,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

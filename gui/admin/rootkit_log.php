@@ -34,20 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/rootkit_log.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('service_status', 'page');
-$tpl->define_dynamic('props_list', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker'));
+$tpl->assign('PAGE_CONTENT', 'rootkit_log.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ROOTKIT_LOG_PAGE_TITLE' => tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 $blocksCount = 0;
 
@@ -122,13 +112,12 @@ foreach ($config_entries as $config_entry) {
 		$contents = '<strong style="color:red">' . tr("%s doesn't exist or is empty", $filename) . '</strong>';
 	}
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'LOG'		=> $contents,
 			'FILENAME'	=> tohtml($filename)
 		)
 	);
-	$tpl->parse('PROPS_LIST', '.props_list');
 }
 
 /*
@@ -136,8 +125,7 @@ foreach ($config_entries as $config_entry) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+gen_admin_menu($tpl, 'system_tools');
 
 $tpl->assign(
 	array(
@@ -147,7 +135,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

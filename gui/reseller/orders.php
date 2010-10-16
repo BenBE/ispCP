@@ -35,27 +35,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('page_message', 'page');
-// Table with orders
-$tpl->define_dynamic('orders_table', 'page');
-$tpl->define_dynamic('order', 'orders_table');
-// scrolling
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order management'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Reseller/Order management'));
+$tpl->assign('PAGE_CONTENT', 'orders.tpl');
 
 /*
  * Functions
@@ -108,35 +90,16 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 
 	$prev_si = $start_index - $rows_per_page;
 
-	if ($start_index == 0) {
-		$tpl->assign('SCROLL_PREV', '');
-	} else {
-		$tpl->assign(
-			array(
-				'SCROLL_PREV_GRAY' => '',
-				'PREV_PSI' => $prev_si
-			)
-		);
-	}
+	if ($start_index > 0)
+		$tpl->assign( 'PREV_PSI', $prev_si );
 
 	$next_si = $start_index + $rows_per_page;
 
-	if ($next_si + 1 > $records_count) {
-		$tpl->assign('SCROLL_NEXT', '');
-	} else {
-		$tpl->assign(
-			array(
-				'SCROLL_NEXT_GRAY' => '',
-				'NEXT_PSI' => $next_si
-			)
-		);
-	}
+	if ($next_si + 1 <= $records_count)
+		$tpl->assign( 'NEXT_PSI', $next_si );
 
 	if ($rs->recordCount() == 0) {
 		set_page_message(tr('You do not have new orders!'));
-		$tpl->assign('ORDERS_TABLE', '');
-		$tpl->assign('SCROLL_NEXT_GRAY', '');
-		$tpl->assign('SCROLL_PREV_GRAY', '');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
@@ -154,7 +117,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 			$rs_planname = exec_query($sql, $planname_query, $plan_id);
 			$plan_name = $rs_planname->fields['name'];
 
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			$status = $rs->fields['status'];
 			if ($status === 'update') {
@@ -177,7 +140,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 					. "&nbsp;" . tohtml($rs_customer->fields['state'])
 					. "&nbsp;" . tohtml($rs_customer->fields['country']);
 				$order_status = tr('Update order');
-				$tpl->assign('LINK', 'orders_update.php?order_id=' . $rs->fields['id']);
+				$tpl->append('LINK', 'orders_update.php?order_id=' . $rs->fields['id']);
 			} else {
 				$user_details = $rs->fields['fname'] . "&nbsp;"
 					. tohtml($rs->fields['lname'])
@@ -187,9 +150,9 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 					. "&nbsp;" . tohtml($rs->fields['city'])
 					. "&nbsp;" . tohtml($rs->fields['state'])
 					. "&nbsp;" . tohtml($rs->fields['country']);
-				$tpl->assign('LINK', 'orders_detailst.php?order_id=' . $rs->fields['id']);
+				$tpl->append('LINK', 'orders_detailst.php?order_id=' . $rs->fields['id']);
 			}
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ID'		=> $rs->fields['id'],
 					'HP'		=> tohtml($plan_name),
@@ -199,7 +162,6 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 				)
 			);
 
-			$tpl->parse('ORDER', '.order');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -216,8 +178,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 
 gen_order_page($tpl, $sql, $_SESSION['user_id']);
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
+gen_reseller_menu($tpl, 'orders');
 
 gen_logged_from($tpl);
 
@@ -240,7 +201,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

@@ -34,12 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/system_info.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('disk_list', 'page');
-$tpl->define_dynamic('disk_list_item', 'disk_list');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign( 'PAGE_TITLE', tr('ispCP - Virtual Hosting Control System') );
+$tpl->assign( 'PAGE_CONTENT', 'system_info.tpl' );
 
 $sysinfo = new ispCP_SystemInfo();
 
@@ -67,7 +64,7 @@ $tpl->assign(
 $mount_points = $sysinfo->filesystem;
 
 foreach ($mount_points as $mountpoint) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'MOUNT'		=> tohtml($mountpoint['mount']),
 				'TYPE'		=> tohtml($mountpoint['fstype']),
@@ -78,23 +75,11 @@ foreach ($mount_points as $mountpoint) {
 				'SIZE'		=> sizeit($mountpoint['size'], 'KB'),
 			)
 		);
-
-	$tpl->parse('DISK_LIST_ITEM', '.disk_list_item');
 }
-
-$tpl->parse('DISK_LIST', 'disk_list');
 
 /**
  * static page messages.
  */
-$tpl->assign(
-	array(
-		'TR_ADMIN_SYSTEM_INFO_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 $tpl->assign(
 	array(
@@ -124,12 +109,10 @@ $tpl->assign(
 	)
 );
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+gen_admin_menu( $tpl, 'system_tools' );
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

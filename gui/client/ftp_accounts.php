@@ -34,13 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_accounts.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('ftp_message', 'page');
-$tpl->define_dynamic('ftp_item', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Manage Users'));
+$tpl->assign('PAGE_CONTENT', 'ftp_accounts.tpl');
 
 // page functions.
 
@@ -58,38 +54,24 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	$rs = exec_query($sql, $query, $dmn_name);
 
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'FTP_MSG' => tr('FTP list is empty!'),
-				'FTP_ITEM' => '',
-				'FTPS_TOTAL' => '',
-				'TABLE_LIST' => ''
-			)
-		);
-
-		$tpl->parse('FTP_MESSAGE', 'ftp_message');
+		$tpl->assign('FTP_MSG', tr('FTP list is empty!'));
 	} else {
-		$tpl->assign('FTP_MESSAGE', '');
-
 		$ftp_accs = explode(',', $rs->fields['members']);
 		sort($ftp_accs);
 		reset($ftp_accs);
 
 		for ($i = 0, $cnt_ftp_accs = count($ftp_accs); $i < $cnt_ftp_accs; $i++) {
-			$tpl->assign('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
 
 			$ftp_accs_encode[$i] = decode_idna($ftp_accs[$i]);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'FTP_ACCOUNT' => tohtml($ftp_accs_encode[$i]),
 					'UID' => urlencode($ftp_accs[$i])
 				)
 			);
-
-			$tpl->parse('FTP_ITEM', '.ftp_item');
 		}
-
 		$tpl->assign('TOTAL_FTP_ACCOUNTS', count($ftp_accs));
 	}
 }
@@ -125,18 +107,6 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 	// return $total_mails;
 }
 
-// common page data.
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE' => tr('ispCP - Client/Manage Users'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 // dynamic page data.
 
 
@@ -144,8 +114,7 @@ gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
+gen_client_menu($tpl, 'ftp_accounts');
 
 gen_logged_from($tpl);
 
@@ -170,7 +139,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

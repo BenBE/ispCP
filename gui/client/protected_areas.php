@@ -34,22 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protected_areas.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('dir_item', 'page');
-$tpl->define_dynamic('action_link', 'page');
-$tpl->define_dynamic('protected_areas', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Webtools'));
+$tpl->assign('PAGE_CONTENT', 'protected_areas.tpl');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 	$query = "
@@ -69,7 +57,7 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->assign('CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			$id = $rs->fields['id'];
 			$user_id = $rs->fields['user_id'];
@@ -78,7 +66,7 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 			$path = $rs->fields['path'];
 			$auth_name = $rs->fields['auth_name'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AREA_NAME' => tohtml($auth_name),
 					'JS_AREA_NAME' => addslashes($auth_name),
@@ -87,7 +75,6 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 					'STATUS' => translate_dmn_status($status)
 				)
 			);
-			$tpl->parse('DIR_ITEM', '.dir_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -100,8 +87,7 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -135,7 +121,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

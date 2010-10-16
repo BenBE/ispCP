@@ -34,16 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_users.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('reseller_list', 'page');
-$tpl->define_dynamic('reseller_item', 'reseller_list');
-$tpl->define_dynamic('src_reseller', 'page');
-$tpl->define_dynamic('src_reseller_option', 'src_reseller');
-$tpl->define_dynamic('dst_reseller', 'page');
-$tpl->define_dynamic('dst_reseller_option', 'dst_reseller');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Manage users/User assignment'));
+$tpl->assign('PAGE_CONTENT', 'manage_reseller_users.tpl');
 
 function gen_user_table(&$tpl, &$sql) {
 
@@ -86,7 +79,7 @@ function gen_user_table(&$tpl, &$sql) {
 
 		$all_resellers[] = $rs->fields['admin_id'];
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'SRC_RSL_OPTION'	=> tohtml($rs->fields['admin_name']),
 				'SRC_RSL_VALUE'		=> $rs->fields['admin_id'],
@@ -94,16 +87,13 @@ function gen_user_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'DST_RSL_OPTION'	=> tohtml($rs->fields['admin_name']),
 				'DST_RSL_VALUE'		=> $rs->fields['admin_id'],
 				'DST_RSL_SELECTED'	=> ''
 			)
 		);
-
-		$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
-		$tpl->parse('DST_RESELLER_OPTION', '.dst_reseller_option');
 		$rs->moveNext();
 	}
 
@@ -114,14 +104,13 @@ function gen_user_table(&$tpl, &$sql) {
 		$selected = '';
 	}
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'SRC_RSL_OPTION'	=> tr("N/A"),
 			'SRC_RSL_VALUE'		=> 0,
 			'SRC_RSL_SELECTED'	=> $selected,
 		)
 	);
-	$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
 
 	if ($reseller_id === 0) {
 		$query = "
@@ -162,7 +151,7 @@ function gen_user_table(&$tpl, &$sql) {
 	} else {
 		$i = 0;
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -174,7 +163,7 @@ function gen_user_table(&$tpl, &$sql) {
 
 			$show_admin_name = decode_idna($rs->fields['admin_name']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'NUMBER' => $i + 1,
 					'USER_NAME' => tohtml($show_admin_name),
@@ -182,12 +171,10 @@ function gen_user_table(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RESELLER_ITEM', '.reseller_item');
 			$rs->moveNext();
 
 			$i++;
 		}
-		$tpl->parse('RESELLER_LIST', 'reseller_list');
 	}
 }
 
@@ -493,17 +480,7 @@ function check_ip_sets($dest, $users, &$err) {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_RESELLER_USERS_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_menu($tpl, 'users_manage');
 
 update_reseller_user($sql);
 
@@ -524,7 +501,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

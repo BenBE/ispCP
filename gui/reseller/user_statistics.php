@@ -34,21 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('no_domains', 'page');
-$tpl->define_dynamic('domain_list', 'page');
-$tpl->define_dynamic('domain_entry', 'domain_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Reseller User Statistics'));
+$tpl->assign('PAGE_CONTENT', 'user_statistics.tpl');
 
 $rid = $_SESSION['user_id'];
 $name = $_SESSION['user_logged'];
@@ -67,15 +55,6 @@ if (isset($_POST['month']) && isset($_POST['year'])) {
 if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('./reseller_statistics.php');
 }
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	$sql = ispCP_Registry::get('Db');
@@ -134,40 +113,15 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 		)
 	);
 
-	if ($rs->rowCount() == 0) {
-		$tpl->assign(
-			array(
-				'DOMAIN_LIST' => '',
-				'SCROLL_PREV' => '',
-				'SCROLL_NEXT' => ''
-			)
-		);
-	} else {
-		$tpl->assign('NO_DOMAINS', '');
+	if ($rs->rowCount() > 0) {
 		$prev_si = $start_index - $rows_per_page;
-		if ($start_index == 0) {
-			$tpl->assign('SCROLL_PREV', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
-				)
-			);
-		}
+		if ($start_index > 0)
+			$tpl->assign( 'PREV_PSI', $prev_si );
 
 		$next_si = $start_index + $rows_per_page;
 
-		if ($next_si + 1 > $records_count) {
-			$tpl->assign('SCROLL_NEXT', '');
-		} else {
-			$tpl->assign(
-				array(
-					'SCROLL_NEXT_GRAY' => '',
-					'NEXT_PSI' => $next_si
-				)
-			);
-		}
+		if ($next_si + 1 <= $records_count)
+			$tpl->assign('NEXT_PSI', $next_si);
 		$row = 1;
 
 		while (!$rs->EOF) {
@@ -183,7 +137,6 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 			$dres = exec_query ($sql, $query, $admin_id);
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
-			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
 			$rs->moveNext();
 		}
 	}
@@ -231,7 +184,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	$domain_name = decode_idna($domain_name);
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'DOMAIN_NAME' => tohtml($domain_name),
 			'MONTH' => $crnt_month,
@@ -307,8 +260,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_reseller_menu($tpl, 'user_statistics');
 
 gen_logged_from($tpl);
 
@@ -343,7 +295,6 @@ generate_page($tpl, $rid, $name);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

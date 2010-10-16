@@ -32,11 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/address.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
+$tpl = ispCP_Registry::get('template');
 
 /*
  * functions start
@@ -274,13 +270,11 @@ $tpl->assign(
 		'TR_UNKNOWN'	=> tr('Unknown'),
 		'TR_FAX'		=> tr('Fax'),
 		'TR_CONTINUE'	=> tr('Continue'),
-		'NEED_FILLED'	=> tr('* denotes mandatory field.'),
-		'THEME_CHARSET'	=> tr('encoding')
+		'NEED_FILLED'	=> tr('* denotes mandatory field.')
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/address.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

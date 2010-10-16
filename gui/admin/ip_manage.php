@@ -34,26 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/IP manage'));
+$tpl->assign('PAGE_CONTENT', 'ip_manage.tpl');
 
 $interfaces=new ispCP_NetworkCard();
 
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ip_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('ip_row', 'page');
-$tpl->define_dynamic('card_list', 'page');
-$tpl->define_dynamic('ip_delete_show', 'ip_row');
-$tpl->define_dynamic('ip_delete_link', 'ip_row');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_IP_MANAGE_PAGE_TITLE'	=> tr('ispCP - Admin/IP manage'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
-	)
-);
 
 function gen_ip_action($ip_id, $status) {
 
@@ -86,11 +73,11 @@ function show_IPs(&$tpl, &$sql) {
 	}
 
 	while (!$rs->EOF) {
-		$tpl->assign('IP_CLASS', ($row++ % 2 == 0) ? 'content' : 'content2');
+		$tpl->append('IP_CLASS', ($row++ % 2 == 0) ? 'content' : 'content2');
 
 		list($ip_action, $ip_action_script) = gen_ip_action($rs->fields['ip_id'], $rs->fields['ip_status']);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'IP'			=> $rs->fields['ip_number'],
 				'DOMAIN'		=> tohtml($rs->fields['ip_domain']),
@@ -100,25 +87,21 @@ function show_IPs(&$tpl, &$sql) {
 		);
 
 		if ($single == true) {
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'IP_DELETE_LINK' => '',
+					'IP_DELETE_LINK' => 'no',
 					'IP_ACTION' => tr('N/A')
 				)
 			);
-			$tpl->parse('IP_DELETE_SHOW', 'ip_delete_show');
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'IP_DELETE_SHOW'	=> '',
+					'IP_DELETE_SHOW'	=> 'no',
 					'IP_ACTION'			=> ($cfg->BASE_SERVER_IP == $rs->fields['ip_number']) ? tr('N/A') : $ip_action,
 					'IP_ACTION_SCRIPT'	=> ($cfg->BASE_SERVER_IP == $rs->fields['ip_number']) ? '#' : $ip_action_script
 				)
 			);
-			$tpl->parse('IP_DELETE_LINK', 'ip_delete_link');
 		}
-
-		$tpl->parse('IP_ROW', '.ip_row');
 
 		$rs->moveNext();
 	} // end while
@@ -243,12 +226,11 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 	}
 	if ($interfaces->getAvailableInterface() != array()) {
 		foreach ($interfaces->getAvailableInterface() as $interface) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'NETWORK_CARDS'	=> $interface
 				)
 			);
-			$tpl->parse('CARD_LIST', '.card_list');
 		}
 	} else {
 		$tpl->assign(
@@ -256,7 +238,6 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 				'NETWORK_CARDS'	=> ''
 			)
 		);
-		$tpl->parse('CARD_LIST', '.card_list');
 	}
 }
 
@@ -265,8 +246,7 @@ function show_Network_Cards(&$tpl, &$interfaces) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
+gen_admin_menu($tpl, 'settings');
 
 show_Network_Cards($tpl, $interfaces);
 
@@ -291,7 +271,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

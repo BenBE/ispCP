@@ -32,14 +32,7 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/package_info.tpl');
-$tpl->define_dynamic('purchase_list', 'page');
-$tpl->define_dynamic('purchase_message', 'page');
-$tpl->define_dynamic('purchase_header', 'page');
-$tpl->define_dynamic('purchase_footer', 'page');
-$tpl->define_dynamic('isenabled', 'page');
+$tpl = ispCP_Registry::get('template');
 
 /*
  * functions start
@@ -145,7 +138,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		);
 
 		if ($rs->fields['status'] != 1) {
-			$tpl->assign('ISENABLED', '');
+			$tpl->assign('ISENABLED', 'no');
 		}
 	}
 }
@@ -189,12 +182,6 @@ gen_page_message($tpl);
 
 $tpl->assign(
 	array(
-		'THEME_CHARSET' => tr('encoding'),
-	)
-);
-
-$tpl->assign(
-	array(
 		'TR_DOMAINS'			=> tr('Domains'),
 		'TR_WEBSPACE'			=> tr('Webspace'),
 		'TR_HDD'				=> tr('Disk limit'),
@@ -232,8 +219,7 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/package_info.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

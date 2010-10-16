@@ -34,22 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('day_list', 'page');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_STATICSTICS_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Server statistics'));
+$tpl->assign('PAGE_CONTENT', 'server_statistic.tpl');
 
 global $month, $year;
 
@@ -152,9 +139,9 @@ function generate_page(&$tpl) {
 
 			$has_data = true;
 
-			$tpl->assign('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DAY' => $i,
 					'YEAR' => $year,
@@ -180,13 +167,8 @@ function generate_page(&$tpl) {
 			$all[5] = $all[5] + $pop_out;
 			$all[6] = $all[6] + $all_in;
 			$all[7] = $all[7] + $all_out;
-
-			$tpl->parse('DAY_LIST', '.day_list');
 		} // if count
 	} // end for
-	if (!$has_data) {
-		$tpl->assign('DAY_LIST', '');
-	}
 
 	$all_other_in = $all[6] - ($all[0] + $all[2] + $all[4]);
 	$all_other_out = $all[7] - ($all[1] + $all[3] + $all[5]);
@@ -213,8 +195,7 @@ function generate_page(&$tpl) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
+gen_admin_menu($tpl, 'statistics');
 
 gen_select_lists($tpl, $month, $year);
 
@@ -243,7 +224,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

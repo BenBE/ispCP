@@ -533,8 +533,6 @@ function get_servers_ips(&$tpl, $rip_lst) {
 				'RSL_IP_LIST' => ''
 			)
 		);
-
-		$tpl->parse('RSL_IP_MESSAGE', 'rsl_ip_message');
 	} else {
 		$tpl->assign(
 				array(
@@ -546,7 +544,7 @@ function get_servers_ips(&$tpl, $rip_lst) {
 			);
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_IP_CLASS' => ($i % 2 == 0) ? 'content2' : 'content4',
 				)
@@ -573,7 +571,7 @@ function get_servers_ips(&$tpl, $rip_lst) {
 				}
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_IP_NUMBER' => $i + 1,
 					'RSL_IP_LABEL' => $rs->fields['ip_domain'],
@@ -584,13 +582,11 @@ function get_servers_ips(&$tpl, $rip_lst) {
 				)
 			);
 
-			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
 			$rs->moveNext();
 
 			$i++;
 		}
 
-		$tpl->parse('RSL_IP_LIST', 'rsl_ip_list');
 		$tpl->assign('RSL_IP_MESSAGE', '');
 	}
 
@@ -846,26 +842,12 @@ if (isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 			exit;
 	}
 
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH .'/reseller_edit.tpl');
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('hosting_plans', 'page');
-	$tpl->define_dynamic('rsl_ip_message', 'page');
-	$tpl->define_dynamic('rsl_ip_list', 'page');
-	$tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
+	$tpl = ispCP_Registry::get('template');
+	$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Manage users/Edit Reseller'));
+	$tpl->assign('PAGE_CONTENT', 'reseller_edit.tpl');
 
-	$tpl->assign(
-		array(
-			'TR_ADMIN_EDIT_RESELLER_PAGE_TITLE' =>
-				tr('ispCP - Admin/Manage users/Edit Reseller'),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id'])
-		)
-	);
 
-	gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+	gen_admin_menu($tpl, 'users_manage');
 
 	// First, we get needed data
 	$rdata =& get_data($tpl);
@@ -1009,7 +991,7 @@ $tpl->assign(
 		'TR_PASSWORD_GENERATE' => tr('Generate password'),
 		'TR_RESET' => tr('Reset'),
 		'TR_GENERATED_PWD' => tr('Generated password:'),
-		'TR_CTRL+C' => tr('Type `CTRL+C` to copy the generated password in the clipboard.'),
+		'TR_CTRL_C' => tr('Type `CTRL+C` to copy the generated password in the clipboard.'),
 		'TR_EVENT_NOTICE' => html_entity_decode(htmlspecialchars_decode(tr('ispCP NOTICE:\n\nThe `Enter` key is disabled for performance reasons!\nInstead, use the %s button to update the data.', '`'.tr('Update').'`')), ENT_QUOTES, 'UTF-8'),
 
 		'USERNAME' => tohtml($rdata['admin_name']),
@@ -1063,7 +1045,6 @@ if (isset($_POST['genpass'])) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

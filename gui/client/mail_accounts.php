@@ -34,26 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page',$cfg->CLIENT_TEMPLATE_PATH . '/mail_accounts.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mail_message', 'page');
-$tpl->define_dynamic('mail_item', 'page');
-$tpl->define_dynamic('mail_auto_respond', 'mail_item');
-$tpl->define_dynamic('default_mails_form', 'page');
-$tpl->define_dynamic('mails_total', 'page');
-$tpl->define_dynamic('no_mails', 'page');
-$tpl->define_dynamic('table_list', 'page');
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Manage Users'));
+$tpl->assign('PAGE_CONTENT', 'mail_accounts.tpl');
 
 // page functions.
 
@@ -97,7 +80,7 @@ function gen_user_mail_auto_respond(
 
 	if ($mail_status === $cfg->ITEM_OK_STATUS) {
 		if ($mail_auto_respond == false) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Enable'),
 
@@ -110,7 +93,7 @@ function gen_user_mail_auto_respond(
 				)
 			);
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Disable'),
 
@@ -127,7 +110,7 @@ function gen_user_mail_auto_respond(
 			);
 		}
 	} else {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'AUTO_RESPOND_DISABLE' => tr('Please wait for update'),
 				'AUTO_RESPOND_DISABLE_SCRIPT' => '',
@@ -200,7 +183,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 
 		while (!$rs->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -234,7 +217,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_dmn_name),
 					'MAIL_TYPE' => $mail_type,
@@ -250,8 +233,6 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$tpl, $rs->fields['mail_id'], $rs->fields['mail_type'],
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
-
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -327,7 +308,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -361,7 +342,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' =>
 						tohtml($mail_acc.'@'.$show_sub_name.'.'.$show_dmn_name),
@@ -379,8 +360,6 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$tpl, $rs->fields['mail_id'], $rs->fields['mail_type'],
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
-
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -462,7 +441,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -491,7 +470,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_alssub_name),
 					'MAIL_TYPE' => $mail_type,
@@ -508,7 +487,6 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -583,7 +561,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -615,7 +593,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_als_name),
 					'MAIL_TYPE' => $mail_type,
@@ -632,7 +610,6 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -703,8 +680,6 @@ function gen_page_lists($tpl, $sql, $user_id) {
 				'MAIL_ITEM' => '', 'MAILS_TOTAL' => ''
 			)
 		);
-
-		$tpl->parse('MAIL_MESSAGE', 'mail_message');
 	}
 
 } // end gen_page_lists()
@@ -766,11 +741,8 @@ gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu(
-	$tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl'
-);
 
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 gen_logged_from($tpl);
 check_permissions($tpl);
 
@@ -809,14 +781,10 @@ if (count_default_mails($sql, $dmn_id) > 0) {
 				'hide' :'show'
 		)
 	);
-
-} else {
-	$tpl->assign(array('DEFAULT_MAILS_FORM' => ''));
 }
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

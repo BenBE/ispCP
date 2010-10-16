@@ -34,11 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/language.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Change Language'));
+$tpl->assign('PAGE_CONTENT', 'language.tpl');
 
 // page actions.
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
@@ -72,20 +70,9 @@ if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
 
 gen_def_language($tpl, $sql, $user_def_lang);
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_LANGUAGE_TITLE' => tr('ispCP - Admin/Change Language'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-
 // static page messages.
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_admin_menu($tpl, 'general_information');
 
 gen_logged_from($tpl);
 
@@ -101,7 +88,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

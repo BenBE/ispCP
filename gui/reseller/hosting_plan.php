@@ -35,24 +35,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-// Table with hosting plans
-$tpl->define_dynamic('hp_table', 'page');
-$tpl->define_dynamic('hp_entry', 'hp_table');
-$tpl->define_dynamic('hp_delete', 'page');
-$tpl->define_dynamic('hp_menu_add', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Reseller/Main Index'));
+$tpl->assign('PAGE_CONTENT', 'hosting_plan.tpl');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -60,8 +46,7 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'hosting_plan');
 
 gen_logged_from($tpl);
 
@@ -83,7 +68,6 @@ $tpl->assign(
 gen_hp_message($tpl);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 // BEGIN FUNCTION DECLARE PATH
@@ -178,7 +162,7 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		$tpl->assign(
 			array(
 				'TR_HOSTING_PLANS' 	=> tr('Hosting plans'),
-				'TR_NOM' 			=> tr('No.'),
+				'TR_NUM' 			=> tr('No.'),
 				'TR_EDIT' 			=> $tr_edit,
 				'TR_PLAN_NAME' 		=> tr('Name'),
 				'TR_ACTION' 		=> tr('Actions')
@@ -192,13 +176,13 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		$i = 1;
 		while ($data = $rs->fetchRow()) {
 
-			$tpl->assign(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
+			$tpl->append(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
 
 			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'PLAN_NOM' => $i++,
+					'PLAN_NUM' => $i++,
 					'PLAN_NAME' => tohtml($data['name']),
 					'PLAN_NAME2' => addslashes(clean_html($data['name'])),
 					'PLAN_ACTION' => tr('Delete'),
@@ -209,11 +193,7 @@ function gen_hp_table(&$tpl, $reseller_id) {
 					'RESELLER_ID' => $_SESSION['user_id']
 				)
 			);
-
-			$tpl->parse('HP_ENTRY', '.hp_entry');
 		}
-
-		$tpl->parse('HP_TABLE', 'hp_table');
 	}
 
 }

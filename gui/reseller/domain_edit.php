@@ -34,31 +34,15 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_edit', 'page');
-$tpl->define_dynamic('alias_edit', 'page');
-$tpl->define_dynamic('mail_edit', 'page');
-$tpl->define_dynamic('ftp_edit', 'page');
-$tpl->define_dynamic('sql_db_edit', 'page');
-$tpl->define_dynamic('sql_user_edit', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Domain/Edit'));
+$tpl->assign('PAGE_CONTENT', 'domain_edit.tpl');
 
 if (isset($cfg->HOSTING_PLANS_LEVEL)
 	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 	user_goto('users.php?psi=last');
 }
 
-$tpl->assign(
-	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Edit'),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -107,8 +91,7 @@ $tpl->assign(
 	)
 );
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -352,12 +335,12 @@ function gen_editdomain_page(&$tpl) {
 		$rsql_user_max
 		) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
 
-	if ($rsub_max == "-1") $tpl->assign('ALIAS_EDIT', '');
-	if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_EDIT', '');
-	if ($rmail_max == "-1") $tpl->assign('MAIL_EDIT', '');
-	if ($rftp_max == "-1") $tpl->assign('FTP_EDIT', '');
-	if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_EDIT', '');
-	if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_EDIT', '');
+	if ($rsub_max == "-1") $tpl->assign('ALIAS_EDIT', 'no');
+	if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_EDIT', 'no');
+	if ($rmail_max == "-1") $tpl->assign('MAIL_EDIT', 'no');
+	if ($rftp_max == "-1") $tpl->assign('FTP_EDIT', 'no');
+	if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_EDIT', 'no');
+	if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_EDIT', 'no');
 
 	$tpl->assign(
 		array(
@@ -613,7 +596,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 
 		return false;
 	}
@@ -756,7 +738,6 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 	}
 } // End of calculate_user_dvals()
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

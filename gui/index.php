@@ -67,18 +67,16 @@ $theme_color = isset($_SESSION['user_theme'])
 	? $_SESSION['user_theme']
 	: $cfg->USER_INITIAL_THEME;
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP Omega a Virtual Hosting Control System'));
 
 if (($cfg->MAINTENANCEMODE
 		|| ispCP_Update_Database::getInstance()->checkUpdateExists())
 	&& !isset($_GET['admin'])) {
 
-	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
+	$template = 'maintenancemode.tpl';
 	$tpl->assign(
 		array(
-			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
-			'THEME_COLOR_PATH'	=> $cfg->LOGIN_TEMPLATE_PATH,
-			'THEME_CHARSET'		=> tr('encoding'),
 			'TR_MESSAGE'		=> nl2br(tohtml($cfg->MAINTENANCEMODE_MESSAGE)),
 			'TR_ADMINLOGIN'		=> tr('Administrator login')
 		)
@@ -86,13 +84,9 @@ if (($cfg->MAINTENANCEMODE
 
 } else {
 
-	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/index.tpl');
-
+	$template = 'login.tpl';
 	$tpl->assign(
 		array(
-			'TR_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP Omega a Virtual Hosting Control System'),
-			'THEME_COLOR_PATH'			=> $cfg->LOGIN_TEMPLATE_PATH,
-			'THEME_CHARSET'				=> tr('encoding'),
 			'TR_LOGIN'					=> tr('Login'),
 			'TR_USERNAME'				=> tr('Username'),
 			'TR_PASSWORD'				=> tr('Password'),
@@ -115,11 +109,9 @@ if ($cfg->LOSTPASSWORD) {
 	$tpl->assign('TR_LOSTPW', '');
 }
 
-$tpl->define_dynamic('page_message', 'page');
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -121,25 +121,22 @@ function get_error_domains($sql, $tpl) {
 				'TR_DOMAIN_MESSAGE' => tr('No domain system errors'),
 			)
 		);
-		$tpl->parse('DOMAIN_MESSAGE', 'domain_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
-			$tpl->assign(
-				array('CONTENT' => ($i % 2 == 0) ? 'content2' : 'content')
+			$tpl->append(
+				array('DMN_CONTENT' => ($i % 2 == 0) ? 'content2' : 'content')
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DOMAIN_MESSAGE' => '',
 					'TR_DOMAIN_NAME' => tohtml($rs->fields['domain_name']),
 					'TR_DOMAIN_ERROR' => tohtml($rs->fields['domain_status']),
-					'CHANGE_ID' => tohtml($rs->fields['domain_id']),
-					'CHANGE_TYPE' => 'domain',
+					'DMN_CHANGE_ID' => tohtml($rs->fields['domain_id']),
+					'DMN_CHANGE_TYPE' => 'domain',
 				)
 			);
-
-			$tpl->parse('DOMAIN_LIST', '.domain_list');
 
 			$i++;
 			$rs->moveNext();
@@ -202,27 +199,24 @@ function get_error_aliases($sql, $tpl) {
 			)
 		);
 
-		$tpl->parse('ALIAS_MESSAGE', 'alias_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
+					'ALS_CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALIAS_MESSAGE' => '',
 					'TR_ALIAS_NAME' => tohtml($rs->fields['alias_name']),
 					'TR_ALIAS_ERROR' => tohtml($rs->fields['alias_status']),
-					'CHANGE_ID' => $rs->fields['alias_id'],
-					'CHANGE_TYPE' => 'alias',
+					'ALS_CHANGE_ID' => $rs->fields['alias_id'],
+					'ALS_CHANGE_TYPE' => 'alias',
 				)
 			);
-
-			$tpl->parse('ALIAS_LIST', '.alias_list');
 
 			$i++;
 			$rs->moveNext();
@@ -280,28 +274,24 @@ function get_error_subdomains($sql, $tpl) {
 				'TR_SUBDOMAIN_MESSAGE' => tr('No subdomain system errors'),
 			)
 		);
-
-		$tpl->parse('SUBDOMAIN_MESSAGE', 'subdomain_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
-			$tpl->assign(
-				array('CONTENT' => ($i % 2 == 0) ? 'content' : 'content2')
+			$tpl->append(
+				array('SUB_CONTENT' => ($i % 2 == 0) ? 'content' : 'content2')
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUBDOMAIN_MESSAGE' => '',
 					'TR_SUBDOMAIN_NAME' => tohtml($rs->fields['subdomain_name']),
 					'TR_SUBDOMAIN_ERROR' => tohtml(
 						$rs->fields['subdomain_status']
 					),
-					'CHANGE_ID' => $rs->fields['subdomain_id'],
-					'CHANGE_TYPE' => 'subdomain'
+					'SUB_CHANGE_ID' => $rs->fields['subdomain_id'],
+					'SUB_CHANGE_TYPE' => 'subdomain'
 				)
 			);
-
-			$tpl->parse('SUBDOMAIN_LIST', '.subdomain_list');
 
 			$i++;
 			$rs->moveNext();
@@ -362,14 +352,12 @@ function get_error_alias_subdomains($sql, $tpl) {
 				)
 			)
 		);
-
-		$tpl->parse('SUBDOMAIN_ALIAS_MESSAGE', 'subdomain_alias_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
-			$tpl->assign(array('CONTENT' => ($i % 2 == 0) ? 'content' : 'content2'));
+			$tpl->append(array('ALSSUB_CONTENT' => ($i % 2 == 0) ? 'content' : 'content2'));
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUBDOMAIN_ALIAS_MESSAGE' => '',
 					'TR_SUBDOMAIN_ALIAS_NAME' => tohtml(
@@ -378,12 +366,10 @@ function get_error_alias_subdomains($sql, $tpl) {
 					'TR_SUBDOMAIN_ALIAS_ERROR' => tohtml(
 						$rs->fields['subdomain_alias_status']
 					),
-					'CHANGE_ID' => $rs->fields['subdomain_alias_id'],
-					'CHANGE_TYPE' => 'subdomain_alias'
+					'ALSSUB_CHANGE_ID' => $rs->fields['subdomain_alias_id'],
+					'ALSSUB_CHANGE_TYPE' => 'subdomain_alias'
 				)
 			);
-
-			$tpl->parse('SUBDOMAIN_ALIAS_LIST', '.subdomain_alias_list');
 
 			$i++;
 			$rs->moveNext();
@@ -443,8 +429,6 @@ function get_error_mails($sql, $tpl) {
 				'TR_MAIL_MESSAGE' => tr('No email account system errors'),
 			)
 		);
-
-		$tpl->parse('MAIL_MESSAGE', 'mail_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
@@ -545,25 +529,23 @@ function get_error_mails($sql, $tpl) {
 			$sr = exec_query($sql, $query, $searched_id);
 			$domain_name = $sr->fields['domain_name'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
+					'MAIL_CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
 					)
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_MESSAGE'	=> '',
 					'TR_MAIL_NAME'	=> tohtml(
 						$mail_acc . ($domain_name == '' ? '@ ' . tr('orphan entry') : $domain_name)
 					),
 					'TR_MAIL_ERROR'	=> tohtml($mail_status),
-					'CHANGE_ID'		=> $mail_id,
-					'CHANGE_TYPE' => 'mail',
+					'MAIL_CHANGE_ID'		=> $mail_id,
+					'MAIL_CHANGE_TYPE' => 'mail',
 				)
 			);
-
-			$tpl->parse('MAIL_LIST', '.mail_list');
 
 			$i++;
 			$rs->moveNext();
@@ -641,29 +623,25 @@ function get_error_htaccess($sql, $tpl) {
 				'TR_HTACCESS_MESSAGE' => tr('No htaccess related system errors'),
 			)
 		);
-
-		$tpl->parse('HTACCESS_MESSAGE', 'htaccess_message');
 	} else {
 		$i = 1;
 		while (!$rs->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
+					'HTACCESS_CONTENT' => ($i % 2 == 0) ? 'content' : 'content2',
 					)
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'HTACCESS_MESSAGE'	=> '',
 					'TR_HTACCESS_NAME'	=> $rs->fields['domain_name'] == null ? tr('Missing domain') : tohtml($rs->fields['domain_name']) ,
 					'TR_HTACCESS_ERROR'	=> tohtml($rs->fields['status']),
-					'CHANGE_ID'		=> $rs->fields['id'],
-					'CHANGE_TYPE' => $rs->fields['type'],
+					'HTACCESS_CHANGE_ID'		=> $rs->fields['id'],
+					'HTACCESS_CHANGE_TYPE' => $rs->fields['type'],
 				)
 			);
-
-			$tpl->parse('HTACCESS_LIST', '.htaccess_list');
 
 			$i++;
 			$rs->moveNext();
@@ -691,45 +669,19 @@ $exec_count = $exec_count + count_requests($sql, 'status', 'htaccess');
 $exec_count = $exec_count + count_requests($sql, 'status', 'htaccess_groups');
 $exec_count = $exec_count + count_requests($sql, 'status', 'htaccess_users');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr( 			'ispCP - Virtual Hosting Control System' 		));
+$tpl->assign('PAGE_CONTENT', 'ispcp_debugger.tpl');
 
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ispcp_debugger.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('domain_message', 'page');
-$tpl->define_dynamic('alias_message', 'page');
-$tpl->define_dynamic('subdomain_message', 'page');
-$tpl->define_dynamic('subdomain_alias_message', 'page');
-$tpl->define_dynamic('mail_message', 'page');
-$tpl->define_dynamic('htaccess_message', 'page');
-$tpl->define_dynamic('domain_list', 'page');
-$tpl->define_dynamic('alias_list', 'page');
-$tpl->define_dynamic('subdomain_list', 'page');
-$tpl->define_dynamic('subdomain_alias_list', 'page');
-$tpl->define_dynamic('mail_list', 'page');
-$tpl->define_dynamic('htaccess_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ISPCP_DEBUGGER_PAGE_TITLE' => tr(
-			'ispCP - Virtual Hosting Control System'
-		),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
  * static page messages.
  *
  */
-gen_admin_mainmenu(
-	$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl'
-);
 
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+gen_admin_menu($tpl, 'system_tools');
 
 
 
@@ -856,7 +808,6 @@ gen_page_message($tpl);
 
 
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

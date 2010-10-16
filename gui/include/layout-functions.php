@@ -194,14 +194,38 @@ function gen_def_layout(&$tpl, $user_def_layout) {
 	foreach ($layouts as $layout) {
 		$selected = ($layout === $user_def_layout) ? $cfg->HTML_SELECTED : '';
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'LAYOUT_VALUE' => $layout,
 				'LAYOUT_SELECTED' => $selected,
 				'LAYOUT_NAME' => $layout
 			)
 		);
-
-		$tpl->parse('DEF_LAYOUT', '.def_layout');
 	}
 }
+
+/**
+ * Adds a main menu item
+ */
+function add_main_menu_item(&$tpl, $name, $icon, $link, $active = false, $target = '_self') {
+    $tpl->append(array(
+        'MAIN_ITEM_NAME'         => $name,
+        'MAIN_ITEM_ICON'         => $icon . ($active ? '_a.png' : '.png'),
+        'MAIN_ITEM_ICON_ACTIVE'  => $icon . '_a.png',
+        'MAIN_ITEM_LINK'         => $link,
+		'MAIN_ITEM_TARGET'		=> $target
+        ));
+}
+
+/**
+ * Adds a sub menu item
+ */
+function add_sub_menu_item(&$tpl, $name, $link, $target = '_self') {
+	$tpl->append(array(
+		'SUB_ITEM_NAME' => $name,
+		'SUB_ITEM_LINK' => $link,
+		'SUB_ITEM_TARGET' => $target
+		));
+}
+
+?>

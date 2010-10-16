@@ -61,10 +61,9 @@ function gen_button_list(&$tpl, &$sql) {
 				$menu_level = tr('All');
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'BUTTON_LINK'		=> tohtml($menu_link),
-					'BUTONN_ID'			=> $menu_id,
+					'BTN_ID'			=> $menu_id,
 					'LEVEL'				=> tohtml($menu_level),
 					'MENU_NAME'			=> tohtml($menu_name),
 					'MENU_NAME2'		=> addslashes(clean_html($menu_name)),
@@ -73,7 +72,6 @@ function gen_button_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('BUTTON_LIST', '.button_list');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -171,10 +169,10 @@ function edit_button(&$tpl, &$sql) {
 		$rs = exec_query($sql, $query, $edit_id);
 		if ($rs->recordCount() == 0) {
 			set_page_message(tr('Missing or incorrect data input!'));
-			$tpl->assign('EDIT_BUTTON', '');
+			$tpl->assign('EDIT_BUTTON', 'no');
 			return;
 		} else {
-			$tpl->assign('ADD_BUTTON', '');
+			$tpl->assign('ADD_BUTTON', 'no');
 
 			$button_name = $rs->fields['menu_name'];
 			$button_link = $rs->fields['menu_link'];
@@ -205,9 +203,9 @@ function edit_button(&$tpl, &$sql) {
 
 			$tpl->assign(
 				array(
-					'BUTON_NAME'	=> tohtml($button_name),
-					'BUTON_LINK'	=> tohtml($button_link),
-					'BUTON_TARGET'	=> tohtml($button_target),
+					'BUTTON_NAME'	=> tohtml($button_name),
+					'BUTTON_LINK'	=> tohtml($button_link),
+					'BUTTON_TARGET'	=> tohtml($button_target),
 					'ADMIN_VIEW'	=> $admin_view,
 					'RESELLER_VIEW'	=> $reseller_view,
 					'USER_VIEW'		=> $user_view,
@@ -215,8 +213,6 @@ function edit_button(&$tpl, &$sql) {
 					'EID'			=> $_GET['edit_id']
 				)
 			);
-
-			$tpl->parse('EDIT_BUTTON', '.edit_button');
 		}
 	}
 }
@@ -282,25 +278,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/custom_menus.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('button_list', 'page');
-$tpl->define_dynamic('button_list', 'page');
-$tpl->define_dynamic('add_button', 'page');
-$tpl->define_dynamic('edit_button', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin - Manage custom menus'));
+$tpl->assign('PAGE_CONTENT', 'custom_menus.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CUSTOM_MENUS_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
+gen_admin_menu($tpl, 'settings');
 
 add_new_button($sql);
 
@@ -343,12 +325,11 @@ $tpl->assign(
 gen_page_message($tpl);
 
 if (isset($_GET['edit_id'])) {
-	$tpl->assign('ADD_BUTTON', '');
+	$tpl->assign('ADD_BUTTON', 'no');
 } else {
-	$tpl->assign('EDIT_BUTTON', '');
+	$tpl->assign('EDIT_BUTTON', 'no');
 }
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

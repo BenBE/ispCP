@@ -34,13 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/hosting_plan_update.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('hp_order', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Update hosting plan'));
+$tpl->assign('PAGE_CONTENT', 'hosting_plan_update.tpl');
 
 /*
  *
@@ -394,26 +390,21 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$link_purchase .= '</a>';
 			} else {
 				$warning_text = '';
-				$link_purchase .= '{TR_PURCHASE}</a>';
+				$link_purchase .= $purchase_text . '</a>';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'HP_NAME'			=> tohtml($rs->fields['name']),
 					'HP_DESCRIPTION'	=> tohtml($rs->fields['description']),
 					'HP_DETAILS'		=> $details.$warning_text,
 					'HP_COSTS'			=> tohtml($price),
 					'ID'				=> $rs->fields['id'],
-					'TR_PURCHASE'		=> $purchase_text,
 					'LINK'				=> $purchase_link,
-					'TR_HOSTING_PLANS'	=> $hp_title,
 					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2',
 					'LINK_PURCHASE'		=> $link_purchase
 				)
 			);
-
-			$tpl->parse('HOSTING_PLANS', '.hosting_plans');
-			$tpl->parse('HP_ORDER', '.hp_order');
 			$i++;
 		}
 		$purchase_text = tr('Purchase');
@@ -425,23 +416,20 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			array(
 				'HOSTING_PLANS'		=> '',
 				'HP_ORDER'			=> '',
-				'TR_HOSTING_PLANS'	=> $hp_title,
 				'COLSPAN'			=> '2'
 			)
 		);
 
 		set_page_message(tr('There are no available hosting plans for update'));
 	}
+	$tpl->assign(
+		array(
+			'TR_HOSTING_PLANS'	=> $hp_title,
+			'TR_PURCHASE'		=> $purchase_text
+		)
+	);
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan'),
-		'THEME_COLOR_PATH'		=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'			=> tr('encoding'),
-		'ISP_LOGO'				=> get_logo($_SESSION['user_id'])
-	)
-);
 
 /**
  * @todo the 2nd query has 2 identical tables in FROM-clause, is this OK?
@@ -626,8 +614,7 @@ if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 
 gen_hp($tpl, $sql, $_SESSION['user_id']);
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_client_menu($tpl, 'general_information');
 
 gen_logged_from($tpl);
 
@@ -642,7 +629,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

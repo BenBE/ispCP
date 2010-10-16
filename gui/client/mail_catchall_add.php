@@ -34,11 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_catchall_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mail_list', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Create CatchAll Mail Account'));
+$tpl->assign('PAGE_CONTENT', 'mail_catchall_add.tpl');
 
 if (isset($_GET['id'])) {
 	$item_id = $_GET['id'];
@@ -129,7 +127,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$show_domain_name = decode_idna($rs->fields['domain_name']);
 					$mail_acc = $rs->fields['mail_acc'];
 					$domain_name = $rs->fields['domain_name'];
-					$tpl->assign(
+					$tpl->append(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
 							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_domain_name), // this will be shown in the templates
@@ -137,7 +135,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -172,7 +169,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$show_alias_name = decode_idna($rs->fields['alias_name']);
 					$mail_acc = $rs->fields['mail_acc'];
 					$alias_name = $rs->fields['alias_name'];
-					$tpl->assign(
+					$tpl->append(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
 							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
@@ -180,7 +177,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -218,7 +214,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$show_alias_name = decode_idna($rs->fields['subdomain_name']);
 					$mail_acc = $rs->fields['mail_acc'];
 					$alias_name = $rs->fields['subdomain_name'];
-					$tpl->assign(
+					$tpl->append(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
 							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
@@ -226,7 +222,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -264,7 +259,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$show_alias_name = decode_idna($rs->fields['subdomain_name']);
 					$mail_acc = $rs->fields['mail_acc'];
 					$alias_name = $rs->fields['subdomain_name'];
-					$tpl->assign(
+					$tpl->append(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
 							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
@@ -272,7 +267,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -454,14 +448,6 @@ function create_catchall_mail_account(&$sql, $id) {
 
 // common page data.
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account'),
-		'THEME_COLOR_PATH'						=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id'])
-	)
-);
 
 // dynamic page data.
 
@@ -471,8 +457,7 @@ $tpl->assign('ID', $item_id);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
+gen_client_menu($tpl, 'email_accounts');
 
 gen_logged_from($tpl);
 
@@ -490,7 +475,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

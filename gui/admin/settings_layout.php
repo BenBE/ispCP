@@ -140,12 +140,9 @@ function update_user_logo($file_name, $user_id) {
 	$rs = exec_query($sql, $query, array($file_name, $user_id));
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_layout.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('logo_remove_button', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Virtual Hosting Control System'));
+$tpl->assign('PAGE_CONTENT', 'settings_layout.tpl');
 
 save_layout($sql);
 
@@ -153,21 +150,10 @@ update_logo();
 
 gen_def_layout($tpl, $_SESSION['user_theme']);
 
-if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
-	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
-} else {
-	$tpl->assign('LOGO_REMOVE_BUTTON', '');
-}
+if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif')
+	$tpl->assign('LOGO_REMOVE_BUTTON', true);
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_LAYOUT_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'OWN_LOGO' => get_own_logo($_SESSION['user_id']),
-		'THEME_CHARSET' => tr('encoding')
-	)
-);
+$tpl->assign('OWN_LOGO', get_own_logo($_SESSION['user_id']));
 
 /*
  *
@@ -175,8 +161,7 @@ $tpl->assign(
  *
  */
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
+gen_admin_menu($tpl, 'settings');
 
 $tpl->assign(
 	array(
@@ -196,8 +181,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 

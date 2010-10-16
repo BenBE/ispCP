@@ -34,15 +34,9 @@ $cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_ADMIN);
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/index.tpl');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('no_messages', 'page');
-$tpl->define_dynamic('msg_entry', 'page');
-$tpl->define_dynamic('update_message', 'page');
-$tpl->define_dynamic('database_update_message', 'page');
-$tpl->define_dynamic('traff_warn', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Main Index'));
+$tpl->assign('PAGE_CONTENT', 'index.tpl');
 
 function gen_system_message(&$tpl, &$sql) {
 	$user_id = $_SESSION['user_id'];
@@ -64,17 +58,11 @@ function gen_system_message(&$tpl, &$sql) {
 
 	$num_question = $rs->fields('cnum');
 
-	if ($num_question == 0) {
-		$tpl->assign(array('MSG_ENTRY' => ''));
-	} else {
-		$tpl->assign(
-			array(
+	if ($num_question > 0) {
+		$tpl->assign( array(
 				'TR_NEW_MSGS' => tr('You have <b>%d</b> new support questions', $num_question),
 				'TR_VIEW' => tr('View')
-			)
-		);
-
-		$tpl->parse('MSG_ENTRY', 'msg_entry');
+			) );
 	}
 }
 
@@ -83,29 +71,21 @@ function get_update_infos(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if (ispCP_Update_Database::getInstance()->checkUpdateExists()) {
-		$tpl->assign(array('DATABASE_UPDATE' => '<a href="database_update.php" class="link">' . tr('A database update is available') . '</a>'));
-		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
-	} else {
-		$tpl->assign(array('DATABASE_UPDATE_MESSAGE' => ''));
-	}
+	if (ispCP_Update_Database::getInstance()->checkUpdateExists())
+	  $tpl->assign(array('DATABASE_UPDATE' => '<a href="database_update.php" class="link">' . tr('A database update is available') . '</a>'));
 
-	if (!$cfg->CHECK_FOR_UPDATES) {
+	if (!$cfg->CHECK_FOR_UPDATES) 
+  {
 		$tpl->assign(array('UPDATE' => tr('Update checking is disabled!')));
-		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		return false;
 	}
 
-	if (ispCP_Update_Version::getInstance()->checkUpdateExists()) {
+	if (ispCP_Update_Version::getInstance()->checkUpdateExists())
 		$tpl->assign(array('UPDATE' => '<a href="ispcp_updates.php" class="link">' . tr('New ispCP update is now available') . '</a>'));
-		$tpl->parse('UPDATE_MESSAGE', 'update_message');
-	} else {
-		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
+	else
+  {
+		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "")
 			$tpl->assign(array('UPDATE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
-			$tpl->parse('UPDATE_MESSAGE', 'update_message');
-		} else {
-			$tpl->assign(array('UPDATE_MESSAGE' => ''));
-		}
 	}
 }
 
@@ -143,12 +123,8 @@ function gen_server_trafic(&$tpl, &$sql) {
 		$pr = ($traff / $straff_max) * 100;
 	}
 
-	if (($straff_max != 0 || $straff_max != '') && ($mtraff > $straff_max)) {
-		$tpl->assign('TR_TRAFFIC_WARNING', tr('You are exceeding your traffic limit!')
-			);
-	} else {
-		$tpl->assign('TRAFF_WARN', '');
-	}
+	if (($straff_max != 0 || $straff_max != '') && ($mtraff > $straff_max))
+		$tpl->assign('TR_TRAFFIC_WARNING', tr('You are exceeding your traffic limit!') );
 
 	$bar_value = calc_bar_value($traff, $straff_max , 400);
 
@@ -176,17 +152,7 @@ function gen_server_trafic(&$tpl, &$sql) {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Admin/Main Index'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'THEME_CHARSET' => tr('encoding')
-	)
-);
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_admin_menu( $tpl, 'general_information' );
 
 get_admin_general_info($tpl, $sql);
 
@@ -198,7 +164,6 @@ gen_server_trafic($tpl, $sql);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

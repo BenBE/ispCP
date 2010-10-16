@@ -34,21 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/webtools.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('active_awstats', 'page');
-$tpl->define_dynamic('active_email', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Client/Webtools'));
+$tpl->assign('PAGE_CONTENT', 'webtools.tpl');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ISPCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 // Check, if e-mail is active for this user
 list(
@@ -77,12 +66,12 @@ list(
 	$dmn_dns
 ) = get_domain_default_props($sql, $_SESSION['user_id']);
 
-if ($dmn_mailacc_limit == -1) {
-	$tpl->assign('ACTIVE_EMAIL', '');
+if ($dmn_mailacc_limit != -1) {
+	$tpl->assign('ACTIVE_EMAIL', true);
 }
 
-if ($backup == 'no') {
-	$tpl->assign('ACTIVE_BACKUP', '');
+if ($backup == 'yes') {
+	$tpl->assign('ACTIVE_BACKUP', true);
 }
 
 /*
@@ -91,8 +80,7 @@ if ($backup == 'no') {
  *
  */
 
-gen_client_mainmenu($tpl,$cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
+gen_client_menu($tpl, 'webtools');
 
 gen_logged_from($tpl);
 
@@ -108,13 +96,23 @@ $tpl->assign(
 		'TR_WEBMAIL_TEXT' => tr('Access your mail through the web interface'),
 		'TR_FILEMANAGER_TEXT' => tr('Access your files through the web interface'),
 		'TR_AWSTATS_TEXT' => tr('Access your Awstats statistics'),
-		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups')
+		'TR_HTACCESS_TEXT' => tr('Manage protected areas, users and groups'),
+		'TR_HTACCESS_USER' => tr('Group/User management'),
+		'TR_HTACCESS' => tr('Protected areas'),
+		'TR_WEBMAIL'  => tr('Webmail'),
+		'WEBMAIL_PATH' => $cfg->WEBMAIL_PATH,
+		'WEBMAIL_TARGET' => $cfg->WEBMAIL_TARGET,
+		'TR_FILEMANAGER' => tr('Filemanager'),
+		'FILEMANAGER_PATH' => $cfg->FILEMANAGER_PATH,
+		'FILEMANAGER_TARGET' => $cfg->FILEMANAGER_TARGET,
+		'TR_AWSTATS' => tr('Web statistics'),
+		'AWSTATS_PATH' => 'http://' . $_SESSION['user_logged'] . '/stats/',
+		'AWSTATS_TARGET' => '_blank'
 	)
 );
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

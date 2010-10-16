@@ -146,21 +146,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id']) || !isset($_GET['k'])) {
 }
 
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/activate.tpl');
-$tpl->define_dynamic('page_message', 'page');
-
-$theme_color = isset($_SESSION['user_theme'])
-	? $_SESSION['user_theme']
-	: $cfg->USER_INITIAL_THEME;
-
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH' => '../themes/' . $theme_color,
-		'THEME_CHARSET' => tr('encoding')
-	)
-);
-
+$tpl = ispCP_Registry::get('template');
 
 if (validate_order_key($_GET['id'], $_GET['k'])) {
 	confirm_order($_GET['id']);
@@ -172,8 +158,7 @@ if (validate_order_key($_GET['id'], $_GET['k'])) {
 $tpl->assign('ORDER_STATUS_MESSAGE', $msg);
 $tpl->assign('PAGE_TITLE', tr('Order confirmation'));
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->prnt('orderpanel/activate.tpl');
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

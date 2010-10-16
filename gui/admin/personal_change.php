@@ -34,19 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/personal_change.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Admin/Change Personal Data'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP - Admin/Change Personal Data'));
+$tpl->assign('PAGE_CONTENT', 'personal_change.tpl');
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_admin_personal_data($sql, $_SESSION['user_id']);
@@ -162,8 +152,7 @@ function update_admin_personal_data(&$sql, $user_id) {
  * static page messages.
  *
  */
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_admin_menu($tpl, 'general_information');
 
 $tpl->assign(
 	array(
@@ -191,7 +180,6 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

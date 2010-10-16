@@ -38,9 +38,9 @@ if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr( 				'ispCP - Administrator/Edit hosting plan' 			));
+$tpl->assign('PAGE_CONTENT', 'hosting_plan_edit.tpl');
 
 /**
  * static page messages.
@@ -49,24 +49,13 @@ $tpl->define_dynamic('page_message', 'page');
 global $hpid;
 
 // Show main menu
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
 
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
+gen_admin_menu($tpl, 'hosting_plan');
 
-$tpl->assign(
-		array(
-			'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr(
-				'ispCP - Administrator/Edit hosting plan'
-			),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id'])
-		)
-);
 
 $tpl->assign(
 	array(
-		'TR_HOSTING PLAN PROPS' => tr('Hosting plan properties'),
+		'TR_HOSTING_PLAN_PROPS' => tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME' => tr('Template name'),
 		'TR_MAX_SUBDOMAINS' => tr(
 			'Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'
@@ -140,7 +129,6 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {

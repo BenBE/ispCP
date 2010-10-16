@@ -34,20 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/alias_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('user_entry', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
+$tpl = ispCP_Registry::get('template');
+$tpl->assign('PAGE_TITLE', tr('ispCP Reseller: Add Alias'));
+$tpl->assign('PAGE_CONTENT', 'alias_add.tpl');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 $reseller_id = $_SESSION['user_id'];
 
@@ -55,8 +45,7 @@ $reseller_id = $_SESSION['user_id'];
  * static page messages.
  */
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'users_manage');
 
 gen_logged_from($tpl);
 
@@ -116,7 +105,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_alias') {
 gen_al_page($tpl, $_SESSION['user_id']);
 gen_page_msg($tpl, $err_txt);
 // gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
@@ -425,7 +413,7 @@ function gen_users_list(&$tpl, $reseller_id) {
 
 		$domain_name = decode_idna($domain_name);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'USER' => $domain_id,
 				'USER_DOMAIN_ACCOUN' => tohtml($domain_name),
@@ -433,7 +421,6 @@ function gen_users_list(&$tpl, $reseller_id) {
 			)
 		);
 		$i++;
-		$tpl->parse('USER_ENTRY', '.user_entry');
 	} // end of loop
 	return true;
 } // End of gen_users_list()
@@ -441,7 +428,6 @@ function gen_users_list(&$tpl, $reseller_id) {
 function gen_page_msg(&$tpl, $error_txt) {
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
