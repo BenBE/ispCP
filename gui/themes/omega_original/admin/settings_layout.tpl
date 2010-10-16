@@ -1,41 +1,10 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ADMIN_CHANGE_LAYOUT_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
-<![endif]-->
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-	<tr>
-		<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-		<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-		<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-	</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;">
-			<table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-				<tr style="height:95px;">
-					<td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-				</tr>
-				<tr>
-					<td colspan="3">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td align="left">
 									<table width="100%" cellpadding="5" cellspacing="5">
 										<tr>
-											<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_layout.png" width="25" height="25" alt="" /></td>
-											<td colspan="2" class="title">{TR_LAYOUT_SETTINGS}</td>
+											<td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_layout.png" width="25" height="25" alt="" /></td>
+											<td colspan="2" class="title">{$TR_LAYOUT_SETTINGS}</td>
 										</tr>
 									</table>
 								</td>
@@ -48,20 +17,20 @@
 										<tr>
 											<td width="40">&nbsp;</td>
 											<td align="left">
-											<!-- BDP: page_message -->
-												<div align="left" class="title"><span class="message">{MESSAGE}</span></div>
-											<!-- EDP: page_message -->
+											{if $MESSAGE}
+												<div align="left" class="title"><span class="message">{$MESSAGE}</span></div>
+											{/if}
 												<table width="100%" cellpadding="5" cellspacing="5">
 													<tr>
-														<td colspan="2" class="content3"><b>{TR_UPLOAD_LOGO}</b></td>
+														<td colspan="2" class="content3"><b>{$TR_UPLOAD_LOGO}</b></td>
 													</tr>
 													<tr>
-														<td width="230" class="content2" nowrap="nowrap">{TR_LOGO_FILE}</td>
+														<td width="230" class="content2" nowrap="nowrap">{$TR_LOGO_FILE}</td>
 														<td class="content" nowrap="nowrap">
 															<form enctype="multipart/form-data" name="set_layout" method="post" action="settings_layout.php">
 																<input type="file" name="logo_file" size="40" />
 																<input type="hidden" name="uaction" value="upload_logo" />
-																<input name="Submit" type="submit" class="button" value=" {TR_UPLOAD} " />
+																<input name="Submit" type="submit" class="button" value=" {$TR_UPLOAD} " />
 															</form>
 														</td>
 													</tr>
@@ -69,17 +38,17 @@
 														<td nowrap="nowrap">&nbsp;</td>
 														<td nowrap="nowrap">&nbsp;</td>
 													</tr>
-													<!-- BDP: logo_remove_button -->
+													{if $LOGO_REMOVE_BUTTON}
 													<tr>
-														<td class="content2"><img src="{OWN_LOGO}" alt="admin logo" /></td>
+														<td class="content2"><img src="{$OWN_LOGO}" alt="admin logo" /></td>
 														<td class="content">
 															<form method="post" action="settings_layout.php">
 																<input type="hidden" name="uaction" value="delete_logo" />
-																<input name="Submit" type="submit" class="button" value=" {TR_REMOVE} " />
+																<input name="Submit" type="submit" class="button" value=" {$TR_REMOVE} " />
 															</form>
 														</td>
 													</tr>
-													<!-- EDP: logo_remove_button -->
+													{/if}
 												</table>
 												<!-- end of content -->
 											</td>
@@ -94,11 +63,4 @@
 								<td>&nbsp;</td>
 							</tr>
 						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-</body>
-</html>
+					

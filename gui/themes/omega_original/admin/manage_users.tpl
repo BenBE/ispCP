@@ -1,60 +1,32 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ADMIN_MANAGE_USERS_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
-<![endif]-->
 <script type="text/javascript">
 <!--
 function action_status(url, dmn_name) {
-	if (!confirm(sprintf("{TR_MESSAGE_CHANGE_STATUS}", dmn_name)))
-		return false;
-	location = url;
+  if (!confirm(sprintf("{$TR_MESSAGE_CHANGE_STATUS}", dmn_name)))
+    return false;
+  location = url;
 }
 
 function action_delete(url, dmn_name) {
-	if (!confirm(sprintf("{TR_MESSAGE_DELETE}", dmn_name)))
-		return false;
-	location = url;
+  if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", dmn_name)))
+    return false;
+  location = url;
 }
 //-->
 </script>
-</head>
 
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-				<tr style="height:95px;">
-				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-				</tr>
-				<tr>
-				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td align="left">
     <table width="100%" cellpadding="5" cellspacing="5">
-        <!-- BDP: page_message -->
+        {if $MESSAGE}
         <tr>
             <td width="25">&nbsp;</td>
-            <td colspan="3" class="title"><span class="message">{MESSAGE}</span></td>
+            <td colspan="3" class="title"><span class="message">{$MESSAGE}</span></td>
         </tr>
-        <!-- EDP: page_message -->
+        {/if}
 	    <tr>
-		    <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
-		    <td colspan="2" class="title">{TR_ADMINISTRATORS}</td>
+		    <td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
+		    <td colspan="2" class="title">{$TR_ADMINISTRATORS}</td>
 	    </tr>
     </table></td>
     <td width="27" align="right">&nbsp;</td>
@@ -62,40 +34,38 @@ function action_delete(url, dmn_name) {
   <tr>
     <td valign="top"><!-- BDP: props_list -->
         <table width="100%" cellpadding="5" cellspacing="5">
-          <!-- BDP: admin_message -->
+          {if $ADMIN_MESSAGE}
           <tr>
             <td width="25">&nbsp;</td>
-            <td colspan="3" class="title"><span class="message">{ADMIN_MESSAGE}</span></td>
+            <td colspan="3" class="title"><span class="message">{$ADMIN_MESSAGE}</span></td>
           </tr>
-          <!-- EDP: admin_message -->
-          <!-- BDP: admin_list -->
+          {else}
           <tr>
             <td width="25">&nbsp;</td>
-            <td class="content3"><b>{TR_ADMIN_USERNAME}</b></td>
-            <td class="content3"><b>{TR_CREATED_ON}</b></td>
-            <td class="content3" align="center"><b>{TR_ADMIN_CREATED_BY}</b></td>
-            <td colspan="2" align="center" class="content3"><b>{TR_ADMIN_OPTIONS}</b></td>
+            <td class="content3"><b>{$TR_ADMIN_USERNAME}</b></td>
+            <td class="content3"><b>{$TR_CREATED_ON}</b></td>
+            <td class="content3" align="center"><b>{$TR_ADMIN_CREATED_BY}</b></td>
+            <td colspan="2" align="center" class="content3"><b>{$TR_ADMIN_OPTIONS}</b></td>
           </tr>
-          <!-- BDP: admin_item -->
+          {section name=i loop=$ADMIN_USERNAME}
           <tr class="hl">
             <td width="25">&nbsp;</td>
-            <td class="{ADMIN_CLASS}">{ADMIN_USERNAME}</td>
-            <td class="{ADMIN_CLASS}" align="center">{ADMIN_CREATED_ON}</td>
-            <td class="{ADMIN_CLASS}" align="center">{ADMIN_CREATED_BY}</td>
-            <td width="100" class="{ADMIN_CLASS}" align="center">
-              <img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_EDIT_ADMIN}" class="link">{TR_EDIT}</a>
+            <td class="{$ADMIN_CLASS[i]}">{$ADMIN_USERNAME[i]}</td>
+            <td class="{$ADMIN_CLASS[i]}" align="center">{$ADMIN_CREATED_ON[i]}</td>
+            <td class="{$ADMIN_CLASS[i]}" align="center">{$ADMIN_CREATED_BY[i]}</td>
+            <td width="100" class="{$ADMIN_CLASS[i]}" align="center">
+              <img src="{$THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_EDIT_ADMIN[i]}" class="link">{$TR_EDIT}</a>
 			</td>
-            <td width="100" class="{ADMIN_CLASS}" align="center">
-			  <!-- BDP: admin_delete_show -->
+            <td width="100" class="{$ADMIN_CLASS[i]}" align="center">
+            {if $ADMIN_DELETE_LINK[i]}
+              <img src="{$THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onClick="action_delete('{$ADMIN_DELETE_LINK[i].URL_DELETE_ADMIN}', '{$ADMIN_USERNAME[i]}')" class="link">{$TR_DELETE}</a>
+            {else}
               -
-              <!-- EDP: admin_delete_show -->
-              <!-- BDP: admin_delete_link -->
-              <img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onClick="action_delete('{URL_DELETE_ADMIN}', '{ADMIN_USERNAME}')" class="link">{TR_DELETE}</a>
-              <!-- EDP: admin_delete_link -->
+            {/if}
             </td>
           </tr>
-          <!-- EDP: admin_item -->
-          <!-- EDP: admin_list -->
+          {/section}
+          {/if}
         </table>
       <!-- EDP: props_list -->
     </td>
@@ -110,40 +80,43 @@ function action_delete(url, dmn_name) {
   <tr>
     <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
 	<tr>
-		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
-		<td colspan="2" class="title">{TR_RESELLERS}</td>
+		<td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{$TR_RESELLERS}</td>
 	</tr>
 </table></td>
     <td width="27" align="right">&nbsp;</td>
   </tr>
   <tr>
     <td><table width="100%" cellpadding="5" cellspacing="5">
-      <!-- BDP: rsl_message -->
+      {if $RSL_MESSAGE}
       <tr>
         <td width="25">&nbsp;</td>
-        <td colspan="5" class="title"><span class="message">{RSL_MESSAGE}</span></td>
+        <td colspan="5" class="title"><span class="message">{$RSL_MESSAGE}</span></td>
       </tr>
-      <!-- EDP: rsl_message -->
-      <!-- BDP: rsl_list -->
+      {else}
       <tr>
         <td width="25">&nbsp;</td>
-        <td class="content3"><b>{TR_RSL_USERNAME}</b></td>
-        <td width="150" align="center" class="content3"><b>{TR_CREATED_ON}</b></td>
-        <td width="150" align="center" class="content3"><b>{TR_RSL_CREATED_BY}</b></td>
-        <td colspan="3" align="center" class="content3"><b>{TR_RSL_OPTIONS}</b></td>
+        <td class="content3"><b>{$TR_RSL_USERNAME}</b></td>
+        <td width="150" align="center" class="content3"><b>{$TR_CREATED_ON}</b></td>
+        <td width="150" align="center" class="content3"><b>{$TR_RSL_CREATED_BY}</b></td>
+        <td colspan="3" align="center" class="content3"><b>{$TR_RSL_OPTIONS}</b></td>
       </tr>
-      <!-- BDP: rsl_item -->
+      {section name=i loop=$RSL_USERNAME}
       <tr class="hl">
         <td width="25">&nbsp;</td>
-        <td class="{RSL_CLASS}">{RSL_USERNAME} </td>
-        <td class="{RSL_CLASS}" align="center">{RESELLER_CREATED_ON}</td>
-        <td class="{RSL_CLASS}" align="center">{RSL_CREATED_BY}</td>
-        <td width="100" align="center" class="{RSL_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/details.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_CHANGE_INTERFACE}" class="link" title="{TR_CHANGE_USER_INTERFACE}">{GO_TO_USER_INTERFACE}</a></td>
-        <td width="100" align="center" class="{RSL_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_EDIT_RSL}" class="link">{TR_EDIT}</a></td>
-        <td width="100" align="center" class="{RSL_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onClick="action_delete('{URL_DELETE_RSL}', '{RSL_USERNAME}')" class="link">{TR_DELETE}</a></td>
+        <td class="{$RSL_CLASS[i]}">{$RSL_USERNAME[i]} </td>
+        <td class="{$RSL_CLASS[i]}" align="center">{$RESELLER_CREATED_ON[i]}</td>
+        <td class="{$RSL_CLASS[i]}" align="center">{$RSL_CREATED_BY[i]}</td>
+        <td width="100" align="center" class="{$RSL_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/details.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_CHANGE_INTERFACE[i]}" class="link" title="{$TR_CHANGE_USER_INTERFACE}">{$GO_TO_USER_INTERFACE}</a></td>
+        <td width="100" align="center" class="{$RSL_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_EDIT_RSL[i]}" class="link">{$TR_EDIT}</a></td>
+        <td width="100" align="center" class="{$RSL_CLASS[i]}">
+          {if $RSL_DELETE_LINK[i]}
+          <img src="{$THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onClick="action_delete('{$RSL_DELETE_LINK[i].URL_DELETE_RSL}', '{$RSL_USERNAME[i]}')" class="link">{$TR_DELETE}</a>
+          {/if}
+        </td>
       </tr>
-      <!-- EDP: rsl_item -->
-      <!-- EDP: rsl_list -->
+      {/section}
+      {/if}
     </table>
         <br /></td>
     <td>&nbsp;</td>
@@ -158,8 +131,8 @@ function action_delete(url, dmn_name) {
     <td align="left">
 <table width="100%" cellpadding="5" cellspacing="5">
 	<tr>
-		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
-		<td colspan="2" class="title">{TR_USERS}</td>
+		<td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_users.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{$TR_USERS}</td>
 	</tr>
 </table>
 	</td>
@@ -172,93 +145,86 @@ function action_delete(url, dmn_name) {
           <td width="25">&nbsp;</td>
           <td colspan="6" class="title"><table border="0" cellspacing="0" cellpadding="0">
             <tr>
-              <td><input name="search_for" type="text" class="textinput" value="{SEARCH_FOR}" style="width:140px" />
+              <td><input name="search_for" type="text" class="textinput" value="{$SEARCH_FOR}" style="width:140px" />
                       <select name="search_common" class="textinput">
-                        <option value="domain_name" {M_DOMAIN_NAME_SELECTED}>{M_DOMAIN_NAME}</option>
-                        <option value="customer_id" {M_CUSTOMER_ID_SELECTED}>{M_CUSTOMER_ID}</option>
-                        <option value="lname" {M_LAST_NAME_SELECTED}>{M_LAST_NAME}</option>
-                        <option value="firm" {M_COMPANY_SELECTED}>{M_COMPANY}</option>
-                        <option value="city" {M_CITY_SELECTED}>{M_CITY}</option>
-                        <option value="state" {M_STATE_SELECTED}>{M_STATE}</option>
-                        <option value="country" {M_COUNTRY_SELECTED}>{M_COUNTRY}</option>
+                        <option value="domain_name" {$M_DOMAIN_NAME_SELECTED}>{$M_DOMAIN_NAME}</option>
+                        <option value="customer_id" {$M_CUSTOMER_ID_SELECTED}>{$M_CUSTOMER_ID}</option>
+                        <option value="lname" {$M_LAST_NAME_SELECTED}>{$M_LAST_NAME}</option>
+                        <option value="firm" {$M_COMPANY_SELECTED}>{$M_COMPANY}</option>
+                        <option value="city" {$M_CITY_SELECTED}>{$M_CITY}</option>
+                        <option value="state" {$M_STATE_SELECTED}>{$M_STATE}</option>
+                        <option value="country" {$M_COUNTRY_SELECTED}>{$M_COUNTRY}</option>
                       </select>
                       <select name="search_status" class="textinput">
-                        <option value="all" {M_ALL_SELECTED}>{M_ALL}</option>
-                        <option value="ok" {M_OK_SELECTED}>{M_OK}</option>
-                        <option value="disabled" {M_SUSPENDED_SELECTED}>{M_SUSPENDED}</option>
+                        <option value="all" {$M_ALL_SELECTED}>{$M_ALL}</option>
+                        <option value="ok" {$M_OK_SELECTED}>{$M_OK}</option>
+                        <option value="disabled" {$M_SUSPENDED_SELECTED}>{$M_SUSPENDED}</option>
                       </select></td>
-              <td><input name="Submit" type="submit" class="button" value="  {TR_SEARCH}  " /></td>
+              <td><input name="Submit" type="submit" class="button" value="  {$TR_SEARCH}  " /></td>
             </tr>
           </table>
 		  </td>
           <td align="right"><input type="hidden" name="details" value="" />
-            <img src="{THEME_COLOR_PATH}/images/icons/show_alias.png" width="16" height="16" style="vertical-align:middle" alt="" /> <a href="#" class="link" onClick="return sbmt_details(document.forms[0],'{SHOW_DETAILS}');">{TR_VIEW_DETAILS}</a>
+            <img src="{$THEME_COLOR_PATH}/images/icons/show_alias.png" width="16" height="16" style="vertical-align:middle" alt="" /> <a href="#" class="link" onClick="return sbmt_details(document.forms[0],'{$SHOW_DETAILS}');">{$TR_VIEW_DETAILS}</a>
 		  </td>
         </tr>
-        <!-- BDP: usr_message -->
+        {if $USR_MESSAGE}
         <tr>
           <td width="25">&nbsp;</td>
-          <td colspan="7" class="title"><span class="message">{USR_MESSAGE}</span></td>
+          <td colspan="7" class="title"><span class="message">{$USR_MESSAGE}</span></td>
         </tr>
-        <!-- EDP: usr_message -->
-        <!-- BDP: usr_list -->
+        {else}
         <tr>
           <td width="25">&nbsp;</td>
-          <td width="25" align="center" class="content3"><b>{TR_USER_STATUS}</b></td>
-          <td class="content3"><b>{TR_USR_USERNAME}</b></td>
-          <td width="100" align="center" class="content3"><b>{TR_CREATED_ON}</b></td>
-          <td width="100" align="center" class="content3"><b>{TR_EXPIRES_ON}</b></td>
-          <td width="100" align="center" class="content3"><b>{TR_USR_CREATED_BY}</b></td>
-          <td colspan="5" align="center" class="content3"><b>{TR_USR_OPTIONS}</b></td>
+          <td width="25" align="center" class="content3"><b>{$TR_USER_STATUS}</b></td>
+          <td class="content3"><b>{$TR_USR_USERNAME}</b></td>
+          <td width="100" align="center" class="content3"><b>{$TR_CREATED_ON}</b></td>
+          <td width="100" align="center" class="content3"><b>{$TR_EXPIRES_ON}</b></td>
+          <td width="100" align="center" class="content3"><b>{$TR_USR_CREATED_BY}</b></td>
+          <td colspan="5" align="center" class="content3"><b>{$TR_USR_OPTIONS}</b></td>
         </tr>
-        <!-- BDP: usr_item -->
+        {section name=i loop=$USR_USERNAME}
         <tr class="hl">
           <td width="25" align="center">&nbsp;</td>
-          <td class="{USR_CLASS}" align="center"><a href="#" onClick="action_status('{URL_CHANGE_STATUS}', '{USR_USERNAME}')" class="link"><img src="{THEME_COLOR_PATH}/images/icons/{STATUS_ICON}" width="16" height="16" border="0" alt="" /></a></td>
-          <td class="{USR_CLASS}"> <a href="http://www.{USR_USERNAME}/" target="_blank" class="link"><img src="{THEME_COLOR_PATH}/images/icons/goto.png" width="16" height="16" border="0" alt="" />{USR_USERNAME}</a></td>
-          <td class="{USR_CLASS}" align="center">{USER_CREATED_ON}</td>
-          <td class="{USR_CLASS}" align="center">{USER_EXPIRES_ON}</td>
-          <td class="{USR_CLASS}" align="center">{USR_CREATED_BY}</td>
-          <td width="100" align="center" class="{USR_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/identity.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="domain_details.php?domain_id={DOMAIN_ID}" class="link">{TR_DETAILS}</a></td>
-          <td width="100" align="center" class="{USR_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/details.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_CHANGE_INTERFACE}" class="link" title="{TR_CHANGE_USER_INTERFACE}">{GO_TO_USER_INTERFACE}</a></td>
-          <!-- BDP: edit_option -->
-	  <td width="100" align="center" class="{USR_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="domain_edit.php?edit_id={DOMAIN_ID}" class="link">{TR_EDIT_DOMAIN}</a></td>
-          <!-- EDP: edit_option -->
-          <td width="100" align="center" class="{USR_CLASS}"><img src="{THEME_COLOR_PATH}/images/icons/users.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_EDIT_USR}" class="link">{TR_EDIT_USR}</a></td>
-          <td width="100" align="center" class="{USR_CLASS}">
-		    <!-- BDP: usr_delete_show -->
-            -
-            <!-- EDP: usr_delete_show -->
-            <!-- BDP: usr_delete_link -->
-              <img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{URL_DELETE_USR}" class="link">{TR_DELETE}</a>
-            <!-- EDP: usr_delete_link -->
+          <td class="{$USR_CLASS[i]}" align="center"><a href="#" onClick="action_status('{$URL_CHANGE_STATUS[i]}', '{$USR_USERNAME[i]}')" class="link"><img src="{$THEME_COLOR_PATH}/images/icons/{$STATUS_ICON[i]}" width="16" height="16" border="0" alt="" /></a></td>
+          <td class="{$USR_CLASS[i]}"> <a href="http://www.{$USR_USERNAME[i]}/" target="_blank" class="link"><img src="{$THEME_COLOR_PATH}/images/icons/goto.png" width="16" height="16" border="0" alt="" />{$USR_USERNAME[i]}</a></td>
+          <td class="{$USR_CLASS[i]}" align="center">{$USER_CREATED_ON[i]}</td>
+          <td class="{$USR_CLASS[i]}" align="center">{$USER_EXPIRES_ON[i]}</td>
+          <td class="{$USR_CLASS[i]}" align="center">{$USR_CREATED_BY[i]}</td>
+          <td width="100" align="center" class="{$USR_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/identity.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="domain_details.php?domain_id={$USR_DOMAIN_ID[i]}" class="link">{$TR_DETAILS}</a></td>
+          <td width="100" align="center" class="{$USR_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/details.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_CHANGE_INTERFACE_USR[i]}" class="link" title="{$TR_CHANGE_USER_INTERFACE}">{$GO_TO_USER_INTERFACE}</a></td>
+          {if $EDIT_OPTION}
+	  <td width="100" align="center" class="{$USR_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="domain_edit.php?edit_id={$USR_DOMAIN_ID[i]}" class="link">{$TR_EDIT_DOMAIN}</a></td>
+          {/if}
+          <td width="100" align="center" class="{$USR_CLASS[i]}"><img src="{$THEME_COLOR_PATH}/images/icons/users.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_EDIT_USR[i]}" class="link">{$TR_EDIT_USR}</a></td>
+          <td width="100" align="center" class="{$USR_CLASS[i]}">
+              <img src="{$THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{$URL_DELETE_USR[i]}" class="link">{$TR_DELETE}</a>
           </td>
         </tr>
-        <!-- BDP: user_details -->
+        {section name=alias loop=$USR_DETAILS[i]}
         <tr>
           <td align="center">&nbsp;</td>
           <td class="content4" align="center">&nbsp;</td>
-          <td colspan="7" class="content4">&nbsp;<a href="http://www.{ALIAS_DOMAIN}/" target="_blank" class="link"><img src="{THEME_COLOR_PATH}/images/icons/goto.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> {ALIAS_DOMAIN}</a>&nbsp;</td>
+          <td colspan="7" class="content4">&nbsp;<a href="http://www.{$USR_DETAILS[i][alias]}/" target="_blank" class="link"><img src="{$THEME_COLOR_PATH}/images/icons/goto.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> {$USR_DETAILS[i][alias]}</a>&nbsp;</td>
         </tr>
-        <!-- EDP: user_details -->
-        <!-- EDP: usr_item -->
-        <!-- EDP: usr_list -->
+        {/section}
+        {/section}
+        {/if}
       </table>
       <input type="hidden" name="uaction" value="go_search" />
     </form>
         <div align="right"><br />
-            <!-- BDP: scroll_prev_gray -->
-          <img src="{THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
-          <!-- EDP: scroll_prev_gray -->
-          <!-- BDP: scroll_prev -->
-          <a href="manage_users.php?psi={PREV_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
-          <!-- EDP: scroll_prev -->
-          <!-- BDP: scroll_next_gray -->
-          &nbsp;<img src="{THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
-          <!-- EDP: scroll_next_gray -->
-          <!-- BDP: scroll_next -->
-          &nbsp;<a href="manage_users.php?psi={NEXT_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
-          <!-- EDP: scroll_next -->
+          {if $PREV_PSI || $PREV_PSI===0}
+          <a href="manage_users.php?psi={$PREV_PSI}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
+          {else}
+          <img src="{$THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
+          {/if}
+          &nbsp;
+          {if $NEXT_PSI}
+          <a href="manage_users.php?psi={$NEXT_PSI}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
+          {else}
+          <img src="{$THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
+          {/if}
       </div></td>
     <td>&nbsp;</td>
   </tr>
@@ -268,8 +234,4 @@ function action_delete(url, dmn_name) {
   </tr>
 </table></td>
 				</tr>
-			</table></td>
-	</tr>
-</table>
-</body>
-</html>
+			</table>

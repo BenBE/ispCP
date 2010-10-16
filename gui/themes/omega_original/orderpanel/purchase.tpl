@@ -1,8 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>{TR_PURCHASE_PAGE_TITLE}</title>
+		<title>{$TR_PURCHASE_PAGE_TITLE}</title>
 		<meta name="robots" content="nofollow, noindex" />
-		<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+		<meta http-equiv="Content-Type" content="text/html; charset={$THEME_CHARSET}" />
 		<meta http-equiv="Content-Style-Type" content="text/css" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript" />
 		<link href="../themes/omega_original/css/ispcp.css" rel="stylesheet" type="text/css" />
@@ -39,18 +39,18 @@
 						<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td height="62" align="left" class="title">{TR_PURCHASE_FROM} {TR_PURCHASE_RESELLER_NAME}</td>
+									<td height="62" align="left" class="title">{$TR_PURCHASE_FROM} {$TR_PURCHASE_RESELLER_NAME}</td>
 									<td width="27" align="right">&nbsp;</td>
 								</tr>
 								<tr>
 									<td valign="top">
 										<form method="post" action="pay.php" name="client_info" onSubmit="return validateForm(client_info);">
-											<input type="hidden" name="reseller_id" value="{RESELLER_ID}" />
-											<input type="hidden" name="purchase_id" value="{PURCHASE_ID}" />
+											<input type="hidden" name="reseller_id" value="{$RESELLER_ID}" />
+											<input type="hidden" name="purchase_id" value="{$PURCHASE_ID}" />
 											<table width="100%" cellpadding="5" cellspacing="5">
 												<tr>
 													<td>
-														{TR_CLIENT_NAME}
+														{$TR_CLIENT_NAME}
 													</td>
 													<td>
 														<input type="text" name="client_name" value="" />
@@ -58,7 +58,7 @@
 												</tr>
 												<tr>
 													<td>
-														{TR_CLIENT_EMAIL}
+														{$TR_CLIENT_EMAIL}
 													</td>
 													<td>
 														<input type="text" name="client_email" value="" />
@@ -66,7 +66,7 @@
 												</tr>
 												<tr>
 													<td>
-														{TR_CLIENT_DOMAIN}
+														{$TR_CLIENT_DOMAIN}
 													</td>
 													<td>
 														<input type="text" name="client_domain" value="" />
@@ -74,10 +74,10 @@
 												</tr>
 												<tr>
 													<td>
-														<input type="reset" value="{TR_RESET}" />
+														<input type="reset" value="{$TR_RESET}" />
 													</td>
 													<td>
-														<input type="submit" value="{TR_SUBMIT}" />
+														<input type="submit" value="{$TR_SUBMIT}" />
 													</td>
 												</tr>
 											</table>
@@ -88,7 +88,7 @@
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-								<a href="index.php?reseller_id={RESELLER_ID}">{TR_GO_BACK}</a>
+								<a href="index.php?reseller_id={$RESELLER_ID}">{$TR_GO_BACK}</a>
 							</td>
 						</tr>
 					</table>

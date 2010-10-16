@@ -1,10 +1,10 @@
 <html>
 	<head>
-		<title>{TR_SYSTEM_MESSAGE_PAGE_TITLE}</title>
+		<title>{$TR_SYSTEM_MESSAGE_PAGE_TITLE}</title>
 		<meta name="robots" content="nofollow, noindex">
-		<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}">
+		<meta http-equiv="Content-Type" content="text/html; charset={$THEME_CHARSET}">
 		<meta http-equiv="Content-Style-Type" content="text/css">
-		<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css">
+		<link href="{$THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body style="color:#000">
@@ -22,10 +22,10 @@
 										<td>
 											<table width="453" border="0" cellpadding="0" cellspacing="1">
 												<tr>
-													<td align="center" valign="middle" bgcolor="#ffffff"><strong><span class="message">{MESSAGE}</span></strong></td>
+													<td align="center" valign="middle" bgcolor="#ffffff"><strong><span class="message">{$MESSAGE}</span></strong></td>
 												</tr>
 												<tr>
-													<td align="right"><a class="login" href="{BACKBUTTONDESTINATION}" target="_self">{TR_BACK}</a></td>
+													<td align="right"><a class="login" href="{$BACKBUTTONDESTINATION}" target="_self">{$TR_BACK}</a></td>
 												</tr>
 											</table>
 										</td>

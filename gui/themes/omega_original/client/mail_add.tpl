@@ -1,23 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.js"></script>
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/jquery.ispcpTooltips.js"></script>
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
-<![endif]-->
 
 <script type="text/javascript">
 /*<![CDATA[*/
 	$(document).ready(function(){
 		// Tooltips - begin
-		$('#fwd_help').ispCPtooltips({msg:"{TR_FWD_HELP}"});
+		$('#fwd_help').ispCPtooltips({ msg:"{$TR_FWD_HELP}" });
 		// Tooltips - end
 	});
 
@@ -93,33 +79,10 @@
 
 <style type="text/css">
 <!--
-.style1 {font-size: 9px}
+.style1 { font-size: 9px }
 -->
 </style>
-</head>
 
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png'); begin_js();">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<!-- BDP: logged_from -->
-<tr>
- <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-</tr>
-<!-- EDP: logged_from -->
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-          <tr style="height:95px;">
-            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan="3">
 	<form name="add_mail_acc_frm" method="post" action="mail_add.php">
 	<input type="hidden" name="uaction" value="add_user" />
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -127,8 +90,8 @@
             <td align="left">
 <table width="100%" cellpadding="5" cellspacing="5">
 	<tr>
-		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_email.png" width="25" height="25" alt="" /></td>
-		<td colspan="2" class="title">{TR_ADD_MAIL_USER}</td>
+		<td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_email.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{$TR_ADD_MAIL_USER}</td>
 	</tr>
 </table>
 			</td>
@@ -140,98 +103,91 @@
                   <td width="40">&nbsp;</td>
                   <td valign="top">
             <table width="100%" cellpadding="5" cellspacing="5">
-              <!-- BDP: page_message -->
+              {if $MESSAGE}
               <tr>
-                <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
+                <td colspan="2" class="title"><span class="message">{$MESSAGE}</span></td>
               </tr>
-              <!-- EDP: page_message -->
+              {/if}
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <label for="username">{TR_USERNAME}</label>
+                  <label for="username">{$TR_USERNAME}</label>
                 </td>
                 <td valign="middle" nowrap="nowrap" class="content">
-                  <input type="text" name="username" id="username" value="{USERNAME}" style="width:210px" class="textinput" />
+                  <input type="text" name="username" id="username" value="{$USERNAME}" style="width:210px" class="textinput" />
                 </td>
               </tr>
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type1" value="dmn" {MAIL_DMN_CHECKED} onClick="changeDom('real');" />
-                  <label for="dmn_type1">{TR_TO_MAIN_DOMAIN}</label>
+                  <input type="radio" name="dmn_type" id="dmn_type1" value="dmn" {$MAIL_DMN_CHECKED} onClick="changeDom('real');" />
+                  <label for="dmn_type1">{$TR_TO_MAIN_DOMAIN}</label>
                 </td>
-                <td nowrap="nowrap" class="content" colspan="2">@{DOMAIN_NAME}</td>
+                <td nowrap="nowrap" class="content" colspan="2">@{$DOMAIN_NAME}</td>
               </tr>
-			  <!-- BDP: to_alias_domain -->
+			  {if $TO_ALIAS_DOMAIN != 'no'}
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type2" value="als" {MAIL_ALS_CHECKED} onClick="changeDom('alias');" />
-                  <label for="dmn_type2">{TR_TO_DMN_ALIAS}</label>
+                  <input type="radio" name="dmn_type" id="dmn_type2" value="als" {$MAIL_ALS_CHECKED} onClick="changeDom('alias');" />
+                  <label for="dmn_type2">{$TR_TO_DMN_ALIAS}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="als_id">
-                    <!-- BDP: als_list -->
-                    <option value="{ALS_ID}" {ALS_SELECTED}>@{ALS_NAME}</option>
-                    <!-- EDP: als_list -->
+                    {section name=i loop=$ALS_NAME}
+                    <option value="{$ALS_ID[i]}" {$ALS_SELECTED[i]}>@{$ALS_NAME[i]}</option>
+                    {/section}
                   </select></td>
               </tr>
-			  <!-- EDP: to_alias_domain -->
-			  <!-- BDP: to_subdomain -->
+			  {/if}
+			  {if $TO_SUBDOMAIN != 'no'}
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type3" value="sub" {MAIL_SUB_CHECKED} onClick="changeDom('subdom');" />
-                  <label for="dmn_type3">{TR_TO_SUBDOMAIN}</label>
+                  <input type="radio" name="dmn_type" id="dmn_type3" value="sub" {$MAIL_SUB_CHECKED} onClick="changeDom('subdom');" />
+                  <label for="dmn_type3">{$TR_TO_SUBDOMAIN}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="sub_id">
-                    <!-- BDP: sub_list -->
-                    <option value="{SUB_ID}" {SUB_SELECTED}>@{SUB_NAME}</option>
-                    <!-- EDP: sub_list -->
+                    {section name=i loop=$SUB_NAME}
+                    <option value="{$SUB_ID[i]}" {$SUB_SELECTED[i]}>@{$SUB_NAME[i]}</option>
+                    {/section}
                   </select></td>
               </tr>
-			  <!-- EDP: to_subdomain -->
-			  <!-- BDP: to_alias_subdomain -->
+			  {/if}
+			  {if $TO_ALIAS_SUBDOMAIN != 'no'}
               <tr>
                 <td nowrap="nowrap" class="content2" width="200">
-                  <input type="radio" name="dmn_type" id="dmn_type4" value="als_sub" {MAIL_ALS_SUB_CHECKED} onClick="changeDom('als_subdom');" />
-                  <label for="dmn_type4">{TR_TO_ALS_SUBDOMAIN}</label>
+                  <input type="radio" name="dmn_type" id="dmn_type4" value="als_sub" {$MAIL_ALS_SUB_CHECKED} onClick="changeDom('als_subdom');" />
+                  <label for="dmn_type4">{$TR_TO_ALS_SUBDOMAIN}</label>
                 </td>
                 <td nowrap="nowrap" class="content"><select name="als_sub_id">
-                    <!-- BDP: als_sub_list -->
-                    <option value="{ALS_SUB_ID}" {ALS_SUB_SELECTED}>@{ALS_SUB_NAME}</option>
-                    <!-- EDP: als_sub_list -->
+                    {section name=i loop=$ALS_SUB_NAME}
+                    <option value="{$ALS_SUB_ID[i]}" {$ALS_SUB_SELECTED[i]}>@{$ALS_SUB_NAME[i]}</option>
+                    {/section}
                   </select></td>
               </tr>
-			  <!-- EDP: to_alias_subdomain -->
+			  {/if}
               <tr>
                 <td nowrap="nowrap" class="content2" colspan="2">
-                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_normal" value="1" onClick="changeType();" {NORMAL_MAIL_CHECKED} />{TR_NORMAL_MAIL}</td>
+                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_normal" value="1" onClick="changeType();" {$NORMAL_MAIL_CHECKED} />{$TR_NORMAL_MAIL}</td>
               </tr>
               <tr>
-                <td nowrap="nowrap" class="content2" width="200">&nbsp;&nbsp;&nbsp;&nbsp;{TR_PASSWORD}</td>
+                <td nowrap="nowrap" class="content2" width="200">&nbsp;&nbsp;&nbsp;&nbsp;{$TR_PASSWORD}</td>
                 <td nowrap="nowrap" class="content"><input type="password" name="pass" value="" style="width:210px" class="textinput" /></td>
               </tr>
               <tr>
-                <td nowrap="nowrap" class="content2" width="200">&nbsp;&nbsp;&nbsp;&nbsp;{TR_PASSWORD_REPEAT}</td>
+                <td nowrap="nowrap" class="content2" width="200">&nbsp;&nbsp;&nbsp;&nbsp;{$TR_PASSWORD_REPEAT}</td>
                 <td nowrap="nowrap" class="content"><input type="password" name="pass_rep" value="" style="width:210px" class="textinput" /></td>
               </tr>
               <tr>
                 <td nowrap="nowrap" class="content2" colspan="2">
-                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_forward" value="1" {FORWARD_MAIL_CHECKED} onClick="changeType();" />{TR_FORWARD_MAIL}</td>
+                  &nbsp;&nbsp;<input type="checkbox" name="mail_type_forward" value="1" {$FORWARD_MAIL_CHECKED} onClick="changeType();" />{$TR_FORWARD_MAIL}</td>
               </tr>
               <tr>
                 <td class="content2" style="width:200px;vertical-align:top;">
-				  {TR_FORWARD_TO} <img id="fwd_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" /></td>
-                <td nowrap="nowrap" class="content"><textarea name="forward_list" cols="35" rows="10" style="width:400px">{FORWARD_LIST}</textarea></td>
+				  {$TR_FORWARD_TO} <img id="fwd_help" src="{$THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" /></td>
+                <td nowrap="nowrap" class="content"><textarea name="forward_list" cols="35" rows="10" style="width:400px">{$FORWARD_LIST}</textarea></td>
 	          </tr>
               <tr>
-             <td colspan="2"><input name="Submit" type="submit" class="button" value=" {TR_ADD} " /></td>
+             <td colspan="2"><input name="Submit" type="submit" class="button" value=" {$TR_ADD} " /></td>
                 </tr>
             </table></td>
           </tr>
             </table></td>
 	</tr>
-        </table></form></td>
-          </tr>
-        </table></td>
-	</tr>
-</table>
-
-</body>
-</html>
+        </table></form>

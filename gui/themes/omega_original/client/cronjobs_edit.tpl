@@ -1,43 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_CLIENT_CRONJOBS_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
-<![endif]-->
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<!-- BDP: logged_from -->
-<tr>
- <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-</tr>
-<!-- EDP: logged_from -->
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-          <tr style="height:95px;">
-            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
                     <tr>
-                      <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_tools.png" width="25" height="25" alt="" /></td>
-                      <td colspan="2" class="title">{TR_CRON_MANAGER}</td>
+                      <td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_tools.png" width="25" height="25" alt="" /></td>
+                      <td colspan="2" class="title">{$TR_CRON_MANAGER}</td>
                     </tr>
                 </table></td>
                 <td width="27" align="right">&nbsp;</td>
@@ -47,51 +13,51 @@
                     <table width="100%" cellpadding="5" cellspacing="5">
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="5" class="content3"><b>{TR_EDIT_CRONJOB}</b></td>
+                        <td colspan="5" class="content3"><b>{$TR_EDIT_CRONJOB}</b></td>
                       </tr>
-                      <!-- BDP: page_message -->
+                      {if $MESSAGE}
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="5" class="title"><span class="message">{MESSAGE}</span></td>
+                        <td colspan="5" class="title"><span class="message">{$MESSAGE}</span></td>
                       </tr>
-                      <!-- EDP: page_message -->
+                      {/if}
                       <tr>
                         <td nowrap="nowrap">&nbsp;</td>
-                        <td nowrap="nowrap" class="content2">{TR_NAME}</td>
-                        <td colspan="4" class="content"><input name="name" type="text" class="textinput" id="name" style="width:170px" value="{NAME}" /></td>
-                      </tr>
-                      <tr>
-                        <td nowrap="nowrap">&nbsp;</td>
-                        <td nowrap="nowrap" class="content2">{TR_DESCRIPTION}</td>
-                        <td colspan="4" class="content"><input name="description" type="text" class="textinput" id="description" style="width:170px" value="{DESCTIPTON}" /></td>
+                        <td nowrap="nowrap" class="content2">{$TR_NAME}</td>
+                        <td colspan="4" class="content"><input name="name" type="text" class="textinput" id="name" style="width:170px" value="{$NAME}" /></td>
                       </tr>
                       <tr>
                         <td nowrap="nowrap">&nbsp;</td>
-                        <td nowrap="nowrap" class="content2">{TR_ACTIVE}</td>
+                        <td nowrap="nowrap" class="content2">{$TR_DESCRIPTION}</td>
+                        <td colspan="4" class="content"><input name="description" type="text" class="textinput" id="description" style="width:170px" value="{$DESCTIPTON}" /></td>
+                      </tr>
+                      <tr>
+                        <td nowrap="nowrap">&nbsp;</td>
+                        <td nowrap="nowrap" class="content2">{$TR_ACTIVE}</td>
                         <td colspan="4" class="content"><select name="activ">
-                            <option value="1" selected="selected">{YES}</option>
-                            <option value="0">{NO}</option>
+                            <option value="1" selected="selected">{$YES}</option>
+                            <option value="0">{$NO}</option>
                         </select></td>
                       </tr>
                       <tr>
                         <td>&nbsp;</td>
-                        <td colspan="5" class="content3"><b>{TR_CRONJOB}</b></td>
+                        <td colspan="5" class="content3"><b>{$TR_CRONJOB}</b></td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="5" class="content2">{TR_COMMAND}</td>
+                        <td colspan="5" class="content2">{$TR_COMMAND}</td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="5" class="content"><input name="command_line" type="text" class="textinput" id="command_line" style="width:370px" value="{COMMAND_LINE}" /></td>
+                        <td colspan="5" class="content"><input name="command_line" type="text" class="textinput" id="command_line" style="width:370px" value="{$COMMAND_LINE}" /></td>
                       </tr>
                       <tr>
                         <td nowrap="nowrap">&nbsp;</td>
-                        <td align="center" nowrap="nowrap" class="content2">{TR_MIN}</td>
-                        <td align="center" class="content2">{TR_HOUR}</td>
-                        <td align="center" class="content2">{TR_DAY}</td>
-                        <td align="center" class="content2">{TR_MONTHS}</td>
-                        <td align="center" class="content2">{TR_WEEKDAYS}</td>
+                        <td align="center" nowrap="nowrap" class="content2">{$TR_MIN}</td>
+                        <td align="center" class="content2">{$TR_HOUR}</td>
+                        <td align="center" class="content2">{$TR_DAY}</td>
+                        <td align="center" class="content2">{$TR_MONTHS}</td>
+                        <td align="center" class="content2">{$TR_WEEKDAYS}</td>
                       </tr>
                       <tr align="center" valign="top">
                         <td width="25" nowrap="nowrap">&nbsp;</td>
@@ -254,9 +220,9 @@
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="5"><input name="Submit" type="submit" class="button" value="  {TR_UPDATE}  " />
+                        <td colspan="5"><input name="Submit" type="submit" class="button" value="  {$TR_UPDATE}  " />
                           &nbsp;&nbsp;				  &nbsp;&nbsp;
-                          <input name="button" type="button" class="button" onClick="MM_goToURL('parent','cronjobs_overview.php');return document.MM_returnValue" value="{TR_CANCEL}" /></td>
+                          <input name="button" type="button" class="button" onClick="MM_goToURL('parent','cronjobs_overview.php');return document.MM_returnValue" value="{$TR_CANCEL}" /></td>
                       </tr>
                     </table>
                   <input type="hidden" name="uaction" value="update_cronjob" />
@@ -267,10 +233,4 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
-            </table></td>
-          </tr>
-        </table></td>
-	</tr>
-</table>
-</body>
-</html>
+            </table>

@@ -1,11 +1,11 @@
 <html>
 	<head>
-		<title>{PAGE_TITLE}</title>
+		<title>{$PAGE_TITLE}</title>
 		<meta name="robots" content="nofollow, noindex">
-		<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}">
+		<meta http-equiv="Content-Type" content="text/html; charset={$THEME_CHARSET}">
 		<meta http-equiv="Content-Style-Type" content="text/css">
 		<meta http-equiv="Content-Script-Type" content="text/javascript">
-		<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css">
+		<link href="{$THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<table cellpadding="0" cellspacing="0" width="100%" style="height:100%">
@@ -16,7 +16,7 @@
 							<td colspan="7" width="453" height="69" class="loginTop">&nbsp;</td>
 						</tr>
 						<tr>
-							<td align="center"><br /><strong>{ORDER_STATUS_MESSAGE}</strong><br /><br /></td>
+							<td align="center"><br /><strong>{$ORDER_STATUS_MESSAGE}</strong><br /><br /></td>
 						</tr>
 					</table>
 					<table width="453" align="center">

@@ -1,43 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ADMIN_USER_STATISTICS_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/css/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/css/pngfix.js"></script>
-<![endif]-->
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<!-- BDP: logged_from -->
-<tr>
- <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-</tr>
-<!-- EDP: logged_from -->
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-          <tr style="height:95px;">
-            <td style="padding-left:30px; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
                     <tr>
-                      <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_stats.png" width="25" height="25" alt="" /></td>
-                      <td colspan="2" class="title">{TR_RESELLER_USER_STATISTICS}</td>
+                      <td width="25"><img src="{$THEME_COLOR_PATH}/images/content/table_icon_stats.png" width="25" height="25" alt="" /></td>
+                      <td colspan="2" class="title">{$TR_RESELLER_USER_STATISTICS}</td>
                     </tr>
                 </table></td>
                 <td width="27" align="right">&nbsp;</td>
@@ -47,129 +13,126 @@
                     <tr>
                       <td width="40" nowrap="nowrap">&nbsp;&nbsp;&nbsp;</td>
                       <td><!-- BDP: props_list -->
-                          <form name="rs_frm" method="post" action="user_statistics.php?psi={POST_PREV_PSI}">
+                          <form name="rs_frm" method="post" action="user_statistics.php?psi={$POST_PREV_PSI}">
                             <table width="100%">
                               <tr>
-                                <td width="80" class="content">{TR_MONTH}</td>
+                                <td width="80" class="content">{$TR_MONTH}</td>
                                 <td width="80" class="content"><select name="month">
-                                    <!-- BDP: month_list -->
-                                    <option {OPTION_SELECTED}>{MONTH_VALUE}</option>
-                                    <!-- EDP: month_list -->
+                                    {section name=i loop=$MONTH_VALUE}
+                                    <option {$MONTH_SELECTED[i]}>{$MONTH_VALUE[i]}</option>
+                                    {/section}
                                   </select>
                                 </td>
-                                <td width="80" class="content">{TR_YEAR}</td>
+                                <td width="80" class="content">{$TR_YEAR}</td>
                                 <td width="80" class="content"><select name="year">
-                                    <!-- BDP: year_list -->
-                                    <option {OPTION_SELECTED}>{YEAR_VALUE}</option>
-                                    <!-- EDP: year_list -->
+                                    {section name=i loop=$YEAR_VALUE}
+                                    <option {$YEAR_SELECTED[i]}>{$YEAR_VALUE[i]}</option>
+                                    {/section}
                                   </select>
                                 </td>
-                                <td class="content"><input name="Submit" type="submit" class="button" value=" {TR_SHOW} " />
+                                <td class="content"><input name="Submit" type="submit" class="button" value=" {$TR_SHOW} " />
                                 </td>
                               </tr>
                             </table>
                             <input type="hidden" name="uaction" value="show" />
-                            <input type="hidden" name="name" value="{VALUE_NAME}" />
-                            <input type="hidden" name="rid" value="{VALUE_RID}" />
+                            <input type="hidden" name="name" value="{$VALUE_NAME}" />
+                            <input type="hidden" name="rid" value="{$VALUE_RID}" />
                           </form>
                         <br />
                           <table width="100%" cellspacing="3">
-                            <!-- BDP: no_domains -->
+                            {if !$DOMAIN_NAME}
                             <tr>
-                              <td class="title" colspan="13" width="550" align="center"><span style="color:red;"> {TR_NO_DOMAINS}</span></td>
+                              <td class="title" colspan="13" width="550" align="center"><span style="color:red;"> {$TR_NO_DOMAINS}</span></td>
                             </tr>
-                            <!-- EDP: no_domains -->
-                            <!-- BDP: domain_list -->
+                            {else}
                             <tr>
-                              <td height="25" colspan="13" nowrap="nowrap" class="content">{RESELLER_NAME}</td>
+                              <td height="25" colspan="13" nowrap="nowrap" class="content">{$RESELLER_NAME}</td>
                             </tr>
                             <tr align="center">
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_DOMAIN_NAME}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_TRAFF}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_DISK}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_WEB}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_FTP_TRAFF}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_SMTP}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_POP3}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_SUBDOMAIN}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_ALIAS}</b> </td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_MAIL}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_FTP}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_SQL_DB}</b></td>
-                              <td class="content3" nowrap="nowrap" height="25"><b>{TR_SQL_USER}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_DOMAIN_NAME}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_TRAFF}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_DISK}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_WEB}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_FTP_TRAFF}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_SMTP}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_POP3}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_SUBDOMAIN}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_ALIAS}</b> </td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_MAIL}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_FTP}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_SQL_DB}</b></td>
+                              <td class="content3" nowrap="nowrap" height="25"><b>{$TR_SQL_USER}</b></td>
                             </tr>
-                            <!-- BDP: domain_entry -->
+                            {section name=i loop=$DOMAIN_NAME}
                             <tr class="hl">
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center"><b><a href="domain_statistics.php?month={MONTH}&amp;year={YEAR}&amp;domain_id={DOMAIN_ID}" class="link">{DOMAIN_NAME}</a></b></td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center"><b><a href="domain_statistics.php?month={$MONTH[i]}&amp;year={$YEAR[i]}&amp;domain_id={$DOMAIN_ID[i]}" class="link">{$DOMAIN_NAME[i]}</a></b></td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                   <tr>
-                                    <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+                                    <td width="3"><img src="{$THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
                                     <td class="statsBar"><table border="0" cellspacing="0" cellpadding="0" align="left">
                                         <tr>
-                                          <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFF_PERCENT}" height="20" alt="" /></td>
+                                          <td class="statsBar"><img src="{$THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{$TRAFF_PERCENT[i]}" height="20" alt="" /></td>
                                         </tr>
                                     </table></td>
-                                    <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+                                    <td width="3"><img src="{$THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
                                   </tr>
                                 </table>
-                                  <b>{TRAFF_SHOW_PERCENT}&nbsp;%</b><br />
-                                {TRAFF_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <b>{$TRAFF_SHOW_PERCENT[i]}&nbsp;%</b><br />
+                                {$TRAFF_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                   <tr>
-                                    <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+                                    <td width="3"><img src="{$THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
                                     <td class="statsBar"><table border="0" cellspacing="0" cellpadding="0" align="left">
                                         <tr>
-                                          <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{DISK_PERCENT}" height="20" alt="" /></td>
+                                          <td class="statsBar"><img src="{$THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{$DISK_PERCENT[i]}" height="20" alt="" /></td>
                                         </tr>
                                     </table></td>
-                                    <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+                                    <td width="3"><img src="{$THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
                                   </tr>
                                 </table>
-                                  <b>{DISK_SHOW_PERCENT}&nbsp;%</b><br />
-                                {DISK_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{WEB}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{FTP}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{SMTP}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{POP3}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{SUB_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{ALS_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{MAIL_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{FTP_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{SQL_DB_MSG}</td>
-                              <td class="{ITEM_CLASS}" nowrap="nowrap" align="center">{SQL_USER_MSG}</td>
+                                  <b>{$DISK_SHOW_PERCENT[i]}&nbsp;%</b><br />
+                                {$DISK_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$WEB[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$FTP[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$SMTP[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$POP3[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$SUB_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$ALS_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$MAIL_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$FTP_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$SQL_DB_MSG[i]}</td>
+                              <td class="{$ITEM_CLASS[i]}" nowrap="nowrap" align="center">{$SQL_USER_MSG[i]}</td>
                             </tr>
-                            <!-- EDP: domain_entry -->
-                            <!-- EDP: domain_list -->
+                            {/section}
+							{/if} 
                           </table>
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                               <td><div align="left"><br />
-                                      <!-- BDP: scroll_prev_gray -->
-                                      <img src="{THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
-                                      <!-- EDP: scroll_prev_gray -->
-                                      <!-- BDP: scroll_prev -->
-                                      <a href="user_statistics.php?psi={PREV_PSI}&amp;month={MONTH}&amp;year={YEAR}"><img src="{THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
-                                      <!-- EDP: scroll_prev -->
-                                      <!-- BDP: scroll_next_gray -->
-                                &nbsp;<img src="{THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
-                                <!-- EDP: scroll_next_gray -->
-                                <!-- BDP: scroll_next -->
-                                &nbsp;<a href="user_statistics.php?psi={NEXT_PSI}&amp;month={MONTH}&amp;year={YEAR}"><img src="{THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
-                                <!-- EDP: scroll_next -->
+								{if $PREV_PSI || $PREV_PSI===0}
+								<a href="user_statistics.php?psi={$PREV_PSI}&amp;month={$MONTH}&amp;year={$YEAR}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
+								{else}
+								<img src="{$THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
+								{/if}
+                                &nbsp;
+                                {if $NEXT_PSI}
+                                <a href="user_statistics.php?psi={$NEXT_PSI}&amp;month={$MONTH}&amp;year={$YEAR}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
+                                {else}
+                                <img src="{$THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
+                                {/if}
                               </div></td>
                               <td><div align="right"><br />
-                                      <!-- BDP: scroll_prev_gray -->
-                                      <img src="{THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
-                                      <!-- EDP: scroll_prev_gray -->
-                                      <!-- BDP: scroll_prev -->
-                                      <a href="user_statistics.php?psi={PREV_PSI}&amp;month={MONTH}&amp;year={YEAR}"><img src="{THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
-                                      <!-- EDP: scroll_prev -->
-                                      <!-- BDP: scroll_next_gray -->
-                                &nbsp;<img src="{THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
-                                <!-- EDP: scroll_next_gray -->
-                                <!-- BDP: scroll_next -->
-                                &nbsp;<a href="user_statistics.php?psi={NEXT_PSI}&amp;month={MONTH}&amp;year={YEAR}"><img src="{THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
-                                <!-- EDP: scroll_next -->
+								{if $PREV_PSI || $PREV_PSI===0}
+                                <a href="user_statistics.php?psi={$PREV_PSI}&amp;month={$MONTH}&amp;year={$YEAR}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
+								{else}
+                                <img src="{$THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
+								{/if}
+                                &nbsp;
+                                {if $NEXT_PSI}
+                                <a href="user_statistics.php?psi={$NEXT_PSI}&amp;month={$MONTH}&amp;year={$YEAR}"><img src="{$THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
+								{else}
+                                <img src="{$THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
+								{/if}
                               </div></td>
                             </tr>
                         </table>
@@ -183,10 +146,4 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
-            </table></td>
-          </tr>
-        </table></td>
-	</tr>
-</table>
-</body>
-</html>
+            </table>
