@@ -9,6 +9,7 @@ ispCP ω 1.0.7 ChangeLog
 			- Converted all templates
 			- Removed unused menu and main_menu templates
 			- Converted all PHP files
+			- Fixed some template names
 
 2010-10-13 Daniel Hofer
 	- GUI:
