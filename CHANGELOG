@@ -1,6 +1,29 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-10-20 Laurent Declercq
+	- CONFIGS:
+		* Removed PHP4 support
+		* Removed Fcgid IPCConnectTimeout directive  (not respected on Unix)
+
+2010-10-19 Laurent Declercq
+	- DISTS:
+		* Fixed #2488: [FreeBSD] Changed freebsd_packages (Thanks to Bene)
+	- SETUP:
+		* Fixed (last part) #2476: Internationalized domain names - Punycode
+			conversion
+
+2010-10-18 Benedikt Heintel
+    - SETUP:
+        * Renamed Dialog::Ask to Dialog::Query
+
+2010-10-17 Laurent Declercq
+	- CONFIGS:
+		* Fixed #2486: logrotate error in /etc/logrotate.d/ispcp:91 "unknown
+			unit 'm'"
+	- SETUP:
+		* Fixed: Regexp doesn't match all possible entries (Postgrey fix)
+
 2010-10-16 Daniel Hofer
 	- GUI:
 		* Smarty conversion:
@@ -11,6 +34,34 @@ ispCP ω 1.0.7 ChangeLog
 			- Converted all PHP files
 			- Fixed some template names
 
+2010-10-16 Laurent Declercq
+	- DISTS:
+		* Removed support for unmaintained Ubuntu versions
+	- SETUP:
+		* Improved maintainer scripts library
+
+2010-10-16 Daniel Andreca
+	- ENGINE:
+		* Fixed #2472: Some issue with Gentoo and update process
+		* Small fix to allow database names containing special chars like '-'
+		
+2010-10-15 Daniel Andreca
+	- ENGINE:
+		* Small fix to allow database names containing special chars like '-'
+
+2010-10-15 Laurent Declercq
+	- SETUP:
+		* Finished local DNS resolver setup
+		* Improved both setup and update look and feel
+
+2010-10-14 Daniel Andreca
+	- CONFIG:
+		* Disabling mod_ratio for proftpd
+
+2010-10-14 Laurent Declercq
+	- SETUP:
+		* Small improvement for user dialog (First part)
+
 2010-10-13 Daniel Hofer
 	- GUI:
 		* Added base Smarty templates
@@ -18,6 +69,7 @@ ispCP ω 1.0.7 ChangeLog
 2010-10-11 Laurent Declercq
 	- SETUP:
 		* Fixed #2483: Output from external commands must be captured and logged
+
 2010-10-10 Laurent Declercq
 	- SETUP:
 		* Added some fixes for Awstats

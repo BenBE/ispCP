@@ -323,12 +323,13 @@ sub cfg_recovery_process {
 		DATABASE_NAME => [\&ask_db_name, 'db_name'],
 		DATABASE_USER => [\&ask_db_user, 'db_user'],
 		PHP_FASTCGI => [\&ask_fastcgi, 'php_fastcgi'],
-		PHP_TIMEZONE => [\&ask_timezone, 'php_timezone']
+		PHP_TIMEZONE => [\&ask_timezone, 'php_timezone'],
+		LOCAL_DNS_RESOLVER => [\&ask_resolver, 'resolver']
 	};
 
 	# If several parameters are set to an empty value, we should ensure that the
 	# user has installed ispCP by asking this question
-	if (scalar(@$settings) >= 2) {
+	if (scalar(@$settings) >= 3) {
 		print colored(['bold yellow'], "\n\n\t[WARNING] ").
 			"Your ispCP configuration file has several settings set\n" .
 			"\tto an empty value!\n";
@@ -494,7 +495,7 @@ sub rebuild_customers_cfg {
 	# Unlock is needed here to be able to launch the ispcp-rqst-mngr script
 	close $main::fh_lock_file if defined $main::fh_lock_file;
 
-	my $rs = sys_command_rs("perl $main::ispcp_rqst_mngr");
+	my $rs = sys_command("perl $main::ispcp_rqst_mngr norestart");
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'rebuild_customers_cfg()', 'Ending...');
@@ -668,11 +669,13 @@ sub update_engine {
 	user_dialog();
 
 	system('clear');
-
 	spacer();
 
+	# Starting ispCP installation
+	title('Starting ispCP update');
+
 	## Stopping services
-	subtitle('Stopping Services: ');
+	subtitle('Stopping services: ');
 	stop_services();
 	print_status(0);
 
@@ -680,10 +683,10 @@ sub update_engine {
 	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst") {
 		spacer();
 
-		title('Starting dist. maintainer pre-installation script');
+		title("Pre-installation tasks for $main::cfg{'DistName'}");
 		my $rs = preinst('upgrade');
 
-		exit_msg($rs) if ($rs == 2);
+		exit_msg($rs) if ($rs != 0);
 	}
 
 	spacer();
@@ -754,19 +757,21 @@ sub update_engine {
 	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/postinst") {
 		spacer();
 
-		title('Starting dist. maintainer post installation script');
+		title("Post-installation tasks for $main::cfg{'DistName'}");
 		$rs = postinst('configure');
 
-		exit_msg($rs) if ($rs == 2);
+		exit_msg($rs) if ($rs != 0);
 	}
 
 	spacer();
 
 	## IspCP files permissions
-	title('Set ENGINE and GUI permissions');
+	title('Permissions setup');
 	set_permissions();
 
 	spacer();
+
+	title('Finishing update');
 
 	## Stating services
 	subtitle('Starting services: ');
@@ -788,7 +793,7 @@ sub update_shutdown {
 	push_el(\@main::el, 'update_shutdown()', 'Starting...');
 
 	print colored(['bold underline'],
-		"\n\n\tCongratulations, you updated ispCP OMEGA" .
+		"\n\tCongratulations, you updated ispCP OMEGA" .
 		"'$main::cfg{'Version'}' successfully!\n\n"),
 
 		"\tType http://$main::cfg{'BASE_SERVER_VHOST'} into your browser to " .
