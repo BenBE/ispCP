@@ -50,6 +50,8 @@ recursive_set_permissions "$ROOT_DIR/gui/phptmp" \
 	$PANEL_USER $APACHE_GROUP 0750 0640
 recursive_set_permissions "$ROOT_DIR/gui/themes/user_logos" \
 	$PANEL_USER $APACHE_GROUP 0750 0640
+recursive_set_permissions "$ROOT_DIR/gui/themes/**/compiled" \
+	$PANEL_USER $APACHE_GROUP 0750 0640
 recursive_set_permissions "$ROOT_DIR/gui/tools/filemanager/temp" \
 	$PANEL_USER $APACHE_GROUP 0750 0640
 recursive_set_permissions "$ROOT_DIR/gui/tools/webmail/data" \
