@@ -1,0 +1,27 @@
+detect_os() {
+	HOST_OS=$(uname)
+	if [ $? -ne 0 ];then printf "Can not guess operating system"; failtxt 'fail'; exit 1; fi
+	if [ "${HOST_OS}" = "FreeBSD" ]; then
+		export DIST="FreeBSD"
+	elif [ "${HOST_OS}" = "OpenBSD" ]; then
+		export DIST="OpenBSD"
+	elif [ "${HOST_OS}" = "Linux" ]; then
+		testCommand "lsb_release"
+		export DIST=$(lsb_release -si)
+		export VER=$(lsb_release -sr)
+		export CODENAME=$(lsb_release -sc)
+	fi
+}
+
+testroot(){
+	title 'Testing for root'
+	local _ERR='You must be root to install'
+	if [ $(id -u) -ne 0 ]; then msgbox "$_ERR"; failtxt "$_ERR"; fi
+}
+
+savecurrdir(){
+	CURRENT_DIR=$(pwd)
+	local _ERR='Can not get current directory'
+	if [ $? -ne 0 ]; then msgbox "$_ERR"; failtxt "$_ERR"; fi
+	echo $CURRENT_DIR
+}

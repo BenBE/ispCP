@@ -1,0 +1,51 @@
+#!/bin/sh
+
+SELFDIR=$(dirname "$0")
+. $SELFDIR/install-files/ispcp-install-functions
+. $SELFDIR/install-files/display-functions
+. $SELFDIR/install-files/so-functions
+. $SELFDIR/install-files/backup-functions
+
+
+title "Check available commands"
+COMMANDS="which uname tr mkdir rm pwd"
+
+for COMM in ${COMMANDS}; do testCommand ${COMM}; done
+
+COMMANDS="aaa dialog whiptail"
+#~ COMMANDS="whiptail dialog"
+
+title "Testing for any of ${COMMANDS}..."
+testAnyCommand "${COMMANDS}" 'DIALOG'
+
+detect_os
+
+testroot
+
+printf 'All tests... '; oktxt "PASS"; printf "\n"
+
+_AvailableOS="Centos Debian Fedora FreeBSD Gentoo OpenBSD Opensuse Ubuntu"
+
+while [ ! $OS ]; do
+	OS=$(msgopts 'Select operating system' "${_AvailableOS} Neither" "${DIST}" 3>&1 1>&2 2>&3)
+
+	if [ "${OS}" = "Neither" ]; then colortxt 'yellow' "Not supported distribution "; failtxt; fi
+	
+	if [ "${OS}" = "" ]; then msgbox "You must select one distribution or 'Neither' ";
+	elif [ "${OS}" != "${DIST}" ]; then msgask "Are sure you want continue with $OS?" "'I am sure'" "'Not sure'" || OS=
+	fi
+done
+
+title "Loading $OS specific variable"
+VFILE=$SELFDIR/install-files/$(echo ${OS}-variable | tr [:upper:] [:lower:])
+if [ ! -f "$VFILE" ];then
+	colortxt 'yellow' "$VFILE not found"; failtxt;
+fi
+. $VFILE
+
+for folders in $SYSTEM_FOLDERS; do
+	sys_folder $(echo $folders | awk -F "=" '{print $1" "$2}')
+done
+
+savecurrdir
+builddaemon

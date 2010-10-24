@@ -1,0 +1,59 @@
+#!bin/sh
+################################################################################
+## color
+##
+testCommand() {
+		printf "Testing for $1 command... ";
+		A=$(which "$1")
+		XX=$?
+		if [ "$XX" = "0" ]; then
+			printf "$1 found ${A} "
+			eval $COMM=$A
+			oktxt
+			printf "\n"
+		else
+			printf "NOT FOUND $1!!! "
+			if [ "$2" != "0" ]; then
+				failtxt
+				printf "\n"
+			else 
+				warntxt
+				printf "\n"
+			fi
+		fi
+	return $XX;
+}
+testAnyCommand() {
+	local _rval=$2
+	rs=1
+	for COMM in $1; do
+		testCommand "$COMM" 0
+		if [ $? = "0" ]; then
+			rs=0
+			eval $_rval=\$$COMM
+			return
+		fi
+	done
+	if [ $rs != "0" ]; then 
+		printf  "None of following $1 where found "
+		failtxt
+	fi
+}
+sys_folder(){
+	export $1
+	eval "$1=$2"
+	eval dir=\$${1}
+	if [ $dir ]; then 
+		if [ -d $dir ]; then $rm -r $dir; fi
+		$mkdir -p $dir; 
+	fi
+}
+
+builddaemon() {
+	cd "./tools"
+	echo $?
+	pwd
+	./install
+	cd ..
+	pwd
+}
