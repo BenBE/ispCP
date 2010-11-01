@@ -159,9 +159,7 @@
                               <td width="25">&nbsp;</td>
                               <td width="200" class="content2">{$TR_GENDER}</td>
                               <td class="content"><select name="gender" size="1">
-                                      <option value="M" {$VL_MALE}>{$TR_MALE}</option>
-                                      <option value="F" {$VL_FEMALE}>{$TR_FEMALE}</option>
-                                      <option value="U" {$VL_UNKNOWN}>{$TR_UNKNOWN}</option>
+                                    {html_options options=$TR_GENDER_OPTIONS selected=$GENDER}
                                     </select></td>
                             </tr>
                             <tr>
