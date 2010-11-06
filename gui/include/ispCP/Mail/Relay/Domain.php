@@ -43,39 +43,39 @@
 class ispCP_Mail_Relay_Domain {
 
 	/**
-	 * @var $dbConfig ispCP_Config_Handler_db
+	 * Configuration parameters that are stored in database
+	 *
+	 * @var ispCP_Config_Handler_db
 	 */
 	private $dbConfig;
 
 	/**
-	 * Relay domains map
+	 * Map used for relay domains where the key is the domain unique identifier
+	 * for which the mails must be forwarded to a remote destination and the
+	 * value the corresponding MX hostname.
 	 *
-	 * This is the map used by ispCP for relay domains where each key is the
-	 * domain id for which the mails must be forwarded to a remote destination
-	 * and where each associated value are the corresponding MX hostname.
-	 *
-	 * @var $relayDomainsMap array
+	 * @var array Relay domains map
 	 */
 	private $relayDomainsMap = array();
 
 	/**
 	 *  Domain id for which the mails must be forwarded to a remote destination
 	 *
-	 *  @var $domainId Domain unique identifier
+	 *  @var int Domain unique identifier
 	 */
 	private $domainId;
 
 	/**
 	 *  Domain name
 	 *
-	 *  @var $domain Domain name
+	 *  @var string
 	 */
 	private $domainName;
 
 	/**
-	 * Error message
+	 * Last error occurred
 	 *
-	 * @var string $Error
+	 * @var string
 	 */
 	public $error = '';
 
@@ -101,7 +101,7 @@ class ispCP_Mail_Relay_Domain {
 		);
 
 		if(!$stmt->recordCount()) {
-			throw new ispCP_Exception('Error: Domain not registered!');
+			throw new ispCP_Exception(tr('Error: Domain not registered!'));
 		} else {
 			$this->domainName = $stmt->fields['domain_name'];
 		}
@@ -123,7 +123,7 @@ class ispCP_Mail_Relay_Domain {
 	 *
 	 * @param int $domainId Domain name identifier
 	 * @param bool $checkMX Tell whether or not MX Hostname must be checked
-	 * @return bool TRUE on success, false otherwise
+	 * @return bool TRUE on success, FALSE otherwise
 	 * @todo Possibility to add more than one mxHostname
 	 */
 	public function setEntry($mxHostname, $checkMX = true) {
@@ -181,14 +181,14 @@ class ispCP_Mail_Relay_Domain {
 	 * - Checks that a DNS A or AAAA record exists for the specified MX hostname
 	 * - Checks that a mail server is reachable by trying connection on port 25
 	 *
-	 * @param string $mxHostname hostname
+	 * @param string $mxHostname MX Hostname
 	 * @return boolean True on success, FALSE otherwise
 	 */
 	private function _checkMxHostname($mxHostname) {
 
 		if(!checkdnsrr($mxHostname, 'A') && !checkdnsrr($mxHostname, 'AAAA')) {
 			$this->error = tr(
-				'Error: Unable to resolve host name: `%s` !', $mxHostname
+				'Error: Unable to resolve the host name: `%s` !', $mxHostname
 			);
 
 			return false;
@@ -208,7 +208,7 @@ class ispCP_Mail_Relay_Domain {
 	 * - Add/update/Delete a entry into the RELAY_DOMAIN_MAP
 	 * - Add/Update/Delete the associated DNS MX record
 	 *
-	 * @param string $action Action type to be performed on the database
+	 * @param string $action Action to be performed on the database
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	private function _updateDb($action) {
@@ -227,8 +227,8 @@ class ispCP_Mail_Relay_Domain {
 			";
 
 			$p = array(
-				$this->domainId, '0', $this->domainName.'.', 'IN', 'MX',
-				"5  {$this->relayDomainsMap[$this->domainId]}.", 'yes'
+				$this->domainId, '0', "{$this->domainName}.", 'IN', 'MX',
+				"5 {$this->relayDomainsMap[$this->domainId]}.", 'yes'
 			);
 		} elseif($action == 'updt') {
 			$query = "
