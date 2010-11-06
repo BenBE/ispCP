@@ -178,7 +178,8 @@ class ispCP_Mail_Relay_Domain {
 	 * Checks for the MaileXchanger hostname
 	 *
 	 * This method does the following checks:
-	 * - Checks that a DNS A or AAAA record exists for the specified MX hostname
+	 * - Checks that a DNS A or AAAA record exists for the specified hostname
+	 * - Checks that the hostname is not hosted locally
 	 * - Checks that a mail server is reachable by trying connection on port 25
 	 *
 	 * @param string $mxHostname MX Hostname
@@ -186,21 +187,44 @@ class ispCP_Mail_Relay_Domain {
 	 */
 	private function _checkMxHostname($mxHostname) {
 
-		if(!checkdnsrr($mxHostname, 'A') && !checkdnsrr($mxHostname, 'AAAA')) {
+		/**
+		 * @var $cfg ispCP_Config_Handler_File
+		 */
+		$cfg = ispCP_Registry::get('Config');
+
+		if(!($records = dns_get_record($mxHostname, DNS_A)) &&
+			!($records = dns_get_record($mxHostname, DNS_AAAA))) {
+
 			$this->error = tr(
 				'Error: Unable to resolve the host name: `%s` !', $mxHostname
 			);
+	
+			return false;
+		}
+
+		/**
+		 * @var $sql ispCP_Database
+		 */
+		$db = ispCP_Registry::get('Db');
+
+		$stmt = execute_query($db, 'SELECT `ip_number` FROM `server_ips`;');
+		$serverIps = $stmt->fetchRow();
+
+		if(in_array($records[0]['ip'], $serverIps)) {
+			$this->error = tr('Error: Unallowed MX hostname!');
 
 			return false;
 		} elseif(!@fsockopen($mxHostname, 25)) {
 			$this->error = tr(
-				"Mail server '%s' is not reachable on port 25!", $mxHostname
+				"Error: Mail server '%s' is not reachable on port 25!",
+				$mxHostname
 			);
+
 			return false;
 		}
 
 		return true;
-	}
+ 	}
 
 	/**
 	 * Add/Update/Delete data in database
