@@ -183,7 +183,7 @@ class ispCP_Mail_Relay_Domain {
 	 * - Checks that a mail server is reachable by trying connection on port 25
 	 *
 	 * @param string $mxHostname MX Hostname
-	 * @return boolean True on success, FALSE otherwise
+	 * @return boolean True if the MX hostname is valid, FALSE otherwise
 	 */
 	private function _checkMxHostname($mxHostname) {
 
@@ -196,7 +196,7 @@ class ispCP_Mail_Relay_Domain {
 			!($records = dns_get_record($mxHostname, DNS_AAAA))) {
 
 			$this->error = tr(
-				'Error: Unable to resolve the host name: `%s` !', $mxHostname
+				'Error: Unable to resolve the hostname: `%s`!', $mxHostname
 			);
 	
 			return false;
@@ -208,9 +208,11 @@ class ispCP_Mail_Relay_Domain {
 		$db = ispCP_Registry::get('Db');
 
 		$stmt = execute_query($db, 'SELECT `ip_number` FROM `server_ips`;');
-		$serverIps = $stmt->fetchRow();
+		$Ips = $stmt->fetchRow();
 
-		if(in_array($records[0]['ip'], $serverIps)) {
+		if((isset($records[0]['ip']) && in_array($records[0]['ip'], $Ips)) ||
+			in_array($records[0]['ipv6'], $Ips)) {
+
 			$this->error = tr('Error: Unallowed MX hostname!');
 
 			return false;
@@ -224,7 +226,7 @@ class ispCP_Mail_Relay_Domain {
 		}
 
 		return true;
- 	}
+    }
 
 	/**
 	 * Add/Update/Delete data in database
