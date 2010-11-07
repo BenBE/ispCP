@@ -192,26 +192,26 @@ class ispCP_Mail_Relay_Domain {
 		 */
 		$cfg = ispCP_Registry::get('Config');
 
-		if(!($records = dns_get_record($mxHostname, DNS_A)) &&
-			!($records = dns_get_record($mxHostname, DNS_AAAA))) {
-
+		if(!($records = dns_get_record($mxHostname, DNS_A + DNS_AAAA))) {
 			$this->error = tr(
 				'Error: Unable to resolve the hostname: `%s`!', $mxHostname
 			);
 	
 			return false;
+		} elseif(count($records) > 1) {
+			$records = array_merge($records[0], $records[1]);
 		}
 
 		/**
-		 * @var $sql ispCP_Database
+		 * @var $db ispCP_Database
 		 */
 		$db = ispCP_Registry::get('Db');
 
 		$stmt = execute_query($db, 'SELECT `ip_number` FROM `server_ips`;');
-		$Ips = $stmt->fetchRow();
+		$ips = $stmt->fetchRow();
 
-		if((isset($records[0]['ip']) && in_array($records[0]['ip'], $Ips)) ||
-			in_array($records[0]['ipv6'], $Ips)) {
+		if((isset($records[0]['ip']) && in_array($records[0]['ip'], $ips)) ||
+			in_array($records[0]['ipv6'], $ips)) {
 
 			$this->error = tr('Error: Unallowed MX hostname!');
 
