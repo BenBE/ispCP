@@ -1,10 +1,104 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-03 Laurent Declercq
+	- GUI
+		* Allows to protect custom DNS records against both edition/deletion
+		* Disabled both edit/delete links for protected DNS records (cosmetic)
+
+2010-11-02 Daniel Andreca
+	- CONFIGS:
+		* typo in gentoo configs
+
+2010-11-02 Laurent Declercq
+	- SETUP:
+		* Added start/stop support for amavids and clamd
+		* Moved additional_tasks() subroutine call after the postinst hook call
+		* Moved preinst hook call after ispCP conffile processing (update)
+
+2010-10-31 Daniel Andreca
+	- ENGINE:
+		* Fixed #2497: local time generation is faulty
+
+2010-10-31 Laurent Declercq
+	- DISTS:
+		* [openSUSE]: Added Amavisd, SpamAssassin, ClamAv support (first part)
+
+2010-10-30 Laurent Declercq
+	- DISTS:
+		* [openSUSE]:
+			- Added MTA SASL configuration file path (Chroot issue)
+			- Changed MTA sasldb2 file path (Chroot issue)
+			- Refactored Amavisd configuration sample in master.cf
+			- Using service keyword instead of port 587 in master.cf
+
+2010-10-29 Markus Schmidt
+	- TOOLS:
+		* Fixed Updated PhpMyAdmin to version 3.3.8
+
+2010-10-29 Laurent Declercq
+	- CONFIGS:
+		Reverted back on the PHP `short_open_tag` directive for convenience and
+			security reasons (All scripts that use the short open tags are
+			showed in plain text format - Think about credentials)
+	- DISTS:
+		* Fixed #2478: [openSUSE] Updating ispCP support for openSUSE 11.3
+		* Removed support for old openSUSE release (11.1, 11.2)
+	- SETUP:
+		- Changed parsing way to allow white spaces in ispcp.conf parameters
+		- Removed deprecated rkhunter.log file permissions fixation
+
+2010-10-28 Laurent Declercq
+	- SETUP:
+		* Fixed #2494: Setup fails at first Rkhunter update execution
+
+2010-10-27 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #2493: PHPSESSID renamed to ispCPSESSID
+
+2010-10-26 Daniel Andreca
+	- TOOLS:
+		* Updated PhpMyAdmin to version 3.3.8
+
+2010-10-25 Benedikt Heintel
+	- SETUP:
+		* Updated texts in PerlLib::Dialog::Query
+
+2010-10-25 Laurent Declercq
+	- GUI:
+		* Some fixes and re-factorization tasks in multilanguage.php including:
+			- Warnings about undefined fields and methods (PHPStorm issue)
+			- Unable to import some PO languages files
+		* Fixed in ispCP_Filter_Compress_Gzip::filter:
+			- Gzipped export for language files does not work in some cases
+		* Fixed in multilanguage.export.php:
+			- Useless deactivation of compression information
+			- Warnings about undefined fields and methods (PHPStorm issue)
+		* Fixed in language_delete.php:
+			- Unable to uninstall language (SQL issue)
+			- Warnings about undefined fields and methods (PHPStorm issue)
+		* Fixed #2489: Undefined offset in settings_ports.php
+		* Fixed #2490: Typo in PerlLib::Dialog::Query
+
+2010-10-24 Laurent Declercq
+	- CONFIGS:
+		* Added postgrey/policyd-weight init scripts paths
+	- DOCS:
+		* Updating some INSTALL files (Postgrey port)
+	- SETUP:
+		* Added postgrey/policyd-weight start-stop management
+
+2010-10-23 Laurent Declercq
+	- CONFIGS:
+		* [OpenSUSE] Fixed `apache2ctl` ignore any sysconfig parameters
+
+2010-10-22 Jochen Manz
+	- RELEASE ispCP ω Omega 1.0.7 RC2
+
 2010-10-20 Laurent Declercq
 	- CONFIGS:
 		* Removed PHP4 support
-		* Removed Fcgid IPCConnectTimeout directive  (not respected on Unix)
+		* Removed Fcgid IPCConnectTimeout directive  (Not respected on Unix)
 
 2010-10-19 Laurent Declercq
 	- DISTS:
@@ -15,7 +109,7 @@ ispCP ω 1.0.7 ChangeLog
 
 2010-10-18 Benedikt Heintel
     - SETUP:
-        * Renamed Dialog::Ask to Dialog::Query
+        * Renamed PerlLib::Dialog::Ask to PerlLib::Dialog::Query
 
 2010-10-17 Laurent Declercq
 	- CONFIGS:
@@ -44,7 +138,7 @@ ispCP ω 1.0.7 ChangeLog
 	- ENGINE:
 		* Fixed #2472: Some issue with Gentoo and update process
 		* Small fix to allow database names containing special chars like '-'
-		
+
 2010-10-15 Daniel Andreca
 	- ENGINE:
 		* Small fix to allow database names containing special chars like '-'

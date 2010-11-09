@@ -5,7 +5,7 @@
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 # author    Laurent Declercq <laurent.declercq@ispcp.net>
-# version   1.1
+# version   1.0.1
 #
 # SVN: $Id$
 #
@@ -30,15 +30,8 @@
 #    http://isp-control.net
 #
 
-# Special note for DevTeam:
-#
-# It is necessary for the error recovery and update procedures that the scripts
-# be idempotent. This means that if it is run successfully, and then it is
-# called again, it doesn't bomb out or cause any harm, but just ensures that
-# everything is the way it ought to be. If the first call failed, or aborted
-# half way through for some reason, the second call should merely do the things
-# that were left undone the first time, if any, and exit with a success status
-# if if everything is OK.
+# IMPORTANT:
+# This script must be idempotent.
 
 set -e
 
@@ -68,7 +61,7 @@ case "$1" in
 				/etc/ispcp/ispcp.conf >> $LOGFILE 2>&1 || failed \
 					"The script was unable to update the Postgrey listening port in your\n\t ispcp.conf file!";
 
-			# Updating database.sql file Only on install
+			# Updating database.sql file only on install
 			if [ "$1" = "install" ] ; then
 				$CMD_SED -i s'/10023\(;tcp;POSTGREY\)/60000\1/' \
 					/etc/ispcp/database/database.sql >> $LOGFILE 2>&1 || failed \

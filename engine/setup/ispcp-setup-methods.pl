@@ -622,7 +622,7 @@ sub ask_timezone {
 	# Get the user's default timezone
 	my ($sec, $min, $hour, $mday, $mon, $year, @misc) = localtime;
 	my $datetime  = DateTime->new(
-		year => $year + 1900, month => $mon, day => $mday, hour => $hour,
+		year => $year + 1900, month => $mon + 1, day => $mday, hour => $hour,
 		minute => $min, second => $sec, time_zone => 'local'
 	);
 
@@ -644,7 +644,7 @@ sub ask_timezone {
 	my $error = ($@) ? 1 : 0; # $@ contains the die() message
 
 	if ($error == 1) {
-		printError($rdata);	
+		printError($rdata);
 		return -1;
 	} else {
 		$main::ua{'php_timezone'} = $rdata;
@@ -1234,7 +1234,8 @@ sub exit_msg {
 # tasks before that the actions of the main process are executed. This hook
 # allow to add a specific script named `preinst` that will be run before the
 # both setup and update process actions. This hook is automatically called after
-# that all services are shutting down.
+# that all services are shutting down except for the update process where it is
+# called after the ispCP configuration file processing (loading, updating...).
 #
 # Note:
 #
@@ -1321,10 +1322,12 @@ sub start_services {
 	push_el(\@main::el, 'start_services()', 'Starting...');
 
 	for (
-		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_MTA CMD_AUTHD
-		CMD_POP CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
+		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_CLAMD
+		CMD_POSTGREY CMD_POLICYD_WEIGHT CMD_AMAVIS CMD_MTA CMD_AUTHD CMD_POP
+		CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
 	) {
-		if( $main::cfg{$_} !~ /^no$/i && -e $main::cfg{$_}) {
+		if(exists $main::cfg{$_} && $main::cfg{$_} !~ /^no$/i &&
+			-e $main::cfg{$_}) {
 			sys_command("$main::cfg{$_} start");
 			progress();
 		}
@@ -1343,10 +1346,11 @@ sub stop_services {
 	push_el(\@main::el, 'stop_services()', 'Starting...');
 
 	for (
-		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_MTA CMD_AUTHD
-		CMD_POP CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
+		qw/CMD_ISPCPN CMD_ISPCPD CMD_NAMED CMD_HTTPD CMD_FTPD CMD_CLAMD
+		CMD_POSTGREY CMD_POLICYD_WEIGHT CMD_AMAVIS CMD_MTA CMD_AUTHD CMD_POP
+		CMD_POP_SSL CMD_IMAP CMD_IMAP_SSL/
 	) {
-		if(-e $main::cfg{$_}) {
+		if(exists $main::cfg{$_} && -e $main::cfg{$_}) {
 			sys_command("$main::cfg{$_} stop");
 			progress();
 		}
@@ -1390,9 +1394,9 @@ sub set_permissions {
 #
 # @return int 1 on success, other on failure
 #
-sub setup_cleanup {
+sub system_cleanup {
 
-	push_el(\@main::el, 'setup_cleanup()', 'Starting...');
+	push_el(\@main::el, 'system_cleanup()', 'Starting...');
 
 	my $rs = sys_command(
 		"$main::cfg{'CMD_RM'} -f $main::cfg{'LOG_DIR'}/*-traf.log.prev* " .
@@ -1400,7 +1404,7 @@ sub setup_cleanup {
 	);
 	return $rs if($rs != 0);
 
-	push_el(\@main::el, 'setup_cleanup()', 'Ending...');
+	push_el(\@main::el, 'system_cleanup()', 'Ending...');
 
 	0;
 }
@@ -1823,7 +1827,7 @@ sub setup_httpd_main_vhost {
 	# The alternative syntax does not involve the Shell (from Apache 2.2.12)
 	my $pipeSyntax = '|';
 
-	if(`$main::cfg{'CMD_HTTPD'} -v` =~ m!Apache/([\d.]+)! &&
+	if(`$main::cfg{'CMD_HTTPD_CTL'} -v` =~ m!Apache/([\d.]+)! &&
 		version->new($1) >= version->new('2.2.12')) {
 		$pipeSyntax .= '|';
 	}
@@ -3407,8 +3411,8 @@ sub setup_rkhunter {
 			# Here, we run the command with `--nolog` option to avoid creation
 			# of unreadable log file. The log file will be created later by an
 			# ispCP cron task
-			$rs = sys_command("rkhunter --update --nolog -q");
-			return $rs if($rs != 0);
+			$rs = sys_command_rs('rkhunter --update --nolog -q');
+			return $rs if($rs != 0 && $rs != 2);
 		}
 	}
 
@@ -3509,7 +3513,7 @@ sub additional_tasks{
 	print_status($rs, 'exit_on_error');
 
 	subtitle('ispCP System cleanup:');
-	setup_cleanup();
+	system_cleanup();
 	print_status(0);
 
 	push_el(\@main::el, 'additional_tasks()', 'Ending...');

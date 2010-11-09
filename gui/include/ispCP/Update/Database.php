@@ -1771,7 +1771,7 @@ class ispCP_Update_Database extends ispCP_Update {
 	/**
 	 * Fix for #2224 Postgrey - Port changed to 10023 for some distributions
 	 *
-	 * Note: Moved to 42 (previous preinst fix was wrong
+	 * Note: Moved to 42 (previous preinst fix was wrong)
 	 * 
 	 * @author Laurent Declercq <laurent.declercq@ispcp.net>
 	 * @since r3299
@@ -1784,18 +1784,57 @@ class ispCP_Update_Database extends ispCP_Update {
 	/**
 	 * Fix for #2224 Postgrey - Port changed to 10023 for some distributions
 	 *
+	 * Note: Moved to 43 (previous fix was wrong)
+	 *
 	 * @author Laurent Declercq <laurent.declercq@ispcp.net>
 	 * @since r3477
 	 * @return array
 	 */
 	protected function _databaseUpdate_42() {
+		return array();
+	}
+
+	/**
+	 * Fix for #2489 Postgrey - Undefined offset in settings_ports.php
+	 *
+	 * @author Laurent Declercq <laurent.declercq@ispcp.net>
+	 * @since r3547
+	 * @return array
+	 */
+	protected function _databaseUpdate_43() {
 
 		$cfg = new ispCP_Config_Handler_File();
 		$DbConfig = ispCP_Registry::get('Db_Config');
-		$DbConfig->PORT_POSTGREY = $cfg->PORT_POSTGREY;
+		$DbConfig->PORT_POSTGREY =
+			"{$cfg->PORT_POSTGREY};tcp;POSTGREY;1;1;localhost";
 
 		return array();
 	}
+
+	/**
+	 * Allows to protect custom DNS records against deletion
+	 *
+	 * @author Laurent Declercq <laurent.declercq@ispcp.net>
+	 * @since r3607
+	 * @return array
+	 */
+	protected function _databaseUpdate_44() {
+
+		$sqlUpd = array();
+
+		$sqlUpd[] = "
+			ALTER IGNORE TABLE
+				`domain_dns`
+			ADD
+				`protected` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no'
+			AFTER
+				`domain_text`
+			;
+		";
+
+		return $sqlUpd;
+	}
+
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
 	 */
