@@ -325,7 +325,7 @@ class ispCP_pTemplate {
 							$var_name = substr($data, $curl_b + 1, $curl_e - $curl_b - 1);
 
 							// The whole WORK goes here :)
-							if (preg_match('/[A-Z0-9][A-Z0-9\_]*/', $var_name)) {
+							if (preg_match('/^[A-Z0-9][A-Z0-9\_]*$/', $var_name)) {
 								if (isset($this->namespace[$var_name])) {
 									$data = substr_replace($data, $this->namespace[$var_name], $curl_b, $curl_e - $curl_b + 1);
 

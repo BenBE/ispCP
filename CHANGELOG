@@ -1,8 +1,18 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-13 Benedikt Heintel
+	- ENGINE:
+		* Fixed #2498: Alternative URL to reach your website wrong DNS entry 
+			when using multiple IP (Thanks to Daniel Andreca)
+	- GUI:
+		* Fixed #2496: fix pTemplate substitute_dynamic matching to detect 
+			invalid characters (Thanks to William Lightning)
+	- LANGUAGES:
+		* Updated Polish (Thanks to Alex Joe)
+
 2010-11-03 Laurent Declercq
-	- GUI
+	- GUI:
 		* Allows to protect custom DNS records against both edition/deletion
 		* Disabled both edit/delete links for protected DNS records (cosmetic)
 
