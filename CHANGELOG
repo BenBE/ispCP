@@ -1,6 +1,10 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-13 Markus Schmidt
+	- GUI:
+		* Update jQuery to 1.4.4
+
 2010-11-13 Benedikt Heintel
 	- ENGINE:
 		* Fixed #2498: Alternative URL to reach your website wrong DNS entry 
