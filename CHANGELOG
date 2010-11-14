@@ -1,6 +1,10 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-14 Thomas Wacker
+    - GUI:
+        * Fixed CSRF issues in admin log
+
 2010-11-14 Markus Schmidt
 	- GUI:
 		* Fixed #2499: Updated jQuery to version 1.4.4

@@ -1835,6 +1835,26 @@ class ispCP_Update_Database extends ispCP_Update {
 		return $sqlUpd;
 	}
 
+    /**
+     * Allows to protect custom DNS records against deletion
+     *
+     * @author Thomas Wacker <thomas.wacker@ispcp.net>
+     * @since r3627
+     * @return array
+     */
+    protected function _databaseUpdate_45() {
+
+        $sqlUpd = array();
+
+        $sqlUpd[] = "
+            TRUNCATE TABLE
+                `log`
+            ;
+        ";
+
+        return $sqlUpd;
+    }
+
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
 	 */
