@@ -47,7 +47,7 @@
                     <table width="100%" cellspacing="3" class="hl">
                       <tr>
                         <td width="35" align="left">&nbsp;</td>
-                        <td colspan="2" align="left" class="content3"><b>{TR_HOSTING PLAN PROPS}</b></td>
+                        <td colspan="2" align="left" class="content3"><b>{TR_HOSTING_PLAN_PROPS}</b></td>
                       </tr>
                       <!-- BDP: page_message -->
                       <tr>

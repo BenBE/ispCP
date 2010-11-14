@@ -1,6 +1,10 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-13 Benedikt Heintel
+	- GUI:
+		* Fixed Typos in Templates
+
 2010-11-14 Thomas Wacker
     - GUI:
         * Fixed CSRF issues in admin log
