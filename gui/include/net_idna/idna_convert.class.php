@@ -36,7 +36,7 @@
  * simple strings and complete email addresses as well. That means, that you might
  * use any of the following notations:
  *
- * - www.nörgler.com
+ * - www.nÃ¶rgler.com
  * - xn--nrgler-wxa
  * - xn--brse-5qa.xn--knrz-1ra.info
  *
@@ -82,7 +82,7 @@ class idna_convert
     protected $_api_encoding = 'utf8';   // Default input charset is UTF-8
     protected $_allow_overlong = false;  // Overlong UTF-8 encodings are forbidden
     protected $_strict_mode = false;     // Behave strict or not
-    protected $_encode_german_sz = true; // True to encode German ß; False, if not
+    protected $_encode_german_sz = true; // True to encode German ÃŸ; False, if not
 
     /**
      * the constructor
@@ -985,7 +985,7 @@ class idna_convert
                     ,0xD0 => array(0xF0), 0xD1 => array(0xF1), 0xD2 => array(0xF2), 0xD3 => array(0xF3)
                     ,0xD4 => array(0xF4), 0xD5 => array(0xF5), 0xD6 => array(0xF6), 0xD8 => array(0xF8)
                     ,0xD9 => array(0xF9), 0xDA => array(0xFA), 0xDB => array(0xFB), 0xDC => array(0xFC)
-                    ,0xDD => array(0xFD), 0xDE => array(0xFE) /* Here was German "ß" -> "ss", is now configurable */
+                    ,0xDD => array(0xFD), 0xDE => array(0xFE) /* Here was German "ÃŸ" -> "ss", is now configurable */
                     ,0x100 => array(0x101), 0x102 => array(0x103), 0x104 => array(0x105)
                     ,0x106 => array(0x107), 0x108 => array(0x109), 0x10A => array(0x10B)
                     ,0x10C => array(0x10D), 0x10E => array(0x10F), 0x110 => array(0x111)

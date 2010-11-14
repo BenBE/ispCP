@@ -3,8 +3,8 @@ ispCP ω 1.0.7 ChangeLog
 
 2010-11-14 Markus Schmidt
 	- GUI:
-		* Update jQuery to 1.4.4
-		* Update Net_IDNA to 0.6.9
+		* Fixed #2499: Updated jQuery to version 1.4.4
+		* Fixed #2500: Updated idna_convert to version 0.6.9
 
 2010-11-13 Benedikt Heintel
 	- ENGINE:
