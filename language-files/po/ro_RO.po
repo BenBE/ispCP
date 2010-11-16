@@ -2440,11 +2440,11 @@ msgstr "Numele trebuie completat."
 
 #, php-format
 msgid "Wrong IPv4 address (\"%s\")."
-msgstr "Adresa IPv4 gresita."
+msgstr "Adresa IPv4 gresita (\"%s\")."
 
 #, php-format
 msgid "Wrong IPv6 address (\"%s\")."
-msgstr "Adresa IPv6 gresita"
+msgstr "Adresa IPv6 gresita (\"%s\")."
 
 msgid "Port must be a number!"
 msgstr "Portul trebuie sa fie un numar!"
@@ -3554,7 +3554,7 @@ msgstr "%d B"
 
 #, php-format
 msgid "File %s does not exists or cannot be reached!"
-msgstr "Acest fisier nu exista sau nu poate fi accesat!"
+msgstr "Acest fisier %s nu exista sau nu poate fi accesat!"
 
 msgid "Error while trying to obtain list of network cards!"
 msgstr "Eroare la obtinerea listei de placi de retea!"
