@@ -62,7 +62,7 @@ $tpl->assign(
 		'TR_STATUS'				=> tr('Status'),
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
-		'TR_DNS_SUPP'			=> tr('Manual DNS support (EXPERIMENTAL)'),
+		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
 		'TR_BACKUP_SUPPORT'		=> tr('Backup support'),
 		'TR_MYSQL_SUPP'			=> tr('MySQL support'),
 		'TR_TRAFFIC'			=> tr('Traffic in MB'),

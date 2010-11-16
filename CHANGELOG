@@ -1,9 +1,12 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2010-11-13 Benedikt Heintel
+2010-11-16 Benedikt Heintel
+	- DATABASE:
+		* Added database change introduced in r3607
 	- GUI:
-		* Fixed Typos in Templates
+		* Fixed typos in templates
+		* Removed DNS experimental status
 
 2010-11-14 Thomas Wacker
     - GUI:

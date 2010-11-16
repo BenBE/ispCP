@@ -1836,7 +1836,7 @@ class ispCP_Update_Database extends ispCP_Update {
 	}
 
     /**
-     * Allows to protect custom DNS records against deletion
+     * Trunkates the admin log to avoid CSRF
      *
      * @author Thomas Wacker <thomas.wacker@ispcp.net>
      * @since r3627
