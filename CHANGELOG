@@ -5,9 +5,10 @@ ispCP ω 1.0.7 ChangeLog
 	- DATABASE:
 		* Added database change introduced in r3607
 	- ENGINE:
-		* Fixed: If rkhunter fails, also the installation failed (thanks to 
+		* Fixed: If rkhunter fails, also the installation failed (Thanks to 
 			Daniel Andreca)
 	- GUI:
+		* Added #2463: IP-Overview (Thanks to Klaas Tammling)
 		* Fixed typos in templates
 		* Removed DNS experimental status
 	- LANGUAGES:

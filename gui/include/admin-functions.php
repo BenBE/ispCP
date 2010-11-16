@@ -2,11 +2,11 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright     2001-2006 by moleSoftware GmbH
- * @copyright     2006-2010 by ispCP | http://isp-control.net
- * @version     SVN: $Id$
- * @link         http://isp-control.net
- * @author         ispCP Team
+ * @copyright	2001-2006 by moleSoftware GmbH
+ * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @version		SVN: $Id$
+ * @link		http://isp-control.net
+ * @author		ispCP Team
  *
  * @license
  * The contents of this file are subject to the Mozilla Public License
@@ -233,6 +233,7 @@ function gen_admin_menu(&$tpl, $menu_file) {
 			'TR_MENU_SETTINGS' => tr('Settings'),
 			'TR_GENERAL_SETTINGS' => tr('General settings'),
 			'TR_SERVERPORTS' => tr('Server ports'),
+			'TR_MENU_IP_USAGE' => tr('IP Usage'),
 			'VERSION' => $cfg->Version,
 			'BUILDDATE' => $cfg->BuildDate,
 			'CODENAME' => $cfg->CodeName
