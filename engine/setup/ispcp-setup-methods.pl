@@ -3510,7 +3510,7 @@ sub additional_tasks{
 
 	subtitle('ispCP Rkhunter configuration:');
 	my $rs = setup_rkhunter();
-	print_status($rs, 'exit_on_error');
+	print_status($rs);
 
 	subtitle('ispCP System cleanup:');
 	system_cleanup();

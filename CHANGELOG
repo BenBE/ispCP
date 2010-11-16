@@ -4,6 +4,9 @@ ispCP ω 1.0.7 ChangeLog
 2010-11-16 Benedikt Heintel
 	- DATABASE:
 		* Added database change introduced in r3607
+	- ENGINE:
+		* Fixed: If rkhunter fails, also the installation failed (thanks to 
+			Daniel Andreca)
 	- GUI:
 		* Fixed typos in templates
 		* Removed DNS experimental status
