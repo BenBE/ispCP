@@ -126,7 +126,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('PREVENT_EXTERNAL_LOGIN_ADMIN', '1'),
 ('PREVENT_EXTERNAL_LOGIN_RESELLER', '1'),
 ('PREVENT_EXTERNAL_LOGIN_CLIENT', '1'),
-('DATABASE_REVISION', '45');
+('DATABASE_REVISION', '46');
 
 -- --------------------------------------------------------
 
@@ -642,21 +642,6 @@ CREATE TABLE `subdomain_alias` (
   `subdomain_alias_url_forward` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `subdomain_alias_status` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`subdomain_alias_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `suexec_props`
---
-
-CREATE TABLE `suexec_props` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `uid` int(10) unsigned default NULL,
-  `gid` int(10) unsigned default NULL,
-  `usr` varchar(255) collate utf8_unicode_ci default NULL,
-  `grp` varchar(255) collate utf8_unicode_ci default NULL,
-  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

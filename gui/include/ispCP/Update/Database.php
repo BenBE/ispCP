@@ -1855,6 +1855,26 @@ class ispCP_Update_Database extends ispCP_Update {
         return $sqlUpd;
     }
 
+	/**
+	 * Remove unused table 'suexec_props'
+	 *
+	 * @author Benedikt Heintel <benedikt.heintel@ispcp.net>
+	 * @since r3637
+	 * @return array
+	 */
+	protected function _databaseUpdate_46() {
+
+		$sqlUpd = array();
+
+		$sqlUpd[] = "
+			DROP TABLE IF EXISTS
+				`suexec_props`
+			;
+		";
+
+		return $sqlUpd;
+ 	}
+
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
 	 */
