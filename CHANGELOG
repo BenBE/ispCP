@@ -1,6 +1,11 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-17 Benedikt Heintel
+	- LANGUAGES:
+		* Added Greek (Thanks to Anastasios Filelis)
+		* Updated Portuguese (Portugal)
+
 2010-11-16 Benedikt Heintel
 	- DATABASE:
 		* Added database change introduced in r3607
