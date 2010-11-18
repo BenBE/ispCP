@@ -65,7 +65,6 @@ $tpl->assign(
 		'TR_ENABLE_FWD'			=> tr('Enable Forward'),
 		'TR_ENABLE'				=> tr('Enable'),
 		'TR_DISABLE'			=> tr('Disable'),
-		'TR_FWD_HELP'			=> tr('A Forward URL has to start with \'http://\''),
 		'TR_PREFIX_HTTP'		=> 'http://',
 		'TR_PREFIX_HTTPS'		=> 'https://',
 		'TR_PREFIX_FTP'			=> 'ftp://'
@@ -192,6 +191,9 @@ function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
 				array(
 					'READONLY_FORWARD'	=> ' readonly',
 					'DISABLE_FORWARD'	=> ' disabled="disabled"'
+					'HTTP_YES'			=> '',
+					'HTTPS_YES'			=> '',
+					'FTP_YES'			=> ''
 				)
 			);
 		} else {
