@@ -44,12 +44,16 @@
 									<!-- BDP: ip_row -->
 										<tr>
 											<td width="25">&nbsp;</td>
-											<td colspan="5" class="content3"><b>{IP}</b></td>
+											<td colspan="5" class="content3"><strong>{IP}</strong></td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>
-											<td class="content3"><b>{TR_DOMAIN_NAME}</b></td>
-											<td class="content3"><b>{TR_RESELLER_NAME}</b></td>
+											<td colspan="5"><strong>{RECORD_COUNT}</strong></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td class="content3"><strong>{TR_DOMAIN_NAME}</strong></td>
+											<td class="content3"><strong>{TR_RESELLER_NAME}</strong></td>
 										</tr>
 										<!-- BDP: domain_row -->
 										<tr>
@@ -58,10 +62,6 @@
 											<td>{RESELLER_NAME}</td>
 										</tr>
 										<!-- EDP: domain_row -->
-										<tr>
-											<td>&nbsp;</td>
-											<td colspan="5"><b>{RECORD_COUNT}</b></td>
-										</tr>
 									<!-- EDP: ip_row -->
 									</table>
 								</td>

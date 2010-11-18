@@ -43,21 +43,28 @@ $reseller_id = $_SESSION['user_id'];
 $tpl->assign(
 	array(
 		'TR_RESELLER_IP_USAGE_PAGE_TITLE'	=> tr('ispCP - Reseller/IP Usage'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
+		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
+		'THEME_CHARSET'						=> tr('encoding'),
+		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
 	)
 );
 
 /**
  * Generate List of Domains assigned to IPs
+ *
+ * @param reference $tpl	The TPL object
+ * @param reference $sql	The SQL object
  */
 function listIPDomains(&$tpl, &$sql) {
 	
 	global $reseller_id;
 	
-	$query = "SELECT ip_id, ip_number
-				FROM `server_ips`";
+	$query = "
+		SELECT
+			`ip_id`, `ip_number`
+		FROM 
+			`server_ips`
+		;";
 	
 	$rs = exec_query($sql, $query);
 	
@@ -67,18 +74,20 @@ function listIPDomains(&$tpl, &$sql) {
 		$no_alias_domains = false;
 		
 		$query = "
-					SELECT 
-						`d`.`domain_name`, `a`.`admin_name`
-					FROM 
-						`domain` d
-					INNER JOIN `admin` a 
-						ON(`a`.`admin_id` = `d`.`domain_created_id`)
-					WHERE 
-						`d`.`domain_ip_id` = ?
-					AND
-						`d`.`domain_created_id` = ?
-					ORDER BY 
-						`d`.`domain_name`";
+				SELECT
+					`d`.`domain_name`, `a`.`admin_name`
+				FROM
+					`domain` AS d
+				INNER JOIN
+					`admin` AS a
+					ON(`a`.`admin_id` = `d`.`domain_created_id`)
+				WHERE
+					`d`.`domain_ip_id` = ?
+				AND
+					`d`.`domain_created_id` = ?
+				ORDER BY
+					`d`.`domain_name`
+				;";
 		
 		$rs2 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$domain_count = $rs2->recordCount();
@@ -102,8 +111,9 @@ function listIPDomains(&$tpl, &$sql) {
 				SELECT
 					`da`.`alias_name`, `a`.`admin_name`
 				FROM 
-					`domain_aliasses` da
-				INNER JOIN `domain` d
+					`domain_aliasses` AS da
+				INNER JOIN 
+					`domain` AS d
 					ON(`d`.`domain_id` = `da`.`domain_id`)
 				INNER JOIN `admin` a 
 					ON(`a`.`admin_id` = `d`.`domain_created_id`)
@@ -112,7 +122,8 @@ function listIPDomains(&$tpl, &$sql) {
 				AND
 					`d`.`domain_created_id` = ?
 				ORDER BY 
-					`da`.`alias_name`";
+					`da`.`alias_name`
+				;";
 		
 		$rs3 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$alias_count = $rs3->recordCount();
@@ -124,7 +135,7 @@ function listIPDomains(&$tpl, &$sql) {
 		while(!$rs3->EOF) {		
 			$tpl->assign(
 				array(
-					'DOMAIN_NAME'	=>	$rs3->fields['alias_name'],
+					'DOMAIN_NAME'	=> $rs3->fields['alias_name'],
 				)
 			);
 	
@@ -135,15 +146,16 @@ function listIPDomains(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'IP'			=> $rs->fields['ip_number'],
-				'RECORD_COUNT'	=>	tr('Total Domains')." : ".($domain_count+$alias_count),
+				'RECORD_COUNT'	=> tr('Total Domains') . " : " .
+					($domain_count+$alias_count),
 			)
 		);
 		
 		if ($no_domains && $no_alias_domains) {
 			$tpl->assign(
 				array(
-					'DOMAIN_NAME'	=>	tr("No records found"),
-					'RESELLER_NAME'	=>	'',
+					'DOMAIN_NAME'	=> tr("No records found"),
+					'RESELLER_NAME'	=> '',
 				)
 			);
 			$tpl->parse('DOMAIN_ROW', '.domain_row');
@@ -155,11 +167,7 @@ function listIPDomains(&$tpl, &$sql) {
 	} // end while
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
 gen_logged_from($tpl);
@@ -168,8 +176,8 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'IP_USAGE'	=>	tr('IP Usage'),
-		'TR_DOMAIN_NAME'	=>	tr('Domain Name'),
+		'IP_USAGE'			=> tr('IP Usage'),
+		'TR_DOMAIN_NAME'	=> tr('Domain Name'),
 	)
 );
 gen_page_message($tpl);

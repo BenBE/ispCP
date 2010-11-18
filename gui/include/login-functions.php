@@ -93,7 +93,6 @@ function session_exists($sess_id) {
  * @todo adding proxy detection
  */
 function getipaddr() {
-
 	return $_SERVER['REMOTE_ADDR'];
 }
 
@@ -317,15 +316,6 @@ function unblock($timeout = null, $type = 'bruteforce') {
 
 	exec_query($sql, $query, array($max, $timeout));
 }
-
-/**
- *
- *
- * @param string $ipaddr
- * @param string $type
- * @param boolean $autodeny
- * @return TRUE, if...
- */
 
 /**
  * Checks if an user Ip address is blocked
@@ -588,7 +578,7 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 
 		write_log(
 			"Login error, <b><i>$ipaddr</i></b> wait " . ($btime - time()) .
-				" seconds", E_USER_NOTICE
+			" seconds", E_USER_NOTICE
 		);
 
 		system_message(
@@ -602,9 +592,9 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 }
 
 /**
- * Block an user Ip Address
+ * Block an user's IP address
  *
- * @param string $ipaddr User Ip Address
+ * @param string $ipaddr User's IP address
  * @param string $type
  */
 function block_ipaddr($ipaddr, $type = 'General') {
@@ -613,9 +603,8 @@ function block_ipaddr($ipaddr, $type = 'General') {
 
 	write_log(
 			"$type protection, <b><i> " .
-				tohtml($ipaddr) .
-					"</i></b> blocked for " . $cfg->BRUTEFORCE_BLOCK_TIME .
-						" minutes."
+			tohtml($ipaddr) .
+			"</i></b> blocked for " . $cfg->BRUTEFORCE_BLOCK_TIME . " minutes."
 	);
 
 	deny_access();
@@ -677,11 +666,11 @@ function register_user($uname, $upass) {
 
 		write_log(
 			"Login error, <b><i>" . $uname .
-				"</i></b> system currently in maintenance mode"
+			"</i></b> system currently in maintenance mode"
 		);
 
 		system_message(
-			tr('System is currently under maintenance! Only administrators can login.')
+			tr('System is currently under maintenance! Only administrators can log in.')
 		);
 
 		return false;
@@ -819,7 +808,7 @@ function check_user_login() {
 		unset_user_login_data(true);
 		write_log(
 			"System is currently in maintenance mode. Logging out <b><i>" .
-				$user_logged . "</i></b>"
+			$user_logged . "</i></b>"
 		);
 
 		user_goto('/index.php');
