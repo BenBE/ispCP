@@ -151,7 +151,7 @@ $tpl->assign(
 		'THEME_CHARSET' => tr('encoding'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
-		'TR_IMGCAPCODE' => '<img src="imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image">',
+		'TR_IMGCAPCODE' => '<img src="imagecode.php" style="border: none;height: '. Config::get('LOSTPASSWORD_CAPTCHA_HEIGHT') .'px;width: '. Config::get('LOSTPASSWORD_CAPTCHA_WIDTH') .'px;" alt="captcha image" />',
 		'TR_USERNAME' => tr('Username'),
 		'TR_SEND' => tr('Request password'),
 		'TR_BACK' => tr('Back')

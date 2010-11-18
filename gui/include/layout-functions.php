@@ -70,30 +70,46 @@ function get_user_gui_props(&$sql, $user_id) {
 	}
 }
 
+/**
+ * Parses the output of the $_SESSION variable to the template, if exists.
+ *
+ * @param reference $tpl    the TPL object
+ */
 function gen_page_message(&$tpl) {
 
 	if (!isset($_SESSION['user_page_message'])) {
 		$tpl->assign('PAGE_MESSAGE', '');
 		$tpl->assign('MESSAGE', '');
+		$tpl->assign('MSG_TYPE', '');
 	} else {
 		$tpl->assign('MESSAGE', $_SESSION['user_page_message']);
+		$tpl->assign('MSG_TYPE', $_SESSION['user_page_msg_type']);
 		unset($_SESSION['user_page_message']);
 	}
 }
 
-function set_page_message($message) {
+/**
+ * Saves a message to the $_SESSION array
+ *
+ * @param String $message	the formated message text
+ * @param String $type		the type of the message: notice, warning, error,
+ *								success
+ */
+function set_page_message($message, $type = "warning") {
 
 	if (isset($_SESSION['user_page_message'])) {
 		$_SESSION['user_page_message'] .= "\n<br />$message";
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
+	// @todo: check if ever different typs are mixed up and change here
+	$_SESSION['user_page_type'] = $type;
 }
 
 /**
  * Converts a Array of Strings to a single <br />-separated String
- * @since r2684
  *
+ * @since r2684
  * @param	String[]	Array of message strings
  * @return	String		a single string with <br /> tags
  */
