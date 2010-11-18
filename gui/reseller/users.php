@@ -270,9 +270,9 @@ function generate_users_list(&$tpl, $admin_id) {
 
 		while (!$rs->EOF) {
 			if ($rs->fields['domain_status'] == $cfg->ITEM_OK_STATUS) {
-				$status_icon = "ok.png";
+				$status_icon = "ok";
 			} else if ($rs->fields['domain_status'] == $cfg->ITEM_DISABLED_STATUS) {
-				$status_icon = "disabled.png";
+				$status_icon = "disabled";
 			} else if ($rs->fields['domain_status'] == $cfg->ITEM_ADD_STATUS
 				|| $rs->fields['domain_status'] == $cfg->ITEM_CHANGE_STATUS
 				|| $rs->fields['domain_status'] == $cfg->ITEM_TOENABLE_STATUS
