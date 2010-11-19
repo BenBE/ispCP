@@ -55,11 +55,11 @@ $tpl->assign(
 function listIPDomains(&$tpl, &$sql) {
 	
 	$query = "
-			SELECT
-				`ip_id`, `ip_number`
-			FROM 
-				`server_ips`
-			;";
+		SELECT
+			`ip_id`, `ip_number`
+		FROM
+			`server_ips`;
+	";
 	
 	$rs = exec_query($sql, $query);
 	
@@ -69,18 +69,19 @@ function listIPDomains(&$tpl, &$sql) {
 		$no_alias_domains = false;
 		
 		$query = "
-				SELECT
-					`d`.`domain_name`, `a`.`admin_name`
-				FROM
-					`domain` AS d
-				INNER JOIN
-					`admin` AS a
-					ON(`a`.`admin_id` = `d`.`domain_created_id`)
-				WHERE
-					`d`.`domain_ip_id` = ?
-				ORDER BY
-					`d`.`domain_name`
-				;";
+			SELECT
+				`d`.`domain_name`, `a`.`admin_name`
+			FROM
+				`domain` d
+			INNER JOIN
+				`admin` a
+			ON
+				(`a`.`admin_id` = `d`.`domain_created_id`)
+			WHERE
+				`d`.`domain_ip_id` = ?
+			ORDER BY
+				`d`.`domain_name`;
+		";
 		
 		$rs2 = exec_query($sql, $query, $rs->fields['ip_id']);
 		$domain_count = $rs2->recordCount();
@@ -102,20 +103,23 @@ function listIPDomains(&$tpl, &$sql) {
 		}
 		
 		$query = "
-				SELECT
-					`da`.`alias_name`, `a`.`admin_name`
-				FROM 
-					`domain_aliasses` AS da
-				INNER JOIN
-					`domain` AS d
-					ON(`d`.`domain_id` = `da`.`domain_id`)
-				INNER JOIN `admin` a 
-					ON(`a`.`admin_id` = `d`.`domain_created_id`)
-				WHERE 
-					`da`.`alias_ip_id` = ?
-				ORDER BY 
-					`da`.`alias_name`
-				;";
+			SELECT
+				`da`.`alias_name`, `a`.`admin_name`
+			FROM
+				`domain_aliasses` da
+			INNER JOIN
+				`domain` d
+			ON
+				(`d`.`domain_id` = `da`.`domain_id`)
+			INNER JOIN
+				`admin` a
+			ON
+				(`a`.`admin_id` = `d`.`domain_created_id`)
+			WHERE
+				`da`.`alias_ip_id` = ?
+			ORDER BY
+				`da`.`alias_name`;
+		";
 		
 		$rs3 = exec_query($sql, $query, $rs->fields['ip_id']);
 		$alias_count = $rs3->recordCount();
@@ -168,7 +172,7 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'IP_USAGE'			=> tr('IP Usage'),
+		'IP_USAGE'		=> tr('IP Usage'),
 		'TR_DOMAIN_NAME'	=> tr('Domain Name'),
 		'TR_RESELLER_NAME'	=> tr('Reseller Name'),
 	)

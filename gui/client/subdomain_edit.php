@@ -190,7 +190,7 @@ function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
 			$tpl->assign(
 				array(
 					'READONLY_FORWARD'	=> ' readonly',
-					'DISABLE_FORWARD'	=> ' disabled="disabled"'
+					'DISABLE_FORWARD'	=> ' disabled="disabled"',
 					'HTTP_YES'			=> '',
 					'HTTPS_YES'			=> '',
 					'FTP_YES'			=> ''
@@ -315,3 +315,4 @@ function check_fwd_data(&$tpl, &$sql, $subdomain_id, $dmn_type) {
 		return false;
 	}
 }
+?>

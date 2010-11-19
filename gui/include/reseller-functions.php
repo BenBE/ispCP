@@ -1883,3 +1883,4 @@ function check_reseller_permissions($reseller_id, $permission) {
 
 	return true;
 }
+?>

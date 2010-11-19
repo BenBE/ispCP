@@ -61,10 +61,29 @@ function listIPDomains(&$tpl, &$sql) {
 	
 	$query = "
 		SELECT
+			`reseller_ips`
+		FROM
+			`reseller_props`
+		WHERE
+			`reseller_id` = ?;
+	";
+
+	$res = exec_query($sql, $query, $reseller_id);
+
+	$data = $res->fetchRow();
+
+	$reseller_ips =  explode(";", substr($data['reseller_ips'], 0, -1));
+	
+	$query = "
+		SELECT
 			`ip_id`, `ip_number`
-		FROM 
+		FROM
 			`server_ips`
-		;";
+		WHERE
+			`ip_id`
+		IN
+			(".implode(',', $reseller_ips).");
+	";
 	
 	$rs = exec_query($sql, $query);
 	
@@ -74,20 +93,21 @@ function listIPDomains(&$tpl, &$sql) {
 		$no_alias_domains = false;
 		
 		$query = "
-				SELECT
-					`d`.`domain_name`, `a`.`admin_name`
-				FROM
-					`domain` AS d
-				INNER JOIN
-					`admin` AS a
-					ON(`a`.`admin_id` = `d`.`domain_created_id`)
-				WHERE
-					`d`.`domain_ip_id` = ?
-				AND
-					`d`.`domain_created_id` = ?
-				ORDER BY
-					`d`.`domain_name`
-				;";
+			SELECT
+				`d`.`domain_name`, `a`.`admin_name`
+			FROM
+				`domain` d
+			INNER JOIN
+				`admin` a
+			ON
+				(`a`.`admin_id` = `d`.`domain_created_id`)
+			WHERE
+				`d`.`domain_ip_id` = ?
+			AND
+				`d`.`domain_created_id` = ?
+			ORDER BY
+				`d`.`domain_name`;
+		";
 		
 		$rs2 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$domain_count = $rs2->recordCount();
@@ -99,7 +119,7 @@ function listIPDomains(&$tpl, &$sql) {
 		while(!$rs2->EOF) {
 			$tpl->assign(
 				array(
-					'DOMAIN_NAME'	=>	$rs2->fields['domain_name'],
+					'DOMAIN_NAME'	=>	$rs2->fields['domain_name']
 				)
 			);
 			
@@ -108,22 +128,25 @@ function listIPDomains(&$tpl, &$sql) {
 		}
 		
 		$query = "
-				SELECT
-					`da`.`alias_name`, `a`.`admin_name`
-				FROM 
-					`domain_aliasses` AS da
-				INNER JOIN 
-					`domain` AS d
-					ON(`d`.`domain_id` = `da`.`domain_id`)
-				INNER JOIN `admin` a 
-					ON(`a`.`admin_id` = `d`.`domain_created_id`)
-				WHERE 
-					`da`.`alias_ip_id` = ?
-				AND
-					`d`.`domain_created_id` = ?
-				ORDER BY 
-					`da`.`alias_name`
-				;";
+			SELECT
+				`da`.`alias_name`, `a`.`admin_name`
+			FROM
+				`domain_aliasses` da
+			INNER JOIN
+				`domain` d
+			ON
+				(`d`.`domain_id` = `da`.`domain_id`)
+			INNER JOIN
+				`admin` a
+			ON
+				(`a`.`admin_id` = `d`.`domain_created_id`)
+			WHERE
+				`da`.`alias_ip_id` = ?
+			AND
+				`d`.`domain_created_id` = ?
+			ORDER BY
+				`da`.`alias_name`;
+		";
 		
 		$rs3 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$alias_count = $rs3->recordCount();
@@ -135,7 +158,7 @@ function listIPDomains(&$tpl, &$sql) {
 		while(!$rs3->EOF) {		
 			$tpl->assign(
 				array(
-					'DOMAIN_NAME'	=> $rs3->fields['alias_name'],
+					'DOMAIN_NAME'	=> $rs3->fields['alias_name']
 				)
 			);
 	
@@ -146,8 +169,7 @@ function listIPDomains(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'IP'			=> $rs->fields['ip_number'],
-				'RECORD_COUNT'	=> tr('Total Domains') . " : " .
-					($domain_count+$alias_count),
+				'RECORD_COUNT'	=> tr('Total Domains') . " : " .($domain_count+$alias_count)
 			)
 		);
 		
@@ -155,7 +177,7 @@ function listIPDomains(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'DOMAIN_NAME'	=> tr("No records found"),
-					'RESELLER_NAME'	=> '',
+					'RESELLER_NAME'	=> ''
 				)
 			);
 			$tpl->parse('DOMAIN_ROW', '.domain_row');
@@ -176,8 +198,8 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'IP_USAGE'			=> tr('IP Usage'),
-		'TR_DOMAIN_NAME'	=> tr('Domain Name'),
+		'IP_USAGE'		=> tr('IP Usage'),
+		'TR_DOMAIN_NAME'	=> tr('Domain Name')
 	)
 );
 gen_page_message($tpl);

@@ -73,7 +73,14 @@ function system_message($msg, $backButtonDestination = '') {
 				'TR_BACK' => tr('Back'),
 				'TR_ERROR_MESSAGE' => tr('Error Message'),
 				'MESSAGE' => $msg,
-				'BACKBUTTONDESTINATION' => $backButtonDestination
+				'BACKBUTTONDESTINATION' => $backButtonDestination,
+				'TR_LOGIN' => tr('Login'),
+				'TR_USERNAME' => tr('Username'),
+				'TR_PASSWORD' => tr('Password'),
+				'TR_LOSTPW' => tr('Lost password'),
+				'TR_WEBMAIL_SSL_LINK' => 'webmail',
+				'TR_FTP_SSL_LINK' => 'ftp',
+				'TR_PMA_SSL_LINK' => 'pma'
 			)
 		);
 	} else {
@@ -85,7 +92,14 @@ function system_message($msg, $backButtonDestination = '') {
 				'TR_BACK' => 'Back',
 				'TR_ERROR_MESSAGE' => 'Error Message',
 				'MESSAGE' => $msg,
-				'BACKBUTTONDESTINATION' => $backButtonDestination
+				'BACKBUTTONDESTINATION' => $backButtonDestination,
+				'TR_LOGIN' => 'Login',
+				'TR_USERNAME' => 'Username',
+				'TR_PASSWORD' => 'Password',
+				'TR_LOSTPW' => 'Lost password',
+				'TR_WEBMAIL_SSL_LINK' => 'webmail',
+				'TR_FTP_SSL_LINK' => 'ftp',
+				'TR_PMA_SSL_LINK' => 'pma'
 			)
 		);
 	}
