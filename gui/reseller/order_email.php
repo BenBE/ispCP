@@ -49,13 +49,12 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'order_email') {
 	$data['message'] = clean_input($_POST['auto_message']);
 
 	if ($data['subject'] == '') {
-		set_page_message(tr('Please specify a subject!'));
+		set_page_message(tr('Please specify a subject!'), 'warning');
 	} else if ($data['message'] == '') {
-		set_page_message(tr('Please specify message!'));
+		set_page_message(tr('Please specify message!'), 'warning');
 	} else {
 		set_order_email($user_id, $data);
-
-		set_page_message (tr('Auto email template data updated!'));
+		set_page_message (tr('Auto email template data updated!'), 'success');
 	}
 }
 

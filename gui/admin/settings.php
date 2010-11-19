@@ -88,7 +88,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		|| (!is_number($domain_rows_per_page))
 		|| (!is_number($max_dnames_labels))
 		|| (!is_number($max_subdnames_labels))) {
-		set_page_message(tr('ERROR: Only positive numbers are allowed !'));
+		set_page_message(tr('Only positive numbers are allowed !'), 'warning');
 	} else if ($domain_rows_per_page < 1) {
 		$domain_rows_per_page = 1;
 	} else if ($max_dnames_labels < 1) {
@@ -135,33 +135,29 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		$updt_count = $db_cfg->countQueries('update');
 		$new_count = $db_cfg->countQueries('insert');
 
-		// An Update was been made in the database ?
-		if($updt_count > 0) {
-			if ($updt_count == 1) {
-				set_page_message(
-					tr('%d configuration parameter was updated!', $updt_count)
-				);
-			} else {
-				set_page_message(
-					tr('%d configuration parameters were updated!', $updt_count)
-				);
-			}
-		}
-
-		if($new_count > 0){
-			if ($new_count == 1) {
-				set_page_message(
-					tr('%d configuration parameter was created!', $new_count)
-				);
-			} else {
-				set_page_message(
-					tr('%d configuration parameters were created!', $new_count)
-				);
-			}
-		}
-
-		if($new_count == 0 && $updt_count == 0){
-			set_page_message(tr("Nothing has been changed!"));
+		// Updated or new config parameters
+		if ($updt_count == 0 && $new_count == 0) {
+			set_page_message(tr("Nothing has been changed!"), 'notice');
+		} elseif ($updt_count == 1) {
+			set_page_message(
+				tr('%d configuration parameter was updated!', $updt_count),
+				'notice'
+			);
+		} elseif ($upd_count > 1) {
+			set_page_message(
+				tr('%d configuration parameters were updated!', $updt_count),
+				'notice'
+			);
+		} elseif ($new_count == 1) {
+			set_page_message(
+				tr('%d configuration parameter was created!', $new_count),
+				'notice'
+			);
+		} elseif ($ew_count > 1) {
+			set_page_message(
+				tr('%d configuration parameters were created!', $new_count),
+				'notice'
+			);
 		}
 	}
 }

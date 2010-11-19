@@ -109,7 +109,7 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 	$rs = exec_query($sql, $query, $dmn_id);
 
 	if ($rs->recordCount() == 0) {
-		set_page_message(tr('You have no groups!'));
+		set_page_message(tr('You have no groups!'), 'notice');
 		user_goto('protected_user_manage.php');
 	} else {
 		$added_in = 0;
@@ -210,7 +210,10 @@ function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 		$rs_update = exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
 
 		send_request();
-		set_page_message(tr('User was assigned to the %s group', $rs->fields['ugroup']));
+		set_page_message(
+			tr('User was assigned to the %s group', $rs->fields['ugroup']),
+			'notice'
+		);
 	} else {
 		return;
 	}
@@ -263,7 +266,10 @@ function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
 			$rs_update = exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
 			send_request();
 
-			set_page_message(tr('User was deleted from the %s group ', $rs->fields['ugroup']));
+			set_page_message(
+				tr('User was deleted from the %s group.', $rs->fields['ugroup']),
+				'notice'
+			);
 		} else {
 			return;
 		}

@@ -194,7 +194,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			)
 		);
 
-		set_page_message(tr('There are no available updates'));
+		set_page_message(
+			tr('There are no available updates'),
+			'notice'
+		);
 		return;
 	}
 
@@ -430,7 +433,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			)
 		);
 
-		set_page_message(tr('There are no available hosting plans for update'));
+		set_page_message(
+			tr('There are no available hosting plans for update'),
+			'notice'
+		);
 	}
 }
 
@@ -527,7 +533,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 	}
 
 	if (count($error_msgs) > 0) {
-		set_page_message(implode('<br />', $error_msgs));
+		set_page_message(implode('<br />', $error_msgs), 'error');
 		user_goto('hosting_plan_update.php');
 	}
 
@@ -561,7 +567,10 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 		$_SESSION['user_created_by'], $order_id, $date, $_SESSION['user_logged'],
 		$user_id, '', '', '', '', '', '', '', '', '', '', '', '', $status
 	));
-	set_page_message(tr('Your request for hosting pack update was added successfully'));
+	set_page_message(
+		tr('Your request for hosting pack update was added successfully'),
+		'success'
+	);
 
 	$query = "
 		SELECT
@@ -607,14 +616,13 @@ function del_order(&$tpl, &$sql, $order_id, $user_id) {
 	";
 
 	$rs = exec_query($sql, $query, array($_SESSION['user_created_by'], $user_id));
-	set_page_message(tr('Your request for hosting pack update was removed successfully'));
+	set_page_message(
+		tr('Your request for hosting pack update was removed successfully'),
+		'success'
+	);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
 	del_order($tpl, $sql, $_GET['delete_id'], $_SESSION['user_id']);

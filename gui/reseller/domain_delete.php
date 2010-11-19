@@ -65,7 +65,7 @@ if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	&& isset($_POST['delete']) && $_POST['delete'] == 1) {
 	delete_domain((int)$_POST['domain_id'], 'users.php?psi=last', true);
 } else {
-	set_page_message(tr('Wrong domain ID!'));
+	set_page_message(tr('Wrong domain ID!'), 'error');
 	user_goto('users.php?psi=last');
 }
 
@@ -97,7 +97,7 @@ function validate_domain_deletion($domain_id) {
 	$res = exec_query($sql, $query, array($domain_id, $reseller));
 	$data = $res->fetchRow();
 	if ($data['domain_id'] == 0) {
-		set_page_message(tr('Wrong domain ID!'));
+		set_page_message(tr('Wrong domain ID!'), 'error');
 		user_goto('users.php?psi=last');
 	}
 

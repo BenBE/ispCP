@@ -63,7 +63,10 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$rs = exec_query($sql, $query, $sub_id);
 
 	if ($rs->fields['cnt'] > 0) {
-		set_page_message(tr('Subdomain you are trying to remove has email accounts !<br>First remove them!'));
+		set_page_message(
+			tr('Subdomain you are trying to remove has email accounts !<br />First remove them!'),
+			'error'
+		);
 		user_goto('domains_manage.php');
 	}
 
@@ -79,7 +82,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$rs = exec_query($sql, $query, $sub_id);
 	send_request();
 	write_log($_SESSION['user_logged'].": delete alias subdomain: ".$sub_name);
-	set_page_message('Alias '.tr('Subdomain scheduled for deletion!'));
+	set_page_message(tr('Alias subdomain scheduled for deletion!'), 'success');
 	user_goto('domains_manage.php');
 
 } else {

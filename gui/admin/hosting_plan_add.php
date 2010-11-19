@@ -326,7 +326,7 @@ function check_data_correction(&$tpl) {
 		$tpl->assign('MESSAGE', '');
 		return true;
 	} else {
-		set_page_message(format_message($ahp_error));
+		set_page_message(format_message($ahp_error), 'warning');
 		return false;
 	}
 

@@ -387,7 +387,7 @@ function check_data_iscorrect(&$tpl) {
 
 		return true;
 	} else {
-		set_page_message(format_message($ahp_error));
+		set_page_message(format_message($ahp_error), 'error');
 
 		return false;
 	}

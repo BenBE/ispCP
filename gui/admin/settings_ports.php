@@ -117,34 +117,32 @@ function validates_service($name, $ip, $port, $proto, $show, $index = '') {
 	$ip = ($ip == 'localhost') ? '127.0.0.1' : $ip;
 
 	if (!is_basicString($name)) {
-		$messages[] = tr('ERROR: Only letters, numbers, dash and underscore are allowed for services names!');
+		$messages[] = tr('Only letters, numbers, dash and underscore are allowed for services names!');
 		$error_fields_ids[] = "name$index";
 	}
 
 	if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-		$messages[] = tr('ERROR: Wrong Ip number!');
+		$messages[] = tr('Wrong IP number!');
 		$error_fields_ids[] = "ip$index";
 	}
 
 	if(!is_number($port) || $port <= 0) {
-		$messages[] = tr(
-			'ERROR: Only positive numbers are allowed for services ports!'
-		);
+		$messages[] = tr('Only positive numbers are allowed for services ports!');
 		$error_fields_ids[] = "port$index";
 	}
 
 	if(!is_int($index) && isset($db_cfg->$db_sname)) {
-		$messages[] = tr('ERROR: Service port with same name already exists!');
+		$messages[] = tr('Service port with same name already exists!');
 		$error_fields_ids[] = "name$index";
 	}
 
 	if($proto != 'tcp' && $proto != 'udp') {
-		$messages[] = tr('ERROR: Unallowed protocol!');
+		$messages[] = tr('Unallowed protocol!');
 		$error_fields_ids[] = "port_type$index";
 	}
 
 	if($show != '0' && $show != '1') {
-		$messages[] = tr('ERROR: Bad value for show entry!');
+		$messages[] = tr('Incorrect value for show entry!');
 		$error_fields_ids[] = "show_val$index";
 	}
 
@@ -219,20 +217,28 @@ function add_update_services($mode) {
 	// Prepare data and messages for error page
 	if(!empty($error_fields_ids)) {
 		to_session($mode);
-		set_page_message(implode('<br />', array_unique($messages)));
+		set_page_message(implode('<br />', array_unique($messages)), 'error');
 	// Prepares message for page on add
 	} elseif($mode) {
-		set_page_message(tr('Service port was added!'));
+		set_page_message(tr('Service port was added!'), 'notice');
 	// Prepares message for page on update
 	} else {
 		// gets the number of queries that were been executed
 		$updt_count = $db_cfg->countQueries('update');
 
 		// An Update was been made in the database ?
-		if($updt_count > 0) {
-			set_page_message(tr('%d Service(s) port was updated!', $updt_count));
+		if($updt_count == 1) {
+			set_page_message(
+				tr('%d Service port was updated!', $updt_count),
+				'notice'
+			);
+		} elseif($updt_count > 1) {
+			set_page_message(
+				tr('%d Services port were updated!', $updt_count),
+				'notice'
+			);
 		} else {
-			set_page_message(tr("Nothing's been changed!"));
+			set_page_message(tr("Nothing's been changed!"), 'notice');
 		}
 	}
 } // end add_update_services()
@@ -280,7 +286,7 @@ function show_services(&$tpl) {
 	if(empty($services)) {
 		$tpl->assign('SERVICE_PORTS', '');
 
-		set_page_message(tr('You have no custom service ports defined.'));
+		set_page_message(tr('You have no custom service ports defined.'), 'notice');
 	} else {
 		sort($services);
 
@@ -391,7 +397,7 @@ function delete_service($port_name) {
 	$db_cfg = ispCP_Registry::get('Db_Config');
 
 	if (!isset($db_cfg->$port_name)) {
-		set_page_message(tr('ERROR: Unknown service port name!'));
+		set_page_message(tr('Unknown service port name!'), 'error');
 
 		return;
 	}
@@ -410,10 +416,10 @@ function delete_service($port_name) {
 			get_session('user_logged') . ": Removed service port $port_name!"
 		);
 
-		set_page_message(tr('Service port was removed!'));
+		set_page_message(tr('Service port was removed!'), 'notice');
 	} else {
 		set_page_message(
-			tr('ERROR: You are not allowed to remove this port entry!')
+			tr('You are not allowed to remove this port entry!'), 'error'
 		);
 	}
 }

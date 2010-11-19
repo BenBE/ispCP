@@ -391,7 +391,10 @@ function gen_users_list(&$tpl, $reseller_id) {
 	$ar = exec_query($sql, $query, $reseller_id);
 
 	if ($ar->rowCount() == 0) {
-		set_page_message(tr('There is no user records for this reseller to add an alias for.'));
+		set_page_message(
+			tr('There is no user records for this reseller to add an alias for.'),
+			'error'
+		);
 		user_goto('alias.php');
 		$tpl->assign('USER_ENTRY', '');
 		return false;

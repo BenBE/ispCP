@@ -100,7 +100,10 @@ $tpl->assign(
 );
 
 if (!get_pageone_param()) {
-	set_page_message(tr("Domain data has been altered. Please enter again"));
+	set_page_message(
+		tr("Domain data has been altered. Please enter again."),
+		'notice'
+	);
 	unset_messages();
 	user_goto('user_add1.php');
 }
@@ -382,7 +385,7 @@ function check_user_data(&$tpl) {
 		// send data through session
 		return true;
 	} else {
-		set_page_message(format_message($ehp_error));
+		set_page_message(format_message($ehp_error), 'error');
 		return false;
 	}
 } // End of check_user_data()

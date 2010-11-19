@@ -374,7 +374,7 @@ function check_data_correction(&$tpl) {
 		$tpl->assign('MESSAGE', '');
 		return true;
 	} else {
-		set_page_message(format_message($ahp_error));
+		set_page_message(format_message($ahp_error), 'error');
 		return false;
 	}
 } // end of check_data_correction()
@@ -407,7 +407,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 		if (reseller_limits_check($sql, $err_msg, $admin_id, $hpid, $hp_props)) {
 			if (!empty($err_msg)) {
-				set_page_message($err_msg);
+				set_page_message($err_msg, 'error');
 				return false;
 			} else {
 				$query = "
@@ -433,7 +433,10 @@ function save_data_to_db(&$tpl, $admin_id) {
 				user_goto('hosting_plan.php');
 			}
 		} else {
-			set_page_message(tr("Hosting plan values exceed reseller maximum values!"));
+			set_page_message(
+				tr("Hosting plan values exceed reseller maximum values!"),
+				'warning'
+			);
 			return false;
 		}
 	}

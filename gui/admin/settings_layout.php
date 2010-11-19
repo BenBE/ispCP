@@ -73,7 +73,7 @@ function update_logo() {
 		return;
 	} else if (isset($_POST['uaction']) && $_POST['uaction'] === 'upload_logo') {
 		if (empty($_FILES['logo_file']['name'])) {
-			set_page_message(tr('Upload file error!'));
+			set_page_message(tr('Upload file error!'), 'error');
 			return;
 		}
 
@@ -92,7 +92,7 @@ function update_logo() {
 				$fext = 'png';
 				break;
 			default:
-				set_page_message(tr('You can only upload images!'));
+				set_page_message(tr('You can only upload images!'), 'warning');
 				return;
 				break;
 		}
@@ -100,13 +100,16 @@ function update_logo() {
 		$fname = $_FILES['logo_file']['tmp_name'];
 		// Make sure it is really an image
 		if (image_type_to_mime_type(exif_imagetype($fname)) != $file_type) {
-			set_page_message(tr('You can only upload images!'));
+			set_page_message(tr('You can only upload images!'), 'warning');
 			return;
 		}
 		// get the size of the image to prevent over large images
 		list($fwidth, $fheight, $ftype, $fattr) = getimagesize($fname);
 		if ($fwidth > 195 || $fheight > 195) {
-			set_page_message(tr('Images have to be smaller than 195 x 195 pixels!'));
+			set_page_message(
+				tr('Images have to be smaller than 195 x 195 pixels!'),
+				'warning'
+			);
 			return;
 		}
 
@@ -120,7 +123,7 @@ function update_logo() {
 
 		update_user_logo($newFName, $user_id);
 
-		set_page_message(tr('Your logo was successful uploaded!'));
+		set_page_message(tr('Your logo was successful uploaded!'), 'notice');
 	}
 }
 

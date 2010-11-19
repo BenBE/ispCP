@@ -46,7 +46,7 @@ function addon_domain($dmn_name) {
 
 	if (!validates_dname($dmn_name)) {
 		global $validation_err_msg;
-		set_page_message(tr($validation_err_msg));
+		set_page_message(tr($validation_err_msg), 'warning');
 		return;
 	}
 
@@ -54,7 +54,7 @@ function addon_domain($dmn_name) {
 	$dmn_name = encode_idna(strtolower($dmn_name));
 
 	if (ispcp_domain_exists($dmn_name, 0) || $dmn_name == ispCP_Registry::get('Config')->BASE_SERVER_VHOST) {
-		set_page_message(tr('Domain already exists on the system!'));
+		set_page_message(tr('Domain already exists on the system!'), 'warning');
 		return;
 	}
 

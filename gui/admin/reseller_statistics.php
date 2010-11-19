@@ -131,7 +131,7 @@ SQL_QUERY;
 			)
 		);
 
-		set_page_message(tr('Not found reseller(s) in your system!'));
+		set_page_message(tr('There are no resellers in your system!'), 'notice');
 		return;
 	} else {
 		$prev_si = $start_index - $rows_per_page;

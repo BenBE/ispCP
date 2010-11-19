@@ -898,7 +898,8 @@ function check_login($fName = null, $preventExternalLogin = true) {
 					|| $info['host'] != $_SERVER['SERVER_NAME']) {
 
 					set_page_message(
-						tr('Request from foreign host was blocked!')
+						tr('Request from foreign host was blocked!'),
+						'error'
 					);
 
 					if (!(substr(
@@ -952,7 +953,8 @@ function change_user_interface($from_id, $to_id) {
 
 		if (($rs_from->recordCount()) != 1 || ($rs_to->recordCount()) != 1) {
 			set_page_message(
-				tr('User does not exist or you do not have permission to access this interface!')
+				tr('User does not exist or you do not have permission to access this interface!'),
+				'warning'
 			);
 			break;
 		}
@@ -965,7 +967,8 @@ function change_user_interface($from_id, $to_id) {
 				tr(
 					"%s's account status is not ok!",
 					decode_idna($to_udata['admin_name'])
-				)
+				),
+				'warning'
 			);
 			break;
 		}
@@ -992,7 +995,8 @@ function change_user_interface($from_id, $to_id) {
                 $restore = true;
 			} else {
 				set_page_message(
-					tr('You do not have permission to access this interface!')
+					tr('You do not have permission to access this interface!'),
+					'warning'
 				);
 				break;
 			}

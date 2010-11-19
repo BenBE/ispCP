@@ -61,7 +61,7 @@ if (isset($_POST['uaction']) AND $_POST['uaction'] == 'apply') {
 
 	$cfg->replaceWith($db_cfg);
 
-	set_page_message(tr('Settings saved !'));
+	set_page_message(tr('Settings saved!'), 'notice');
 }
 
 if ($cfg->MAINTENANCEMODE) {
@@ -70,11 +70,7 @@ if ($cfg->MAINTENANCEMODE) {
 	$selected_off = $cfg->HTML_SELECTED;
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 

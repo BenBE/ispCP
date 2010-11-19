@@ -95,15 +95,18 @@ function gen_page_message(&$tpl) {
  * @param String $type		the type of the message: notice, warning, error,
  *								success
  */
-function set_page_message($message, $type = "warning") {
+function set_page_message($message, $type = 'warning') {
 
 	if (isset($_SESSION['user_page_message'])) {
 		$_SESSION['user_page_message'] .= "\n<br />$message";
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
-	// @todo: check if ever different typs are mixed up and change here
-	$_SESSION['user_page_type'] = $type;
+	if ($type == 'notice' || $type == 'warning' || $type == 'error'
+		|| $type == 'success') {
+		// @todo: check if ever different typs are mixed up and change here
+		$_SESSION['user_page_type'] = $type;
+	}
 }
 
 /**

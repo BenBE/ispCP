@@ -50,7 +50,10 @@ if (isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])
 
 		if (who_owns_this($to_id, 'client') != $from_id) {
 
-			set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+			set_page_message(
+				tr('User does not exist or you do not have permission to access this interface!'),
+				'error'
+			);
 
 			user_goto('users.php?psi=last');
 		}

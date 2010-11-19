@@ -142,7 +142,7 @@ function check_user_data() {
 
 	// Check if input string is a valid domain names
 	if (!validates_dname($dmn_name)) {
-		set_page_message($validation_err_msg);
+		set_page_message($validation_err_msg, 'warning');
 		return false;
 	}
 
@@ -162,7 +162,7 @@ function check_user_data() {
 	}
 
 	if (!empty($even_txt)) { // There are wrong input data
-		set_page_message($even_txt);
+		set_page_message($even_txt, 'error');
 		return false;
 	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
 		// send through the session the data
@@ -186,7 +186,10 @@ function check_user_data() {
 
 			user_goto('user_add3.php');
 		} else {
-			set_page_message(tr("Hosting plan values exceed reseller maximum values!"));
+			set_page_message(
+				tr("Hosting plan values exceed reseller maximum values!"),
+				'warning'
+			);
 			return false;
 		}
 	}
@@ -287,7 +290,10 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 		$tpl->assign('PERSONALIZE', '');
 
 		if ($rs->recordCount() == 0) {
-			set_page_message(tr('You have no hosting plans. Please contact your system administrator.'));
+			set_page_message(
+				tr('You have no hosting plans. Please contact your system administrator.'),
+				'notice'
+			);
 			$tpl->assign('ADD_USER', '');
 			$tpl->assign('ADD_FORM', '');
 		}
@@ -325,7 +331,6 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 		}
 
 	} else {
-		// set_page_message(tr('You have no hosting plans. Please add first hosting plan or contact your system administrator.'));
 		$tpl->assign('ADD_USER', '');
 	}
 } // End of get_hp_data_list()

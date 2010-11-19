@@ -73,7 +73,7 @@ if (isset($_GET['export_lang']) && $_GET['export_lang'] !== '') {
 	$stmt = exec_query($sql, $query);
 
 	if ($stmt->recordCount() == 0) {
-		set_page_message(tr('Incorrect data input!'));
+		set_page_message(tr('Incorrect data input!'), 'warning');
 		user_goto('multilanguage.php');
 	} else {
 		// Get all translation strings
@@ -123,6 +123,6 @@ if (isset($_GET['export_lang']) && $_GET['export_lang'] !== '') {
 		print $data;
 	}
 } else {
-	set_page_message(tr('Incorrect data input!'));
+	set_page_message(tr('Incorrect data input!'), 'warning');
 	user_goto('multilanguage.php');
 }

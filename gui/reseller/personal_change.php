@@ -149,7 +149,7 @@ function update_reseller_personal_data(&$sql, $user_id) {
 			)
 	);
 
-	set_page_message(tr('Personal data updated successfully!'));
+	set_page_message(tr('Personal data updated successfully!'), 'success');
 }
 
 /*

@@ -89,7 +89,7 @@ function generate_page(&$tpl) {
 	$rs = exec_query($sql, $query);
 
 	if ($rs->rowCount() == 0) {
-		// set_page_message(tr('Log is empty!'));
+		// set_page_message(tr('Log is empty!'), 'notice');
 		$tpl->assign(
 			array(
 				'LOG_ROW'		=> '',

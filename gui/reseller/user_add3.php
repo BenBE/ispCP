@@ -94,7 +94,10 @@ $tpl->assign(
 );
 
 if (!init_in_values()) {
-	set_page_message(tr("Domain data has been altered. Please enter again"));
+	set_page_message(
+		tr("Domain data has been altered. Please enter again."),
+		'notice'
+	);
 	unset_messages();
 	user_goto('user_add1.php');
 }
@@ -256,7 +259,7 @@ function add_user_data($reseller_id) {
 	$err_msg = '';
 
 	if (!empty($err_msg)) {
-		set_page_message($err_msg);
+		set_page_message($err_msg, 'error');
 		return false;
 	}
 

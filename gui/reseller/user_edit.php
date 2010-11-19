@@ -201,7 +201,10 @@ function load_user_data_page($user_id) {
 	$data = $res->fetchRow();
 
 	if ($res->recordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('users.php?psi=last');
 	} else {
 		// Get data from sql
@@ -346,18 +349,24 @@ function update_data_in_db($hpid) {
 			if (isset($cfg->PASSWD_STRONG)){
 				set_page_message(
 					sprintf(
-						tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS
-					)
+						tr('The password must be at least %s chars long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS
+					),
+					'warning'
 				);
 			} else {
-				set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
+				set_page_message(
+					sprintf(
+						tr('Password data is shorter than %s signs or includes not permitted signs!'),
+						$cfg->PASSWD_CHARS
+					),
+					'warning'
+				);
 			}
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}
 
 		if ($_POST['userpassword'] != $_POST['userpassword_repeat']) {
-
-			set_page_message(tr("Entered passwords do not match!"));
+			set_page_message(tr('Entered passwords do not match!'), 'warning');
 
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}
@@ -420,7 +429,7 @@ function update_data_in_db($hpid) {
 
 		$rs = exec_query($sql, $query, $admin_name);
 			if ($rs->recordCount() != 0) {
-				set_page_message(tr('User session was killed!'));
+				set_page_message(tr('User session was killed!'), 'notice');
 				write_log($_SESSION['user_logged'] . " killed ".$admin_name."'s session because of password change");
 		}
 	}

@@ -67,7 +67,10 @@ if (isset($_GET['edit_id']) && $_GET['edit_id'] !== '') {
 		// Back to the main page
 		user_goto('domains_manage.php');
 	} elseif($rs->fields['protected'] == 'yes') {
-		set_page_message(tr('You are not allowed to remove this DNS record!'));
+		set_page_message(
+			tr('You are not allowed to remove this DNS record!'),
+			'error'
+		);
 		user_goto('domains_manage.php');
 	}
 
@@ -124,7 +127,7 @@ if (isset($_GET['edit_id']) && $_GET['edit_id'] !== '') {
 		' of domain ' . $dom_name
 	);
 
-	set_page_message(tr('Custom DNS record scheduled for deletion!'));
+	set_page_message(tr('Custom DNS record scheduled for deletion!'), 'success');
 }
 
 //  Back to the main page

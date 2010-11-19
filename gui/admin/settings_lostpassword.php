@@ -65,20 +65,15 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	}
 
 	if (!empty($err_message)) {
-		set_page_message($err_message);
+		set_page_message($err_message, 'warning');
 	} else {
 		set_lostpassword_activation_email($user_id, $data_1);
 		set_lostpassword_password_email($user_id, $data_2);
-		set_page_message(tr('Auto email template data updated!'));
+		set_page_message(tr('Auto email template data updated!'), 'notice');
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 $tpl->assign(
 	array(
 		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Admin/Lostpw email setup'),

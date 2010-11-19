@@ -62,7 +62,7 @@ function kill_session($sql) {
 		";
 
 		$rs = exec_query($sql, $query, $admin_name);
-		set_page_message(tr('User session was killed!'));
+		set_page_message(tr('User session was killed!'), 'notice');
 		write_log($_SESSION['user_logged'] . ": killed user session: $admin_name!");
 	}
 }

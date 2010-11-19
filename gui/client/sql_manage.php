@@ -113,7 +113,7 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, $dmn_id);
 
 	if ($rs->recordCount() == 0) {
-		set_page_message(tr('Database list is empty!'));
+		set_page_message(tr('Database list is empty!'), 'notice');
 		$tpl->assign('DB_LIST', '');
 	} else {
 		while (!$rs->EOF) {

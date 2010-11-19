@@ -38,7 +38,7 @@ $reseller_id = $_SESSION['user_id'];
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	$order_id = $_GET['order_id'];
 } else {
-	set_page_message(tr('Wrong order ID!'));
+	set_page_message(tr('Wrong order ID!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -56,7 +56,7 @@ $query = "
 $rs = exec_query($sql, $query, array($order_id, $reseller_id));
 
 if ($rs->recordCount() == 0) {
-	set_page_message(tr('Permission deny!'));
+	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -69,7 +69,7 @@ $query = "
 ";
 $rs = exec_query($sql, $query, $order_id);
 
-set_page_message(tr('Customer order was removed successful!'));
+set_page_message(tr('Customer order was removed successful!'), 'success');
 
 write_log($_SESSION['user_logged'].": deletes customer order.");
 user_goto('orders.php');

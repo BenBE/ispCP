@@ -225,26 +225,38 @@ function check_user_data() {
 	$sql = ispCP_Registry::get('Db');
 
 	if (!validates_username($_POST['username'])) {
-		set_page_message(tr("Incorrect username length or syntax!"));
+		set_page_message(tr("Incorrect username length or syntax!"), 'warning');
 
 		return false;
 	}
 	if (!chk_password($_POST['pass'])) {
 		if ($cfg->PASSWD_STRONG) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 
 		return false;
 	}
 	if ($_POST['pass'] != $_POST['pass_rep']) {
-		set_page_message(tr("Entered passwords do not match!"));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 
 		return false;
 	}
 	if (!chk_email($_POST['email'])) {
-		set_page_message(tr("Incorrect email length or syntax!"));
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
 
 		return false;
 	}
@@ -263,7 +275,7 @@ function check_user_data() {
 	$rs = exec_query($sql, $query, $username);
 
 	if ($rs->recordCount() != 0) {
-		set_page_message(tr('This user name already exist!'));
+		set_page_message(tr('This user name already exist!'), 'error');
 
 		return false;
 	}

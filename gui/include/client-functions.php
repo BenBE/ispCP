@@ -1030,8 +1030,10 @@ function check_permissions(&$tpl) {
 function check_usr_sql_perms(&$sql, $db_user_id) {
 
 	if (who_owns_this($db_user_id, 'sqlu_id') != $_SESSION['user_id']) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
-
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('sql_manage.php');
 	}
 }
@@ -1039,8 +1041,10 @@ function check_usr_sql_perms(&$sql, $db_user_id) {
 function check_db_sql_perms(&$sql, $db_id) {
 
 	if (who_owns_this($db_id, 'sqld_id') != $_SESSION['user_id']) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
-
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('sql_manage.php');
 	}
 }
@@ -1048,8 +1052,10 @@ function check_db_sql_perms(&$sql, $db_id) {
 function check_ftp_perms($sql, $ftp_acc) {
 
 	if (who_owns_this($ftp_acc, 'ftp_user') != $_SESSION['user_id']) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
-
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('ftp_accounts.php');
 	}
 }

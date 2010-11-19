@@ -138,7 +138,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 }
 
 if (!isset($_POST['capcode']) || $_POST['capcode'] != $_SESSION['image']) {
-	set_page_message(tr('Security code was incorrect!'));
+	set_page_message(tr('Security code was incorrect!'), 'error');
 	user_goto('chart.php');
 }
 
@@ -146,7 +146,10 @@ if (!isset($_POST['capcode']) || $_POST['capcode'] != $_SESSION['image']) {
 // If term of service field was set (not empty value)
 if (isset($_SESSION['tos']) && $_SESSION['tos'] == true) {
 	if (!isset($_POST['tosAccept']) || $_POST['tosAccept'] != 1) {
-		set_page_message(tr('You have to accept the Term of Service!'));
+		set_page_message(
+			tr('You have to accept the Term of Service!'),
+			'warning'
+		);
 		user_goto('chart.php');
 	}
 }

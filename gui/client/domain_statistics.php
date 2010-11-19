@@ -254,7 +254,10 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 		$tpl->assign('TRAFF_LIST', '');
 
-		set_page_message(tr('Traffic accounting for the selected month is missing!'));
+		set_page_message(
+			tr('Traffic accounting for the selected month is missing!'),
+			'warning'
+		);
 
 	} else {
 

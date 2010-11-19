@@ -58,10 +58,10 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 	}
 
 	if (!empty($message)) {
-		set_page_message($message);
+		set_page_message($message, 'warning');
 	} else {
 		set_welcome_email($user_id, $data);
-		set_page_message(tr('Auto email template data updated!'));
+		set_page_message(tr('Auto email template data updated!'), 'notice');
 	}
 }
 

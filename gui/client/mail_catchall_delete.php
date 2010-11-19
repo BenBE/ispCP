@@ -69,7 +69,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	send_request();
 	write_log($_SESSION['user_logged'].': deletes email catch all!');
-	set_page_message(tr('Catch all account scheduled for deletion!'));
+	set_page_message(tr('Catch all account scheduled for deletion!'), 'success');
 	user_goto('mail_catchall.php');
 
 } else {

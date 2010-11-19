@@ -70,19 +70,25 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] != '') {
 
 	write_log(sprintf("%s: deletes support ticket %d", $_SESSION['user_logged'],
 			$ticket_id));
-	set_page_message(tr('Support ticket deleted successfully!'));
+	set_page_message(tr('Support ticket deleted successfully!'), 'notice');
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'open') {
 
 	deleteTickets('open', $user_id);
 
 	write_log(sprintf("%s: deletes all open support tickets.", $_SESSION['user_logged']));
-	set_page_message(tr('All open support tickets deleted successfully!'));
+	set_page_message(
+		tr('All open support tickets deleted successfully!'),
+		'notice'
+	);
 } elseif (isset($_GET['delete']) && $_GET['delete'] == 'closed') {
 
 	deleteTickets('closed', $user_id);
 
 	write_log(sprintf("%s: deletes all closed support ticket.", $_SESSION['user_logged']));
-	set_page_message(tr('All closed support tickets deleted successfully!'));
+	set_page_message(
+		tr('All closed support tickets deleted successfully!'),
+		'notice'
+	);
 	$back_url = 'ticket_closed.php';
 }
 

@@ -116,18 +116,32 @@ function update_data(&$sql) {
 				$edit_id = $_POST['edit_id'];
 
 				if ($_POST['pass'] != $_POST['pass_rep']) {
-					set_page_message(tr("Entered passwords do not match!"));
+					set_page_message(
+						tr("Entered passwords do not match!"),
+						'warning'
+					);
 
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
 				if (!chk_password($_POST['pass'])) {
 					if ($cfg->PASSWD_STRONG) {
-						set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
+						set_page_message(
+							sprintf(
+								tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+								$cfg->PASSWD_CHARS
+							),
+							'warning'
+						);
 					} else {
-						set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
+						set_page_message(
+							sprintf(
+								tr('Password data is shorter than %s signs or includes not permitted signs!'),
+								$cfg->PASSWD_CHARS
+							),
+							'warning'
+						);
 					}
-
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
@@ -183,7 +197,7 @@ function update_data(&$sql) {
 
 				$rs = exec_query($sql, $query, $admin_name);
 				if ($rs->recordCount() != 0) {
-					set_page_message(tr('User session was killed!'));
+					set_page_message(tr('User session was killed!'), 'notice');
 					write_log($_SESSION['user_logged'] . " killed " . $admin_name . "'s session because of password change");
 				}
 			}
@@ -226,7 +240,7 @@ function update_data(&$sql) {
 
 function check_user_data() {
 	if (!chk_email($_POST['email'])) {
-		set_page_message(tr("Incorrect email length or syntax!"));
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
 
 		return false;
 	}

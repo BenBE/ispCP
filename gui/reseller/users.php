@@ -214,15 +214,18 @@ function generate_users_list(&$tpl, $admin_id) {
 		if (isset($_SESSION['search_for'])) {
 			$tpl->assign(
 				array(
-					'USERS_LIST' => '',
-					'SCROLL_PREV' => '',
-					'SCROLL_NEXT' => '',
-					'TR_VIEW_DETAILS' => tr('View aliases'),
-					'SHOW_DETAILS' => tr("Show")
+					'USERS_LIST'		=> '',
+					'SCROLL_PREV'		=> '',
+					'SCROLL_NEXT'		=> '',
+					'TR_VIEW_DETAILS'	=> tr('View aliases'),
+					'SHOW_DETAILS'		=> tr("Show")
 				)
 			);
 
-			set_page_message(tr('Not found user records matching the search criteria!'));
+			set_page_message(
+				tr('Not found user records matching the search criteria!'),
+				'notice'
+			);
 
 			unset($_SESSION['search_for']);
 			unset($_SESSION['search_common']);
@@ -238,7 +241,7 @@ function generate_users_list(&$tpl, $admin_id) {
 				)
 			);
 
-			set_page_message(tr('You have no users.'));
+			set_page_message(tr('You have no users.'), 'notice');
 		}
 	} else {
 		$prev_si = $start_index - $rows_per_page;
@@ -347,29 +350,32 @@ function check_externel_events(&$tpl) {
 
 	if (isset($_SESSION["user_add3_added"])) {
 		if ($_SESSION["user_add3_added"] === '_yes_') {
-			set_page_message(tr('User added!'));
+			set_page_message(tr('User added!'), 'succes');
 
 			$externel_event = '_on_';
 			unset($_SESSION["user_add3_added"]);
 		}
 	} else if (isset($_SESSION["edit"])) {
 		if ('_yes_' === $_SESSION["edit"]) {
-			set_page_message(tr('User data updated!'));
+			set_page_message(tr('User data updated!'), 'success');
 		} else {
-			set_page_message(tr('User data not updated!'));
+			set_page_message(tr('User data not updated!'), 'error');
 		}
 		unset($_SESSION["edit"]);
 	} else if (isset($_SESSION["user_has_domain"])) {
 		if ($_SESSION["user_has_domain"] == '_yes_') {
-			set_page_message(tr('This user has domain record !<br>First remove the domain from the system!'));
+			set_page_message(
+				tr('This user has domain records!<br />First remove the domains from the system!'),
+				'error'
+			);
 		}
 
 		unset($_SESSION["user_has_domain"]);
 	} else if (isset($_SESSION['user_deleted'])) {
 		if ($_SESSION['user_deleted'] == '_yes_') {
-			set_page_message(tr('User terminated!'));
+			set_page_message(tr('User terminated!'), 'success');
 		} else {
-			set_page_message(tr('User not terminated!'));
+			set_page_message(tr('User not terminated!') , 'error');
 		}
 
 		unset($_SESSION['user_deleted']);

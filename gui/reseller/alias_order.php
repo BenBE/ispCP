@@ -92,7 +92,7 @@ if (isset($_GET['action']) && $_GET['action'] === "delete") {
 
 	write_log("$admin_login: domain alias activated: $alias_name.");
 
-	set_page_message(tr('Alias scheduled for activation!'));
+	set_page_message(tr('Alias scheduled for activation!'), 'success');
 
 	$_SESSION['orderalact'] = '_yes_';
 	user_goto('alias.php');

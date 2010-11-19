@@ -133,7 +133,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 	}
 
 	if ($rs->recordCount() == 0) {
-		set_page_message(tr('You do not have new orders!'));
+		set_page_message(tr('You do not have new orders!'), 'notice');
 		$tpl->assign('ORDERS_TABLE', '');
 		$tpl->assign('SCROLL_NEXT_GRAY', '');
 		$tpl->assign('SCROLL_PREV_GRAY', '');

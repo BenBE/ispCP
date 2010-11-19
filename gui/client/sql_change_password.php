@@ -57,31 +57,46 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 	}
 
 	if ($_POST['pass'] === '' && $_POST['pass_rep'] === '') {
-		set_page_message(tr('Please type user password!'));
+		set_page_message(tr('Please specify user password!'), 'warning');
 		return;
 	}
 
 	if ($_POST['pass'] !== $_POST['pass_rep']) {
-		set_page_message(tr('Entered passwords do not match!'));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 		return;
 	}
 
 	if (strlen($_POST['pass']) > $cfg->MAX_SQL_PASS_LENGTH) {
-		set_page_message(tr('Too long user password!'));
+		set_page_message(tr('User password too long!'), 'warning');
 		return;
 	}
 
 	if (isset($_POST['pass'])
 		&& !preg_match('/^[[:alnum:]:!\*\+\#_.-]+$/', $_POST['pass'])) {
-		set_page_message(tr('Don\'t use special chars like "@, $, %..." in the password!'));
+		set_page_message(
+			tr('Don\'t use special chars like "@, $, %..." in the password!'),
+			'warning'
+		);
 		return;
 	}
 
 	if (!chk_password($_POST['pass'])) {
 		if ($cfg->PASSWD_STRONG) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 		return;
 	}
@@ -110,7 +125,7 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 	$rs = execute_query($sql, $query);
 
 	write_log($_SESSION['user_logged'] . ": update SQL user password: " . tohtml($db_user_name));
-	set_page_message(tr('SQL user password was successfully changed!'));
+	set_page_message(tr('SQL user password was successfully changed!'), 'warning');
 	user_goto('sql_manage.php');
 }
 

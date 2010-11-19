@@ -49,12 +49,7 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 	$domain_id = $_SESSION['dmn_id'];
 	$reseller_id = $_SESSION['user_id'];
@@ -75,7 +70,8 @@ if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 
 	if ($result->recordCount() == 0) {
 		set_page_message(
-			tr('User does not exist or you do not have permission to access this interface!')
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
 		);
 
 		// Back to the users page
@@ -85,14 +81,20 @@ if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 		$dmn_status = $row['domain_status'];
 
 		if ($dmn_status != $cfg->ITEM_OK_STATUS && $dmn_status != $cfg->ITEM_ADD_STATUS) {
-			set_page_message(tr('System error with Domain Id: %d', $domain_id));
+			set_page_message(
+				tr('System error with Domain ID: %d', $domain_id),
+				'error'
+			);
 
 			// Back to the users page
 			user_goto('users.php?psi=last');
 		}
 	}
 } else {
-	set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	set_page_message(
+		tr('User does not exist or you do not have permission to access this interface!'),
+		'warning'
+	);
 	user_goto('users.php?psi=last');
 }
 
@@ -271,7 +273,7 @@ function add_domain_alias(&$sql, &$err_al) {
 
 	// Check if input string is a valid domain names
 	if (!validates_dname($alias_name)) {
-		set_page_message($validation_err_msg);
+		set_page_message($validation_err_msg, 'warning');
 		return;
 	}
 
@@ -309,13 +311,13 @@ function add_domain_alias(&$sql, &$err_al) {
 	}
 
 	if ('_off_' !== $err_al) {
-		set_page_message($err_al);
+		set_page_message($err_al, 'error');
 		return;
 	}
 	// Begin add new alias domain
 	$query = "INSERT INTO `domain_aliasses` (" .
 			"`domain_id`, `alias_name`, `alias_mount`, `alias_status`, " .
-			"`alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)";
+			"`alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?);";
 	exec_query($sql, $query, array(
 			$cr_user_id,
 			$alias_name,
@@ -331,7 +333,7 @@ function add_domain_alias(&$sql, &$err_al) {
 	$admin_login = $_SESSION['user_logged'];
 	write_log("$admin_login: add domain alias: $alias_name");
 
-	set_page_message(tr('Domain alias added!'));
+	set_page_message(tr('Domain alias added!'), 'success');
 } // End of add_domain_alias();
 
 function gen_page_msg(&$tpl, $error_txt) {

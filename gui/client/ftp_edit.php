@@ -97,14 +97,29 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'edit_user') {
 		if (!empty($_POST['pass']) || !empty($_POST['pass_rep'])) {
 			if ($_POST['pass'] !== $_POST['pass_rep']) {
-				set_page_message(tr('Entered passwords do not match!'));
+				set_page_message(
+					tr('Entered passwords do not match!'),
+					'warning'
+				);
 				return;
 			}
 			if (!chk_password($_POST['pass'])) {
 				if ($cfg->PASSWD_STRONG) {
-					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
+					set_page_message(
+						sprintf(
+							tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+							$cfg->PASSWD_CHARS
+						),
+						'warning'
+					);
 				} else {
-					set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
+					set_page_message(
+						sprintf(
+							tr('Password data is shorter than %s signs or includes not permitted signs!'),
+							$cfg->PASSWD_CHARS
+						),
+						'warning'
+					);
 				}
 				return;
 			}
@@ -116,7 +131,10 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 
 				$rs = $vfs->exists($other_dir);
 				if (!$rs) {
-					set_page_message(tr('%s does not exist', clean_input($_POST['other_dir'])));
+					set_page_message(
+						tr('%s does not exist', clean_input($_POST['other_dir'])),
+						'warning'
+					);
 					return;
 				} // domain_id
 
@@ -150,7 +168,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 			}
 
 			write_log($_SESSION['user_logged'] . ": updated FTP " . $ftp_acc . " account data");
-			set_page_message(tr('FTP account data updated!'));
+			set_page_message(tr('FTP account data updated!'), 'success');
 			user_goto('ftp_accounts.php');
 		} else {
 			if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') {
@@ -160,7 +178,10 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 				// Check for updirs ".."
 				$res = preg_match("/\.\./", $other_dir);
 				if ($res !== 0) {
-					set_page_message(tr('Incorrect mount point length or syntax'));
+					set_page_message(
+						tr('Incorrect mount point length or syntax'),
+						'warning'
+					);
 					return;
 				}
 				$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name/" . $other_dir;
@@ -172,7 +193,10 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 				// Check for directory existence
 				$res = $vfs->exists($other_dir);
 				if (!$res) {
-					set_page_message(tr('%s does not exist', $other_dir));
+					set_page_message(
+						tr('%s does not exist', $other_dir),
+						'error'
+					);
 					return;
 				}
 				$other_dir = $cfg->FTP_HOMEDIR . "/" . $_SESSION['user_logged'] . $other_dir;
@@ -191,7 +215,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 			";
 
 			$rs = exec_query($sql, $query, array($other_dir, $ftp_acc));
-			set_page_message(tr('FTP account data updated!'));
+			set_page_message(tr('FTP account data updated!'), 'success');
 			user_goto('ftp_accounts.php');
 		}
 	}

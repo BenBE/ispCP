@@ -190,7 +190,7 @@ function createTicket($user_id, $admin_id, $urgency, $subject, $message,
 		)
 	);
 
-	set_page_message(tr('Your message has been sent!'));
+	set_page_message(tr('Your message has been sent!'), 'success');
 	sendTicketNotification($admin_id, $user_id, $subject, $user_message,
         $ticket_reply, $urgency);
 }
@@ -284,7 +284,7 @@ function updateTicket($ticket_id, $user_id, $urgency,
 		}
 	}
 
-	set_page_message(tr('Your message has been sent'));
+	set_page_message(tr('Your message has been sent!'), 'success');
 	sendTicketNotification($ticket_to, $ticket_from, $subject, $user_message,
 			$ticket_id, $urgency);
 }
@@ -324,7 +324,7 @@ function getUserLevel($ticket_id) {
  */
 function closeTicket($ticket_id) {
 	changeTicketStatus($ticket_id, 0);
-	set_page_message(tr('Ticket was closed!'));
+	set_page_message(tr('Ticket was closed!'), 'notice');
 }
 
 /**
@@ -338,7 +338,7 @@ function closeTicket($ticket_id) {
  */
 function openTicket($ticket_id) {
 	changeTicketStatus($ticket_id, 3);
-	set_page_message(tr('Ticket was reopened!'));
+	set_page_message(tr('Ticket was reopened!'), 'notice');
 }
 
 /**
@@ -513,7 +513,7 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
 				'SCROLL_NEXT'	=> ''
 			)
 		);
-		set_page_message(tr('You don\'t have support tickets.'));
+		set_page_message(tr('You don\'t have support tickets.'), 'notice');
 	} else {
 		$prev_si = $start - $count;
 		if ($start == 0) {
@@ -613,7 +613,7 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign('TICKETS_LIST', '');
-		set_page_message(tr('Ticket not found!'));
+		set_page_message(tr('Ticket not found!'), 'error');
 	} else {
 		$ticket_urgency = $rs->fields['ticket_urgency'];
 		$ticket_subject = $rs->fields['ticket_subject'];

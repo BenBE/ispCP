@@ -39,7 +39,7 @@ $reseller_id = $_SESSION['user_id'];
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	$order_id = $_GET['order_id'];
 } else {
-	set_page_message(tr('Wrong order ID!'));
+	set_page_message(tr('Wrong order ID!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -71,7 +71,7 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 }
 
 if ($rs->recordCount() == 0 || !isset($_SESSION['domain_ip'])) {
-	set_page_message(tr('Permission deny!'));
+	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -108,12 +108,15 @@ $props = $data['props'];
 $_SESSION["ch_hpprops"] = $props;
 
 if (!reseller_limits_check($sql, $err_msg, $reseller_id, $hpid)) {
-	set_page_message(tr('Order Cancelled: resellers maximum exceeded!'));
+	set_page_message(
+		tr('Order Cancelled: resellers maximum exceeded!'),
+		'notice'
+	);
 	user_goto('orders.php');
 }
 
 if (!empty($err_msg)) {
-	set_page_message($err_msg);
+	set_page_message($err_msg, 'error');
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
@@ -135,13 +138,16 @@ $inpass = crypt_user_pass($password, true);
 $dmn_user_name = decode_idna($dmn_user_name);
 
 if (!validates_dname($dmn_user_name)) {
-	set_page_message(tr('Wrong domain name syntax!'));
+	set_page_message(tr('Wrong domain name syntax!'), 'warning');
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
 
 if (ispcp_domain_exists($dmn_user_name, $_SESSION['user_id'])) {
-	set_page_message(tr('Domain with that name already exists on the system!'));
+	set_page_message(
+		tr('Domain with that name already exists on the system!'),
+		'warning'
+	);
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
@@ -276,7 +282,7 @@ write_log("$admin_login: add domain: $dmn_user_name");
 
 update_reseller_c_props($reseller_id);
 
-set_page_message(tr('User added!'));
+set_page_message(tr('User added!'), 'success');
 $query = "
 	UPDATE
 		`orders`

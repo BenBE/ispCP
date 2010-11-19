@@ -179,7 +179,10 @@ function load_user_data($user_id, $domain_id) {
 	$rs = exec_query($sql, $query, array($domain_id, $user_id));
 
 	if ($rs->recordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 
 		user_goto('users.php?psi=last');
 	}
@@ -580,7 +583,10 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$reseller_props .= "$rdisk_current;$rdisk_max";
 
 		if (!update_reseller_props($reseller_id, $reseller_props)) {
-			set_page_message(tr('Domain properties could not be updated!'));
+			set_page_message(
+				tr('Domain properties could not be updated!'),
+				'error'
+			);
 
 			return false;
 		}
@@ -608,7 +614,10 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			$rs = exec_query($sql, $query, array($dlim, $temp_dmn_name));
 		}
 
-		set_page_message(tr('Domain properties updated successfully!'));
+		set_page_message(
+			tr('Domain properties updated successfully!'),
+			'success'
+		);
 
 		return true;
 	} else {

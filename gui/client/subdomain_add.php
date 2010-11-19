@@ -63,7 +63,7 @@ function check_subdomain_permissions($sql, $user_id) {
 	$sub_cnt = get_domain_running_sub_cnt($sql, $dmn_id);
 
 	if ($dmn_subd_limit != 0 && $sub_cnt >= $dmn_subd_limit) {
-		set_page_message(tr('Subdomains limit reached!'));
+		set_page_message(tr('Subdomains limit reached!'), 'warning');
 		user_goto('domains_manage.php');
 	}
 
@@ -503,7 +503,7 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 			return;
 		}
 		subdomain_schedule($sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt, $forward);
-		set_page_message(tr('Subdomain scheduled for addition!'));
+		set_page_message(tr('Subdomain scheduled for addition!'), 'notice');
 		user_goto('domains_manage.php');
 	}
 }

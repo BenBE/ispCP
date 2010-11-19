@@ -39,7 +39,7 @@ $reseller_id = $_SESSION['user_id'];
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	$order_id = $_GET['order_id'];
 } else {
-	set_page_message(tr('Wrong order ID!'));
+	set_page_message(tr('Wrong order ID!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -75,7 +75,7 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 }
 
 if ($rs->recordCount() == 0) {
-	set_page_message(tr('Permission deny!'));
+	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -99,12 +99,12 @@ $props = $data['props'];
 $_SESSION["ch_hpprops"] = $props;
 
 if (!reseller_limits_check($sql, $err_msg, $reseller_id, $hpid)) {
-	set_page_message(tr("Order Canceled: resellers maximum exceeded!"));
+	set_page_message(tr("Order Canceled: resellers maximum exceeded!"), 'notice');
 	user_goto('orders.php');
 }
 
 if (!empty($err_msg)) {
-	set_page_message($err_msg);
+	set_page_message($err_msg, 'error');
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
@@ -249,10 +249,10 @@ if (empty($ed_error)) {
 			`id` = ?
 	";
 	exec_query($sql, $query, array('added', $order_id));
-	set_page_message(tr('Domain properties updated successfully!'));
+	set_page_message(tr('Domain properties updated successfully!'), 'success');
 	user_goto('users.php?psi=last');
 } else {
-	set_page_message($ed_error);
+	set_page_message($ed_error, 'error');
 	user_goto('orders.php');
 }
 

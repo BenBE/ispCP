@@ -736,7 +736,10 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 if (isset($_GET['action'])) {
 	if ($_GET['action'] == 'run_engine' && $exec_count > 0) {
 		$code = send_request();
-		set_page_message(tr('Daemon returned %d as status code', $code));
+		set_page_message(
+			tr('Daemon returned %d as status code', $code),
+			'notice'
+		);
 	} elseif($_GET['action'] == 'change_status' &&
 		(isset($_GET['id']) && isset($_GET['type']))) {
 
@@ -809,7 +812,7 @@ if (isset($_GET['action'])) {
 				";
 				break;
 			default:
-				set_page_message(tr('Unknown type!'));
+				set_page_message(tr('Unknown type!'), 'warning');
 				user_goto('ispcp_debugger.php');
 				break;
 		}
@@ -817,11 +820,11 @@ if (isset($_GET['action'])) {
 		$rs = exec_query($sql, $query, $_GET['id']);
 
 		if ($rs !== false) {
-			set_page_message(tr('Done'));
+			set_page_message(tr('Done'), 'success');
 			user_goto('ispcp_debugger.php');
 		} else {
 			$msg = tr('Unknown Error') . '<br />' . $sql->errorMsg();
-			set_page_message($msg);
+			set_page_message($msg, 'error');
 			user_goto('ispcp_debugger.php');
 		}
 	}

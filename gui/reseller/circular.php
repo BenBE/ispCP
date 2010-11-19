@@ -122,7 +122,7 @@ function check_user_data(&$tpl) {
 	}
 
 	if (!empty($err_message)) {
-		set_page_message($err_message);
+		set_page_message($err_message, 'warning');
 		return false;
 	} else {
 		return true;
@@ -169,7 +169,7 @@ function send_reseller_users_message(&$sql, $admin_id) {
 
     $sender_name = tohtml($sender_name);
 
-	set_page_message(tr('You send email to your users successfully!'));
+	set_page_message(tr('You send email to your users successfully!'), 'success');
 	write_log("Mass email was sent from Reseller " . $sender_name . " <" . $sender_email . ">");
 }
 

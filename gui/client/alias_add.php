@@ -131,7 +131,7 @@ function check_client_domainalias_counts($sql, $user_id) {
 	$als_cnt = get_domain_running_als_cnt($sql, $dmn_id);
 
 	if ($dmn_als_limit != 0 && $als_cnt >= $dmn_als_limit) {
-		set_page_message(tr('Domain alias limit reached!'));
+		set_page_message(tr('Domain alias limit reached!'), 'warning');
 		user_goto('domains_manage.php');
 	}
 }
@@ -333,11 +333,11 @@ function add_domain_alias(&$sql, &$err_al) {
 		send_alias_order_email($alias_name);
 
 		write_log("$admin_login: add domain alias for activation: $alias_name.");
-		set_page_message(tr('Alias scheduled for activation!'));
+		set_page_message(tr('Alias scheduled for activation!'), 'success');
 	} else {
 		send_request();
 		write_log("$admin_login: domain alias scheduled for addition: $alias_name.");
-		set_page_message(tr('Alias scheduled for addition!'));
+		set_page_message(tr('Alias scheduled for addition!'), 'success');
 	}
 
 	user_goto('domains_manage.php');
