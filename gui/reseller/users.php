@@ -375,3 +375,4 @@ function check_externel_events(&$tpl) {
 		unset($_SESSION['user_deleted']);
 	}
 }
+?>

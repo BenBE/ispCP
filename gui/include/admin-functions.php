@@ -2569,3 +2569,4 @@ RIC;
 	$tpl->assign('PURCHASE_HEADER', $header);
 	$tpl->assign('PURCHASE_FOOTER', $footer);
 }
+?>
