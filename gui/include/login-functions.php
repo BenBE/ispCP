@@ -577,7 +577,7 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 			$cfg->BASE_SERVER_VHOST;
 
 		write_log(
-			"Login error, <b><i>$ipaddr</i></b> wait " . ($btime - time()) .
+			"Login error, <strong><em>$ipaddr</em></strong> wait " . ($btime - time()) .
 			" seconds", E_USER_NOTICE
 		);
 
@@ -602,9 +602,9 @@ function block_ipaddr($ipaddr, $type = 'General') {
 	$cfg = ispCP_Registry::get('Config');
 
 	write_log(
-			"$type protection, <b><i> " .
+			"$type protection, <strong><em> " .
 			tohtml($ipaddr) .
-			"</i></b> blocked for " . $cfg->BRUTEFORCE_BLOCK_TIME . " minutes."
+			"</em></strong> blocked for " . $cfg->BRUTEFORCE_BLOCK_TIME . " minutes."
 	);
 
 	deny_access();
@@ -650,7 +650,7 @@ function register_user($uname, $upass) {
 	check_ipaddr();
 
 	if (!username_exists($uname)) {
-		write_log("Login error, <b><i>".tohtml($uname)."</i></b> unknown username");
+		write_log("Login error, <strong><em>".tohtml($uname)."</em></strong> unknown username");
 		system_message(
 			tr('You entered an incorrect username/password.'),
 			$backButtonDestination
@@ -665,8 +665,8 @@ function register_user($uname, $upass) {
 		($cfg->MAINTENANCEMODE)) && $udata['admin_type'] != 'admin') {
 
 		write_log(
-			"Login error, <b><i>" . $uname .
-			"</i></b> system currently in maintenance mode"
+			"Login error, <strong><em>" . $uname .
+			"</em></strong> system currently in maintenance mode"
 		);
 
 		system_message(
@@ -807,8 +807,8 @@ function check_user_login() {
 		($cfg->MAINTENANCEMODE)) && $user_type != 'admin') {
 		unset_user_login_data(true);
 		write_log(
-			"System is currently in maintenance mode. Logging out <b><i>" .
-			$user_logged . "</i></b>"
+			"System is currently in maintenance mode. Logging out <strong><em>" .
+			$user_logged . "</em></strong>"
 		);
 
 		user_goto('/index.php');

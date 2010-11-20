@@ -354,10 +354,10 @@ function check_query($exclude = array()) {
                 $key = tohtml($key);
                 $matches[0] = tohtml($matches[0]);
 
-				$message = "Possible SQL injection detected: $key=>$value. <b>${matches[0]}</b>. Script terminated.";
+				$message = "Possible SQL injection detected: $key=>$value. <strong>${matches[0]}</strong>. Script terminated.";
 				write_log($message);
 
-				throw new ispCP_Exception("<b>WARNING</b>: $message");
+				throw new ispCP_Exception("<strong>WARNING</strong>: $message");
 			}
 		} else {
 			foreach ($value as $skey => $svalue) {
@@ -367,10 +367,10 @@ function check_query($exclude = array()) {
                         $skey = tohtml($skey);
                         $matches[0] = tohtml($matches[0]);
 
-						$message = "Possible SQL injection detected: $skey=>$svalue <b>${matches[0]}</b>. Script terminated.";
+						$message = "Possible SQL injection detected: $skey=>$svalue <strong>${matches[0]}</strong>. Script terminated.";
 						write_log($message);
 
-						throw new ispCP_Exception("<b>WARNING</b>: $message");
+						throw new ispCP_Exception("<strong>WARNING</strong>: $message");
 					}
 				}
 			}

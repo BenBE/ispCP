@@ -194,14 +194,14 @@ function get_server_status(&$tpl, &$sql) {
 			$img = $up;
 			$class = "content up";
 		} else {
-			$img = '<b>' . $down . '</b>';
+			$img = '<strong>' . $down . '</strong>';
 			$class = "content down";
 		}
 
 		if ($data[$i]['port'] == 23) { // 23 = telnet
 			if ($data[$i]['status']) {
 				$class = 'content2 down';
-				$img = '<b>' . $up . '</b>';
+				$img = '<strong>' . $up . '</strong>';
 			} else {
 				$class = 'content2 up';
 				$img = $down;

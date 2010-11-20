@@ -1,6 +1,13 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-20 Benedikt Heintel
+	- GUI:
+		* Changed <b> and <i> to <strong> and <em>
+	- LANGUAGES:
+		* Updated all language files
+		* Updated German
+
 2010-11-19 Benedikt Heintel
 	- LANGUAGES:
 		* Updated Finnish

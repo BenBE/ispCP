@@ -280,8 +280,8 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 			'TRAFF_GREEN' => $traff_green,
 
 			'TRAFF_MSG' => ($utraff_max)
-				? tr('%1$s <br/>of<br/> <b>%2$s</b>', sizeit($utraff_current), sizeit($utraff_max))
-				: tr('%s <br/>of<br/> <b>unlimited</b>', sizeit($utraff_current)),
+				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($utraff_current), sizeit($utraff_max))
+				: tr('%s <br/>of<br/> <strong>unlimited</strong>', sizeit($utraff_current)),
 
 
 			'DISK_SHOW_PERCENT' => $disk_show_percent,
@@ -290,8 +290,8 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 			'DISK_GREEN' => $disk_green,
 
 			'DISK_MSG' => ($udisk_max)
-				? tr('%1$s <br/>of<br/> <b>%2$s</b>', sizeit($udisk_current), sizeit($udisk_max))
-				: tr('%s <br/>of<br/> <b>unlimited</b>', sizeit($udisk_current)),
+				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($udisk_current), sizeit($udisk_max))
+				: tr('%s <br/>of<br/> <strong>unlimited</strong>', sizeit($udisk_current)),
 
 
 			'WEB' => sizeit($web),
@@ -301,38 +301,38 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'SUB_MSG' => ($usub_max)
 				? (($usub_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', sizeit($usub_current), $usub_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', sizeit($usub_current)),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', sizeit($usub_current), $usub_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', sizeit($usub_current)),
 
 			'ALS_MSG' => ($uals_max)
 				? (($uals_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', sizeit($uals_current), $uals_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', sizeit($uals_current)),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', sizeit($uals_current), $uals_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', sizeit($uals_current)),
 
 			'MAIL_MSG' => ($umail_max)
 				? (($umail_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $umail_current, $umail_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $umail_current),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $umail_current, $umail_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $umail_current),
 
 			'FTP_MSG' => ($uftp_max)
 				? (($uftp_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $uftp_current, $uftp_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $uftp_current),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $uftp_current, $uftp_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $uftp_current),
 
 			'SQL_DB_MSG' => ($usql_db_max)
 				? (($usql_db_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $usql_db_current, $usql_db_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $usql_db_current),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $usql_db_current, $usql_db_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $usql_db_current),
 			'SQL_USER_MSG' => ($usql_user_max)
 				? (($usql_user_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $usql_user_current, $usql_user_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $usql_user_current)
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $usql_user_current, $usql_user_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $usql_user_current)
 		)
 	);
 }

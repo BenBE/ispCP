@@ -96,7 +96,7 @@ foreach ($config_entries as $config_entry) {
 		$search [] = '/0[ \t]+vulnerable/i';
 		$replace[] = '<span style="color:green">$0</span>';
 		$search [] = '#(\[[0-9]{2}:[[0-9]{2}:[[0-9]{2}\][ \t]+-{20,35}[ \t]+)([a-zA-Z0-9 ]+)([ \t]+-{20,35})<br />#e';
-		$replace[] = '"</div><a href=\"#\" onclick=\"showHideBlocks(\'rkhuntb" . $blocksCount . "\');return false;\">$1<b>$2</b>$3</a><br /><div id=\"rkhuntb" . $blocksCount++ . "\">"';
+		$replace[] = '"</div><a href=\"#\" onclick=\"showHideBlocks(\'rkhuntb" . $blocksCount . "\');return false;\">$1<strong>$2</strong>$3</a><br /><div id=\"rkhuntb" . $blocksCount++ . "\">"';
 		// chkrootkit-like log colouring
 		$search [] = '/([^a-z][ \t]+)(INFECTED)/i';
 		$replace[] = '$1<strong style="color:red">$2</strong>';

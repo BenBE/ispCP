@@ -92,7 +92,7 @@ function gen_system_message(&$tpl, &$sql) {
 	} else {
 		$tpl->assign(
 			array(
-				'TR_NEW_MSGS' => tr('You have <b>%d</b> new answer to your support questions', $num_question),
+				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new answer to your support questions', $num_question),
 				'TR_VIEW' => tr('View')
 			)
 		);
@@ -289,7 +289,7 @@ function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
 		$tpl->assign(
 			array(
 				'NO_MESSAGES' => '',
-				'TR_NEW_MSGS' => tr('You have <b>%d</b> new support questions', $num_question),
+				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new support questions', $num_question),
 				'TR_VIEW' => tr('View')
 			)
 		);

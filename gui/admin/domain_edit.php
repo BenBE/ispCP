@@ -68,14 +68,14 @@ $tpl->assign(
 		'TR_PHP_SUPP'			=> tr('PHP support'),
 		'TR_CGI_SUPP'			=> tr('CGI support'),
 		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
-		'TR_SUBDOMAINS'			=> tr('Max subdomains<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_ALIAS'				=> tr('Max aliases<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAIL_ACCOUNT'		=> tr('Mail accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_FTP_ACCOUNTS'		=> tr('FTP accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_DB'				=> tr('SQL databases limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_USERS'			=> tr('SQL users limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_TRAFFIC'			=> tr('Traffic limit [MB] <br /><i>(0 unlimited)</i>'),
-		'TR_DISK'				=> tr('Disk limit [MB] <br /><i>(0 unlimited)</i>'),
+		'TR_SUBDOMAINS'			=> tr('Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_ALIAS'				=> tr('Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAIL_ACCOUNT'		=> tr('Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_FTP_ACCOUNTS'		=> tr('FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_DB'				=> tr('SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_USERS'			=> tr('SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_TRAFFIC'			=> tr('Traffic limit [MB] <br /><em>(0 unlimited)</em>'),
+		'TR_DISK'				=> tr('Disk limit [MB] <br /><em>(0 unlimited)</em>'),
 		'TR_USER_NAME'			=> tr('Username'),
 		'TR_BACKUP'				=> tr('Backup'),
 		'TR_BACKUP_DOMAIN'		=> tr('Domain'),
@@ -400,13 +400,13 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$ed_error .= tr('Incorrect SQL users limit!');
 	}
 	else if ($sql_db == -1 && $sql_user != -1) {
-		$ed_error .= tr('SQL databases limit is <i>disabled</i>!');
+		$ed_error .= tr('SQL databases limit is <em>disabled</em>!');
 	}
 	if (!ispcp_limit_check($sql_user, -1)) {
 		$ed_error .= tr('Incorrect SQL databases limit!');
 	}
 	else if ($sql_user == -1 && $sql_db != -1) {
-		$ed_error .= tr('SQL users limit is <i>disabled</i>!');
+		$ed_error .= tr('SQL users limit is <em>disabled</em>!');
 	}
 	if (!ispcp_limit_check($traff, null)) {
 		$ed_error .= tr('Incorrect traffic limit!');

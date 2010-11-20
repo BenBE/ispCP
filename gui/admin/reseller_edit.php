@@ -267,7 +267,7 @@ function check_data(&$errFields) {
 		set_page_message(tr('Incorrect SQL databases limit!'), 'warning');
 	} else if ($rdata['max_sql_db_cnt'] == -1 && $rdata['max_sql_user_cnt'] != -1) {
 		set_page_message(
-			tr('SQL databases limit is <emph>disabled</emph> but SQL users limit not!'),
+			tr('SQL databases limit is <em>disabled</em> but SQL users limit not!'),
 			'warning'
 		);
 		$rs = false;
@@ -291,7 +291,7 @@ function check_data(&$errFields) {
 	} else if ($rdata['max_sql_db_cnt'] != -1
 		&& $rdata['max_sql_user_cnt'] == -1) {
 		set_page_message(
-			tr('SQL users limit is <emph>disabled</emph> but SQL databases limit not!'),
+			tr('SQL users limit is <em>disabled</em> but SQL databases limit not!'),
 			'warning'
 		);
 		$rs = false;
@@ -460,7 +460,7 @@ function check_user_ip_data($reseller_id, $r_ips, $u_ips) {
 					$ip_msg = "$ip_num ($ip_name)";
 
 					set_page_message(
-						tr('This reseller has domains assigned to the <strongb>%s</strong> address!', $ip_msg),
+						tr('This reseller has domains assigned to the <strong>%s</strong> address!', $ip_msg),
 						'warning'
 					);
 
@@ -983,23 +983,23 @@ $tpl->assign(
 		'TR_EMAIL' => tr('E-mail'),
 		'TR_UNLIMITED' => tr('unlimited'),
 		'TR_MAX_DOMAIN_COUNT' =>
-			tr('Domains limit<br><i>(0 unlimited)</i>'),
+			tr('Domains limit<br><em>(0 unlimited)</em>'),
 		'TR_MAX_SUBDOMAIN_COUNT' =>
-			tr('Subdomains limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_ALIASES_COUNT' =>
-			tr('Aliases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_MAIL_USERS_COUNT' =>
-			tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_FTP_USERS_COUNT' =>
-			tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_SQLDB_COUNT' =>
-			tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_SQL_USERS_COUNT' =>
-			tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
+			tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
 		'TR_MAX_TRAFFIC_AMOUNT' =>
-			tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
+			tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_MAX_DISK_AMOUNT' =>
-			tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+			tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
 		'TR_SUPPORT_SYSTEM' => tr('Support system'),

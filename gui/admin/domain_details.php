@@ -154,7 +154,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		|| $dstatus == $cfg->ITEM_TODISABLED_STATUS) {
 		$dstatus = translate_dmn_status($data['domain_status']);
 	} else {
-		$dstatus = "<b><font size=\"3\" color=\"red\">" . $data['domain_status'] . "</font></b>";
+		$dstatus = "<strong><font size=\"3\" color=\"red\">" . $data['domain_status'] . "</font></strong>";
 	}
 
 	// Traffic diagram

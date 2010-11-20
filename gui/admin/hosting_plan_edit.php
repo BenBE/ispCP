@@ -69,25 +69,25 @@ $tpl->assign(
 		'TR_HOSTING PLAN PROPS' => tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME' => tr('Template name'),
 		'TR_MAX_SUBDOMAINS' => tr(
-			'Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'
+			'Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
 		'TR_MAX_ALIASES' => tr(
-			'Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'
+			'Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
 		'TR_MAX_MAILACCOUNTS' => tr(
-			'Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'
+			'Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
 		'TR_MAX_FTP' => tr(
-			'FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'
+			'FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
 		'TR_MAX_SQL' => tr(
-			'SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'
+			'SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
 		'TR_MAX_SQL_USERS' => tr(
-			'SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'
+			'SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'
 		),
-		'TR_MAX_TRAFFIC' => tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_DISK_LIMIT' => tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_MAX_TRAFFIC' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_DISK_LIMIT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_PHP' => tr('PHP'),
 		'TR_CGI' => tr('CGI / Perl'),
 		'TR_DNS' => tr('Allow adding records to DNS zone'),
@@ -111,7 +111,7 @@ $tpl->assign(
 		'TR_EXAMPLE' => tr('(e.g. EUR)'),
 		'TR_TOS_PROPS' => tr('Term Of Service'),
 		'TR_TOS_NOTE' => tr(
-			'<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'
+			'<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan.'
 		),
 		'TR_TOS_DESCRIPTION' => tr('Text'),
 		'TR_EDIT_HOSTING_PLAN' => tr('Update plan')

@@ -412,9 +412,9 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 		if ($err == '_off_') {
 			$err = '';
 		}
-		$err .= tr('<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>', $uname, $obj);
+		$err .= tr('<strong>%1$s</strong> has unlimited rights for a <strong>%2$s</strong> Service !<br>', $uname, $obj);
 
-		$err .= tr('You cannot move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!', $uname, $obj);
+		$err .= tr('You cannot move <strong>%1$s</strong> in a destination reseller,<br>which has limits for the <strong>%2$s</strong> service!', $uname, $obj);
 
 		return;
 	} else if ($dest_max > 0 && $src_max == 0 && $umax > 0) {
@@ -422,7 +422,7 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>', $uname, $obj);
+			$err .= tr('<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</strong><br>service in destination reseller!<br>', $uname, $obj);
 
 			$err .= tr('Moving aborted!');
 		} else {
@@ -442,7 +442,7 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>', $uname, $obj);
+			$err .= tr('<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</strong><br>service in destination reseller!<br>', $uname, $obj);
 
 			$err .= tr('Moving aborted!');
 		} else {
@@ -481,7 +481,7 @@ function check_ip_sets($dest, $users, &$err) {
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%s</b> has IP address that cannot be managed from the destination reseller !<br>This user cannot be moved!', $domain_name);
+			$err .= tr('<strong>%s</strong> has IP address that cannot be managed from the destination reseller !<br>This user cannot be moved!', $domain_name);
 
 			return false;
 		}

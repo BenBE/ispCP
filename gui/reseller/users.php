@@ -330,7 +330,7 @@ function generate_users_list(&$tpl, $admin_id) {
 					'CHANGE_INTERFACE' => tr('Switch'),
 					'DISK_USAGE' => ($rs->fields['domain_disk_limit'])
 						? tr('%1$s of %2$s MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1), $rs->fields['domain_disk_limit'])
-						: tr('%1$s of <b>unlimited</b> MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1))
+						: tr('%1$s of <strong>unlimited</strong> MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1))
 				)
 			);
 

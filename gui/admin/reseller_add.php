@@ -474,7 +474,7 @@ function check_user_data() {
 	} else if ($_POST['nreseller_max_sql_db_cnt'] == -1
 		&& $_POST['nreseller_max_sql_user_cnt'] != -1) {
 		set_page_message(
-			tr('SQL databases limit is <emph>disabled</emph> but SQL users limit not!'),
+			tr('SQL databases limit is <em>disabled</em> but SQL users limit not!'),
 			'warning'
 		);
 		return false;
@@ -485,7 +485,7 @@ function check_user_data() {
 	} else if ($_POST['nreseller_max_sql_db_cnt'] != -1
 		&& $_POST['nreseller_max_sql_user_cnt'] == -1) {
 		set_page_message(
-			tr('SQL users limit is <emph>disabled</emph> but SQL databases limit not!'),
+			tr('SQL users limit is <em>disabled</em> but SQL databases limit not!'),
 			'warning'
 		);
 		return false;
@@ -524,15 +524,15 @@ $tpl->assign(
 		'TR_PASSWORD' => tr('Password'),
 		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
 		'TR_EMAIL' => tr('Email'),
-		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><i>(0 unlimited)</i>'),
-		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><em>(0 unlimited)</em>'),
+		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_PHP' => tr('PHP'),
 		'TR_PERL_CGI' => tr('CGI / Perl'),
 		'TR_JSP' => tr('JSP'),

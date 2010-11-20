@@ -408,7 +408,7 @@ $tpl->assign(
 		'TR_SLD_STRICT_VALIDATION_HELP' =>
 			tr('Single letter Second Level Domains (SLD) are not allowed under the most Top Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de.'),
 		'TR_MAX_DNAMES_LABELS' =>
-			tr('Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)'),
+			tr('Maximal number of labels for domain names<br />(<em>Excluding SLD & TLD</em>)'),
 		'TR_MAX_SUBDNAMES_LABELS' =>
 			tr('Maximal number of labels for subdomains')
 	)

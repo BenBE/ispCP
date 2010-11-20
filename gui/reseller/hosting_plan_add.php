@@ -75,14 +75,14 @@ $tpl->assign(
 		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
 		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME'			=> tr('Template name'),
-		'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_ALIASES'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_FTP'				=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL'				=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_MAX_SUBDOMAINS'			=> tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES'			=> tr('Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAILACCOUNTS'		=> tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP'				=> tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL'				=> tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS'			=> tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC'			=> tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_DISK_LIMIT'				=> tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_PHP'					=> tr('PHP'),
 		'TR_CGI'					=> tr('CGI / Perl'),
 		'TR_DNS'					=> tr('Allow adding records to DNS zone'),
@@ -105,7 +105,7 @@ $tpl->assign(
 		'TR_EXAMPLE'				=> tr('(e.g. EUR)'),
 		// BEGIN TOS
 		'TR_TOS_PROPS'				=> tr('Term Of Service'),
-		'TR_TOS_NOTE'				=> tr('<b>Optional:</b> Leave this field empty if you do not want term of service for this hosting plan.'),
+		'TR_TOS_NOTE'				=> tr('<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan.'),
 		'TR_TOS_DESCRIPTION'		=> tr('Text Only'),
 		// END TOS
 		'TR_ADD_PLAN'				=> tr('Add plan')
@@ -352,7 +352,7 @@ function check_data_correction(&$tpl) {
 	} elseif (!ispcp_limit_check($hp_sql_db, -1)) {
 		$ahp_error[] = tr('Incorrect SQL users limit!');
 	} else if ($hp_sql_user != -1 && $hp_sql_db == -1) {
-		$ahp_error[] = tr('SQL users limit is <i>disabled</i>!');
+		$ahp_error[] = tr('SQL users limit is <em>disabled</em>!');
 	}
 
 	if ($rsql_user_max == "-1") {
@@ -360,7 +360,7 @@ function check_data_correction(&$tpl) {
 	} elseif (!ispcp_limit_check($hp_sql_user, -1)) {
 		$ahp_error[] = tr('Incorrect SQL databases limit!');
 	} else if ($hp_sql_user == -1 && $hp_sql_db != -1) {
-		$ahp_error[] = tr('SQL databases limit is not <i>disabled</i>!');
+		$ahp_error[] = tr('SQL databases limit is not <em>disabled</em>!');
 	}
 
 	if (!ispcp_limit_check($hp_traff, null)) {

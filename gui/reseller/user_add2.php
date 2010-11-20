@@ -74,15 +74,15 @@ $tpl->assign(
 			'TR_ADD_USER'					=> tr('Add user'),
 			'TR_HOSTING_PLAN_PROPERTIES'	=> tr('Hosting plan properties'),
 			'TR_TEMPLATE_NAME'				=> tr('Template name'),
-			'TR_MAX_DOMAIN'					=> tr('Max domains<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_SUBDOMAIN'				=> tr('Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_DOMAIN_ALIAS'			=> tr('Max aliases<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_MAIL_COUNT'				=> tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_FTP'					=> tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_SQL_DB'					=> tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_SQL_USERS'				=> tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-			'TR_MAX_TRAFFIC'				=> tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-			'TR_MAX_DISK_USAGE'				=> tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+			'TR_MAX_DOMAIN'					=> tr('Max domains<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SUBDOMAIN'				=> tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_DOMAIN_ALIAS'			=> tr('Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_MAIL_COUNT'				=> tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_FTP'					=> tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SQL_DB'					=> tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SQL_USERS'				=> tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_TRAFFIC'				=> tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+			'TR_MAX_DISK_USAGE'				=> tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 			'TR_PHP'						=> tr('PHP'),
 			'TR_CGI'						=> tr('CGI / Perl'),
 			'TR_BACKUP'						=> tr('Backup'),
@@ -361,7 +361,7 @@ function check_user_data(&$tpl) {
 	} elseif (!ispcp_limit_check($hp_sql_db, -1)) {
 		$ehp_error[] = tr('Incorrect SQL databases limit!');
 	} else if ($hp_sql_user != -1 && $hp_sql_db == -1) {
-		$ehp_error[] = tr('SQL users limit is <i>disabled</i>!');
+		$ehp_error[] = tr('SQL users limit is <em>disabled</em>!');
 	}
 
 	if ($rsql_user_max == "-1") {
@@ -369,7 +369,7 @@ function check_user_data(&$tpl) {
 	} elseif (!ispcp_limit_check($hp_sql_user, -1)) {
 		$ehp_error[] = tr('Incorrect SQL users limit!');
 	} else if ($hp_sql_user == -1 && $hp_sql_db != -1) {
-		$ehp_error[] = tr('SQL databases limit is not <i>disabled</i>!');
+		$ehp_error[] = tr('SQL databases limit is not <em>disabled</em>!');
 	}
 
 	if (!ispcp_limit_check($hp_traff, null)) {

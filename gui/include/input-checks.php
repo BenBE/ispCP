@@ -423,7 +423,7 @@ function validates_subdname($subdname, $dname) {
 	$@x";
 
 	if (($ret = preg_match($pattern, $subdname . '.' . $dname , $matches)) && !empty($matches[1])) {
-		$validation_err_msg = tr('Label not allowed: <b>%s</b>', $matches[1]);
+		$validation_err_msg = tr('Label not allowed: <strong>%s</strong>', $matches[1]);
 		$ret = false;
 	}
 
@@ -466,7 +466,7 @@ function validates_subdname($subdname, $dname) {
 function _validates_dname_label($label) {
 
 	global $validation_err_msg;
-	$validation_err_msg = tr('Wrong label syntax: <b>%s</b>', $label);
+	$validation_err_msg = tr('Wrong label syntax: <strong>%s</strong>', $label);
 
 	mb_internal_encoding('UTF-8');
 
@@ -485,7 +485,7 @@ function _validates_dname_label($label) {
 		$pattern = '@^(?:[a-z0-9][-a-z0-9]{0,61}[a-z0-9]?(?<!-)|([-a-z0-9]{64,}))$@i';
 
 		if (($ret = preg_match($pattern, $label, $matches)) && array_key_exists(1, $matches) ) {
-			$validation_err_msg = tr('Wrong label lenght: <b>%s</b>', $label);
+			$validation_err_msg = tr('Wrong label lenght: <strong>%s</strong>', $label);
 			$ret = false;
 		}
 
@@ -521,7 +521,7 @@ function _validates_tld($tld) {
 
 	$cfg = ispCP_Registry::get('Config');
 	global $validation_err_msg;
-	$validation_err_msg = tr('Wrong Top Level Domain syntax: <b>%s</b>', $tld);
+	$validation_err_msg = tr('Wrong Top Level Domain syntax: <strong>%s</strong>', $tld);
 
 	$matches = array();
 
@@ -571,7 +571,7 @@ function _validates_tld($tld) {
 	}
 
 	if (($ret = preg_match($pattern, $tld, $matches)) && array_key_exists(1, $matches)) {
-		$validation_err_msg = tr('Wrong Top Level Domain lenght: <b>%s</b>', $tld);
+		$validation_err_msg = tr('Wrong Top Level Domain lenght: <strong>%s</strong>', $tld);
 		$ret = false;
 	}
 
@@ -645,15 +645,15 @@ function _validates_sld($sld) {
 				preg_match($pattern, encode_idna($sld), $matches)) {
 
 				if (array_key_exists(2, $matches)) {
-					$validation_err_msg = tr('Wrong Second Level Domain lenght: <b>%s</b>', $only_sld_part);
+					$validation_err_msg = tr('Wrong Second Level Domain lenght: <strong>%s</strong>', $only_sld_part);
 				} elseif (array_key_exists(1, $matches)) {
-					$validation_err_msg = tr('Wrong domain name: <b>%s</b> is reserved!', $sld);
+					$validation_err_msg = tr('Wrong domain name: <strong>%s</strong> is reserved!', $sld);
 				}
 
 				$ret = true;
 			} else {
 
-				$validation_err_msg = tr('Wrong Second Level Domain syntax: <b>%s</b>', $only_sld_part);
+				$validation_err_msg = tr('Wrong Second Level Domain syntax: <strong>%s</strong>', $only_sld_part);
 				$ret = false;
 			}
 
@@ -690,7 +690,7 @@ function isACE($label) {
 
 		$validation_err_msg = tr(
 			"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br />".
-			"<small>Example: for ACE label <b>xn--bcher-kva</b> use <b>bücher</b> instead</small>."
+			"<small>Example: for ACE label <strong>xn--bcher-kva</strong> use <strong>bücher</strong> instead</small>."
 		);
 
 		return true;
