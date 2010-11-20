@@ -513,7 +513,7 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
 				'SCROLL_NEXT'	=> ''
 			)
 		);
-		set_page_message(tr('You don\'t have support tickets.'), 'notice');
+		set_page_message(tr("You don't have support tickets."), 'notice');
 	} else {
 		$prev_si = $start - $count;
 		if ($start == 0) {
