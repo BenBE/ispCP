@@ -7,6 +7,8 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.datepicker.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ispcpTooltips.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
 <!--[if lt IE 7.]>
@@ -15,10 +17,31 @@
 
 <script type="text/javascript">
 /*<![CDATA[*/
-	$(document).ready(function(){
+	$(funtion() {
+		// jQuery UI Datepicker
+		$('#dmn_exp_date').datepicker({
+			//dateFormat: '{VL_DATE_FORMAT}',
+			dayNamesMin: ['{TR_SU}', '{TR_MO}', '{TR_TU}', '{TR_WE}', '{TR_TH}', '{TR_FR}', '{TR_SA}'],
+			monthNames: ['{TR_JANUARY}', '{TR_FEBRUARY}', '{TR_MARCH}', '{TR_APRIL}', '{TR_MAY}', '{TR_JUNE}', '{TR_JULY}', '{TR_AUGUST}', '{TR_SEPTEMBER}', '{TR_OCTOBER}', '{TR_NOVEMBER}', '{TR_DECEMBER}'],
+			isRTL: false,
+			showOtherMonths: true
+		});
+	});
+
+	$(document).ready(function() {
 		// Tooltips - begin
 		$('#dmn_help').ispCPtooltips({msg:"{TR_DMN_HELP}"});
 		// Tooltips - end
+
+		// Datepicker - begin		
+		$('#dmn_exp_never').change(function() {
+			if ($(this).is(':checked')) {
+				$('#dmn_exp_date').attr('disabled', 'disabled');
+			} else {
+				$('#dmn_exp_date').removeAttr('disabled');
+			}
+		});
+		// Datepicker - end
 	});
 /*]]>*/
 </script>
@@ -78,19 +101,14 @@
                           <input type="text" name="dmn_name" value="{DMN_NAME_VALUE}" style="width:210px" class="textinput" />
                         </td>
                       </tr>
-		      <!-- BDP: expire -->
-		      <tr>
+		      		<!-- BDP: expire -->
+		      		 <tr>
                         <td width="25">&nbsp;</td>
                         <td class="content2" width="200">{TR_DOMAIN_EXPIRE}</td>
-                        <td class="content"><select name="dmn_expire">
-							<option value="0"{EXPIRE_NEVER_SET}>{TR_DOMAIN_EXPIRE_NEVER}</option>
-							<option value="1"{EXPIRE_1_MONTH_SET}>{TR_DOMAIN_EXPIRE_1_MONTH}</option>
-							<option value="2"{EXPIRE_2_MONTH_SET}>{TR_DOMAIN_EXPIRE_2_MONTHS}</option>
-							<option value="3"{EXPIRE_3_MONTH_SET}>{TR_DOMAIN_EXPIRE_3_MONTHS}</option>
-							<option value="6"{EXPIRE_6_MONTH_SET}>{TR_DOMAIN_EXPIRE_6_MONTHS}</option>
-							<option value="12"{EXPIRE_1_YEAR_SET}>{TR_DOMAIN_EXPIRE_1_YEAR}</option>
-							<option value="24"{EXPIRE_2_YEARS_SET}>{TR_DOMAIN_EXPIRE_2_YEARS}</option>
-						</select>
+                        <td class="content">
+							<input id="dmn_exp_date" name="dmn_expire_date" value="{VL_DOMAIN_EXPIRE}" disabled="disabled">
+							&nbsp;{TR_EXPIRE_CHECKBOX}
+							<input id="dmn_exp_never" name="dmn_expire_never" type="checkbox" checked="checked"></td>
                         </td>
                       </tr>
                       <!-- BDP: add_user -->

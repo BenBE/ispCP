@@ -68,19 +68,33 @@ $tpl->assign(
 		'TR_CORE_DATA'				=> tr('Core data'),
 		'TR_DOMAIN_NAME'			=> tr('Domain name'),
 		'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
-		'TR_DOMAIN_EXPIRE_NEVER'	=> tr('Never'),
-		'TR_DOMAIN_EXPIRE_1_MONTH'	=> tr('1 Month'),
-		'TR_DOMAIN_EXPIRE_2_MONTHS'	=> tr('2 Months'),
-		'TR_DOMAIN_EXPIRE_3_MONTHS'	=> tr('3 Months'),
-		'TR_DOMAIN_EXPIRE_6_MONTHS'	=> tr('6 Months'),
-		'TR_DOMAIN_EXPIRE_1_YEAR'	=> tr('1 Year'),
-		'TR_DOMAIN_EXPIRE_2_YEARS'	=> tr('2 Years'),
 		'TR_CHOOSE_HOSTING_PLAN'	=> tr('Choose hosting plan'),
 		'TR_PERSONALIZE_TEMPLATE'	=> tr('Personalise template'),
 		'TR_YES'					=> tr('yes'),
 		'TR_NO'						=> tr('no'),
 		'TR_NEXT_STEP'				=> tr('Next step'),
 		'TR_DMN_HELP'				=> tr("You do not need 'www.' ispCP will add it on its own.")
+		'TR_EXPIRE_CHECKBOX'		=> tr('or check if domain should <strong>never</strong> expire'),
+		'TR_SU'						=> tr('Su'),
+		'TR_MO'						=> tr('Mo'), 
+		'TR_TU'						=> tr('Tu'), 
+		'TR_WE'						=> tr('We'), 
+		'TR_TH'						=> tr('Th'), 
+		'TR_FR'						=> tr('Fr'), 
+		'TR_SA'						=> tr('Sa'),
+		'TR_JANUARY'				=> tr('January'),
+		'TR_FEBRUARY'				=> tr('February'),
+		'TR_MARCH'					=> tr('March'),
+		'TR_APRIL'					=> tr('April'),
+		'TR_MAY'					=> tr('May'),
+		'TR_JUNE'					=> tr('June'),
+		'TR_JULY'					=> tr('July'),
+		'TR_AUGUST'					=> tr('August'),
+		'TR_SEPTEMBER'				=> tr('September'),
+		'TR_OCTOBER'				=> tr('October'),
+		'TR_NOVEMBER'				=> tr('November'),
+		'TR_DECEMBER'				=> tr('December'),
+		'VL_DATE_FORMAT'			=> strtolower($cfg->DATE_FORMAT)
 	)
 );
 
@@ -123,9 +137,6 @@ function check_user_data() {
 
 	if (isset($_POST['dmn_name'])) {
 		$dmn_name = strtolower(trim($_POST['dmn_name']));
-
-		// Should be perfomed after domain names syntax validation now
-		//$dmn_name = encode_idna($dmn_name);
 	}
 
 	if (isset($_POST['dmn_expire'])) {
@@ -205,14 +216,7 @@ function get_empty_au1_page(&$tpl) {
 		array(
 			'DMN_NAME_VALUE'		=> '',
 			'CHTPL1_VAL'			=> '',
-			'CHTPL2_VAL'			=> $cfg->HTML_CHECKED,
-			'EXPIRE_NEVER_SET'		=> $cfg->HTML_SELECTED,
-			'EXPIRE_1_MONTH_SET'	=> '',
-			'EXPIRE_2_MONTH_SET'	=> '',
-			'EXPIRE_3_MONTH_SET'	=> '',
-			'EXPIRE_6_MONTH_SET'	=> '',
-			'EXPIRE_1_YEAR_SET'		=> '',
-			'EXPIRE_2_YEARS_SET'	=> ''
+			'CHTPL2_VAL'			=> $cfg->HTML_CHECKED
 		)
 	);
 
@@ -232,23 +236,12 @@ function get_data_au1_page(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'DMN_NAME_VALUE' => tohtml($dmn_name),
-			'CHTPL1_VAL' => $dmn_pt === "_yes_" ? $cfg->HTML_CHECKED : '',
-			'CHTPL2_VAL' => $dmn_pt === "_yes_" ? '' : $cfg->HTML_CHECKED,
-			'EXPIRE_NEVER_SET' =>
-				($dmn_expire === '0') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_MONTH_SET' =>
-				($dmn_expire === '1') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_MONTH_SET' =>
-				($dmn_expire === '2') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_3_MONTH_SET' =>
-				($dmn_expire === '3') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_6_MONTH_SET' =>
-				($dmn_expire === '6') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_YEAR_SET' =>
-				($dmn_expire === '12') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_YEARS_SET' =>
-				($dmn_expire === '24') ? $cfg->HTML_SELECTED : '',
+			'DMN_NAME_VALUE' 			=> tohtml($dmn_name),
+			'CHTPL1_VAL' 				=> $dmn_pt === "_yes_" ? $cfg->HTML_CHECKED : '',
+			'CHTPL2_VAL' 				=> $dmn_pt === "_yes_" ? '' : $cfg->HTML_CHECKED,
+			'VL_DOMAIN_EXPIRE'			=> $dmn_expire,
+			'VL_EXPIRE_DATE_DISABLED'	=> ($dmn_expire == 0) ? $cfg->HTML_DISABLED : '',
+			'VL_EXPIRE_NEVER_SELECTED'	=> ($dmn_expire == 0) ? $cfg->HTML_CHECKED : '',
 		)
 	);
 } // End of get_data_au1_page()
@@ -334,3 +327,5 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 		$tpl->assign('ADD_USER', '');
 	}
 } // End of get_hp_data_list()
+
+?>

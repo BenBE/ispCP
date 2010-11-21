@@ -6,8 +6,10 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<link href="{THEME_COLOR_PATH}/css/datepicker.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.js"></script>
-<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ispcpTooltips.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.datepicker.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
 <!--[if lt IE 7.]>
 <script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
@@ -15,10 +17,25 @@
 
 <script type="text/javascript">
 /*<![CDATA[*/
-	$(document).ready(function(){
-		// Tooltips - begin
-		$('#dmn_exp_help').ispCPtooltips({msg:"{TR_DMN_EXP_HELP}"});
-		// Tooltips - end
+	$(funtion() {
+		// jQuery UI Datepicker
+		$('#dmn_exp_date').datepicker({
+			//dateFormat: '{VL_DATE_FORMAT}',
+			dayNamesMin: ['{TR_SU}', '{TR_MO}', '{TR_TU}', '{TR_WE}', '{TR_TH}', '{TR_FR}', '{TR_SA}'],
+			monthNames: ['{TR_JANUARY}', '{TR_FEBRUARY}', '{TR_MARCH}', '{TR_APRIL}', '{TR_MAY}', '{TR_JUNE}', '{TR_JULY}', '{TR_AUGUST}', '{TR_SEPTEMBER}', '{TR_OCTOBER}', '{TR_NOVEMBER}', '{TR_DECEMBER}'],
+			isRTL: false,
+			showOtherMonths: true
+		});
+	});
+
+	$(document).ready(function() {
+		$('#dmn_exp_never').change(function() {
+			if ($(this).is(':checked')) {
+				$('#dmn_exp_date').attr('disabled', 'disabled');
+			} else {
+				$('#dmn_exp_date').removeAttr('disabled');
+			}
+		});
 	});
 /*]]>*/
 </script>
@@ -76,22 +93,10 @@
                       <tr>
                         <td width="25">&nbsp;</td>
                         <td class="content2" width="193">{TR_DOMAIN_EXPIRE}</td>
-                        <td class="content">{VL_DOMAIN_EXPIRE}</td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td class="content2" width="193">{TR_DOMAIN_NEW_EXPIRE} <img id="dmn_exp_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" /></td>
-                        <td class="content"><select name="dmn_expire">
-							<option value="0" {EXPIRE_UNCHANGED_SET}>{TR_DOMAIN_EXPIRE_UNCHANGED}</option>
-							<option value="OFF" {EXPIRE_NEVER_SET}>{TR_DOMAIN_EXPIRE_NEVER}</option>
-							<option value="-1" {EXPIRE_1_MIN_MONTH_SET}>{TR_DOMAIN_EXPIRE_MIN_1_MONTH}</option>
-							<option value="1" {EXPIRE_1_PLUS_MONTH_SET}>{TR_DOMAIN_EXPIRE_PLUS_1_MONTH}</option>
-							<option value="2" {EXPIRE_2_PLUS_MONTH_SET}>{TR_DOMAIN_EXPIRE_PLUS_2_MONTHS}</option>
-							<option value="3" {EXPIRE_3_PLUS_MONTH_SET}>{TR_DOMAIN_EXPIRE_PLUS_3_MONTHS}</option>
-							<option value="6" {EXPIRE_6_PLUS_MONTH_SET}>{TR_DOMAIN_EXPIRE_PLUS_6_MONTHS}</option>
-							<option value="12" {EXPIRE_1_PLUS_YEAR_SET}>{TR_DOMAIN_EXPIRE_PLUS_1_YEAR}</option>
-							<option value="24" {EXPIRE_2_PLUS_YEARS_SET}>{TR_DOMAIN_EXPIRE_PLUS_2_YEARS}</option>
-						</select></td>
+                        <td class="content">
+							<input id="dmn_exp_date" name="dmn_expire_date" value="{VL_DOMAIN_EXPIRE}" {VL_EXPIRE_DATE_DISABLED}>
+							&nbsp;{TR_EXPIRE_CHECKBOX}
+							<input id="dmn_exp_never" name="dmn_expire_never" type="checkbox" {VL_EXPIRE_NEVER_SELECTED}></td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>

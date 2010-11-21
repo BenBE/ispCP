@@ -60,27 +60,13 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 $tpl->assign(
 	array(
 		'TR_EDIT_DOMAIN'					=> tr('Edit Domain'),
 		'TR_DOMAIN_PROPERTIES'				=> tr('Domain properties'),
 		'TR_DOMAIN_NAME'					=> tr('Domain name'),
 		'TR_DOMAIN_EXPIRE'					=> tr('Domain expire'),
-		'TR_DOMAIN_NEW_EXPIRE'				=> tr('New expire date'),
-		'TR_DOMAIN_EXPIRE_UNCHANGED'		=> tr('Unchanged'),
-		'TR_DOMAIN_EXPIRE_NEVER'			=> tr('Never'),
-		'TR_DOMAIN_EXPIRE_MIN_1_MONTH'		=> tr('- 1 Month'),
-		'TR_DOMAIN_EXPIRE_PLUS_1_MONTH'		=> tr('+ 1 Month'),
-		'TR_DOMAIN_EXPIRE_PLUS_2_MONTHS'	=> tr('+ 2 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_3_MONTHS'	=> tr('+ 3 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_6_MONTHS'	=> tr('+ 6 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_1_YEAR'		=> tr('+ 1 Year'),
-		'TR_DOMAIN_EXPIRE_PLUS_2_YEARS'		=> tr('+ 2 Years'),
 		'TR_DOMAIN_IP'						=> tr('Domain IP'),
 		'TR_PHP_SUPP'						=> tr('PHP support'),
 		'TR_CGI_SUPP'						=> tr('CGI support'),
@@ -103,7 +89,27 @@ $tpl->assign(
 		'TR_CANCEL'							=> tr('Cancel'),
 		'TR_YES'							=> tr('Yes'),
 		'TR_NO'								=> tr('No'),
-		'TR_DMN_EXP_HELP'					=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
+		'TR_EXPIRE_CHECKBOX'				=> tr('or check if domain should <strong>never</strong> expire'),
+		'TR_SU'								=> tr('Su'),
+		'TR_MO'								=> tr('Mo'), 
+		'TR_TU'								=> tr('Tu'), 
+		'TR_WE'								=> tr('We'), 
+		'TR_TH'								=> tr('Th'), 
+		'TR_FR'								=> tr('Fr'), 
+		'TR_SA'								=> tr('Sa'),
+		'TR_JANUARY'						=> tr('January'),
+		'TR_FEBRUARY'						=> tr('February'),
+		'TR_MARCH'							=> tr('March'),
+		'TR_APRIL'							=> tr('April'),
+		'TR_MAY'							=> tr('May'),
+		'TR_JUNE'							=> tr('June'),
+		'TR_JULY'							=> tr('July'),
+		'TR_AUGUST'							=> tr('August'),
+		'TR_SEPTEMBER'						=> tr('September'),
+		'TR_OCTOBER'						=> tr('October'),
+		'TR_NOVEMBER'						=> tr('November'),
+		'TR_DECEMBER'						=> tr('December'),
+		'VL_DATE_FORMAT'					=> strtolower($cfg->DATE_FORMAT)
 	)
 );
 
@@ -152,15 +158,6 @@ gen_editdomain_page($tpl);
  */
 function load_user_data($user_id, $domain_id) {
 
-	// NXW: Some unused variables so...
-	/*
-	global $domain_name, $domain_expires, $domain_ip, $php_sup;
-	global $cgi_supp , $sub, $als;
-	global $mail, $ftp, $sql_db;
-	global $sql_user, $traff, $disk;
-	global $username;
-	global $dns_supp;
-	*/
 	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk;
 
 	$sql = ispCP_Registry::get('Db');
@@ -187,17 +184,6 @@ function load_user_data($user_id, $domain_id) {
 		user_goto('users.php?psi=last');
 	}
 
-	// NXW: Unused variables so...
-	/*
-	list($a, $sub,
-		$b, $als,
-		$c, $mail,
-		$d, $ftp,
-		$e, $sql_db,
-		$f, $sql_user,
-		$traff, $disk
-	) = generate_user_props($domain_id);
-	*/
 	list(,$sub,,$als,,$mail,,$ftp,,$sql_db,,$sql_user,$traff,$disk) =
 		generate_user_props($domain_id);
 
@@ -230,7 +216,7 @@ function load_additional_data($user_id, $domain_id) {
 			`domain`
 		WHERE
 			`domain_id` = ?
-	";
+	;";
 
 	$res = exec_query($sql, $query, $domain_id);
 	$data = $res->fetchRow();
@@ -241,10 +227,11 @@ function load_additional_data($user_id, $domain_id) {
 	$_SESSION['domain_expires'] = $domain_expires;
 
 	if ($domain_expires == 0) {
-		$domain_expires = tr('N/A');
+		$domain_expires = '';
 	} else {
 		$date_formt = $cfg->DATE_FORMAT;
-		$domain_expires = date($date_formt, $domain_expires);
+		//$domain_expires = date($date_formt, $domain_expires);
+		$domain_expires = date("m/d/Y", $domain_expires);
 	}
 
 	$domain_ip_id		= $data['domain_ip_id'];
@@ -370,6 +357,8 @@ function gen_editdomain_page(&$tpl) {
 			'CGI_NO'					=> ($cgi_supp != 'yes') ? $cfg->HTML_SELECTED : '',
 			'DNS_YES'					=> ($dns_supp == 'yes') ? $cfg->HTML_SELECTED : '',
 			'DNS_NO'					=> ($dns_supp != 'yes') ? $cfg->HTML_SELECTED : '',
+			'VL_EXPIRE_DATE_DISABLED'	=> ($domain_expires == 0) ? $cfg->HTML_DISABLED : '',
+			'VL_EXPIRE_NEVER_SELECTED'	=> ($domain_expires == 0) ? $cfg->HTML_CHECKED : '',
 			'VL_DOMAIN_NAME'			=> tohtml($domain_name),
 			'VL_DOMAIN_EXPIRE'			=> $domain_expires,
 			'VL_DOMAIN_IP'				=> $domain_ip,
@@ -381,16 +370,7 @@ function gen_editdomain_page(&$tpl) {
 			'VL_SQL_USERS'				=> $sql_user,
 			'VL_TRAFFIC'				=> $traff,
 			'VL_DOM_DISK'				=> $disk,
-			'VL_USER_NAME'				=> tohtml($username),
-			'EXPIRE_UNCHANGED_SET'		=> ($domain_new_expire === '0') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_NEVER_SET'			=> ($domain_new_expire === 'OFF') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_MIN_MONTH_SET'	=> ($domain_new_expire === '-1') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_PLUS_MONTH_SET'	=> ($domain_new_expire === '1') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_PLUS_MONTH_SET'	=> ($domain_new_expire === '2') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_3_PLUS_MONTH_SET'	=> ($domain_new_expire === '3') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_6_PLUS_MONTH_SET'	=> ($domain_new_expire === '6') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_1_PLUS_YEAR_SET'	=> ($domain_new_expire === '12') ? $cfg->HTML_SELECTED : '',
-			'EXPIRE_2_PLUS_YEARS_SET'	=> ($domain_new_expire === '24') ? $cfg->HTML_SELECTED : '',
+			'VL_USER_NAME'				=> tohtml($username)
 		)
 	);
 } // End of gen_editdomain_page()
@@ -401,10 +381,10 @@ function gen_editdomain_page(&$tpl) {
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
 	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk, $sql,
-		$domain_php, $domain_cgi, $allowbackup, $domain_dns, $domain_expires,
-		$domain_new_expire;
+		$domain_php, $domain_cgi, $allowbackup, $domain_dns, $domain_expires;
 
-	$domain_new_expire = clean_input($_POST['dmn_expire']);
+	$domain_expires_date  = (isset($_POST['dmn_expire_date'])) ? clean_input($_POST['dmn_expire_date']) : 0;
+	$domain_expires_never = (isset($_POST['dmn_expire_never'])) ? $_POST['dmn_expire_never'] : "off";
 	$sub 			= clean_input($_POST['dom_sub']);
 	$als 			= clean_input($_POST['dom_alias']);
 	$mail 			= clean_input($_POST['dom_mail_acCount']);
@@ -478,8 +458,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$ed_error .= tr('Incorrect disk quota limit!');
 	}
 
-	// $user_props = generate_user_props($user_id);
-	// $reseller_props = generate_reseller_props($reseller_id);
 	list($usub_current, $usub_max,
 		$uals_current, $uals_max,
 		$umail_current, $umail_max,
@@ -502,8 +480,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$rdisk_current, $rdisk_max
 	) = get_reseller_default_props($sql, $reseller_id);
 
-	// NXW: Unused variables so...
-	//list($a, $b, $c, $d, $e, $f, $utraff_current, $udisk_current, $i, $h) = generate_user_traffic($user_id);
 	list(,,,,,,$utraff_current, $udisk_current) = generate_user_traffic($user_id);
 
 	if (empty($ed_error)) {
@@ -525,7 +501,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 				su.`sqld_id` = sd.`sqld_id`
 			AND
 				sd.`domain_id` = ?
-";
+		;";
 
 		$rs = exec_query($sql, $query, $_SESSION['edit_id']);
 		calculate_user_dvals($sql_user, $rs->fields['cnt'], $usql_user_max, $rsql_user_current, $rsql_user_max, $ed_error, tr('SQL User'));
@@ -546,7 +522,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			send_request();
 		}
 
-		$user_props = "$usub_current;$usub_max;";
+		$user_props  = "$usub_current;$usub_max;";
 		$user_props .= "$uals_current;$uals_max;";
 		$user_props .= "$umail_current;$umail_max;";
 		$user_props .= "$uftp_current;$uftp_max;";
@@ -563,12 +539,11 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
 		$domain_expires = $_SESSION['domain_expires'];
 
-		if ($domain_expires != 0 && $domain_new_expire != 0) {
-			$domain_expires = $domain_expires + ($domain_new_expire * 2635200);
-		} elseif ($domain_new_expire == "OFF") {
+		// Set domain expire date
+		if ($domain_expires_never != "on") {
+			$domain_expires = strtotime($domain_expires_date);
+		} else {
 			$domain_expires = "0";
-		} elseif ($domain_expires == 0 && $domain_new_expire != 0) {
-			$domain_expires = time() + ($domain_new_expire * 2635200);
 		}
 		update_expire_date($user_id, $domain_expires);
 
@@ -772,3 +747,5 @@ if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
+
+?>

@@ -137,10 +137,14 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * Get data from previous page
  */
 function init_in_values() {
-	global $dmn_name, $dmn_expire, $dmn_user_name, $hpid;
+	global $dmn_name, $dmn_expire, $dmn_expire_never, $dmn_user_name, $hpid;
 
-	if (isset($_SESSION['dmn_expire'])) {
-		$dmn_expire = $_SESSION['dmn_expire'];
+	if (isset($_SESSION['dmn_expire_date'])) {
+		$dmn_expire = $_SESSION['dmn_expire_date'];
+	}
+
+	if (isset($_SESSION['dmn_expire_never'])) {
+		$dmn_expire_never = $_SESSION['dmn_expire_never'];
 	}
 
 	if (isset($_SESSION['step_one'])) {
@@ -243,14 +247,10 @@ function gen_empty_data() {
  * Save data for new user in db
  */
 function add_user_data($reseller_id) {
-	global $hpid;
-	global $dmn_name, $dmn_expire, $dmn_user_name, $admin_login;
-	global $user_email, $customer_id, $first_name;
-	global $last_name, $gender, $firm, $zip;
-	global $city, $state, $country, $street_one;
-	global $street_two, $mail, $phone;
-	global $fax, $inpass, $domain_ip;
-	global $dns, $backup;
+	global $hpid, $dmn_name, $dmn_expire, $dmn_expire_never, $dmn_user_name, 
+		$admin_login, $user_email, $customer_id, $first_name, $last_name, 
+		$gender, $firm, $zip, $city, $state, $country, $street_one, $street_two, 
+		$mail, $phone, $fax, $inpass, $domain_ip, $dns, $backup;
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -357,11 +357,11 @@ function add_user_data($reseller_id) {
 
 	$record_id = $sql->insertId();
 
-	$expire = $dmn_expire * 2635200; // months * 30.5 days
-
-	if (!empty($expire)) {
-		$expire = time() + $expire;
- 	}
+	if (!isset($dmn_expire_never) && $dmn_expire_never != "on") {
+		$expire = strtotime($dmn_expire)
+	} else {
+		$expire = "0";
+	}
 
 	$query = "
 		INSERT INTO `domain` (
@@ -485,3 +485,5 @@ function add_user_data($reseller_id) {
 		user_goto('users.php?psi=last');
 	}
 } // End of add_user_data()
+
+?>
