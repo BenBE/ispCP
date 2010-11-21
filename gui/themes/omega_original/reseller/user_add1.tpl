@@ -20,7 +20,7 @@
 	$(funtion() {
 		// jQuery UI Datepicker
 		$('#dmn_exp_date').datepicker({
-			//dateFormat: '{VL_DATE_FORMAT}',
+			dateFormat: '{VL_DATE_FORMAT}',
 			dayNamesMin: ['{TR_SU}', '{TR_MO}', '{TR_TU}', '{TR_WE}', '{TR_TH}', '{TR_FR}', '{TR_SA}'],
 			monthNames: ['{TR_JANUARY}', '{TR_FEBRUARY}', '{TR_MARCH}', '{TR_APRIL}', '{TR_MAY}', '{TR_JUNE}', '{TR_JULY}', '{TR_AUGUST}', '{TR_SEPTEMBER}', '{TR_OCTOBER}', '{TR_NOVEMBER}', '{TR_DECEMBER}'],
 			isRTL: false,

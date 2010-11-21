@@ -109,7 +109,7 @@ $tpl->assign(
 		'TR_OCTOBER'						=> tr('October'),
 		'TR_NOVEMBER'						=> tr('November'),
 		'TR_DECEMBER'						=> tr('December'),
-		'VL_DATE_FORMAT'					=> strtolower($cfg->DATE_FORMAT)
+		'VL_DATE_FORMAT'					=> jQueryDatepickerDateFormat($cfg->DATE_FORMAT)
 	)
 );
 
@@ -229,9 +229,8 @@ function load_additional_data($user_id, $domain_id) {
 	if ($domain_expires == 0) {
 		$domain_expires = '';
 	} else {
-		$date_formt = $cfg->DATE_FORMAT;
-		//$domain_expires = date($date_formt, $domain_expires);
-		$domain_expires = date("m/d/Y", $domain_expires);
+		$date_format = $cfg->DATE_FORMAT;
+		$domain_expires = date($date_format, $domain_expires);
 	}
 
 	$domain_ip_id		= $data['domain_ip_id'];

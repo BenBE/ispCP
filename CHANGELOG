@@ -3,6 +3,10 @@ ispCP ω 1.0.7 ChangeLog
 
 2010-11-20 Benedikt Heintel
 	- GUI:
+		* Fixed #2432: Change Domain expire date to any available date
+
+2010-11-20 Benedikt Heintel
+	- GUI:
 		* Changed <b> and <i> to <strong> and <em>
 	- LANGUAGES:
 		* Updated all language files

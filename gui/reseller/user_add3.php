@@ -358,7 +358,7 @@ function add_user_data($reseller_id) {
 	$record_id = $sql->insertId();
 
 	if (!isset($dmn_expire_never) && $dmn_expire_never != "on") {
-		$expire = strtotime($dmn_expire)
+		$expire = strtotime($dmn_expire);
 	} else {
 		$expire = "0";
 	}
