@@ -133,7 +133,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	send_request();
 	write_log($_SESSION['user_logged'].": delete alias ".$alias_name."!");
-	set_page_message(tr('Alias scheduled for deletion!'));
+	set_page_message(tr('Alias scheduled for deletion!'), 'success');
 	user_goto('domains_manage.php');
 } else {
 	user_goto('domains_manage.php');

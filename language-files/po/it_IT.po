@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it_IT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 10:11+0200\n"
+"POT-Creation-Date: 2010-11-20 11:02+0100\n"
 "PO-Revision-Date: 2009-12-18 14:31+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Italian (Italy) <it_IT@li.org>\n"
@@ -107,10 +107,10 @@ msgstr "Amministratore"
 msgid "Incorrect username length or syntax!"
 msgstr "La lunghezza o la sintassi del Nome Utente è errata!"
 
-#, php-format
+#, fuzzy, php-format
 msgid ""
-"The password must be at least %s long and contain letters and numbers to be "
-"valid."
+"The password must be at least %s chars long and contain letters and numbers "
+"to be valid."
 msgstr ""
 "La password deve essere di almeno % s catteri e contenere lettere e numeri "
 "per essere valida."
@@ -198,6 +198,14 @@ msgstr "Fax"
 
 msgid "Add"
 msgstr "Aggiungi"
+
+#, php-format
+msgid ""
+"The password must be at least %s long and contain letters and numbers to be "
+"valid."
+msgstr ""
+"La password deve essere di almeno % s catteri e contenere lettere e numeri "
+"per essere valida."
 
 msgid "User session was killed!"
 msgstr "La sessione dell`utente è stata chiusa!"
@@ -475,8 +483,8 @@ msgid "CGI support"
 msgstr "Supporto CGI"
 
 #, fuzzy
-msgid "Manual DNS support (EXPERIMENTAL)"
-msgstr "Supporto DNS Manuale (SPERIMENTALE)"
+msgid "Manual DNS support"
+msgstr "Supporto MySQL"
 
 #, fuzzy
 msgid "Backup support"
@@ -731,11 +739,55 @@ msgstr "Tutto il traffico"
 msgid "Day"
 msgstr "Giorno"
 
-msgid "ispCP - Administrator/Add hosting plan"
-msgstr "ispCP - Amministratore/Aggiungi piano di hosting"
+msgid "ispCP - Administrator/Hosting Plan Management"
+msgstr "ispCP - Amministratore/Gestione piano di hosting"
+
+msgid "Hosting plans"
+msgstr "Piani di hosting"
+
+msgid "Manage hosting plans"
+msgstr "Gestione Piani di Hosting"
+
+msgid "Purchasing"
+msgstr "Aquisto"
 
 msgid "Add hosting plan"
 msgstr "Aggiungi piano di hosting"
+
+msgid "Add new user hosting plan"
+msgstr "Aggiungi un nuovo utente al piano di hosting"
+
+msgid "Return to previous menu"
+msgstr "Ritorna al menù precedente"
+
+msgid "Hosting plan added!"
+msgstr "Piano di hosting aggiunto!"
+
+msgid "Hosting plan deleted!"
+msgstr "Piano di hosting cancellato!"
+
+msgid "Hosting plan updated!"
+msgstr "Piano di hosting aggiornato!"
+
+msgid "Hosting plan can't be deleted, there are orders!"
+msgstr ""
+"Impossibile eliminare. Sono presenti ordini attivi per questo piano di "
+"hosting."
+
+msgid "Hosting plans not found!"
+msgstr "Piani di hosting non trovati!"
+
+msgid "No."
+msgstr "No."
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Show hosting plan"
+msgstr "Mostra piani Hosting"
+
+msgid "ispCP - Administrator/Add hosting plan"
+msgstr "ispCP - Amministratore/Aggiungi piano di hosting"
 
 msgid "Hosting plan properties"
 msgstr "Proprietà  piano di hosting"
@@ -773,7 +825,7 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-msgid "Allow adding records to DNS zone (EXPERIMENTAL)"
+msgid "Allow adding records to DNS zone"
 msgstr ""
 
 msgid "Apache logfiles"
@@ -868,50 +920,6 @@ msgstr "Prezzo Errato. Esempio: 9.99"
 msgid "Incorrect setup fee. Example: 19.99"
 msgstr "Valore costi di setup errato. Esempio:19.99"
 
-msgid "ispCP - Administrator/Hosting Plan Management"
-msgstr "ispCP - Amministratore/Gestione piano di hosting"
-
-msgid "Hosting plans"
-msgstr "Piani di hosting"
-
-msgid "Manage hosting plans"
-msgstr "Gestione Piani di Hosting"
-
-msgid "Purchasing"
-msgstr "Aquisto"
-
-msgid "Add new user hosting plan"
-msgstr "Aggiungi un nuovo utente al piano di hosting"
-
-msgid "Return to previous menu"
-msgstr "Ritorna al menù precedente"
-
-msgid "Hosting plan added!"
-msgstr "Piano di hosting aggiunto!"
-
-msgid "Hosting plan deleted!"
-msgstr "Piano di hosting cancellato!"
-
-msgid "Hosting plan updated!"
-msgstr "Piano di hosting aggiornato!"
-
-msgid "Hosting plan can't be deleted, there are orders!"
-msgstr ""
-"Impossibile eliminare. Sono presenti ordini attivi per questo piano di "
-"hosting."
-
-msgid "Hosting plans not found!"
-msgstr "Piani di hosting non trovati!"
-
-msgid "No."
-msgstr "No."
-
-msgid "Name"
-msgstr "Nome"
-
-msgid "Show hosting plan"
-msgstr "Mostra piani Hosting"
-
 #, php-format
 msgid "You have <b>%d</b> new support questions"
 msgstr "Hai <b>%d</b> nuove richieste di supporto"
@@ -999,6 +1007,28 @@ msgstr "Aggiungi nuovo IP"
 msgid "Are you sure you want to delete this IP: %s?"
 msgstr "Sei sicuro di voler cancellare questo IP: %s?"
 
+#, fuzzy
+msgid "ispCP - Admin/IP Usage"
+msgstr "ispCP - Admin/Gestione IP"
+
+#, fuzzy
+msgid "Total Domains"
+msgstr "Domini"
+
+msgid "No records found"
+msgstr ""
+
+msgid "IP Usage"
+msgstr ""
+
+#, fuzzy
+msgid "Domain Name"
+msgstr "Nome dominio"
+
+#, fuzzy
+msgid "Reseller Name"
+msgstr "Nome del rivenditore"
+
 msgid "No domain system errors"
 msgstr "Nessun errore del sistema di dominio"
 
@@ -1013,6 +1043,38 @@ msgstr "Nessun errore nell'alias del sottodominio"
 
 msgid "No email account system errors"
 msgstr "Nessun errore del sistema degli account di posta"
+
+#, fuzzy
+msgid "missing domain"
+msgstr "Dominio principale"
+
+#, fuzzy
+msgid "missing alias"
+msgstr "Aggiungi alias di dominio"
+
+msgid "orphan entry"
+msgstr ""
+
+#, fuzzy
+msgid "No htaccess related system errors"
+msgstr "Nessun errore del sistema degli alias di dominio"
+
+#, fuzzy
+msgid "Missing domain"
+msgstr "Dominio principale"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr "Il Demone riporta %d come codice di stato"
+
+msgid "Unknown type!"
+msgstr "Tipo sconosciuto!"
+
+msgid "Done"
+msgstr "Fatto"
+
+msgid "Unknown Error"
+msgstr "Errore sconosciuto"
 
 msgid "ispCP debugger"
 msgstr "ispCP debugger"
@@ -1032,6 +1094,9 @@ msgstr "Errore nell'Alias del sottodominio"
 msgid "Mail account errors"
 msgstr "Errori account di posta"
 
+msgid ".htaccess related errors"
+msgstr ""
+
 msgid "ispCP Daemon tools"
 msgstr "ispCP - Daemon tools"
 
@@ -1042,18 +1107,9 @@ msgstr "Esegui richieste"
 msgid "Set status to 'change'"
 msgstr "Impostare lo stato su \"change\""
 
-#, php-format
-msgid "Daemon returned %d as status code"
-msgstr "Il Demone riporta %d come codice di stato"
-
-msgid "Unknown type!"
-msgstr "Tipo sconosciuto!"
-
-msgid "Done"
-msgstr "Fatto"
-
-msgid "Unknown Error"
-msgstr "Errore sconosciuto"
+#, fuzzy, php-format
+msgid "%s Errors in database"
+msgstr "Aliases di dominio"
 
 msgid "Enable update at"
 msgstr "Abilita aggiornamenti a"
@@ -1073,10 +1129,6 @@ msgstr "Aggiornamento di ispCP disponibili"
 msgid "No new ispCP updates available"
 msgstr "Nessun nuovo aggiornamento di ispCP disponibile"
 
-#, fuzzy
-msgid "Language was removed!"
-msgstr "La lingua è stata aggiornata!"
-
 msgid "User language updated successfully!"
 msgstr "Lingua dell'utente aggiornata con successo!"
 
@@ -1089,6 +1141,10 @@ msgstr "Lingua"
 #, fuzzy
 msgid "Choose your default language"
 msgstr "Scegli la lingua di default"
+
+#, fuzzy
+msgid "Language was removed!"
+msgstr "La lingua è stata aggiornata!"
 
 msgid "Reseller list is empty!"
 msgstr "La lista del rivenditore è vuota!"
@@ -1207,11 +1263,16 @@ msgstr ""
 msgid "User was disabled"
 msgstr "L`utente è stato disabilitato"
 
-msgid "Incorrect data input!"
-msgstr "Inserimento dei dati errato!"
+#, fuzzy
+msgid "Uninstall"
+msgstr "Disinstalla"
 
-msgid "ispCP - Admin/Internationalisation"
-msgstr "ispCP - Amministratore/Internazionalizzazione"
+#, php-format
+msgid "%d messages translated"
+msgstr "%d messaggi tradotti"
+
+msgid "Gzipped"
+msgstr ""
 
 msgid "Upload file error!"
 msgstr "Errore nell'upload del file!"
@@ -1242,12 +1303,8 @@ msgstr ""
 msgid "Language was updated!"
 msgstr "La lingua è stata aggiornata!"
 
-msgid "uninstall"
-msgstr "Disinstalla"
-
-#, php-format
-msgid "%d messages translated"
-msgstr "%d messaggi tradotti"
+msgid "ispCP - Admin/Internationalisation"
+msgstr "ispCP - Amministratore/Internazionalizzazione"
 
 msgid "Internationalisation"
 msgstr "Internazionalizzazione"
@@ -1273,6 +1330,9 @@ msgstr "Installa"
 
 msgid "Export"
 msgstr "Esporta"
+
+msgid "Incorrect data input!"
+msgstr "Inserimento dei dati errato!"
 
 msgid "ispCP - Admin/Change Password"
 msgstr "ispCP - Admin/Modificare la password"
@@ -1585,23 +1645,11 @@ msgstr "%s non esiste o è vuota"
 msgid "Anti-Rootkits Tools Log Checker"
 msgstr "Anti-Rootkits Strumenti di controllo"
 
-msgid "ispCP - Admin/Server day stats"
-msgstr "ispCP - Admin/Statistiche giornaliere server"
+msgid "ispCP - Admin/Server statistics"
+msgstr "ispCP - Admin/Statistiche server"
 
-msgid "Server day statistics"
-msgstr "Statistiche giornaliere server"
-
-msgid "Month:"
-msgstr "Mese:"
-
-msgid "Year:"
-msgstr "Anno:"
-
-msgid "Day:"
-msgstr "Giorno:"
-
-msgid "Hour"
-msgstr "Ora"
+msgid "Server statistics"
+msgstr "Statistiche server"
 
 msgid "Web in"
 msgstr "Web in entrata"
@@ -1635,11 +1683,23 @@ msgstr "Totali in entrata"
 msgid "All out"
 msgstr "Totali in uscita"
 
-msgid "ispCP - Admin/Server statistics"
-msgstr "ispCP - Admin/Statistiche server"
+msgid "ispCP - Admin/Server day stats"
+msgstr "ispCP - Admin/Statistiche giornaliere server"
 
-msgid "Server statistics"
-msgstr "Statistiche server"
+msgid "Server day statistics"
+msgstr "Statistiche giornaliere server"
+
+msgid "Month:"
+msgstr "Mese:"
+
+msgid "Year:"
+msgstr "Anno:"
+
+msgid "Day:"
+msgstr "Giorno:"
+
+msgid "Hour"
+msgstr "Ora"
 
 msgid "ispCP Admin / System Tools / Server Status"
 msgstr "ispCP Admin / Tool di sistema / Stato del Server"
@@ -1676,6 +1736,157 @@ msgstr "Opzioni"
 
 msgid "Kill session"
 msgstr "Chiusura della sessione"
+
+msgid "ispCP - Admin/Settings"
+msgstr "ispCP - Amministratore/Configurazione"
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr "ERRORE: puoi utilizzare solo numeri positivi!"
+
+#, fuzzy, php-format
+msgid "%d configuration parameter was updated!"
+msgstr "La lingua è stata aggiornata!"
+
+#, php-format
+msgid "%d configuration parameters were updated!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameter was created!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameters were created!"
+msgstr ""
+
+msgid "Nothing has been changed!"
+msgstr ""
+
+msgid "General settings"
+msgstr "Impostazioni generali"
+
+msgid "Activation link expire time (minutes)"
+msgstr "Il tempo di scadenza del link di attivazione (minuti)"
+
+msgid "Password settings"
+msgstr "Configurazione password"
+
+msgid "Use strong Passwords"
+msgstr "Usa passowrd difficili da scoprire"
+
+msgid "Password length"
+msgstr "Lunghezza Password"
+
+msgid "Bruteforce detection"
+msgstr "Rilevamento Bruteforce"
+
+msgid "Block time between logins"
+msgstr "Durata di blocco tra  gli accessi"
+
+msgid "Max number of login attempts"
+msgstr "Max numero tentantivi di accesso"
+
+msgid "Blocktime (minutes)"
+msgstr "Durata di blocco (minuti)"
+
+msgid "Block time between logins (seconds)"
+msgstr "Durata di blocco tra gli accessi (secondi)"
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr "Max numero di validazione CAPTCHA "
+
+msgid "Other settings"
+msgstr "Altre impostazioni"
+
+msgid "E-Mail settings"
+msgstr "Configurazione E-Mail"
+
+msgid "Create default E-Mail addresses"
+msgstr "Crea indirizzi mail predefiniti"
+
+#, fuzzy
+msgid "Count default E-Mail addresses"
+msgstr "Crea indirizzi mail predefiniti"
+
+msgid "E-Mail accounts are hard suspended"
+msgstr "Gli indirizzi mail sono stati sospesi"
+
+#, fuzzy
+msgid "Panel default language"
+msgstr "Scegli la lingua di default"
+
+msgid "Apply changes"
+msgstr "Applica le modifiche"
+
+msgid "Server ports"
+msgstr "Porte server"
+
+msgid "Hosting plans available for"
+msgstr "Piani di hosting disponibili per"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Domains per page"
+msgstr "Domini per pagina"
+
+msgid "Log Level"
+msgstr "Livello Log"
+
+msgid "Notices, Warnings and Errors"
+msgstr "Notifiche, Allarmi e Errori"
+
+msgid "Warnings and Errors"
+msgstr "Warnings e Errori"
+
+msgid "Errors"
+msgstr "Errori"
+
+msgid "Check for update"
+msgstr "Controllo aggiornamenti"
+
+msgid "Show compression size comment"
+msgstr ""
+
+#, fuzzy
+msgid "Prevent external login for admins"
+msgstr "Inserisci i tuoi dati di accesso"
+
+msgid "Prevent external login for resellers"
+msgstr ""
+
+msgid "Prevent external login for clients"
+msgstr ""
+
+#, fuzzy
+msgid "Custom orderpanel ID"
+msgstr "ID cliente"
+
+#, fuzzy
+msgid "Domain names validation"
+msgstr "Nome dominio"
+
+msgid "Top Level Domain name strict validation"
+msgstr ""
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr ""
+
+msgid "Second Level Domain name strict validation"
+msgstr ""
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr ""
+
+msgid ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+msgstr ""
+
+msgid "Maximal number of labels for subdomains"
+msgstr ""
 
 msgid "You can only upload images!"
 msgstr "Puoi caricare solamente immagini!"
@@ -1758,9 +1969,6 @@ msgstr "Link per la password persa"
 msgid "Subject"
 msgstr "Oggetto"
 
-msgid "Apply changes"
-msgstr "Applica le modifiche"
-
 msgid "URL to this admin panel"
 msgstr "URL per accedere al pannello di amministratore"
 
@@ -1779,139 +1987,6 @@ msgstr "Modo manutenzione"
 
 msgid "Under this mode only administrators can login"
 msgstr "In questa modalità solo gli amministratori possono accedere"
-
-msgid "ispCP - Admin/Settings"
-msgstr "ispCP - Amministratore/Configurazione"
-
-msgid "ERROR: Only positive numbers are allowed !"
-msgstr "ERRORE: puoi utilizzare solo numeri positivi!"
-
-#, fuzzy
-msgid "Settings saved!"
-msgstr "Impostazioni salvate !"
-
-msgid "General settings"
-msgstr "Impostazioni generali"
-
-msgid "Activation link expire time (minutes)"
-msgstr "Il tempo di scadenza del link di attivazione (minuti)"
-
-msgid "Password settings"
-msgstr "Configurazione password"
-
-msgid "Use strong Passwords"
-msgstr "Usa passowrd difficili da scoprire"
-
-msgid "Password length"
-msgstr "Lunghezza Password"
-
-msgid "Bruteforce detection"
-msgstr "Rilevamento Bruteforce"
-
-msgid "Block time between logins"
-msgstr "Durata di blocco tra  gli accessi"
-
-msgid "Max number of login attempts"
-msgstr "Max numero tentantivi di accesso"
-
-msgid "Blocktime (minutes)"
-msgstr "Durata di blocco (minuti)"
-
-msgid "Block time between logins (seconds)"
-msgstr "Durata di blocco tra gli accessi (secondi)"
-
-msgid "Max number of CAPTCHA validation attempts"
-msgstr "Max numero di validazione CAPTCHA "
-
-msgid "Other settings"
-msgstr "Altre impostazioni"
-
-msgid "E-Mail settings"
-msgstr "Configurazione E-Mail"
-
-msgid "Create default E-Mail addresses"
-msgstr "Crea indirizzi mail predefiniti"
-
-#, fuzzy
-msgid "Count default E-Mail addresses"
-msgstr "Crea indirizzi mail predefiniti"
-
-msgid "E-Mail accounts are hard suspended"
-msgstr "Gli indirizzi mail sono stati sospesi"
-
-#, fuzzy
-msgid "Panel default language"
-msgstr "Scegli la lingua di default"
-
-msgid "Server ports"
-msgstr "Porte server"
-
-msgid "Hosting plans available for"
-msgstr "Piani di hosting disponibili per"
-
-msgid "Admin"
-msgstr "Admin"
-
-msgid "Domains per page"
-msgstr "Domini per pagina"
-
-msgid "Log Level"
-msgstr "Livello Log"
-
-msgid "Notices, Warnings and Errors"
-msgstr "Notifiche, Allarmi e Errori"
-
-msgid "Warnings and Errors"
-msgstr "Warnings e Errori"
-
-msgid "Errors"
-msgstr "Errori"
-
-msgid "Check for update"
-msgstr "Controllo aggiornamenti"
-
-msgid "Show compression size comment"
-msgstr ""
-
-#, fuzzy
-msgid "Prevent external login for admins"
-msgstr "Inserisci i tuoi dati di accesso"
-
-msgid "Prevent external login for resellers"
-msgstr ""
-
-msgid "Prevent external login for clients"
-msgstr ""
-
-#, fuzzy
-msgid "Custom orderpanel ID"
-msgstr "ID cliente"
-
-#, fuzzy
-msgid "Domain names validation"
-msgstr "Nome dominio"
-
-msgid "Top Level Domain name strict validation"
-msgstr ""
-
-msgid ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-msgstr ""
-
-msgid "Second Level Domain name strict validation"
-msgstr ""
-
-msgid ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-msgstr ""
-
-msgid ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-msgstr ""
-
-msgid "Maximal number of labels for subdomains"
-msgstr ""
 
 #, fuzzy
 msgid ""
@@ -2090,20 +2165,11 @@ msgstr "Tipo"
 msgid "Up time"
 msgstr "Uptime"
 
-msgid "You have no support tickets."
-msgstr "Non hai nessun ticket di supporto aperto."
-
 msgid "ispCP - Client/Questions & Comments"
 msgstr "ispCP - Client/Domande & Commenti"
 
 msgid "Support tickets"
 msgstr "Tickets di supporto"
-
-msgid "From"
-msgstr "Da"
-
-msgid "To"
-msgstr "A"
 
 msgid "Priority"
 msgstr "Priorità"
@@ -2120,6 +2186,9 @@ msgstr "Tickets aperti"
 msgid "Closed tickets"
 msgstr "Tickets chiusi"
 
+msgid "From"
+msgstr "Da"
+
 msgid "Support ticket deleted successfully!"
 msgstr "Tickets di supporto cancellati con successo!"
 
@@ -2129,23 +2198,8 @@ msgstr "Tutti i tickets di supporto aperti sono stati cancellati con successo!"
 msgid "All closed support tickets deleted successfully!"
 msgstr "Tutti i tickets di supporto chiusi sono stati cancellati con successo!"
 
-msgid "[New]"
-msgstr "[Nuovo]"
-
-msgid "[Re]"
-msgstr "[Re]"
-
 msgid "ispCP - Client/Enable Mail Autoresponder"
 msgstr "ispCP - Client/Attivare il risponditore automatico"
-
-msgid "Ticket not found!"
-msgstr "Ticket non trovato!"
-
-msgid "Open ticket"
-msgstr "Apri un ticket"
-
-msgid "Close ticket"
-msgstr "Chiudi il ticket"
 
 msgid "ispCP - Client: Support System: View Ticket"
 msgstr "ispCP - Client : Sistema di supporto: Visualizza Ticket"
@@ -2153,14 +2207,8 @@ msgstr "ispCP - Client : Sistema di supporto: Visualizza Ticket"
 msgid "Please type your message!"
 msgstr "Prego, digita il tuo messaggio!"
 
-msgid "Message was sent."
-msgstr "Il messaggio è stato inviato."
-
-msgid "Ticket was closed!"
-msgstr "Il ticket è stato chiuso!"
-
-msgid "Ticket was reopened!"
-msgstr "Il Ticket è stato riaperto!"
+msgid "Ticket not found!"
+msgstr "Ticket non trovato!"
 
 msgid "ispCP - Admin: Support System: View Ticket"
 msgstr "ispCP - Amministratore : Sistema Supporto: Visualizza Tickets"
@@ -2337,13 +2385,16 @@ msgstr "nome alias"
 msgid "Mount Point"
 msgstr "Mount Point"
 
+#, fuzzy
 msgid ""
-"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+"Subdomain you are trying to remove has email accounts!<br />First remove "
+"them!"
 msgstr ""
 "Il sottodominio che stai cercando di rimuovere ha accounts email!<br> e non "
 "può pertanto essere cancellato."
 
-msgid "Subdomain scheduled for deletion!"
+#, fuzzy
+msgid "Alias Subdomain scheduled for deletion!"
 msgstr "Sottodominio pianificato per essere eliminato!"
 
 msgid "Backup archive scheduled for restoring!"
@@ -2424,8 +2475,11 @@ msgstr "Modifica Cronjob"
 msgid "Cronjobs"
 msgstr "Cronjobs"
 
+msgid "You are not allowed to remove this DNS record!"
+msgstr ""
+
 #, fuzzy
-msgid "DNS zone record scheduled for deletion!"
+msgid "Custom DNS record scheduled for deletion!"
 msgstr "Sottodominio pianificato per essere eliminato!"
 
 #, fuzzy
@@ -2436,11 +2490,12 @@ msgstr "ispCP - Gestione Alias del Dominio/Modificare gli Alias"
 msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
 msgstr "ispCP - Gestione Alias del Dominio/Modificare gli Alias"
 
-msgid "Add DNS zone's record (EXPERIMENTAL)"
-msgstr ""
+msgid "Add DNS zone's record"
+msgstr "Aggiungi zona DNS"
 
-msgid "Edit DNS zone's record (EXPERIMENTAL)"
-msgstr ""
+#, fuzzy
+msgid "Edit DNS zone's record"
+msgstr "Aggiungi zona DNS"
 
 msgid "DNS zone's records"
 msgstr ""
@@ -2484,8 +2539,9 @@ msgstr ""
 msgid "Plain record data"
 msgstr "Dati della password"
 
-msgid "DNS zone's records (EXPERIMENTAL)"
-msgstr ""
+#, fuzzy
+msgid "You are not allowed to edit this DNS record!"
+msgstr "Non hai alias."
 
 #, php-format
 msgid "Use of disallowed char(\"%s\") in CNAME"
@@ -2545,6 +2601,28 @@ msgid "Unknown zone type %s!"
 msgstr "Tipo sconosciuto %s!"
 
 #, fuzzy
+msgid "Error: DNS record already exist!"
+msgstr "L`utente già esistente !"
+
+msgid "ispCP - Client/Domain Statistics"
+msgstr "ispCP - Client/Statistiche Dominio"
+
+msgid "Web Stats"
+msgstr "Statistiche WEB"
+
+msgid "WEB"
+msgstr "WEB"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "POP3/IMAP"
+msgstr "POP3/IMAP"
+
+msgid "Sum"
+msgstr "Somma"
+
+#, fuzzy
 msgid "Manual zone's records list is empty!"
 msgstr "La lista degli account di posta è vuota!"
 
@@ -2579,24 +2657,6 @@ msgstr "Azioni"
 #, fuzzy
 msgid "Record data"
 msgstr "Dati principali"
-
-msgid "ispCP - Client/Domain Statistics"
-msgstr "ispCP - Client/Statistiche Dominio"
-
-msgid "Web Stats"
-msgstr "Statistiche WEB"
-
-msgid "WEB"
-msgstr "WEB"
-
-msgid "SMTP"
-msgstr "SMTP"
-
-msgid "POP3/IMAP"
-msgstr "POP3/IMAP"
-
-msgid "Sum"
-msgstr "Somma"
 
 msgid "ispCP - Client/Manage Error Custom Pages"
 msgstr "ispCP - Cliente/Gestione pagine personali di errore"
@@ -2928,10 +2988,6 @@ msgstr "Nome Account"
 msgid "Main domain"
 msgstr "Dominio principale"
 
-#, fuzzy
-msgid "Manual DNS support"
-msgstr "Supporto MySQL"
-
 msgid "SQL support"
 msgstr "Supporto SQL"
 
@@ -3078,6 +3134,21 @@ msgstr "Il tuo Messaggio"
 msgid "Enable mail auto responder"
 msgstr "Abilitare risponditore automatico"
 
+msgid "Delete CatchAll"
+msgstr "Eliminare CatchAll"
+
+msgid "None"
+msgstr "Nessuno"
+
+msgid "Create catch all"
+msgstr "Crea un'email per catturarle tutte"
+
+msgid "Catch all account"
+msgstr "Account catch all"
+
+msgid "Catch all"
+msgstr "Catch all"
+
 msgid "Catch all account scheduled for creation!"
 msgstr "Account catch all pianificato per essere creato!"
 
@@ -3093,23 +3164,8 @@ msgstr "Creare un account di posta CatchAll"
 msgid "Mail accounts list"
 msgstr "Lista degli account di posta"
 
-msgid "Create catch all"
-msgstr "Crea un'email per catturarle tutte"
-
 msgid "Catch all account scheduled for deletion!"
 msgstr "Account catch all pianificato per essere cancellato!"
-
-msgid "Delete CatchAll"
-msgstr "Eliminare CatchAll"
-
-msgid "None"
-msgstr "Nessuno"
-
-msgid "Catch all account"
-msgstr "Account catch all"
-
-msgid "Catch all"
-msgstr "Catch all"
 
 msgid "Please delete first CatchAll account for this email!"
 msgstr "Cancellare prima l'account CatchAll per questa email!"
@@ -3131,6 +3187,37 @@ msgstr "ispCP - Client/Modifica la password"
 
 msgid "ispCP - Client/Change Personal Data"
 msgstr "ispCP - Client/Modificare i dati personali"
+
+msgid "Error: Unknown SQL user id!"
+msgstr ""
+
+#, fuzzy
+msgid "Error: An error occurred while authentication!"
+msgstr "Errore durante l'autenticazione!"
+
+msgid "You do not have protected areas"
+msgstr "Non hai aree protette"
+
+msgid "Manage users and groups"
+msgstr "Gestione utenti e gruppi"
+
+msgid "Add user"
+msgstr "Aggiungi utente / dominio"
+
+msgid "Group name"
+msgstr "Nome del gruppo"
+
+msgid "Group members"
+msgstr "Membri del gruppo"
+
+msgid "Add group"
+msgstr "Aggiungi gruppo"
+
+msgid "Group"
+msgstr "Gruppo"
+
+msgid "Add new protected area"
+msgstr "Aggiungi nuova area protetta"
 
 msgid "Please choose user or group"
 msgstr "Prego, scegli l'utente o il gruppo"
@@ -3188,9 +3275,6 @@ msgstr "Nome dell'area"
 msgid "Unprotect it"
 msgstr "Non proteggere"
 
-msgid "Manage users and groups"
-msgstr "Gestione utenti e gruppi"
-
 msgid "Protected area status should be OK if you want to delete it!"
 msgstr "Lo stato dell'area protetta dovrebbe essere OK se vuoi eliminarla!"
 
@@ -3199,27 +3283,6 @@ msgstr "Area protetta cancellata con successo!"
 
 msgid "Permission deny!"
 msgstr "Permesso negato!"
-
-msgid "You do not have protected areas"
-msgstr "Non hai aree protette"
-
-msgid "Add user"
-msgstr "Aggiungi utente / dominio"
-
-msgid "Group name"
-msgstr "Nome del gruppo"
-
-msgid "Group members"
-msgstr "Membri del gruppo"
-
-msgid "Add group"
-msgstr "Aggiungi gruppo"
-
-msgid "Group"
-msgstr "Gruppo"
-
-msgid "Add new protected area"
-msgstr "Aggiungi nuova area protetta"
 
 msgid "Protected area was deleted successful!"
 msgstr "L'area protetta è stata cancellata con successo!"
@@ -3264,9 +3327,6 @@ msgstr "Aggiorna l'utente"
 
 msgid "You have no users!"
 msgstr "Non hai utenti!"
-
-msgid "Error while authenticating!"
-msgstr "Errore durante l'autenticazione!"
 
 msgid "Please type user password!"
 msgstr "Prego, inserire la password dell'utente!"
@@ -3447,14 +3507,33 @@ msgstr "Nome sottodominio"
 msgid "Directory tree mount point"
 msgstr "Cartella sottodominio:"
 
+msgid ""
+"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+"Il sottodominio che stai cercando di rimuovere ha accounts email!<br> e non "
+"può pertanto essere cancellato."
+
+msgid "Subdomain scheduled for deletion!"
+msgstr "Sottodominio pianificato per essere eliminato!"
+
+#, fuzzy
+msgid "ispCP - Manage Subdomain/Edit Subdomain"
+msgstr "ispCP - Admin/Modifica Dominio"
+
+#, fuzzy
+msgid "Manage subdomain"
+msgstr "Gestione Domini"
+
+#, fuzzy
+msgid "Edit subdomain"
+msgstr "Modifica dominio"
+
+#, fuzzy
+msgid "ispCP - Support System - New ticket"
+msgstr "ispCP - Sistema di supporto - Nuovo ticket"
+
 msgid "Please specify message subject!"
 msgstr "Indicare l'oggetto del messaggio!"
-
-msgid "Your message was sent!"
-msgstr "Messaggio inviato!"
-
-msgid "ispCP - Support system - New ticket"
-msgstr "ispCP - Sistema di supporto - Nuovo ticket"
 
 msgid "New ticket"
 msgstr "Nuovo ticket"
@@ -3638,37 +3717,6 @@ msgstr "%.2f KB"
 msgid "%d B"
 msgstr "%d B"
 
-#, php-format
-msgid "File %s does not exists or cannot be reached!"
-msgstr "Il file %s non esiste o non può essere raggiunto!"
-
-msgid "Error while trying to obtain list of network cards!"
-msgstr "Errore durante il tentativo di ottenere la lista delle schede di rete!"
-
-#, php-format
-msgid "This IP (%s) is not assigned to any network card!"
-msgstr "Questo IP (%s) non è assegnato a nessuna scheda di rete!"
-
-#, fuzzy
-msgid "Days"
-msgstr "Giorno"
-
-#, fuzzy
-msgid "Hours"
-msgstr "Ora"
-
-#, fuzzy
-msgid "Minute"
-msgstr "minuti"
-
-#, fuzzy
-msgid "Minutes"
-msgstr "minuti"
-
-msgid "Couldn't check for updates! Website not reachable."
-msgstr ""
-"Non posso verificare gli aggiornamenti! Il sito web non è raggiungibile."
-
 msgid "Email and FTP accounts"
 msgstr "Account email e FTP"
 
@@ -3695,9 +3743,6 @@ msgstr "Gestione FTP"
 
 msgid "Update Hosting Package"
 msgstr "Aggiornare Pacchetto Hosting"
-
-msgid "Add DNS zone's record"
-msgstr "Aggiungi zona DNS"
 
 msgid "Manage SSL certificate"
 msgstr "Gestisci certificato SSL"
@@ -3734,6 +3779,7 @@ msgstr "Tipo sconosciuto"
 msgid "Welcome {USERNAME} to ispCP!"
 msgstr "Benvenuto {USERNAME} in ispCP!"
 
+#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3750,7 +3796,55 @@ msgid ""
 "\n"
 "You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
 "\n"
-"Statistics: http://{USERNAME}/stats/\n"
+"Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Salve {NAME}!\n"
+"\n"
+"Un nuovo account è stato creato.\n"
+"Le informazioni dell'account sono:\n"
+"\n"
+"Tipo Utente: {USERTYPE}\n"
+"Nome Utente: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Dopo il primo accesso, ricorda di cambiare la password.\n"
+"\n"
+"Per accedere al sistema clicca su {BASE_SERVER_VHOST_PREFIX}"
+"{BASE_SERVER_VHOST}\n"
+"\n"
+"Statistiche: http://{USERNAME}/stats/\n"
+"Nome Utente: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Buon Lavoro coni spCP!\n"
+"Il Team ispCP.\n"
+"\n"
+
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
 "User name: {USERNAME}\n"
 "Password: {PASSWORD}\n"
 "\n"
@@ -3904,6 +3998,40 @@ msgstr ""
 "Il Team ispCP\n"
 "\n"
 
+#, fuzzy
+msgid "Your message has been sent!"
+msgstr "Messaggio inviato!"
+
+#, fuzzy
+msgid "Your message has been sent"
+msgstr "Messaggio inviato!"
+
+msgid "Ticket was closed!"
+msgstr "Il ticket è stato chiuso!"
+
+msgid "Ticket was reopened!"
+msgstr "Il Ticket è stato riaperto!"
+
+#, fuzzy
+msgid "Never"
+msgstr "Livello"
+
+#, fuzzy
+msgid "You don't have support tickets."
+msgstr "Non hai nessun ticket di supporto aperto."
+
+msgid "[New]"
+msgstr "[Nuovo]"
+
+msgid "[Re]"
+msgstr "[Re]"
+
+msgid "Open ticket"
+msgstr "Apri un ticket"
+
+msgid "Close ticket"
+msgstr "Chiudi il ticket"
+
 msgid "[Ticket]"
 msgstr "[Ticket]"
 
@@ -4005,7 +4133,8 @@ msgstr "Sei stato bloccato per %d minuti"
 msgid "You entered an incorrect username/password."
 msgstr "Hai inserito un nomeutente/password errato."
 
-msgid "System is currently under maintenance! Only administrators can login."
+#, fuzzy
+msgid "System is currently under maintenance! Only administrators can log in."
 msgstr ""
 "Il sistema è attualmente in modo manutenzione! Solo gli amministratori "
 "possono accedere."
@@ -4065,7 +4194,8 @@ msgstr "abilitato"
 msgid "Being suspended"
 msgstr "sospeso"
 
-msgid "Awaiting for approval"
+#, fuzzy
+msgid "Awaiting approval"
 msgstr "In attesa di approvazione"
 
 msgid "Unknown error"
@@ -4207,6 +4337,10 @@ msgid "Order confirmation"
 msgstr "Informazioni Generali"
 
 #, fuzzy
+msgid "Domain already exists on the system!"
+msgstr "Un dominio con lo stesso nome è già presente nel sistema!"
+
+#, fuzzy
 msgid "This hosting plan is not available for purchase"
 msgstr "Piani di hosting disponibili per l`aggiornamento"
 
@@ -4306,13 +4440,6 @@ msgstr "Costi di gestione"
 msgid "Performance"
 msgstr "Prestazioni"
 
-#, fuzzy
-msgid "ispCP Reseller: Add Alias"
-msgstr "ispCP Rivenditore: Aggiungere degli Alias"
-
-msgid "There is no user records for this reseller to add an alias for."
-msgstr ""
-
 msgid "ispCP - Manage Domain/Alias"
 msgstr "ispCP - Gestione Dominio/Alias"
 
@@ -4355,6 +4482,13 @@ msgstr "Ordine per alias di dominio attivato!"
 msgid "Ordered domain alias not activated!"
 msgstr "Ordine per alias di dominio non attivato!"
 
+#, fuzzy
+msgid "ispCP Reseller: Add Alias"
+msgstr "ispCP Rivenditore: Aggiungere degli Alias"
+
+msgid "There is no user records for this reseller to add an alias for."
+msgstr ""
+
 msgid "ispCP - Circular"
 msgstr "ispCP - Circolare"
 
@@ -4367,10 +4501,6 @@ msgstr "ispCP - Dominio/Modificare"
 #, fuzzy
 msgid "Unchanged"
 msgstr "Modifica"
-
-#, fuzzy
-msgid "Never"
-msgstr "Livello"
 
 msgid "- 1 Month"
 msgstr "- 1 Mese"
@@ -4413,6 +4543,12 @@ msgstr "Il servizio <em>%s</em> non può essere limitato! "
 msgid "The <em>%s</em> service cannot be unlimited!"
 msgstr "Il servizio<em>%s</em>non può essere illimitato! "
 
+msgid "ispCP - Reseller/Main Index"
+msgstr "ispCP - Rivenditore/Indice generale"
+
+msgid "View details"
+msgstr "Visualizza dettagli"
+
 msgid "ispCP - Reseller/Add hosting plan"
 msgstr "ispCP - Rivenditore/Aggiungere un piano di hosting"
 
@@ -4433,12 +4569,6 @@ msgstr "ispCP - Rivenditore/Modificare il piano di hosting"
 
 msgid "View hosting plan"
 msgstr "Visualizza il piano di hsoting"
-
-msgid "ispCP - Reseller/Main Index"
-msgstr "ispCP - Rivenditore/Indice generale"
-
-msgid "View details"
-msgstr "Visualizza dettagli"
 
 msgid "User accounts"
 msgstr "Account utente"
@@ -4465,6 +4595,10 @@ msgstr "%1$d / %2$d di <b>%3$d</b>"
 msgid "%1$d / %2$d of <b>unlimited</b>"
 msgstr "%1$d / %2$d of <b>illimitato</b>"
 
+#, fuzzy
+msgid "ispCP - Reseller/IP Usage"
+msgstr "ispCP - Reseller/Modifica lingua"
+
 msgid "ispCP - Reseller/Change Language"
 msgstr "ispCP - Reseller/Modifica lingua"
 
@@ -4477,49 +4611,6 @@ msgstr "Gestione ordini"
 #, fuzzy
 msgid "Activation Link"
 msgstr "Attivazione E-Mail"
-
-msgid "Wrong order ID!"
-msgstr "ID dell`ordine errato"
-
-#, fuzzy
-msgid "Order Cancelled: resellers maximum exceeded!"
-msgstr "Ordine Annullato: numero max rivenditori raggiunto."
-
-msgid "Wrong domain name syntax!"
-msgstr "Sintassi del nome del dominio errata!"
-
-msgid "User added!"
-msgstr "Utente aggiunto!"
-
-msgid "Customer order was removed successful!"
-msgstr "L`ordine del cliente è stato rimosso con successo!"
-
-msgid "ispCP - Reseller/Order details"
-msgstr "ispCP - Rivenditore/Dettagli ordine"
-
-msgid "Order data updated successfully!"
-msgstr "Dati dell`ordine aggiornati con successo!"
-
-msgid "Order date"
-msgstr "Data dell`ordine"
-
-msgid "Hosting plan"
-msgstr "Piani di Hosting"
-
-msgid "Hosting details"
-msgstr "Dettagli hosting"
-
-msgid "Order details"
-msgstr "Dettagli ordine"
-
-msgid "Customer data"
-msgstr "Dati Cliente"
-
-msgid "Are you sure you want to delete this order?"
-msgstr "Sei sicuro di voler cancellare questo ordine?"
-
-msgid "Add to the system"
-msgstr "Aggiungi al sistema"
 
 msgid "ispCP - Reseller/Order settings"
 msgstr "ispCP - Rivenditore/Impostazioni ordine"
@@ -4551,11 +4642,54 @@ msgstr "Aggiorna l`ordine"
 msgid "ID"
 msgstr "ID"
 
+msgid "Customer data"
+msgstr "Dati Cliente"
+
 msgid "Order"
 msgstr "Ordine"
 
+msgid "Hosting plan"
+msgstr "Piani di Hosting"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Sei sicuro di voler cancellare questo ordine?"
+
 msgid "Add/Details"
 msgstr "Aggiungi/Dettagli"
+
+msgid "Wrong order ID!"
+msgstr "ID dell`ordine errato"
+
+#, fuzzy
+msgid "Order Cancelled: resellers maximum exceeded!"
+msgstr "Ordine Annullato: numero max rivenditori raggiunto."
+
+msgid "Wrong domain name syntax!"
+msgstr "Sintassi del nome del dominio errata!"
+
+msgid "User added!"
+msgstr "Utente aggiunto!"
+
+msgid "Customer order was removed successful!"
+msgstr "L`ordine del cliente è stato rimosso con successo!"
+
+msgid "ispCP - Reseller/Order details"
+msgstr "ispCP - Rivenditore/Dettagli ordine"
+
+msgid "Order data updated successfully!"
+msgstr "Dati dell`ordine aggiornati con successo!"
+
+msgid "Order date"
+msgstr "Data dell`ordine"
+
+msgid "Hosting details"
+msgstr "Dettagli hosting"
+
+msgid "Order details"
+msgstr "Dettagli ordine"
+
+msgid "Add to the system"
+msgstr "Aggiungi al sistema"
 
 msgid "Order Canceled: resellers maximum exceeded!"
 msgstr "Ordine Annullato: numero max rivenditori raggiunto."
@@ -4577,6 +4711,9 @@ msgstr "Link password dimenticata"
 
 msgid "ispCP - Reseller/Manage users/Email setup"
 msgstr "ispCP - Rivenditori/Gestione utenti/Configurare Email"
+
+msgid "ispCP - Support system - New ticket"
+msgstr "ispCP - Sistema di supporto - Nuovo ticket"
 
 msgid "ispCP - Reseller: Support System: View Ticket"
 msgstr "ispCP - Rivenditore : Sistema di supporto: Vedere i Ticket"
@@ -4646,6 +4783,9 @@ msgstr "ispCP - Utenti/Modificare"
 msgid "Users list"
 msgstr "Lista degli utenti"
 
+msgid "This reseller has no domains yet."
+msgstr "Questo rivenditore non ha ancora domini configurati."
+
 msgid "ispCP - Users"
 msgstr "ispCP - Utenti"
 
@@ -4694,8 +4834,49 @@ msgstr "Utente disabilitato!"
 msgid "User not terminated!"
 msgstr "L'utente non è stato disabilitato!"
 
-msgid "This reseller has no domains yet."
-msgstr "Questo rivenditore non ha ancora domini configurati."
+#, fuzzy
+#~ msgid "Manual DNS support (EXPERIMENTAL)"
+#~ msgstr "Supporto DNS Manuale (SPERIMENTALE)"
+
+#, fuzzy
+#~ msgid "Settings saved!"
+#~ msgstr "Impostazioni salvate !"
+
+#~ msgid "To"
+#~ msgstr "A"
+
+#~ msgid "Message was sent."
+#~ msgstr "Il messaggio è stato inviato."
+
+#~ msgid "File %s does not exists or cannot be reached!"
+#~ msgstr "Il file %s non esiste o non può essere raggiunto!"
+
+#~ msgid "Error while trying to obtain list of network cards!"
+#~ msgstr ""
+#~ "Errore durante il tentativo di ottenere la lista delle schede di rete!"
+
+#~ msgid "This IP (%s) is not assigned to any network card!"
+#~ msgstr "Questo IP (%s) non è assegnato a nessuna scheda di rete!"
+
+#, fuzzy
+#~ msgid "Days"
+#~ msgstr "Giorno"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "Ora"
+
+#, fuzzy
+#~ msgid "Minute"
+#~ msgstr "minuti"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "minuti"
+
+#~ msgid "Couldn't check for updates! Website not reachable."
+#~ msgstr ""
+#~ "Non posso verificare gli aggiornamenti! Il sito web non è raggiungibile."
 
 #~ msgid "Services"
 #~ msgstr "Servizi"

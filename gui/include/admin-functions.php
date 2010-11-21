@@ -2251,7 +2251,7 @@ function delete_domain($domain_id, $goto, $breseller = false) {
 	$data = $res->fetchRow();
 
 	if(empty($data['domain_uid']) || empty($data['domain_admin_id'])) {
-		set_page_message(tr('Wrong domain ID!'));
+		set_page_message(tr('Wrong domain ID!'), 'error');
 		user_goto($goto);
 	}
 

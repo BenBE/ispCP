@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 10:11+0200\n"
+"POT-Creation-Date: 2010-11-20 11:02+0100\n"
 "PO-Revision-Date: 2009-12-15 01:27+0100\n"
 "Last-Translator: Takashi <takashi@elekta.lt>\n"
 "Language-Team: Lithuanian <lt_LT@li.org>\n"
@@ -103,10 +103,10 @@ msgstr "Administratorius"
 msgid "Incorrect username length or syntax!"
 msgstr "Netinkamas vartotojo vardo ilgis arba sintaksë!"
 
-#, php-format
+#, fuzzy, php-format
 msgid ""
-"The password must be at least %s long and contain letters and numbers to be "
-"valid."
+"The password must be at least %s chars long and contain letters and numbers "
+"to be valid."
 msgstr ""
 "Slaptaþodis turi susidaryti ið %s raiþdþiø ir skaièiø, kad bûtø tinkamas."
 
@@ -193,6 +193,13 @@ msgstr "Faksas"
 
 msgid "Add"
 msgstr "Pridëti"
+
+#, php-format
+msgid ""
+"The password must be at least %s long and contain letters and numbers to be "
+"valid."
+msgstr ""
+"Slaptaþodis turi susidaryti ið %s raiþdþiø ir skaièiø, kad bûtø tinkamas."
 
 msgid "User session was killed!"
 msgstr "Jûsø sesija baigësi!"
@@ -468,8 +475,8 @@ msgstr "PHP palaikymas"
 msgid "CGI support"
 msgstr "CGI palaikymas"
 
-msgid "Manual DNS support (EXPERIMENTAL)"
-msgstr "Rankinis DNS palaikymas (BANDOMASIS)"
+msgid "Manual DNS support"
+msgstr ""
 
 #, fuzzy
 msgid "Backup support"
@@ -719,11 +726,53 @@ msgstr "Visas srautas"
 msgid "Day"
 msgstr "Diena"
 
-msgid "ispCP - Administrator/Add hosting plan"
-msgstr "ispCP - Administratorius/Pridëti hostingo planà"
+msgid "ispCP - Administrator/Hosting Plan Management"
+msgstr "ispCP - Administratorius/Hostingo Planø Tvarkymas"
+
+msgid "Hosting plans"
+msgstr "Hostingo planai"
+
+msgid "Manage hosting plans"
+msgstr "Tvarkyti hostingo planus"
+
+msgid "Purchasing"
+msgstr "Pirkimai"
 
 msgid "Add hosting plan"
 msgstr "Pridëti hostingo planà"
+
+msgid "Add new user hosting plan"
+msgstr "Pridëti naujà vartotojø hostingo planà"
+
+msgid "Return to previous menu"
+msgstr "Gráþti á buvusá meniu"
+
+msgid "Hosting plan added!"
+msgstr "Hostingo planas pridëtas!"
+
+msgid "Hosting plan deleted!"
+msgstr "Hostingo planas iðtrintas!"
+
+msgid "Hosting plan updated!"
+msgstr "Hostingo planas atnaujintas!"
+
+msgid "Hosting plan can't be deleted, there are orders!"
+msgstr "Hostingo planas negali bûti iðtrintas. Yra pirkëjø!"
+
+msgid "Hosting plans not found!"
+msgstr "Hostingo planai nerasti!"
+
+msgid "No."
+msgstr "Ne."
+
+msgid "Name"
+msgstr "Pavadinimas"
+
+msgid "Show hosting plan"
+msgstr "Rodyti hostingo planà"
+
+msgid "ispCP - Administrator/Add hosting plan"
+msgstr "ispCP - Administratorius/Pridëti hostingo planà"
 
 msgid "Hosting plan properties"
 msgstr "Hostingo plano pasirinktys"
@@ -761,7 +810,8 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-msgid "Allow adding records to DNS zone (EXPERIMENTAL)"
+#, fuzzy
+msgid "Allow adding records to DNS zone"
 msgstr "Leisti pridëti áraðus á DNS zonas (BANDOMASIS)"
 
 msgid "Apache logfiles"
@@ -854,48 +904,6 @@ msgstr "Neteisingai ávesta kaina. Pavizdys: 9.99"
 msgid "Incorrect setup fee. Example: 19.99"
 msgstr "Neteisingai ávestas registracijos mokestis. Pavizdys: 19.99"
 
-msgid "ispCP - Administrator/Hosting Plan Management"
-msgstr "ispCP - Administratorius/Hostingo Planø Tvarkymas"
-
-msgid "Hosting plans"
-msgstr "Hostingo planai"
-
-msgid "Manage hosting plans"
-msgstr "Tvarkyti hostingo planus"
-
-msgid "Purchasing"
-msgstr "Pirkimai"
-
-msgid "Add new user hosting plan"
-msgstr "Pridëti naujà vartotojø hostingo planà"
-
-msgid "Return to previous menu"
-msgstr "Gráþti á buvusá meniu"
-
-msgid "Hosting plan added!"
-msgstr "Hostingo planas pridëtas!"
-
-msgid "Hosting plan deleted!"
-msgstr "Hostingo planas iðtrintas!"
-
-msgid "Hosting plan updated!"
-msgstr "Hostingo planas atnaujintas!"
-
-msgid "Hosting plan can't be deleted, there are orders!"
-msgstr "Hostingo planas negali bûti iðtrintas. Yra pirkëjø!"
-
-msgid "Hosting plans not found!"
-msgstr "Hostingo planai nerasti!"
-
-msgid "No."
-msgstr "Ne."
-
-msgid "Name"
-msgstr "Pavadinimas"
-
-msgid "Show hosting plan"
-msgstr "Rodyti hostingo planà"
-
 #, php-format
 msgid "You have <b>%d</b> new support questions"
 msgstr "Jûs turite naujø pagalbos klausimø: <b>%d</b>"
@@ -981,6 +989,28 @@ msgstr "Pridëti naujà IP"
 msgid "Are you sure you want to delete this IP: %s?"
 msgstr "Ar tikrai norite paðalinti ðá IP adresà: %s?"
 
+#, fuzzy
+msgid "ispCP - Admin/IP Usage"
+msgstr "ispCP - Administratorius/IP tvarkymas"
+
+#, fuzzy
+msgid "Total Domains"
+msgstr "Domenai"
+
+msgid "No records found"
+msgstr ""
+
+msgid "IP Usage"
+msgstr ""
+
+#, fuzzy
+msgid "Domain Name"
+msgstr "Domeno pavadinimas"
+
+#, fuzzy
+msgid "Reseller Name"
+msgstr "Perpardavinëtojo vardas"
+
 msgid "No domain system errors"
 msgstr "Jokiø domenø sitemos klaidø nëra"
 
@@ -995,6 +1025,38 @@ msgstr "Jokiø subdomenø pavadinimø sistemos klaidø nëra"
 
 msgid "No email account system errors"
 msgstr "Jokiø el.paðto sàskaitø sistemos klaidø nëra"
+
+#, fuzzy
+msgid "missing domain"
+msgstr "Domeno subdomenai:"
+
+#, fuzzy
+msgid "missing alias"
+msgstr "Domenø pavadinimai"
+
+msgid "orphan entry"
+msgstr ""
+
+#, fuzzy
+msgid "No htaccess related system errors"
+msgstr "Jokiø domenø pavadinimø sistemos klaidø nëra"
+
+#, fuzzy
+msgid "Missing domain"
+msgstr "Tvarkyti domeno pavadinimus"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr "Daemon sugraþino %d kaip statuso kodà"
+
+msgid "Unknown type!"
+msgstr "Neþinomas typas!"
+
+msgid "Done"
+msgstr "Baigti"
+
+msgid "Unknown Error"
+msgstr "Neþinoma klaida"
 
 msgid "ispCP debugger"
 msgstr "ispCP debugger"
@@ -1014,6 +1076,9 @@ msgstr "Subdomenø pavadinimø klaidos"
 msgid "Mail account errors"
 msgstr "El.paðto sàskaitos klaidos"
 
+msgid ".htaccess related errors"
+msgstr ""
+
 msgid "ispCP Daemon tools"
 msgstr "ispCP Daemon árankiai"
 
@@ -1023,18 +1088,9 @@ msgstr "Vykdyti praðymus"
 msgid "Set status to 'change'"
 msgstr "Nustatyti statusà á 'pokytis"
 
-#, php-format
-msgid "Daemon returned %d as status code"
-msgstr "Daemon sugraþino %d kaip statuso kodà"
-
-msgid "Unknown type!"
-msgstr "Neþinomas typas!"
-
-msgid "Done"
-msgstr "Baigti"
-
-msgid "Unknown Error"
-msgstr "Neþinoma klaida"
+#, fuzzy, php-format
+msgid "%s Errors in database"
+msgstr "Domeno duombazës:"
 
 msgid "Enable update at"
 msgstr "Ájungti atnaujinimus"
@@ -1054,9 +1110,6 @@ msgstr "Galimi ispCP atnaujinimai"
 msgid "No new ispCP updates available"
 msgstr "Nëra naujø ispCP atnaujinimø"
 
-msgid "Language was removed!"
-msgstr "Kalba buvo paðalinta!"
-
 msgid "User language updated successfully!"
 msgstr "Vartotojø kalba atnaujinta sëkmingai!"
 
@@ -1068,6 +1121,9 @@ msgstr "Kalba"
 
 msgid "Choose your default language"
 msgstr "Pasirinkite numatytà kalbà"
+
+msgid "Language was removed!"
+msgstr "Kalba buvo paðalinta!"
 
 msgid "Reseller list is empty!"
 msgstr "Perpardavinëtojø sàraðas yra tuðèias!"
@@ -1187,11 +1243,16 @@ msgstr ""
 msgid "User was disabled"
 msgstr "Vartotojas buvo atjungtas"
 
-msgid "Incorrect data input!"
-msgstr "Neteisinga ávesta informacija!"
+#, fuzzy
+msgid "Uninstall"
+msgstr "paðalinti"
 
-msgid "ispCP - Admin/Internationalisation"
-msgstr "ispCP - Administratorius/Internacionalizavimas"
+#, php-format
+msgid "%d messages translated"
+msgstr "%d praneðimai iðversti"
+
+msgid "Gzipped"
+msgstr ""
 
 msgid "Upload file error!"
 msgstr "Keliamo failo klaida!"
@@ -1222,12 +1283,8 @@ msgstr ""
 msgid "Language was updated!"
 msgstr "Kalba atnaujinta!"
 
-msgid "uninstall"
-msgstr "paðalinti"
-
-#, php-format
-msgid "%d messages translated"
-msgstr "%d praneðimai iðversti"
+msgid "ispCP - Admin/Internationalisation"
+msgstr "ispCP - Administratorius/Internacionalizavimas"
 
 msgid "Internationalisation"
 msgstr "Internacionalizavimas"
@@ -1252,6 +1309,9 @@ msgstr "Diegti"
 
 msgid "Export"
 msgstr "Eksportuoti"
+
+msgid "Incorrect data input!"
+msgstr "Neteisinga ávesta informacija!"
 
 msgid "ispCP - Admin/Change Password"
 msgstr "ispCP - Administratorius/Keisti Slaptaþodá"
@@ -1564,23 +1624,11 @@ msgstr "%s neegzistuoja arba yra tuðèias"
 msgid "Anti-Rootkits Tools Log Checker"
 msgstr "Anti-Rootkits árankiø tikrinimas"
 
-msgid "ispCP - Admin/Server day stats"
-msgstr "ispCP - Administratorius/Serverio dienos statistika"
+msgid "ispCP - Admin/Server statistics"
+msgstr "ispCP - Adminstratorius/Serverio statistikos duomenys"
 
-msgid "Server day statistics"
-msgstr "Serverio dienos statistika"
-
-msgid "Month:"
-msgstr "Mënuo:"
-
-msgid "Year:"
-msgstr "Metai:"
-
-msgid "Day:"
-msgstr "Diena:"
-
-msgid "Hour"
-msgstr "Valanda"
+msgid "Server statistics"
+msgstr "Serverio statistikos duomenys"
 
 msgid "Web in"
 msgstr "Web in"
@@ -1612,11 +1660,23 @@ msgstr "Visi in"
 msgid "All out"
 msgstr "Visi out"
 
-msgid "ispCP - Admin/Server statistics"
-msgstr "ispCP - Adminstratorius/Serverio statistikos duomenys"
+msgid "ispCP - Admin/Server day stats"
+msgstr "ispCP - Administratorius/Serverio dienos statistika"
 
-msgid "Server statistics"
-msgstr "Serverio statistikos duomenys"
+msgid "Server day statistics"
+msgstr "Serverio dienos statistika"
+
+msgid "Month:"
+msgstr "Mënuo:"
+
+msgid "Year:"
+msgstr "Metai:"
+
+msgid "Day:"
+msgstr "Diena:"
+
+msgid "Hour"
+msgstr "Valanda"
 
 msgid "ispCP Admin / System Tools / Server Status"
 msgstr "ispCP Administratorius / Sistemos Árankiai / Serverio Bûklë"
@@ -1653,6 +1713,156 @@ msgstr "Pasirinktys"
 
 msgid "Kill session"
 msgstr "Uþdaryti sesijà"
+
+msgid "ispCP - Admin/Settings"
+msgstr "ispCP - Administratorius/Nustatymai"
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr "KLAIDA: Tik pozityvûs numeriai leidþiami !"
+
+#, fuzzy, php-format
+msgid "%d configuration parameter was updated!"
+msgstr "Kalba atnaujinta!"
+
+#, php-format
+msgid "%d configuration parameters were updated!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameter was created!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameters were created!"
+msgstr ""
+
+msgid "Nothing has been changed!"
+msgstr ""
+
+msgid "General settings"
+msgstr "Pagrindingiai nustatymai"
+
+msgid "Activation link expire time (minutes)"
+msgstr "Aktivacijos nuorodos galiojimo laikas (minutëmis)"
+
+msgid "Password settings"
+msgstr "Slaptaþodþio nustatymai"
+
+msgid "Use strong Passwords"
+msgstr "Naudoti stiprius Slaptaþodþius"
+
+msgid "Password length"
+msgstr "Slaptaþodþio ilgumas"
+
+msgid "Bruteforce detection"
+msgstr "Bruteforce aptikimas"
+
+msgid "Block time between logins"
+msgstr "Blokuoti laika tarp prisijungimø"
+
+msgid "Max number of login attempts"
+msgstr "Daugiausiai bandymø prisijungti"
+
+msgid "Blocktime (minutes)"
+msgstr "Blokavimo laikas (minutëmis)"
+
+msgid "Block time between logins (seconds)"
+msgstr "Blokavimo laikas tarp prisijungimø (sekundëmis)"
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr "Daugiausiai CAPTCHA patvirtinimo bandymø"
+
+msgid "Other settings"
+msgstr "Kiti nustatymai"
+
+msgid "E-Mail settings"
+msgstr "El.Paðto nustatymai"
+
+msgid "Create default E-Mail addresses"
+msgstr "Sukûrti numatytus El.Paðto adresus"
+
+msgid "Count default E-Mail addresses"
+msgstr "Skaièiuoti numatytus El.Paðto adresus"
+
+msgid "E-Mail accounts are hard suspended"
+msgstr "El.Paðto sàskaitos yra sunkiai sustabdomos"
+
+msgid "Panel default language"
+msgstr "Lentos numatyta kalba"
+
+msgid "Apply changes"
+msgstr "Pritaikyti pakeitimus"
+
+msgid "Server ports"
+msgstr "Serverio portai"
+
+msgid "Hosting plans available for"
+msgstr "Hostingo planai galimi"
+
+msgid "Admin"
+msgstr "Administratorius"
+
+msgid "Domains per page"
+msgstr "Domenø per puslapá"
+
+msgid "Log Level"
+msgstr "Áraðø lygis"
+
+msgid "Notices, Warnings and Errors"
+msgstr "Priminimai, Áspëjimai ir Klaidos"
+
+msgid "Warnings and Errors"
+msgstr "Áspëjimai ir Klaidos"
+
+msgid "Errors"
+msgstr "Klaidos"
+
+msgid "Check for update"
+msgstr "Tikrinti ar yra atnaujinimø"
+
+msgid "Show compression size comment"
+msgstr ""
+
+msgid "Prevent external login for admins"
+msgstr "Uþkirsti iðorinius prisijungimus administratoriams"
+
+msgid "Prevent external login for resellers"
+msgstr "Uþkirsti iðorinius prisijungimus perpardavinëtojams"
+
+msgid "Prevent external login for clients"
+msgstr "Uþkristi iðorinius prisijungimu klientams"
+
+msgid "Custom orderpanel ID"
+msgstr "Papildomos pirkimo lentelës ID"
+
+msgid "Domain names validation"
+msgstr "Domeno vardo patvirtinimas"
+
+msgid "Top Level Domain name strict validation"
+msgstr "Aukðèiausio lygio domeno tikslaus vardo patvirtinimas"
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr ""
+"Tik aukðèiausio lygio doemnai (TLD) suraðyti tarp IANA root zonos duombazës "
+"gali bûti naudojami."
+
+msgid "Second Level Domain name strict validation"
+msgstr "Antro lygio domeno tikslaus vardo patvirtinimas"
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr ""
+"Viena raidë antro lygio domenuose (SLD) nëra leistini net ir Aukðiausio "
+"lygio domenams (TLD). Tik nedidelis sàraðas iðimèiø, pvz kaip TLD .lt ."
+
+msgid ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+msgstr ""
+
+msgid "Maximal number of labels for subdomains"
+msgstr ""
 
 #, fuzzy
 msgid "You can only upload images!"
@@ -1738,9 +1948,6 @@ msgstr "Prarasto slaptaþodþio nuoroda"
 msgid "Subject"
 msgstr "Tema"
 
-msgid "Apply changes"
-msgstr "Pritaikyti pakeitimus"
-
 msgid "URL to this admin panel"
 msgstr "URL á ðià administracijos lentelæ"
 
@@ -1758,138 +1965,6 @@ msgstr "Remonto bûsena"
 
 msgid "Under this mode only administrators can login"
 msgstr "Esant ðiai bûsenai tik administratoriai gali prisijungti"
-
-msgid "ispCP - Admin/Settings"
-msgstr "ispCP - Administratorius/Nustatymai"
-
-msgid "ERROR: Only positive numbers are allowed !"
-msgstr "KLAIDA: Tik pozityvûs numeriai leidþiami !"
-
-#, fuzzy
-msgid "Settings saved!"
-msgstr "Nustatymai iðsaugoti !"
-
-msgid "General settings"
-msgstr "Pagrindingiai nustatymai"
-
-msgid "Activation link expire time (minutes)"
-msgstr "Aktivacijos nuorodos galiojimo laikas (minutëmis)"
-
-msgid "Password settings"
-msgstr "Slaptaþodþio nustatymai"
-
-msgid "Use strong Passwords"
-msgstr "Naudoti stiprius Slaptaþodþius"
-
-msgid "Password length"
-msgstr "Slaptaþodþio ilgumas"
-
-msgid "Bruteforce detection"
-msgstr "Bruteforce aptikimas"
-
-msgid "Block time between logins"
-msgstr "Blokuoti laika tarp prisijungimø"
-
-msgid "Max number of login attempts"
-msgstr "Daugiausiai bandymø prisijungti"
-
-msgid "Blocktime (minutes)"
-msgstr "Blokavimo laikas (minutëmis)"
-
-msgid "Block time between logins (seconds)"
-msgstr "Blokavimo laikas tarp prisijungimø (sekundëmis)"
-
-msgid "Max number of CAPTCHA validation attempts"
-msgstr "Daugiausiai CAPTCHA patvirtinimo bandymø"
-
-msgid "Other settings"
-msgstr "Kiti nustatymai"
-
-msgid "E-Mail settings"
-msgstr "El.Paðto nustatymai"
-
-msgid "Create default E-Mail addresses"
-msgstr "Sukûrti numatytus El.Paðto adresus"
-
-msgid "Count default E-Mail addresses"
-msgstr "Skaièiuoti numatytus El.Paðto adresus"
-
-msgid "E-Mail accounts are hard suspended"
-msgstr "El.Paðto sàskaitos yra sunkiai sustabdomos"
-
-msgid "Panel default language"
-msgstr "Lentos numatyta kalba"
-
-msgid "Server ports"
-msgstr "Serverio portai"
-
-msgid "Hosting plans available for"
-msgstr "Hostingo planai galimi"
-
-msgid "Admin"
-msgstr "Administratorius"
-
-msgid "Domains per page"
-msgstr "Domenø per puslapá"
-
-msgid "Log Level"
-msgstr "Áraðø lygis"
-
-msgid "Notices, Warnings and Errors"
-msgstr "Priminimai, Áspëjimai ir Klaidos"
-
-msgid "Warnings and Errors"
-msgstr "Áspëjimai ir Klaidos"
-
-msgid "Errors"
-msgstr "Klaidos"
-
-msgid "Check for update"
-msgstr "Tikrinti ar yra atnaujinimø"
-
-msgid "Show compression size comment"
-msgstr ""
-
-msgid "Prevent external login for admins"
-msgstr "Uþkirsti iðorinius prisijungimus administratoriams"
-
-msgid "Prevent external login for resellers"
-msgstr "Uþkirsti iðorinius prisijungimus perpardavinëtojams"
-
-msgid "Prevent external login for clients"
-msgstr "Uþkristi iðorinius prisijungimu klientams"
-
-msgid "Custom orderpanel ID"
-msgstr "Papildomos pirkimo lentelës ID"
-
-msgid "Domain names validation"
-msgstr "Domeno vardo patvirtinimas"
-
-msgid "Top Level Domain name strict validation"
-msgstr "Aukðèiausio lygio domeno tikslaus vardo patvirtinimas"
-
-msgid ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-msgstr ""
-"Tik aukðèiausio lygio doemnai (TLD) suraðyti tarp IANA root zonos duombazës "
-"gali bûti naudojami."
-
-msgid "Second Level Domain name strict validation"
-msgstr "Antro lygio domeno tikslaus vardo patvirtinimas"
-
-msgid ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-msgstr ""
-"Viena raidë antro lygio domenuose (SLD) nëra leistini net ir Aukðiausio "
-"lygio domenams (TLD). Tik nedidelis sàraðas iðimèiø, pvz kaip TLD .lt ."
-
-msgid ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-msgstr ""
-
-msgid "Maximal number of labels for subdomains"
-msgstr ""
 
 #, fuzzy
 msgid ""
@@ -2071,20 +2146,11 @@ msgstr "Tipas"
 msgid "Up time"
 msgstr "Up time"
 
-msgid "You have no support tickets."
-msgstr "Jûs neturite pagalbos bilietø."
-
 msgid "ispCP - Client/Questions & Comments"
 msgstr "ispCP - Klientas/Klausimai ir Komentarai"
 
 msgid "Support tickets"
 msgstr "Pagalbos bilietai"
-
-msgid "From"
-msgstr "Nuo"
-
-msgid "To"
-msgstr "Kam"
 
 msgid "Priority"
 msgstr "Svarbûmas"
@@ -2101,6 +2167,9 @@ msgstr "Atidaryti bilietai"
 msgid "Closed tickets"
 msgstr "Uþdaryti bilietai"
 
+msgid "From"
+msgstr "Nuo"
+
 msgid "Support ticket deleted successfully!"
 msgstr "Pagalbos bilietas sëkmingai iðtrintas!"
 
@@ -2110,24 +2179,8 @@ msgstr "Visi atidaryti pagalbos bilietai sëkmingai iðtrinti!"
 msgid "All closed support tickets deleted successfully!"
 msgstr "Visi uþdaryti pagalbos bilietai sëkmingai iðtrinti!"
 
-msgid "[New]"
-msgstr "[Naujas]"
-
-#, fuzzy
-msgid "[Re]"
-msgstr "[Ats]"
-
 msgid "ispCP - Client/Enable Mail Autoresponder"
 msgstr "ispCP - Klientas/Ájungti paðto autoatsakiklá"
-
-msgid "Ticket not found!"
-msgstr "Bilietas nerastas!"
-
-msgid "Open ticket"
-msgstr "Atidaryti bilietà"
-
-msgid "Close ticket"
-msgstr "Uþdaryti bilietà"
 
 msgid "ispCP - Client: Support System: View Ticket"
 msgstr "ispCP - Klientas: Pagalbos Sistema: Rodyti Bilietà"
@@ -2135,14 +2188,8 @@ msgstr "ispCP - Klientas: Pagalbos Sistema: Rodyti Bilietà"
 msgid "Please type your message!"
 msgstr "Praðome áraðyti jûsø praneðimà!"
 
-msgid "Message was sent."
-msgstr "Praneðimas iðsiøstas."
-
-msgid "Ticket was closed!"
-msgstr "Bilietas uþdarytas!"
-
-msgid "Ticket was reopened!"
-msgstr "Bilietas vël atidarytas!"
+msgid "Ticket not found!"
+msgstr "Bilietas nerastas!"
 
 msgid "ispCP - Admin: Support System: View Ticket"
 msgstr "ispCP - Administratorius: Pagalbos Sistema: Rodyti Bilietà"
@@ -2303,13 +2350,15 @@ msgstr ""
 msgid "Mount Point"
 msgstr ""
 
+#, fuzzy
 msgid ""
-"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+"Subdomain you are trying to remove has email accounts!<br />First remove "
+"them!"
 msgstr ""
 "Subdomenas kurá norite paðalinti turi el.paðto sàskaitø !<br>Pirma "
 "paðalinkite juos!"
 
-msgid "Subdomain scheduled for deletion!"
+msgid "Alias Subdomain scheduled for deletion!"
 msgstr ""
 
 msgid "Backup archive scheduled for restoring!"
@@ -2388,7 +2437,10 @@ msgstr "Redaguoti Cronjob"
 msgid "Cronjobs"
 msgstr "Cronjobs"
 
-msgid "DNS zone record scheduled for deletion!"
+msgid "You are not allowed to remove this DNS record!"
+msgstr ""
+
+msgid "Custom DNS record scheduled for deletion!"
 msgstr ""
 
 msgid "ispCP - Manage Domain Alias/Add DNS zone's record"
@@ -2397,10 +2449,10 @@ msgstr ""
 msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
 msgstr ""
 
-msgid "Add DNS zone's record (EXPERIMENTAL)"
+msgid "Add DNS zone's record"
 msgstr ""
 
-msgid "Edit DNS zone's record (EXPERIMENTAL)"
+msgid "Edit DNS zone's record"
 msgstr ""
 
 msgid "DNS zone's records"
@@ -2439,7 +2491,7 @@ msgstr ""
 msgid "Plain record data"
 msgstr ""
 
-msgid "DNS zone's records (EXPERIMENTAL)"
+msgid "You are not allowed to edit this DNS record!"
 msgstr ""
 
 #, php-format
@@ -2494,6 +2546,27 @@ msgstr ""
 msgid "Unknown zone type %s!"
 msgstr ""
 
+msgid "Error: DNS record already exist!"
+msgstr ""
+
+msgid "ispCP - Client/Domain Statistics"
+msgstr ""
+
+msgid "Web Stats"
+msgstr ""
+
+msgid "WEB"
+msgstr ""
+
+msgid "SMTP"
+msgstr ""
+
+msgid "POP3/IMAP"
+msgstr ""
+
+msgid "Sum"
+msgstr ""
+
 msgid "Manual zone's records list is empty!"
 msgstr ""
 
@@ -2526,24 +2599,6 @@ msgid "Actions"
 msgstr ""
 
 msgid "Record data"
-msgstr ""
-
-msgid "ispCP - Client/Domain Statistics"
-msgstr ""
-
-msgid "Web Stats"
-msgstr ""
-
-msgid "WEB"
-msgstr ""
-
-msgid "SMTP"
-msgstr ""
-
-msgid "POP3/IMAP"
-msgstr ""
-
-msgid "Sum"
 msgstr ""
 
 msgid "ispCP - Client/Manage Error Custom Pages"
@@ -2857,9 +2912,6 @@ msgstr ""
 msgid "Main domain"
 msgstr ""
 
-msgid "Manual DNS support"
-msgstr ""
-
 msgid "SQL support"
 msgstr ""
 
@@ -3001,6 +3053,21 @@ msgstr ""
 msgid "Enable mail auto responder"
 msgstr ""
 
+msgid "Delete CatchAll"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Create catch all"
+msgstr ""
+
+msgid "Catch all account"
+msgstr ""
+
+msgid "Catch all"
+msgstr ""
+
 msgid "Catch all account scheduled for creation!"
 msgstr ""
 
@@ -3016,22 +3083,7 @@ msgstr ""
 msgid "Mail accounts list"
 msgstr ""
 
-msgid "Create catch all"
-msgstr ""
-
 msgid "Catch all account scheduled for deletion!"
-msgstr ""
-
-msgid "Delete CatchAll"
-msgstr ""
-
-msgid "None"
-msgstr ""
-
-msgid "Catch all account"
-msgstr ""
-
-msgid "Catch all"
 msgstr ""
 
 msgid "Please delete first CatchAll account for this email!"
@@ -3053,6 +3105,36 @@ msgid "ispCP - Client/Change Password"
 msgstr ""
 
 msgid "ispCP - Client/Change Personal Data"
+msgstr ""
+
+msgid "Error: Unknown SQL user id!"
+msgstr ""
+
+msgid "Error: An error occurred while authentication!"
+msgstr ""
+
+msgid "You do not have protected areas"
+msgstr ""
+
+msgid "Manage users and groups"
+msgstr ""
+
+msgid "Add user"
+msgstr ""
+
+msgid "Group name"
+msgstr ""
+
+msgid "Group members"
+msgstr ""
+
+msgid "Add group"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Add new protected area"
 msgstr ""
 
 msgid "Please choose user or group"
@@ -3110,9 +3192,6 @@ msgstr ""
 msgid "Unprotect it"
 msgstr ""
 
-msgid "Manage users and groups"
-msgstr ""
-
 msgid "Protected area status should be OK if you want to delete it!"
 msgstr ""
 
@@ -3120,27 +3199,6 @@ msgid "Protected area deleted successfully!"
 msgstr ""
 
 msgid "Permission deny!"
-msgstr ""
-
-msgid "You do not have protected areas"
-msgstr ""
-
-msgid "Add user"
-msgstr ""
-
-msgid "Group name"
-msgstr ""
-
-msgid "Group members"
-msgstr ""
-
-msgid "Add group"
-msgstr ""
-
-msgid "Group"
-msgstr ""
-
-msgid "Add new protected area"
 msgstr ""
 
 msgid "Protected area was deleted successful!"
@@ -3185,9 +3243,6 @@ msgid "Update user"
 msgstr ""
 
 msgid "You have no users!"
-msgstr ""
-
-msgid "Error while authenticating!"
 msgstr ""
 
 msgid "Please type user password!"
@@ -3366,13 +3421,32 @@ msgstr ""
 msgid "Directory tree mount point"
 msgstr ""
 
+msgid ""
+"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+"Subdomenas kurá norite paðalinti turi el.paðto sàskaitø !<br>Pirma "
+"paðalinkite juos!"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr ""
+
+#, fuzzy
+msgid "ispCP - Manage Subdomain/Edit Subdomain"
+msgstr "ispCP - Administratorius/Redaguoti Domenas"
+
+#, fuzzy
+msgid "Manage subdomain"
+msgstr "Tvarkyti domeno pavadinimus"
+
+#, fuzzy
+msgid "Edit subdomain"
+msgstr "Redaguoti domenà"
+
+#, fuzzy
+msgid "ispCP - Support System - New ticket"
+msgstr "ispCP - Administratorius: Pagalbos Sistema: Rodyti Bilietà"
+
 msgid "Please specify message subject!"
-msgstr ""
-
-msgid "Your message was sent!"
-msgstr ""
-
-msgid "ispCP - Support system - New ticket"
 msgstr ""
 
 msgid "New ticket"
@@ -3556,36 +3630,6 @@ msgstr ""
 msgid "%d B"
 msgstr ""
 
-#, php-format
-msgid "File %s does not exists or cannot be reached!"
-msgstr ""
-
-msgid "Error while trying to obtain list of network cards!"
-msgstr ""
-
-#, php-format
-msgid "This IP (%s) is not assigned to any network card!"
-msgstr ""
-
-#, fuzzy
-msgid "Days"
-msgstr "Diena"
-
-#, fuzzy
-msgid "Hours"
-msgstr "Valanda"
-
-#, fuzzy
-msgid "Minute"
-msgstr "minutës"
-
-#, fuzzy
-msgid "Minutes"
-msgstr "minutës"
-
-msgid "Couldn't check for updates! Website not reachable."
-msgstr ""
-
 msgid "Email and FTP accounts"
 msgstr ""
 
@@ -3611,9 +3655,6 @@ msgid "FTP Accounts"
 msgstr ""
 
 msgid "Update Hosting Package"
-msgstr ""
-
-msgid "Add DNS zone's record"
 msgstr ""
 
 msgid "Manage SSL certificate"
@@ -3665,7 +3706,31 @@ msgid ""
 "\n"
 "You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
 "\n"
-"Statistics: http://{USERNAME}/stats/\n"
+"Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
 "User name: {USERNAME}\n"
 "Password: {PASSWORD}\n"
 "\n"
@@ -3747,6 +3812,40 @@ msgid ""
 "The ispCP Team\n"
 "\n"
 msgstr ""
+
+#, fuzzy
+msgid "Your message has been sent!"
+msgstr "Jûsø naujas slaptaþodis buvo iðsiøstas."
+
+#, fuzzy
+msgid "Your message has been sent"
+msgstr "Jûsø naujas slaptaþodis buvo iðsiøstas."
+
+msgid "Ticket was closed!"
+msgstr "Bilietas uþdarytas!"
+
+msgid "Ticket was reopened!"
+msgstr "Bilietas vël atidarytas!"
+
+msgid "Never"
+msgstr ""
+
+#, fuzzy
+msgid "You don't have support tickets."
+msgstr "Jûs neturite pagalbos bilietø."
+
+msgid "[New]"
+msgstr "[Naujas]"
+
+#, fuzzy
+msgid "[Re]"
+msgstr "[Ats]"
+
+msgid "Open ticket"
+msgstr "Atidaryti bilietà"
+
+msgid "Close ticket"
+msgstr "Uþdaryti bilietà"
 
 msgid "[Ticket]"
 msgstr ""
@@ -3837,8 +3936,9 @@ msgstr ""
 msgid "You entered an incorrect username/password."
 msgstr ""
 
-msgid "System is currently under maintenance! Only administrators can login."
-msgstr ""
+#, fuzzy
+msgid "System is currently under maintenance! Only administrators can log in."
+msgstr "Esant ðiai bûsenai tik administratoriai gali prisijungti"
 
 #, php-format
 msgid "%s user already logged or session sharing problem! Aborting..."
@@ -3891,7 +3991,7 @@ msgstr ""
 msgid "Being suspended"
 msgstr ""
 
-msgid "Awaiting for approval"
+msgid "Awaiting approval"
 msgstr ""
 
 msgid "Unknown error"
@@ -3992,6 +4092,10 @@ msgid "Order confirmation"
 msgstr ""
 
 #, fuzzy
+msgid "Domain already exists on the system!"
+msgstr "Domenas su ðiuo vardu jau yra ðioje sistemoje!"
+
+#, fuzzy
 msgid "This hosting plan is not available for purchase"
 msgstr "Hostingo planai galimi"
 
@@ -4088,12 +4192,6 @@ msgstr ""
 msgid "Performance"
 msgstr ""
 
-msgid "ispCP Reseller: Add Alias"
-msgstr ""
-
-msgid "There is no user records for this reseller to add an alias for."
-msgstr ""
-
 msgid "ispCP - Manage Domain/Alias"
 msgstr ""
 
@@ -4136,6 +4234,12 @@ msgstr ""
 msgid "Ordered domain alias not activated!"
 msgstr ""
 
+msgid "ispCP Reseller: Add Alias"
+msgstr ""
+
+msgid "There is no user records for this reseller to add an alias for."
+msgstr ""
+
 msgid "ispCP - Circular"
 msgstr ""
 
@@ -4146,9 +4250,6 @@ msgid "ispCP - Domain/Edit"
 msgstr ""
 
 msgid "Unchanged"
-msgstr ""
-
-msgid "Never"
 msgstr ""
 
 msgid "- 1 Month"
@@ -4192,6 +4293,12 @@ msgstr ""
 msgid "The <em>%s</em> service cannot be unlimited!"
 msgstr ""
 
+msgid "ispCP - Reseller/Main Index"
+msgstr ""
+
+msgid "View details"
+msgstr ""
+
 msgid "ispCP - Reseller/Add hosting plan"
 msgstr ""
 
@@ -4211,12 +4318,6 @@ msgid "ispCP - Reseller/Edit hosting plan"
 msgstr ""
 
 msgid "View hosting plan"
-msgstr ""
-
-msgid "ispCP - Reseller/Main Index"
-msgstr ""
-
-msgid "View details"
 msgstr ""
 
 msgid "User accounts"
@@ -4244,6 +4345,10 @@ msgstr ""
 msgid "%1$d / %2$d of <b>unlimited</b>"
 msgstr ""
 
+#, fuzzy
+msgid "ispCP - Reseller/IP Usage"
+msgstr "ispCP - Perpardavinëtojo statistikos duomenys"
+
 msgid "ispCP - Reseller/Change Language"
 msgstr ""
 
@@ -4254,48 +4359,6 @@ msgid "Manage orders"
 msgstr ""
 
 msgid "Activation Link"
-msgstr ""
-
-msgid "Wrong order ID!"
-msgstr ""
-
-msgid "Order Cancelled: resellers maximum exceeded!"
-msgstr ""
-
-msgid "Wrong domain name syntax!"
-msgstr ""
-
-msgid "User added!"
-msgstr ""
-
-msgid "Customer order was removed successful!"
-msgstr ""
-
-msgid "ispCP - Reseller/Order details"
-msgstr ""
-
-msgid "Order data updated successfully!"
-msgstr ""
-
-msgid "Order date"
-msgstr ""
-
-msgid "Hosting plan"
-msgstr ""
-
-msgid "Hosting details"
-msgstr ""
-
-msgid "Order details"
-msgstr ""
-
-msgid "Customer data"
-msgstr ""
-
-msgid "Are you sure you want to delete this order?"
-msgstr ""
-
-msgid "Add to the system"
 msgstr ""
 
 msgid "ispCP - Reseller/Order settings"
@@ -4328,10 +4391,52 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
+msgid "Customer data"
+msgstr ""
+
 msgid "Order"
 msgstr ""
 
+msgid "Hosting plan"
+msgstr ""
+
+msgid "Are you sure you want to delete this order?"
+msgstr ""
+
 msgid "Add/Details"
+msgstr ""
+
+msgid "Wrong order ID!"
+msgstr ""
+
+msgid "Order Cancelled: resellers maximum exceeded!"
+msgstr ""
+
+msgid "Wrong domain name syntax!"
+msgstr ""
+
+msgid "User added!"
+msgstr ""
+
+msgid "Customer order was removed successful!"
+msgstr ""
+
+msgid "ispCP - Reseller/Order details"
+msgstr ""
+
+msgid "Order data updated successfully!"
+msgstr ""
+
+msgid "Order date"
+msgstr ""
+
+msgid "Hosting details"
+msgstr ""
+
+msgid "Order details"
+msgstr ""
+
+msgid "Add to the system"
 msgstr ""
 
 msgid "Order Canceled: resellers maximum exceeded!"
@@ -4353,6 +4458,9 @@ msgid "Lostpw link"
 msgstr ""
 
 msgid "ispCP - Reseller/Manage users/Email setup"
+msgstr ""
+
+msgid "ispCP - Support system - New ticket"
 msgstr ""
 
 msgid "ispCP - Reseller: Support System: View Ticket"
@@ -4422,6 +4530,9 @@ msgstr ""
 msgid "Users list"
 msgstr ""
 
+msgid "This reseller has no domains yet."
+msgstr ""
+
 msgid "ispCP - Users"
 msgstr ""
 
@@ -4468,8 +4579,34 @@ msgstr ""
 msgid "User not terminated!"
 msgstr ""
 
-msgid "This reseller has no domains yet."
-msgstr ""
+#~ msgid "Manual DNS support (EXPERIMENTAL)"
+#~ msgstr "Rankinis DNS palaikymas (BANDOMASIS)"
+
+#, fuzzy
+#~ msgid "Settings saved!"
+#~ msgstr "Nustatymai iðsaugoti !"
+
+#~ msgid "To"
+#~ msgstr "Kam"
+
+#~ msgid "Message was sent."
+#~ msgstr "Praneðimas iðsiøstas."
+
+#, fuzzy
+#~ msgid "Days"
+#~ msgstr "Diena"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "Valanda"
+
+#, fuzzy
+#~ msgid "Minute"
+#~ msgstr "minutës"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "minutës"
 
 #~ msgid "Show server load"
 #~ msgstr "Rodyti serverio apkrovà"

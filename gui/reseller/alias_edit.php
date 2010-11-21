@@ -146,7 +146,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
 	$rs = exec_query($sql, $query, array($edit_id, $reseller_id));
 
 	if ($rs->recordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		set_page_message(tr('User does not exist or you do not have permission to access this interface!'), 'error');
 		user_goto('alias.php');
 	}
 	// Get data from sql

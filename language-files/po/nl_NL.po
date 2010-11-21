@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl_NL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 10:11+0200\n"
+"POT-Creation-Date: 2010-11-20 11:02+0100\n"
 "PO-Revision-Date: 2010-03-11 18:44+0100\n"
 "Last-Translator: mata <mata@ezh.be>\n"
 "Language-Team: Dutch <nl_NL@li.org>\n"
@@ -105,10 +105,10 @@ msgstr "Beheerder"
 msgid "Incorrect username length or syntax!"
 msgstr "Foutieve gebruikersnaam lengte of syntaxis!"
 
-#, php-format
+#, fuzzy, php-format
 msgid ""
-"The password must be at least %s long and contain letters and numbers to be "
-"valid."
+"The password must be at least %s chars long and contain letters and numbers "
+"to be valid."
 msgstr ""
 "Het wachtwoord moet ten minste %s lang zijn en letters en cijfers bevatten "
 "om geldig te zijn."
@@ -194,6 +194,14 @@ msgstr "Fax"
 
 msgid "Add"
 msgstr "Toevoegen"
+
+#, php-format
+msgid ""
+"The password must be at least %s long and contain letters and numbers to be "
+"valid."
+msgstr ""
+"Het wachtwoord moet ten minste %s lang zijn en letters en cijfers bevatten "
+"om geldig te zijn."
 
 msgid "User session was killed!"
 msgstr "Gebruikerssessie is beeindigd"
@@ -466,8 +474,8 @@ msgstr "PHP ondersteuning"
 msgid "CGI support"
 msgstr "CGI ondersteuning"
 
-msgid "Manual DNS support (EXPERIMENTAL)"
-msgstr "Manuele DNS ondersteuning (EXPERIMENTEEL)"
+msgid "Manual DNS support"
+msgstr "Manuele DNS ondersteuning"
 
 msgid "Backup support"
 msgstr "Backup ondersteuning"
@@ -719,11 +727,53 @@ msgstr "Al het verkeer"
 msgid "Day"
 msgstr "Dag"
 
-msgid "ispCP - Administrator/Add hosting plan"
-msgstr "ispCP - Beheerder/Voeg hosting plan toe"
+msgid "ispCP - Administrator/Hosting Plan Management"
+msgstr "ispCP - Beheerder/Hosting Plan Beheer"
+
+msgid "Hosting plans"
+msgstr "hostingpakketten"
+
+msgid "Manage hosting plans"
+msgstr "Beheer hostingpakketten"
+
+msgid "Purchasing"
+msgstr "Kopen"
 
 msgid "Add hosting plan"
 msgstr "hostingpakket toevoegen"
+
+msgid "Add new user hosting plan"
+msgstr "Nieuw gebruiker hostingpakket toevoegen"
+
+msgid "Return to previous menu"
+msgstr "Keer terug naar vorig menu"
+
+msgid "Hosting plan added!"
+msgstr "hostingpakket toegevoegd"
+
+msgid "Hosting plan deleted!"
+msgstr "hostingpakket verwijderd"
+
+msgid "Hosting plan updated!"
+msgstr "hostingpakket gewijzigd"
+
+msgid "Hosting plan can't be deleted, there are orders!"
+msgstr "Hostingpakket kan niet worden verwijderd, er zijn bestellingen!"
+
+msgid "Hosting plans not found!"
+msgstr "hostingpakketten zijn niet gevonden"
+
+msgid "No."
+msgstr "Nr."
+
+msgid "Name"
+msgstr "Naam"
+
+msgid "Show hosting plan"
+msgstr "Toon hostingpakket"
+
+msgid "ispCP - Administrator/Add hosting plan"
+msgstr "ispCP - Beheerder/Voeg hosting plan toe"
 
 msgid "Hosting plan properties"
 msgstr "hostingpakket eigenschappen"
@@ -761,7 +811,8 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-msgid "Allow adding records to DNS zone (EXPERIMENTAL)"
+#, fuzzy
+msgid "Allow adding records to DNS zone"
 msgstr "Aanpassingen in de DNS zone toestaan (EXPERIMENTEEL)"
 
 msgid "Apache logfiles"
@@ -854,48 +905,6 @@ msgstr "Prijs incorrect. Voorbeeld: 9.99"
 msgid "Incorrect setup fee. Example: 19.99"
 msgstr "Opstart kosten incorrect. Voorbeeld: 19.99"
 
-msgid "ispCP - Administrator/Hosting Plan Management"
-msgstr "ispCP - Beheerder/Hosting Plan Beheer"
-
-msgid "Hosting plans"
-msgstr "hostingpakketten"
-
-msgid "Manage hosting plans"
-msgstr "Beheer hostingpakketten"
-
-msgid "Purchasing"
-msgstr "Kopen"
-
-msgid "Add new user hosting plan"
-msgstr "Nieuw gebruiker hostingpakket toevoegen"
-
-msgid "Return to previous menu"
-msgstr "Keer terug naar vorig menu"
-
-msgid "Hosting plan added!"
-msgstr "hostingpakket toegevoegd"
-
-msgid "Hosting plan deleted!"
-msgstr "hostingpakket verwijderd"
-
-msgid "Hosting plan updated!"
-msgstr "hostingpakket gewijzigd"
-
-msgid "Hosting plan can't be deleted, there are orders!"
-msgstr "Hostingpakket kan niet worden verwijderd, er zijn bestellingen!"
-
-msgid "Hosting plans not found!"
-msgstr "hostingpakketten zijn niet gevonden"
-
-msgid "No."
-msgstr "Nr."
-
-msgid "Name"
-msgstr "Naam"
-
-msgid "Show hosting plan"
-msgstr "Toon hostingpakket"
-
 #, php-format
 msgid "You have <b>%d</b> new support questions"
 msgstr "U heeft <b>%d</b> nieuwe ondersteuning vragen"
@@ -981,6 +990,28 @@ msgstr "Nieuw IP adress toevoegen"
 msgid "Are you sure you want to delete this IP: %s?"
 msgstr "Weet u zeker dat u dit IP: %s wilt verwijderen?"
 
+#, fuzzy
+msgid "ispCP - Admin/IP Usage"
+msgstr "ispCP - Beheer/Ip Beheer"
+
+#, fuzzy
+msgid "Total Domains"
+msgstr "Domeinen"
+
+msgid "No records found"
+msgstr ""
+
+msgid "IP Usage"
+msgstr ""
+
+#, fuzzy
+msgid "Domain Name"
+msgstr "Domeinnaam"
+
+#, fuzzy
+msgid "Reseller Name"
+msgstr "Reseller naam"
+
 msgid "No domain system errors"
 msgstr "Geen domein systeemfouten"
 
@@ -995,6 +1026,38 @@ msgstr "Geen alias subdomein systeemfouten"
 
 msgid "No email account system errors"
 msgstr "Geen e-mailaccount systeemfouten"
+
+#, fuzzy
+msgid "missing domain"
+msgstr "Hoofddomein"
+
+#, fuzzy
+msgid "missing alias"
+msgstr "Domein alias"
+
+msgid "orphan entry"
+msgstr ""
+
+#, fuzzy
+msgid "No htaccess related system errors"
+msgstr "Geen domeinalias systeemfouten"
+
+#, fuzzy
+msgid "Missing domain"
+msgstr "Hoofddomein"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr "Daemon gaf %d status code terug"
+
+msgid "Unknown type!"
+msgstr "Onbekend type!"
+
+msgid "Done"
+msgstr "Gereed"
+
+msgid "Unknown Error"
+msgstr "Onbekende fout"
 
 msgid "ispCP debugger"
 msgstr "ispCP Debugger"
@@ -1014,6 +1077,9 @@ msgstr "Alias subdomein error"
 msgid "Mail account errors"
 msgstr "Mail account fouten"
 
+msgid ".htaccess related errors"
+msgstr ""
+
 msgid "ispCP Daemon tools"
 msgstr "ispCP - Daemon tools"
 
@@ -1023,18 +1089,9 @@ msgstr "Verzoeken uitvoeren"
 msgid "Set status to 'change'"
 msgstr "Zet status to 'change'"
 
-#, php-format
-msgid "Daemon returned %d as status code"
-msgstr "Daemon gaf %d status code terug"
-
-msgid "Unknown type!"
-msgstr "Onbekend type!"
-
-msgid "Done"
-msgstr "Gereed"
-
-msgid "Unknown Error"
-msgstr "Onbekende fout"
+#, fuzzy, php-format
+msgid "%s Errors in database"
+msgstr "Domein databanken:"
 
 msgid "Enable update at"
 msgstr "Update aanzetten voor"
@@ -1054,9 +1111,6 @@ msgstr "Beschikbare ispCP updates"
 msgid "No new ispCP updates available"
 msgstr "Geen nieuwe ispCP updates beschikbaar"
 
-msgid "Language was removed!"
-msgstr "Taal is verwijderd!"
-
 msgid "User language updated successfully!"
 msgstr "Gebruikerstaal succesvol gewijzigd"
 
@@ -1068,6 +1122,9 @@ msgstr "Taal"
 
 msgid "Choose your default language"
 msgstr "Kies uw standaard taal"
+
+msgid "Language was removed!"
+msgstr "Taal is verwijderd!"
 
 msgid "Reseller list is empty!"
 msgstr "Er zijn nog geen resellers"
@@ -1187,11 +1244,16 @@ msgstr ""
 msgid "User was disabled"
 msgstr "Gebruiker is gedeactiveerd"
 
-msgid "Incorrect data input!"
-msgstr "Onjuiste gegevens invoer"
+#, fuzzy
+msgid "Uninstall"
+msgstr "Verwijderen"
 
-msgid "ispCP - Admin/Internationalisation"
-msgstr "spCP - Admin/Internationalisering"
+#, php-format
+msgid "%d messages translated"
+msgstr "%d berichten vertaald"
+
+msgid "Gzipped"
+msgstr ""
 
 msgid "Upload file error!"
 msgstr "Upload bestand fout!"
@@ -1222,12 +1284,8 @@ msgstr ""
 msgid "Language was updated!"
 msgstr "Taal is gewijzigd!"
 
-msgid "uninstall"
-msgstr "Verwijderen"
-
-#, php-format
-msgid "%d messages translated"
-msgstr "%d berichten vertaald"
+msgid "ispCP - Admin/Internationalisation"
+msgstr "spCP - Admin/Internationalisering"
 
 msgid "Internationalisation"
 msgstr "Internationalisering"
@@ -1252,6 +1310,9 @@ msgstr "Installeer"
 
 msgid "Export"
 msgstr "Exporteren"
+
+msgid "Incorrect data input!"
+msgstr "Onjuiste gegevens invoer"
 
 msgid "ispCP - Admin/Change Password"
 msgstr "ispCP - Beheer/Wijzig Wachtwoord"
@@ -1563,23 +1624,11 @@ msgstr "%s bestaat niet of is leeg"
 msgid "Anti-Rootkits Tools Log Checker"
 msgstr "Anti-Rootkits Tools Log Checker"
 
-msgid "ispCP - Admin/Server day stats"
-msgstr "ispCP - Beheer/Server dag statistieken"
+msgid "ispCP - Admin/Server statistics"
+msgstr "ispCP - Beheer/Server statistieken"
 
-msgid "Server day statistics"
-msgstr "Server dag statistieken"
-
-msgid "Month:"
-msgstr "Maand:"
-
-msgid "Year:"
-msgstr "Jaar:"
-
-msgid "Day:"
-msgstr "Dag:"
-
-msgid "Hour"
-msgstr "Uur"
+msgid "Server statistics"
+msgstr "Server statistieken"
 
 msgid "Web in"
 msgstr "Binnenkomende Web"
@@ -1611,11 +1660,23 @@ msgstr "Alles inkomend"
 msgid "All out"
 msgstr "Alles uitgaand"
 
-msgid "ispCP - Admin/Server statistics"
-msgstr "ispCP - Beheer/Server statistieken"
+msgid "ispCP - Admin/Server day stats"
+msgstr "ispCP - Beheer/Server dag statistieken"
 
-msgid "Server statistics"
-msgstr "Server statistieken"
+msgid "Server day statistics"
+msgstr "Server dag statistieken"
+
+msgid "Month:"
+msgstr "Maand:"
+
+msgid "Year:"
+msgstr "Jaar:"
+
+msgid "Day:"
+msgstr "Dag:"
+
+msgid "Hour"
+msgstr "Uur"
 
 msgid "ispCP Admin / System Tools / Server Status"
 msgstr "ispCP - Beheer / Systeem Tools / Server Status"
@@ -1652,6 +1713,156 @@ msgstr "Opties"
 
 msgid "Kill session"
 msgstr "Beeindig sessie"
+
+msgid "ispCP - Admin/Settings"
+msgstr "ispCP - Beheerder/Instellingen"
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr "ERROR: Alleen positieve getallen zijn toegestaan!"
+
+#, fuzzy, php-format
+msgid "%d configuration parameter was updated!"
+msgstr "Taal is gewijzigd!"
+
+#, php-format
+msgid "%d configuration parameters were updated!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameter was created!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameters were created!"
+msgstr ""
+
+msgid "Nothing has been changed!"
+msgstr ""
+
+msgid "General settings"
+msgstr "Algemene instellingen"
+
+msgid "Activation link expire time (minutes)"
+msgstr "Activatie link verloop tijd (minuten)"
+
+msgid "Password settings"
+msgstr "Wachtwoord instellingen"
+
+msgid "Use strong Passwords"
+msgstr "Gebruik sterker Wachtwoorden"
+
+msgid "Password length"
+msgstr "Wachtwoord lengte"
+
+msgid "Bruteforce detection"
+msgstr "Bruteforce detectie"
+
+msgid "Block time between logins"
+msgstr "Blokkeer tijd tussen inlog pogingen"
+
+msgid "Max number of login attempts"
+msgstr "Maximale aantal inlog pogingen"
+
+msgid "Blocktime (minutes)"
+msgstr "Geblokkeerd (minuten)"
+
+msgid "Block time between logins (seconds)"
+msgstr "Blokkeer tijd tussen inlog pogingen (seconden)"
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr "Maximale aantal CAPTCHA validatie pogingen"
+
+msgid "Other settings"
+msgstr "Andere instellingen"
+
+msgid "E-Mail settings"
+msgstr "E-Mail instellingen"
+
+msgid "Create default E-Mail addresses"
+msgstr "Maak standaard E-Mail adressen"
+
+msgid "Count default E-Mail addresses"
+msgstr "Tel standaard E-Mail adressen"
+
+msgid "E-Mail accounts are hard suspended"
+msgstr "E-Mail accounts zijn hard opgeschort"
+
+msgid "Panel default language"
+msgstr "Paneel standaard taal"
+
+msgid "Apply changes"
+msgstr "Wijzigingen toepassen"
+
+msgid "Server ports"
+msgstr "Serverpoorten"
+
+msgid "Hosting plans available for"
+msgstr "Hosting pakketten  beschikbaar voor"
+
+msgid "Admin"
+msgstr "Beheerder"
+
+msgid "Domains per page"
+msgstr "Domeinen per pagina"
+
+msgid "Log Level"
+msgstr "Log niveau"
+
+msgid "Notices, Warnings and Errors"
+msgstr "Berichten, Waarschuwingen en Fouten"
+
+msgid "Warnings and Errors"
+msgstr "Waarschuwingen en Fouten"
+
+msgid "Errors"
+msgstr "Fouten"
+
+msgid "Check for update"
+msgstr "Check voor update"
+
+msgid "Show compression size comment"
+msgstr ""
+
+msgid "Prevent external login for admins"
+msgstr "Voorkom externe login voor admin"
+
+msgid "Prevent external login for resellers"
+msgstr "Voorkom externe login voor resellers"
+
+msgid "Prevent external login for clients"
+msgstr "voorkom externe login voor clients"
+
+msgid "Custom orderpanel ID"
+msgstr "Aangepast bestelpaneel ID"
+
+msgid "Domain names validation"
+msgstr "Domeinnaam validatie"
+
+msgid "Top Level Domain name strict validation"
+msgstr "Top Level Domain name strikte validatie"
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+
+msgid "Second Level Domain name strict validation"
+msgstr "Second Level Domain name strict validation"
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+
+msgid ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+msgstr ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+
+msgid "Maximal number of labels for subdomains"
+msgstr "Maximal number of labels for subdomains"
 
 msgid "You can only upload images!"
 msgstr "U kunt alleen plaatjes uploaden!"
@@ -1734,9 +1945,6 @@ msgstr "Wachtwoord verloren link"
 msgid "Subject"
 msgstr "Onderwerp"
 
-msgid "Apply changes"
-msgstr "Wijzigingen toepassen"
-
 msgid "URL to this admin panel"
 msgstr "URL voor dit admin paneel"
 
@@ -1754,138 +1962,6 @@ msgstr "Onderhoud mode"
 
 msgid "Under this mode only administrators can login"
 msgstr "In deze modus kunnen alleen beheerders inloggen"
-
-msgid "ispCP - Admin/Settings"
-msgstr "ispCP - Beheerder/Instellingen"
-
-msgid "ERROR: Only positive numbers are allowed !"
-msgstr "ERROR: Alleen positieve getallen zijn toegestaan!"
-
-#, fuzzy
-msgid "Settings saved!"
-msgstr "Instellingen opgeslagen !"
-
-msgid "General settings"
-msgstr "Algemene instellingen"
-
-msgid "Activation link expire time (minutes)"
-msgstr "Activatie link verloop tijd (minuten)"
-
-msgid "Password settings"
-msgstr "Wachtwoord instellingen"
-
-msgid "Use strong Passwords"
-msgstr "Gebruik sterker Wachtwoorden"
-
-msgid "Password length"
-msgstr "Wachtwoord lengte"
-
-msgid "Bruteforce detection"
-msgstr "Bruteforce detectie"
-
-msgid "Block time between logins"
-msgstr "Blokkeer tijd tussen inlog pogingen"
-
-msgid "Max number of login attempts"
-msgstr "Maximale aantal inlog pogingen"
-
-msgid "Blocktime (minutes)"
-msgstr "Geblokkeerd (minuten)"
-
-msgid "Block time between logins (seconds)"
-msgstr "Blokkeer tijd tussen inlog pogingen (seconden)"
-
-msgid "Max number of CAPTCHA validation attempts"
-msgstr "Maximale aantal CAPTCHA validatie pogingen"
-
-msgid "Other settings"
-msgstr "Andere instellingen"
-
-msgid "E-Mail settings"
-msgstr "E-Mail instellingen"
-
-msgid "Create default E-Mail addresses"
-msgstr "Maak standaard E-Mail adressen"
-
-msgid "Count default E-Mail addresses"
-msgstr "Tel standaard E-Mail adressen"
-
-msgid "E-Mail accounts are hard suspended"
-msgstr "E-Mail accounts zijn hard opgeschort"
-
-msgid "Panel default language"
-msgstr "Paneel standaard taal"
-
-msgid "Server ports"
-msgstr "Serverpoorten"
-
-msgid "Hosting plans available for"
-msgstr "Hosting pakketten  beschikbaar voor"
-
-msgid "Admin"
-msgstr "Beheerder"
-
-msgid "Domains per page"
-msgstr "Domeinen per pagina"
-
-msgid "Log Level"
-msgstr "Log niveau"
-
-msgid "Notices, Warnings and Errors"
-msgstr "Berichten, Waarschuwingen en Fouten"
-
-msgid "Warnings and Errors"
-msgstr "Waarschuwingen en Fouten"
-
-msgid "Errors"
-msgstr "Fouten"
-
-msgid "Check for update"
-msgstr "Check voor update"
-
-msgid "Show compression size comment"
-msgstr ""
-
-msgid "Prevent external login for admins"
-msgstr "Voorkom externe login voor admin"
-
-msgid "Prevent external login for resellers"
-msgstr "Voorkom externe login voor resellers"
-
-msgid "Prevent external login for clients"
-msgstr "voorkom externe login voor clients"
-
-msgid "Custom orderpanel ID"
-msgstr "Aangepast bestelpaneel ID"
-
-msgid "Domain names validation"
-msgstr "Domeinnaam validatie"
-
-msgid "Top Level Domain name strict validation"
-msgstr "Top Level Domain name strikte validatie"
-
-msgid ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-msgstr ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-
-msgid "Second Level Domain name strict validation"
-msgstr "Second Level Domain name strict validation"
-
-msgid ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-msgstr ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-
-msgid ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-msgstr ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-
-msgid "Maximal number of labels for subdomains"
-msgstr "Maximal number of labels for subdomains"
 
 #, fuzzy
 msgid ""
@@ -2065,20 +2141,11 @@ msgstr "Type"
 msgid "Up time"
 msgstr "Uptime"
 
-msgid "You have no support tickets."
-msgstr "U heeft geen ondersteuning tickets"
-
 msgid "ispCP - Client/Questions & Comments"
 msgstr "ispCP - Klant/Vragen & Opmerkingen"
 
 msgid "Support tickets"
 msgstr "Ondersteuning tickets"
-
-msgid "From"
-msgstr "Van"
-
-msgid "To"
-msgstr "Naar"
 
 msgid "Priority"
 msgstr "Prioriteit"
@@ -2095,6 +2162,9 @@ msgstr "Open tickets"
 msgid "Closed tickets"
 msgstr "Gesloten tickets"
 
+msgid "From"
+msgstr "Van"
+
 msgid "Support ticket deleted successfully!"
 msgstr "Ondersteuning ticket succesvol verwijderd"
 
@@ -2104,23 +2174,8 @@ msgstr "Alle open support tickets succesvol verwijderd!"
 msgid "All closed support tickets deleted successfully!"
 msgstr "Alle gesloten support tickets succesvol verwijderd!"
 
-msgid "[New]"
-msgstr "[Nieuw]"
-
-msgid "[Re]"
-msgstr "[Re]"
-
 msgid "ispCP - Client/Enable Mail Autoresponder"
 msgstr "ispCP - Klant/E-Mail Auto-Antwoord Aanzetten"
-
-msgid "Ticket not found!"
-msgstr "Ticket niet gevonden!"
-
-msgid "Open ticket"
-msgstr "Open ticket"
-
-msgid "Close ticket"
-msgstr "Sluit ticket"
 
 msgid "ispCP - Client: Support System: View Ticket"
 msgstr "ispCP - Klant : Ondersteuning Systeem: Bekijk Tickets"
@@ -2128,14 +2183,8 @@ msgstr "ispCP - Klant : Ondersteuning Systeem: Bekijk Tickets"
 msgid "Please type your message!"
 msgstr "Gelieve uw bericht te typen"
 
-msgid "Message was sent."
-msgstr "Bericht is verzonden"
-
-msgid "Ticket was closed!"
-msgstr "Ticket is gesloten!"
-
-msgid "Ticket was reopened!"
-msgstr "Ticket is opnieuw geopend!"
+msgid "Ticket not found!"
+msgstr "Ticket niet gevonden!"
 
 msgid "ispCP - Admin: Support System: View Ticket"
 msgstr "ispCP - Beheer : Ondersteuning Systeem: Bekijk Tickets"
@@ -2300,13 +2349,16 @@ msgstr "Alias naam"
 msgid "Mount Point"
 msgstr "Aanhechtings Punt"
 
+#, fuzzy
 msgid ""
-"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+"Subdomain you are trying to remove has email accounts!<br />First remove "
+"them!"
 msgstr ""
 "Het subdomein dat u wilt verwijderen bevat e-mail accounts! Verwijder deze "
 "eerst!"
 
-msgid "Subdomain scheduled for deletion!"
+#, fuzzy
+msgid "Alias Subdomain scheduled for deletion!"
 msgstr "Subdomein gepland voor verwijdering"
 
 msgid "Backup archive scheduled for restoring!"
@@ -2387,7 +2439,11 @@ msgstr "Wijzig cronjob"
 msgid "Cronjobs"
 msgstr "Cronjobs"
 
-msgid "DNS zone record scheduled for deletion!"
+msgid "You are not allowed to remove this DNS record!"
+msgstr ""
+
+#, fuzzy
+msgid "Custom DNS record scheduled for deletion!"
 msgstr "DNS zone gepland voor verwijdering"
 
 msgid "ispCP - Manage Domain Alias/Add DNS zone's record"
@@ -2396,11 +2452,12 @@ msgstr "ispCP - Beheer Domein Aliassen/Voeg DNS zone's record toe"
 msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
 msgstr "ispCP - Beheer Domein Aliassen/Wijzig DNS zone's record"
 
-msgid "Add DNS zone's record (EXPERIMENTAL)"
-msgstr "Add DNS zone's record (EXPERIMENTAL)"
+msgid "Add DNS zone's record"
+msgstr "Add DNS zone's record"
 
-msgid "Edit DNS zone's record (EXPERIMENTAL)"
-msgstr "Edit DNS zone's record (EXPERIMENTAL)"
+#, fuzzy
+msgid "Edit DNS zone's record"
+msgstr "Add DNS zone's record"
 
 msgid "DNS zone's records"
 msgstr "DNS zone's records"
@@ -2438,8 +2495,9 @@ msgstr "Canonieke naam"
 msgid "Plain record data"
 msgstr "Duidelijke record gegevens"
 
-msgid "DNS zone's records (EXPERIMENTAL)"
-msgstr "DNS zone's records (EXPERIMENTAL)"
+#, fuzzy
+msgid "You are not allowed to edit this DNS record!"
+msgstr "U heeft geen aliassen"
 
 #, php-format
 msgid "Use of disallowed char(\"%s\") in CNAME"
@@ -2493,6 +2551,28 @@ msgstr "Kan %s record niet valideren. Reden '%s'."
 msgid "Unknown zone type %s!"
 msgstr "Onbekende zone type %s!"
 
+#, fuzzy
+msgid "Error: DNS record already exist!"
+msgstr "Gebruiker bestaat al!"
+
+msgid "ispCP - Client/Domain Statistics"
+msgstr "ispCP - Klant/Domein Statistieken"
+
+msgid "Web Stats"
+msgstr "Web Statistieken"
+
+msgid "WEB"
+msgstr "WEB"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "POP3/IMAP"
+msgstr "POP3/IMAP"
+
+msgid "Sum"
+msgstr "Som"
+
 msgid "Manual zone's records list is empty!"
 msgstr "Manuele zone's lijst is leeg!"
 
@@ -2526,24 +2606,6 @@ msgstr "Acties"
 
 msgid "Record data"
 msgstr "Record gegevens"
-
-msgid "ispCP - Client/Domain Statistics"
-msgstr "ispCP - Klant/Domein Statistieken"
-
-msgid "Web Stats"
-msgstr "Web Statistieken"
-
-msgid "WEB"
-msgstr "WEB"
-
-msgid "SMTP"
-msgstr "SMTP"
-
-msgid "POP3/IMAP"
-msgstr "POP3/IMAP"
-
-msgid "Sum"
-msgstr "Som"
 
 msgid "ispCP - Client/Manage Error Custom Pages"
 msgstr "ispCP - Klant/Beheer Aangepaste Fout Paginas"
@@ -2859,9 +2921,6 @@ msgstr "Account naam"
 msgid "Main domain"
 msgstr "Hoofddomein"
 
-msgid "Manual DNS support"
-msgstr "Manuele DNS ondersteuning"
-
 msgid "SQL support"
 msgstr "MySQL ondersteuning"
 
@@ -3002,6 +3061,21 @@ msgstr "Uw bericht"
 msgid "Enable mail auto responder"
 msgstr "Mail automatisch antwoord inschakelen"
 
+msgid "Delete CatchAll"
+msgstr "Verwijder catch all"
+
+msgid "None"
+msgstr "Geen"
+
+msgid "Create catch all"
+msgstr "Maak catch all"
+
+msgid "Catch all account"
+msgstr "Catch all account"
+
+msgid "Catch all"
+msgstr "Catch all"
+
 msgid "Catch all account scheduled for creation!"
 msgstr "Catch all account gepland voor toevoeging!"
 
@@ -3017,23 +3091,8 @@ msgstr "Maak catch all mail account"
 msgid "Mail accounts list"
 msgstr "Mail accounts lijst"
 
-msgid "Create catch all"
-msgstr "Maak catch all"
-
 msgid "Catch all account scheduled for deletion!"
 msgstr "Catch all account gepland voor verwijdering!"
-
-msgid "Delete CatchAll"
-msgstr "Verwijder catch all"
-
-msgid "None"
-msgstr "Geen"
-
-msgid "Catch all account"
-msgstr "Catch all account"
-
-msgid "Catch all"
-msgstr "Catch all"
 
 msgid "Please delete first CatchAll account for this email!"
 msgstr ""
@@ -3056,6 +3115,37 @@ msgstr "ispCP - Klant/Wijzig Wachtwoord"
 
 msgid "ispCP - Client/Change Personal Data"
 msgstr "ispCP - Klant/Wijzig Persoonlijke Data"
+
+msgid "Error: Unknown SQL user id!"
+msgstr ""
+
+#, fuzzy
+msgid "Error: An error occurred while authentication!"
+msgstr "Fout tijdens authenticering!"
+
+msgid "You do not have protected areas"
+msgstr "U heeft geen beschermde gebieden"
+
+msgid "Manage users and groups"
+msgstr "Beheer gebruikers en groepen"
+
+msgid "Add user"
+msgstr "Gebruiker toevoegen"
+
+msgid "Group name"
+msgstr "Groepsnaam"
+
+msgid "Group members"
+msgstr "Groepsleden"
+
+msgid "Add group"
+msgstr "Groep toevoegen"
+
+msgid "Group"
+msgstr "Groep"
+
+msgid "Add new protected area"
+msgstr "Nieuwe beveiligde map toevoegen"
 
 msgid "Please choose user or group"
 msgstr "Kies een gebruiker of groep"
@@ -3112,9 +3202,6 @@ msgstr "Gebiedsnaam"
 msgid "Unprotect it"
 msgstr "Verwijder beveiliging"
 
-msgid "Manage users and groups"
-msgstr "Beheer gebruikers en groepen"
-
 msgid "Protected area status should be OK if you want to delete it!"
 msgstr "Beschermde gebieden status moet OK zijn als u het wil verwijderen!"
 
@@ -3123,27 +3210,6 @@ msgstr "Beschermd gebied succesvol verwijderd"
 
 msgid "Permission deny!"
 msgstr "Geen toestemming!"
-
-msgid "You do not have protected areas"
-msgstr "U heeft geen beschermde gebieden"
-
-msgid "Add user"
-msgstr "Gebruiker toevoegen"
-
-msgid "Group name"
-msgstr "Groepsnaam"
-
-msgid "Group members"
-msgstr "Groepsleden"
-
-msgid "Add group"
-msgstr "Groep toevoegen"
-
-msgid "Group"
-msgstr "Groep"
-
-msgid "Add new protected area"
-msgstr "Nieuwe beveiligde map toevoegen"
 
 msgid "Protected area was deleted successful!"
 msgstr "Beschermd gebied succesvol verwijderd"
@@ -3188,9 +3254,6 @@ msgstr "Wijzig gebruiker"
 
 msgid "You have no users!"
 msgstr "U heeft geen gebruikers!"
-
-msgid "Error while authenticating!"
-msgstr "Fout tijdens authenticering!"
 
 msgid "Please type user password!"
 msgstr "Gelieve een gebruiker wachtwoord in te vullen"
@@ -3374,14 +3437,33 @@ msgstr "Subdomein naam"
 msgid "Directory tree mount point"
 msgstr "Folder boom bevestigingspunt"
 
+msgid ""
+"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+"Het subdomein dat u wilt verwijderen bevat e-mail accounts! Verwijder deze "
+"eerst!"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr "Subdomein gepland voor verwijdering"
+
+#, fuzzy
+msgid "ispCP - Manage Subdomain/Edit Subdomain"
+msgstr "ispCP - Beheer/Wijzig Domein"
+
+#, fuzzy
+msgid "Manage subdomain"
+msgstr "Beheer domeinen"
+
+#, fuzzy
+msgid "Edit subdomain"
+msgstr "Wijzig domein"
+
+#, fuzzy
+msgid "ispCP - Support System - New ticket"
+msgstr "ispCP - Ondersteunings systeem - Nieuwe ticket"
+
 msgid "Please specify message subject!"
 msgstr "Gelieve een bericht onderwerp te specificeren"
-
-msgid "Your message was sent!"
-msgstr "Uw bericht is verzonden"
-
-msgid "ispCP - Support system - New ticket"
-msgstr "ispCP - Ondersteunings systeem - Nieuwe ticket"
 
 msgid "New ticket"
 msgstr "Nieuw ticket"
@@ -3564,36 +3646,6 @@ msgstr "%.2f KB"
 msgid "%d B"
 msgstr "%d B"
 
-#, php-format
-msgid "File %s does not exists or cannot be reached!"
-msgstr "Bestand %s bestaat niet of kan niet bereikt worden!"
-
-msgid "Error while trying to obtain list of network cards!"
-msgstr "Error tijdens het ophalen van de lijst met netwerkkaarten.!"
-
-#, php-format
-msgid "This IP (%s) is not assigned to any network card!"
-msgstr "Dit IP (%s) is niet aangewezen aan een netwerkkaart!"
-
-#, fuzzy
-msgid "Days"
-msgstr "Dag"
-
-#, fuzzy
-msgid "Hours"
-msgstr "Uur"
-
-#, fuzzy
-msgid "Minute"
-msgstr "minuten"
-
-#, fuzzy
-msgid "Minutes"
-msgstr "minuten"
-
-msgid "Couldn't check for updates! Website not reachable."
-msgstr "Kan niet naar nieuwe update zoeken ! Website is niet te bereiken."
-
 msgid "Email and FTP accounts"
 msgstr "E-mail en FTP accounts"
 
@@ -3620,9 +3672,6 @@ msgstr "FTP Accounts"
 
 msgid "Update Hosting Package"
 msgstr "Update Hosting Pakket"
-
-msgid "Add DNS zone's record"
-msgstr "Add DNS zone's record"
 
 msgid "Manage SSL certificate"
 msgstr "Manage SSL certificaat"
@@ -3657,6 +3706,7 @@ msgstr "Onbekend type"
 msgid "Welcome {USERNAME} to ispCP!"
 msgstr "Welkom {USERNAME} bij ispCP!"
 
+#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3673,7 +3723,55 @@ msgid ""
 "\n"
 "You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
 "\n"
-"Statistics: http://{USERNAME}/stats/\n"
+"Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Hallo {NAME}!\n"
+"\n"
+"Een nieuw ispCP account is voor u aangemaakt.\n"
+"Uw account informatie:\n"
+"\n"
+"Gebruikers type: {USERTYPE}\n"
+"Gebruikersnaam: {USERNAME}\n"
+"Wachtwoord: {PASSWORD}\n"
+"\n"
+"Vergeet niet uw wachtwoord bij de eerste keer inloggen en regelmatig te "
+"veranderen\n"
+"\n"
+"U kan nu inloggen op {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Statistieken: http://{USERNAME}/stats/\n"
+"gebruikersnaam: {USERNAME}\n"
+"Wachtwoord: {PASSWORD}\n"
+"\n"
+"Succes met het ispCP Systeem!\n"
+"Het ispCP Team.\n"
+"\n"
+
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
 "User name: {USERNAME}\n"
 "Password: {PASSWORD}\n"
 "\n"
@@ -3829,6 +3927,39 @@ msgstr ""
 "Het ispCP Team.\n"
 "\n"
 
+#, fuzzy
+msgid "Your message has been sent!"
+msgstr "Uw bericht is verzonden"
+
+#, fuzzy
+msgid "Your message has been sent"
+msgstr "Uw bericht is verzonden"
+
+msgid "Ticket was closed!"
+msgstr "Ticket is gesloten!"
+
+msgid "Ticket was reopened!"
+msgstr "Ticket is opnieuw geopend!"
+
+msgid "Never"
+msgstr "Nooit"
+
+#, fuzzy
+msgid "You don't have support tickets."
+msgstr "U heeft geen ondersteuning tickets"
+
+msgid "[New]"
+msgstr "[Nieuw]"
+
+msgid "[Re]"
+msgstr "[Re]"
+
+msgid "Open ticket"
+msgstr "Open ticket"
+
+msgid "Close ticket"
+msgstr "Sluit ticket"
+
 msgid "[Ticket]"
 msgstr "[Ticket]"
 
@@ -3926,7 +4057,8 @@ msgstr "U bent geblokkeerd voor %d minuten"
 msgid "You entered an incorrect username/password."
 msgstr "U heeft een incorrect username/wachtwoord ingevult."
 
-msgid "System is currently under maintenance! Only administrators can login."
+#, fuzzy
+msgid "System is currently under maintenance! Only administrators can log in."
 msgstr ""
 "Systeem is momenteel in onderhoud modus!  Alleen beheerders kunnen inloggen."
 
@@ -3984,7 +4116,8 @@ msgstr "Ingeschakeld zijn"
 msgid "Being suspended"
 msgstr "Opgeschort zijn"
 
-msgid "Awaiting for approval"
+#, fuzzy
+msgid "Awaiting approval"
 msgstr "In afwachting op goedkeuring"
 
 msgid "Unknown error"
@@ -4110,6 +4243,10 @@ msgstr "Probleem aanmaken bestelling"
 msgid "Order confirmation"
 msgstr "Bestelling confirmatie"
 
+#, fuzzy
+msgid "Domain already exists on the system!"
+msgstr "Domein met die naam bestaat al!"
+
 msgid "This hosting plan is not available for purchase"
 msgstr "Dit hostingpakket is niet beschikbaar voor aankoop"
 
@@ -4208,14 +4345,6 @@ msgstr "Opstartkosten"
 msgid "Performance"
 msgstr "Prestaties"
 
-msgid "ispCP Reseller: Add Alias"
-msgstr "ispCP Reseller: Toevoegen Alias"
-
-msgid "There is no user records for this reseller to add an alias for."
-msgstr ""
-"Er is geen gebruikers verslag voor deze reseller om een alias aan toe te "
-"voegen"
-
 msgid "ispCP - Manage Domain/Alias"
 msgstr "ispCP - Beheer Domein/Alias"
 
@@ -4258,6 +4387,14 @@ msgstr "Bestelde domein alias geactiveerd!"
 msgid "Ordered domain alias not activated!"
 msgstr "Bestelde domein alias niet geactiveerd!"
 
+msgid "ispCP Reseller: Add Alias"
+msgstr "ispCP Reseller: Toevoegen Alias"
+
+msgid "There is no user records for this reseller to add an alias for."
+msgstr ""
+"Er is geen gebruikers verslag voor deze reseller om een alias aan toe te "
+"voegen"
+
 msgid "ispCP - Circular"
 msgstr "ispCP - cirkelvormig"
 
@@ -4269,9 +4406,6 @@ msgstr "ispCP - Domein/Wijzig"
 
 msgid "Unchanged"
 msgstr "Onveranderd"
-
-msgid "Never"
-msgstr "Nooit"
 
 msgid "- 1 Month"
 msgstr "- 1 Maand"
@@ -4314,6 +4448,12 @@ msgstr "De <em>%s</em> dienst kan niet worden gelimiteerd! "
 msgid "The <em>%s</em> service cannot be unlimited!"
 msgstr "De <em>%s</em> dienst kan niet ongelimiteerd zijn! "
 
+msgid "ispCP - Reseller/Main Index"
+msgstr "ispCP - Reseller/Hoofdpagina"
+
+msgid "View details"
+msgstr "Bekijk details"
+
 msgid "ispCP - Reseller/Add hosting plan"
 msgstr "ispCP - Reseller/Toevoegen hosting plan"
 
@@ -4334,12 +4474,6 @@ msgstr "ispCP - Reseller/Wijzig hosting plan"
 
 msgid "View hosting plan"
 msgstr "Bekijk hostingpakket"
-
-msgid "ispCP - Reseller/Main Index"
-msgstr "ispCP - Reseller/Hoofdpagina"
-
-msgid "View details"
-msgstr "Bekijk details"
 
 msgid "User accounts"
 msgstr "Gebruikersaccounts"
@@ -4366,6 +4500,10 @@ msgstr "%1$d / %2$d van <b>%3$d</b>"
 msgid "%1$d / %2$d of <b>unlimited</b>"
 msgstr "%1$d / %2$d van <b>ongelimiteerd</b>"
 
+#, fuzzy
+msgid "ispCP - Reseller/IP Usage"
+msgstr "ispCP - Reseller/Wijzig Taal"
+
 msgid "ispCP - Reseller/Change Language"
 msgstr "ispCP - Reseller/Wijzig Taal"
 
@@ -4377,48 +4515,6 @@ msgstr "Beheer bestellingen"
 
 msgid "Activation Link"
 msgstr "Activatie Link"
-
-msgid "Wrong order ID!"
-msgstr "Verkeerde bestellings ID"
-
-msgid "Order Cancelled: resellers maximum exceeded!"
-msgstr "Bestelling geannuleerd: maximaal aantal resellers overschreden!"
-
-msgid "Wrong domain name syntax!"
-msgstr "Verkeerde domeinnaam syntax"
-
-msgid "User added!"
-msgstr "Gebruiker toegevoegd!"
-
-msgid "Customer order was removed successful!"
-msgstr "Klant bestelling is succesvol verwijderd"
-
-msgid "ispCP - Reseller/Order details"
-msgstr "ispCP - Reseller/Bestelling Details"
-
-msgid "Order data updated successfully!"
-msgstr "Bestellingsgegevens succesvol gewijzigd"
-
-msgid "Order date"
-msgstr "Bestellingsgegevens"
-
-msgid "Hosting plan"
-msgstr "Hostingpakket"
-
-msgid "Hosting details"
-msgstr "Hosting details"
-
-msgid "Order details"
-msgstr "Bestellingsdetails"
-
-msgid "Customer data"
-msgstr "Klant gegevens"
-
-msgid "Are you sure you want to delete this order?"
-msgstr "Weet u zeker dat u deze bestelling wilt verwijderen?"
-
-msgid "Add to the system"
-msgstr "Voeg toe aan het systeem"
 
 msgid "ispCP - Reseller/Order settings"
 msgstr "ispCP - Reseller/Bestellings Instellingen"
@@ -4450,11 +4546,53 @@ msgstr "Bestelling wijzigen"
 msgid "ID"
 msgstr "ID"
 
+msgid "Customer data"
+msgstr "Klant gegevens"
+
 msgid "Order"
 msgstr "Bestelling"
 
+msgid "Hosting plan"
+msgstr "Hostingpakket"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Weet u zeker dat u deze bestelling wilt verwijderen?"
+
 msgid "Add/Details"
 msgstr "Voeg toe/Details"
+
+msgid "Wrong order ID!"
+msgstr "Verkeerde bestellings ID"
+
+msgid "Order Cancelled: resellers maximum exceeded!"
+msgstr "Bestelling geannuleerd: maximaal aantal resellers overschreden!"
+
+msgid "Wrong domain name syntax!"
+msgstr "Verkeerde domeinnaam syntax"
+
+msgid "User added!"
+msgstr "Gebruiker toegevoegd!"
+
+msgid "Customer order was removed successful!"
+msgstr "Klant bestelling is succesvol verwijderd"
+
+msgid "ispCP - Reseller/Order details"
+msgstr "ispCP - Reseller/Bestelling Details"
+
+msgid "Order data updated successfully!"
+msgstr "Bestellingsgegevens succesvol gewijzigd"
+
+msgid "Order date"
+msgstr "Bestellingsgegevens"
+
+msgid "Hosting details"
+msgstr "Hosting details"
+
+msgid "Order details"
+msgstr "Bestellingsdetails"
+
+msgid "Add to the system"
+msgstr "Voeg toe aan het systeem"
 
 msgid "Order Canceled: resellers maximum exceeded!"
 msgstr "Bestelling geannuleerd: maximal aantal resellers overschreden!"
@@ -4476,6 +4614,9 @@ msgstr "Link"
 
 msgid "ispCP - Reseller/Manage users/Email setup"
 msgstr "ispCP - Reseller/Beheer gebruikers/E-Mail instellen"
+
+msgid "ispCP - Support system - New ticket"
+msgstr "ispCP - Ondersteunings systeem - Nieuwe ticket"
 
 msgid "ispCP - Reseller: Support System: View Ticket"
 msgstr "ispCP - Reseller : Ondersteunings Systeem : Bekijk Tickets"
@@ -4546,6 +4687,9 @@ msgstr "ispCP - Gebruikers/Wijzig"
 msgid "Users list"
 msgstr "Gebruikerslijst"
 
+msgid "This reseller has no domains yet."
+msgstr "Deze reseller heeft nog geen domeinen."
+
 msgid "ispCP - Users"
 msgstr "ispCP - Gebruikers"
 
@@ -4594,8 +4738,55 @@ msgstr "Gebruiker beeindigd"
 msgid "User not terminated!"
 msgstr "Gebruiker niet beeindigd!"
 
-msgid "This reseller has no domains yet."
-msgstr "Deze reseller heeft nog geen domeinen."
+#~ msgid "Manual DNS support (EXPERIMENTAL)"
+#~ msgstr "Manuele DNS ondersteuning (EXPERIMENTEEL)"
+
+#, fuzzy
+#~ msgid "Settings saved!"
+#~ msgstr "Instellingen opgeslagen !"
+
+#~ msgid "To"
+#~ msgstr "Naar"
+
+#~ msgid "Message was sent."
+#~ msgstr "Bericht is verzonden"
+
+#~ msgid "Add DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "Add DNS zone's record (EXPERIMENTAL)"
+
+#~ msgid "Edit DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "Edit DNS zone's record (EXPERIMENTAL)"
+
+#~ msgid "DNS zone's records (EXPERIMENTAL)"
+#~ msgstr "DNS zone's records (EXPERIMENTAL)"
+
+#~ msgid "File %s does not exists or cannot be reached!"
+#~ msgstr "Bestand %s bestaat niet of kan niet bereikt worden!"
+
+#~ msgid "Error while trying to obtain list of network cards!"
+#~ msgstr "Error tijdens het ophalen van de lijst met netwerkkaarten.!"
+
+#~ msgid "This IP (%s) is not assigned to any network card!"
+#~ msgstr "Dit IP (%s) is niet aangewezen aan een netwerkkaart!"
+
+#, fuzzy
+#~ msgid "Days"
+#~ msgstr "Dag"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "Uur"
+
+#, fuzzy
+#~ msgid "Minute"
+#~ msgstr "minuten"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "minuten"
+
+#~ msgid "Couldn't check for updates! Website not reachable."
+#~ msgstr "Kan niet naar nieuwe update zoeken ! Website is niet te bereiken."
 
 #~ msgid "Show server load"
 #~ msgstr "Toon server load"

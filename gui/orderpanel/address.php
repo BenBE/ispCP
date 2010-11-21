@@ -215,7 +215,7 @@ function check_address_data(&$tpl) {
 
 		user_goto('chart.php');
 	} else {
-		set_page_message(tr('Please fill out all needed fields!'));
+		set_page_message(tr('Please fill out all needed fields!'), 'warning');
 		$_GET['edit'] = "yes";
 	}
 }

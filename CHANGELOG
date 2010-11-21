@@ -1,6 +1,23 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-20 Benedikt Heintel
+	- TOOLS:
+		* Updated translation manager
+
+2010-11-19 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Finnish
+
+2010-11-18 Markus Szywon
+	- GUI:
+		* Improved XHTML compatibility
+
+2010-11-18 Benedikt Heintel
+	- GUI:
+		* Added option to differentiate between different message states
+		* Improved IP-Overview
+
 2010-11-17 Markus Szywon
 	- GUI:
 		* Improved XHTML compatibility

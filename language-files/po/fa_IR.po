@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa_IR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-17 10:11+0200\n"
+"POT-Creation-Date: 2010-11-20 11:02+0100\n"
 "PO-Revision-Date: 2010-08-26 23:19+0100\n"
 "Last-Translator: Amir Gholami <contact@18asb.com>\n"
 "Language-Team: Farsi (Iran)\n"
@@ -108,10 +108,10 @@ msgstr "مدیر"
 msgid "Incorrect username length or syntax!"
 msgstr "طول یا سینتکس نام کاربری نادرست است!"
 
-#, php-format
+#, fuzzy, php-format
 msgid ""
-"The password must be at least %s long and contain letters and numbers to be "
-"valid."
+"The password must be at least %s chars long and contain letters and numbers "
+"to be valid."
 msgstr "رمز عبور باید حداقل %s کاراکتر و حاوی حروف و اعداد باشد تا تأیید شود.."
 
 #, php-format
@@ -195,6 +195,12 @@ msgstr "فکس"
 
 msgid "Add"
 msgstr "افزودن"
+
+#, php-format
+msgid ""
+"The password must be at least %s long and contain letters and numbers to be "
+"valid."
+msgstr "رمز عبور باید حداقل %s کاراکتر و حاوی حروف و اعداد باشد تا تأیید شود.."
 
 msgid "User session was killed!"
 msgstr "سشن کاربر بسته شد!"
@@ -467,8 +473,8 @@ msgstr "پشتیبانی پی اچ پی"
 msgid "CGI support"
 msgstr "پشتیبانی سی جی آی"
 
-msgid "Manual DNS support (EXPERIMENTAL)"
-msgstr "پشتیبانی دی ان اس دستی (<i>آزمایشی</i>) "
+msgid "Manual DNS support"
+msgstr "پشتیبانی شخصی دی ان اس"
 
 msgid "Backup support"
 msgstr "پشتیبانی بک آپ"
@@ -716,11 +722,53 @@ msgstr "کل ترافیک"
 msgid "Day"
 msgstr "روز"
 
-msgid "ispCP - Administrator/Add hosting plan"
-msgstr "آی اس پی سی پی - مدیر/افزودن پلن میزبانی"
+msgid "ispCP - Administrator/Hosting Plan Management"
+msgstr "آی اس پی سی پی -مدیر/مدیریت پلن های هاستینگ"
+
+msgid "Hosting plans"
+msgstr "پلن های هاستینگ"
+
+msgid "Manage hosting plans"
+msgstr "مدیریت پلن های هاستینگ"
+
+msgid "Purchasing"
+msgstr "خرید"
 
 msgid "Add hosting plan"
 msgstr "افزودن یک پلن"
+
+msgid "Add new user hosting plan"
+msgstr "افزودن پلن میزبانی کاربری جدید"
+
+msgid "Return to previous menu"
+msgstr "بازگشت به منوی قبل"
+
+msgid "Hosting plan added!"
+msgstr "پلن میزبانی افزوده شد! "
+
+msgid "Hosting plan deleted!"
+msgstr "پلن میزبانی حذف شد!"
+
+msgid "Hosting plan updated!"
+msgstr "پلن میزبانی بروز شد!"
+
+msgid "Hosting plan can't be deleted, there are orders!"
+msgstr "پلن میزبانی را نمی توان حذف کرد چون سفارش هایی هست !"
+
+msgid "Hosting plans not found!"
+msgstr "هیچ پلن میزبانی یافت نشد!"
+
+msgid "No."
+msgstr "نه"
+
+msgid "Name"
+msgstr "نام"
+
+msgid "Show hosting plan"
+msgstr "نمایش پلن میزبانی"
+
+msgid "ispCP - Administrator/Add hosting plan"
+msgstr "آی اس پی سی پی - مدیر/افزودن پلن میزبانی"
 
 msgid "Hosting plan properties"
 msgstr "مشخصات پلن میزبانی"
@@ -758,7 +806,8 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-msgid "Allow adding records to DNS zone (EXPERIMENTAL)"
+#, fuzzy
+msgid "Allow adding records to DNS zone"
 msgstr "افزودن رکورد به ناحیه دی ان اس مجاز باشد(<i>آزمایشی</i>)"
 
 msgid "Apache logfiles"
@@ -851,48 +900,6 @@ msgstr "تعرفه نادرست است. مثال: 9.99"
 msgid "Incorrect setup fee. Example: 19.99"
 msgstr "هزینه نصب نادرست است. مثال: 19.99"
 
-msgid "ispCP - Administrator/Hosting Plan Management"
-msgstr "آی اس پی سی پی -مدیر/مدیریت پلن های هاستینگ"
-
-msgid "Hosting plans"
-msgstr "پلن های هاستینگ"
-
-msgid "Manage hosting plans"
-msgstr "مدیریت پلن های هاستینگ"
-
-msgid "Purchasing"
-msgstr "خرید"
-
-msgid "Add new user hosting plan"
-msgstr "افزودن پلن میزبانی کاربری جدید"
-
-msgid "Return to previous menu"
-msgstr "بازگشت به منوی قبل"
-
-msgid "Hosting plan added!"
-msgstr "پلن میزبانی افزوده شد! "
-
-msgid "Hosting plan deleted!"
-msgstr "پلن میزبانی حذف شد!"
-
-msgid "Hosting plan updated!"
-msgstr "پلن میزبانی بروز شد!"
-
-msgid "Hosting plan can't be deleted, there are orders!"
-msgstr "پلن میزبانی را نمی توان حذف کرد چون سفارش هایی هست !"
-
-msgid "Hosting plans not found!"
-msgstr "هیچ پلن میزبانی یافت نشد!"
-
-msgid "No."
-msgstr "نه"
-
-msgid "Name"
-msgstr "نام"
-
-msgid "Show hosting plan"
-msgstr "نمایش پلن میزبانی"
-
 #, php-format
 msgid "You have <b>%d</b> new support questions"
 msgstr "شما  <b>%d</b> درخواست های پشتیبانی دارید"
@@ -978,6 +985,28 @@ msgstr " افزودن آی پی جدید"
 msgid "Are you sure you want to delete this IP: %s?"
 msgstr "آیا مطمئن اید می خواهید آی پی %s را حذف کنید؟?"
 
+#, fuzzy
+msgid "ispCP - Admin/IP Usage"
+msgstr "آی اس پی سی پی - مدیر/مدیریت آی پی"
+
+#, fuzzy
+msgid "Total Domains"
+msgstr "تعداد دامنه"
+
+msgid "No records found"
+msgstr ""
+
+msgid "IP Usage"
+msgstr ""
+
+#, fuzzy
+msgid "Domain Name"
+msgstr "نام دامنه"
+
+#, fuzzy
+msgid "Reseller Name"
+msgstr "نام ریسلر"
+
 msgid "No domain system errors"
 msgstr "هیچ خطای سیستم دامنه وجود ندارد"
 
@@ -992,6 +1021,38 @@ msgstr "هیچ خطای زیردامنه ی الحاقی وجود ندارد"
 
 msgid "No email account system errors"
 msgstr "هیچ خطای حساب ایمیل وجود ندارد"
+
+#, fuzzy
+msgid "missing domain"
+msgstr "دامنه اصلی"
+
+#, fuzzy
+msgid "missing alias"
+msgstr "دامنه الحاقی"
+
+msgid "orphan entry"
+msgstr ""
+
+#, fuzzy
+msgid "No htaccess related system errors"
+msgstr "هیچ خطای دامنه ی الحاقی وجود ندارد"
+
+#, fuzzy
+msgid "Missing domain"
+msgstr "دامنه اصلی"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr "دیمن وضعیت کد را %d برمی گرداند"
+
+msgid "Unknown type!"
+msgstr "نوع نامشخص!"
+
+msgid "Done"
+msgstr "انجام شد"
+
+msgid "Unknown Error"
+msgstr "خطای نامشخص"
 
 msgid "ispCP debugger"
 msgstr "خطایاب آی اس پی سی پی"
@@ -1011,6 +1072,9 @@ msgstr "خطاهای زیردامنه ی الحاقی"
 msgid "Mail account errors"
 msgstr "خطاهای حساب ایمیل"
 
+msgid ".htaccess related errors"
+msgstr ""
+
 msgid "ispCP Daemon tools"
 msgstr "ابزارهای دیمن آی اس پی سی پی"
 
@@ -1020,18 +1084,9 @@ msgstr "اجرای درخواست ها"
 msgid "Set status to 'change'"
 msgstr "وضعیت را روی «تغییر» تنظیم کن"
 
-#, php-format
-msgid "Daemon returned %d as status code"
-msgstr "دیمن وضعیت کد را %d برمی گرداند"
-
-msgid "Unknown type!"
-msgstr "نوع نامشخص!"
-
-msgid "Done"
-msgstr "انجام شد"
-
-msgid "Unknown Error"
-msgstr "خطای نامشخص"
+#, fuzzy, php-format
+msgid "%s Errors in database"
+msgstr "بانک داده های دامنه:"
 
 msgid "Enable update at"
 msgstr "فعال کردن بروزرسانی در"
@@ -1051,9 +1106,6 @@ msgstr "بروزرسانی های فراهم آی اس پی سی پی"
 msgid "No new ispCP updates available"
 msgstr "هیچ بروزرسانی آی اس پی سی پی وجود ندارد"
 
-msgid "Language was removed!"
-msgstr "زبان حذف شد!"
-
 msgid "User language updated successfully!"
 msgstr "بروزرسانی زبان کاربر با موفقیت انجام شد!"
 
@@ -1065,6 +1117,9 @@ msgstr "زبان"
 
 msgid "Choose your default language"
 msgstr "زبان پیشفرض خود را انتخاب کنید"
+
+msgid "Language was removed!"
+msgstr "زبان حذف شد!"
 
 msgid "Reseller list is empty!"
 msgstr "لیست ریسلر خالی است!"
@@ -1180,11 +1235,16 @@ msgstr "!این کاربر یک دامنه دارد! <br>برای حذف کار�
 msgid "User was disabled"
 msgstr "کاربر غیرفعال شد"
 
-msgid "Incorrect data input!"
-msgstr "داده ورودی خطاست!"
+#, fuzzy
+msgid "Uninstall"
+msgstr "از نصب درآوردن"
 
-msgid "ispCP - Admin/Internationalisation"
-msgstr "آی اس پی سی پی - مدیر/ بین المللی کردن"
+#, php-format
+msgid "%d messages translated"
+msgstr "پیام ترجمه شد %d"
+
+msgid "Gzipped"
+msgstr ""
 
 msgid "Upload file error!"
 msgstr "خطای آپلود فایل!"
@@ -1215,12 +1275,8 @@ msgstr "%s زبان های نصب شده %s"
 msgid "Language was updated!"
 msgstr "زبان بروزرسانی شد"
 
-msgid "uninstall"
-msgstr "از نصب درآوردن"
-
-#, php-format
-msgid "%d messages translated"
-msgstr "پیام ترجمه شد %d"
+msgid "ispCP - Admin/Internationalisation"
+msgstr "آی اس پی سی پی - مدیر/ بین المللی کردن"
 
 msgid "Internationalisation"
 msgstr "بین المللی کردن"
@@ -1245,6 +1301,9 @@ msgstr "نصب"
 
 msgid "Export"
 msgstr "صادر کردن"
+
+msgid "Incorrect data input!"
+msgstr "داده ورودی خطاست!"
 
 msgid "ispCP - Admin/Change Password"
 msgstr "آی اس پی سی پی - مدیر/تغییر رمز عبور"
@@ -1557,23 +1616,11 @@ msgstr "این %s خالی است یا وجود ندارد "
 msgid "Anti-Rootkits Tools Log Checker"
 msgstr " ابزارهای لاگ چکر ضدروتکیت"
 
-msgid "ispCP - Admin/Server day stats"
-msgstr "آی اس پی سی پی - مدیر/ آمار روز سرور"
+msgid "ispCP - Admin/Server statistics"
+msgstr "آی اس پی سی پی - مدیر/آمارهای سرور"
 
-msgid "Server day statistics"
-msgstr "آمار روز سرور"
-
-msgid "Month:"
-msgstr "ماه:"
-
-msgid "Year:"
-msgstr "سال:"
-
-msgid "Day:"
-msgstr "روز:"
-
-msgid "Hour"
-msgstr "ساعت"
+msgid "Server statistics"
+msgstr "آمارهای سرور"
 
 msgid "Web in"
 msgstr "ورود به وب"
@@ -1605,11 +1652,23 @@ msgstr "ورود به همه"
 msgid "All out"
 msgstr "خروج از همه"
 
-msgid "ispCP - Admin/Server statistics"
-msgstr "آی اس پی سی پی - مدیر/آمارهای سرور"
+msgid "ispCP - Admin/Server day stats"
+msgstr "آی اس پی سی پی - مدیر/ آمار روز سرور"
 
-msgid "Server statistics"
-msgstr "آمارهای سرور"
+msgid "Server day statistics"
+msgstr "آمار روز سرور"
+
+msgid "Month:"
+msgstr "ماه:"
+
+msgid "Year:"
+msgstr "سال:"
+
+msgid "Day:"
+msgstr "روز:"
+
+msgid "Hour"
+msgstr "ساعت"
 
 msgid "ispCP Admin / System Tools / Server Status"
 msgstr "مدیر آی ای پی سی پی / ابزارهای سیستم / وضعیت سرور"
@@ -1646,6 +1705,156 @@ msgstr "گزینه ها"
 
 msgid "Kill session"
 msgstr "توقف سشن"
+
+msgid "ispCP - Admin/Settings"
+msgstr "آی اس پی سی پی = مدیر/تنظیمات"
+
+msgid "ERROR: Only positive numbers are allowed !"
+msgstr "خطا: فقط اعداد مثبت مجازند!"
+
+#, fuzzy, php-format
+msgid "%d configuration parameter was updated!"
+msgstr "زبان بروزرسانی شد"
+
+#, php-format
+msgid "%d configuration parameters were updated!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameter was created!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameters were created!"
+msgstr ""
+
+msgid "Nothing has been changed!"
+msgstr ""
+
+msgid "General settings"
+msgstr "تنظیمات عمومی"
+
+msgid "Activation link expire time (minutes)"
+msgstr "مهلت انقضای لینک فعال سازی (دقیقه)"
+
+msgid "Password settings"
+msgstr "تنظیمات رمز عبور"
+
+msgid "Use strong Passwords"
+msgstr "از رمز عبور  قوی استفاده کنید"
+
+msgid "Password length"
+msgstr "طول رمز عبور"
+
+msgid "Bruteforce detection"
+msgstr "کشف بروت فورس"
+
+msgid "Block time between logins"
+msgstr "برهه زمانی بلوکه شدن بین ورودها"
+
+msgid "Max number of login attempts"
+msgstr " حداکثر تعداد تلاش برای ورود "
+
+msgid "Blocktime (minutes)"
+msgstr "زمان بلوکه شدن (دقیقه)"
+
+msgid "Block time between logins (seconds)"
+msgstr "زمان بلوکه شدن بین ورودها (ثانیه)"
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr "تعداد حداکثر  تعداد تلاش برای تأیید کاپچا"
+
+msgid "Other settings"
+msgstr "تنظیمات دیگر"
+
+msgid "E-Mail settings"
+msgstr "تنظیمات ایمیل"
+
+msgid "Create default E-Mail addresses"
+msgstr "ایجاد آدرس ایمیل پیشفرض"
+
+msgid "Count default E-Mail addresses"
+msgstr "شمار آدرس های ایمیل پیشفرض"
+
+msgid "E-Mail accounts are hard suspended"
+msgstr "حساب های ایمیل تعلیق شده اند"
+
+msgid "Panel default language"
+msgstr "زبان پیشفرض پنل"
+
+msgid "Apply changes"
+msgstr "اعمال تغییرات"
+
+msgid "Server ports"
+msgstr "پورت های سرور"
+
+msgid "Hosting plans available for"
+msgstr "پلن های میزبانی فراهم برای"
+
+msgid "Admin"
+msgstr "مدیر"
+
+msgid "Domains per page"
+msgstr "دامنه بر صفحه"
+
+msgid "Log Level"
+msgstr "سطح لاگ"
+
+msgid "Notices, Warnings and Errors"
+msgstr "تذکرات، هشدارها و خطاها"
+
+msgid "Warnings and Errors"
+msgstr "هشدارها و خطاها"
+
+msgid "Errors"
+msgstr "خطاها"
+
+msgid "Check for update"
+msgstr "وارسی برای بروزرسانی"
+
+msgid "Show compression size comment"
+msgstr ""
+
+msgid "Prevent external login for admins"
+msgstr "ممنوعیت لاگین خارجی برای مدیران"
+
+msgid "Prevent external login for resellers"
+msgstr "ممنوعیت لاگین خارجی برای ریسلرها"
+
+msgid "Prevent external login for clients"
+msgstr "ممنوعیت لاگین خارجی برای مشتریان"
+
+msgid "Custom orderpanel ID"
+msgstr "آی دی سفارش شخصی شده"
+
+msgid "Domain names validation"
+msgstr "تأیید نام دامنه ها"
+
+msgid "Top Level Domain name strict validation"
+msgstr "تأیید صریح نام دامنه سطح بالا"
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr ""
+"فقط دومین های سطح بالا (تی ال دی) فهرست شده در بانک داده ی روت ایانا قابل "
+"استفاده است"
+
+msgid "Second Level Domain name strict validation"
+msgstr "تأیید صریح نام دامنه ی سطح دوم"
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr ""
+"دامنه ی سطح دوم (اس ال دی) تحت بیشتر دامنه های سطح بالا (تی ال دی) مجاز "
+"نیستند. یک لیست مختصر از استثناها هست مثلا تی ال دی .دات دی ئی"
+
+msgid ""
+"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
+msgstr "تعداد حداکثر برچسب های نام دامنه <br />(<i>به جز SLD & TLD</i>) "
+
+msgid "Maximal number of labels for subdomains"
+msgstr "تعداد حداکثر برچسب های زیردامنه"
 
 msgid "You can only upload images!"
 msgstr "شما فقط می توانید تصاویر را آپلود کنید!"
@@ -1728,9 +1937,6 @@ msgstr "لینک بازیابی پسورد"
 msgid "Subject"
 msgstr "موضوع"
 
-msgid "Apply changes"
-msgstr "اعمال تغییرات"
-
 msgid "URL to this admin panel"
 msgstr "یوآرال این پنل مدیریت"
 
@@ -1748,138 +1954,6 @@ msgstr "مد نگهداری"
 
 msgid "Under this mode only administrators can login"
 msgstr "در این مد فقط مدیر می تواند لاگین کند"
-
-msgid "ispCP - Admin/Settings"
-msgstr "آی اس پی سی پی = مدیر/تنظیمات"
-
-msgid "ERROR: Only positive numbers are allowed !"
-msgstr "خطا: فقط اعداد مثبت مجازند!"
-
-#, fuzzy
-msgid "Settings saved!"
-msgstr "تنظیمات ذخیره شد!"
-
-msgid "General settings"
-msgstr "تنظیمات عمومی"
-
-msgid "Activation link expire time (minutes)"
-msgstr "مهلت انقضای لینک فعال سازی (دقیقه)"
-
-msgid "Password settings"
-msgstr "تنظیمات رمز عبور"
-
-msgid "Use strong Passwords"
-msgstr "از رمز عبور  قوی استفاده کنید"
-
-msgid "Password length"
-msgstr "طول رمز عبور"
-
-msgid "Bruteforce detection"
-msgstr "کشف بروت فورس"
-
-msgid "Block time between logins"
-msgstr "برهه زمانی بلوکه شدن بین ورودها"
-
-msgid "Max number of login attempts"
-msgstr " حداکثر تعداد تلاش برای ورود "
-
-msgid "Blocktime (minutes)"
-msgstr "زمان بلوکه شدن (دقیقه)"
-
-msgid "Block time between logins (seconds)"
-msgstr "زمان بلوکه شدن بین ورودها (ثانیه)"
-
-msgid "Max number of CAPTCHA validation attempts"
-msgstr "تعداد حداکثر  تعداد تلاش برای تأیید کاپچا"
-
-msgid "Other settings"
-msgstr "تنظیمات دیگر"
-
-msgid "E-Mail settings"
-msgstr "تنظیمات ایمیل"
-
-msgid "Create default E-Mail addresses"
-msgstr "ایجاد آدرس ایمیل پیشفرض"
-
-msgid "Count default E-Mail addresses"
-msgstr "شمار آدرس های ایمیل پیشفرض"
-
-msgid "E-Mail accounts are hard suspended"
-msgstr "حساب های ایمیل تعلیق شده اند"
-
-msgid "Panel default language"
-msgstr "زبان پیشفرض پنل"
-
-msgid "Server ports"
-msgstr "پورت های سرور"
-
-msgid "Hosting plans available for"
-msgstr "پلن های میزبانی فراهم برای"
-
-msgid "Admin"
-msgstr "مدیر"
-
-msgid "Domains per page"
-msgstr "دامنه بر صفحه"
-
-msgid "Log Level"
-msgstr "سطح لاگ"
-
-msgid "Notices, Warnings and Errors"
-msgstr "تذکرات، هشدارها و خطاها"
-
-msgid "Warnings and Errors"
-msgstr "هشدارها و خطاها"
-
-msgid "Errors"
-msgstr "خطاها"
-
-msgid "Check for update"
-msgstr "وارسی برای بروزرسانی"
-
-msgid "Show compression size comment"
-msgstr ""
-
-msgid "Prevent external login for admins"
-msgstr "ممنوعیت لاگین خارجی برای مدیران"
-
-msgid "Prevent external login for resellers"
-msgstr "ممنوعیت لاگین خارجی برای ریسلرها"
-
-msgid "Prevent external login for clients"
-msgstr "ممنوعیت لاگین خارجی برای مشتریان"
-
-msgid "Custom orderpanel ID"
-msgstr "آی دی سفارش شخصی شده"
-
-msgid "Domain names validation"
-msgstr "تأیید نام دامنه ها"
-
-msgid "Top Level Domain name strict validation"
-msgstr "تأیید صریح نام دامنه سطح بالا"
-
-msgid ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-msgstr ""
-"فقط دومین های سطح بالا (تی ال دی) فهرست شده در بانک داده ی روت ایانا قابل "
-"استفاده است"
-
-msgid "Second Level Domain name strict validation"
-msgstr "تأیید صریح نام دامنه ی سطح دوم"
-
-msgid ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-msgstr ""
-"دامنه ی سطح دوم (اس ال دی) تحت بیشتر دامنه های سطح بالا (تی ال دی) مجاز "
-"نیستند. یک لیست مختصر از استثناها هست مثلا تی ال دی .دات دی ئی"
-
-msgid ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-msgstr "تعداد حداکثر برچسب های نام دامنه <br />(<i>به جز SLD & TLD</i>) "
-
-msgid "Maximal number of labels for subdomains"
-msgstr "تعداد حداکثر برچسب های زیردامنه"
 
 #, fuzzy
 msgid ""
@@ -2058,20 +2132,11 @@ msgstr "نوع"
 msgid "Up time"
 msgstr "مدت روشن بودن"
 
-msgid "You have no support tickets."
-msgstr "شما تیکت پشتیبانی ندارید."
-
 msgid "ispCP - Client/Questions & Comments"
 msgstr "آی اس پی سی پی - مشتری/پرسش ها و نظرات"
 
 msgid "Support tickets"
 msgstr "تیکت های پشتیبانی"
-
-msgid "From"
-msgstr "از"
-
-msgid "To"
-msgstr "به"
 
 msgid "Priority"
 msgstr "اولویت"
@@ -2088,6 +2153,9 @@ msgstr "تیک های گشوده"
 msgid "Closed tickets"
 msgstr "تیکت های بسته"
 
+msgid "From"
+msgstr "از"
+
 msgid "Support ticket deleted successfully!"
 msgstr "تیکت پشتیبانی باموفقیت پاک شد!"
 
@@ -2097,23 +2165,8 @@ msgstr "همه ی تیکت های پشتیبانی گشوده باموفقیت �
 msgid "All closed support tickets deleted successfully!"
 msgstr "همه ی تیکت های بسته باموفقیت پاک شد!"
 
-msgid "[New]"
-msgstr "[جدید]"
-
-msgid "[Re]"
-msgstr "[پاسخ]"
-
 msgid "ispCP - Client/Enable Mail Autoresponder"
 msgstr "آی اس پی سی پی - مشتری/فعال کردن پاسخ اتوماتیک ایمیل"
-
-msgid "Ticket not found!"
-msgstr "تیکت یافت نشد!"
-
-msgid "Open ticket"
-msgstr "گشودن تیکت"
-
-msgid "Close ticket"
-msgstr "بستن تیکت"
 
 msgid "ispCP - Client: Support System: View Ticket"
 msgstr "آی اس پی سی پی: سیستم پشتیبانی: دیدن تیکت"
@@ -2121,14 +2174,8 @@ msgstr "آی اس پی سی پی: سیستم پشتیبانی: دیدن تیکت
 msgid "Please type your message!"
 msgstr "لطفا پیام خود را تایپ کنید!"
 
-msgid "Message was sent."
-msgstr "پیام فرستاده شد."
-
-msgid "Ticket was closed!"
-msgstr "تیکت بسته شد!"
-
-msgid "Ticket was reopened!"
-msgstr "تیکت بازگشایی شد!"
+msgid "Ticket not found!"
+msgstr "تیکت یافت نشد!"
 
 msgid "ispCP - Admin: Support System: View Ticket"
 msgstr "آی اس پی سی پی - مدیر: سیستم پشتیبانی: دیدن تیکت"
@@ -2292,13 +2339,16 @@ msgstr "نام الحاقی"
 msgid "Mount Point"
 msgstr "نقطه ی پوینت"
 
+#, fuzzy
 msgid ""
-"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+"Subdomain you are trying to remove has email accounts!<br />First remove "
+"them!"
 msgstr ""
 "زیردامنه هایی که می خواهید پاک کنید حساب ایمیل دارند!<br> نخست آنها را پاک "
 "کنید!"
 
-msgid "Subdomain scheduled for deletion!"
+#, fuzzy
+msgid "Alias Subdomain scheduled for deletion!"
 msgstr " زیردامنه در برنامه حذف قرار گرفت"
 
 msgid "Backup archive scheduled for restoring!"
@@ -2377,7 +2427,11 @@ msgstr "ویرایش کرون جاب"
 msgid "Cronjobs"
 msgstr "کرون جاب ها"
 
-msgid "DNS zone record scheduled for deletion!"
+msgid "You are not allowed to remove this DNS record!"
+msgstr ""
+
+#, fuzzy
+msgid "Custom DNS record scheduled for deletion!"
 msgstr "رکورد ناحیه دی ان اس در برنامه ی حذف قرار گرفت!"
 
 msgid "ispCP - Manage Domain Alias/Add DNS zone's record"
@@ -2386,11 +2440,12 @@ msgstr "آی اس پی سی پی - مدیریت دامنه های الحاقی/�
 msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
 msgstr "آی اس پی سی پی - مدیریت دامنه های الحاقی/ویرایش رکورد ناحیه دی ان اس"
 
-msgid "Add DNS zone's record (EXPERIMENTAL)"
-msgstr "افزودن رکورد ناحیه دی ان اس (آزمایشی)"
+msgid "Add DNS zone's record"
+msgstr "افزودن رکورد ناحیه دی ان اس"
 
-msgid "Edit DNS zone's record (EXPERIMENTAL)"
-msgstr "ویرایش رکورد ناحیه دی ان اس (آزمایشی)"
+#, fuzzy
+msgid "Edit DNS zone's record"
+msgstr "افزودن رکورد ناحیه دی ان اس"
 
 msgid "DNS zone's records"
 msgstr "رکوردهای ناحیه دی ان اس"
@@ -2428,8 +2483,9 @@ msgstr "نام کانونی"
 msgid "Plain record data"
 msgstr "اطلاعات رکورد دی ان اس"
 
-msgid "DNS zone's records (EXPERIMENTAL)"
-msgstr "رکوردهای ناحیه دی ان اس (آزمایشی)"
+#, fuzzy
+msgid "You are not allowed to edit this DNS record!"
+msgstr "شما هیچ رکورد دامنه الحاقی ندارید"
 
 #, php-format
 msgid "Use of disallowed char(\"%s\") in CNAME"
@@ -2483,6 +2539,28 @@ msgstr " .این %s نمی تواند تأیید شود به دلیل '%s'  "
 msgid "Unknown zone type %s!"
 msgstr "نوع ناحیه ی %s نامشخص است!"
 
+#, fuzzy
+msgid "Error: DNS record already exist!"
+msgstr "کاربر از قبل وجود دارد!"
+
+msgid "ispCP - Client/Domain Statistics"
+msgstr "آی اس پی سی پی - مشتری/آمار دامنه"
+
+msgid "Web Stats"
+msgstr "آمار وب"
+
+msgid "WEB"
+msgstr "وب"
+
+msgid "SMTP"
+msgstr "اس ام تی پی"
+
+msgid "POP3/IMAP"
+msgstr "پاپ ۳/آی مپ"
+
+msgid "Sum"
+msgstr "جمع"
+
 msgid "Manual zone's records list is empty!"
 msgstr "لیست رکوردهای ناحیه خالی است! "
 
@@ -2516,24 +2594,6 @@ msgstr "کنش ها"
 
 msgid "Record data"
 msgstr "اطلاعات رکورد"
-
-msgid "ispCP - Client/Domain Statistics"
-msgstr "آی اس پی سی پی - مشتری/آمار دامنه"
-
-msgid "Web Stats"
-msgstr "آمار وب"
-
-msgid "WEB"
-msgstr "وب"
-
-msgid "SMTP"
-msgstr "اس ام تی پی"
-
-msgid "POP3/IMAP"
-msgstr "پاپ ۳/آی مپ"
-
-msgid "Sum"
-msgstr "جمع"
 
 msgid "ispCP - Client/Manage Error Custom Pages"
 msgstr "آی اس پی سی پی - مشتری/صفحات خطای شخصی شده"
@@ -2854,9 +2914,6 @@ msgstr "نام حساب"
 msgid "Main domain"
 msgstr "دامنه اصلی"
 
-msgid "Manual DNS support"
-msgstr "پشتیبانی شخصی دی ان اس"
-
 msgid "SQL support"
 msgstr "پشتیباین اس کیو ال"
 
@@ -2997,6 +3054,21 @@ msgstr "پیام شما"
 msgid "Enable mail auto responder"
 msgstr "فعال کردن ایمیل پاسخ خودکار"
 
+msgid "Delete CatchAll"
+msgstr "(CatchAll) حذف جمع آورنده ایمیل"
+
+msgid "None"
+msgstr "هیچ"
+
+msgid "Create catch all"
+msgstr "(CatchAll) ایجاد جمع آورنده ی ایمیل"
+
+msgid "Catch all account"
+msgstr "حساب جمع آورنده ایمیل  (CatchAll)"
+
+msgid "Catch all"
+msgstr "جمع آورنده ی ایمیل (CatchAll)"
+
 msgid "Catch all account scheduled for creation!"
 msgstr "حساب جمع آورنده ایمیل در برنامه ایجاد قرار گرفت!"
 
@@ -3012,23 +3084,8 @@ msgstr "ایجاد حساب ایمیل جمع آورنده ی ایمیل (CatchA
 msgid "Mail accounts list"
 msgstr "لیست حساب های ایمیل"
 
-msgid "Create catch all"
-msgstr "(CatchAll) ایجاد جمع آورنده ی ایمیل"
-
 msgid "Catch all account scheduled for deletion!"
 msgstr "حساب جمع آورنده ایمیل در برنامه حذف قرار گرفت!"
-
-msgid "Delete CatchAll"
-msgstr "(CatchAll) حذف جمع آورنده ایمیل"
-
-msgid "None"
-msgstr "هیچ"
-
-msgid "Catch all account"
-msgstr "حساب جمع آورنده ایمیل  (CatchAll)"
-
-msgid "Catch all"
-msgstr "جمع آورنده ی ایمیل (CatchAll)"
 
 msgid "Please delete first CatchAll account for this email!"
 msgstr "لطفا نخستین حساب جمع آورنده ی کل برای این ایمیل را حذف کنید!"
@@ -3050,6 +3107,37 @@ msgstr "آی اس پی سی پی - مشتری/تغییر رمز عبور"
 
 msgid "ispCP - Client/Change Personal Data"
 msgstr "آی اس پی سی پی - مشتری/تغییر اطلاعات شخصی"
+
+msgid "Error: Unknown SQL user id!"
+msgstr ""
+
+#, fuzzy
+msgid "Error: An error occurred while authentication!"
+msgstr "خطا حین تأیید!"
+
+msgid "You do not have protected areas"
+msgstr "شما بخش حفاظت شده ای ندارید"
+
+msgid "Manage users and groups"
+msgstr "مدیریت کاربران و گروه ها"
+
+msgid "Add user"
+msgstr "افزودن کاربر"
+
+msgid "Group name"
+msgstr "نام گروه"
+
+msgid "Group members"
+msgstr "اعضای گروه"
+
+msgid "Add group"
+msgstr "افزودن گروه"
+
+msgid "Group"
+msgstr "گروه"
+
+msgid "Add new protected area"
+msgstr "افزودن یک بخش حفاظت شده"
 
 msgid "Please choose user or group"
 msgstr "لطفا کاربر یا گروه را انتخاب کنید"
@@ -3106,9 +3194,6 @@ msgstr "نام بخش"
 msgid "Unprotect it"
 msgstr "از حفاظت خارج کن"
 
-msgid "Manage users and groups"
-msgstr "مدیریت کاربران و گروه ها"
-
 msgid "Protected area status should be OK if you want to delete it!"
 msgstr "اگر بخواهید بخش حفاظت شده را حذف کنید باید اوکی باشد!"
 
@@ -3117,27 +3202,6 @@ msgstr "بخش حفاظت شده با موفقیت حذف شد!"
 
 msgid "Permission deny!"
 msgstr "مجوز پذیرفته نشد !"
-
-msgid "You do not have protected areas"
-msgstr "شما بخش حفاظت شده ای ندارید"
-
-msgid "Add user"
-msgstr "افزودن کاربر"
-
-msgid "Group name"
-msgstr "نام گروه"
-
-msgid "Group members"
-msgstr "اعضای گروه"
-
-msgid "Add group"
-msgstr "افزودن گروه"
-
-msgid "Group"
-msgstr "گروه"
-
-msgid "Add new protected area"
-msgstr "افزودن یک بخش حفاظت شده"
 
 msgid "Protected area was deleted successful!"
 msgstr "بخش حفاظت شده با موفقیت حذف شده!"
@@ -3182,9 +3246,6 @@ msgstr "بروزرسانی کاربر"
 
 msgid "You have no users!"
 msgstr "شما هیچ کاربری ندارید!"
-
-msgid "Error while authenticating!"
-msgstr "خطا حین تأیید!"
 
 msgid "Please type user password!"
 msgstr "لطفا رمز ورود کاربر را وارد کنید!"
@@ -3365,14 +3426,33 @@ msgstr "نام زیردامنه"
 msgid "Directory tree mount point"
 msgstr "نقطه ی مونت درخت دایرکتوری"
 
+msgid ""
+"Subdomain you are trying to remove has email accounts !<br>First remove them!"
+msgstr ""
+"زیردامنه هایی که می خواهید پاک کنید حساب ایمیل دارند!<br> نخست آنها را پاک "
+"کنید!"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr " زیردامنه در برنامه حذف قرار گرفت"
+
+#, fuzzy
+msgid "ispCP - Manage Subdomain/Edit Subdomain"
+msgstr "آی اس پی سی پی - مدیر/ویرایش دامنه"
+
+#, fuzzy
+msgid "Manage subdomain"
+msgstr "مدیریت دامنه ها"
+
+#, fuzzy
+msgid "Edit subdomain"
+msgstr "ویرایش دامنه"
+
+#, fuzzy
+msgid "ispCP - Support System - New ticket"
+msgstr "آی اس پی سی پی - سیستم پشتیبانی - تیکت جدید"
+
 msgid "Please specify message subject!"
 msgstr "لطفا موضوع پیام را مشخص کنید!"
-
-msgid "Your message was sent!"
-msgstr "پیام شما فرستاده شد!"
-
-msgid "ispCP - Support system - New ticket"
-msgstr "آی اس پی سی پی - سیستم پشتیبانی - تیکت جدید"
 
 msgid "New ticket"
 msgstr "تیکت جدید"
@@ -3555,36 +3635,6 @@ msgstr "%.2f کیلوبایت"
 msgid "%d B"
 msgstr "بایت %d"
 
-#, php-format
-msgid "File %s does not exists or cannot be reached!"
-msgstr "فایل %s وجود ندارد یا اینکه قابل دسترس نیست!"
-
-msgid "Error while trying to obtain list of network cards!"
-msgstr "خطا در حین گرفتن لیست کارت های شبکه!"
-
-#, php-format
-msgid "This IP (%s) is not assigned to any network card!"
-msgstr "این آی پی ( %s) به هیچ کارت شبکه ای منتسب نشده"
-
-#, fuzzy
-msgid "Days"
-msgstr "روز"
-
-#, fuzzy
-msgid "Hours"
-msgstr "ساعت"
-
-#, fuzzy
-msgid "Minute"
-msgstr "دقیقه"
-
-#, fuzzy
-msgid "Minutes"
-msgstr "دقیقه"
-
-msgid "Couldn't check for updates! Website not reachable."
-msgstr "بررسی برای یافتن بروزرسانی ممکن نیست! وبسایت قابل دسترسی نیست!"
-
 msgid "Email and FTP accounts"
 msgstr "حساب های ایمیل و اف تی پی"
 
@@ -3611,9 +3661,6 @@ msgstr "حساب های اف تی پی"
 
 msgid "Update Hosting Package"
 msgstr "بروزرسانی پکیج میزبانی"
-
-msgid "Add DNS zone's record"
-msgstr "افزودن رکورد ناحیه دی ان اس"
 
 msgid "Manage SSL certificate"
 msgstr "مدیریت گواهینامه اس اس ال"
@@ -3648,6 +3695,7 @@ msgstr "نوع نامعلوم"
 msgid "Welcome {USERNAME} to ispCP!"
 msgstr " سلام {USERNAME}به آی اس پی سی پی خوش آمدید"
 
+#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3664,7 +3712,52 @@ msgid ""
 "\n"
 "You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
 "\n"
-"Statistics: http://{USERNAME}/stats/\n"
+"Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"،{NAME} سلام\n"
+"\n"
+"\n"
+"یک حساب آی اس پی سی پی جدید برای شما ایجاد شد.\n"
+" اطلاعات مربوط به حساب شما عبارتند از:\n"
+"\n"
+"نوع کاربر:‌ {USERNAME}\n"
+" نام کاربر: {USERNAME}\n"
+" رمز ورود:‌ {PASSWORD}\n"
+"\n"
+" .به یاد داشته باشید که مرتبا و به خصوص در نخستین بار ورود به حساب تان "
+"پسورود خود را تغییر دهید\n"
+"\n"
+" شما اکنون می توانید به {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST} وارد "
+"شوید\n"
+"\n"
+"امیدواریم از آی اس پی سی پی لذت ببرید!\n"
+" تیم آی اس پی سی پی\n"
+
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
 "User name: {USERNAME}\n"
 "Password: {PASSWORD}\n"
 "\n"
@@ -3813,6 +3906,39 @@ msgstr ""
 " سپاسگزاریم که از آی اس پی سی پی استفاده می کنید.\n"
 " تیم آی اس پی سی پی\n"
 
+#, fuzzy
+msgid "Your message has been sent!"
+msgstr "پیام شما فرستاده شد!"
+
+#, fuzzy
+msgid "Your message has been sent"
+msgstr "پیام شما فرستاده شد!"
+
+msgid "Ticket was closed!"
+msgstr "تیکت بسته شد!"
+
+msgid "Ticket was reopened!"
+msgstr "تیکت بازگشایی شد!"
+
+msgid "Never"
+msgstr "هرگز"
+
+#, fuzzy
+msgid "You don't have support tickets."
+msgstr "شما تیکت پشتیبانی ندارید."
+
+msgid "[New]"
+msgstr "[جدید]"
+
+msgid "[Re]"
+msgstr "[پاسخ]"
+
+msgid "Open ticket"
+msgstr "گشودن تیکت"
+
+msgid "Close ticket"
+msgstr "بستن تیکت"
+
 msgid "[Ticket]"
 msgstr "[Ticket]"
 
@@ -3910,7 +4036,8 @@ msgstr "شما برای %d دقیقه بلوکه شده اید."
 msgid "You entered an incorrect username/password."
 msgstr "نام کاربری یا رمزعبور وارد شده نادرست است."
 
-msgid "System is currently under maintenance! Only administrators can login."
+#, fuzzy
+msgid "System is currently under maintenance! Only administrators can log in."
 msgstr "سیستم اکنون در حال نگهداری است! فقط مدیر می تواند وارد شود."
 
 #, php-format
@@ -3964,7 +4091,8 @@ msgstr "در حال فعال سازی"
 msgid "Being suspended"
 msgstr "در حال حذف"
 
-msgid "Awaiting for approval"
+#, fuzzy
+msgid "Awaiting approval"
 msgstr "در انتظار تأیید"
 
 msgid "Unknown error"
@@ -4092,6 +4220,10 @@ msgstr "خطا در ایجاد سفارش! شاید قبلا فعال شده؟"
 msgid "Order confirmation"
 msgstr "تأیید سفارش"
 
+#, fuzzy
+msgid "Domain already exists on the system!"
+msgstr "دامنه ای با این نام قبلا در سیستم وجود دارد!"
+
 msgid "This hosting plan is not available for purchase"
 msgstr "این پلن میزبانی مهیای خرید نیست"
 
@@ -4190,12 +4322,6 @@ msgstr "هزینه راه اندازی"
 msgid "Performance"
 msgstr "عملکرد"
 
-msgid "ispCP Reseller: Add Alias"
-msgstr "ریسلر آی اس پی سی پی: دامنه الحاقی افزوده نشد"
-
-msgid "There is no user records for this reseller to add an alias for."
-msgstr "هیچ رکورد کاربری برای این ریسلر نیست که به آن دامنه الحاقی افزوده شود"
-
 msgid "ispCP - Manage Domain/Alias"
 msgstr "آی اس پی سی پی - مدیریت دامنه/الحاقی"
 
@@ -4238,6 +4364,12 @@ msgstr " !دامنه الحاقی سفارش داده شده فعال شد"
 msgid "Ordered domain alias not activated!"
 msgstr " !دامنه الحاقی سفارش داده شده فعال نشد"
 
+msgid "ispCP Reseller: Add Alias"
+msgstr "ریسلر آی اس پی سی پی: دامنه الحاقی افزوده نشد"
+
+msgid "There is no user records for this reseller to add an alias for."
+msgstr "هیچ رکورد کاربری برای این ریسلر نیست که به آن دامنه الحاقی افزوده شود"
+
 msgid "ispCP - Circular"
 msgstr "آی اس پی سی پی - دوری"
 
@@ -4249,9 +4381,6 @@ msgstr "آی اس پی سی پی - دامنه/ویرایش"
 
 msgid "Unchanged"
 msgstr "تغییر نکرده"
-
-msgid "Never"
-msgstr "هرگز"
 
 msgid "- 1 Month"
 msgstr "- ۱ ماه"
@@ -4294,6 +4423,12 @@ msgstr "سرویس <em>%s</em> را نمی توان محدود کرد!"
 msgid "The <em>%s</em> service cannot be unlimited!"
 msgstr "سرویس <em>%s</em>  نمی تواند نامحدود باشد!"
 
+msgid "ispCP - Reseller/Main Index"
+msgstr "آی اس پی سی پی - ریسلر/فهرست اصلی"
+
+msgid "View details"
+msgstr "دیدن جزئیات"
+
 msgid "ispCP - Reseller/Add hosting plan"
 msgstr "آی اس پی سی پی - ریسلر/افزودن پلن میزبانی"
 
@@ -4314,12 +4449,6 @@ msgstr "آی اس پی سی پی - ریسلر/ویرایش پلن میزبانی
 
 msgid "View hosting plan"
 msgstr "دیدن پلن میزبانی"
-
-msgid "ispCP - Reseller/Main Index"
-msgstr "آی اس پی سی پی - ریسلر/فهرست اصلی"
-
-msgid "View details"
-msgstr "دیدن جزئیات"
 
 msgid "User accounts"
 msgstr "حساب های کاربری"
@@ -4346,6 +4475,10 @@ msgstr "%1$d / %2$d از <b>%3$d</b>"
 msgid "%1$d / %2$d of <b>unlimited</b>"
 msgstr "%1$d / %2$d از <b>illimité</b>"
 
+#, fuzzy
+msgid "ispCP - Reseller/IP Usage"
+msgstr "آی اس پی سی پی - ریسلر/تغییر زبان"
+
 msgid "ispCP - Reseller/Change Language"
 msgstr "آی اس پی سی پی - ریسلر/تغییر زبان"
 
@@ -4357,48 +4490,6 @@ msgstr "مدیریت سفارش ها"
 
 msgid "Activation Link"
 msgstr "لینک فعال سازی"
-
-msgid "Wrong order ID!"
-msgstr "آی دی سفارش خطاست!"
-
-msgid "Order Cancelled: resellers maximum exceeded!"
-msgstr " سفارش لغو شد: تعداد ریسلرها به حداکثر رسیده "
-
-msgid "Wrong domain name syntax!"
-msgstr "سینتکس نام دامنه خطاست!"
-
-msgid "User added!"
-msgstr "کاربر افزوده شد!"
-
-msgid "Customer order was removed successful!"
-msgstr "سفارش مشتری باموفقیت حذف شد!"
-
-msgid "ispCP - Reseller/Order details"
-msgstr "آی اس پی سی پی - ریسلر/جزئیات سفارش"
-
-msgid "Order data updated successfully!"
-msgstr "اطلاعات سفارش باموفقیت بروز شد!"
-
-msgid "Order date"
-msgstr "تاریخ سفارش"
-
-msgid "Hosting plan"
-msgstr "پلن میزبانی"
-
-msgid "Hosting details"
-msgstr "جزئیات میزبانی"
-
-msgid "Order details"
-msgstr "جزئیات سفارش"
-
-msgid "Customer data"
-msgstr "اطلاعات مشتری"
-
-msgid "Are you sure you want to delete this order?"
-msgstr "آیا مطمئن هستید که می خواهید این سفارش را حذف کنید؟"
-
-msgid "Add to the system"
-msgstr "افزودن به سیستم"
 
 msgid "ispCP - Reseller/Order settings"
 msgstr "آی اس پی سی پی - ریسلر/تنظیمات سفارش "
@@ -4430,11 +4521,53 @@ msgstr "به روزرسانی سفارش"
 msgid "ID"
 msgstr "آی دی"
 
+msgid "Customer data"
+msgstr "اطلاعات مشتری"
+
 msgid "Order"
 msgstr "سفارش"
 
+msgid "Hosting plan"
+msgstr "پلن میزبانی"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "آیا مطمئن هستید که می خواهید این سفارش را حذف کنید؟"
+
 msgid "Add/Details"
 msgstr "افزودن/جزئیات"
+
+msgid "Wrong order ID!"
+msgstr "آی دی سفارش خطاست!"
+
+msgid "Order Cancelled: resellers maximum exceeded!"
+msgstr " سفارش لغو شد: تعداد ریسلرها به حداکثر رسیده "
+
+msgid "Wrong domain name syntax!"
+msgstr "سینتکس نام دامنه خطاست!"
+
+msgid "User added!"
+msgstr "کاربر افزوده شد!"
+
+msgid "Customer order was removed successful!"
+msgstr "سفارش مشتری باموفقیت حذف شد!"
+
+msgid "ispCP - Reseller/Order details"
+msgstr "آی اس پی سی پی - ریسلر/جزئیات سفارش"
+
+msgid "Order data updated successfully!"
+msgstr "اطلاعات سفارش باموفقیت بروز شد!"
+
+msgid "Order date"
+msgstr "تاریخ سفارش"
+
+msgid "Hosting details"
+msgstr "جزئیات میزبانی"
+
+msgid "Order details"
+msgstr "جزئیات سفارش"
+
+msgid "Add to the system"
+msgstr "افزودن به سیستم"
 
 msgid "Order Canceled: resellers maximum exceeded!"
 msgstr "سفارش لغو شد: تعداد ریسلرها از حداکثر گذشته!"
@@ -4456,6 +4589,9 @@ msgstr "پیوند رمز ورود گم شده"
 
 msgid "ispCP - Reseller/Manage users/Email setup"
 msgstr "آی اس پی سی پی - ریسلر/مدیریت کاربران/راه اندازی ایمیل"
+
+msgid "ispCP - Support system - New ticket"
+msgstr "آی اس پی سی پی - سیستم پشتیبانی - تیکت جدید"
 
 msgid "ispCP - Reseller: Support System: View Ticket"
 msgstr "آی اس پی سی پی - ریسلر: سیستم پشتیبانی: دیدن تیکت"
@@ -4524,6 +4660,9 @@ msgstr "آی اس پی سی پی - کاربران/ویرایش "
 msgid "Users list"
 msgstr "فهرست کاربران"
 
+msgid "This reseller has no domains yet."
+msgstr "این ریسلر هنوز هیچ دامنه ای ندارد."
+
 msgid "ispCP - Users"
 msgstr "آی اس پی سی پی - کاربران "
 
@@ -4570,8 +4709,55 @@ msgstr "کاربر حذف شد!"
 msgid "User not terminated!"
 msgstr "کاربر حذف نشده است!"
 
-msgid "This reseller has no domains yet."
-msgstr "این ریسلر هنوز هیچ دامنه ای ندارد."
+#~ msgid "Manual DNS support (EXPERIMENTAL)"
+#~ msgstr "پشتیبانی دی ان اس دستی (<i>آزمایشی</i>) "
+
+#, fuzzy
+#~ msgid "Settings saved!"
+#~ msgstr "تنظیمات ذخیره شد!"
+
+#~ msgid "To"
+#~ msgstr "به"
+
+#~ msgid "Message was sent."
+#~ msgstr "پیام فرستاده شد."
+
+#~ msgid "Add DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "افزودن رکورد ناحیه دی ان اس (آزمایشی)"
+
+#~ msgid "Edit DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "ویرایش رکورد ناحیه دی ان اس (آزمایشی)"
+
+#~ msgid "DNS zone's records (EXPERIMENTAL)"
+#~ msgstr "رکوردهای ناحیه دی ان اس (آزمایشی)"
+
+#~ msgid "File %s does not exists or cannot be reached!"
+#~ msgstr "فایل %s وجود ندارد یا اینکه قابل دسترس نیست!"
+
+#~ msgid "Error while trying to obtain list of network cards!"
+#~ msgstr "خطا در حین گرفتن لیست کارت های شبکه!"
+
+#~ msgid "This IP (%s) is not assigned to any network card!"
+#~ msgstr "این آی پی ( %s) به هیچ کارت شبکه ای منتسب نشده"
+
+#, fuzzy
+#~ msgid "Days"
+#~ msgstr "روز"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "ساعت"
+
+#, fuzzy
+#~ msgid "Minute"
+#~ msgstr "دقیقه"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "دقیقه"
+
+#~ msgid "Couldn't check for updates! Website not reachable."
+#~ msgstr "بررسی برای یافتن بروزرسانی ممکن نیست! وبسایت قابل دسترسی نیست!"
 
 #~ msgid "%d <br/>از<br/> <b>unlimited</b>"
 #~ msgstr "%d<br />de<br /><b>illimité</b>"

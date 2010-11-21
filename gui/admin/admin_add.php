@@ -225,13 +225,12 @@ function check_user_data() {
 	$sql = ispCP_Registry::get('Db');
 
 	if (!validates_username($_POST['username'])) {
-		set_page_message(tr("Incorrect username length or syntax!"));
-
+		set_page_message(tr("Incorrect username length or syntax!"), 'warning');
 		return false;
 	}
 	if (!chk_password($_POST['pass'])) {
 		if ($cfg->PASSWD_STRONG) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
+			set_page_message(sprintf(tr('The password must be at least %s chars long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS));
 		} else {
 			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS));
 		}
