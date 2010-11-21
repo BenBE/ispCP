@@ -1617,10 +1617,9 @@ function write_log($msg, $level = E_USER_WARNING) {
 		$client_ip = "unknown";
 	}
 
-	$msg = replace_html(
-		$msg . '<br /><small>User IP: ' . $client_ip . '</small>', ENT_COMPAT,
-			tr('encoding')
-	);
+	$msg = replace_html($msg, ENT_COMPAT, tr('encoding'));
+
+	$msg = htmlentities($msg, ENT_QUOTES, tr('encoding'), false).'<br /><small>User IP: ' . $client_ip . '</small>';
 
 	$query = "
 		INSERT INTO
