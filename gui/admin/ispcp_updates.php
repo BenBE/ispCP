@@ -60,7 +60,7 @@ function get_update_infos(&$tpl) {
 			array(
 				'UPDATE_MESSAGE'	=> '',
 				'UPDATE'			=> tr('Update checking is disabled!'),
-				'INFOS'				=> tr('Enable update at') . " <a href=\"settings.php\">" . tr('Settings') . "</a>"
+				'INFOS'				=> tr('Enable update at') . ' <a href="settings.php">' . tr('Settings') . '</a>'
 			)
 		);
 		$tpl->parse('UPDATE_INFOS', 'update_infos');
@@ -72,7 +72,7 @@ function get_update_infos(&$tpl) {
 			array(
 				'UPDATE_MESSAGE' => '',
 				'UPDATE' => tr('New ispCP update is now available'),
-				'INFOS' => tr('Get it at') . " <a href=\"http://www.isp-control.net/download.html\" class=\"link\" target=\"ispcp\">http://www.isp-control.net/download.html</a>"
+				'INFOS' => tr('Get it at') . ' <a href="http://www.isp-control.net/download.html" class="link">http://www.isp-control.net/download.html</a>'
 			)
 		);
 
@@ -119,3 +119,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>
