@@ -309,6 +309,7 @@ generate_page ($tpl);
 
 $tpl->assign(
 	array(
+		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),
@@ -336,3 +337,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

@@ -1733,7 +1733,7 @@ function recalc_reseller_c_props($reseller_id) {
 		WHERE
 			`domain_created_id` = ?
 		AND
-			`domain_status` != ?
+			`domain_status` != ?;
 	";
 	$res = exec_query($sql, $query, array($reseller_id, $delstatus));
 
@@ -1795,7 +1795,7 @@ function update_reseller_c_props($reseller_id) {
 			`current_disk_amnt` = ?,
 			`current_traff_amnt` = ?
 		WHERE
-			`reseller_id` = ?
+			`reseller_id` = ?;
 	";
 
 
@@ -1824,7 +1824,7 @@ function get_reseller_id($domain_id) {
 		WHERE
 			d.`domain_id` = ?
 		AND
-			d.`domain_admin_id` = a.`admin_id`
+			d.`domain_admin_id` = a.`admin_id`;
 	";
 
 	$rs = exec_query($sql, $query, $domain_id);
