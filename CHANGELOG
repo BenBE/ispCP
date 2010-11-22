@@ -1,6 +1,10 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-22 Benedikt Heintel
+	- LANGUAGES:
+		* Updated German
+
 2010-11-22 Markus Szywon
 	- GUI:
 		* Improved XHTML compatibility
