@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
 /*<![CDATA[*/
-	$(funtion() {
+	$(function() {
 		// jQuery UI Datepicker
 		$('#dmn_exp_date').datepicker({
 			dateFormat: '{VL_DATE_FORMAT}',

@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<link href="{THEME_COLOR_PATH}/css/datepicker.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.js"></script>
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ui.datepicker.js"></script>
@@ -17,14 +18,15 @@
 
 <script type="text/javascript">
 /*<![CDATA[*/
-	$(funtion() {
+	$(function() {
 		// jQuery UI Datepicker
 		$('#dmn_exp_date').datepicker({
 			dateFormat: '{VL_DATE_FORMAT}',
 			dayNamesMin: ['{TR_SU}', '{TR_MO}', '{TR_TU}', '{TR_WE}', '{TR_TH}', '{TR_FR}', '{TR_SA}'],
 			monthNames: ['{TR_JANUARY}', '{TR_FEBRUARY}', '{TR_MARCH}', '{TR_APRIL}', '{TR_MAY}', '{TR_JUNE}', '{TR_JULY}', '{TR_AUGUST}', '{TR_SEPTEMBER}', '{TR_OCTOBER}', '{TR_NOVEMBER}', '{TR_DECEMBER}'],
 			isRTL: false,
-			showOtherMonths: true
+			showOtherMonths: true,
+			defaultDate: '+1y'
 		});
 	});
 
@@ -106,7 +108,7 @@
                         <td width="25">&nbsp;</td>
                         <td class="content2" width="200">{TR_DOMAIN_EXPIRE}</td>
                         <td class="content">
-							<input id="dmn_exp_date" name="dmn_expire_date" value="{VL_DOMAIN_EXPIRE}" disabled="disabled">
+							<input id="dmn_exp_date" name="dmn_expire_date" value="" disabled="disabled">
 							&nbsp;{TR_EXPIRE_CHECKBOX}
 							<input id="dmn_exp_never" name="dmn_expire_never" type="checkbox" checked="checked"></td>
                         </td>
