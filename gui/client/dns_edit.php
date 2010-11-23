@@ -589,7 +589,7 @@ function check_fwd_data(&$tpl, $edit_id) {
 			if($rs === false) {
 				if($sql->getLastErrorCode() == 23000) {
 					$tpl->assign(
-						'MESSAGE', tr('Error: DNS record already exist!')
+						'MESSAGE', tr('ERROR: DNS record already exist!')
 					);
 					$tpl->parse('PAGE_MESSAGE', 'page_message');
 

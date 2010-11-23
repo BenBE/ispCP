@@ -102,8 +102,7 @@ function set_page_message($message, $type = "warning") {
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
-	// @todo: check if ever different typs are mixed up and change here
-	$_SESSION['user_page_type'] = $type;
+	$_SESSION['user_page_msg_type'] = $type;
 }
 
 /**
