@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2009-12-15 01:27+0100\n"
 "Last-Translator: Seviye Kaloğlu <seviye@gmail.com>\n"
 "Language-Team: Turkish <tr_TR@li.org>\n"
@@ -1562,8 +1562,9 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Bayi istatistikleri"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Yönetici/Bayi Kullanıcı istatistikleri"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4478,29 +4479,72 @@ msgstr "Döngüsel"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Domain/Düzenle"
 
-msgid "Unchanged"
-msgstr "Değiştir"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "Ay"
+#, fuzzy
+msgid "Su"
+msgstr "Toplam"
 
-msgid "+ 1 Month"
-msgstr "Ay"
+#, fuzzy
+msgid "Mo"
+msgstr "Taşı"
 
-msgid "+ 2 Months"
-msgstr "Ay"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "Ay"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "Ay"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "Yıl"
+#, fuzzy
+msgid "Fr"
+msgstr "Boşta"
 
-msgid "+ 2 Years"
-msgstr "Yıl"
+#, fuzzy
+msgid "Sa"
+msgstr "Kaydet"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Ara"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Gün"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Adet"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4700,24 +4744,6 @@ msgstr "ispCP - Bayi : Destek Sistemi: Talepleri Görüntüle"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Kullanıcılar/Kullanıcı Ekle"
 
-msgid "1 Month"
-msgstr "Ay"
-
-msgid "2 Months"
-msgstr "Ay"
-
-msgid "3 Months"
-msgstr "Ay"
-
-msgid "6 Months"
-msgstr "Ay"
-
-msgid "1 Year"
-msgstr "Yıl"
-
-msgid "2 Years"
-msgstr "Yıl"
-
 msgid "Choose hosting plan"
 msgstr "Hosting planı seç"
 
@@ -4734,8 +4760,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Kullanıcı/Kullanıcı ekle(adım2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Azami domain sayısı<br><i>(-1 pasif, 0 limitsiz)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Eposta kullanıcısı limiti <br><i>(-1 pasif, 0 limitsiz)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTP kullanıcısı limiti <br><i>(-1 pasif, 0 limitsiz)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL Veritabanı limiti <br><i>(-1 pasif, 0 limitsiz)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL kullanıcısı limiti <br><i>(-1 pasif, 0 limitsiz)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Trafik limiti [MB]<br><i>(0 limitsiz)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Disk limiti [MB]<br><i>(0 limitsiz)</i>"
 
 msgid "Apache logs"
 msgstr "Apache kayıtları"
@@ -4812,6 +4862,51 @@ msgstr "Kullanıcı sona erdirildi."
 
 msgid "User not terminated!"
 msgstr "Kullanıcı sonlandırılmadı!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Bayi istatistikleri"
+
+#~ msgid "Unchanged"
+#~ msgstr "Değiştir"
+
+#~ msgid "- 1 Month"
+#~ msgstr "Ay"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "Ay"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "Ay"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "Ay"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "Ay"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "Yıl"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "Yıl"
+
+#~ msgid "1 Month"
+#~ msgstr "Ay"
+
+#~ msgid "2 Months"
+#~ msgstr "Ay"
+
+#~ msgid "3 Months"
+#~ msgstr "Ay"
+
+#~ msgid "6 Months"
+#~ msgstr "Ay"
+
+#~ msgid "1 Year"
+#~ msgstr "Yıl"
+
+#~ msgid "2 Years"
+#~ msgstr "Yıl"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "MySQL desteği (DENEYSEL)"

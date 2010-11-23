@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl_ES\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-02-22 21:00+0100\n"
 "Last-Translator: Medulio <medulio@ciberirmandade.org>\n"
 "Language-Team: Galego <gl@li.org>\n"
@@ -1577,8 +1577,9 @@ msgstr ""
 "NOTA do ispCP:\\n\\nA tecla`Enter` está desactivada por razóns de rendemento!"
 "\\nNo seu lugar,emprega o botón %s para actualizares os datos."
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Estatísticas de revendedor"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Admin/Estatísticas de Usuarios de Revendedor"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4530,29 +4531,72 @@ msgstr "Circular"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Dominio/Editar"
 
-msgid "Unchanged"
-msgstr "Sen trocos"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "- 1 Mes"
+#, fuzzy
+msgid "Su"
+msgstr "Suma"
 
-msgid "+ 1 Month"
-msgstr "+ 1 Mes"
+#, fuzzy
+msgid "Mo"
+msgstr "Mover"
 
-msgid "+ 2 Months"
-msgstr "+ 2 Meses"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ 3 Meses"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ 6 Meses"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ 1 Ano"
+#, fuzzy
+msgid "Fr"
+msgstr "Ceibe"
 
-msgid "+ 2 Years"
-msgstr "+ 2 Anos"
+#, fuzzy
+msgid "Sa"
+msgstr "Gardar"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Procurar"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Día"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Número"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4752,24 +4796,6 @@ msgstr "ispCP - Revendedor : Sistema de Atención : Ver Solicitudes"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Usuarios/Engadir Usuario"
 
-msgid "1 Month"
-msgstr "1 Mes"
-
-msgid "2 Months"
-msgstr "2 Meses"
-
-msgid "3 Months"
-msgstr "3 Meses"
-
-msgid "6 Months"
-msgstr "6 Meses"
-
-msgid "1 Year"
-msgstr "1 Ano"
-
-msgid "2 Years"
-msgstr "2 Anos"
-
 msgid "Choose hosting plan"
 msgstr "Escoller plano de hospedaxe"
 
@@ -4788,8 +4814,33 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Usuario/Engadir Usuario (chanzo 2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Máximo de dominios<br><i>(-1 desactivado, 0 sen límite)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Límite de contas de correo<br /><i>(-1 desactivado, 0 sen límite)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Límite de contas FTP<br /><i>(-1 desactivado, 0 sen límite)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+"Límite de bancos de datos SQL <br /><i>(-1 desactivado, 0 sen límite)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Límite de usuarios SQL <br /><i>(-1 desactivado, 0 sen límite)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Límite de tráfico [MB] <br /><i>(0 sen límite)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Límite de disco [MB] <br /><i>(0 sen límite)</i>"
 
 msgid "Apache logs"
 msgstr "Rexistros (logs) do Apache"
@@ -4868,6 +4919,51 @@ msgstr "Usuario dado de baixa!"
 
 msgid "User not terminated!"
 msgstr "Usuario non dado de baixa!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Estatísticas de revendedor"
+
+#~ msgid "Unchanged"
+#~ msgstr "Sen trocos"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- 1 Mes"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ 1 Mes"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ 2 Meses"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 Meses"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 Meses"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ 1 Ano"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ 2 Anos"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Mes"
+
+#~ msgid "2 Months"
+#~ msgstr "2 Meses"
+
+#~ msgid "3 Months"
+#~ msgstr "3 Meses"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Meses"
+
+#~ msgid "1 Year"
+#~ msgstr "1 Ano"
+
+#~ msgid "2 Years"
+#~ msgstr "2 Anos"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Soporte DNS manual (EXPERIMENTAL)"

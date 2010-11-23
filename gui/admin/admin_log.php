@@ -68,7 +68,7 @@ function generate_page(&$tpl) {
 		SELECT
 			COUNT(`log_id`) AS cnt
 		FROM
-			`log`
+			`log`;
 	";
 
 	$query = "
@@ -79,7 +79,7 @@ function generate_page(&$tpl) {
 		ORDER BY
 			`log_time` DESC
 		LIMIT
-			$start_index, $rows_per_page
+			$start_index, $rows_per_page;
 	";
 
 	$rs = exec_query($sql, $count_query);
@@ -145,17 +145,17 @@ function generate_page(&$tpl) {
 			$log_message = $rs->fields['log_message'];
 
 			$replaces = array(
-				'/[^a-zA-Z](delete[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z](remove[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z](add(s|ed)?)[^a-zA-Z]/i'		=> ' <strong style="color:#33CC66">\\1</strong> ',
-				'/[^a-zA-Z](change[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#3300FF">\\1</strong> ',
-				'/[^a-zA-Z](update[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#3300FF">\\1</strong> ',
-				'/[^a-zA-Z](edit(s|ed)?)[^a-zA-Z]/i'	=> ' <strong style="color:#33CC66">\\1</strong> ',
-				'/[^a-zA-Z](unknown)[^a-zA-Z]/i'		=> ' <strong style="color:#CC00FF">\\1</strong> ',
-				'/[^a-zA-Z](logged)[^a-zA-Z]/i'			=> ' <strong style="color:#336600">\\1</strong> ',
-				'/[^a-zA-Z]((session )?manipulation)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z]*(Warning[\!]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/(bad password login data)/i'			=> ' <strong style="color:#FF0000">\\1</strong> '
+				'/[^a-zA-Z](delete[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z](remove[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z](add(s|ed)?)[^a-zA-Z]/i'		=> ' <strong style="color:#3c6">\\1</strong> ',
+				'/[^a-zA-Z](change[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#30f">\\1</strong> ',
+				'/[^a-zA-Z](update[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#30f">\\1</strong> ',
+				'/[^a-zA-Z](edit(s|ed)?)[^a-zA-Z]/i'	=> ' <strong style="color:#3c6">\\1</strong> ',
+				'/[^a-zA-Z](unknown)[^a-zA-Z]/i'		=> ' <strong style="color:#c0f">\\1</strong> ',
+				'/[^a-zA-Z](logged)[^a-zA-Z]/i'			=> ' <strong style="color:#360">\\1</strong> ',
+				'/[^a-zA-Z]((session )?manipulation)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z]*(Warning[\!]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/(bad password login data)/i'			=> ' <strong style="color:#f00">\\1</strong> '
 			);
 
 			foreach ($replaces as $pattern => $replacement) {
@@ -196,7 +196,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 14 DAY) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 14 DAY) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than two weeks!', $_SESSION['user_logged']);
 
@@ -207,7 +207,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 1 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 1 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than one month!', $_SESSION['user_logged']);
 
@@ -218,7 +218,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 3 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 3 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than three months!', $_SESSION['user_logged']);
 				break;
@@ -228,7 +228,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 6 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 6 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than six months!', $_SESSION['user_logged']);
 				break;
@@ -238,7 +238,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 1 YEAR) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 1 YEAR) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than one year!', $_SESSION['user_logged']);
 
@@ -289,3 +289,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

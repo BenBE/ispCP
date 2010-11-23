@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en_GB\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2009-12-18 14:29+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: English (Britain) <en_GB@li.org>\n"
@@ -1494,7 +1494,7 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
+msgid "ispCP - Admin/Reseller statistics"
 msgstr ""
 
 msgid "There are no resellers in your system!"
@@ -4182,28 +4182,64 @@ msgstr ""
 msgid "ispCP - Domain/Edit"
 msgstr ""
 
-msgid "Unchanged"
+msgid "or check if domain should <strong>never</strong> expire"
 msgstr ""
 
-msgid "- 1 Month"
+msgid "Su"
 msgstr ""
 
-msgid "+ 1 Month"
+msgid "Mo"
 msgstr ""
 
-msgid "+ 2 Months"
+msgid "Tu"
 msgstr ""
 
-msgid "+ 3 Months"
+msgid "We"
 msgstr ""
 
-msgid "+ 6 Months"
+msgid "Th"
 msgstr ""
 
-msgid "+ 1 Year"
+msgid "Fr"
 msgstr ""
 
-msgid "+ 2 Years"
+msgid "Sa"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
 msgstr ""
 
 #, php-format
@@ -4401,24 +4437,6 @@ msgstr ""
 msgid "ispCP - Users/Add user"
 msgstr ""
 
-msgid "1 Month"
-msgstr ""
-
-msgid "2 Months"
-msgstr ""
-
-msgid "3 Months"
-msgstr ""
-
-msgid "6 Months"
-msgstr ""
-
-msgid "1 Year"
-msgstr ""
-
-msgid "2 Years"
-msgstr ""
-
 msgid "Choose hosting plan"
 msgstr ""
 
@@ -4434,7 +4452,25 @@ msgstr ""
 msgid "ispCP - User/Add user(step2)"
 msgstr ""
 
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr ""
+
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
 msgstr ""
 
 msgid "Apache logs"

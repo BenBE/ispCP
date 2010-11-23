@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2009-12-15 01:27+0100\n"
 "Last-Translator: Takashi <takashi@elekta.lt>\n"
 "Language-Team: Lithuanian <lt_LT@li.org>\n"
@@ -1564,8 +1564,9 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Perpardavinëtojo statistikos duomenys"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Administratorius/Perpardavinëtojo Vartotojo Statistika"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4320,28 +4321,69 @@ msgstr ""
 msgid "ispCP - Domain/Edit"
 msgstr ""
 
-msgid "Unchanged"
+msgid "or check if domain should <strong>never</strong> expire"
 msgstr ""
 
-msgid "- 1 Month"
+msgid "Su"
 msgstr ""
 
-msgid "+ 1 Month"
+#, fuzzy
+msgid "Mo"
+msgstr "Perkelti"
+
+msgid "Tu"
 msgstr ""
 
-msgid "+ 2 Months"
+msgid "We"
 msgstr ""
 
-msgid "+ 3 Months"
+msgid "Th"
 msgstr ""
 
-msgid "+ 6 Months"
+#, fuzzy
+msgid "Fr"
+msgstr "Laisva"
+
+#, fuzzy
+msgid "Sa"
+msgstr "Saugoti"
+
+msgid "January"
 msgstr ""
 
-msgid "+ 1 Year"
+msgid "February"
 msgstr ""
 
-msgid "+ 2 Years"
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Diena"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Numeris"
+
+msgid "December"
 msgstr ""
 
 #, php-format
@@ -4541,24 +4583,6 @@ msgstr ""
 msgid "ispCP - Users/Add user"
 msgstr ""
 
-msgid "1 Month"
-msgstr ""
-
-msgid "2 Months"
-msgstr ""
-
-msgid "3 Months"
-msgstr ""
-
-msgid "6 Months"
-msgstr ""
-
-msgid "1 Year"
-msgstr ""
-
-msgid "2 Years"
-msgstr ""
-
 msgid "Choose hosting plan"
 msgstr ""
 
@@ -4575,8 +4599,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr ""
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Daugiausiai subdomenø<br><i>(-1 iðjungta, 0 nelimituota)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "El.paðto sàskaitø limitas <br /><i>(-1 iðjungta. 0 nelimituota)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTP sàskaitø limitas <br /><i>(-1 iðjungta, 0 nelimituota)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL duombaziø limitas <br /><i>(-1 iðjungta, 0 nelimituota)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL varotojø limitas <br /><i>(-1 iðjungta, 0 nelimituota)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Srauto limitas [MB] <br /><i>(0 nelimituota)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Talpos limitas [MB] <br /><i>(0 nelimituota)</i>"
 
 msgid "Apache logs"
 msgstr ""
@@ -4654,6 +4702,9 @@ msgstr ""
 
 msgid "User not terminated!"
 msgstr ""
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Perpardavinëtojo statistikos duomenys"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Rankinis DNS palaikymas (BANDOMASIS)"

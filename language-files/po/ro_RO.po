@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro_RO\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-10-03 22:16+0200\n"
 "Last-Translator: Daniel Andreca <sci2tech@gmail.com>\n"
 "Language-Team: Romanian <ro_RO@li.org>\n"
@@ -1577,8 +1577,9 @@ msgstr ""
 "Nota ispCP:\\n\\nTasta `Enter` este dezactivata din ratiuni de performanta!"
 "\\nCa alternativa, folositi tasta %s pentru a reinprospata datele."
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Statistici reseller"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Administrator/Statistici Utilizator Reseller"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4481,29 +4482,72 @@ msgstr "Circular"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Domeniu/Editeaza"
 
-msgid "Unchanged"
-msgstr "Nemodificat"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "-1 Luna"
+#, fuzzy
+msgid "Su"
+msgstr "Total"
 
-msgid "+ 1 Month"
-msgstr "+1 Luna"
+#, fuzzy
+msgid "Mo"
+msgstr "Muta"
 
-msgid "+ 2 Months"
-msgstr "+2 Luni"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+3 Luni"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+6 Luni"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+1 An"
+#, fuzzy
+msgid "Fr"
+msgstr "Liber"
 
-msgid "+ 2 Years"
-msgstr "+2 Ani"
+#, fuzzy
+msgid "Sa"
+msgstr "Salveaza"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Cauta"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Ziua"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Numar"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4702,24 +4746,6 @@ msgstr "ispCP - Reseller: Sistem Suport: Vezi Cereri"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Utilizatori/Adauga"
 
-msgid "1 Month"
-msgstr "1 Luna"
-
-msgid "2 Months"
-msgstr "2 Luni"
-
-msgid "3 Months"
-msgstr "3 Luni"
-
-msgid "6 Months"
-msgstr "6 Luni"
-
-msgid "1 Year"
-msgstr "1 Ani"
-
-msgid "2 Years"
-msgstr "2 Ani"
-
 msgid "Choose hosting plan"
 msgstr "Alege plan gazduire"
 
@@ -4736,8 +4762,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Utilizator/Adauga utilizator(pasul2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Maximum domenii<br><i>(-1 dezactivat, 0 nelimitat)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Conturi E-Mail <br /><i>(-1 dezactivat, 0 nelimitat)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limita conturi FTP <br /><i>(-1 dezactivat, 0 nelimitat)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Baze de date SQL <br /><i>(-1 dezactivat, 0 nelimitat)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limita utilizatori SQL <br /><i>(-1 dezactivat, 0 nelimitat)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Limita trafic [MB] <br /><i>(-1 dezactivat, 0 nelimitat) </i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Limita Disc[MB] <br /><i>(-1 dezactivat, 0 nelimitat)</i>"
 
 msgid "Apache logs"
 msgstr "Loguri Apache"
@@ -4816,6 +4866,51 @@ msgstr "Utilizator sters"
 
 msgid "User not terminated!"
 msgstr "Utilizatorul nu a fost sters!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Statistici reseller"
+
+#~ msgid "Unchanged"
+#~ msgstr "Nemodificat"
+
+#~ msgid "- 1 Month"
+#~ msgstr "-1 Luna"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+1 Luna"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+2 Luni"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+3 Luni"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+6 Luni"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+1 An"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+2 Ani"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Luna"
+
+#~ msgid "2 Months"
+#~ msgstr "2 Luni"
+
+#~ msgid "3 Months"
+#~ msgstr "3 Luni"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Luni"
+
+#~ msgid "1 Year"
+#~ msgstr "1 Ani"
+
+#~ msgid "2 Years"
+#~ msgstr "2 Ani"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Suport DNS (EXPERIMENTAL)"

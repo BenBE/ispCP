@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar_AE\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2009-12-18 14:26+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Arabic <ar_AE@li.org>\n"
@@ -1504,7 +1504,7 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
+msgid "ispCP - Admin/Reseller statistics"
 msgstr ""
 
 msgid "There are no resellers in your system!"
@@ -4209,29 +4209,69 @@ msgstr ""
 msgid "ispCP - Domain/Edit"
 msgstr ""
 
-msgid "Unchanged"
+msgid "or check if domain should <strong>never</strong> expire"
 msgstr ""
 
-msgid "- 1 Month"
-msgstr "- شهر"
+#, fuzzy
+msgid "Su"
+msgstr "مجموع"
 
-msgid "+ 1 Month"
-msgstr "+ شهر"
+#, fuzzy
+msgid "Mo"
+msgstr "نقل"
 
-msgid "+ 2 Months"
-msgstr "+ شهرين"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ 3 أشهر"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ 6 أشهر"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ سنة"
+#, fuzzy
+msgid "Fr"
+msgstr "من"
 
-msgid "+ 2 Years"
-msgstr "+ سنتين"
+#, fuzzy
+msgid "Sa"
+msgstr "ذاكرة تبديلية"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4428,24 +4468,6 @@ msgstr ""
 msgid "ispCP - Users/Add user"
 msgstr ""
 
-msgid "1 Month"
-msgstr "شهر"
-
-msgid "2 Months"
-msgstr "شهرين"
-
-msgid "3 Months"
-msgstr "3 أشهر"
-
-msgid "6 Months"
-msgstr "ستة أشهر"
-
-msgid "1 Year"
-msgstr "سنة"
-
-msgid "2 Years"
-msgstr "سنتين"
-
 msgid "Choose hosting plan"
 msgstr "إختر خطة الإستضافة"
 
@@ -4461,7 +4483,25 @@ msgstr ""
 msgid "ispCP - User/Add user(step2)"
 msgstr ""
 
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr ""
+
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
 msgstr ""
 
 msgid "Apache logs"
@@ -4538,6 +4578,45 @@ msgstr ""
 
 msgid "User not terminated!"
 msgstr ""
+
+#~ msgid "- 1 Month"
+#~ msgstr "- شهر"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ شهر"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ شهرين"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 أشهر"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 أشهر"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ سنة"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ سنتين"
+
+#~ msgid "1 Month"
+#~ msgstr "شهر"
+
+#~ msgid "2 Months"
+#~ msgstr "شهرين"
+
+#~ msgid "3 Months"
+#~ msgstr "3 أشهر"
+
+#~ msgid "6 Months"
+#~ msgstr "ستة أشهر"
+
+#~ msgid "1 Year"
+#~ msgstr "سنة"
+
+#~ msgid "2 Years"
+#~ msgstr "سنتين"
 
 #~ msgid "Settings saved !"
 #~ msgstr "تم تخزين الإعدادات"

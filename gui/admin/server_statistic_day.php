@@ -194,6 +194,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_SERVER_DAY_STATISTICS' => tr('Server day statistics'),
 		'TR_MONTH' => tr('Month:'),
 		'TR_YEAR' => tr('Year:'),
@@ -229,3 +230,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>
