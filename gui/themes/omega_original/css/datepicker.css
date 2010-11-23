@@ -2,7 +2,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control Panel
  * Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
  *
- * Version:	$Id: ispcp.css 3332 2010-09-25 22:27:01Z scitech $
+ * Version:	$Id$
  * @link	http://isp-control.net
  * @author	ispCP Team
  *
@@ -16,94 +16,97 @@
  * License for the specific language governing rights and limitations
  * under the License.
  *
- * The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
+ * The Original Code is "jQuery Project".
  *
- * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * The Initial Developer of the Original Code is The jQuery Project.
+ * Portions created by Initial Developer are Copyright (C) 2010 by
+ * The jQuery Project. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
- *
- * The ispCP ω Home Page is:
- *
- *    http://isp-control.net
  */
+
+ /**
+  * Import needed UI Theme styles
+  */
+ @import url('ui.core.css');
 
 /**
  * Configuration for the jQuery UI Datepicker
  */
 .ui-datepicker { 
-	width: 12em; 
-	padding: .2em 0em 2; 
-	color: #009; 
+	width: 13em;
+	padding: 0.2em 0.2em 0;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
-.ui-datepicker .ui-datepicker-header { 
+/* header part */
+.ui-datepicker .ui-datepicker-header {
+	width: 98%;
 	position: relative; 
-	padding: .2em 0; 
-	background-color: black; 
-	color: #FFF; 
-	background-image: url(../images/content/tableheader.jpg); 
-	font-family: Arial, Helvetica, sans-serif; 
-	font-size: 13px; 
+	padding: .2em 0;
+	color: #fff; 
+	background: url('../images/content/tableheader.jpg') 0 0 repeat #000;
+	font-size: 12px;
+	border: 2px solid;
+	border-color: #eee #000 #000 #eee;
+	line-height: 24px;
+}
+
+.ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-next { 
+	position:absolute; 
+	top: 2px; 
+	width: 1.8em; 
+	height: 1.8em; 
 }
 
 .ui-datepicker .ui-datepicker-prev { 
-	position:absolute; 
-	top: 0px; 
-	width: 3em; 
-	height: 2.3em; 
-	font-size: 11px; 
+	left:2px;
 }
 
 .ui-datepicker .ui-datepicker-next { 
-	position:absolute; 
-	top: 0px; 
-	left: -100px; 
-	width: 2.3em; 
-	height: 2.3em; 
-	font-size: 11px; 
+	right:2px; 
 }
 
-.ui-datepicker .ui-datepicker-prev-hover, 
-.ui-datepicker .ui-datepicker-next-hover { 
-	top: 0px; 
-	font-size: 11px; 
+.ui-datepicker .ui-datepicker-prev-hover:not(.ui-state-disabled) {
+	left:1px; 
 }
 
-.ui-datepicker .ui-datepicker-prev { 
-	left: 0px; 
-}
-
-.ui-datepicker .ui-datepicker-next { 
-	right: 0px; 
-}
-
-.ui-datepicker .ui-datepicker-prev-hover { 
-	left: 0px; 
-}
-
-.ui-datepicker .ui-datepicker-next-hover { 
-	right: 0px; 
+.ui-datepicker .ui-datepicker-next-hover:not(.ui-state-disabled) {
+	right:1px; 
 }
 
 .ui-datepicker .ui-datepicker-prev span, 
 .ui-datepicker .ui-datepicker-next span { 
-	display: block; 
-	position: absolute; 
-	left: 40%; 
-	margin-left: -10px; 
-	top: 50%; 
-	margin-top: -8px;
+	display: block;
+}
+
+.ui-datepicker .ui-icon-circle-triangle-w {
+	background-image: url('../images/icons/flip/prev.png');
+}
+
+.ui-datepicker .ui-state-disabled .ui-icon-circle-triangle-w {
+	background-image: url('../images/icons/flip/prev_gray.png');
+}
+
+.ui-datepicker .ui-icon-circle-triangle-e {
+	background-image: url('../images/icons/flip/next.png');
+}
+
+.ui-datepicker .ui-state-disabled .ui-icon-circle-triangle-e {
+	background-image: url('../images/icons/flip/next_gray.png');
 }
 
 .ui-datepicker .ui-datepicker-title { 
 	margin: 0 .3em; 
-	line-height: 1.8em; 
+	line-height: 24px; 
 	text-align: center;
+	font-weight: bold;
 }
 
 .ui-datepicker .ui-datepicker-title select { 
 	margin: 1px 0; 
-	font-size: 13px;
+	font-size: 12px;
 }
 .ui-datepicker select.ui-datepicker-month-year {
 	width: 100%;
@@ -113,12 +116,14 @@
 .ui-datepicker select.ui-datepicker-year { 
 	width: 49%;
 }
+
+/* table part */
 .ui-datepicker table {
 	background-color: #fff; 
 	width: 100%; 
 	font-size: .9em; 
 	border-collapse: collapse; 
-	margin:0 0 .4em; 
+	margin: 0 0 .4em; 
 }
 
 .ui-datepicker th { 
@@ -161,6 +166,16 @@
 
 .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { 
 	float:left;
+}
+
+.ui-datepicker .ui-datepicker-week-end {}
+
+.ui-datepicker .ui-datepicker-today {
+	border: 1px solid #ccc;
+}
+
+.ui-datepicker .ui-datepicker-calendar .ui-state-hover {
+	background-color: #a8a8a8;
 }
 
 /* with multiple calendars */
@@ -269,4 +284,3 @@
     width: 200px; /*must have*/
     height: 200px; /*must have*/
 }
- 	  	 

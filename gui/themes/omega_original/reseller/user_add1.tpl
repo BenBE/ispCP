@@ -26,7 +26,8 @@
 			monthNames: ['{TR_JANUARY}', '{TR_FEBRUARY}', '{TR_MARCH}', '{TR_APRIL}', '{TR_MAY}', '{TR_JUNE}', '{TR_JULY}', '{TR_AUGUST}', '{TR_SEPTEMBER}', '{TR_OCTOBER}', '{TR_NOVEMBER}', '{TR_DECEMBER}'],
 			isRTL: false,
 			showOtherMonths: true,
-			defaultDate: '+1y'
+			defaultDate: '+1y',
+			minDate: new Date()
 		});
 	});
 
