@@ -442,14 +442,12 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 
 	if ($btime > time()) {
 		if ($displayMessage) {
-			$backButtonDestination = $cfg->BASE_SERVER_VHOST_PREFIX .
-				$cfg->BASE_SERVER_VHOST;
+			$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
+			$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
 
 			system_message(
-				tr(
-					'You have to wait %d seconds.',
-					$btime - time()
-				),
+				tr('You have to wait %d seconds.', $btime - time()),
+				'warning',
 				$backButtonDestination
 			);
 		}
@@ -573,8 +571,8 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 
 		exec_query($sql, $query, $ipaddr);
 	} else {
-		$backButtonDestination = $cfg->BASE_SERVER_VHOST_PREFIX .
-			$cfg->BASE_SERVER_VHOST;
+		$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
+		$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
 
 		write_log(
 			"Login error, <strong><em>$ipaddr</em></strong> wait " . ($btime - time()) .
@@ -582,10 +580,8 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 		);
 
 		system_message(
-			tr(
-				'You have to wait %d seconds.',
-				$btime - time()
-			),
+			tr('You have to wait %d seconds.', $btime - time()),
+			'warning',
 			$backButtonDestination
 		);
 	}
@@ -619,14 +615,12 @@ function deny_access() {
 
 	$cfg = ispCP_Registry::get('Config');
 
-	$backButtonDestination =
-		$cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST;
+	$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
+	$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
 
 	system_message(
-		tr(
-			'You have been blocked for %d minutes.',
-			$cfg->BRUTEFORCE_BLOCK_TIME
-		),
+		tr('You have been blocked for %d minutes.',	$cfg->BRUTEFORCE_BLOCK_TIME),
+		'warning',
 		$backButtonDestination
 	);
 }
@@ -644,8 +638,8 @@ function register_user($uname, $upass) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$backButtonDestination = $cfg->BASE_SERVER_VHOST_PREFIX .
-		$cfg->BASE_SERVER_VHOST;
+	$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
+	$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
 
 	check_ipaddr();
 
@@ -653,6 +647,7 @@ function register_user($uname, $upass) {
 		write_log("Login error, <strong><em>".tohtml($uname)."</em></strong> unknown username");
 		system_message(
 			tr('You entered an incorrect username/password.'),
+			'warning',
 			$backButtonDestination
 		);
 
@@ -670,7 +665,8 @@ function register_user($uname, $upass) {
 		);
 
 		system_message(
-			tr('System is currently under maintenance! Only administrators can log in.')
+			tr('System is currently under maintenance! Only administrators can log in.'),
+			'notice'
 		);
 
 		return false;
@@ -681,14 +677,13 @@ function register_user($uname, $upass) {
 
 		if (isset($_SESSION['user_logged'])) {
 			write_log(
-				tr(
-					"%s user already logged or session sharing problem! Aborting...",
-					$uname
-				)
+				tr("%s user already logged or session sharing problem! Aborting...",
+					$uname)
 			);
 
 			system_message(
-				tr('User already logged or session sharing problem! Aborting...')
+				tr('User already logged or session sharing problem! Aborting...'),
+				'error'
 			);
 
 			unset_user_login_data();
@@ -698,14 +693,20 @@ function register_user($uname, $upass) {
 
 		if (!is_userdomain_ok($uname)) {
 			write_log(tr("%s's account status is not ok!", $uname));
-			system_message(tr("%s's account status is not ok!", $uname));
+			system_message(
+				tr("%s's account status is not ok!", $uname),
+				'error'
+			);
 
 			return false;
 		}
 
 		if ($udata['admin_type'] == 'user' && is_userdomain_expired($uname)) {
 			write_log(tr("%s's domain expired!", $uname));
-			system_message(tr("%s's domain expired!", $uname));
+			system_message(
+				tr("%s's domain expired!", $uname),
+				'notice'
+			);
 
 			return false;
 		}
@@ -740,6 +741,7 @@ function register_user($uname, $upass) {
 		write_log($uname . ' entered incorrect password.');
 		system_message(
 			tr('You entered an incorrect username/password.'),
+			'warning',
 			$backButtonDestination
 		);
 

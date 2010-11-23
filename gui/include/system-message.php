@@ -29,16 +29,22 @@
  */
 
 /**
+ * Generates a page message if something terribly goes wrong.
+ *
  * @todo possible session injection, check $_SESSION['user_theme'] for valid
  *	value
+ *
+ * @param String $msg					Message Content
+ * @param String $type					Message Type (notice, warning, error, success)
+ * @param string $backButtonDestination Destiation where to go on back link
+ *										click
  */
-function system_message($msg, $backButtonDestination = '') {
+function system_message($msg, $type = 'error', $backButtonDestination = '') {
 
 	$cfg = ispCP_Registry::get('Config');
 
 	$theme_color = (isset($_SESSION['user_theme']))
-		? $_SESSION['user_theme']
-		: $cfg->USER_INITIAL_THEME;
+		? $_SESSION['user_theme'] : $cfg->USER_INITIAL_THEME;
 
 	if (empty($backButtonDestination)) {
 		$backButtonDestination = "javascript:history.go(-1)";
@@ -53,7 +59,6 @@ function system_message($msg, $backButtonDestination = '') {
 		// But if we're inside the panel it will be like this
 		$template = '../' . $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
 	}
-
 	if (!is_file($template)) {
 		// And if we don't find the template, we'll just die displaying error
 		// message
@@ -73,6 +78,7 @@ function system_message($msg, $backButtonDestination = '') {
 				'TR_BACK' => tr('Back'),
 				'TR_ERROR_MESSAGE' => tr('Error Message'),
 				'MESSAGE' => $msg,
+				'MSG_TYPE' => $type,
 				'BACKBUTTONDESTINATION' => $backButtonDestination,
 				'TR_LOGIN' => tr('Login'),
 				'TR_USERNAME' => tr('Username'),
@@ -92,6 +98,7 @@ function system_message($msg, $backButtonDestination = '') {
 				'TR_BACK' => 'Back',
 				'TR_ERROR_MESSAGE' => 'Error Message',
 				'MESSAGE' => $msg,
+				'MSG_TYPE' => $type,
 				'BACKBUTTONDESTINATION' => $backButtonDestination,
 				'TR_LOGIN' => 'Login',
 				'TR_USERNAME' => 'Username',
@@ -109,3 +116,5 @@ function system_message($msg, $backButtonDestination = '') {
 
 	exit;
 }
+
+?>

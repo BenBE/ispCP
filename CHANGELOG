@@ -1,6 +1,13 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-23 Benedikt Heintel
+	- GUI:
+		* Fixed: Login back link destination switched on mixed TLS/nonTLS
+			support
+		* Added option to differentiate between different message states on
+			system messages
+
 2010-11-22 Benedikt Heintel
 	- LANGUAGES:
 		* Updated German

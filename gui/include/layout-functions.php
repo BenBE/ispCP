@@ -102,11 +102,7 @@ function set_page_message($message, $type = 'warning') {
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
-	if ($type == 'notice' || $type == 'warning' || $type == 'error'
-		|| $type == 'success') {
-		// @todo: check if ever different typs are mixed up and change here
-		$_SESSION['user_page_msg_type'] = $type;
-	}
+	$_SESSION['user_page_msg_type'] = $type;
 }
 
 /**
@@ -224,3 +220,5 @@ function gen_def_layout(&$tpl, $user_def_layout) {
 		$tpl->parse('DEF_LAYOUT', '.def_layout');
 	}
 }
+
+?>

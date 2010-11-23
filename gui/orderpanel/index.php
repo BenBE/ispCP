@@ -133,7 +133,10 @@ if (isset($_GET['user_id']) && is_numeric($_GET['user_id']) && $bcoid) {
 } else if (isset($_SESSION['user_id'])) {
 	$user_id = $_SESSION['user_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	system_message(
+		tr('You do not have permission to access this interface!'),
+		'error'
+	);
 }
 unset($_SESSION['plan_id']);
 
