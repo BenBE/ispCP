@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ispCP OMEGA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-03-30 20:51+0100\n"
 "Last-Translator: Josef Pinc <czjopi@gmail.com>\n"
 "Language-Team: Czech <cs_CZ@li.org>\n"
@@ -1549,8 +1549,9 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Statistiky partnera"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Admin/Statistika uživatelů partnera"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4444,29 +4445,72 @@ msgstr "Oběžník"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Doména/Upravit"
 
-msgid "Unchanged"
-msgstr "Nezměněno"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "- 1 měsíc"
+#, fuzzy
+msgid "Su"
+msgstr "Celkem"
 
-msgid "+ 1 Month"
-msgstr "+ 1 měsíc"
+#, fuzzy
+msgid "Mo"
+msgstr "Přesunout"
 
-msgid "+ 2 Months"
-msgstr "+ 2 měsíce"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ 3 měsíce"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ 6 měsíců"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ 1 rok"
+#, fuzzy
+msgid "Fr"
+msgstr "Volných"
 
-msgid "+ 2 Years"
-msgstr "+ 2 rok"
+#, fuzzy
+msgid "Sa"
+msgstr "Uložit"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Hledat"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Den"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Číslo"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4665,24 +4709,6 @@ msgstr "ispCP - Partner : Systém podpory: Zobrazit oznámení"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Uživatelé/Přidat uživatele"
 
-msgid "1 Month"
-msgstr "1 měsíc"
-
-msgid "2 Months"
-msgstr "2 měsíce"
-
-msgid "3 Months"
-msgstr "3 měsíce"
-
-msgid "6 Months"
-msgstr "6 měsíců"
-
-msgid "1 Year"
-msgstr "1 rok"
-
-msgid "2 Years"
-msgstr "2 roky"
-
 msgid "Choose hosting plan"
 msgstr "Vybrat plán hostingu"
 
@@ -4699,8 +4725,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Uživatel/Přidat uživatele (krok 2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Maximální počet domén<br><i>(-1 zakázáno, 0 bez omezení)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limit poštovních účtů<br /><i>(-1 zakázáno, 0 bez omezení)"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limit FTP účtů<br /><i>(-1 zakázáno, 0 bez omezení)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limit SQL databází<br /><i>(-1 zakázáno, 0 bez omezení)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Limit SQL uživatelů<br /><i>(-1 zakázáno, 0 bez omezení)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Limit přenesených dat [MB]<br /><i>(0 bez omezení)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Limit disku [MB]<br /><i>(0 bez omezení)</i>"
 
 msgid "Apache logs"
 msgstr "Protokoly Apache"
@@ -4777,6 +4827,51 @@ msgstr "Uživatel odstraněn!"
 
 msgid "User not terminated!"
 msgstr "Uživatel není odstraněn!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Statistiky partnera"
+
+#~ msgid "Unchanged"
+#~ msgstr "Nezměněno"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- 1 měsíc"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ 1 měsíc"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ 2 měsíce"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 měsíce"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 měsíců"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ 1 rok"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ 2 rok"
+
+#~ msgid "1 Month"
+#~ msgstr "1 měsíc"
+
+#~ msgid "2 Months"
+#~ msgstr "2 měsíce"
+
+#~ msgid "3 Months"
+#~ msgstr "3 měsíce"
+
+#~ msgid "6 Months"
+#~ msgstr "6 měsíců"
+
+#~ msgid "1 Year"
+#~ msgstr "1 rok"
+
+#~ msgid "2 Years"
+#~ msgstr "2 roky"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Podpora manuální editace DNS (EXPERIMENTÁLNÍ)"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa_IR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-08-26 23:19+0100\n"
 "Last-Translator: Amir Gholami <contact@18asb.com>\n"
 "Language-Team: Farsi (Iran)\n"
@@ -1562,8 +1562,9 @@ msgstr ""
 "ispCP NOTICE:\\n\\nدکمه ی Enter به دلیل افزایش کارآیی غیرفعال شده است\\nلطفا "
 "به جای آن از دکمه %s برای بروزرسانی اطلاعات استفاده کنید."
 
-msgid "ispCP - Reseller statistics"
-msgstr "آی اس پی سی پی - آمار ریسلر"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "آی اس پی سی پی - مدیر/آمار کاربران ریسلر"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4457,29 +4458,72 @@ msgstr "دوری"
 msgid "ispCP - Domain/Edit"
 msgstr "آی اس پی سی پی - دامنه/ویرایش"
 
-msgid "Unchanged"
-msgstr "تغییر نکرده"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "- ۱ ماه"
+#, fuzzy
+msgid "Su"
+msgstr "جمع"
 
-msgid "+ 1 Month"
-msgstr "+ ۱ ماه"
+#, fuzzy
+msgid "Mo"
+msgstr "جابجایی"
 
-msgid "+ 2 Months"
-msgstr "+ ۲ ماه"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ ۳ ماه"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ ۶ ماه"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ ۱ سال"
+#, fuzzy
+msgid "Fr"
+msgstr "آزاد"
 
-msgid "+ 2 Years"
-msgstr "+ ۲ سال"
+#, fuzzy
+msgid "Sa"
+msgstr "ذخیره"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "جستجو"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "روز"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "تعداد"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4678,24 +4722,6 @@ msgstr "آی اس پی سی پی - ریسلر: سیستم پشتیبانی: دی
 msgid "ispCP - Users/Add user"
 msgstr "آی اس پی سی پی - کاربران/افزودن کاربر"
 
-msgid "1 Month"
-msgstr "۱ ماه"
-
-msgid "2 Months"
-msgstr "۲ ماه"
-
-msgid "3 Months"
-msgstr "۳ ماه"
-
-msgid "6 Months"
-msgstr "۶ ماه"
-
-msgid "1 Year"
-msgstr "۱ سال"
-
-msgid "2 Years"
-msgstr "۲ سال"
-
 msgid "Choose hosting plan"
 msgstr "انتخاب پلن میزبانی"
 
@@ -4712,8 +4738,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "آی اس پی سی پی - کاربر/افزودن کاربر (گام ۲)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "حداکثر دامنه ها <br> <i>(-1 غیرفعال, 0 نامحدود)</i> "
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "حداکثر اکانت ایمیل <br /><i>(-1 غیرفعال, 0 نامحدود)</i>  "
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "حداکثر اکانت اف تی پی <br /><i>(-1 غیرفعال, 0 نامحدود)</i>  "
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "حداکثر بانک دامنه اس کیو ال <br /><i>(-1 غیرفعال, 0 نامحدود)</i>  "
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "حداکثر تعداد کاربر اس کیو ال <br /><i>(-1 غیرفعال, 0 نامحدود)</i>  "
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr " حداکثر ترافیک -مگ  <br /><i>(0 نامحدود)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr " حداکثر فضای دیسک - مگ  <br /><i>(0 نامحدود)</i>"
 
 msgid "Apache logs"
 msgstr "لاگ آپاچی"
@@ -4790,6 +4840,51 @@ msgstr "کاربر حذف شد!"
 
 msgid "User not terminated!"
 msgstr "کاربر حذف نشده است!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "آی اس پی سی پی - آمار ریسلر"
+
+#~ msgid "Unchanged"
+#~ msgstr "تغییر نکرده"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- ۱ ماه"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ ۱ ماه"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ ۲ ماه"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ ۳ ماه"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ ۶ ماه"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ ۱ سال"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ ۲ سال"
+
+#~ msgid "1 Month"
+#~ msgstr "۱ ماه"
+
+#~ msgid "2 Months"
+#~ msgstr "۲ ماه"
+
+#~ msgid "3 Months"
+#~ msgstr "۳ ماه"
+
+#~ msgid "6 Months"
+#~ msgstr "۶ ماه"
+
+#~ msgid "1 Year"
+#~ msgstr "۱ سال"
+
+#~ msgid "2 Years"
+#~ msgstr "۲ سال"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "پشتیبانی دی ان اس دستی (<i>آزمایشی</i>) "

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu_HU\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2009-12-18 14:31+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Hungarian <hu_HU@li.org>\n"
@@ -1578,8 +1578,9 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Viszonteladói statisztika"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Admin/Viszonteladó Felhasználó statisztika"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4539,37 +4540,72 @@ msgstr "Körlevél"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Domain/Módosítás"
 
-#, fuzzy
-msgid "Unchanged"
-msgstr "Vált"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
 #, fuzzy
-msgid "- 1 Month"
-msgstr "Hónap"
+msgid "Su"
+msgstr "Összes"
 
 #, fuzzy
-msgid "+ 1 Month"
-msgstr "Hónap"
+msgid "Mo"
+msgstr "Áthelyez"
+
+msgid "Tu"
+msgstr ""
+
+msgid "We"
+msgstr ""
+
+msgid "Th"
+msgstr ""
 
 #, fuzzy
-msgid "+ 2 Months"
-msgstr "Hónap"
+msgid "Fr"
+msgstr "Szabad"
 
 #, fuzzy
-msgid "+ 3 Months"
-msgstr "Hónap"
+msgid "Sa"
+msgstr "Mentés"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
 
 #, fuzzy
-msgid "+ 6 Months"
-msgstr "Hónap"
+msgid "March"
+msgstr "Keresés"
+
+msgid "April"
+msgstr ""
 
 #, fuzzy
-msgid "+ 1 Year"
-msgstr "Év"
+msgid "May"
+msgstr "Nap"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
 
 #, fuzzy
-msgid "+ 2 Years"
-msgstr "Év"
+msgid "November"
+msgstr "Szám"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4772,30 +4808,6 @@ msgstr "ispCP - Viszonteladó : Ügyfélszolgálati Rendszer: Bejelentések"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Felhasználók/Új felhasználó"
 
-#, fuzzy
-msgid "1 Month"
-msgstr "Hónap"
-
-#, fuzzy
-msgid "2 Months"
-msgstr "Hónap"
-
-#, fuzzy
-msgid "3 Months"
-msgstr "Hónap"
-
-#, fuzzy
-msgid "6 Months"
-msgstr "Hónap"
-
-#, fuzzy
-msgid "1 Year"
-msgstr "Év"
-
-#, fuzzy
-msgid "2 Years"
-msgstr "Év"
-
 msgid "Choose hosting plan"
 msgstr "Válassz szolgáltatás csomagot"
 
@@ -4814,8 +4826,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Felhasználó/Új felhasználó (lépés 2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Max domainek<br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Mail felhasználó limi t<br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTP felhasználó limit <br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL adatbázis limit <br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL felhasználó limit <br><i>(-1 tiltva, 0 korlátlan)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Forgalom limit  [MB] <br /><i>(0 korlátlan)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Diszk limit [MB] <br><i>(0 korlátlan)</i>"
 
 msgid "Apache logs"
 msgstr "Apache napló"
@@ -4893,6 +4929,65 @@ msgstr "Felhasználó törölve!"
 
 msgid "User not terminated!"
 msgstr "Felhasználó nincs törölve!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Viszonteladói statisztika"
+
+#, fuzzy
+#~ msgid "Unchanged"
+#~ msgstr "Vált"
+
+#, fuzzy
+#~ msgid "- 1 Month"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "+ 1 Month"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "+ 2 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "+ 3 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "+ 6 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "+ 1 Year"
+#~ msgstr "Év"
+
+#, fuzzy
+#~ msgid "+ 2 Years"
+#~ msgstr "Év"
+
+#, fuzzy
+#~ msgid "1 Month"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "2 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "3 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "6 Months"
+#~ msgstr "Hónap"
+
+#, fuzzy
+#~ msgid "1 Year"
+#~ msgstr "Év"
+
+#, fuzzy
+#~ msgid "2 Years"
+#~ msgstr "Év"
 
 #, fuzzy
 #~ msgid "Manual DNS support (EXPERIMENTAL)"

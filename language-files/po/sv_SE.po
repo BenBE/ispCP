@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ispCP 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-04-14 00:06+0100\n"
 "Last-Translator: Fredrik Kilegran <atomicoz@gmail.com>\n"
 "Language-Team: Swedish <sv_SE@li.org>\n"
@@ -1573,8 +1573,9 @@ msgstr ""
 "ispCP MEDDELANDE:\\n\\nTangenten `Enter` är inaktiverad för bättre prestanda!"
 "\\nAnvänd i stället knappen %s för att uppdatera uppgifterna."
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Återförsäljarstatistik"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Administratör/Användartabell för återförsäljare"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4500,29 +4501,72 @@ msgstr "Cirkulär"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Domän/Ändra"
 
-msgid "Unchanged"
-msgstr "Oförändrat"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "- 1 Månad"
+#, fuzzy
+msgid "Su"
+msgstr "Totalt"
 
-msgid "+ 1 Month"
-msgstr "+ 1 Månad"
+#, fuzzy
+msgid "Mo"
+msgstr "Flytta"
 
-msgid "+ 2 Months"
-msgstr "+ 2 Månader"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ 3 Månader"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ 6 Månader"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ 1 År"
+#, fuzzy
+msgid "Fr"
+msgstr "Ledigt"
 
-msgid "+ 2 Years"
-msgstr "+ 2 År"
+#, fuzzy
+msgid "Sa"
+msgstr "Spara"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Sök"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Dag"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Nummer"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4721,24 +4765,6 @@ msgstr "ispCP - Återförsäljare: Stödsystem: Visa Ämne"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Användare/Lägg till Användare"
 
-msgid "1 Month"
-msgstr "1 Månad"
-
-msgid "2 Months"
-msgstr "2 Månader"
-
-msgid "3 Months"
-msgstr "3 Månader"
-
-msgid "6 Months"
-msgstr "6 Månader"
-
-msgid "1 Year"
-msgstr "1 År"
-
-msgid "2 Years"
-msgstr "2 År"
-
 msgid "Choose hosting plan"
 msgstr "Välj webbhotell"
 
@@ -4755,8 +4781,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Användare/Lägg till användare(steg2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Max domäner<br><i>(-1 inaktiverad, 0 obegränsat)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "E-postkontogräns <br /><i>(-1 avstängd, 0 obegränsad)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTP-kontogräns <br /><i>(-1 avstängd, 0 obegränsad)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL-kontogräns <br /><i>(-1 avstängd, 0 obegränsad)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL-användargräns <br /><i>(-1 avstängd, 0 obegränsad)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Trafikgräns <br /><i>(0 obegränsad)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Diskgräns<br /><i>(0 obegränsad)</i>"
 
 msgid "Apache logs"
 msgstr "Apache loggar"
@@ -4833,6 +4883,51 @@ msgstr "Användare avslutad!"
 
 msgid "User not terminated!"
 msgstr "Användaren avslutades inte!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Återförsäljarstatistik"
+
+#~ msgid "Unchanged"
+#~ msgstr "Oförändrat"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- 1 Månad"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ 1 Månad"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ 2 Månader"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 Månader"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 Månader"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ 1 År"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ 2 År"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Månad"
+
+#~ msgid "2 Months"
+#~ msgstr "2 Månader"
+
+#~ msgid "3 Months"
+#~ msgstr "3 Månader"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Månader"
+
+#~ msgid "1 Year"
+#~ msgstr "1 År"
+
+#~ msgid "2 Years"
+#~ msgstr "2 År"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Manuellt DNS-stöd (EXPERIMENTELL)"

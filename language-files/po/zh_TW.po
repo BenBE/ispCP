@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Benedikt Heintel <benedikt@heintel.org>\n"
 "Language-Team: Chinese (Taiwan) <zh_HK@li.org>\n"
@@ -1558,8 +1558,9 @@ msgid ""
 "\\nInstead, use the %s button to update the data."
 msgstr ""
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - 代理商統計"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - 管理員/代理商使用者統計"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4467,30 +4468,72 @@ msgstr "迴圈"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - 網域/編輯"
 
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
+
 #, fuzzy
-msgid "Unchanged"
-msgstr "修改"
+msgid "Su"
+msgstr "總數"
 
-msgid "- 1 Month"
-msgstr "减一月"
+#, fuzzy
+msgid "Mo"
+msgstr "移動"
 
-msgid "+ 1 Month"
-msgstr "加一月"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 2 Months"
-msgstr "加二月"
+msgid "We"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "加三月"
+msgid "Th"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "加六月"
+#, fuzzy
+msgid "Fr"
+msgstr "空閒"
 
-msgid "+ 1 Year"
-msgstr "加一年"
+#, fuzzy
+msgid "Sa"
+msgstr "儲存"
 
-msgid "+ 2 Years"
-msgstr "加二年"
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "搜索"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "日"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "數量"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4691,24 +4734,6 @@ msgstr "ispCP - 代理商 : 系統支援: 查看疑問"
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - 使用者/增加使用者"
 
-msgid "1 Month"
-msgstr "一月"
-
-msgid "2 Months"
-msgstr "二月"
-
-msgid "3 Months"
-msgstr "三月"
-
-msgid "6 Months"
-msgstr "六月"
-
-msgid "1 Year"
-msgstr "一年"
-
-msgid "2 Years"
-msgstr "两年"
-
 msgid "Choose hosting plan"
 msgstr "選擇託管計劃"
 
@@ -4725,8 +4750,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - 使用者/增加使用者（第二步）"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "最多網域限制<br><i>(-1 停用, 0 無限制)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Mail 帳號限制 <br /><i>(-1 停用, 0 無限制)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTP 帳號限制 <br /><i>(-1 停用, 0 無限制)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL 資料庫限制 <br /><i>(-1 停用, 0 無限制)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQL 使用者限制 <br /><i>(-1 停用, 0 無限制)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "流量限制 [MB] <br /><i>(0 無限制)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "磁碟空間限制 [MB] <br /><i>(0 無限制)</i>"
 
 msgid "Apache logs"
 msgstr "Apache 日誌"
@@ -4803,6 +4852,52 @@ msgstr "使用者已到期！"
 
 msgid "User not terminated!"
 msgstr "使用者未終止！"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - 代理商統計"
+
+#, fuzzy
+#~ msgid "Unchanged"
+#~ msgstr "修改"
+
+#~ msgid "- 1 Month"
+#~ msgstr "减一月"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "加一月"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "加二月"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "加三月"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "加六月"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "加一年"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "加二年"
+
+#~ msgid "1 Month"
+#~ msgstr "一月"
+
+#~ msgid "2 Months"
+#~ msgstr "二月"
+
+#~ msgid "3 Months"
+#~ msgstr "三月"
+
+#~ msgid "6 Months"
+#~ msgstr "六月"
+
+#~ msgid "1 Year"
+#~ msgstr "一年"
+
+#~ msgid "2 Years"
+#~ msgstr "两年"
 
 #, fuzzy
 #~ msgid "Manual DNS support (EXPERIMENTAL)"

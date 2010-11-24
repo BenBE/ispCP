@@ -64,3 +64,39 @@ function check_date($date) {
 
 	return 0;
 }
+
+/**
+ * Converts a PHP date Format to the jQuery UI Datepicker date format
+ *
+ * @see http://docs.jquery.com/UI/Datepicker/$.datepicker.formatDate
+ * @param String $dateFormat	PHP date format
+ * @return String				JavaScript date format
+ */
+function jQueryDatepickerDateFormat($dateFormat) {
+
+	$search  = array(
+		// Day
+		'/d/', '/D/', '/j/', '/l/', 
+		// Month
+		'/F/', '/m/', '/M/', '/n/',
+		// Year
+		'/o/', '/y/', '/Y/',
+		// to delete
+		'/N|S|w|z|W|t|L/',
+	);
+	$replace = array(
+		// Day
+		'dd', 'D', 'd', 'DD',
+		// Month
+		'MM', 'mm', 'M', 'm',
+		// Year
+		'y', 'y', 'yy',
+		// delete
+		''
+	);
+	$dateFormat = preg_replace($search, $replace, $dateFormat);
+
+	return $dateFormat;
+}
+
+?>

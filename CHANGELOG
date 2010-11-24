@@ -6,6 +6,8 @@ ispCP ω 1.0.7 ChangeLog
 		* Fixed broken Setup
 		
 2010-11-24 Benedikt Heintel
+	- GUI:
+		* Fixed #2432: Change Domain expire date to any available date
 	- LANGUAGES:
 		* Updated Japanese (Thanks to Nito Kazunori)
 
@@ -29,6 +31,10 @@ ispCP ω 1.0.7 ChangeLog
 		* Improved XHTML compatibility
 		* Fixed: Wrong encoding of log info
 		* Fixed: Lost Password functions
+
+2010-11-20 Benedikt Heintel
+	- GUI:
+		* Fixed #2432: Change Domain expire date to any available date
 
 2010-11-20 Benedikt Heintel
 	- GUI:

@@ -74,15 +74,15 @@ $tpl->assign(
 			'TR_ADD_USER'					=> tr('Add user'),
 			'TR_HOSTING_PLAN_PROPERTIES'	=> tr('Hosting plan properties'),
 			'TR_TEMPLATE_NAME'				=> tr('Template name'),
-			'TR_MAX_DOMAIN'					=> tr('Max domains<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_SUBDOMAIN'				=> tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_DOMAIN_ALIAS'			=> tr('Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_MAIL_COUNT'				=> tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_FTP'					=> tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_SQL_DB'					=> tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_SQL_USERS'				=> tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-			'TR_MAX_TRAFFIC'				=> tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
-			'TR_MAX_DISK_USAGE'				=> tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
+			'TR_MAX_DOMAIN'					=> tr('Max domains<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SUBDOMAIN'				=> tr('Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_DOMAIN_ALIAS'			=> tr('Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_MAIL_COUNT'				=> tr('Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_FTP'					=> tr('FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SQL_DB'					=> tr('SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_SQL_USERS'				=> tr('SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>'),
+			'TR_MAX_TRAFFIC'				=> tr('Traffic limit [MB]<br /><em>(0 unlimited)</em>'),
+			'TR_MAX_DISK_USAGE'				=> tr('Disk limit [MB]<br /><em>(0 unlimited)</em>'),
 			'TR_PHP'						=> tr('PHP'),
 			'TR_CGI'						=> tr('CGI / Perl'),
 			'TR_BACKUP'						=> tr('Backup'),
@@ -91,8 +91,8 @@ $tpl->assign(
 			'TR_BACKUP_FULL'				=> tr('Full'),
 			'TR_BACKUP_NO'					=> tr('No'),
 			'TR_DNS'						=> tr('Manual DNS support'),
-			'TR_YES'						=> tr('yes'),
-			'TR_NO'							=> tr('no'),
+			'TR_YES'						=> tr('Yes'),
+			'TR_NO'							=> tr('No'),
 			'TR_NEXT_STEP'					=> tr('Next step'),
 			'TR_APACHE_LOGS'				=> tr('Apache logs'),
 			'TR_AWSTATS'					=> tr('Awstats')
@@ -159,14 +159,14 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * get param of previous page
  */
 function get_pageone_param() {
-	global $dmn_name;
-	global $dmn_expire;
-	global $dmn_chp;
+	// @todo check if really needed
+	global $dmn_name, $dmn_expire, $dmn_chp;
 
 	if (isset($_SESSION['dmn_name'])) {
-		$dmn_name = $_SESSION['dmn_name'];
-		$dmn_expire = $_SESSION['dmn_expire'];
-		$dmn_chp = $_SESSION['dmn_tpl'];
+		$dmn_name 			= $_SESSION['dmn_name'];
+		$dmn_expire 		= $_SESSION['dmn_expire_date'];
+		$dmn_expire_never 	= $_SESSION['dmn_expire_never'];
+		$dmn_chp 			= $_SESSION['dmn_tpl'];
 	} else {
 		return false;
 	}
@@ -406,3 +406,5 @@ function check_hosting_plan_name($admin_id) {
 
 	return true;
 } // End of check_hosting_plan_name()
+
+?>

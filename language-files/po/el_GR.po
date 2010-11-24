@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el_GR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
 "PO-Revision-Date: 2010-11-03 15:46+0200\n"
 "Last-Translator: Anastasios D. Filelis <webmaster@evresis.gr>\n"
 "Language-Team: Greek (Greece) <webmaster@evresos.gr>\n"
@@ -1581,8 +1581,9 @@ msgstr ""
 "ispCP ΣΗΜΕΙΩΣΗ:\\n\\nΤο πλήκτρο `Enter` είναι ανενεργό για λόγους επιδόσεων!"
 "\\nΑντί αυτού, πιέστε το κουμπί %s για μεταβολή των δεδομένων."
 
-msgid "ispCP - Reseller statistics"
-msgstr "ispCP - Στατιστικά μεταπωλητή"
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Διαχειριστής/Στατιστικά Χρήστη Μεταπωλητή"
 
 #, fuzzy
 msgid "There are no resellers in your system!"
@@ -4527,29 +4528,72 @@ msgstr "Κυκλικό"
 msgid "ispCP - Domain/Edit"
 msgstr "ispCP - Όνομα internet/Διόρθωση"
 
-msgid "Unchanged"
-msgstr "Αμετάβλητο"
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
 
-msgid "- 1 Month"
-msgstr "- 1 Μήνας"
+#, fuzzy
+msgid "Su"
+msgstr "Σύνολο"
 
-msgid "+ 1 Month"
-msgstr "+ 1 Μήνας"
+#, fuzzy
+msgid "Mo"
+msgstr "Μεταφορά"
 
-msgid "+ 2 Months"
-msgstr "+ 2 Μήνες"
+msgid "Tu"
+msgstr ""
 
-msgid "+ 3 Months"
-msgstr "+ 3 Μήνες"
+msgid "We"
+msgstr ""
 
-msgid "+ 6 Months"
-msgstr "+ 6 Μήνες"
+msgid "Th"
+msgstr ""
 
-msgid "+ 1 Year"
-msgstr "+ 1 Έτος"
+#, fuzzy
+msgid "Fr"
+msgstr "Ελεύθερα"
 
-msgid "+ 2 Years"
-msgstr "+ 2 Έτη"
+#, fuzzy
+msgid "Sa"
+msgstr "Καταχώρηση"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Αναζήτηση"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Ημέρα"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Αριθμός"
+
+msgid "December"
+msgstr ""
 
 #, php-format
 msgid "The <em>%s</em> service cannot be disabled!"
@@ -4749,24 +4793,6 @@ msgstr "ispCP - Μεταπωλητής: Σύστημα Υποστήριξης: �
 msgid "ispCP - Users/Add user"
 msgstr "ispCP - Χρήστες/Προσθήκη χρήστη"
 
-msgid "1 Month"
-msgstr "1 Μήνας"
-
-msgid "2 Months"
-msgstr "2 Μήνες"
-
-msgid "3 Months"
-msgstr "3 Μήνες"
-
-msgid "6 Months"
-msgstr "6 Μήνες"
-
-msgid "1 Year"
-msgstr "1 Έτος"
-
-msgid "2 Years"
-msgstr "2 Έτη"
-
 msgid "Choose hosting plan"
 msgstr "Επιλογή πακέτου φιλοξενίας"
 
@@ -4785,8 +4811,32 @@ msgid "ispCP - User/Add user(step2)"
 msgstr "ispCP - Χρήστης/Προσθήκη χρήστη(βήμα2)"
 
 #, fuzzy
-msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
 msgstr "Μέγιστο ονόματων internet<br><i>(-1 ανενεργά, 0 απεριόριστα)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών email <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών FTP <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο SQL Β.Δ. <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο χρηστών SQL <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Όριο κίνησης [MB] <br /><i>(0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Όριο δίσκου [MB] <br /><i>(0 απεριόριστο)</i>"
 
 msgid "Apache logs"
 msgstr "Αρχεία καταγραφής Apache"
@@ -4865,6 +4915,51 @@ msgstr "Ο χρήστης τερματίστηκε!"
 
 msgid "User not terminated!"
 msgstr "Ο χρήστης δεν τερματίστηκε!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Στατιστικά μεταπωλητή"
+
+#~ msgid "Unchanged"
+#~ msgstr "Αμετάβλητο"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- 1 Μήνας"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ 1 Μήνας"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ 2 Μήνες"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 Μήνες"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 Μήνες"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ 1 Έτος"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ 2 Έτη"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Μήνας"
+
+#~ msgid "2 Months"
+#~ msgstr "2 Μήνες"
+
+#~ msgid "3 Months"
+#~ msgstr "3 Μήνες"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Μήνες"
+
+#~ msgid "1 Year"
+#~ msgstr "1 Έτος"
+
+#~ msgid "2 Years"
+#~ msgstr "2 Έτη"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "Μη αυτόματη υποστήριξη DNS (ΠΕΙΡΑΜΑΤΙΚΗ)"
