@@ -1,6 +1,10 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-24 Markus Szywon
+	- ENGINE:
+		* Fixed broken Setup
+		
 2010-11-24 Benedikt Heintel
 	- LANGUAGES:
 		* Updated Japanese (Thanks to Nito Kazunori)
