@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-15 01:27+0100\n"
 "Last-Translator: Seviye Kaloğlu <seviye@gmail.com>\n"
 "Language-Team: Turkish <tr_TR@li.org>\n"
@@ -1553,6 +1553,9 @@ msgstr "%1$d / %2$d <br/>toplam<br/> <b>limitsiz</b>"
 msgid "<b>disabled</b>"
 msgstr "pasif"
 
+msgid "Server statistics"
+msgstr "Server istatistikleri"
+
 msgid "Reseller statistics table"
 msgstr "Bayi istatistik tablosu"
 
@@ -1623,9 +1626,6 @@ msgstr "Anti-Rootkits Araçları Log Checker"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Yönetici/Server istatistikleri"
-
-msgid "Server statistics"
-msgstr "Server istatistikleri"
 
 msgid "Web in"
 msgstr "Web gelen"
@@ -2551,7 +2551,7 @@ msgid "Unknown zone type %s!"
 msgstr "Bilinmeyen zone tipi %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Böyle bir kullanıcı zaten var!"
 
 msgid "ispCP - Client/Domain Statistics"

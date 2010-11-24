@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fi_FI\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-11-19 20:46+0200\n"
 "Last-Translator: Matti Mieskonen <matti.mieskonen@hostingnetworks.info>\n"
 "Language-Team: Finnish <fi_FI@li.org>\n"
@@ -1552,6 +1552,9 @@ msgstr "%1$d / %2$d <br/>/<br/> <b>rajoittamaton</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>ei käytössä</b>"
 
+msgid "Server statistics"
+msgstr "Palvelinstatistiikka"
+
 msgid "Reseller statistics table"
 msgstr "Jälleenmyyjätilastotaulukko"
 
@@ -1624,9 +1627,6 @@ msgstr "Anti-Rootkit Työkalun logien tarkastaja"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Ylläpito / Palvelimen statistiikka"
-
-msgid "Server statistics"
-msgstr "Palvelinstatistiikka"
 
 msgid "Web in"
 msgstr "Web sisään"
@@ -2539,7 +2539,7 @@ msgid "Unknown zone type %s!"
 msgstr "Tuntematon alueen tyyppi %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Käyttäjä on jo olemassa!"
 
 msgid "ispCP - Client/Domain Statistics"

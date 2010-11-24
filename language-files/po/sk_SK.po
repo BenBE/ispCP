@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk_SK\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:32+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -1625,6 +1625,9 @@ msgstr ""
 msgid "<b>disabled</b>"
 msgstr "zakázané"
 
+msgid "Server statistics"
+msgstr "Štatistiky servra"
+
 msgid "Reseller statistics table"
 msgstr "Tabulka štatistík predajcu"
 
@@ -1697,9 +1700,6 @@ msgstr "Log kontroly Rootkit"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Štatistiky servra"
-
-msgid "Server statistics"
-msgstr "Štatistiky servra"
 
 msgid "Web in"
 msgstr "Web prichádzajúce"
@@ -2672,7 +2672,7 @@ msgid "Unknown zone type %s!"
 msgstr ""
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Užívateľ už existuje !"
 
 msgid "ispCP - Client/Domain Statistics"

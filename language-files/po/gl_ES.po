@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl_ES\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-02-22 21:00+0100\n"
 "Last-Translator: Medulio <medulio@ciberirmandade.org>\n"
 "Language-Team: Galego <gl@li.org>\n"
@@ -1563,6 +1563,9 @@ msgstr "%1$d / %2$d <br/>de<br/> <b>ilimitados</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>desactivado</b>"
 
+msgid "Server statistics"
+msgstr "Estatísticas do servidor"
+
 msgid "Reseller statistics table"
 msgstr "Táboa de estatísticas do revendedor"
 
@@ -1635,9 +1638,6 @@ msgstr "Ferramentas Anti-Rootkits Comprobador de Rexistro (Log)"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Estatísticas do servidor"
-
-msgid "Server statistics"
-msgstr "Estatísticas do servidor"
 
 msgid "Web in"
 msgstr "Entrada web"
@@ -2565,7 +2565,7 @@ msgid "Unknown zone type %s!"
 msgstr "Tipo de zona %s descoñecido!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "O usuario xa existe!"
 
 msgid "ispCP - Client/Domain Statistics"

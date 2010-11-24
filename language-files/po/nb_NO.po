@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:31+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Norwegian (Norway) <no_NO@li.org>\n"
@@ -1555,6 +1555,9 @@ msgstr "%1$d / %2$d <br/>av<br/> <b>ubegrenset</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>deaktivert</b>"
 
+msgid "Server statistics"
+msgstr "Server statistikk"
+
 msgid "Reseller statistics table"
 msgstr "Forhandler statistikk bord"
 
@@ -1625,9 +1628,6 @@ msgstr "Anti-Rootkits Verktøys Log Sjekker"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Server statistikk"
-
-msgid "Server statistics"
-msgstr "Server statistikk"
 
 msgid "Web in"
 msgstr "Web inn"
@@ -2580,7 +2580,7 @@ msgid "Unknown zone type %s!"
 msgstr "Ukjent type %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Brukeren eksisterer allerede !"
 
 msgid "ispCP - Client/Domain Statistics"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Chinese (China) <zh_CN@li.org>\n"
@@ -1543,6 +1543,9 @@ msgstr "%1$d / %2$d <br/>of<br/> <b>允许量</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>未支持</b>"
 
+msgid "Server statistics"
+msgstr "服务器统计"
+
 msgid "Reseller statistics table"
 msgstr "代理商统计表"
 
@@ -1613,9 +1616,6 @@ msgstr "反Rootkits工具日志检查器"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - 管理员/服务器统计"
-
-msgid "Server statistics"
-msgstr "服务器统计"
 
 msgid "Web in"
 msgstr "Web 接收"
@@ -2558,7 +2558,7 @@ msgid "Unknown zone type %s!"
 msgstr ""
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "此用户已存在！"
 
 msgid "ispCP - Client/Domain Statistics"

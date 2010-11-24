@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: az_AZ\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:26+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Azerbaijani <az_AZ@li.org>\n"
@@ -1516,6 +1516,9 @@ msgstr ""
 msgid "<b>disabled</b>"
 msgstr ""
 
+msgid "Server statistics"
+msgstr ""
+
 msgid "Reseller statistics table"
 msgstr ""
 
@@ -1585,9 +1588,6 @@ msgid "Anti-Rootkits Tools Log Checker"
 msgstr ""
 
 msgid "ispCP - Admin/Server statistics"
-msgstr ""
-
-msgid "Server statistics"
 msgstr ""
 
 msgid "Web in"
@@ -2480,7 +2480,7 @@ msgstr ""
 msgid "Unknown zone type %s!"
 msgstr ""
 
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr ""
 
 msgid "ispCP - Client/Domain Statistics"

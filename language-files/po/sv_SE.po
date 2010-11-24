@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ispCP 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-04-14 00:06+0100\n"
 "Last-Translator: Fredrik Kilegran <atomicoz@gmail.com>\n"
 "Language-Team: Swedish <sv_SE@li.org>\n"
@@ -1560,6 +1560,9 @@ msgstr "%1$d / %2$d <br/>av<br/> <b>obegränsat</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>inaktiverad</b>"
 
+msgid "Server statistics"
+msgstr "Serverstatistik"
+
 msgid "Reseller statistics table"
 msgstr "Statistiktabell för återförsäljare"
 
@@ -1631,9 +1634,6 @@ msgstr "Loggvisare för anti-rootkitverktyg"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Administratör/Serverstatistik"
-
-msgid "Server statistics"
-msgstr "Serverstatistik"
 
 msgid "Web in"
 msgstr "Webb inåt"
@@ -2560,7 +2560,7 @@ msgid "Unknown zone type %s!"
 msgstr "Okänd zontyp %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Användaren finns redan!"
 
 msgid "ispCP - Client/Domain Statistics"

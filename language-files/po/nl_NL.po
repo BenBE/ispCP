@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl_NL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-03-11 18:44+0100\n"
 "Last-Translator: mata <mata@ezh.be>\n"
 "Language-Team: Dutch <nl_NL@li.org>\n"
@@ -1556,6 +1556,9 @@ msgstr "%1$d / %2$d <br/>van<br/> <b>ongelimiteerd</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>uitgeschakeld</b>"
 
+msgid "Server statistics"
+msgstr "Server statistieken"
+
 msgid "Reseller statistics table"
 msgstr "Reseller statistieken tabel"
 
@@ -1626,9 +1629,6 @@ msgstr "Anti-Rootkits Tools Log Checker"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Beheer/Server statistieken"
-
-msgid "Server statistics"
-msgstr "Server statistieken"
 
 msgid "Web in"
 msgstr "Binnenkomende Web"
@@ -2552,7 +2552,7 @@ msgid "Unknown zone type %s!"
 msgstr "Onbekende zone type %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Gebruiker bestaat al!"
 
 msgid "ispCP - Client/Domain Statistics"

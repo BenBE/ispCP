@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca_ES\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-08-30 11:02+0200\n"
 "Last-Translator: Joan Juvanteny <jjuvan@grn.cat>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -1566,6 +1566,9 @@ msgstr "%1$d / %2$d <br/>de<br/> <b>il·limitat</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>desactivat</b>"
 
+msgid "Server statistics"
+msgstr "Estadístiques del Servidor"
+
 msgid "Reseller statistics table"
 msgstr "Taula d'estadístiques dels distribuïdors"
 
@@ -1638,9 +1641,6 @@ msgstr "Registre dels anàlisi de les eines Anti-Rootkits"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Estadístiques del Servidor"
-
-msgid "Server statistics"
-msgstr "Estadístiques del Servidor"
 
 msgid "Web in"
 msgstr "Web entrada"
@@ -2558,7 +2558,7 @@ msgid "Unknown zone type %s!"
 msgstr "Tipus de zona %s desconegut!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Ja existeix l'usuari!"
 
 msgid "ispCP - Client/Domain Statistics"

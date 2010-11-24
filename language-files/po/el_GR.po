@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el_GR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-11-03 15:46+0200\n"
 "Last-Translator: Anastasios D. Filelis <webmaster@evresis.gr>\n"
 "Language-Team: Greek (Greece) <webmaster@evresos.gr>\n"
@@ -1567,6 +1567,9 @@ msgstr "%1$d / %2$d <br/>από<br/> <b>απεριόριστο</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>ανενεργό</b>"
 
+msgid "Server statistics"
+msgstr "Στατιστικά Διακομιστή"
+
 msgid "Reseller statistics table"
 msgstr "Πίνακας στατιστικών μεταπωλητή"
 
@@ -1639,9 +1642,6 @@ msgstr "Εργαλεία Αντί-Rootkits  Ελεγκτής Αρχείου Κα
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Διαχειριστής/Στατιστικά διακομιστή"
-
-msgid "Server statistics"
-msgstr "Στατιστικά Διακομιστή"
 
 msgid "Web in"
 msgstr "Web εν"
@@ -2570,7 +2570,7 @@ msgid "Unknown zone type %s!"
 msgstr "Άγνωστος τύπος ζώνης %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Ο χρήστης υπάρχει ήδη!"
 
 msgid "ispCP - Client/Domain Statistics"

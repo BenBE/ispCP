@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr_FR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-06-18 14:30+0100\n"
 "Last-Translator: Laurent Declercq <laurent.declercq@ispcp.net>\n"
 "Language-Team: French (France) <fr_FR@li.org>\n"
@@ -1571,6 +1571,9 @@ msgstr "%1$d / %2$d <br/>de<br/> <b>illimité</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>désactivé</b>"
 
+msgid "Server statistics"
+msgstr "Statistiques du serveur"
+
 msgid "Reseller statistics table"
 msgstr "Tableau des statistiques du revendeur"
 
@@ -1642,9 +1645,6 @@ msgstr "Outils Anti-Rootkits d'analyse de journaux"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Statistiques du serveur"
-
-msgid "Server statistics"
-msgstr "Statistiques du serveur"
 
 msgid "Web in"
 msgstr "Web<br />entrant"
@@ -2572,7 +2572,7 @@ msgid "Unknown zone type %s!"
 msgstr "Type de zone inconnue %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "L'utilisateur existe déjà!"
 
 msgid "ispCP - Client/Domain Statistics"

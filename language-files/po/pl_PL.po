@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ispCP 1.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-11-12 22:42+0100\n"
 "Last-Translator: Arkadiusz Petruczynik <voxar@voxar.pl>\n"
 "Language-Team: Polish <pl_PL@li.org>\n"
@@ -1554,6 +1554,9 @@ msgstr "%1$d / %2$d <br/>z<br/> <b>nielimitowanych</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>wyłączone</b>"
 
+msgid "Server statistics"
+msgstr "Statystyki serwera"
+
 msgid "Reseller statistics table"
 msgstr "Tabela statystyk resellera"
 
@@ -1626,9 +1629,6 @@ msgstr "Kontrola logu narzędzi przeciwko rootkit-om"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Statystyki serwera"
-
-msgid "Server statistics"
-msgstr "Statystyki serwera"
 
 msgid "Web in"
 msgstr "WWW - przychodzące"
@@ -2541,7 +2541,7 @@ msgid "Unknown zone type %s!"
 msgstr "Nieznany typ strefy %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Taki użytkownik już istnieje!"
 
 msgid "ispCP - Client/Domain Statistics"

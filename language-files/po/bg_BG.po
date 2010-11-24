@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg_BG\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:26+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Bulgarian <bg_BG@li.org>\n"
@@ -1575,6 +1575,9 @@ msgstr "%1$d / %2$d <br/>от<br/> <b>без Ограничение</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>забранен</b>"
 
+msgid "Server statistics"
+msgstr "Статистика на сървъра"
+
 msgid "Reseller statistics table"
 msgstr "Таблица със статистиките на риселъра"
 
@@ -1647,9 +1650,6 @@ msgstr "Анти-шпионски инструмент за проврка на 
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Админ/Статистика на сървъра"
-
-msgid "Server statistics"
-msgstr "Статистика на сървъра"
 
 msgid "Web in"
 msgstr "Уеб-вход"
@@ -2610,7 +2610,7 @@ msgid "Unknown zone type %s!"
 msgstr ""
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Потребителят вече съществува!"
 
 msgid "ispCP - Client/Domain Statistics"

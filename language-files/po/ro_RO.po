@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro_RO\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-10-03 22:16+0200\n"
 "Last-Translator: Daniel Andreca <sci2tech@gmail.com>\n"
 "Language-Team: Romanian <ro_RO@li.org>\n"
@@ -1562,6 +1562,9 @@ msgstr "%1$d / %2$d <br/>din<br/> <b>nelimitat</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>dezactivat</b>"
 
+msgid "Server statistics"
+msgstr "Statistici server"
+
 msgid "Reseller statistics table"
 msgstr "Tabel statistici reseller"
 
@@ -1632,9 +1635,6 @@ msgstr "Unelte Verificare Log Anti-Rootkits"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Administrator/Statistici server"
-
-msgid "Server statistics"
-msgstr "Statistici server"
 
 msgid "Web in"
 msgstr "Intrari Web"
@@ -2545,7 +2545,7 @@ msgid "Unknown zone type %s!"
 msgstr "Tip inregistrare necunoscut %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Utilizator deja existent!"
 
 msgid "ispCP - Client/Domain Statistics"

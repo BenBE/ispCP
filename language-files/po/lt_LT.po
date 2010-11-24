@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-15 01:27+0100\n"
 "Last-Translator: Takashi <takashi@elekta.lt>\n"
 "Language-Team: Lithuanian <lt_LT@li.org>\n"
@@ -1555,6 +1555,9 @@ msgstr "%1$d / %2$d <br/>ið<br/> <b> neribotø</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>iðjungta</b>"
 
+msgid "Server statistics"
+msgstr "Serverio statistikos duomenys"
+
 msgid "Reseller statistics table"
 msgstr "Perpardavinëtojo statistikos lentelë"
 
@@ -1626,9 +1629,6 @@ msgstr "Anti-Rootkits árankiø tikrinimas"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Adminstratorius/Serverio statistikos duomenys"
-
-msgid "Server statistics"
-msgstr "Serverio statistikos duomenys"
 
 msgid "Web in"
 msgstr "Web in"
@@ -2546,8 +2546,9 @@ msgstr ""
 msgid "Unknown zone type %s!"
 msgstr ""
 
-msgid "Error: DNS record already exist!"
-msgstr ""
+#, fuzzy
+msgid "ERROR: DNS record already exist!"
+msgstr "KLAIDA: Portas jau yra naudojamas!"
 
 msgid "ispCP - Client/Domain Statistics"
 msgstr ""

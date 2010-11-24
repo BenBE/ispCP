@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa_IR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-08-26 23:19+0100\n"
 "Last-Translator: Amir Gholami <contact@18asb.com>\n"
 "Language-Team: Farsi (Iran)\n"
@@ -1548,6 +1548,9 @@ msgstr "%1$d / %2$d <br/>از<br/> <b>illimité</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>غیرفعال</b>"
 
+msgid "Server statistics"
+msgstr "آمارهای سرور"
+
 msgid "Reseller statistics table"
 msgstr "جدول اطلاعات ریسلر"
 
@@ -1618,9 +1621,6 @@ msgstr " ابزارهای لاگ چکر ضدروتکیت"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "آی اس پی سی پی - مدیر/آمارهای سرور"
-
-msgid "Server statistics"
-msgstr "آمارهای سرور"
 
 msgid "Web in"
 msgstr "ورود به وب"
@@ -2540,7 +2540,7 @@ msgid "Unknown zone type %s!"
 msgstr "نوع ناحیه ی %s نامشخص است!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "کاربر از قبل وجود دارد!"
 
 msgid "ispCP - Client/Domain Statistics"

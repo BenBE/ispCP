@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es_AR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:29+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Spanish Argentina <es_AR@li.org>\n"
@@ -1593,6 +1593,9 @@ msgstr ""
 msgid "<b>disabled</b>"
 msgstr "desactivado"
 
+msgid "Server statistics"
+msgstr "Estadisticas del servidor"
+
 msgid "Reseller statistics table"
 msgstr "Tabla de estadisticas de reseller"
 
@@ -1664,9 +1667,6 @@ msgstr ""
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Estadisticas del servidor"
-
-msgid "Server statistics"
-msgstr "Estadisticas del servidor"
 
 msgid "Web in"
 msgstr "Web<br>entrante"
@@ -2628,7 +2628,7 @@ msgid "Unknown zone type %s!"
 msgstr ""
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "El usuario ya existe!"
 
 msgid "ispCP - Client/Domain Statistics"

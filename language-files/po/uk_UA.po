@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk_UA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:32+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Ukrainian <uk_UA@li.org>\n"
@@ -1599,6 +1599,9 @@ msgstr ""
 msgid "<b>disabled</b>"
 msgstr "вимкнено"
 
+msgid "Server statistics"
+msgstr "Статистика сервера"
+
 msgid "Reseller statistics table"
 msgstr "Таблиця статистики реселера"
 
@@ -1670,9 +1673,6 @@ msgstr ""
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Адміністратор/Статистика сервера"
-
-msgid "Server statistics"
-msgstr "Статистика сервера"
 
 msgid "Web in"
 msgstr ""
@@ -2632,7 +2632,7 @@ msgid "Unknown zone type %s!"
 msgstr "Невідомий тип зони %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Користувач уже існує!"
 
 msgid "ispCP - Client/Domain Statistics"

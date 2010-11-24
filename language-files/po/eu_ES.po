@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu_ES\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:29+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Basque (Spain) <eu@li.org>\n"
@@ -1565,6 +1565,9 @@ msgstr "%1$d / %2$d <br/>-tik<br/> <b>mugagabea</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>ezgaitua</b>"
 
+msgid "Server statistics"
+msgstr "Zerbitzariaren estatistikak"
+
 msgid "Reseller statistics table"
 msgstr "Bersaltzailearen estatistika taula"
 
@@ -1636,9 +1639,6 @@ msgstr "Rootkit-en aurkako tresnaren log arakatzailea"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Zerbitzariaren estatistikak"
-
-msgid "Server statistics"
-msgstr "Zerbitzariaren estatistikak"
 
 msgid "Web in"
 msgstr "Web sarrera"
@@ -2569,7 +2569,7 @@ msgid "Unknown zone type %s!"
 msgstr "Gune mota ezezaguna %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Erabiltzailea iada badago !"
 
 msgid "ispCP - Client/Domain Statistics"

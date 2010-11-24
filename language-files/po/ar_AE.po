@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar_AE\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:26+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Arabic <ar_AE@li.org>\n"
@@ -1517,6 +1517,9 @@ msgstr ""
 msgid "<b>disabled</b>"
 msgstr ""
 
+msgid "Server statistics"
+msgstr "إحصاءات الخادم"
+
 msgid "Reseller statistics table"
 msgstr ""
 
@@ -1587,9 +1590,6 @@ msgstr ""
 
 msgid "ispCP - Admin/Server statistics"
 msgstr ""
-
-msgid "Server statistics"
-msgstr "إحصاءات الخادم"
 
 msgid "Web in"
 msgstr ""
@@ -2486,8 +2486,9 @@ msgstr ""
 msgid "Unknown zone type %s!"
 msgstr ""
 
-msgid "Error: DNS record already exist!"
-msgstr ""
+#, fuzzy
+msgid "ERROR: DNS record already exist!"
+msgstr "هناك نطاق بذات الإسم قبلا"
 
 msgid "ispCP - Client/Domain Statistics"
 msgstr ""

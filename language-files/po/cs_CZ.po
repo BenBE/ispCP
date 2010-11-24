@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ispCP OMEGA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2010-03-30 20:51+0100\n"
 "Last-Translator: Josef Pinc <czjopi@gmail.com>\n"
 "Language-Team: Czech <cs_CZ@li.org>\n"
@@ -1536,6 +1536,9 @@ msgstr "%1$d / %2$d <br/>z<br/> <b>bez omezení</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>vypnuto</b>"
 
+msgid "Server statistics"
+msgstr "Statistiky serveru"
+
 msgid "Reseller statistics table"
 msgstr "Tabulka statistik partnera"
 
@@ -1606,9 +1609,6 @@ msgstr "Anti-Rootkits Tools Log Checker"
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Admin/Statistiky serveru"
-
-msgid "Server statistics"
-msgstr "Statistiky serveru"
 
 msgid "Web in"
 msgstr "Web příchozí"
@@ -2527,7 +2527,7 @@ msgid "Unknown zone type %s!"
 msgstr "Neznámý typ zóny %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Uživatel již existuje!"
 
 msgid "ispCP - Client/Domain Statistics"

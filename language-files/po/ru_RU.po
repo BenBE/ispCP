@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru_RU\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
+"POT-Creation-Date: 2010-11-24 22:29+0100\n"
 "PO-Revision-Date: 2009-12-18 14:32+0100\n"
 "Last-Translator: Laurent Declercq <l.declercq@nuxwin.com>\n"
 "Language-Team: Russian <ru_RU@li.org>\n"
@@ -1563,6 +1563,9 @@ msgstr "%1$d / %2$d <br/>из<br/> <b>неограниченно</b>"
 msgid "<b>disabled</b>"
 msgstr "<b>отключено</b>"
 
+msgid "Server statistics"
+msgstr "Статистика сервера"
+
 msgid "Reseller statistics table"
 msgstr "Таблица статистики реселлеров"
 
@@ -1635,9 +1638,6 @@ msgstr "Проверка лога инструментов борьбы с ру�
 
 msgid "ispCP - Admin/Server statistics"
 msgstr "ispCP - Администратор / Статистика сервера"
-
-msgid "Server statistics"
-msgstr "Статистика сервера"
 
 msgid "Web in"
 msgstr "WEB вх"
@@ -2562,7 +2562,7 @@ msgid "Unknown zone type %s!"
 msgstr "Неизвестный тип зоны %s!"
 
 #, fuzzy
-msgid "Error: DNS record already exist!"
+msgid "ERROR: DNS record already exist!"
 msgstr "Пользователь уже существует!"
 
 msgid "ispCP - Client/Domain Statistics"
