@@ -1,6 +1,14 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-24 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese (Thanks to Nito Kazunori)
+
+2010-11-24 Thomas Wacker
+	- GUI:
+		* Fixed #2506: Malfunction of language installation from .po file
+
 2010-11-23 Benedikt Heintel
 	- GUI:
 		* Fixed: Login back link destination switched on mixed TLS/nonTLS

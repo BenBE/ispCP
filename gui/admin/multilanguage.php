@@ -334,9 +334,9 @@ function _importTextFile($file) {
  */
 function _importGettextFile($file, $filename) {
 
-    $content = file_get_contents($file);
+    $lines = file($file);
 
-    if (empty($content)) return 1;
+    if (empty($lines)) return 1;
 
     $ab = array(
         'ispcp_languageRevision' => '',
@@ -345,18 +345,34 @@ function _importGettextFile($file, $filename) {
         'ispcp_language' => ''
     );
 
+    $content = '';
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if (!empty($line)) {
+            $c = mb_substr($line, 0, 1);
+            if ($c != '#') {
+                $content .= $line."\n";
+            }
+        }
+    }
+
+    $content = str_replace('\\\\n', '\n', $content);
+
     // Parse all messages
-    $n = preg_match_all(
-        '/(msgid\s+("([^"]|\\\\")*?"\s*)+)\s+(msgstr\s+("([^"]|\\\\")*?"\s*)+)/',
-        $content, $matches
-    );
+    $offset = mb_strpos($content, 'msgid "');
+    while ($offset !== false) {
 
-    for ($i = 0; $i < $n; $i++) {
-        $id = preg_replace('/\s*msgid\s*"(.*)"\s*/s', '\\1', $matches[1][$i]);
-        $str = preg_replace('/\s*msgstr\s*"(.*)"\s*/s', '\\1', $matches[4][$i]);
+        $offset1 = $offset+6;
+        $offset = mb_strpos($content, 'msgstr "', $offset1);
 
-        if (!empty($str)) {
-            $ab[_decodePoFileString($id)] = _decodePoFileString($str);
+        $s1 = mb_substr($content, $offset1+1, $offset-$offset1-3);
+        $offset2 = $offset+7;
+
+        $offset = mb_strpos($content, 'msgid "', $offset2);
+        if ($offset !== false) {
+            $s2 = mb_substr($content, $offset2+1, $offset-$offset2-3);
+            $ab[_decodePoFileString($s1)] = _decodePoFileString($s2);
         }
     }
 
@@ -388,7 +404,7 @@ function _importGettextFile($file, $filename) {
             $n = strpos($s, '<');
 
             if ($n !== false) {
-                $ab['ispcp_table'] = str_replace(' ', '', mb_substr($s, 0, $n));
+                $ab['ispcp_table'] = str_replace(array(' ', '(', ')'), '', mb_substr($s, 0, $n));
             }
         }
 
@@ -400,17 +416,18 @@ function _importGettextFile($file, $filename) {
                 $ameta['PO-Revision-Date'] = substr($ameta['PO-Revision-Date'], 0, $n);
             }
 
+
             // currently some problems with hour/minute parsing?!
-            $time = strptime($ameta['PO-Revision-Date'], '%Y-%m-%d %H:%I');
+            $time = getdate(strtotime($ameta['PO-Revision-Date']));
 
             $ab['ispcp_languageRevision'] = sprintf(
                 '%04d%02d%02d%02d%02d%02d',
-                $time['tm_year']+1900,
-                $time['tm_mon']+1,
-                $time['tm_mday'],
-                $time['tm_hour'],
-                $time['tm_min'],
-                $time['tm_sec']
+                $time['year'],
+                $time['mon'],
+                $time['mday'],
+                $time['hours'],
+                $time['minutes'],
+                $time['seconds']
             );
         } else {
             $ab['ispcp_languageRevision'] = strftime('%Y%m%d%H%I%S');
@@ -440,10 +457,21 @@ function _importGettextFile($file, $filename) {
  * @return string Normalized string
  */
 function _decodePoFileString($s) {
-    return str_replace(
+
+    // TODO: TEST
+    $n = strpos($s, '\\');
+
+    $result = str_replace(
         array('\\n', '\\r', '\\t', '\"'), array("\n", "\r", "\t", '"'),
 	    preg_replace('/"\s+"/', '', $s)
     );
+
+    if ($n !== false) {
+        //var_dump($s);
+        //var_dump($result);
+    }
+
+    return $result;
 }
 
 /*******************************************************************************
