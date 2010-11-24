@@ -1,6 +1,7 @@
 # Copyright (C) YEAR ispCP Team
 # This file is distributed under the same license as the PACKAGE package.
 #
+# kazuo   <kazu.nito@gmail.com>, 2010, ispCP 1.0.7 RC2
 # kazuo   <kazu.nito@gmail.com>, 2010, ispCP 1.0.6
 # kazuo   <kazu.nito@gmail.com>, 2010, ispCP 1.0.5
 # kazuo   <kazu.nito@gmail.com>, 2010, ispCP 1.0.4
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja_JP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 11:02+0100\n"
-"PO-Revision-Date: 2010-08-18 18:41+0100\n"
-"Last-Translator: Benedikt Heintel <benedikt@heintel.org>\n"
+"POT-Creation-Date: 2010-11-20 10:45+0100\n"
+"PO-Revision-Date: 2010-11-24 12:39+0900\n"
+"Last-Translator: Nito Kazunori <kazu.nito@gmail.com>\n"
 "Language-Team: Japanese <ja_JP@li.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgid "Login"
 msgstr "ログイン"
 
 msgid "Username"
-msgstr "ユーザ名"
+msgstr "ユーザー名"
 
 msgid "Password"
 msgstr "パスワード"
@@ -73,13 +74,8 @@ msgid "New password could not been sent."
 msgstr "新しいパスワードが送信できませんでした。"
 
 #, php-format
-msgid ""
-"Your password request has been initiated. You will receive an email with "
-"instructions to complete the process. This reset request will expire in %s "
-"minutes."
-msgstr ""
-"パスワードのリセット要求が開始されています。この要求を完了するための指示を、"
-"電子メールで受け取ります。このリセット要求は %s 分間で期限が切れます。"
+msgid "Your password request has been initiated. You will receive an email with instructions to complete the process. This reset request will expire in %s minutes."
+msgstr "パスワードのリセット要求が開始されています。この要求を完了するための指示を、電子メールで受け取ります。このリセット要求は %s 分間で期限が切れます。"
 
 msgid "Back"
 msgstr "戻る"
@@ -93,11 +89,8 @@ msgstr "リトライ"
 msgid "Security code"
 msgstr "セキュリティーコード"
 
-msgid ""
-"(To avoid abuse, we ask you to write the combination of letters on the above "
-"picture into the field \"Security code\")"
-msgstr ""
-"（乱用を避けるために、上の画像の「セキュリティーコード」を書いてください）"
+msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
+msgstr "（乱用を避けるために、上の画像の「セキュリティーコード」を書いてください）"
 
 msgid "Request password"
 msgstr "パスワードの"
@@ -109,12 +102,10 @@ msgid "Administrator"
 msgstr "管理者"
 
 msgid "Incorrect username length or syntax!"
-msgstr "ユーザ名が正しくありません！"
+msgstr "ユーザー名が正しくありません！"
 
-#, fuzzy, php-format
-msgid ""
-"The password must be at least %s chars long and contain letters and numbers "
-"to be valid."
+#, php-format
+msgid "The password must be at least %s chars long and contain letters and numbers to be valid."
 msgstr "パスワードは %s 文字以上で、文字と数字が含まれている必要があります。"
 
 #, php-format
@@ -152,10 +143,10 @@ msgid "Additional data"
 msgstr "追加データ"
 
 msgid "First name"
-msgstr "名字"
+msgstr "名"
 
 msgid "Last name"
-msgstr "名前"
+msgstr "姓"
 
 msgid "Gender"
 msgstr "性別"
@@ -198,12 +189,6 @@ msgstr "FAX番号"
 
 msgid "Add"
 msgstr "追加"
-
-#, php-format
-msgid ""
-"The password must be at least %s long and contain letters and numbers to be "
-"valid."
-msgstr "パスワードは %s 文字以上で、文字と数字が含まれている必要があります。"
 
 msgid "User session was killed!"
 msgstr "ユーザーのセッションは切断されました！"
@@ -404,7 +389,7 @@ msgid "Reseller level"
 msgstr "代理店レベル"
 
 msgid "Enduser level"
-msgstr "エンドユーザレベル"
+msgstr "エンドユーザーレベル"
 
 msgid "Reseller and enduser level"
 msgstr "代理店とエンドユーザレベル"
@@ -507,7 +492,7 @@ msgid "FTP accounts"
 msgstr "FTPユーザー"
 
 msgid "SQL databases"
-msgstr "データベース"
+msgstr "SQLデータベース"
 
 msgid "SQL users"
 msgstr "データベースユーザー"
@@ -554,29 +539,29 @@ msgstr "ドメインの有効期限"
 msgid "New expire date"
 msgstr "新しい有効期限"
 
-msgid "Max subdomains<br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "最大サブドメイン数<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "最大サブドメイン数<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Max aliases<br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "最大エイリアス数<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "最大エイリアス数<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Mail accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "メールアカウント制限<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "メールアカウント数制限<br /><em>(-1 無効, 0 制限)</em>"
 
-msgid "FTP accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "FTPアカウント制限<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTPアカウント数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "SQL databases limit <br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "データベース制限<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQLデータベース数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "SQL users limit <br /><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "SQLユーザー制限<br /><i>(-1:無効, 0:無制限)</i>"
+msgid "SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQLユーザー数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Traffic limit [MB] <br /><i>(0 unlimited)</i>"
-msgstr "トラフィック制限 [MB]<br /><i>(0:無制限)</i>"
+msgid "Traffic limit [MB] <br /><em>(0 unlimited)</em>"
+msgstr "トラフィック制限 [MB]<br /><em>(0 無制限)</em>"
 
-msgid "Disk limit [MB] <br /><i>(0 unlimited)</i>"
-msgstr "容量制限 [MB]<br /><i>(0:無制限)</i>"
+msgid "Disk limit [MB] <br /><em>(0 unlimited)</em>"
+msgstr "容量制限 [MB]<br /><em>(0 無制限)</em>"
 
 msgid "Backup"
 msgstr "バックアップ"
@@ -587,40 +572,38 @@ msgstr "取り消し"
 msgid "Yes"
 msgstr "はい"
 
-msgid ""
-"In case 'Domain expire' is 'N/A', the expiration date will be set from today."
+msgid "In case 'Domain expire' is 'N/A', the expiration date will be set from today."
 msgstr "ドメインの有効期限が利用不可の場合、有効期限は１日が設定されます。"
 
-msgid ""
-"User does not exist or you do not have permission to access this interface!"
+msgid "User does not exist or you do not have permission to access this interface!"
 msgstr "ユーザーが存在しないか、アクセスできません"
 
 msgid "N/A"
 msgstr "利用不可"
 
 msgid "Incorrect subdomains limit!"
-msgstr "サブドメイン制限が間違ってます！"
+msgstr "サブドメイン数制限が間違ってます！"
 
 msgid "Incorrect aliases limit!"
-msgstr "エイリアス制限が間違ってます！"
+msgstr "エイリアス数制限が間違ってます！"
 
 msgid "Incorrect mail accounts limit!"
-msgstr "メールアカウント制限が間違ってます！"
+msgstr "メールアカウント数制限が間違ってます！"
 
 msgid "Incorrect FTP accounts limit!"
-msgstr "FTPアカウント制限が間違ってます！"
+msgstr "FTPアカウント数制限が間違ってます！"
 
 msgid "Incorrect SQL users limit!"
-msgstr "SQLユーザ制限が間違ってます！"
+msgstr "SQLユーザー数制限が間違ってます！"
 
-msgid "SQL databases limit is <i>disabled</i>!"
-msgstr "データベース制限<br><i>無効</i>"
+msgid "SQL databases limit is <em>disabled</em>!"
+msgstr "SQLデータベース数制限が<em>無効</em>!"
 
 msgid "Incorrect SQL databases limit!"
-msgstr "データベース制限が間違ってます！"
+msgstr "SQLデータベース数制限が間違ってます！"
 
-msgid "SQL users limit is <i>disabled</i>!"
-msgstr "SQLユーザー制限<br><i>無効</i>！"
+msgid "SQL users limit is <em>disabled</em>!"
+msgstr "SQLユーザー数制限が<em>無効</em>！"
 
 msgid "Incorrect traffic limit!"
 msgstr "トラフィック制限が間違ってます！"
@@ -671,8 +654,7 @@ msgid "The <em>%s</em> service cannot be limited! "
 msgstr "<em>%s</em> サービスを制限できません！"
 
 #, php-format
-msgid ""
-"Specified number is smaller than <em>%s</em> records, present on the system!"
+msgid "Specified number is smaller than <em>%s</em> records, present on the system!"
 msgstr "指定された数値より小さい <em>%s</em> が、システムに存在します！"
 
 #, php-format
@@ -778,29 +760,29 @@ msgstr "ホスティングプランの詳細"
 msgid "Template name"
 msgstr "テンプレート名"
 
-msgid "Max subdomains<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "サブドメインの上限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "最大サブドメイン数<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Max aliases<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "エイリアスの上限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Max aliases<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "最大エイリアス数<br /><em>(-1:無効, 0:無制限)</em>"
 
-msgid "Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "メールアカウントの制限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "メールアカウント数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "FTPアカウントの制限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "FTPアカウント数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "データベースのアカウント数<br><i>(-1:無効, 0:無制限)</i>"
+msgid "SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQLデータベース数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "SQLユーザー最大数<br><i>(-1:無効, 0:無制限)"
+msgid "SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "SQLユーザー数制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Traffic limit [MB]<br><i>(0 unlimited)</i>"
-msgstr "トラフィック制限 [Mb]<br><i>(0:無制限)</i>"
+msgid "Traffic limit [MB]<br><em>(0 unlimited)</em>"
+msgstr "トラフィック制限 [Mb]<br /><em>(0 無制限)</em>"
 
-msgid "Disk limit [MB]<br><i>(0 unlimited)</i>"
-msgstr "容量制限[MB]<br><i>(0:無制限)</i>"
+msgid "Disk limit [MB]<br><em>(0 unlimited)</em>"
+msgstr "容量制限[MB]<br /><em>(0 無制限)</em>"
 
 msgid "PHP"
 msgstr "PHP"
@@ -808,9 +790,8 @@ msgstr "PHP"
 msgid "CGI / Perl"
 msgstr "CGI / Perl"
 
-#, fuzzy
 msgid "Allow adding records to DNS zone"
-msgstr "DNSゾーンの追加を許可する（実験中）"
+msgstr "DNSゾーンの追加を許可"
 
 msgid "Apache logfiles"
 msgstr "Apacheログファイル"
@@ -851,12 +832,8 @@ msgstr "(例 : 円)"
 msgid "Term Of Service"
 msgstr "サービス期間"
 
-msgid ""
-"<b>Optional:</b> Leave this field empty if you do not want term of service "
-"for this hosting plan."
-msgstr ""
-"あなたがホスティングプランを提供しないなら<b>Optional:</b> ラベルの項目を空に"
-"してください。"
+msgid "<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan."
+msgstr "<strong>オプション：</strong>このホスティングプランのサービスの期間を必要としない場合は、このフィールドを空のままにします。"
 
 msgid "Text Only"
 msgstr "テキストのみ"
@@ -904,8 +881,8 @@ msgid "Incorrect setup fee. Example: 19.99"
 msgstr "料金設定が正しくありません。 例： 1999"
 
 #, php-format
-msgid "You have <b>%d</b> new support questions"
-msgstr "新しいサポートシステム %d があります"
+msgid "You have <strong>%d</strong> new support questions"
+msgstr "あなたには、新しい %d つの質問があります"
 
 msgid "View"
 msgstr "表示"
@@ -936,11 +913,11 @@ msgstr "ispCP - 管理者/メイン インデックス"
 msgid "You cannot delete the last active IP address!"
 msgstr "最後のアクティブなIPアドレスを削除することはできません！"
 
-msgid "Error: we have a domain using this IP!"
-msgstr "エラー： このIPアドレスを使用するドメインが既に存在します！"
+msgid "You have a domain using this IP!"
+msgstr "このIPアドレスを使用するドメインが既に存在します！"
 
-msgid "Error: we have a reseller using this IP!"
-msgstr "エラー： このIPアドレスを使用する代理店が既に存在します！"
+msgid "You have a reseller using this IP!"
+msgstr "このIPアドレスを使用する代理店が既に存在します！"
 
 msgid "IP was deleted!"
 msgstr "IPアドレスは削除されました！"
@@ -988,25 +965,21 @@ msgstr "新しいIP追加"
 msgid "Are you sure you want to delete this IP: %s?"
 msgstr "このIPをまとめて削除しますか？： %s"
 
-#, fuzzy
 msgid "ispCP - Admin/IP Usage"
 msgstr "ispCP - 管理者/IPアドレス管理"
 
-#, fuzzy
 msgid "Total Domains"
-msgstr "ドメイン数"
+msgstr "総ドメイン数"
 
 msgid "No records found"
-msgstr ""
+msgstr "レコードが見つかりません"
 
 msgid "IP Usage"
-msgstr ""
+msgstr "IPアドレス管理"
 
-#, fuzzy
 msgid "Domain Name"
 msgstr "ドメイン名"
 
-#, fuzzy
 msgid "Reseller Name"
 msgstr "代理店名"
 
@@ -1025,24 +998,20 @@ msgstr "エイリアスサブドメインに障害は発生していません"
 msgid "No email account system errors"
 msgstr "メールアカウントに障害は発生していません"
 
-#, fuzzy
 msgid "missing domain"
-msgstr "メインドメイン"
+msgstr "ドメインが見つからない"
 
-#, fuzzy
 msgid "missing alias"
-msgstr "ドメインエイリアス"
+msgstr "エイリアスが見つからない"
 
 msgid "orphan entry"
-msgstr ""
+msgstr "親のないエントリ"
 
-#, fuzzy
 msgid "No htaccess related system errors"
-msgstr "ドメインエイリアスの障害は発生していません"
+msgstr "htaccess に関連するシステムエラーではありません。"
 
-#, fuzzy
 msgid "Missing domain"
-msgstr "メインドメイン"
+msgstr "ドメインが見つからない"
 
 #, php-format
 msgid "Daemon returned %d as status code"
@@ -1076,7 +1045,7 @@ msgid "Mail account errors"
 msgstr "メールアカウントエラー"
 
 msgid ".htaccess related errors"
-msgstr ""
+msgstr ".htaccessに関連するエラー"
 
 msgid "ispCP Daemon tools"
 msgstr "ispCPデーモンツール"
@@ -1087,9 +1056,9 @@ msgstr "リクエスト実行"
 msgid "Set status to 'change'"
 msgstr "状態を'変更'に設定"
 
-#, fuzzy, php-format
+#, php-format
 msgid "%s Errors in database"
-msgstr "ドメインデータベース："
+msgstr "データベース内のエラー %s"
 
 msgid "Enable update at"
 msgstr "更新を可能にします"
@@ -1120,6 +1089,12 @@ msgstr "言語"
 
 msgid "Choose your default language"
 msgstr "デフォルト言語を選択"
+
+msgid "It is not possible to delete system default's language!"
+msgstr "システムデフォルトの言語を削除することはできません！"
+
+msgid "There are users who use this language!"
+msgstr "この言語を使用するユーザーがいます！"
 
 msgid "Language was removed!"
 msgstr "言語を削除しました！"
@@ -1160,41 +1135,30 @@ msgstr "ユーザーリストは未登録です"
 msgid "User was moved"
 msgstr "ユーザーは移動しました"
 
-msgid "Please select some user(s)!"
-msgstr "ユーザを選択してください！"
+msgid "Please select at least one user!"
+msgstr "少なくとも、１つのユーザーは選択してください！"
 
 msgid "Source and destination reseller are the same!"
 msgstr "ソースと目的地の代理店は同じ！"
 
 #, php-format
-msgid "<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>"
-msgstr ""
-"<b>%1$s</b> は <b>%2$s</b> サービスへの無制限の権利を持っています！<br>"
+msgid "<strong>%1$s</strong> has unlimited rights for a <strong>%2$s</strong> Service !<br>"
+msgstr "<strong>%1$s</strong> は <strong>%2$s</strong> サービスへの無制限の権利を持っています！<br />"
 
 #, php-format
-msgid ""
-"You cannot move <b>%1$s</b> in a destination reseller,<br>which has limits "
-"for the <b>%2$s</b> service!"
-msgstr ""
-"<b>%1$s</b>へ代理店を移動できません、<br> <b>%2$s</b> サービスは限界をもって"
-"います！"
+msgid "You cannot move <strong>%1$s</strong> in a destination reseller,<br>which has limits for the <strong>%2$s</strong> service!"
+msgstr "<strong>%1$s</strong>へ代理店を移動できません、<br /> <strong>%2$s</strong> サービスは限界をもっています！"
 
 #, php-format
-msgid ""
-"<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination "
-"reseller!<br>"
-msgstr "<b>%1$s</b> は限界を超えるために<br> <b>%2$s</b>サービスの代理店！<br>"
+msgid "<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</strong><br>service in destination reseller!<br>"
+msgstr "<strong>%1$s</strong> は限界を超えるために<br /> <strong>%2$s</strong>サービスの代理店！<br />"
 
 msgid "Moving aborted!"
 msgstr "移動に失敗しました"
 
 #, php-format
-msgid ""
-"<b>%s</b> has IP address that cannot be managed from the destination "
-"reseller !<br>This user cannot be moved!"
-msgstr ""
-"<b>%s</b> には代理店で対処できないIPアドレスがあります！<br>このユーザを動か"
-"すことができません！"
+msgid "<strong>%s</strong> has IP address that cannot be managed from the destination reseller !<br>This user cannot be moved!"
+msgstr "<b>%s</b> には代理店で対処できないIPアドレスがあります！<br>このユーザーを動かすことができません！"
 
 msgid "ispCP - Admin/Manage users/User assignment"
 msgstr "管理者/ユーザー管理/ユーザーの割り当て"
@@ -1232,15 +1196,12 @@ msgstr "ユーザー情報は削除されました"
 msgid "Email Updated"
 msgstr "メールの設定が更新されました"
 
-msgid "This user has a domain!<br>To delete the user first delete the domain!"
-msgstr ""
-"このユーザにはドメインがあります！<br>ユーザを削除するには、ドメインを先に削"
-"除してください！"
+msgid "This user has a domain!<br />To delete the user first delete the domain!"
+msgstr "このユーザにはドメインがあります！<br />ユーザーを削除するには、ドメインを先に削除してください！"
 
 msgid "User was disabled"
 msgstr "ユーザーが無効になりました"
 
-#, fuzzy
 msgid "Uninstall"
 msgstr "アンインストール"
 
@@ -1249,7 +1210,7 @@ msgid "%d messages translated"
 msgstr "%d 翻訳メッセージ"
 
 msgid "Gzipped"
-msgstr ""
+msgstr "gzipで圧縮される"
 
 msgid "Upload file error!"
 msgstr "ファイルのアップロードに失敗"
@@ -1263,8 +1224,8 @@ msgstr "言語ファイルを読み取ることができませんでした！"
 msgid "Uploaded file is not a valid language file!"
 msgstr "アップロードされた言語ファイルは有効ではありません！"
 
-msgid "Uploaded file does not contain the language information!"
-msgstr "アップロードファイルは言語情報を含んでいません！"
+msgid "Uploaded file does not contain language information!"
+msgstr "アップロードしたファイルには、言語情報が含まれていません！"
 
 #, php-format
 msgid "%s added new language: %s"
@@ -1370,35 +1331,36 @@ msgstr "ラベル"
 msgid "Number"
 msgstr "数"
 
+#, php-format
+msgid "The password must be at least %s long and contain letters and numbers to be valid."
+msgstr "パスワードは %s 文字以上で、文字と数字が含まれている必要があります。"
+
 msgid "Incorrect email syntax!"
 msgstr "メールの書式が間違ってます！"
 
 msgid "Incorrect domains limit!"
 msgstr "ドメイン制限が間違ってます！"
 
-msgid "SQL databases limit is <i>disabled</i> but SQL users limit not!"
-msgstr ""
-"SQLデータベースの制限は<i>無効</i>ですが、SQLのユーザーは制限があります！"
+msgid "SQL databases limit is <em>disabled</em> but SQL users limit not!"
+msgstr "SQLデータベース数制限は<em>無効</em>ですが、SQLユーザー数は制限があります！"
 
-msgid "SQL users limit is <i>disabled</i> but SQL databases limit not!"
-msgstr ""
-"SQLユーザーは、制限は<i>無効</i>ですが、SQLデータベースには限界があります！"
+msgid "SQL users limit is <em>disabled</em> but SQL databases limit not!"
+msgstr "SQLユーザー数制限は<em>無効</em>ですが、SQLデータベース数には制限があります！"
 
 msgid "You must assign at least one IP number for a reseller!"
-msgstr ""
-"あなたは少なくともひとつのIPアドレスを代理店へ割り当てる必要があります。"
+msgstr "あなたは少なくともひとつのIPアドレスを代理店へ割り当てる必要があります。"
 
 msgid "Add reseller"
 msgstr "代理店追加"
 
-msgid "Domains limit<br><i>(0 unlimited)</i>"
-msgstr "ドメイン制限<br><i>(0:無制限)</i>"
+msgid "Domains limit<br><em>(0 unlimited)</em>"
+msgstr "ドメイン制限<br /><em>(0 無制限)</em>"
 
-msgid "Subdomains limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "サブドメイン制限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "サブドメイン制限<br /><em>(-1 無効, 0 無制限)</em>"
 
-msgid "Aliases limit<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "エイリアス制限<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "エイリアス制限<br /><em>(-1 無効, 0 無制限)</em>"
 
 msgid "JSP"
 msgstr "JSP"
@@ -1443,7 +1405,7 @@ msgid "Aliases"
 msgstr "エイリアス"
 
 msgid "SQL Databases"
-msgstr "データベース"
+msgstr "SQLデータベース"
 
 msgid "SQL Users"
 msgstr "SQLユーザー"
@@ -1455,45 +1417,32 @@ msgid "Disk storage"
 msgstr "ディスクストレージ"
 
 #, php-format
-msgid ""
-"This reseller's customers are using/have more/higher <b>%s</b> accounts/"
-"limits than the new limit you entered."
-msgstr ""
-"この代理店の顧客があなたが入力した限界よりもさらに高い <b>%s</b> アカウント限"
-"界を持っています。"
+msgid "This reseller's customers are using/have more/higher <strong>%s</strong> accounts/limits than the new limit you entered."
+msgstr "この代理店の顧客があなたが入力した限界よりもさらに高い <strong>%s</strong> アカウント限界を持っています。"
 
 #, php-format
-msgid ""
-"This reseller has already assigned more/higher <b>%s</b> accounts/limits "
-"than the new limit you entered."
-msgstr ""
-"この代理店にあなたが入力した新しい限界より、さらに高い <b>%s</b> アカウント限"
-"界を割り当てました。"
+msgid "This reseller has already assigned more/higher <strong>%s</strong> accounts/limits than the new limit you entered."
+msgstr "この代理店にあなたが入力した新しい限界より、さらに高い <strong>%s</strong> アカウント限界を割り当てました。"
 
 #, php-format
-msgid ""
-"This reseller has customer(s) with unlimited rights for the <b>%s</b> "
-"service!"
-msgstr "この代理店には無制限の <b>%s</b> サービスを持つ顧客がいます！"
+msgid "This reseller has customer(s) with unlimited rights for the <strong>%s</strong> service!"
+msgstr "この代理店には無制限の <strong>%s</strong> サービスを持つ顧客がいます！"
 
-msgid "If you want to limit the reseller, you must first limit its customers!"
+msgid "If you want to limit a reseller, you must first limit its customers!"
 msgstr "代理店を制限するには、先に顧客を制限しなければいけません！"
 
 #, php-format
-msgid "This reseller has domains assigned to the <b>%s</b> address!"
-msgstr "代理店のドメインを <b>%s</b> アドレスを割り当てます！"
+msgid "This reseller has domains assigned to the <strong>%s</strong> address!"
+msgstr "代理店のドメインを <strong>%s</strong> アドレスを割り当てます！"
 
-msgid "ERROR: The reseller account you trying to edit does not exist!"
-msgstr "エラー：代理店が存在しないアカウントを編集しました！"
+msgid "The reseller account you trying to edit does not exist!"
+msgstr "代理店が存在しないアカウントを編集しようとしました！"
 
 msgid "ispCP - Admin/Manage users/Edit Reseller"
 msgstr "ispCP - 管理者/ユーザー管理/代理店変更"
 
-msgid ""
-"ERROR: One or more errors was found! Please, correct them and try again!"
-msgstr ""
-"エラー：1つまたは複数のエラーがあります、それらを修正し、もう一度試してくださ"
-"い！"
+msgid "One or more errors was found! Please, correct them and try again!"
+msgstr "1つまたは複数のエラーがあります！それらを修正し、もう一度試してください！"
 
 msgid "Reseller data inconsistency!"
 msgstr "代理店データの矛盾！"
@@ -1517,41 +1466,44 @@ msgid "Generated password:"
 msgstr "パスワードの生成："
 
 msgid "Type `CTRL+C` to copy the generated password in the clipboard."
-msgstr ""
-"`CTRL+C`を押して、クリップボードに生成されたパスワードをコピーしてください。"
+msgstr "`CTRL+C`を押して、クリップボードに生成されたパスワードをコピーしてください。"
 
 #, php-format
 msgid ""
-"ispCP NOTICE:\\n\\nThe `Enter` key is disabled for performance reasons!"
-"\\nInstead, use the %s button to update the data."
+"ispCP NOTICE:\\n"
+"\\n"
+"The `Enter` key is disabled for performance reasons!\\n"
+"Instead, use the %s button to update the data."
 msgstr ""
-"ispCP注意：\\n\\n『エンター』キーは、パフォーマンス理由のために使用できませ"
-"ん！\\nその代わりに、データを更新するために、%sボタンを使ってください。"
+"ispCP注意：\\n"
+"\\n"
+"『エンター』キーは、パフォーマンス理由のために使用できません！\\n"
+"その代わりに、データを更新するために、%sボタンを使ってください。"
 
 msgid "ispCP - Reseller statistics"
 msgstr "ispCP - 代理店の統計"
 
-msgid "Not found reseller(s) in your system!"
+msgid "There are no resellers in your system!"
 msgstr "あなたのシステムで代理店が見つかりません！"
 
 #, php-format
-msgid "%1$s / %2$s <br/>of<br/> <b>%3$s</b>"
-msgstr "%1$s / %2$s <br/>of<br/> <b>%3$s</b>"
+msgid "%1$s / %2$s <br/>of<br/> <strong>%3$s</strong>"
+msgstr "%1$s / %2$s <br/>の<br/> <strong>%3$s</storng>"
 
 #, php-format
-msgid "%1$s / %2$s <br/>of<br/> <b>unlimited</b>"
-msgstr "%1$s / %2$s <br/>of<br/> <b>無制限</b>"
+msgid "%1$s / %2$s <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%1$s / %2$s <br/>の<br/> <strong>無制限</strong>"
 
 #, php-format
-msgid "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
-msgstr "%1$d / %2$d <br/>of<br/> <b>%3$d</b>"
+msgid "%1$d / %2$d <br/>of<br/> <strong>%3$d</strong>"
+msgstr "%1$d / %2$d <br/>の<br/> <strong>%3$d</strong>"
 
 #, php-format
-msgid "%1$d / %2$d <br/>of<br/> <b>unlimited</b>"
-msgstr "%1$d / %2$d <br/>of<br/> <b>無制限</b>"
+msgid "%1$d / %2$d <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%1$d / %2$d <br/>の<br/> <strong>無制限</strong>"
 
-msgid "<b>disabled</b>"
-msgstr "<b>無効</b>"
+msgid "<strong>disabled</strong>"
+msgstr "<strong>無効</strong>"
 
 msgid "Reseller statistics table"
 msgstr "代理店の統計テーブル"
@@ -1566,20 +1518,20 @@ msgid "ispCP - Admin/Reseller User Statistics"
 msgstr "ispCP - 管理者/代理店ユーザー情報"
 
 #, php-format
-msgid "%1$s <br/>of<br/> <b>%2$s</b>"
-msgstr "%1$s <br/>of<br/> <b>%2$s</b>"
+msgid "%1$s <br/>of<br/> <strong>%2$s</strong>"
+msgstr "%1$s <br/>の<br/> <strong>%2$s</strong>"
 
 #, php-format
-msgid "%s <br/>of<br/> <b>unlimited</b>"
-msgstr "%s <br/>of<br/> <b>無制限</b>"
+msgid "%s <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%s <br/>の<br/> <strong>無制限</strong>"
 
 #, php-format
-msgid "%1$d <br/>of<br/> <b>%2$d</b>"
-msgstr "%1$d <br/>of<br/> <b>%2$d</b>"
+msgid "%1$d <br/>of<br/> <strong>%2$d</strong>"
+msgstr "%1$d <br/>の<br/> <strong>%2$d</strong>"
 
 #, php-format
-msgid "%d <br/>of<br/> <b>unlimited</b>"
-msgstr "%d <br/>of<br/> <b>無制限</b>"
+msgid "%d <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%d <br/>の<br/> <strong>無制限</strong>"
 
 msgid "Reseller users table"
 msgstr "代理店ユーザテーブル"
@@ -1714,28 +1666,27 @@ msgstr "セッションの切断"
 msgid "ispCP - Admin/Settings"
 msgstr "ispCP - 管理者/設定"
 
-msgid "ERROR: Only positive numbers are allowed !"
-msgstr "エラー： 正の数だけが許可されてます！"
+msgid "Only positive numbers are allowed !"
+msgstr "正の数だけが許可されてます！"
 
-#, fuzzy, php-format
+msgid "Nothing has been changed!"
+msgstr "何も変更されませんでした！"
+
+#, php-format
 msgid "%d configuration parameter was updated!"
-msgstr "%d サービスポートが更新されました!"
+msgstr "%d つの構成パラメーターが更新されました！"
 
 #, php-format
 msgid "%d configuration parameters were updated!"
-msgstr ""
+msgstr "%d つの構成パラメータが更新されました！"
 
 #, php-format
 msgid "%d configuration parameter was created!"
-msgstr ""
+msgstr "%d つの構成パラメータが作成されました！"
 
 #, php-format
 msgid "%d configuration parameters were created!"
-msgstr ""
-
-#, fuzzy
-msgid "Nothing has been changed!"
-msgstr "何も変更しませんでした！"
+msgstr "%d つの構成パラメータが作成されました！"
 
 msgid "General settings"
 msgstr "基本設定"
@@ -1795,7 +1746,7 @@ msgid "Server ports"
 msgstr "サーバーポート"
 
 msgid "Hosting plans available for"
-msgstr "ホスティングプランを使えるユーザ"
+msgstr "使用できるホスティングプラン"
 
 msgid "Admin"
 msgstr "管理者"
@@ -1839,26 +1790,17 @@ msgstr "ドメイン名の確認"
 msgid "Top Level Domain name strict validation"
 msgstr "トップレベルドメイン名の厳密な確認"
 
-msgid ""
-"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
-msgstr ""
-"IANAにルートゾーンのデータベースに記載されている、トップレベルドメイン（TLD）"
-"のみが使用することができます。"
+msgid "Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr "IANAにルートゾーンのデータベースに記載されている、トップレベルドメイン（TLD）のみが使用することができます。"
 
 msgid "Second Level Domain name strict validation"
 msgstr "セカンドレベルドメイン名の厳密な確認"
 
-msgid ""
-"Single letter Second Level Domains (SLD) are not allowed under the most Top "
-"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
-msgstr ""
-"１文字でのセカンドレベルドメイン(SLD)は、ほとんどのトップレベルドメイン (TLD)"
-"では許可されていません。少ないですが、例えは、トップレベルドメイン .de　など"
-"例外もあります。"
+msgid "Single letter Second Level Domains (SLD) are not allowed under the most Top Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr "１文字でのセカンドレベルドメイン(SLD)は、ほとんどのトップレベルドメイン (TLD)では許可されていません。少ないですが、例えは、トップレベルドメイン .de　など例外もあります。"
 
-msgid ""
-"Maximal number of labels for domain names<br />(<i>Excluding SLD & TLD</i>)"
-msgstr "ドメイン名のラベルの最大数<br />(<i>SLD & TLDを除く</i>)"
+msgid "Maximal number of labels for domain names<br />(<em>Excluding SLD & TLD</em>)"
+msgstr "ドメイン名のラベルの最大数<br />(<em>SLD & TLDを除く</em>)"
 
 msgid "Maximal number of labels for subdomains"
 msgstr "サブドメインのための最大限のラベル数"
@@ -1930,13 +1872,13 @@ msgid "Password E-Mail"
 msgstr "メールパスワード"
 
 msgid "User login (system) name"
-msgstr "ユーザーのログイン名"
+msgstr "ユーザーのログイン名（システム）"
 
 msgid "User password"
-msgstr "ユーザーパスワード"
+msgstr "ユーザーのパスワード"
 
 msgid "User (first and last) name"
-msgstr "ユーザーの氏名"
+msgstr "ユーザーの氏名（名と姓）"
 
 msgid "Lost password link"
 msgstr "パスワード紛失時のリンク"
@@ -1953,8 +1895,8 @@ msgstr "URLプロトコル"
 msgid "ispCP - Admin/Maintenance mode"
 msgstr "ispCP - 管理者/メンテナンスモード"
 
-msgid "Settings saved !"
-msgstr "設定は保存されました！"
+msgid "Settings saved!"
+msgstr "設定を保存しました！"
 
 msgid "Maintenance mode"
 msgstr "メンテナンスモード"
@@ -1962,33 +1904,31 @@ msgstr "メンテナンスモード"
 msgid "Under this mode only administrators can login"
 msgstr "このモードにすると、管理者以外のログインが出来なくなります"
 
-msgid ""
-"ERROR: Only letters, numbers, dash and underscore are allowed for services "
-"names!"
-msgstr ""
-"エラー： サービス名には、数字、ダッシュ、アンダースコアだけが許可されてます！"
+msgid "Only letters, numbers, dash and underscore are allowed for services names!"
+msgstr "サービス名には、数字、ダッシュ、アンダースコアだけが許可されてます！"
 
-msgid "ERROR: Wrong Ip number!"
-msgstr "エラー：IPアドレスに間違いがあります！"
+msgid "Only positive numbers are allowed for services ports!"
+msgstr "サービスポートには、正の数番号だけが許可されてます！"
 
-msgid "ERROR: Only positive numbers are allowed for services ports!"
-msgstr "エラー： サービスポートには、正の数番号だけが許可されてます！"
+msgid "Service port with same name already exists!"
+msgstr "同じ名前をもつサービスポートが既に存在します！"
 
-msgid "ERROR: Service port with same name already exists!"
-msgstr "エラー： サービスポートが既に使用されています！"
+msgid "Unallowed protocol!"
+msgstr "許可しないプロトコルです！"
 
-msgid "ERROR: Unallowed protocol!"
-msgstr "エラー：許可しないプロトコル！"
-
-msgid "ERROR: Bad value for show entry!"
-msgstr "エラー：表示エントリが不正な値！"
+msgid "Incorrect value for show entry!"
+msgstr "表示エントリが不正な値です！"
 
 msgid "Service port was added!"
 msgstr "サービスポートが追加されました！"
 
 #, php-format
-msgid "%d Service(s) port was updated!"
-msgstr "%d サービスポートが更新されました!"
+msgid "%d Service port was updated!"
+msgstr "%d サービスポートが更新されました！"
+
+#, php-format
+msgid "%d Services port were updated!"
+msgstr "%d サービスポートが更新されました！"
 
 msgid "Nothing's been changed!"
 msgstr "何も変更しませんでした！"
@@ -1996,14 +1936,14 @@ msgstr "何も変更しませんでした！"
 msgid "You have no custom service ports defined."
 msgstr "カスタムサービスポートは定義されてません。"
 
-msgid "ERROR: Unknown service port name!"
-msgstr "エラー：不明なサービスポート名！"
+msgid "Unknown service port name!"
+msgstr "不明なサービスポート名！"
 
 msgid "Service port was removed!"
 msgstr "サービスポートは削除されました！"
 
-msgid "ERROR: You are not allowed to remove this port entry!"
-msgstr "エラー：あなたがこのポートエントリーを削除することはできません！"
+msgid "You are not allowed to remove this port entry!"
+msgstr "あなたが、このポートエントリーを削除することは許可されていません！"
 
 msgid "udp"
 msgstr "udp"
@@ -2061,10 +2001,10 @@ msgid "Email setup"
 msgstr "メール設定"
 
 msgid "User real (first and last) name"
-msgstr "ユーザの本当の名前（姓と名）"
+msgstr "ユーザーの本当の名前（名と姓）"
 
 msgid "User type (admin, reseller, user)"
-msgstr "ユーザタイプ (管理者, 代理店, ユーザ)"
+msgstr "ユーザータイプ (管理者, 代理店, ユーザ)"
 
 msgid "CPU bogomips"
 msgstr "CPU bogomips"
@@ -2192,17 +2132,20 @@ msgstr "返信を送信"
 msgid "ispCP - Delete Domain"
 msgstr "ispCP - ドメイン削除"
 
-msgid "Wrong domain ID!"
+msgid "Invlaid domain ID!"
 msgstr "ドメインIDが間違ってます！"
 
-msgid "Invalid user id!"
-msgstr "無効なユーザＩＤ！"
+msgid "Invalid user ID!"
+msgstr "ユーザーＩＤが間違っています！"
 
 msgid "Logo could not be deleted:"
 msgstr "ロゴを削除できませんでした："
 
 msgid "There are active domains of reseller/admin!"
 msgstr "代理店/管理者に有効ドメインがあります!"
+
+msgid "Wrong domain ID!"
+msgstr "ドメインIDが間違ってます！"
 
 msgid "Delete domain"
 msgstr "ドメイン削除"
@@ -2225,12 +2168,8 @@ msgstr "メインドのサブドメイン："
 msgid "Domain databases:"
 msgstr "ドメインデータベース："
 
-msgid ""
-"Do you really want to delete the entire domain? This operation cannot be "
-"undone!"
-msgstr ""
-"あなたは、本当にドメイン全体を削除しますか？この操作を行うと、元に戻すことは"
-"できません！"
+msgid "Do you really want to delete the entire domain? This operation cannot be undone!"
+msgstr "あなたは、本当にドメイン全体を削除しますか？この操作を行うと、元に戻すことはできません！"
 
 msgid "Yes, delete the domain."
 msgstr "はい、そのドメインを削除します。"
@@ -2304,24 +2243,14 @@ msgstr "有効予定のエイリアス"
 msgid "Alias scheduled for addition!"
 msgstr "エイリアスの追加を受け付けました！"
 
-msgid ""
-"Domain alias you are trying to remove has subdomains!<br>First remove them!"
-msgstr ""
-"削除しようとしたドメインエイリアスにはサブドメインがあります！ <br>先に削除し"
-"てください！"
+msgid "Domain alias you are trying to remove has subdomains!<br />First remove them!"
+msgstr "削除しようとしたドメインエイリアスにはサブドメインがあります！ <br />先に削除してください！"
 
-msgid ""
-"Domain alias you are trying to remove has email accounts !<br>First remove "
-"them!"
-msgstr ""
-"削除しようとしたドメインエイリアスにはメールアカウントがあります！ <br>先に削"
-"除してください！"
+msgid "Domain alias you are trying to remove has email accounts!<br />First remove them!"
+msgstr "削除しようとしたドメインエイリアスにはメールアカウントがあります！ <br />先に削除してください！"
 
-msgid ""
-"Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
-msgstr ""
-"削除しようとしたドメインエイリアスにはFTPアカウントがあります！ <br>先に削除"
-"してください！"
+msgid "Domain alias you are trying to remove has FTP accounts!<br />First remove them!"
+msgstr "削除しようとしたドメインエイリアスにはFTPアカウントがあります！ <br />先に削除してください！"
 
 msgid "Alias scheduled for deletion!"
 msgstr "削除予定のエイリアス"
@@ -2338,17 +2267,11 @@ msgstr "エイリアスネーム"
 msgid "Mount Point"
 msgstr "マウント先"
 
-#, fuzzy
-msgid ""
-"Subdomain you are trying to remove has email accounts!<br />First remove "
-"them!"
-msgstr ""
-"削除しようとしたサブドメインにはメールアカウントがあります！ <br>先に削除して"
-"ください！"
+msgid "Subdomain you are trying to remove has email accounts !<br />First remove them!"
+msgstr "削除しようとしたサブドメインにはメールアカウントがあります！ <br />先に削除してください！"
 
-#, fuzzy
-msgid "Alias Subdomain scheduled for deletion!"
-msgstr "サブドメインの削除を受け付けました！"
+msgid "Alias subdomain scheduled for deletion!"
+msgstr "削除予定のエイリアスサブドメイン！"
 
 msgid "Backup archive scheduled for restoring!"
 msgstr "バックアップスケジュール"
@@ -2377,11 +2300,8 @@ msgstr "(通常の名前"
 msgid "Restore backup"
 msgstr "バックアップからリストア"
 
-msgid ""
-"Click the Restore button and the system will restore the last daily backup"
-msgstr ""
-"復元ボタンをクリックすると、その日の最後にバックアップした状態にシステムを復"
-"元します。"
+msgid "Click the Restore button and the system will restore the last daily backup"
+msgstr "復元ボタンをクリックすると、その日の最後にバックアップした状態にシステムを復元します。"
 
 msgid "Restore"
 msgstr "リストア"
@@ -2428,13 +2348,11 @@ msgstr "CronJob編集"
 msgid "Cronjobs"
 msgstr "Cronジョブ"
 
-#, fuzzy
 msgid "You are not allowed to remove this DNS record!"
-msgstr "エラー：あなたがこのポートエントリーを削除することはできません！"
+msgstr "あなたが、このDNSレコードを削除することは許可されていません！"
 
-#, fuzzy
 msgid "Custom DNS record scheduled for deletion!"
-msgstr "DNSゾーンの削除を受け付けました！"
+msgstr "削除予定のカスタムDNSレコード！"
 
 msgid "ispCP - Manage Domain Alias/Add DNS zone's record"
 msgstr "ispCP - ドメインエイリアス管理/DNSゾーン追加"
@@ -2445,9 +2363,8 @@ msgstr "ispCP - ドメインエイリアス管理/DNSゾーン編集"
 msgid "Add DNS zone's record"
 msgstr "DNSゾーン追加"
 
-#, fuzzy
 msgid "Edit DNS zone's record"
-msgstr "DNSゾーン追加"
+msgstr "DNSゾーンレコードを編集する"
 
 msgid "DNS zone's records"
 msgstr "DNSゾーン"
@@ -2485,9 +2402,8 @@ msgstr "正式な名前"
 msgid "Plain record data"
 msgstr "プレーンレコードデータ"
 
-#, fuzzy
 msgid "You are not allowed to edit this DNS record!"
-msgstr "エラー：あなたがこのポートエントリーを削除することはできません！"
+msgstr "あなたが、このDNSレコードを編集することは許可されていません！"
 
 #, php-format
 msgid "Use of disallowed char(\"%s\") in CNAME"
@@ -2541,9 +2457,8 @@ msgstr "レコード %s は使えません。　理由 「%s」。"
 msgid "Unknown zone type %s!"
 msgstr "不明なゾーンタイプ %s ！"
 
-#, fuzzy
 msgid "Error: DNS record already exist!"
-msgstr "ユーザーは既に存在しています"
+msgstr "エラー：DNSレコードは既に存在しています！"
 
 msgid "ispCP - Client/Domain Statistics"
 msgstr "ispCP - クライアント/ドメイン統計情報"
@@ -2637,7 +2552,7 @@ msgid "ispCP - Client/Manage Users"
 msgstr "ispCP - クライアント/ユーザー管理"
 
 msgid "Manage users"
-msgstr "ユーザ管理"
+msgstr "ユーザー管理"
 
 msgid "FTPs total"
 msgstr "FTP合計"
@@ -2686,7 +2601,7 @@ msgid "Please specify other FTP account dir!"
 msgstr "他のFTPアカウントのディレクトリを指定してください！"
 
 msgid "FTP accounts limit reached!"
-msgstr "FTPアカウントが限界です！"
+msgstr "FTPアカウント数が限界です！"
 
 msgid "ispCP - Client/Add FTP User"
 msgstr "ispCP - クライアント/FTPユーザー追加"
@@ -2709,8 +2624,8 @@ msgstr "他のディレクトリを使用する"
 msgid "Choose dir"
 msgstr "ディレクトリ選択"
 
-msgid "Cannot open directory!<br>Please contact your administrator!"
-msgstr "ディレクトリを開くことが出来ません！<br>管理者に問い合わせてください！"
+msgid "Cannot open directory!<br />Please contact your administrator!"
+msgstr "ディレクトリを開くことが出来ません！<br />管理者に問い合わせてください！"
 
 msgid "Parent Directory"
 msgstr "親ディレクトリ"
@@ -2766,11 +2681,8 @@ msgstr "PHPサポート：有効"
 msgid "PHP Support: disabled"
 msgstr "PHPサポート：無効"
 
-msgid ""
-"You have PHP enabled, but the new hosting plan doesn't has this feature."
-msgstr ""
-"あなたのPHPサポートは有効です。しかし、新しいホスティングプランでは、この機能"
-"を持っていません。"
+msgid "You have PHP enabled, but the new hosting plan doesn't has this feature."
+msgstr "あなたのPHPサポートは有効です。しかし、新しいホスティングプランでは、この機能を持っていません。"
 
 msgid "CGI Support: enabled"
 msgstr "CGIサポート：有効"
@@ -2778,11 +2690,8 @@ msgstr "CGIサポート：有効"
 msgid "CGI Support: disabled"
 msgstr "CGIサポート：無効"
 
-msgid ""
-"You have CGI enabled, but the new hosting plan doesn't has this feature."
-msgstr ""
-"あなたのCGIサポートは有効です。しかし、新しいホスティングプランでは、この機能"
-"を持っていません。"
+msgid "You have CGI enabled, but the new hosting plan doesn't has this feature."
+msgstr "あなたのCGIサポートは有効です。しかし、新しいホスティングプランでは、この機能を持っていません。"
 
 msgid "DNS Support: enabled"
 msgstr "DNSサポート：有効"
@@ -2790,64 +2699,44 @@ msgstr "DNSサポート：有効"
 msgid "DNS Support: disabled"
 msgstr "DNSサポート：無効"
 
-msgid ""
-"You have DNS enabled, but the new hosting plan doesn't has this feature."
-msgstr ""
-"あなたのDNSサポートは有効です。しかし、新しいホスティングプランでは、この機能"
-"を持っていません。"
+msgid "You have DNS enabled, but the new hosting plan doesn't has this feature."
+msgstr "あなたのDNSサポートは有効です。しかし、新しいホスティングプランでは、この機能を持っていません。"
 
 msgid "You have more disk space in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのディスク制限よりも、多くのディスクスペー"
-"スを使用しています。"
+msgstr "あなたは、新しいホスティングプランのディスク制限よりも、多くのディスクスペースを使用しています。"
 
 msgid "Disk limit"
 msgstr "ディスク制限"
 
 msgid "You did have more traffic than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのトラフィック制限よりも、多くのトラフィッ"
-"クを使用しています。"
+msgstr "あなたは、新しいホスティングプランのトラフィック制限よりも、多くのトラフィックを使用しています。"
 
 msgid "Traffic limit"
 msgstr "トラフィック制限"
 
 msgid "You have more aliases in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのエイリアス制限よりも、多くのエイリアスを"
-"使用しています。"
+msgstr "あなたは、新しいホスティングプランのエイリアス制限よりも、多くのエイリアスを使用しています。"
 
 msgid "You have more subdomains in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのサブドメイン制限よりも、多くのサブドメイ"
-"ンを使用しています。"
+msgstr "あなたは、新しいホスティングプランのサブドメイン制限よりも、多くのサブドメインを使用しています。"
 
 msgid "You have more Email addresses in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのメールアドレス制限よりも、多くのメールア"
-"ドレスを使用しています。"
+msgstr "あなたは、新しいホスティングプランのメールアドレス制限よりも、多くのメールアドレスを使用しています。"
 
 msgid "Emails"
 msgstr "メール"
 
 msgid "You have more FTP accounts in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのFTPアカウント制限よりも、多くのFTPアカウ"
-"ントを使用しています。"
+msgstr "あなたは、新しいホスティングプランのFTPアカウント数制限よりも、多くのFTPアカウントを使用しています。"
 
 msgid "FTPs"
 msgstr "FTPs"
 
 msgid "You have more SQL databases in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのデータベース制限よりも、多くのデータベー"
-"スを使用しています。"
+msgstr "あなたは、新しいホスティングプランのSQLデータベース数制限よりも、多くのSQLデータベースを使用しています。"
 
-msgid ""
-"You have more SQL database users in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのデータベースユーザ制限よりも、多くのデー"
-"タベースユーザを使用しています。"
+msgid "You have more SQL database users in use than the new hosting plan limits."
+msgstr "あなたは、新しいホスティングプランのデータベースユーザー制限よりも、多くのデータベースユーザーを使用しています。"
 
 msgid "free of charge"
 msgstr "無料"
@@ -2871,9 +2760,7 @@ msgid "ispCP - Update hosting plan"
 msgstr "ispCP - ホスティングプラン更新"
 
 msgid "You have more e-mail addresses in use than the new hosting plan limits."
-msgstr ""
-"あなたは、新しいホスティングプランのメールアドレス制限よりも、多くのメールア"
-"ドレスを使用しています。"
+msgstr "あなたは、新しいホスティングプランのメールアドレス制限よりも、多くのメールアドレスを使用しています。"
 
 msgid "Your request for hosting pack update was added successfully"
 msgstr "ホスティングパック更新のリクエストが追加されました"
@@ -2898,8 +2785,8 @@ msgid "disabled"
 msgstr "無効"
 
 #, php-format
-msgid "You have <b>%d</b> new answer to your support questions"
-msgstr "あなたの質問に新しい答え <b>%d</b> があります"
+msgid "You have <strong>%d</strong> new answer to your support questions"
+msgstr "あなたの質問に、<strong>%d</strong>つの新しい回答があります"
 
 #, php-format
 msgid "%1$s%% [%2$s of %3$s]"
@@ -2967,7 +2854,7 @@ msgid "Domain mails"
 msgstr "ドメインメール"
 
 msgid "Subdomain mails"
-msgstr "サブドメインメールユーザー数"
+msgstr "サブドメインメール"
 
 msgid "Alias mails"
 msgstr "エイリアスメール"
@@ -3000,10 +2887,10 @@ msgid "Please select at least one mail type!"
 msgstr "メールタイプを１つは選択してください！"
 
 msgid "Please enter mail account username!"
-msgstr "メールユーザー名を入力してください"
+msgstr "メールユーザー名を入力してください！"
 
-msgid "Invalid Mail Localpart Format used!"
-msgstr "メールのローカルパートで使ったフォーマットが無効です！"
+msgid "Invalid mail localpart format used!"
+msgstr "無効メールのローカル部分の形式が使用されます！"
 
 msgid "Password data is missing!"
 msgstr "パスワードが一致しません!"
@@ -3019,14 +2906,14 @@ msgid "%s list is empty! You cannot add mail accounts!"
 msgstr "%s が空です! メールアカウントを追加できません!"
 
 #, php-format
-msgid "%s id is invalid! You cannot add mail accounts!"
-msgstr "%s が無効です! メールアカウントを追加できません!"
+msgid "%s ID is invalid! You cannot add mail accounts!"
+msgstr "%s IDが無効です! メールアカウントを追加できません!"
 
 msgid "Forward list is empty!"
 msgstr "転送リストが空です!"
 
 msgid "Mail accounts limit reached!"
-msgstr "メールアカウントが限界です！"
+msgstr "メールアカウント数が限界です！"
 
 msgid "ispCP - Client/Add Mail User"
 msgstr "ispCP - クライアント/メールユーザー追加"
@@ -3106,10 +2993,8 @@ msgstr "メールアカウント一覧"
 msgid "Catch all account scheduled for deletion!"
 msgstr "キャッチオールメールの削除を受け付けました！"
 
-msgid "Please delete first CatchAll account for this email!"
-msgstr ""
-"はじめに、このメールに関するキャッチオールメールのアカウントを削除してくださ"
-"い！"
+msgid "First delete the CatchAll account for this email!"
+msgstr "はじめに、このメールに関するキャッチオールメールアカウントを削除してください！"
 
 msgid "Email account not found!"
 msgstr "メールアカウントがありません！"
@@ -3129,12 +3014,11 @@ msgstr "ispCP - クライアント/パスワード変更"
 msgid "ispCP - Client/Change Personal Data"
 msgstr "ispCP - クライアント/パーソナルデータ修正"
 
-msgid "Error: Unknown SQL user id!"
-msgstr ""
+msgid "Unknown SQL user id!"
+msgstr "SQLユーザーIDが間違っています！"
 
-#, fuzzy
-msgid "Error: An error occurred while authentication!"
-msgstr "認証中にエラーが発生！"
+msgid "An error occurred while authentication!"
+msgstr "認証中にエラーが発生しました！"
 
 msgid "You do not have protected areas"
 msgstr "アクセス制限領域は登録されていません"
@@ -3174,7 +3058,7 @@ msgid "%s doesn't exist"
 msgstr "%s が見つかりません"
 
 msgid "You cannot protect area without selected user(s)!"
-msgstr "ユーザの選択なしでは領域を保護できません"
+msgstr "ユーザーの選択なしでは領域を保護できません"
 
 msgid "You cannot protect area without selected group(s)"
 msgstr "選択されたグループなしで領域を保護できません"
@@ -3204,7 +3088,7 @@ msgid "Groups"
 msgstr "グループ"
 
 msgid "User auth"
-msgstr "ユーザ認証"
+msgstr "ユーザー認証"
 
 msgid "Group auth"
 msgstr "グループ認証"
@@ -3234,10 +3118,10 @@ msgid "Group already exists!"
 msgstr "グループは既に存在しています！"
 
 msgid "Manage user"
-msgstr "ユーザ管理"
+msgstr "ユーザー管理"
 
 msgid "Wrong username!"
-msgstr "ユーザ名が間違ってます！"
+msgstr "ユーザー名が間違ってます！"
 
 msgid "User already exist !"
 msgstr "ユーザーは既に存在しています"
@@ -3247,8 +3131,8 @@ msgid "User was assigned to the %s group"
 msgstr "ユーザーが %s グループに追加されました"
 
 #, php-format
-msgid "User was deleted from the %s group "
-msgstr "ユーザーは %s グループから削除されました"
+msgid "User was deleted from the %s group."
+msgstr "ユーザーは %s グループから削除されました。"
 
 msgid "User assign"
 msgstr "ユーザーの割り当て"
@@ -3263,16 +3147,16 @@ msgid "Select group:"
 msgstr "選択グループ："
 
 msgid "Update user"
-msgstr "ユーザの更新"
+msgstr "ユーザーの更新"
 
 msgid "You have no users!"
 msgstr "ユーザーが登録されていません!"
 
-msgid "Please type user password!"
-msgstr "ユーザパスワードを入力してください！"
+msgid "Please specify user password!"
+msgstr "ユーザーのパスワードを指定してください！"
 
-msgid "Too long user password!"
-msgstr "ユーザのパスワードが長すぎます"
+msgid "User password too long!"
+msgstr "ユーザーのパスワードが長すぎます"
 
 msgid "Don't use special chars like \"@, $, %...\" in the password!"
 msgstr "パスワードに \"@, $, %...\" の特殊文字を使用しないでください!"
@@ -3281,7 +3165,7 @@ msgid "SQL user password was successfully changed!"
 msgstr "SQLユーザーのパスワードは変更されました！"
 
 msgid "ispCP - Client/Change SQL User Password"
-msgstr "ispCP - クライアント/データベースユーザーパスワード変更"
+msgstr "ispCP - クライアント/SQLユーザーパスワード変更"
 
 msgid "Change SQL user password"
 msgstr "SQLユーザーのパスワード変更"
@@ -3289,8 +3173,8 @@ msgstr "SQLユーザーのパスワード変更"
 msgid "Change"
 msgstr "変更"
 
-msgid "Please type database name!"
-msgstr "データベース名を入力してください！"
+msgid "Please specify a database name!"
+msgstr "データベース名を指定してください！"
 
 msgid "Database name is too long!"
 msgstr "データベース名が長すぎます！"
@@ -3363,38 +3247,35 @@ msgid "Login phpMyAdmin"
 msgstr "PhpMyAdminログイン"
 
 #, php-format
-msgid ""
-"This database will be permanently deleted. This process cannot be recovered. "
-"All users linked to this database will also be deleted if not linked to "
-"another database. Are you sure you want to delete %s?"
-msgstr ""
-"データベースは完全に削除されます。これを実行すると復旧することはできません。"
-"このデータベースにリンクされたすべてのユーザが削除されるか別のデータベースに"
-"リンクされます。 %s を削除しますか？"
+msgid "This database will be permanently deleted. This process cannot be recovered. All users linked to this database will also be deleted if not linked to another database. Are you sure you want to delete %s?"
+msgstr "データベースは完全に削除されます。これを実行すると復旧することはできません。このデータベースにリンクされたすべてのユーザが削除されるか別のデータベースにリンクされます。 %s を削除しますか？"
 
 msgid "SQL users limit reached!"
 msgstr "SQLユーザーの最大数を超えています！"
 
 msgid "Please type user name!"
-msgstr "ユーザ名を入力してください！"
+msgstr "ユーザー名を入力してください！"
 
-msgid "Too user long password!"
-msgstr "ユーザのパスワードが長すぎます"
+msgid "Please type user password!"
+msgstr "ユーザーのパスワードを入力してください！"
 
-msgid "SQL-user not found! Maybe it was deleted by another user!"
-msgstr "SQLユーザが見つかりません！ たぶん他のユーザによって削除されました！"
+msgid "Too long user password!"
+msgstr "ユーザーのパスワードが長すぎます"
+
+msgid "SQL-user not found! It might has been deleted by another user."
+msgstr "SQLユーザが見つかりません！ たぶん他のユーザによって削除された可能性があります。"
 
 msgid "User name too long!"
 msgstr "ユーザー名が長すぎます"
 
 msgid "Specified SQL username name already exists!"
-msgstr "指定されたSQLユーザ名は既に存在しています！"
+msgstr "指定されたSQLユーザー名は既に存在しています！"
 
 msgid "SQL user successfully added!"
 msgstr "SQLユーザーは追加されました！"
 
 msgid "ispCP - Client/Add SQL User"
-msgstr "ispCP - クライアント/データベースユーザー追加"
+msgstr "ispCP - クライアント/SQLユーザー追加"
 
 msgid "SQL user name"
 msgstr "SQLユーザー名"
@@ -3406,7 +3287,7 @@ msgid "Behind the name"
 msgstr "名前の後に付加"
 
 msgid "Add existing user"
-msgstr "既存ユーザー追加"
+msgstr "既存ユーザーの追加"
 
 msgid "Existing SQL users"
 msgstr "既存のSQLユーザ"
@@ -3447,28 +3328,21 @@ msgstr "サブドメイン名"
 msgid "Directory tree mount point"
 msgstr "ディレクトリーツリーのマウント先"
 
-msgid ""
-"Subdomain you are trying to remove has email accounts !<br>First remove them!"
-msgstr ""
-"削除しようとしたサブドメインにはメールアカウントがあります！ <br>先に削除して"
-"ください！"
+msgid "The subdomain you are trying to remove has email accounts!<br />Rremove them first!"
+msgstr "削除しようとしたサブドメインにはメールアカウントがあります！ <br />先に削除してください！"
 
 msgid "Subdomain scheduled for deletion!"
 msgstr "サブドメインの削除を受け付けました！"
 
-#, fuzzy
 msgid "ispCP - Manage Subdomain/Edit Subdomain"
-msgstr "ispCP - 管理者/ドメイン編集"
+msgstr "ispCP - サブドメイン管理/サブドメイン編集"
 
-#, fuzzy
 msgid "Manage subdomain"
-msgstr "ドメイン管理"
+msgstr "サブドメイン管理"
 
-#, fuzzy
 msgid "Edit subdomain"
-msgstr "ドメイン編集"
+msgstr "サブドメイン編集"
 
-#, fuzzy
 msgid "ispCP - Support System - New ticket"
 msgstr "ispCP - サポートシステム - 新しいチケット"
 
@@ -3578,13 +3452,13 @@ msgid "Resellers list is empty!"
 msgstr "代理店は登録されていません"
 
 msgid "Switch to user interface"
-msgstr "ユーザインターフェースを変更"
+msgstr "ユーザーインターフェースを変更"
 
 msgid "Switch"
 msgstr "変更"
 
 msgid "Not found user records matching the search criteria!"
-msgstr "検索条件に一致するユーザが見つかりません！"
+msgstr "検索条件に一致するユーザーが見つかりません！"
 
 msgid "view aliases"
 msgstr "エイリアス確認"
@@ -3672,7 +3546,7 @@ msgid "Web statistics"
 msgstr "Web統計"
 
 msgid "Group/User management"
-msgstr "グループ/ユーザ管理"
+msgstr "グループ/ユーザー管理"
 
 msgid "Email Accounts"
 msgstr "メールアカウント"
@@ -3716,7 +3590,6 @@ msgstr "不明"
 msgid "Welcome {USERNAME} to ispCP!"
 msgstr "{USERNAME} さんispCPへようこそ！"
 
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3749,7 +3622,7 @@ msgstr ""
 "アカウント情報：\n"
 "\n"
 "ユーザタイプ： {USERTYPE}\n"
-"ユーザ名： {USERNAME}\n"
+"ユーザー名： {USERNAME}\n"
 "パスワード： {PASSWORD}\n"
 "\n"
 "ログインしたら最初にパスワードを変更してください。\n"
@@ -3766,7 +3639,6 @@ msgstr ""
 "ispCPチーム\n"
 "\n"
 
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3798,7 +3670,7 @@ msgstr ""
 "アカウント情報：\n"
 "\n"
 "ユーザタイプ： {USERTYPE}\n"
-"ユーザ名： {USERNAME}\n"
+"ユーザー名： {USERNAME}\n"
 "パスワード： {PASSWORD}\n"
 "\n"
 "ログインしたら最初にパスワードを変更してください。\n"
@@ -3862,7 +3734,7 @@ msgstr ""
 "\n"
 "こんにちは {NAME} さん！\n"
 "\n"
-"ユーザ名： {USERNAME}\n"
+"ユーザー名： {USERNAME}\n"
 "パスワード： {PASSWORD}\n"
 "\n"
 "ログインURL： {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
@@ -3882,8 +3754,7 @@ msgid ""
 "\n"
 "{DOMAIN}\n"
 "\n"
-"You have to click the following link to continue the domain creation "
-"process.\n"
+"You have to click the following link to continue the domain creation process.\n"
 "\n"
 "{ACTIVATE_LINK}\n"
 "\n"
@@ -3917,8 +3788,7 @@ msgid ""
 "\n"
 "{ALIAS}\n"
 "\n"
-"Once logged in, you can activate his new alias at {BASE_SERVER_VHOST_PREFIX}"
-"{BASE_SERVER_VHOST}/reseller/alias.php\n"
+"Once logged in, you can activate his new alias at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/reseller/alias.php\n"
 "\n"
 "Thank you for using ispCP services.\n"
 "The ispCP Team\n"
@@ -3931,20 +3801,14 @@ msgstr ""
 "\n"
 "エイリアス： {ALIAS}\n"
 "\n"
-"いったんログインし、{BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/reseller/"
-"alias.phpをすれば、新しいエイリアスを有効にできます。\n"
+"いったんログインし、{BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/reseller/alias.phpをすれば、新しいエイリアスを有効にできます。\n"
 "\n"
 "ispCPサービスを利用してくださりありがとうございます。\n"
 "ispCPチーム\n"
 "\n"
 
-#, fuzzy
 msgid "Your message has been sent!"
-msgstr "あなたのメッセージは送信されました！"
-
-#, fuzzy
-msgid "Your message has been sent"
-msgstr "あなたのメッセージは送信されました！"
+msgstr "あなたのメッセージは、送信されました！"
 
 msgid "Ticket was closed!"
 msgstr "チケットは既にCloseしています"
@@ -3955,9 +3819,8 @@ msgstr "チケットは再開しました！"
 msgid "Never"
 msgstr "なし"
 
-#, fuzzy
 msgid "You don't have support tickets."
-msgstr "チケットは登録されていません"
+msgstr "サポートチケットは登録されていません"
 
 msgid "[New]"
 msgstr "[New]"
@@ -4014,45 +3877,39 @@ msgid "Wrong subdomain lenght!"
 msgstr "サブドメイン名が長さが違っています！"
 
 #, php-format
-msgid "Label not allowed: <b>%s</b>"
-msgstr "ラベルは使用できません：<b>%s</b>"
+msgid "Label not allowed: <strong>%s</strong>"
+msgstr "ラベルは使用できません：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong label syntax: <b>%s</b>"
-msgstr "ラベル構文に誤り：<b>%s</b>"
+msgid "Wrong label syntax: <strong>%s</strong>"
+msgstr "ラベル構文に誤り：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong label lenght: <b>%s</b>"
-msgstr "ラベル長さに誤り：<b>%s</b>"
+msgid "Wrong label lenght: <strong>%s</strong>"
+msgstr "ラベル長さに誤り：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong Top Level Domain syntax: <b>%s</b>"
-msgstr "トップレベルドメインの構文に誤り：<b>%s</b>"
+msgid "Wrong Top Level Domain syntax: <strong>%s</strong>"
+msgstr "トップレベルドメインの構文に誤り：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong Top Level Domain lenght: <b>%s</b>"
-msgstr "トップレベルドメインの長さに誤り：<b>%s</b>"
+msgid "Wrong Top Level Domain lenght: <strong>%s</strong>"
+msgstr "トップレベルドメインの長さに誤り：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong Second Level Domain lenght: <b>%s</b>"
-msgstr "セカンドレベルドメインの長さに誤り：<b>%s</b>"
+msgid "Wrong Second Level Domain lenght: <strong>%s</strong>"
+msgstr "セカンドレベルドメインの長さに誤り：<strong>%s</strong>"
 
 #, php-format
-msgid "Wrong domain name: <b>%s</b> is reserved!"
-msgstr "間違ったドメイン名：<b>%s</b>は予約済です！"
+msgid "Wrong domain name: <strong>%s</strong> is reserved!"
+msgstr "ドメイン名に誤り：<strong>%s</strong>は予約済です！"
 
 #, php-format
-msgid "Wrong Second Level Domain syntax: <b>%s</b>"
-msgstr "セカンドレベルドメインの構文に誤り：<b>%s</b>"
+msgid "Wrong Second Level Domain syntax: <strong>%s</strong>"
+msgstr "セカンドレベルドメインの構文に誤り：<strong>%s</strong>"
 
-msgid ""
-"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br /"
-"><small>Example: for ACE label <b>xn--bcher-kva</b> use <b>bücher</b> "
-"instead</small>."
-msgstr ""
-"エラー：ACEのラベルが許可されていません。Unicode文字を使ってください。<br /"
-"><small>例えは：ＡＣＥラベルは、<b>bücher</b>の代わりに<b>xn--bcher-kva</b>使"
-"います。"
+msgid "ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br /><small>Example: for ACE label <strong>xn--bcher-kva</strong> use <strong>bucher</strong> instead</small>."
+msgstr "エラー：ACEのラベルが許可されていません。Unicode文字を使ってください。<br /><small>例えは：ＡＣＥラベルは、<strong>bucher</strong>の代わりに<strong>xn--bcher-kva</strong>使います。</small>"
 
 msgid "ERROR: PHP extension 'mcrypt' not loaded!"
 msgstr "エラー：ＰＨＰの拡張モジュール 'mcrypt'がロードされていない！"
@@ -4066,20 +3923,17 @@ msgid "You have been blocked for %d minutes."
 msgstr "あなたは %d 分ブロックされました。"
 
 msgid "You entered an incorrect username/password."
-msgstr "ユーザ名/パスワードが間違っています。"
+msgstr "ユーザー名/パスワードが間違っています。"
 
-#, fuzzy
 msgid "System is currently under maintenance! Only administrators can log in."
-msgstr ""
-"現在メンテナンス中となっております！ 管理者以外のログインは許可されて下りませ"
-"ん。"
+msgstr "システムは現在メンテナンス中です！ 管理者だけがログインできます。"
 
 #, php-format
 msgid "%s user already logged or session sharing problem! Aborting..."
 msgstr "すでに登録された %s ユーザかセッション共有の問題！ 中止します..."
 
 msgid "User already logged or session sharing problem! Aborting..."
-msgstr "すでに登録されたユーザかセッション共有の問題！ 中止します..."
+msgstr "すでに登録されたユーザーかセッション共有の問題！ 中止します..."
 
 #, php-format
 msgid "%s's account status is not ok!"
@@ -4125,7 +3979,6 @@ msgstr "有効にする"
 msgid "Being suspended"
 msgstr "中断しました"
 
-#, fuzzy
 msgid "Awaiting approval"
 msgstr "承認待ち"
 
@@ -4138,83 +3991,50 @@ msgstr "エイリアスを隠す"
 msgid "You have reached your domains limit.<br />You cannot add more domains!"
 msgstr "ドメインの上限に達しています。<br>ドメインを追加することはできません！"
 
-msgid ""
-"You have a subdomains limit!<br />You cannot add an user with unlimited "
-"subdomains!"
-msgstr ""
-"あなたには、サブドメインの制限があります！<br>無制限のサブドメインを持つユー"
-"ザーを追加することはできません！"
+msgid "You have a subdomains limit!<br />You cannot add an user with unlimited subdomains!"
+msgstr "あなたには、サブドメインの制限があります！<br>無制限のサブドメインを持つユーザーを追加することはできません！"
 
 msgid "You are exceeding your subdomains limit!"
 msgstr "サブドメイン数の制限を超えています！"
 
-msgid ""
-"You have an aliases limit!<br />You cannot add an user with unlimited "
-"aliases!"
-msgstr ""
-"あなたには、エイリアスの制限があります！<br>無制限のエイリアスを持つユーザー"
-"を追加することはできません！"
+msgid "You have an aliases limit!<br />You cannot add an user with unlimited aliases!"
+msgstr "あなたには、エイリアスの制限があります！<br>無制限のエイリアス数を持つユーザーを追加することはできません！"
 
-msgid "You Are Exceeding Your Alias Limit!"
-msgstr "エイリアスの最大数に到達しました"
+msgid "You are exceeding your alias limit!"
+msgstr "あなたはエイリアス制限を超えています！"
 
-msgid ""
-"You have a mail accounts limit!<br />You cannot add an user with unlimited "
-"mail accounts!"
-msgstr ""
-"あなたには、メールアカウントの制限があります！<br>無制限のメールアカウントを"
-"持つユーザを追加することはできません！"
+msgid "You have a mail accounts limit!<br />You cannot add an user with unlimited mail accounts!"
+msgstr "あなたには、メールアカウント数の制限があります！<br>無制限のメールアカウント数を持つユーザーを追加することはできません！"
 
 msgid "You are exceeding your mail accounts limit!"
 msgstr "メールアカウント数の制限を超えています！"
 
-msgid ""
-"You have a FTP accounts limit!<br />You cannot add an user with unlimited "
-"FTP accounts!"
-msgstr ""
-"あなたには、FTPアカウントの制限があります！<br>無制限のFTPアカウントを持つ"
-"ユーザを追加することはできません！"
+msgid "You have a FTP accounts limit!<br />You cannot add an user with unlimited FTP accounts!"
+msgstr "あなたには、FTPアカウント数の制限があります！<br>無制限のFTPアカウント数を持つユーザを追加することはできません！"
 
 msgid "You are exceeding your FTP accounts limit!"
 msgstr "FTPアカウント数の制限を超えています！"
 
-msgid ""
-"You have a SQL databases limit!<br />You cannot add an user with unlimited "
-"SQL databases!"
-msgstr ""
-"あなたは、データベースの制限があります！<br>無制限のデータベースをユーザを追"
-"加することはできません！"
+msgid "You have a SQL databases limit!<br />You cannot add an user with unlimited SQL databases!"
+msgstr "あなたは、SQLデータベース数制限があります！<br>無制限のSQLデータベース数を持つユーザーを追加することはできません！"
 
 msgid "You are exceeding your SQL databases limit!"
-msgstr "データベース数の制限を超えています！"
+msgstr "SQLデータベース数の制限を超えています！"
 
-msgid ""
-"You have an SQL users limit!<br />You cannot add an user with unlimited SQL "
-"users!"
-msgstr ""
-"あなたは、SQLユーザの制限があります！<br>無制限のSQLユーザを持つユーザを追加"
-"することはできません！"
+msgid "You have an SQL users limit!<br />You cannot add an user with unlimited SQL users!"
+msgstr "あなたには、SQLユーザ数に制限があります！<br>無制限のSQLユーザ数を持つユーザーを追加することはできません！"
 
-msgid ""
-"You have disabled SQL databases for this user!<br />You cannot have SQL "
-"users here!"
-msgstr ""
-"このユーザーのSQLデータベースを無効にしました!<br>あなたが、このSQLユーザーい"
-"ることはできません!"
+msgid "You have disabled SQL databases for this user!<br />You cannot have SQL users here!"
+msgstr "このユーザーのSQLデータベース数を無効にしました!<br>あなたが、このSQLユーザーいることはできません!"
 
 msgid "You are exceeding your SQL database limit!"
 msgstr "データベース数の制限を超えています！"
 
-msgid ""
-"You have a traffic limit!<br />You cannot add an user with unlimited traffic!"
-msgstr ""
-"あなたには、トラフィックの制限があります！<br>無制限のトラフィックを持つユー"
-"ザを追加することはできません！"
+msgid "You have a traffic limit!<br />You cannot add an user with unlimited traffic!"
+msgstr "あなたには、トラフィックの制限があります！<br>無制限のトラフィックを持つユーザーを追加することはできません！"
 
 msgid "You have a disk limit!<br />You cannot add an user with unlimited disk!"
-msgstr ""
-"あなたには、ディスク容量の制限があります！<br>無制限のディスク容量を持つユー"
-"ザを追加することはできません！"
+msgstr "あなたには、ディスク容量の制限があります！<br>無制限のディスク容量を持つユーザーを追加することはできません！"
 
 msgid "ispCP Error"
 msgstr "ispCP エラー"
@@ -4252,9 +4072,8 @@ msgstr "注文の作成で誤り！ おそらく既に受け付けています�
 msgid "Order confirmation"
 msgstr "注文確認"
 
-#, fuzzy
 msgid "Domain already exists on the system!"
-msgstr "このドメイン名は既にシステム上に存在しています！"
+msgstr "ドメインは既にシステム上に存在しています！"
 
 msgid "This hosting plan is not available for purchase"
 msgstr "このホスティングプランは、購入して使用はできません"
@@ -4301,12 +4120,8 @@ msgstr "あなたは、サービス期間を受け入れなければならない
 msgid "Check Out"
 msgstr "チェックアウト"
 
-msgid ""
-"<strong>Thank you for purchasing.</strong><br />You will receive an e-mail "
-"with more details and information."
-msgstr ""
-"<strong>ご購入ありがとうございます。</stroong><br />その他の詳細と情報をメー"
-"ルしています。"
+msgid "<strong>Thank you for purchasing.</strong><br />You will receive an e-mail with more details and information."
+msgstr "<strong>ご購入ありがとうございます。</stroong><br />その他の詳細と情報をメールしています。"
 
 msgid "No available hosting packages"
 msgstr "ホスティングパッケージが見つかりません"
@@ -4367,6 +4182,12 @@ msgstr "エイリアスが登録されていません"
 
 msgid "Activate"
 msgstr "アクティブ"
+
+msgid "Domain alias you are trying to remove has email accounts !<br>First remove them!"
+msgstr "削除しようとしたドメインエイリアスにはメールアカウントがあります！ <br>先に削除してください！"
+
+msgid "Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr "削除しようとしたドメインエイリアスにはFTPアカウントがあります！ <br>先に削除してください！"
 
 msgid "Domain alias added for termination!"
 msgstr "ドメインエイリアスの追加を中止しました"
@@ -4469,8 +4290,8 @@ msgstr "料金は数値です！"
 msgid "Setup fee must be a number!"
 msgstr "初期費用は数値です！"
 
-msgid "SQL databases limit is not <i>disabled</i>!"
-msgstr "データベース制限は<br><i>無効</i>ではありません！"
+msgid "SQL databases limit is not <em>disabled</em>!"
+msgstr "データベース数制限が<em>無効</em>になっていません！"
 
 msgid "Hosting plan values exceed reseller maximum values!"
 msgstr "代理店の最大値を越えるホスティングプランの値！"
@@ -4491,24 +4312,23 @@ msgid "Extras"
 msgstr "エクストラ"
 
 #, php-format
-msgid "%1$s / %2$s of <b>%3$s</b>"
-msgstr "%1$s / %2$s of <b>%3$s</b>"
+msgid "%1$s / %2$s of <strong>%3$s</strong>"
+msgstr "<strong>%3$s</strong>の %1$s / %2$s"
 
 #, php-format
-msgid "%1$s / %2$s of <b>unlimited</b>"
-msgstr "%1$s / %2$s of <b>無制限</b>"
+msgid "%1$s / %2$s of <strong>unlimited</strong>"
+msgstr "<strong>無制限</strong>の %1$s / %2$s "
 
 #, php-format
-msgid "%1$d / %2$d of <b>%3$d</b>"
-msgstr "%1$d / %2$d of <b>%3$d</b>"
+msgid "%1$d / %2$d of <strong>%3$d</strong>"
+msgstr "<strong>%3$d</strong>の %1$d / %2$d"
 
 #, php-format
-msgid "%1$d / %2$d of <b>unlimited</b>"
-msgstr "%1$d / %2$d of <b>無制限</b>"
+msgid "%1$d / %2$d of <strong>unlimited</strong>"
+msgstr "<strong>無制限</strong>の %1$d / %2$d "
 
-#, fuzzy
 msgid "ispCP - Reseller/IP Usage"
-msgstr "ispCP - 代理店/言語変更"
+msgstr "ispCP - 代理店/IPアドレス管理"
 
 msgid "ispCP - Reseller/Change Language"
 msgstr "ispCP - 代理店/言語変更"
@@ -4619,7 +4439,7 @@ msgid "Lostpw link"
 msgstr "パスワード紛失リンク"
 
 msgid "ispCP - Reseller/Manage users/Email setup"
-msgstr "ispCP - 代理店/ユーザ管理/メール設定"
+msgstr "ispCP - 代理店/ユーザー管理/メール設定"
 
 msgid "ispCP - Support system - New ticket"
 msgstr "ispCP - サポートシステム - 新しいチケット"
@@ -4628,7 +4448,7 @@ msgid "ispCP - Reseller: Support System: View Ticket"
 msgstr "ispCP - 代理店：サポートシステム：チケットを見る"
 
 msgid "ispCP - Users/Add user"
-msgstr "ispCP - ユーザ/ユーザ追加"
+msgstr "ispCP - ユーザー/ユーザー追加"
 
 msgid "1 Month"
 msgstr "１ヶ月"
@@ -4661,10 +4481,10 @@ msgid "You have no hosting plans. Please contact your system administrator."
 msgstr "ホスティングプランがありません。システム管理者に連絡してください。"
 
 msgid "ispCP - User/Add user(step2)"
-msgstr "ispCP - ユーザ/ユーザ追加(ステップ２)"
+msgstr "ispCP - ユーザー/ユーザー追加(ステップ２)"
 
-msgid "Max domains<br><i>(-1 disabled, 0 unlimited)</i>"
-msgstr "最大ドメイン数<br><i>(-1:無効, 0:無制限)</i>"
+msgid "Max domains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "最大ドメイン数<br><em>(-1 無効, 0 無制限)</em>"
 
 msgid "Apache logs"
 msgstr "Apacheログ"
@@ -4672,30 +4492,30 @@ msgstr "Apacheログ"
 msgid "Awstats"
 msgstr "AwStats"
 
-msgid "Domain data has been altered. Please enter again"
-msgstr "ドメイン内のデータが変更されています。再度ご入力ください"
+msgid "Domain data has been altered. Please enter again."
+msgstr "ドメイン内のデータが変更されています。再度ご入力ください。"
 
 msgid "ispCP - User/Add user"
-msgstr "ispCP - ユーザ/ユーザ追加"
+msgstr "ispCP - ユーザー/ユーザー追加"
 
 msgid "Add other domains to this account"
 msgstr "他のドメインをこのアカウントに追加"
 
 #, php-format
-msgid "System error with Domain Id: %d"
-msgstr "ドメインＩＤでシステムエラー：%d"
+msgid "System error with Domain ID: %d"
+msgstr "ドメインＩＤ：%dでシステムエラー"
 
 msgid "ispCP - Users/Edit"
-msgstr "ispCP - ユーザ/編集"
+msgstr "ispCP - ユーザー/編集"
 
 msgid "Users list"
 msgstr "ユーザーリスト"
 
 msgid "This reseller has no domains yet."
-msgstr "このユーザにドメインが登録されていません。"
+msgstr "このユーザーにドメインが登録されていません。"
 
 msgid "ispCP - Users"
-msgstr "ispCP - ユーザ"
+msgstr "ispCP - ユーザー"
 
 #, php-format
 msgid "Are you sure you want to change the status of %s?"
@@ -4705,7 +4525,7 @@ msgid "Stats"
 msgstr "統計"
 
 msgid "Edit User"
-msgstr "ユーザ編集"
+msgstr "ユーザー編集"
 
 msgid "Bandwidth"
 msgstr "帯域幅"
@@ -4721,8 +4541,8 @@ msgid "%1$s of %2$s MB"
 msgstr "%2$s の %1$s MB"
 
 #, php-format
-msgid "%1$s of <b>unlimited</b> MB"
-msgstr "<b>無制限</b> の%1$s MB"
+msgid "%1$s of <strong>unlimited</strong> MB"
+msgstr "<strong>無制限</strong>の %1$s MB"
 
 msgid "User data updated!"
 msgstr "ユーザー情報が更新されました！"
@@ -4730,159 +4550,126 @@ msgstr "ユーザー情報が更新されました！"
 msgid "User data not updated!"
 msgstr "ユーザー情報は更新されてませんでした"
 
-msgid ""
-"This user has domain record !<br>First remove the domain from the system!"
-msgstr ""
-"このユーザーにはドメインレコードがあります！<br>まずはシステムからドメインを"
-"削除してください！"
+msgid "This user has domain records!<br />First remove the domains from the system!"
+msgstr "このユーザーにはドメインレコードがあります！<br />まずはシステムからドメインを削除してください！"
 
 msgid "User terminated!"
-msgstr "ユーザ終了！"
+msgstr "ユーザー終了！"
 
 msgid "User not terminated!"
-msgstr "ユーザは終わりません！"
+msgstr "ユーザーは終わりません！"
 
 #~ msgid "Manual DNS support (EXPERIMENTAL)"
 #~ msgstr "手動DNSをサポート(実験中）"
-
-#~ msgid "Settings saved!"
-#~ msgstr "設定を保存しました！"
-
+#~ msgid "Please select some user(s)!"
+#~ msgstr "ユーザを選択してください！"
+#~ msgid "Settings saved !"
+#~ msgstr "設定は保存されました！"
+#~ msgid "ERROR: Wrong Ip number!"
+#~ msgstr "エラー：IPアドレスに間違いがあります！"
 #~ msgid "To"
 #~ msgstr "To"
-
 #~ msgid "Message was sent."
 #~ msgstr "送信済み"
-
 #~ msgid "Add DNS zone's record (EXPERIMENTAL)"
 #~ msgstr "DNSゾーン追加(実験中）"
-
 #~ msgid "Edit DNS zone's record (EXPERIMENTAL)"
 #~ msgstr "DNSゾーン編集(実験中）"
-
 #~ msgid "DNS zone's records (EXPERIMENTAL)"
 #~ msgstr "DNSゾーン(実験中）"
-
+#~ msgid "Too user long password!"
+#~ msgstr "ユーザのパスワードが長すぎます"
 #~ msgid "File %s does not exists or cannot be reached!"
 #~ msgstr "ファイル %s が存在しません。またはアクセスできません。"
-
 #~ msgid "Error while trying to obtain list of network cards!"
 #~ msgstr "ネットワークカードの一覧を取得しようとしてエラーです！"
-
 #~ msgid "This IP (%s) is not assigned to any network card!"
 #~ msgstr "このIP (%s) はどのネットワークカードにも割り当てられていません！"
-
 #~ msgid "Days"
 #~ msgstr "日"
-
 #~ msgid "Hours"
 #~ msgstr "時"
-
 #~ msgid "Minute"
 #~ msgstr "分"
-
 #~ msgid "Minutes"
 #~ msgstr "分"
-
 #~ msgid "Couldn't check for updates! Website not reachable."
 #~ msgstr ""
 #~ "アップデートがないかどうか確認できませんでした！ webサイトに届きません。"
-
+#~ msgid "You Are Exceeding Your Alias Limit!"
+#~ msgstr "エイリアスの最大数に到達しました"
 #~ msgid "Show server load"
 #~ msgstr "サーバーの負荷を表示する"
-
 #~ msgid "Services"
 #~ msgstr "サービス"
-
 #~ msgid "days"
 #~ msgstr "日"
-
 #~ msgid "hours"
 #~ msgstr "時間"
-
 #~ msgid "Kernel"
 #~ msgstr "カーネル"
-
 #~ msgid "Load"
 #~ msgstr "ロードアベレージ"
-
 #~ msgid ""
 #~ "We are sorry, but the system is currently under maintenance.\n"
 #~ "Please try again later."
 #~ msgstr ""
 #~ "申し訳ありませが、現在システムがメンテナンス中です。\n"
 #~ "しばらくしてからお試し下さい。"
-
 #~ msgid "Could not get config from database"
 #~ msgstr "データベースから設定を取得できませんでした"
-
 #~ msgid ""
 #~ "Inconsistency between current_als_cnt and actual alias count: %1$d != %2$d"
 #~ msgstr "current_als_cnt と 実際のエイリアスアカウントの矛盾： %1$d != %2$d"
-
 #~ msgid "! Trying to correct!"
 #~ msgstr "！訂正しよう！"
-
 #~ msgid ""
 #~ "Inconsistency between current_ftp_cnt and actual ftp count: %1$d != %2$d"
 #~ msgstr "current_ftp_cnt と 実際のFTPアカウントの矛盾： %1$d != %2$d"
-
 #~ msgid "Edit reseller aborted!"
 #~ msgstr "代理店の編集を中断しました！"
-
 #~ msgid "Domains limit<br><i>(-1 disabled, 0 unlimited)</i>"
 #~ msgstr "ドメイン制限<br><i>(-1:無効, 0:無制限)</i>"
-
 #~ msgid "Incorrect forward syntax"
 #~ msgstr "転送が間違ってます"
-
 #~ msgid "A Forward URL has to start with 'http://'"
 #~ msgstr "転送URLは 'http://' からはじめてください"
-
 #~ msgid "Entered passwords differ from the another!"
 #~ msgstr "他の異なるパスワードを入力してください！"
-
 #~ msgid "Error:"
 #~ msgstr "エラー："
-
 #~ msgid "You have more disk space in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのディスク制限よりも、多くのディスクス"
 #~ "ペースを使用しています。"
-
 #~ msgid "You have more traffic than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのトラフィック制限よりも、多くのトラ"
 #~ "フィックを使用しています。"
-
 #~ msgid "You have more aliases in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのエイリアス制限よりも、多くのエイリアス"
 #~ "を使用しています。"
-
 #~ msgid "You have more subdomains in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのサブドメイン制限よりも、多くのサブドメ"
 #~ "インを使用しています。"
-
 #~ msgid ""
 #~ "You have more Email addresses in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのメールアドレス制限よりも、多くのメール"
 #~ "アドレスを使用しています。"
-
 #~ msgid "You have more FTP accounts in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのFTPアカウント制限よりも、多くのFTPアカ"
 #~ "ウントを使用しています。"
-
 #~ msgid "You have more SQL databases in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのデータベース制限よりも、多くのデータ"
 #~ "ベースを使用しています。"
-
 #~ msgid ""
 #~ "You have more SQL database users in use than the new hosting plan limits"
 #~ msgstr ""
 #~ "あなたは、新しいホスティングプランのデータベースユーザ制限よりも、多くの"
 #~ "データベースユーザを使用しています。"
+

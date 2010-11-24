@@ -1,6 +1,14 @@
 ispCP ω 1.0.7 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-24 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Japanese (Thanks to Nito Kazunori)
+
+2010-11-24 Thomas Wacker
+	- GUI:
+		* Fixed #2506: Malfunction of language installation from .po file
+
 2010-11-22 Benedikt Heintel
 	- LANGUAGES:
 		* Updated German
@@ -12,6 +20,11 @@ ispCP ω 1.0.7 ChangeLog
 		* Fixed: Lost Password functions
 
 2010-11-20 Benedikt Heintel
+	- GUI:
+		* Changed <b> and <i> to <strong> and <em>
+	- LANGUAGES:
+		* Updated all language files
+		* Updated German
 	- TOOLS:
 		* Updated translation manager
 
@@ -40,6 +53,7 @@ ispCP ω 1.0.7 ChangeLog
 2010-11-16 Benedikt Heintel
 	- DATABASE:
 		* Added database change introduced in r3607
+		* Removed unused table suexec_props
 	- ENGINE:
 		* Fixed: If rkhunter fails, also the installation failed (Thanks to 
 			Daniel Andreca)
