@@ -254,7 +254,6 @@ if ($cfg->CREATE_DEFAULT_EMAIL_ADDRESSES)
 // Added to send the msg with the domain name in idna form
 $dmn_user_name = encode_idna($dmn_user_name);
 
-// add_domain_extras($dmn_id, $record_id, $sql);
 // let's send mail to user
 send_add_user_auto_msg($reseller_id, $dmn_user_name, $password, $user_email,
 	$first_name, $last_name, tr('Domain account'));

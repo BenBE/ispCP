@@ -92,10 +92,18 @@ function gen_directories(&$tpl) {
 		} else {
 			$image = "folder";
 		}
+
+		// Check if folder does not contain a folder that can not be protected
+		$forbiddenFilenames = ('/backups|disabled|errors|logs|phptmp/i');
+		$forbidden = preg_match($forbiddenFilenames, $entry['file']);
+		if ($forbidden === 1) {
+			$tpl->assign('ACTION_LINK', '');
+		} else {
+			$tpl->parse('ACTION_LINK', 'action_link');
+		}
 		// Create the directory link
 		$tpl->assign(
 			array(
-				'ACTION' => tr('Protect it'),
 				'PROTECT_IT' => "protected_areas_add.php?file=".$dr,
 				'ICON' => $image,
 				'DIR_NAME' => tohtml($entry['file']),
@@ -103,7 +111,6 @@ function gen_directories(&$tpl) {
 				'LINK' => "ftp_choose_dir.php?cur_dir=".$dr,
 			)
 		);
-		$tpl->parse('ACTION_LINK', 'action_link');
 		$tpl->parse('DIR_ITEM' , '.dir_item');
 	}
 }
@@ -123,10 +130,10 @@ gen_directories($tpl);
 
 $tpl->assign(
 	array(
+		'CHOOSE' => tr('Choose'),
 		'TR_DIRECTORY_TREE' => tr('Directory tree'),
 		'TR_DIRS' => tr('Directories'),
-		'TR__ACTION' => tr('Action'),
-		'CHOOSE' => tr('Choose')
+		'TR__ACTION' => tr('Action')
 	)
 );
 
@@ -140,3 +147,5 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+?>

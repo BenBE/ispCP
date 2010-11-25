@@ -4,6 +4,8 @@ ispCP ω 1.0.8 ChangeLog
 2010-11-25 Benedikt Heintel
 	- GUI:
 		* Fixed #2192: Enlarge mail forward textareas
+		* Fixed #2283: Creation of a protected area should not be allowed
+			outside DocumentRoot
 
 2010-11-24 Jochen Manz
 	- RELEASE ispCP ω Omega 1.0.7

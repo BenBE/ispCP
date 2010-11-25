@@ -276,7 +276,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		}
 	}
 	// this area is not secured by htaccess
-	if ($edit = 'no' || $rs->recordCount() == 0 || $type == 'user') {
+	if ($edit == 'no' || $rs->recordCount() == 0 || $type == 'user') {
 		$tpl->assign(
 			array(
 				'USER_CHECKED' => $cfg->HTML_CHECKED,
@@ -389,11 +389,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
@@ -438,3 +434,5 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+?>

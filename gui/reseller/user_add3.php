@@ -439,7 +439,6 @@ function add_user_data($reseller_id) {
 		client_mail_add_default_accounts($dmn_id, $user_email, $dmn_name); // 'domain', 0
 	}
 
-	// add_domain_extras($dmn_id, $record_id, $sql);
 	// let's send mail to user
 	send_add_user_auto_msg (
 		$reseller_id,

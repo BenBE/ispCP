@@ -26,23 +26,24 @@
 				</tr>
 				<!-- EDP: page_message -->
 				<tr>
-					<td width="410" class="content3" style="white-space:nowrap;" colspan="4"><strong>{TR_DIRECTORY_TREE}</strong></td>
+					<td width="410" class="content3" style="white-space:nowrap;" colspan="3"><strong>{TR_DIRECTORY_TREE}</strong></td>
 				</tr>
 				<tr>
-					<td width="40" class="content2" colspan="2"></td>
+					<td width="40" class="content2"></td>
 					<td width="310" class="content2" style="white-space:nowrap;"><strong>{TR_DIRS}</strong></td>
 					<td width="60" class="content2" style="white-space:nowrap;" align="center"><strong>{TR__ACTION}</strong></td>
 				</tr>
 				<!-- BDP: dir_item -->
 				<tr>
 					<!-- BDP: list_item -->
-					<td width="40" class="content" colspan="2" align="center"><img src="{THEME_COLOR_PATH}/images/icons/bc_{ICON}.png" alt="" /></td>
+					<td width="40" class="content" align="center"><img src="{THEME_COLOR_PATH}/images/icons/bc_{ICON}.png" alt="" /></td>
 					<td width="310" class="content" style="white-space:nowrap;"><a href="{LINK}" class="link">{DIR_NAME}</a></td>
-					<!-- BDP: action_link -->
 					<td width="60" class="content" style="white-space:nowrap;" align="center">
+						<!-- BDP: action_link -->
 						<a href="javascript:CopyText('{CHOOSE_IT}');" class="link">{CHOOSE}</a>
-					<input type="hidden" name="{CHOOSE_IT}" value="{CHOOSE_IT}" /></td>
-					<!-- EDP: action_link -->
+						<input type="hidden" name="{CHOOSE_IT}" value="{CHOOSE_IT}" />
+						<!-- EDP: action_link -->
+					</td>
 					<!-- EDP: list_item -->
 				</tr>
 				<!-- EDP: dir_item -->
