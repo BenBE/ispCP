@@ -95,6 +95,18 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 		$path = '/' . implode(DIRECTORY_SEPARATOR, $clean_path);
 	}
 
+	// Check if path is allowed
+	// @todo: This need to be reviewed on change of alias system
+	$forbiddenDirnames = ('/^\/.*\/?(backups|disabled|errors|logs|phptmp)\/*$/i');
+	$forbidden = preg_match($forbiddenDirnames, $path);
+	if ($forbidden === 1) {
+		set_page_message(
+			tr('The path selected is a system path that cannot be secured.'),
+			'warning'
+		);
+		return;
+	}
+
 	$domain = $_SESSION['user_logged'];
 
 	// Check for existing directory
@@ -162,7 +174,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 			`dmn_id` = ?
 		AND
 			(`path` = ? OR `path` = ?)
-	";
+	;";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $path, $alt_path));
 	$toadd_status = $cfg->ITEM_ADD_STATUS;
@@ -171,7 +183,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 	if ($rs->recordCount() !== 0) {
 		$update_id = $rs->fields['id'];
 		// @todo Can we move $update_id to the prepared statement variables?
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`htaccess`
 			SET
@@ -182,7 +194,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 				`status` = ?
 			WHERE
 				`id` = '$update_id';
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($user_id, $group_id, $area_name, $path, $tochange_status));
 		send_request();
@@ -351,7 +363,7 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 			`htaccess_groups`
 		WHERE
 			`dmn_id` = ?
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $dmn_id);
 

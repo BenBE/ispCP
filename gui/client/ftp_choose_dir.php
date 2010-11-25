@@ -61,9 +61,9 @@ function gen_directories(&$tpl) {
 		return;
 	}
 	// Show parent directory link
-	$parent = explode('/', $path);
+	$parent = explode(DIRECTORY_SEPARATOR, $path);
 	array_pop($parent);
-	$parent = implode('/', $parent);
+	$parent = implode(DIRECTORY_SEPARATOR, $parent);
 	$tpl->assign('ACTION_LINK', '');
 	$tpl->assign(
 		array(
@@ -94,8 +94,8 @@ function gen_directories(&$tpl) {
 		}
 
 		// Check if folder does not contain a folder that can not be protected
-		$forbiddenFilenames = ('/backups|disabled|errors|logs|phptmp/i');
-		$forbidden = preg_match($forbiddenFilenames, $entry['file']);
+		$forbiddenDirnames = ('/backups|disabled|errors|logs|phptmp/i');
+		$forbidden = preg_match($forbiddenDirnames, $entry['file']);
 		if ($forbidden === 1) {
 			$tpl->assign('ACTION_LINK', '');
 		} else {
