@@ -2,6 +2,12 @@ ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 2010-11-26 Benedikt Heintel
+	- DISTS:
+		* Ubuntu: Added Mavrick package file
+	- DOCS:
+		* Updated for ispCP Omega 1.0.8 Release
+	- ENGINE:
+		* Fixed execution position of pre-installation script
 	- GUI:
 		* Fixed small error on omega theme: double .png-extension
 

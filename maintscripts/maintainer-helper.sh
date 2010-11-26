@@ -60,8 +60,7 @@ OLD_IFS=$IFS
 IFS=$
 
 # Reading needed entries from ispcp.conf
-for a in $(grep -E '^(AMAVIS|APACHE_|BASE_SERVER_IP|CMD_|DEBUG|DATABASE_HOST| \
-DEFAULT_ADMIN_ADDRESS|ETC_|LOG_DIR|MTA_|ROOT_|PHP_FASTCGI|SPAMASSASSIN|Version)' \
+for a in $(grep -E '^(AMAVIS|APACHE_|BASE_SERVER_IP|CMD_|DEBUG|DATABASE_HOST|DEFAULT_ADMIN_ADDRESS|ETC_|LOG_DIR|MTA_|ROOT_|PHP_FASTCGI|SPAMASSASSIN|Version)' \
 ${CONF_FILE} | sed 's/\s*=\s*\(.*\)/="\1"/') ; do
 	 eval $a
 done
