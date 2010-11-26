@@ -282,9 +282,9 @@ function generate_users_list(&$tpl, $admin_id) {
 				|| $rs->fields['domain_status'] == $cfg->ITEM_RESTORE_STATUS
 				|| $rs->fields['domain_status'] == $cfg->ITEM_TODISABLED_STATUS
 				|| $rs->fields['domain_status'] == $cfg->ITEM_DELETE_STATUS) {
-				$status_icon = "reload.png";
+				$status_icon = "reload";
 			} else {
-				$status_icon = "error.png";
+				$status_icon = "error";
 			}
 			$status_url = $rs->fields['domain_id'];
 
