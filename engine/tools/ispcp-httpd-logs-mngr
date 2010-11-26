@@ -23,18 +23,12 @@
 # by moleSoftware GmbH. All Rights Reserved.
 # Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 use FindBin;
 use lib "$FindBin::Bin/..";
 require 'ispcp_common_code.pl';
 
 use strict;
-
 use warnings;
 
 my $rs = undef;

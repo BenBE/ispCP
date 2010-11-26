@@ -20,11 +20,6 @@
 # The Initial Developer of the Original Code is ispCP Team.
 # Portions created by Initial Developer are Copyright (C) 2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 # Load the required entries from ispcp's configuration
 if [ -f /usr/local/etc/ispcp/ispcp.conf ]

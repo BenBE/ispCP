@@ -20,11 +20,6 @@
 # The Initial Developer of the Original Code is ispCP Team.
 # Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 CMD_INSTALL=/usr/bin/install -m 0700 -o root -g root
 SYSTEM_SETUP_ROOT=$(SYSTEM_ROOT)/engine/setup

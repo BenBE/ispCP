@@ -20,19 +20,14 @@
 # The Initial Developer of the Original Code is ispCP Team.
 # Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
-# Note to dev:
+# Note to developers:
 #
 # It's important for the recovery process that all the subroutines defined here
-# are idempotent. That wants mean that if a subroutine is called again and
-# again, the final result should be the same. For example, if an error occurs
-# and the program ends, and then the script is run again, the final result
-# should be identical as if the script was run once.
+# are idempotent. That means that a subroutine can be called sveral times
+# with the same result. For example: if an error occurs and the script ends, and
+# the script is runed again, the final result should be identical as if the
+# script succeded on the first run.
 
 use strict;
 use warnings;

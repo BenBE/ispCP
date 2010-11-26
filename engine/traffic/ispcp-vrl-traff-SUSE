@@ -23,27 +23,17 @@
 # by moleSoftware GmbH. All Rights Reserved.
 # Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 use FindBin;
 use lib "$FindBin::Bin/..";
 require 'ispcp_common_code.pl';
 
 %main::ftp_traffic = ();
-
 %main::smtp_traffic = ();
-
 %main::po_traffic = ();
 
-
 use strict;
-
 use warnings;
-
 use File::Basename;
 
 
@@ -62,16 +52,6 @@ sub zero_traffic_entries {
         $main::po_traffic{$key} = 0;
 
     }
-
-#    while (($key, $value) = each %main::sub_name_id) {
-
-#        $main::ftp_traffic{$key} = 0;
-
-#        $main::smtp_traffic{$key} = 0;
-
-#        $main::po_traffic{$key} = 0;
-
-#    }
 
 	# Added by Erik Lehmann 22.08.2005
 	#---------------

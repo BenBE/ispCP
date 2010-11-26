@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ispCP helper library for distribution maintenace scripts
+# ispCP Omega helper library for distribution maintenace scripts
 #
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
@@ -24,11 +24,6 @@
 # The Initial Developer of the Original Code is ispCP Team.
 # Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 ################################################################################
 # Note to ispCP distributions. maintainers:
@@ -36,14 +31,13 @@
 # This library provide a set of functions that can be used in your maintenance
 # scripts.
 #
-# Currently, only a few helper functions to display the titles and error
-# messages are provided.
+# A few helper functions to display the titles and error messages are provided.
 #
-# Also, when you include this file into your script, some ispCP configuration
+# When you include this file into your script, some ispCP configuration
 # parameters obtained from the 'ispcp.conf' file are exported in your script.
 #
-# To use library, you must include it at the beginning of your
-# script like this:
+# To use this library, you need to include it at the beginning of your script
+# using the following line:
 #
 # . $(dirname "$0")/maintainer-helper.sh
 #
@@ -66,7 +60,8 @@ OLD_IFS=$IFS
 IFS=$
 
 # Reading needed entries from ispcp.conf
-for a in $(grep -E '^(AMAVIS|APACHE_|BASE_SERVER_IP|CMD_|DEBUG|DATABASE_HOST|DEFAULT_ADMIN_ADDRESS|ETC_|LOG_DIR|MTA_|ROOT_|PHP_FASTCGI|SPAMASSASSIN|Version)' \
+for a in $(grep -E '^(AMAVIS|APACHE_|BASE_SERVER_IP|CMD_|DEBUG|DATABASE_HOST| \
+DEFAULT_ADMIN_ADDRESS|ETC_|LOG_DIR|MTA_|ROOT_|PHP_FASTCGI|SPAMASSASSIN|Version)' \
 ${CONF_FILE} | sed 's/\s*=\s*\(.*\)/="\1"/') ; do
 	 eval $a
 done

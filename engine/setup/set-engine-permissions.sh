@@ -23,11 +23,6 @@
 # by moleSoftware GmbH. All Rights Reserved.
 # Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 SELFDIR=$(dirname "$0")
 . $SELFDIR/ispcp-permission-functions.sh

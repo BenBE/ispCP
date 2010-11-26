@@ -20,19 +20,14 @@
 # The Initial Developer of the Original Code is ispCP Team.
 # Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
-# Note to dev:
+# Note to developers:
 #
 # It's important for the recovery process that all the subroutines defined here
-# are idempotent. That wants mean that if a subroutine is called again and
-# again, the final result should be the same. For example, if an error occurs
-# and the script ends, and then the script is run again, the final result
-# should be identical as if the script was run once.
+# are idempotent. That means that a subroutine can be called sveral times
+# with the same result. For example: if an error occurs and the script ends, and
+# the script is runed again, the final result should be identical as if the
+# script succeded on the first run.
 
 use strict;
 use warnings;
@@ -50,7 +45,7 @@ require 'ispcp-setup-methods.pl';
 use subs 'system';
 
 ################################################################################
-#                            Built-in subroutines overriding                   #
+#                       Built-in subroutines overriding                        #
 ################################################################################
 
 ################################################################################
@@ -681,8 +676,18 @@ sub update_engine {
 
 	spacer();
 
-	## IspCP main configuration file - Begin
+	## ispCP main configuration file - Begin
 	title('ispCP main configuration file');
+
+	## Starting dist. maintainer pre-installation script if one exists
+	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst") {
+		spacer();
+
+		title("Pre-installation tasks for $main::cfg{'DistName'}");
+		my $rs = preinst('upgrade');
+
+		exit_msg($rs) if ($rs != 0);
+	}
 
 	# Loading old ispCP configuration file
 	subtitle('Loading old ispCP configuration file:');
@@ -699,16 +704,6 @@ sub update_engine {
 	$rs = check_ispcp_cfg_file();
 	$rs = 0 if($rs == -5);
 	print_status($rs, 'exit_on_error');
-
-	## Starting dist. maintainer pre-installation script if one exists
-	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst") {
-		spacer();
-
-		title("Pre-installation tasks for $main::cfg{'DistName'}");
-		my $rs = preinst('upgrade');
-
-		exit_msg($rs) if ($rs != 0);
-	}
 
 	spacer();
 
