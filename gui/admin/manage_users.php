@@ -79,23 +79,23 @@ if (isset($_POST['details']) && !empty($_POST['details'])) {
 if (isset($_SESSION['user_added'])) {
 	unset($_SESSION['user_added']);
 
-	set_page_message(tr('User added'), 'success');
+	set_page_message(tr('User added successfully'), 'success');
 } else if (isset($_SESSION['reseller_added'])) {
 	unset($_SESSION['reseller_added']);
 
-	set_page_message(tr('Reseller added'), 'success');
+	set_page_message(tr('Reseller added successfully'), 'success');
 } else if (isset($_SESSION['user_updated'])) {
 	unset($_SESSION['user_updated']);
 
-	set_page_message(tr('User updated'), 'success');
+	set_page_message(tr('User updated successfully'), 'success');
 } else if (isset($_SESSION['user_deleted'])) {
 	unset($_SESSION['user_deleted']);
 
-	set_page_message(tr('User deleted'), 'success');
+	set_page_message(tr('User deleted successfully'), 'success');
 } else if (isset($_SESSION['email_updated'])) {
 	unset($_SESSION['email_updated']);
 
-	set_page_message(tr('Email Updated'), 'success');
+	set_page_message(tr('Email Updated successfully'), 'success');
 } else if (isset($_SESSION['hdomain'])) {
 	unset($_SESSION['hdomain']);
 
@@ -106,7 +106,7 @@ if (isset($_SESSION['user_added'])) {
 } else if (isset($_SESSION['user_disabled'])) {
 	unset($_SESSION['user_disabled']);
 
-	set_page_message(tr('User was disabled'), 'success');
+	set_page_message(tr('User disabled successfully'), 'success');
 }
 
 /*

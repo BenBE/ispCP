@@ -96,6 +96,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 	}
 
 	// Check if path is allowed
+	// @todo: valid directories (e.g. /htdocs/disabled/) are excluded (false positive)
 	// @todo: This need to be reviewed on change of alias system
 	$forbiddenDirnames = ('/^\/.*\/?(backups|disabled|errors|logs|phptmp)\/*$/i');
 	$forbidden = preg_match($forbiddenDirnames, $path);

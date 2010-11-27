@@ -50,11 +50,7 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -137,14 +133,12 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * Get data from previous page
  */
 function init_in_values() {
-	global $dmn_name, $dmn_expire, $dmn_expire_never, $dmn_user_name, $hpid;
+	global $dmn_name, $dmn_expire, $dmn_user_name, $hpid;
 
-	if (isset($_SESSION['dmn_expire_date'])) {
-		$dmn_expire = $_SESSION['dmn_expire_date'];
-	}
-
-	if (isset($_SESSION['dmn_expire_never'])) {
-		$dmn_expire_never = $_SESSION['dmn_expire_never'];
+	if (isset($_SESSION['dmn_expire'])) {
+		$dmn_expire = strtotime($_SESSION['dmn_expire']);
+	} else {
+		$dmn_expire = 0;
 	}
 
 	if (isset($_SESSION['step_one'])) {
@@ -247,10 +241,10 @@ function gen_empty_data() {
  * Save data for new user in db
  */
 function add_user_data($reseller_id) {
-	global $hpid, $dmn_name, $dmn_expire, $dmn_expire_never, $dmn_user_name, 
-		$admin_login, $user_email, $customer_id, $first_name, $last_name, 
-		$gender, $firm, $zip, $city, $state, $country, $street_one, $street_two, 
-		$mail, $phone, $fax, $inpass, $domain_ip, $dns, $backup;
+	global $hpid, $dmn_name, $dmn_expire, $dmn_user_name, $admin_login, 
+		$user_email, $customer_id, $first_name, $last_name, $gender, $firm,
+		$zip, $city, $state, $country, $street_one, $street_two, $mail, $phone,
+		$fax, $inpass, $domain_ip, $dns, $backup;
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -357,12 +351,6 @@ function add_user_data($reseller_id) {
 
 	$record_id = $sql->insertId();
 
-	if (!isset($dmn_expire_never) && $dmn_expire_never != "on") {
-		$expire = strtotime($dmn_expire);
-	} else {
-		$expire = "0";
-	}
-
 	$query = "
 		INSERT INTO `domain` (
 			`domain_name`, `domain_admin_id`,
@@ -377,7 +365,7 @@ function add_user_data($reseller_id) {
 		)
 		VALUES (
 			?, ?,
-			?, unix_timestamp(), $expire,
+			?, unix_timestamp(), $dmn_expire,
 			?, ?,
 			?, ?,
 			?, ?,

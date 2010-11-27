@@ -94,6 +94,7 @@ function gen_directories(&$tpl) {
 		}
 
 		// Check if folder does not contain a folder that can not be protected
+		// @todo: valid directories (e.g. /htdocs/disabled/) are excluded (false positive)
 		$forbiddenDirnames = ('/backups|disabled|errors|logs|phptmp/i');
 		$forbidden = preg_match($forbiddenDirnames, $entry['file']);
 		if ($forbidden === 1) {

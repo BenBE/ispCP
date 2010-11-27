@@ -51,11 +51,7 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
@@ -133,14 +129,14 @@ function check_user_data() {
 	$cfg = ispCP_Registry::get('Config');
 
 	// personal template
-	$even_txt = '';
+	$event_txt = '';
 
 	if (isset($_POST['dmn_name'])) {
 		$dmn_name = strtolower(trim($_POST['dmn_name']));
 	}
 
-	if (isset($_POST['dmn_expire'])) {
-		$dmn_expire = $_POST['dmn_expire'];
+	if (isset($_POST['dmn_expire_date'])) {
+		$dmn_expire = clean_input($_POST['dmn_expire_date']);
 	}
 
 	if (isset($_POST['dmn_tpl'])) {
@@ -161,9 +157,9 @@ function check_user_data() {
 	$dmn_name = encode_idna($dmn_name);
 
 	if (ispcp_domain_exists($dmn_name, $_SESSION['user_id'])) {
-		$even_txt = tr('Domain with that name already exists on the system!');
+		$event_txt = tr('Domain with that name already exists on the system!');
 	} else if ($dmn_name == $cfg->BASE_SERVER_VHOST) {
-		$even_txt = tr('Master domain cannot be used!');
+		$event_txt = tr('Master domain cannot be used!');
 	}
 
 	// we have plans only for admins
@@ -172,8 +168,8 @@ function check_user_data() {
 		$dmn_pt = '_no_';
 	}
 
-	if (!empty($even_txt)) { // There are wrong input data
-		set_page_message($even_txt, 'error');
+	if (!empty($event_txt)) { // There are wrong input data
+		set_page_message($event_txt, 'error');
 		return false;
 	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
 		// send through the session the data

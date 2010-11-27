@@ -350,16 +350,16 @@ function check_externel_events(&$tpl) {
 
 	if (isset($_SESSION["user_add3_added"])) {
 		if ($_SESSION["user_add3_added"] === '_yes_') {
-			set_page_message(tr('User added!'), 'succes');
+			set_page_message(tr('User added sucessfully!'), 'success');
 
 			$externel_event = '_on_';
 			unset($_SESSION["user_add3_added"]);
 		}
 	} else if (isset($_SESSION["edit"])) {
 		if ('_yes_' === $_SESSION["edit"]) {
-			set_page_message(tr('User data updated!'), 'success');
+			set_page_message(tr('User data updated sucessfully!'), 'success');
 		} else {
-			set_page_message(tr('User data not updated!'), 'error');
+			set_page_message(tr('User data not updated sucessfully!'), 'error');
 		}
 		unset($_SESSION["edit"]);
 	} else if (isset($_SESSION["user_has_domain"])) {
