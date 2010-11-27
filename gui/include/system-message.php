@@ -116,5 +116,4 @@ function system_message($msg, $type = 'error', $backButtonDestination = '') {
 
 	exit;
 }
-
 ?>

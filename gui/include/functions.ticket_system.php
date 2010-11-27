@@ -190,7 +190,10 @@ function createTicket($user_id, $admin_id, $urgency, $subject, $message,
 		)
 	);
 
-	set_page_message(tr('Your message has been sent!'), 'success');
+	set_page_message(
+		tr('Your message has been sent!'),
+		'success'
+	);
 	sendTicketNotification($admin_id, $user_id, $subject, $user_message,
         $ticket_reply, $urgency);
 }
@@ -284,7 +287,10 @@ function updateTicket($ticket_id, $user_id, $urgency,
 		}
 	}
 
-	set_page_message(tr('Your message has been sent!'), 'success');
+	set_page_message(
+		tr('Your message has been sent!'),
+		'success'
+	);
 	sendTicketNotification($ticket_to, $ticket_from, $subject, $user_message,
 			$ticket_id, $urgency);
 }

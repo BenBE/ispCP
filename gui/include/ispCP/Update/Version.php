@@ -104,7 +104,8 @@ class ispCP_Update_Version extends ispCP_Update {
 
 		if (!is_resource($dh2)) {
 			$this->_addErrorMessage(
-				tr("Couldn't check for updates! Website not reachable.")
+				tr("Couldn't check for updates! Website not reachable."),
+				'error'
 			);
 
 			return false;
