@@ -4,6 +4,9 @@ ispCP ω 1.0.8 ChangeLog
 2010-11-27 Benedikt Heintel
 	- GUI:
 		* Fixed #2509: Add User as Reseller is broken
+		* Fixed: State in order panel is not a mandetory field
+	- SETUP:
+		* Added admin creation date
 
 2010-11-26 Benedikt Heintel
 	- DISTS:

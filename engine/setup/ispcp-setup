@@ -548,8 +548,9 @@ sub setup_default_sql_data {
 	);
 
 	my ($rs) = doSQL(
-		"INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_pass`, `admin_type`, " .
-		"`email`) VALUES (1, '$main::ua{'admin'}','$admin_password', 'admin', " .
+		"INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_pass`, " .
+		"`admin_type`, `domain_created`, `email`) VALUES " .
+		"(1, '$main::ua{'admin'}', '$admin_password', 'admin', 'UNIX_TIMESTAMP()', " .
 		"'$main::ua{'admin_email'}');"
 	);
 	return $rs if ($rs != 0);
@@ -557,7 +558,7 @@ sub setup_default_sql_data {
 	($rs) = doSQL('INSERT INTO `user_gui_props` (`user_id`) values (1);');
 	return $rs if ($rs != 0);
 
-	## First Ip data - Begin
+	## First IP data - Begin
 
 	push_el(
 		\@main::el, 'setup_default_sql_data()',

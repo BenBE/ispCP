@@ -134,7 +134,7 @@ function update_logo() {
 
 		set_page_message(
 			tr('Your logo was successful uploaded!'),
-			'notice'
+			'success'
 		);
 	}
 }
@@ -184,12 +184,9 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
+/**
+ * static page messages
  */
-
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 

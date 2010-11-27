@@ -281,7 +281,7 @@ write_log("$admin_login: add domain: $dmn_user_name");
 
 update_reseller_c_props($reseller_id);
 
-set_page_message(tr('User added!'), 'success');
+set_page_message(tr('User added successfully!'), 'success');
 $query = "
 	UPDATE
 		`orders`
