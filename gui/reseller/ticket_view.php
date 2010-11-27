@@ -117,7 +117,9 @@ gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_ticket_system.tpl'
 gen_logged_from($tpl);
 
 $tpl->assign(
-	array('TR_VIEW_SUPPORT_TICKET' => tr('View support ticket'),
+	array(
+		'TR_SUPPORT_SYSTEM' => tr('Support system'),
+		'TR_VIEW_SUPPORT_TICKET' => tr('View support ticket'),
 		'TR_TICKET_URGENCY' => tr('Priority'),
 		'TR_TICKET_SUBJECT' => tr('Subject'),
 		'TR_TICKET_DATE' => tr('Date'),
@@ -126,7 +128,7 @@ $tpl->assign(
 		'TR_REPLY' => tr('Send reply'),
 		'TR_TICKET_FROM' => tr('From'),
 		'TR_OPEN_TICKETS' => tr('Open tickets'),
-		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
+		'TR_CLOSED_TICKETS' => tr('Closed tickets')
 	)
 );
 
@@ -140,3 +142,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

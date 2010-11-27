@@ -198,6 +198,7 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'IP_USAGE'		=> tr('IP Usage'),
 		'TR_DOMAIN_NAME'	=> tr('Domain Name')
 	)

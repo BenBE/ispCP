@@ -61,7 +61,10 @@ if (isset($_POST['uaction']) AND $_POST['uaction'] == 'apply') {
 
 	$cfg->replaceWith($db_cfg);
 
-	set_page_message(tr('Settings saved!'), 'notice');
+	set_page_message(
+		tr('Settings saved !'),
+		'success'
+	);
 }
 
 if ($cfg->MAINTENANCEMODE) {
@@ -78,6 +81,7 @@ $tpl->assign(
 	array(
 		'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Under this mode only administrators can login'),
+		'TR_MESSAGE_TYPE' => 'warning',
 		'TR_MESSAGE' => tr('Message'),
 		'MESSAGE_VALUE' => $cfg->MAINTENANCEMODE_MESSAGE,
 		'SELECTED_ON' => $selected_on,
@@ -98,3 +102,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

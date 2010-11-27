@@ -91,7 +91,7 @@ function get_update_infos(&$tpl) {
 	}
 
 	if (!$cfg->CHECK_FOR_UPDATES) {
-		$tpl->assign(array('UPDATE' => tr('Update checking is disabled!')));
+		$tpl->assign(array('UPDATE' => tr('Update checking is disabled!'), 'UPDATE_TYPE' => 'notice'));
 		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		return false;
 	}
@@ -206,3 +206,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

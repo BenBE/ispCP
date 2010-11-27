@@ -166,7 +166,10 @@ function send_reseller_message(&$sql) {
 		$rs->moveNext();
 	}
 
-	set_page_message(tr('You send email to your users successfully!'), 'success');
+	set_page_message(
+		tr('You send email to your users successfully!'),
+		'success'
+	);
 	write_log('Mass email was sent from ' . tohtml($sender_name) . '<' . $sender_email . '>!');
 }
 
@@ -257,3 +260,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

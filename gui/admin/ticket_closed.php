@@ -78,18 +78,19 @@ $tpl->assign(
 	array(
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'=> tr('Support tickets'),
-		'TR_STATUS'			=> tr('Status'),
-		'TR_NEW'			=> ' ',
-		'TR_ACTION'			=> tr('Action'),
+		'TR_STATUS'		=> tr('Status'),
+		'TR_NEW'		=> ' ',
+		'TR_ACTION'		=> tr('Action'),
 		'TR_URGENCY'		=> tr('Priority'),
 		'TR_SUBJECT'		=> tr('Subject'),
 		'TR_LAST_DATA'		=> tr('Last reply'),
 		'TR_DELETE_ALL'		=> tr('Delete all'),
 		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
 		'TR_CLOSED_TICKETS'	=> tr('Closed tickets'),
-		'TR_DELETE'			=> tr('Delete'),
+		'TR_DELETE'		=> tr('Delete'),
 		'TR_TICKET_FROM'	=> tr('From'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s')
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_EDIT' 		=> tr('Edit')
 	)
 );
 
@@ -103,3 +104,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

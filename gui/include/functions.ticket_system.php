@@ -877,3 +877,4 @@ function deleteTickets($status, $user_id) {
 		$rs->moveNext();
 	}
 }
+?>

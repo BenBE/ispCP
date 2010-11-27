@@ -178,14 +178,20 @@ function importLanguageFile() {
 	$file = $_FILES['lang_file']['tmp_name'];
 
 	if (empty($_FILES['lang_file']['name']) || !is_readable($file)) {
-		set_page_message(tr('Upload file error!'), 'error');
+		set_page_message(
+			tr('Upload file error!'),
+			'error'
+		);
 		return;
 	}
 
 	if ($file_type != 'text/plain' && $file_type != 'application/octet-stream'
 		&& $file_type != 'text/x-gettext-translation') {
 
-		set_page_message(tr('You can upload only text files!'), 'error');
+		set_page_message(
+			tr('You can upload only text files!'),
+			'error'
+		);
 		return;
 	} else {
 		if ($file_type == 'text/x-gettext-translation') {
@@ -196,7 +202,10 @@ function importLanguageFile() {
 
 		if (is_int($ab)) {
 			if ($ab == 1) {
-				set_page_message(tr('Could not read language file!'), 'error');
+				set_page_message(
+					tr('Could not read language file!'),
+					'error'
+				);
 				return;
 			} elseif ($ab == 2) {
 				set_page_message(
@@ -269,7 +278,10 @@ function importLanguageFile() {
 				)
 			);
 
-			set_page_message(tr('New language installed!'), 'success');
+			set_page_message(
+				tr('New language installed!'),
+				'success'
+			);
 		} else {
 			write_log(
 				tr(
@@ -277,7 +289,10 @@ function importLanguageFile() {
 					$ab['ispcp_language']
 				)
 			);
-			set_page_message(tr('Language was updated!'), 'success');
+			set_page_message(
+				tr('Language was updated!'),
+				'success'
+			);
 		}
 	}
 }
@@ -547,3 +562,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

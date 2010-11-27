@@ -141,22 +141,22 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		} elseif ($updt_count == 1) {
 			set_page_message(
 				tr('%d configuration parameter was updated!', $updt_count),
-				'notice'
+				'success'
 			);
 		} elseif ($upd_count > 1) {
 			set_page_message(
 				tr('%d configuration parameters were updated!', $updt_count),
-				'notice'
+				'success'
 			);
 		} elseif ($new_count == 1) {
 			set_page_message(
 				tr('%d configuration parameter was created!', $new_count),
-				'notice'
+				'success'
 			);
 		} elseif ($ew_count > 1) {
 			set_page_message(
 				tr('%d configuration parameters were created!', $new_count),
-				'notice'
+				'success'
 			);
 		}
 	}
@@ -424,3 +424,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

@@ -474,27 +474,26 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 
 	$tpl->assign(
 		array(
-		'TR_ACTION' => tr('Action'),
-		'TR_UDP' => tr('udp'),
-		'TR_TCP' => tr('tcp'),
-		'TR_ENABLED' => tr('Yes'),
-		'TR_DISABLED' => tr('No'),
-		'TR_APPLY_CHANGES' => tr('Apply changes'),
-		'TR_SERVERPORTS' => tr('Server ports'),
-		'TR_SERVICE' => tr('Service'),
-		'TR_IP' => tr('IP'),
-		'TR_PORT' => tr('Port'),
-		'TR_PROTOCOL' => tr('Protocol'),
-		'TR_SHOW' => tr('Show'),
-		'TR_ACTION' => tr('Action'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' =>
-			tr('Are you sure you want to delete %s service port ?', true, '%s'),
-		'TR_SHOW_UPDATE_SERVICE_PORT' => tr('View / Update service(s) port'),
-		'TR_ADD_NEW_SERVICE_PORT' => tr('Add new service port'),
-		'VAL_FOR_SUBMIT_ON_UPDATE' => tr('Update'),
-		'VAL_FOR_SUBMIT_ON_ADD' => tr('Add'),
-		'VAL_FOR_SUBMIT_ON_RESET' => tr('Reset')
+			'TR_ACTION' => tr('Action'),
+			'TR_UDP' => tr('udp'),
+			'TR_TCP' => tr('tcp'),
+			'TR_ENABLED' => tr('Yes'),
+			'TR_DISABLED' => tr('No'),
+			'TR_APPLY_CHANGES' => tr('Apply changes'),
+			'TR_SERVERPORTS' => tr('Server ports'),
+			'TR_SERVICE' => tr('Service'),
+			'TR_IP' => tr('IP'),
+			'TR_PORT' => tr('Port'),
+			'TR_PROTOCOL' => tr('Protocol'),
+			'TR_SHOW' => tr('Show'),
+			'TR_ACTION' => tr('Action'),
+			'TR_DELETE' => tr('Delete'),
+			'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s service port ?', true, '%s'),
+			'TR_SHOW_UPDATE_SERVICE_PORT' => tr('View / Update service(s) port'),
+			'TR_ADD_NEW_SERVICE_PORT' => tr('Add new service port'),
+			'VAL_FOR_SUBMIT_ON_UPDATE' => tr('Update'),
+			'VAL_FOR_SUBMIT_ON_ADD' => tr('Add'),
+			'VAL_FOR_SUBMIT_ON_RESET' => tr('Reset')
 		)
 	);
 
@@ -509,3 +508,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

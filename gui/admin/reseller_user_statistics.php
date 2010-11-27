@@ -347,6 +347,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),
@@ -384,3 +385,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>
