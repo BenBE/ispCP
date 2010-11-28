@@ -220,7 +220,7 @@ function add_update_services($mode) {
 		set_page_message(implode('<br />', array_unique($messages)), 'error');
 	// Prepares message for page on add
 	} elseif($mode) {
-		set_page_message(tr('Service port was added!'), 'notice');
+		set_page_message(tr('Service port was added!'), 'success');
 	// Prepares message for page on update
 	} else {
 		// gets the number of queries that were been executed
@@ -230,12 +230,12 @@ function add_update_services($mode) {
 		if($updt_count == 1) {
 			set_page_message(
 				tr('%d Service port was updated!', $updt_count),
-				'notice'
+				'success'
 			);
 		} elseif($updt_count > 1) {
 			set_page_message(
 				tr('%d Services port were updated!', $updt_count),
-				'notice'
+				'success'
 			);
 		} else {
 			set_page_message(tr("Nothing's been changed!"), 'notice');

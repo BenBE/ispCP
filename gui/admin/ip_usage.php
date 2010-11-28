@@ -4,7 +4,7 @@
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
  * @copyright 	2006-2010 by ispCP | http://isp-control.net
- * @version 	SVN: $Id$
+ * @version 	SVN: $Id: settings_ports.php 3686 2010-11-27 08:08:58Z ShadowJumper $
  * @link 		http://isp-control.net
  * @author		Klaas Tammling <klaas.tammling@st-city.net>
  *

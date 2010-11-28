@@ -333,11 +333,17 @@ function add_domain_alias(&$sql, &$err_al) {
 		send_alias_order_email($alias_name);
 
 		write_log("$admin_login: add domain alias for activation: $alias_name.");
-		set_page_message(tr('Alias scheduled for activation!'), 'success');
+		set_page_message(
+			tr('Alias scheduled for activation!'),
+			'success'
+		);
 	} else {
 		send_request();
 		write_log("$admin_login: domain alias scheduled for addition: $alias_name.");
-		set_page_message(tr('Alias scheduled for addition!'), 'success');
+		set_page_message(
+			tr('Alias scheduled for addition!'),
+			'success'
+		);
 	}
 
 	user_goto('domains_manage.php');
