@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-30 Markus Szywon
+	- CONFIGS:
+		* Fixed #2513: Missing FCGIWrapper directive for files with .php5 suffix
+
 2010-11-30 Benedikt Heintel
 	- GUI:
 		* Replaced die() with ispCP_Exception()

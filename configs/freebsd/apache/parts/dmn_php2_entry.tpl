@@ -16,6 +16,7 @@
     <IfModule mod_fcgid.c>
         <Directory {WWW_DIR}/{DMN_NAME}/htdocs>
             FCGIWrapper {STARTER_DIR}/{DMN_NAME}/php{PHP_VERSION}-fcgi-starter .php
+			FCGIWrapper {STARTER_DIR}/{DMN_NAME}/php{PHP_VERSION}-fcgi-starter .php5
             Options +ExecCGI
         </Directory>
         <Directory "{STARTER_DIR}/{DMN_NAME}">
