@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-CURRENTVERSION="1.0.4"
-TARGETVERSION="1.0.5"
+CURRENTVERSION="1.0.7"
+TARGETVERSION="1.0.8"
 SVNLOCATION="branches"
 SVNFOLDER="omega-"${TARGETVERSION}
 RELEASEFOLDER="ispcp-"${SVNFOLDER}
@@ -26,7 +26,7 @@ echo ${CURRENTBUILDDATE}
 
 mv ${SVNFOLDER} ${RELEASEFOLDER}
 
-# Release preperations
+# Release preparations
 #rpl -R "Version = ${CURRENTVERSION} OMEGA" "Version = ${TARGETVERSION} OMEGA" ${RELEASEFOLDER}/configs
 #rpl -R "BuildDate = ${CURRENTBUILDDATE}" "BuildDate = ${TARGETBUILDDATE}" ${RELEASEFOLDER}/*/ispcp.conf
 #rpl -R "${CURRENTVERSION}" "${TARGETVERSION}" ${RELEASEFOLDER}/docs/*/INSTALL

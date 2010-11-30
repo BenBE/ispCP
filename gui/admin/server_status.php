@@ -93,21 +93,19 @@ class status {
 			}
 			else {
 				write_log(sprintf('FIXME: %s:%d' . "\n" . 'Unknown connection type %s',__FILE__, __LINE__, $this->all[$i]['type']));
-				die('FIXME: ' . __FILE__ . ':' . __LINE__);
+				throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 			}
 
 			if ($fp) {
 				$this->all[$i]['status'] = true;
 				if ($this->log) {
 					$this->AddLog($this->all[$i]['ip'], $this->all[$i]['port'], $this->all[$i]['service'], $this->all[$i]['type'], 'TRUE');
-					// $this->StatusUp(mysql_insert_id());
 				}
 			}
 			else {
 				$this->all[$i]['status'] = false;
 				if ($this->log) {
 					$this->AddLog($this->all[$i]['ip'], $this->all[$i]['port'], $this->all[$i]['service'], $this->all[$i]['type'], 'FALSE');
-					// $this->StatusDown(mysql_insert_id());
 				}
 			}
 
@@ -137,7 +135,7 @@ class status {
 		}
 		else {
 			write_log(sprintf('FIXME: %s:%d' . "\n" . 'Unknown connection type %s',__FILE__, __LINE__, $type));
-			die('FIXME: ' . __FILE__ . ':' . __LINE__);
+			throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 		}
 
 		if (!$fp)
@@ -222,11 +220,7 @@ function get_server_status(&$tpl, &$sql) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
@@ -251,3 +245,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

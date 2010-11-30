@@ -392,3 +392,4 @@ function requestpassword($admin_name) {
 
 	return true;
 }
+?>

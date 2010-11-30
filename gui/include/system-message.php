@@ -60,9 +60,9 @@ function system_message($msg, $type = 'error', $backButtonDestination = '') {
 		$template = '../' . $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
 	}
 	if (!is_file($template)) {
-		// And if we don't find the template, we'll just die displaying error
+		// And if we don't find the template, we'll just displaying error
 		// message
-		die($msg);
+		throw new ispCP_Exception($msg);
 	}
 
 	$tpl->define('page', $template);

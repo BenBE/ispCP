@@ -69,7 +69,7 @@ function sizeit($bytes, $to = 'B') {
 			break;
 		default:
 			write_log(sprintf('FIXME: %s:%d' . "\n" . 'Unknown byte count %s',__FILE__, __LINE__, $to));
-			die('FIXME: ' . __FILE__ . ':' . __LINE__);
+			throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 	}
 
 	if ($bytes == '' || $bytes < 0) {
@@ -211,3 +211,4 @@ function translate_limit_value($value, $autosize = false, $to = 'MB') {
 			return (!$autosize) ? $value : sizeit($value, $to);
 	}
 }
+?>

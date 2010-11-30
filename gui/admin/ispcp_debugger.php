@@ -539,7 +539,9 @@ function get_error_mails($sql, $tpl) {
 						)
 					);
 
-					die('FIXME: ' . __FILE__ . ':' . __LINE__ . $mail_type);
+					throw new ispCP_Exception(
+						'FIXME: ' . __FILE__ . ':' . __LINE__ . ' ' . $mail_type
+					);
 			}
 
 			$sr = exec_query($sql, $query, $searched_id);
@@ -867,3 +869,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

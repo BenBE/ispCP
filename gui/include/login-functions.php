@@ -311,7 +311,7 @@ function unblock($timeout = null, $type = 'bruteforce') {
 				)
 			);
 
-			die('FIXME: '.__FILE__.':'.__LINE__);
+			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
 	}
 
 	exec_query($sql, $query, array($max, $timeout));
@@ -378,7 +378,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 				)
 			);
 
-			die('FIXME: '.__FILE__.':'.__LINE__);
+			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
 	}
 
 	$res = exec_query($sql, $query, array($ipaddr, $max));
@@ -1164,3 +1164,4 @@ function redirect_to_level_page($file = null, $force = false) {
 
 	exit();
 }
+?>

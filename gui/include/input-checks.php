@@ -30,9 +30,9 @@
 
 /**
  * check_input checks HTML fields of type <input> for content that could be
- * related to cross site scripting. The function will call die() if any of the
- * defined commands is entered in a protected <input> field. An additional
- * information is displayed to the user.
+ * related to cross site scripting. The function will call ispCP_Exception() if
+ * any of the defined commands is entered in a protected <input> field. An
+ * additional information is displayed to the user.
  *
  * @input String $value The submitted string in the <input> field (value)
  */
@@ -1073,3 +1073,4 @@ function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
 
 	return $who;
 }
+?>
