@@ -34,109 +34,133 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add4.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('alias_list', 'page');
-$tpl->define_dynamic('alias_entry', 'alias_list');
+// Avoid unneeded generation during Ajax request
+if (!is_xhr()) {
+	$tpl = new ispCP_pTemplate();
+	$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add4.tpl');
+	$tpl->define_dynamic('page_message', 'page');
+	$tpl->define_dynamic('logged_from', 'page');
+	$tpl->define_dynamic('alias_list', 'page');
+	$tpl->define_dynamic('alias_entry', 'alias_list');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
+	$tpl->assign(
+		array(
+			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
+			'THEME_CHARSET' => tr('encoding'),
+			'ISP_LOGO' => get_logo($_SESSION['user_id']),
+		)
+	);
 
-// static page messages
-if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
-	$domain_id = $_SESSION['dmn_id'];
-	$reseller_id = $_SESSION['user_id'];
+	// static page messages
+	gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+	gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
-	$query = "
-		SELECT
-			`domain_id`, `domain_status`
-		FROM
-			`domain`
-		WHERE
-			`domain_id` = ?
-		AND
-			`domain_created_id` = ?
-		;
-	";
+	gen_logged_from($tpl);
 
-	$result = exec_query($sql, $query, array($domain_id, $reseller_id));
+	$tpl->assign(
+		array(
+			'TR_ADD_USER_PAGE_TITLE' => tr('ispCP - User/Add user'),
+			'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
+			'TR_ADD_ALIAS' => tr('Add domain alias'),
+			'TR_DOMAIN_NAME' => tr('Domain name'),
+			'TR_DOMAIN_ACCOUNT' => tr('User account'),
+			'TR_MOUNT_POINT' => tr('Directory mount point'),
+			'TR_DOMAIN_IP' => tr('Domain IP'),
+			'TR_DMN_HELP' => tr("You do not need 'www.' ispCP will add it on its own."),
+			'TR_FORWARD' => tr('Forward to URL'),
+			'TR_ADD' => tr('Add alias'),
+			'TR_DOMAIN_ALIAS' => tr('Domain alias'),
+			'TR_STATUS' => tr('Status'),
+			'TR_ADD_USER' => tr('Add user'),
+			'TR_GO_USERS' => tr('Done'),
+			'TR_ENABLE_FWD' => tr("Enable Forward"),
+			'TR_ENABLE' => tr("Enable"),
+			'TR_DISABLE' => tr("Disable"),
+			'TR_PREFIX_HTTP' => 'http://',
+			'TR_PREFIX_HTTPS' => 'https://',
+			'TR_PREFIX_FTP' => 'ftp://'
+		)
+	);
 
-	if ($result->recordCount() == 0) {
-		set_page_message(
-			tr('User does not exist or you do not have permission to access this interface!'),
-			'warning'
-		);
+	if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
+		$domain_id = $_SESSION['dmn_id'];
+		$reseller_id = $_SESSION['user_id'];
 
-		// Back to the users page
-		user_goto('users.php?psi=last');
-	} else {
-		$row = $result->fetchRow();
-		$dmn_status = $row['domain_status'];
+		$query = "
+			SELECT
+				`domain_id`, `domain_status`
+			FROM
+				`domain`
+			WHERE
+				`domain_id` = ?
+			AND
+				`domain_created_id` = ?
+		;";
 
-		if ($dmn_status != $cfg->ITEM_OK_STATUS && $dmn_status != $cfg->ITEM_ADD_STATUS) {
+		$result = exec_query($sql, $query, array($domain_id, $reseller_id));
+
+		if ($result->recordCount() == 0) {
 			set_page_message(
-				tr('System error with Domain ID: %d', $domain_id),
-				'error'
+				tr('User does not exist or you do not have permission to access this interface!'),
+				'warning'
 			);
 
 			// Back to the users page
 			user_goto('users.php?psi=last');
+		} else {
+			$row = $result->fetchRow();
+			$dmn_status = $row['domain_status'];
+
+			if ($dmn_status != $cfg->ITEM_OK_STATUS && $dmn_status != $cfg->ITEM_ADD_STATUS) {
+				set_page_message(
+					tr('System error with Domain ID: %d', $domain_id),
+					'error'
+				);
+
+				// Back to the users page
+				user_goto('users.php?psi=last');
+			}
 		}
+	} else {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
+		user_goto('users.php?psi=last');
 	}
-} else {
-	set_page_message(
-		tr('User does not exist or you do not have permission to access this interface!'),
-		'warning'
-	);
-	user_goto('users.php?psi=last');
 }
 
 $err_txt = '_off_';
-if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_alias') {
-	add_domain_alias($sql, $err_txt);
+
+// Dispatch Request
+if (isset($_POST['uaction'])) {
+	if($_POST['uaction'] == 'toASCII') { // Ajax request
+		header('Content-Type: text/plain; charset=utf-8');
+		header('Cache-Control: no-cache, private');
+		// backward compatibility for HTTP/1.0
+		header('Pragma: no-cache');
+		header("HTTP/1.0 200 Ok");
+
+		// Todo check return value here before echo...
+		echo "/".encode_idna(strtolower($_POST['domain']));
+		exit;
+	} elseif($_POST['uaction'] == 'add_alias') {
+		add_domain_alias($err_txt);
+	} else {
+		throw new ispCP_Exception(tr("Error: unknown action!" . " " . $_POST['uaction']));
+	}
+} else { // Default view
+	init_empty_data();
+	if(isset($_SESSION['alias_added_succesfully'])) {
+		set_page_message(tr('Domain alias added!'), 'success');
+		unset($_SESSION['alias_added_succesfully']);
+	} else {
+		$tpl->assign("PAGE_MESSAGE", '');
+	}
 }
 
-init_empty_data();
-
 gen_al_page($tpl, $_SESSION['user_id']);
-
 gen_page_message($tpl);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_ADD_USER_PAGE_TITLE' => tr('ispCP - User/Add user'),
-		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
-		'TR_ADD_ALIAS' => tr('Add domain alias'),
-		'TR_DOMAIN_NAME' => tr('Domain name'),
-		'TR_DOMAIN_ACCOUNT' => tr('User account'),
-		'TR_MOUNT_POINT' => tr('Directory mount point'),
-		'TR_DOMAIN_IP' => tr('Domain IP'),
-		'TR_FORWARD' => tr('Forward to URL'),
-		'TR_ADD' => tr('Add alias'),
-		'TR_DOMAIN_ALIAS' => tr('Domain alias'),
-		'TR_STATUS' => tr('Status'),
-		'TR_ADD_USER' => tr('Add user'),
-		'TR_GO_USERS' => tr('Done'),
-		'TR_ENABLE_FWD' => tr("Enable Forward"),
-		'TR_ENABLE' => tr("Enable"),
-		'TR_DISABLE' => tr("Disable"),
-		'TR_PREFIX_HTTP' => 'http://',
-		'TR_PREFIX_HTTPS' => 'https://',
-		'TR_PREFIX_FTP' => 'ftp://'
-	)
-);
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
@@ -146,8 +170,20 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 // Begin function declaration lines
 
+/**
+ * Initializes global variables to avoid warnings
+ * 
+ * @global string $cr_user_id
+ * @global string $alias_name
+ * @global string $domain_ip
+ * @global <type> $forward
+ * @global <type> $forward_prefix
+ * @global string $mount_point
+ * @global ispCP_pTemplate $tpl 
+ */
 function init_empty_data() {
-	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix, $mount_point, $tpl;
+	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
+		$mount_point, $tpl;
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -158,11 +194,11 @@ function init_empty_data() {
 		if ($_POST['status'] == 1) {
 			$check_en = $cfg->HTML_CHECKED;
 			$check_dis = '';
-			$forward = strtolower(clean_input($_POST['forward']));
+			$forward = encode_idna(strtolower(clean_input($_POST['forward'])));
 			$tpl->assign(
 				array(
-					'READONLY_FORWARD' => '',
-					'DISABLE_FORWARD' => '',
+					'READONLY_FORWARD'	=> '',
+					'DISABLE_FORWARD'	=> '',
 				)
 			);
 		} else {
@@ -171,16 +207,16 @@ function init_empty_data() {
 			$forward = '';
 			$tpl->assign(
 				array(
-					'READONLY_FORWARD' => $cfg->HTML_READONLY,
-					'DISABLE_FORWARD' => $cfg->HTML_DISABLED,
+					'READONLY_FORWARD'	=> $cfg->HTML_READONLY,
+					'DISABLE_FORWARD'	=> $cfg->HTML_DISABLED,
 				)
 			);
 		}
 		$tpl->assign(
 			array(
-				'HTTP_YES' => ($forward_prefix === 'http://') ? $cfg->HTML_SELECTED : '',
+				'HTTP_YES'	=> ($forward_prefix === 'http://') ? $cfg->HTML_SELECTED : '',
 				'HTTPS_YES' => ($forward_prefix === 'https://') ? $cfg->HTML_SELECTED : '',
-				'FTP_YES' => ($forward_prefix === 'ftp://') ? $cfg->HTML_SELECTED : ''
+				'FTP_YES'	=> ($forward_prefix === 'ftp://') ? $cfg->HTML_SELECTED : ''
 			)
 		);
 	} else {
@@ -189,18 +225,21 @@ function init_empty_data() {
 		$forward = '';
 		$tpl->assign(
 			array(
-				'READONLY_FORWARD' => $cfg->HTML_READONLY,
-				'DISABLE_FORWARD' => $cfg->HTML_DISABLED,
+				'READONLY_FORWARD'	=> $cfg->HTML_READONLY,
+				'DISABLE_FORWARD'	=> $cfg->HTML_DISABLED,
+				'HTTP_YES'			=>	'',
+				'HTTPS_YES'			=>	'',
+				'FTP_YES'			=>	''
 			)
 		);
 	}
 
 	$tpl->assign(
 		array(
-			'DOMAIN' => !empty($_POST) ? strtolower(clean_input($_POST['ndomain_name'], true)) : '',
-			'MP' => !empty($_POST) ? strtolower(clean_input($_POST['ndomain_mpoint'], true)) : '',
-			'FORWARD' => tohtml($forward),
-			'CHECK_EN' => $check_en,
+			'DOMAIN'	=> !empty($_POST) ? strtolower(clean_input($_POST['ndomain_name'], true)) : '',
+			'MP'		=> !empty($_POST) ? strtolower(clean_input($_POST['ndomain_mpoint'], true)) : '',
+			'FORWARD'	=> tohtml(encode_idna($forward)),
+			'CHECK_EN'	=> $check_en,
 			'CHECK_DIS' => $check_dis,
 		)
 	);
@@ -208,8 +247,18 @@ function init_empty_data() {
 
 /**
  * Show data fields
+ *
+ * @global <type> $alias_name
+ * @global  $forward
+ * @global  $forward_prefix
+ * @global string $mount_point
+ * @param <type> $tpl
+ * @param <type> $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
+	global $alias_name, $forward, $forward_prefix, $mount_point;
+
+	$cfgd = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
 	$dmn_id = $_SESSION['dmn_id'];
@@ -218,12 +267,13 @@ function gen_al_page(&$tpl, $reseller_id) {
 		SELECT
 			`alias_id`,
 			`alias_name`,
-			`alias_status`
+			`alias_status`,
+			`url_forward`
 		FROM
 			`domain_aliasses`
 		WHERE
 			`domain_id` = ?
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $dmn_id);
 
@@ -234,6 +284,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 		while (!$rs->EOF) {
 			$alias_name = decode_idna($rs->fields['alias_name']);
 			$alias_status = translate_dmn_status($rs->fields['alias_status']);
+			$show_als_fwd = ($rs->fields['url_forward'] == 'no') ? "-" : $rs->fields['url_forward'];
 
 			$page_cont = ($i % 2 == 0) ? 'content' : 'content2';
 
@@ -242,6 +293,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 					'DOMAIN_ALIAS' => tohtml($alias_name),
 					'STATUS' => $alias_status,
 					'CLASS' => $page_cont,
+					'FORWARD_URL' => $show_als_fwd
 				)
 			);
 
@@ -252,11 +304,24 @@ function gen_al_page(&$tpl, $reseller_id) {
 	}
 } // End of gen_al_page()
 
-function add_domain_alias(&$sql, &$err_al) {
+/**
+ *
+ * @global <type> $cr_user_id
+ * @global <type> $alias_name
+ * @global <type> $domain_ip
+ * @global <type> $forward
+ * @global <type> $forward_prefix
+ * @global <type> $mount_point
+ * @global <type> $validation_err_msg
+ * @param <type> $err_al
+ * @return <type>
+ */
+function add_domain_alias(&$err_al) {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
 		$mount_point, $validation_err_msg;
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$cr_user_id = $dmn_id = $_SESSION['dmn_id'];
 	$alias_name = strtolower(clean_input($_POST['ndomain_name']));
@@ -264,7 +329,7 @@ function add_domain_alias(&$sql, &$err_al) {
 	$mount_point = array_encode_idna(strtolower($_POST['ndomain_mpoint']), true);
 
 	if ($_POST['status'] == 1) {
-		$forward = strtolower(clean_input($_POST['forward']));
+		$forward = encode_idna(strtolower(clean_input($_POST['forward'])));
 		$forward_prefix = clean_input($_POST['forward_prefix']);
 	} else {
 		$forward = 'no';
@@ -285,21 +350,63 @@ function add_domain_alias(&$sql, &$err_al) {
 	} else if (!validates_mpoint($mount_point) && $mount_point != '/') {
 		$err_al = tr("Incorrect mount point syntax");
 	} else if ($_POST['status'] == 1) {
-		if (substr_count($forward, '.') <= 2) {
-			$ret = validates_dname($forward);
+		$aurl = @parse_url($forward_prefix.decode_idna($forward));
+		if ($aurl === false) {
+			$err_al = tr("Wrong address in forward URL!");
 		} else {
-			$ret = validates_dname($forward, true);
-		}
-		if (!$ret) {
-			$err_al = tr("Wrong domain part in forward URL!");
-		} else {
-			$forward = encode_idna($forward_prefix.$forward);
+			$domain = $aurl['host'];
+			if (substr_count($domain, '.') <= 2) {
+				$ret = validates_dname($domain);
+			} else {
+				$ret = validates_dname($domain, true);
+			}
+			$domain = encode_idna($aurl['host']);
+			if (!$ret) {
+				$err_al = tr("Wrong domain part in forward URL!");
+			} else {
+				$domain = encode_idna($aurl['host']);
+				$forward = $aurl['scheme'].'://';
+				if (isset($aurl['user'])) {
+					$forward .= $aurl['user'] . (isset($aurl['pass']) ? ':' . $aurl['pass'] : '') .'@';
+				}
+				$forward .= $domain;
+				if (isset($aurl['port'])) {
+					$forward .= ':'.$aurl['port'];
+				}
+				if (isset($aurl['path'])) {
+					$forward .= $aurl['path'];
+				} else {
+					$forward .= '/';
+				}
+				if (isset($aurl['query'])) {
+					$forward .= '?'.$aurl['query'];
+				}
+				if (isset($aurl['fragment'])) {
+					$forward .= '#'.$aurl['fragment'];
+				}
+			}
 		}
 	} else {
-		$query = "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?";
+		$query = "
+			SELECT
+				`domain_id`
+			FROM
+				`domain_aliasses`
+			WHERE
+				`alias_name` = ?
+		;";
 		$res = exec_query($sql, $query, $alias_name);
-		$query = "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?";
+
+		$query = "
+			SELECT
+				`domain_id`
+			FROM
+				`domain`
+			WHERE
+				`domain_name` = ?
+		;";
 		$res2 = exec_query($sql, $query, $alias_name);
+
 		if ($res->rowCount() > 0 || $res2->rowCount() > 0) {
 			// we already have a domain with this name
 			$err_al = tr("Domain with this name already exist");
@@ -315,17 +422,21 @@ function add_domain_alias(&$sql, &$err_al) {
 		return;
 	}
 	// Begin add new alias domain
-	$query = "INSERT INTO `domain_aliasses` (" .
-			"`domain_id`, `alias_name`, `alias_mount`, `alias_status`, " .
-			"`alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?);";
-	exec_query($sql, $query, array(
-			$cr_user_id,
-			$alias_name,
-			$mount_point,
-			$cfg->ITEM_ADD_STATUS,
-			$domain_ip,
-			$forward
-	));
+	$query = "
+		INSERT INTO
+			`domain_aliasses` (
+				`domain_id`, `alias_name`, `alias_mount`, `alias_status`,
+				`alias_ip_id`, `url_forward`
+			)
+		VALUES
+			(?, ?, ?, ?, ?, ?)
+	;";
+	exec_query($sql, $query,
+		array(
+			$cr_user_id, $alias_name, $mount_point, $cfg->ITEM_ADD_STATUS,
+			$domain_ip, $forward
+		)
+	);
 
 	update_reseller_c_props(get_reseller_id($cr_user_id));
 
@@ -333,9 +444,15 @@ function add_domain_alias(&$sql, &$err_al) {
 	$admin_login = $_SESSION['user_logged'];
 	write_log("$admin_login: add domain alias: $alias_name");
 
-	set_page_message(tr('Domain alias added!'), 'success');
+	$_SESSION['alias_added_succesfully'] = 1;
+	user_goto('user_add4.php?accout='.$cr_user_id);
 } // End of add_domain_alias();
 
+/**
+ *
+ * @param <type> $tpl
+ * @param <type> $error_txt
+ */
 function gen_page_msg(&$tpl, $error_txt) {
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
@@ -344,3 +461,4 @@ function gen_page_msg(&$tpl, $error_txt) {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
 } // End of gen_page_msg()
+?>

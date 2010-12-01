@@ -1,6 +1,11 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-01 Benedikt Heintel
+	- GUI:
+		* Fixed #2089: Add Customer with IDN alias domains (Thanks to Sascha Bay)
+		* Improved header redirect handling
+
 2010-11-30 Markus Szywon
 	- CONFIGS:
 		* Fixed #2513: Missing FCGIWrapper directive for files with .php5 suffix

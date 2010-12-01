@@ -7,31 +7,45 @@
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ispcpTooltips.js"></script>
 <!--[if lt IE 7.]>
 <script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
 <![endif]-->
-<script type="text/javascript">
-<!--
-function makeUser() {
-	var dname = document.forms[0].elements['ndomain_name'].value;
-	dname = dname.toLowerCase();
-	dname = dname.replace(/�/gi, "ae");
-	dname = dname.replace(/�/gi, "ue");
-	dname = dname.replace(/�/gi, "oe");
-	dname = dname.replace(/�/gi, "ss");
-	document.forms[0].elements['ndomain_mpoint'].value = "/" + dname;
-}
-function setForwardReadonly(obj){
-	if(obj.value == 1) {
-		document.forms[0].elements['forward'].readOnly = false;
-		document.forms[0].elements['forward_prefix'].disabled = false;
-	} else {
-		document.forms[0].elements['forward'].readOnly = true;
-		document.forms[0].elements['forward'].value = '';
-		document.forms[0].elements['forward_prefix'].disabled = true;
+<script language="JavaScript" type="text/JavaScript">
+/*<![CDATA[*/
+	$(document).ready(function(){
+		// Tooltips - begin
+		$('#dmn_help').ispCPtooltips({msg:"{TR_DMN_HELP}"});
+		// Tooltips - end
+
+		// Request for encode_idna request
+		$('input[name=ndomain_name]').blur(function(){
+			dmnName = $('#ndomain_name').val();
+			// Configure the request for encode_idna request
+			$.ajaxSetup({
+				url: $(location).attr('pathname'),
+				type:'POST',
+				data: 'domain=' + dmnName + '&uaction=toASCII',
+				datatype: 'text',
+				beforeSend: function(xhr){xhr.setRequestHeader('Accept','text/plain');},
+				success: function(r){$('#ndomain_mpoint').val(r);},
+				error: ispCPAjaxError
+			});
+			$.ajax();
+		});
+	});
+	function setForwardReadonly(obj){
+		if(obj.value == 1) {
+			document.forms[0].elements['forward'].readOnly = false;
+			document.forms[0].elements['forward_prefix'].disabled = false;
+		} else {
+			document.forms[0].elements['forward'].readOnly = true;
+			document.forms[0].elements['forward'].value = '';
+			document.forms[0].elements['forward_prefix'].disabled = true;
+		}
 	}
-}
-//-->
+/* ]]> */
 </script>
 </head>
 
@@ -71,26 +85,28 @@ function setForwardReadonly(obj){
                       <!-- BDP: page_message -->
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
+                        <td colspan="3" class="title"><span class="message">{MESSAGE}</span></td>
                       </tr>
                       <!-- EDP: page_message -->
                       <!-- BDP: alias_list -->
                       <tr>
                         <td>&nbsp;</td>
                         <td class="content3"><strong>{TR_DOMAIN_ALIAS}</strong></td>
+						<td class="content3"><strong>{TR_FORWARD}</strong></td>
                         <td class="content3"><strong>{TR_STATUS}</strong></td>
                       </tr>
                       <!-- BDP: alias_entry -->
                       <tr>
                         <td width="25">&nbsp;</td>
                         <td class="{CLASS}">{DOMAIN_ALIAS}</td>
+						<td class="{CLASS}">{FORWARD_URL}</td>
                         <td width="100" class="{CLASS}">{STATUS}</td>
                       </tr>
                       <!-- EDP: alias_entry -->
                       <!-- EDP: alias_list -->
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td colspan="2">&nbsp;</td>
+                        <td colspan="3">&nbsp;</td>
                       </tr>
                     </table>
                   <table width="100%" cellpadding="5" cellspacing="5">
@@ -100,8 +116,10 @@ function setForwardReadonly(obj){
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
-                        <td width="200" class="content2">{TR_DOMAIN_NAME}</td>
-                        <td class="content"><input name="ndomain_name" type="text" class="textinput" style="width:170px" value="{DOMAIN}" onBlur="makeUser();" /></td>
+                        <td width="200" class="content2">
+						 {TR_DOMAIN_NAME} <img id="dmn_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" />
+						</td>
+                        <td class="content"><input id="ndomain_name" name="ndomain_name" type="text" class="textinput" style="width:170px" value="{DOMAIN}" /></td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>
@@ -112,20 +130,20 @@ function setForwardReadonly(obj){
 						<td width="25" nowrap="nowrap">&nbsp;</td>
 						<td width="200" nowrap="nowrap" class="content2">{TR_ENABLE_FWD}</td>
 						<td class="content">
-						<input type="radio" name="status" {CHECK_EN} value="1" onChange="setForwardReadonly(this);" /> {TR_ENABLE}<br />
-						<input type="radio" name="status" {CHECK_DIS} value="0" onChange="setForwardReadonly(this);" /> {TR_DISABLE}</td>
+						<input type="radio" name="status" id="status_enable"{CHECK_EN} value="1" onChange="setForwardReadonly(this);" /> {TR_ENABLE}<br />
+						<input type="radio" name="status" id="status_disable"{CHECK_DIS} value="0" onChange="setForwardReadonly(this);" /> {TR_DISABLE}</td>
                       </tr>
                       <tr>
                         <td width="25" nowrap="nowrap">&nbsp;</td>
                         <td width="200" nowrap="nowrap" class="content2">{TR_FORWARD}</td>
-                        <td class="content">
+						<td class="content">
 							<select name="forward_prefix" style="vertical-align:middle"{DISABLE_FORWARD}>
 								<option value="{TR_PREFIX_HTTP}"{HTTP_YES}>{TR_PREFIX_HTTP}</option>
 								<option value="{TR_PREFIX_HTTPS}"{HTTPS_YES}>{TR_PREFIX_HTTPS}</option>
 								<option value="{TR_PREFIX_FTP}"{FTP_YES}>{TR_PREFIX_FTP}</option>
 							</select>
 							<input name="forward" type="text" class="textinput" id="forward" style="width:170px" value="{FORWARD}"{READONLY_FORWARD} />
-                        </td>
+						</td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>

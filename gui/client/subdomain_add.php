@@ -34,14 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
-
 // page functions.
 
+/**
+ *
+ * @param <type> $tpl
+ * @param <type> $erro_txt
+ */
 function gen_page_msg(&$tpl, $erro_txt) {
 
 	if ($erro_txt != '_off_') {
@@ -53,7 +52,14 @@ function gen_page_msg(&$tpl, $erro_txt) {
 
 }
 
-function check_subdomain_permissions($sql, $user_id) {
+/**
+ *
+ * @param <type> $user_id
+ * @return <type>
+ */
+function check_subdomain_permissions($user_id) {
+	$sql = ispCP_Registry::get('Db');
+
 	$props = get_domain_default_props($sql, $user_id, true);
 
 	$dmn_id = $props['domain_id'];
@@ -75,20 +81,26 @@ function check_subdomain_permissions($sql, $user_id) {
 				`domain_aliasses`
 			WHERE
 				`alias_id` = ?
-		";
+		;";
 		$rs = exec_query($sql, $query_alias, $_POST['als_id']);
 		return $rs->fields['alias_name'];
 	}
 	return $dmn_name; // Will be used in subdmn_exists()
 }
 
-function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
+/**
+ *
+ * @param <type> $tpl
+ * @param <type> $user_id
+ */
+function gen_user_add_subdomain_data(&$tpl, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$subdomain_name = $subdomain_mnt_pt = $forward = $forward_prefix = '';
 
-	$query = '
+	$query = "
 		SELECT
 			`domain_name`,
 			`domain_id`
@@ -96,7 +108,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 			`domain`
 		WHERE
 			`domain_admin_id` = ?
-	';
+	;";
 
 	$rs = exec_query($sql, $query, $user_id);
 	$domainname = decode_idna($rs->fields['domain_name']);
@@ -107,7 +119,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 			'SUB_ALS_CHECKED'	=> ''
 		)
 	);
-	gen_dmn_als_list($tpl, $sql, $rs->fields['domain_id'], 'no');
+	gen_dmn_als_list($tpl, $rs->fields['domain_id'], 'no');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_subd') {
 		if($_POST['status'] == 1) {
@@ -140,7 +152,7 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 			)
 		);
 		$subdomain_name = clean_input($_POST['subdomain_name']);
-		$subdomain_mnt_pt = clean_input($_POST['subdomain_mnt_pt']);
+		$subdomain_mnt_pt = array_encode_idna(clean_input($_POST['subdomain_mnt_pt']), true);
 	} else {
 		$check_en = '';
 		$check_dis = 'checked="checked"';
@@ -163,9 +175,16 @@ function gen_user_add_subdomain_data(&$tpl, &$sql, $user_id) {
 	);
 }
 
-function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
+/**
+ *
+ * @param <type> $tpl
+ * @param <type> $dmn_id
+ * @param <type> $post_check
+ */
+function gen_dmn_als_list(&$tpl, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$ok_status = $cfg->ITEM_OK_STATUS;
 
@@ -180,7 +199,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			`alias_status` = ?
 		ORDER BY
 			`alias_name`
-	";
+	;";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 	if ($rs->recordCount() == 0) {
@@ -222,10 +241,19 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	}
 }
 
-function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
+/**
+ *
+ * @global <type> $dmn_name
+ * @param <type> $user_id
+ * @param <type> $domain_id
+ * @param <type> $sub_name
+ * @return <type>
+ */
+function subdmn_exists($user_id, $domain_id, $sub_name) {
 	global $dmn_name;
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	if ($_POST['dmn_type'] == 'als') {
 		$query_subdomain = "
@@ -237,7 +265,7 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 				`alias_id` = ?
 			AND
 				`subdomain_alias_name` = ?
-		";
+		;";
 
 		$query_domain = "
 			SELECT
@@ -246,7 +274,7 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 				`domain_aliasses`
 			WHERE
 				`alias_name` = ?
-		";
+		;";
 	} else {
 		$query_subdomain = "
 			SELECT
@@ -257,7 +285,7 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 				`domain_id` = ?
 			AND
 				`subdomain_name` = ?
-		";
+		;";
 
 		$query_domain = "
 			SELECT
@@ -266,7 +294,7 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 				`domain`
 			WHERE
 				`domain_name` = ?
-		";
+		;";
 	}
 	$domain_name = $sub_name . "." . $dmn_name;
 
@@ -289,7 +317,15 @@ function subdmn_exists(&$sql, $user_id, $domain_id, $sub_name) {
 	return true;
 }
 
-function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt) {
+/**
+ *
+ * @param <type> $user_id
+ * @param <type> $domain_id
+ * @param <type> $sub_name
+ * @param <type> $sub_mnt_pt
+ * @return <type>
+ */
+function subdmn_mnt_pt_exists($user_id, $domain_id, $sub_name, $sub_mnt_pt) {
 
 	if ($_POST['dmn_type'] == 'als') {
 		$query = "
@@ -301,7 +337,7 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 				`alias_id` = ?
 			AND
 				`subdomain_alias_mount` = ?
-		";
+		;";
 		if (isset($query2))
 			unset($query2);
 		if (isset($rs2))
@@ -316,7 +352,7 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 				`domain_id` = ?
 			AND
 				`subdomain_mount` = ?
-		";
+		;";
 
 		$query2 = "
 			SELECT
@@ -327,7 +363,7 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 				`domain_id` = ?
 			AND
 				`alias_mount` = ?
-		";
+		;";
 	}
 	$rs = exec_query($sql, $query, array($domain_id, $sub_mnt_pt));
 	if (isset($query2))
@@ -339,9 +375,18 @@ function subdmn_mnt_pt_exists(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_p
 	return false;
 }
 
-function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt, $forward) {
+/**
+ *
+ * @param <type> $user_id
+ * @param <type> $domain_id
+ * @param <type> $sub_name
+ * @param <type> $sub_mnt_pt
+ * @param <type> $forward
+ */
+function subdomain_schedule($user_id, $domain_id, $sub_name, $sub_mnt_pt, $forward) {
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$status_add = $cfg->ITEM_ADD_STATUS;
 
@@ -356,7 +401,7 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt,
 					`subdomain_alias_status`)
 			VALUES
 				(?, ?, ?, ?, ?)
-		";
+		;";
 	} else {
 		$query = "
 			INSERT INTO
@@ -368,7 +413,7 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt,
 					`subdomain_status`)
 			VALUES
 				(?, ?, ?, ?, ?)
-		";
+		;";
 	}
 
 	$rs = exec_query($sql, $query, array($domain_id, $sub_name, $sub_mnt_pt, $forward, $status_add));
@@ -384,9 +429,20 @@ function subdomain_schedule(&$sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt,
 	send_request();
 }
 
-function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
-
+/**
+ *
+ * @global <type> $validation_err_msg
+ * @param <type> $tpl
+ * @param <type> $err_sub
+ * @param <type> $user_id
+ * @param <type> $dmn_name
+ * @return <type>
+ */
+function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
 	global $validation_err_msg;
+
+	$sql = ispCP_Registry::get('Db');
+
 	$dmn_id = $domain_id = get_user_domain_id($sql, $user_id);
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_subd') {
@@ -409,8 +465,7 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 		//$sub_name = encode_idna($sub_name);
 
 		if (isset($_POST['subdomain_mnt_pt']) && $_POST['subdomain_mnt_pt'] !== '') {
-			$sub_mnt_pt = strtolower($_POST['subdomain_mnt_pt']);
-			$sub_mnt_pt = array_encode_idna($sub_mnt_pt, true);
+			$sub_mnt_pt = array_encode_idna(strtolower($_POST['subdomain_mnt_pt']), true);
 		} else {
 			$sub_mnt_pt = "/";
 		}
@@ -429,7 +484,7 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 					`domain_aliasses`
 				WHERE
 					`alias_id` = ?
-			";
+			;";
 
 			$rs = exec_query($sql, $query_alias, $_POST['als_id']);
 
@@ -452,14 +507,14 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 		// Should be perfomed after domain names syntax validation now
 		$sub_name = encode_idna($sub_name);
 
-		if (subdmn_exists($sql, $user_id, $domain_id, $sub_name)) {
+		if (subdmn_exists($user_id, $domain_id, $sub_name)) {
 			$err_sub = tr('Subdomain already exists or is not allowed!');
-		} elseif (mount_point_exists($dmn_id, array_decode_idna($sub_mnt_pt, true))) {
+		} elseif (mount_point_exists($dmn_id, array_encode_idna($sub_mnt_pt, true))) {
 			$err_sub = tr('Mount point already in use!');
 		} elseif (!validates_mpoint($sub_mnt_pt)) {
 			$err_sub = tr('Incorrect mount point syntax!');
 		} elseif ($_POST['status'] == 1) {
-			$surl = @parse_url($forward_prefix.$forward);
+			$surl = @parse_url($forward_prefix.decode_idna($forward));
 			if ($surl === false) {
 				$err_sub = tr('Wrong domain part in forward URL!');
 			} else {
@@ -469,6 +524,7 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 				} else {
 					$ret = validates_dname($domain, true);
 				}
+				$domain = encode_idna($surl['host']);
 				if (!$ret) {
 					$err_sub = tr('Wrong domain part in forward URL!');
 				} else {
@@ -496,13 +552,13 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 			}
 		} else {
 			// now let's fix the mountpoint
-			$mount_point = array_decode_idna($mount_point, true);
-			$sub_mnt_pt = array_decode_idna($sub_mnt_pt, true);
+			$mount_point = array_encode_idna($mount_point, true);
+			$sub_mnt_pt = array_encode_idna($sub_mnt_pt, true);
 		}
 		if ('_off_' !== $err_sub) {
 			return;
 		}
-		subdomain_schedule($sql, $user_id, $domain_id, $sub_name, $sub_mnt_pt, $forward);
+		subdomain_schedule($user_id, $domain_id, $sub_name, $sub_mnt_pt, $forward);
 		set_page_message(tr('Subdomain scheduled for addition!'), 'notice');
 		user_goto('domains_manage.php');
 	}
@@ -510,55 +566,81 @@ function check_subdomain_data(&$tpl, &$sql, &$err_sub, $user_id, $dmn_name) {
 
 // common page data.
 
-// check user sql permission
-if (isset($_SESSION['subdomain_support']) && $_SESSION['subdomain_support'] == "no") {
-	header('Location: index.php');
+// Avoid unneeded generation during Ajax request
+if (!is_xhr()) {
+	$tpl = new ispCP_pTemplate();
+	$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_add.tpl');
+	$tpl->define_dynamic('page_message', 'page');
+	$tpl->define_dynamic('logged_from', 'page');
+	$tpl->define_dynamic('als_list', 'page');
+
+	// check user sql permission
+	if (isset($_SESSION['subdomain_support']) &&
+		$_SESSION['subdomain_support'] == "no") {
+		header('Location: index.php');
+	}
+
+	$tpl->assign(
+		array(
+			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain'),
+			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
+			'THEME_CHARSET' => tr('encoding'),
+			'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		)
+	);
+
+	// static page messages.
+
+	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
+	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+
+	gen_logged_from($tpl);
+
+	check_permissions($tpl);
+
+	$tpl->assign(
+		array(
+			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
+			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
+			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),
+			'TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT'	=> tr('Directory tree mount point'),
+			'TR_FORWARD'						=> tr('Forward to URL'),
+			'TR_ADD'							=> tr('Add'),
+			'TR_DMN_HELP'						=> tr('You do not need \'www.\' ispCP will add it on its own.'),
+			'TR_ENABLE_FWD'						=> tr('Enable Forward'),
+			'TR_ENABLE'							=> tr('Enable'),
+			'TR_DISABLE'						=> tr('Disable'),
+			'TR_PREFIX_HTTP'					=> 'http://',
+			'TR_PREFIX_HTTPS'					=> 'https://',
+			'TR_PREFIX_FTP'						=> 'ftp://'
+		)
+	);
 }
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
-		'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
-		'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),
-		'TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT'	=> tr('Directory tree mount point'),
-		'TR_FORWARD'						=> tr('Forward to URL'),
-		'TR_ADD'							=> tr('Add'),
-		'TR_DMN_HELP'						=> tr('You do not need \'www.\' ispCP will add it on its own.'),
-		'TR_ENABLE_FWD'						=> tr('Enable Forward'),
-		'TR_ENABLE'							=> tr('Enable'),
-		'TR_DISABLE'						=> tr('Disable'),
-		'TR_PREFIX_HTTP'					=> 'http://',
-		'TR_PREFIX_HTTPS'					=> 'https://',
-		'TR_PREFIX_FTP'						=> 'ftp://'
-	)
-);
 
 $err_txt = '_off_';
 
-// dynamic page data.
+// Dispatch Request
+if(isset($_POST['uaction'])) {
+	if($_POST['uaction'] == 'toASCII') { // Ajax request
+		header('Content-Type: text/plain; charset=utf-8');
+		header('Cache-Control: no-cache, private');
+		// backward compatibility for HTTP/1.0
+		header('Pragma: no-cache');
+		header("HTTP/1.0 200 Ok");
 
-$dmn_name = check_subdomain_permissions($sql, $_SESSION['user_id']);
-gen_user_add_subdomain_data($tpl, $sql, $_SESSION['user_id']);
-
-check_subdomain_data($tpl, $sql, $err_txt, $_SESSION['user_id'], $dmn_name);
+		// Todo check return value here before echo...
+		echo "/".encode_idna(strtolower($_POST['subdomain']));
+		exit;
+	} elseif($_POST['uaction'] == 'add_subd') {
+		$dmn_name = check_subdomain_permissions($_SESSION['user_id']);
+		gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
+		check_subdomain_data($tpl, $err_txt, $_SESSION['user_id'], $dmn_name);
+	} else {
+		throw new ispCP_Exception(tr("Error: unknown action!" . " " . $_POST['uaction']));
+	}
+} else { // Default view
+	gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
+}
 
 gen_page_msg($tpl, $err_txt);
 
@@ -568,3 +650,4 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+?>

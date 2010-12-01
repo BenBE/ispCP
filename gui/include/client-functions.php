@@ -905,13 +905,18 @@ function user_trans_mail_type($mail_type) {
 }
 
 /**
- * goto the given destination file
+ * Trigger a header Redirect to the specified location
  *
- * @param string $dest destination for header location (path + filename + params)
+ * @param String $dest destination for header redirect (path + filename + params)
  */
 function user_goto($dest) {
 	header('Location: ' . $dest);
-	die('FIXME: ' . __FILE__ . ':' . __LINE__);
+	exit(
+		tr(
+			'Redirect was not working, please follow %s',
+			'<a href="' . $dest . '">' . tr('this link') . '</a>'
+		)
+	);
 }
 
 function count_sql_user_by_name(&$sql, $sqlu_name) {
@@ -1193,3 +1198,4 @@ function mount_point_exists($dmn_id, $mnt_point) {
 	}
 	return false;
 }
+?>

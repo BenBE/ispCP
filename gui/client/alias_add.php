@@ -34,99 +34,111 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('user_entry', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
+// Avoid unneeded generation during Ajax request
+if(!is_xhr()) {
+	// static page messages
+	$tpl = new ispCP_pTemplate();
+	$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
+	$tpl->define_dynamic('page_message', 'page');
+	$tpl->define_dynamic('logged_from', 'page');
+	$tpl->define_dynamic('user_entry', 'page');
+	$tpl->define_dynamic('ip_entry', 'page');
 
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
+	$tpl->assign(
+		array(
+			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
+			'THEME_CHARSET' => tr('encoding'),
+			'ISP_LOGO' => get_logo($_SESSION['user_id']),
+		)
+	);
 
-/*
- *
- * static page messages.
- *
- */
+	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
+	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+	gen_logged_from($tpl);
 
-gen_logged_from($tpl);
+	check_permissions($tpl);
 
-check_permissions($tpl);
+	$tpl->assign(
+		array(
+			'TR_CLIENT_ADD_ALIAS_PAGE_TITLE' => tr('ispCP Client : Add Alias'),
+			'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
+			'TR_ADD_ALIAS' => tr('Add domain alias'),
+			'TR_DOMAIN_NAME' => tr('Domain name'),
+			'TR_DOMAIN_ACCOUNT' => tr('User account'),
+			'TR_MOUNT_POINT' => tr('Directory mount point'),
+			'TR_DOMAIN_IP' => tr('Domain IP'),
+			'TR_FORWARD' => tr('Forward to URL'),
+			'TR_ADD' => tr('Add alias'),
+			'TR_DMN_HELP' => tr("You do not need 'www.' ispCP will add it on its own."),
+			'TR_JS_EMPTYDATA' => tr("Empty data or wrong field!"),
+			'TR_JS_WDNAME' => tr("Wrong domain name!"),
+			'TR_JS_MPOINTERROR' => tr("Please write mount point!"),
+			'TR_ENABLE_FWD' => tr("Enable Forward"),
+			'TR_ENABLE' => tr("Enable"),
+			'TR_DISABLE' => tr("Disable"),
+			'TR_PREFIX_HTTP' => 'http://',
+			'TR_PREFIX_HTTPS' => 'https://',
+			'TR_PREFIX_FTP' => 'ftp://'
+		)
+	);
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_ALIAS_PAGE_TITLE' => tr('ispCP Client : Add Alias'),
-		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
-		'TR_ADD_ALIAS' => tr('Add domain alias'),
-		'TR_DOMAIN_NAME' => tr('Domain name'),
-		'TR_DOMAIN_ACCOUNT' => tr('User account'),
-		'TR_MOUNT_POINT' => tr('Directory mount point'),
-		'TR_DOMAIN_IP' => tr('Domain IP'),
-		'TR_FORWARD' => tr('Forward to URL'),
-		'TR_ADD' => tr('Add alias'),
-		'TR_DMN_HELP' => tr("You do not need 'www.' ispCP will add it on its own."),
-		'TR_JS_EMPTYDATA' => tr("Empty data or wrong field!"),
-		'TR_JS_WDNAME' => tr("Wrong domain name!"),
-		'TR_JS_MPOINTERROR' => tr("Please write mount point!"),
-		'TR_ENABLE_FWD' => tr("Enable Forward"),
-		'TR_ENABLE' => tr("Enable"),
-		'TR_DISABLE' => tr("Disable"),
-		'TR_PREFIX_HTTP' => 'http://',
-		'TR_PREFIX_HTTPS' => 'https://',
-		'TR_PREFIX_FTP' => 'ftp://'
-	)
-);
-
-check_client_domainalias_counts($sql, $_SESSION['user_id']);
+	check_client_domainalias_counts($sql, $_SESSION['user_id']);
+}
 
 $err_txt = '_off_';
-if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_alias') {
-	add_domain_alias($sql, $err_txt);
-} else {
-	// Init fields
+
+// Dispatch Request
+if(isset($_POST['uaction'])) {
+	if($_POST['uaction'] == 'toASCII') { // Ajax request
+		header('Content-Type: text/plain; charset=utf-8');
+		header('Cache-Control: no-cache, private');
+		// backward compatibility for HTTP/1.0
+		header('Pragma: no-cache');
+		header("HTTP/1.0 200 Ok");
+
+		// Todo check return value here before echo...
+		echo "/".encode_idna(strtolower($_POST['domain']));
+		exit;
+	} elseif($_POST['uaction'] == 'add_alias') {
+		add_domain_alias($err_txt);
+	} else {
+		throw new ispCP_Exception(tr("Error: unknown action!" . " " . $_POST['uaction']));
+	}
+} else { // Default view
 	init_empty_data();
-	$tpl-> assign("PAGE_MESSAGE", "");
+}
+
+gen_al_page($tpl, $_SESSION['user_id']);
+gen_page_msg($tpl, $err_txt);
+
+//gen_page_message($tpl);
+
+$tpl->parse('PAGE', 'page');
+$tpl->prnt();
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
 }
 
 /*
  * Begin function declaration lines
  */
 
+/**
+ *
+ * @param <type> $sql
+ * @param <type> $user_id
+ */
 function check_client_domainalias_counts($sql, $user_id) {
 
-	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
-	) = get_domain_default_props($sql, $user_id);
+	list(
+		$dmn_id, $dmn_name, $dmn_gid, $dmn_uid,	$dmn_created_id, $dmn_created,
+		$dmn_expires, $dmn_last_modified, $dmn_mailacc_limit, $dmn_ftpacc_limit,
+		$dmn_traff_limit, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_status,
+		$dmn_als_limit, $dmn_subd_limit, $dmn_ip_id, $dmn_disk_limit,
+		$dmn_disk_usage, $dmn_php, $dmn_cgi, $allowbackup, $dmn_dns
+		) = get_domain_default_props($sql, $user_id);
 
 	$als_cnt = get_domain_running_als_cnt($sql, $dmn_id);
 
@@ -135,7 +147,14 @@ function check_client_domainalias_counts($sql, $user_id) {
 		user_goto('domains_manage.php');
 	}
 }
-
+/**
+ *
+ * @global string $cr_user_id
+ * @global string $alias_name
+ * @global string $domain_ip
+ * @global string $forward
+ * @global string $mount_point
+ */
 function init_empty_data() {
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $mount_point;
 
@@ -146,6 +165,13 @@ function init_empty_data() {
 
 /**
  * Show data fields
+ *
+ * @global string $alias_name
+ * @global <type> $forward
+ * @global <type> $forward_prefix
+ * @global string $mount_point
+ * @param <type> $tpl
+ * @param <type> $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
 
@@ -159,7 +185,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 		$check_en = $cfg->HTML_CHECKED;
 		$check_dis = '';
-		$forward = strtolower(clean_input($_POST['forward']));
+		$forward = encode_idna(strtolower(clean_input($_POST['forward'])));
 
 		$tpl->assign(
 			array(
@@ -189,7 +215,7 @@ function gen_al_page(&$tpl, $reseller_id) {
 	$tpl->assign(
 		array(
 			'DOMAIN'	=> tohtml(decode_idna($alias_name)),
-			'MP'		=> tohtml(decode_idna($mount_point)),
+			'MP'		=> tohtml($mount_point),
 			'FORWARD'	=> tohtml($forward),
 			'CHECK_EN'	=> $check_en,
 			'CHECK_DIS' => $check_dis,
@@ -198,19 +224,32 @@ function gen_al_page(&$tpl, $reseller_id) {
 
 } // End of gen_al_page()
 
-function add_domain_alias(&$sql, &$err_al) {
+/**
+ *
+ * @global <type> $cr_user_id
+ * @global <type> $alias_name
+ * @global <type> $domain_ip
+ * @global <type> $forward
+ * @global <type> $forward_prefix
+ * @global <type> $mount_point
+ * @global <type> $validation_err_msg
+ * @param <type> $err_al
+ * @return <type>
+ */
+function add_domain_alias(&$err_al) {
 
 	global $cr_user_id, $alias_name, $domain_ip, $forward, $forward_prefix,
 		$mount_point, $validation_err_msg;
 
 	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$cr_user_id = $domain_id = get_user_domain_id($sql, $_SESSION['user_id']);
 	$alias_name	= strtolower($_POST['ndomain_name']);
-	$mount_point = strtolower($_POST['ndomain_mpoint']);
+	$mount_point = array_encode_idna(strtolower($_POST['ndomain_mpoint']), true);
 
 	if ($_POST['status'] == 1) {
-		$forward = strtolower(clean_input($_POST['forward']));
+		$forward = encode_idna(strtolower(clean_input($_POST['forward'])));
 		$forward_prefix = clean_input($_POST['forward_prefix']);
 	} else {
 		$forward = 'no';
@@ -229,13 +268,6 @@ function add_domain_alias(&$sql, &$err_al) {
 	$rs = exec_query($sql, $query, $cr_user_id);
 	$domain_ip = $rs->fields['domain_ip_id'];
 
-	// Should be perfomed after domain names syntax validation now
-	//$alias_name = encode_idna($alias_name);
-
-	$mount_point = array_encode_idna($mount_point, true);
-
-	//$mount_point = "/".$mount_point;
-
 	// First check if input string is a valid domain names
 	if (!validates_dname($alias_name)) {
 		$err_al = $validation_err_msg;
@@ -252,7 +284,7 @@ function add_domain_alias(&$sql, &$err_al) {
 	} else if ($alias_name == $cfg->BASE_SERVER_VHOST) {
 		$err_al = tr('Master domain cannot be used!');
 	} else if ($_POST['status'] == 1) {
-		$aurl = @parse_url($forward_prefix.$forward);
+		$aurl = @parse_url($forward_prefix.decode_idna($forward));
 		if ($aurl === false) {
 			$err_al = tr("Wrong address in forward URL!");
 		} else {
@@ -262,6 +294,7 @@ function add_domain_alias(&$sql, &$err_al) {
 			} else {
 				$ret = validates_dname($domain, true);
 			}
+			$domain = encode_idna($aurl['host']);
 			if (!$ret) {
 				$err_al = tr("Wrong domain part in forward URL!");
 			} else {
@@ -288,24 +321,65 @@ function add_domain_alias(&$sql, &$err_al) {
 			}
 		}
 	} else {
-		// now let's fix the mountpoint
-		$mount_point = array_decode_idna($mount_point, true);
-
-		$query = "SELECT `domain_id` FROM `domain_aliasses` WHERE `alias_name` = ?";
+		$query = "
+			SELECT
+				`domain_id`
+			FROM
+				`domain_aliasses`
+			WHERE
+				`alias_name` = ?
+		;";
 		$res = exec_query($sql, $query, $alias_name);
-		$query = "SELECT `domain_id` FROM `domain` WHERE `domain_name` = ?";
+
+		$query = "
+			SELECT
+				`domain_id`
+			FROM
+				`domain`
+			WHERE
+				`domain_name` = ?
+		;";
 		$res2 = exec_query($sql, $query, $alias_name);
+
 		if ($res->rowCount() > 0 || $res2->rowCount() > 0) {
 			// we already have domain with this name
 			$err_al = tr("Domain with this name already exist");
 		}
 
-		$query = "SELECT COUNT(`subdomain_id`) AS cnt FROM `subdomain` WHERE `domain_id` = ? AND `subdomain_mount` = ?";
+		$query = "
+			SELECT
+				COUNT(`subdomain_id`) AS cnt
+			FROM
+				`subdomain`
+			WHERE
+					`domain_id` = ?
+				AND
+					`subdomain_mount` = ?
+		;";
 		$subdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
 		$subdomdata = $subdomres->fetchRow();
-		$query = "SELECT COUNT(`subdomain_alias_id`) AS alscnt FROM `subdomain_alias` WHERE `alias_id` IN (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = ?) AND `subdomain_alias_mount` = ?";
+
+		$query = "
+			SELECT
+				COUNT(`subdomain_alias_id`) AS alscnt
+			FROM
+				`subdomain_alias`
+			WHERE
+					`alias_id`
+				IN (
+					SELECT
+						`alias_id`
+					FROM
+						`domain_aliasses`
+					WHERE
+						`domain_id` = ?
+				)
+				AND
+					`subdomain_alias_mount` = ?
+		;";
 		$alssubdomres = exec_query($sql, $query, array($cr_user_id, $mount_point));
 		$alssubdomdata = $alssubdomres->fetchRow();
+
 		if ($subdomdata['cnt'] > 0 || $alssubdomdata['alscnt'] > 0) {
 			$err_al = tr("There is a subdomain with the same mount point!");
 		}
@@ -319,7 +393,15 @@ function add_domain_alias(&$sql, &$err_al) {
 
 	$status = $cfg->ITEM_ORDERED_STATUS;
 
-	$query = "INSERT INTO `domain_aliasses` (`domain_id`, `alias_name`, `alias_mount`, `alias_status`, `alias_ip_id`, `url_forward`) VALUES (?, ?, ?, ?, ?, ?)";
+	$query = "
+		INSERT INTO
+			`domain_aliasses` (
+				`domain_id`, `alias_name`, `alias_mount`, `alias_status`,
+				`alias_ip_id`, `url_forward`
+			)
+		VALUES
+			(?, ?, ?, ?, ?, ?)
+	;";
 	exec_query($sql, $query, array($cr_user_id, $alias_name, $mount_point, $status, $domain_ip, $forward));
 
 	$als_id = $sql->insertId();
@@ -349,7 +431,11 @@ function add_domain_alias(&$sql, &$err_al) {
 	user_goto('domains_manage.php');
 } // End of add_domain_alias();
 
-
+/**
+ *
+ * @param <type> $tpl
+ * @param <type> $error_txt
+ */
 function gen_page_msg(&$tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
@@ -361,14 +447,4 @@ function gen_page_msg(&$tpl, $error_txt) {
 
 } // End of gen_page_msg()
 
-gen_al_page($tpl, $_SESSION['user_id']);
-gen_page_msg($tpl, $err_txt);
-
-//gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
+?>

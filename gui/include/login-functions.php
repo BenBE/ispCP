@@ -247,7 +247,7 @@ function is_userdomain_ok($username) {
 }
 
 /**
- * Unblock Ip adress
+ * Unblock IP adress
  *
  * @param  $timeout
  * @param string $type

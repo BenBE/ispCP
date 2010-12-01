@@ -266,8 +266,7 @@ sub check_ispcp_cfg_file {
 		}
 	}
 
-	# We switch to recovery process if one or more
-	# settings were an empty value
+	# We switch to recovery process if one or more settings have an empty value
 	if (scalar @$empty_settings) {
 		my  $rs = cfg_recovery_process($empty_settings);
 		return $rs;
@@ -301,8 +300,8 @@ sub cfg_recovery_process {
 	my $settings = shift;
 	my ($rs, $msg, $rdata, $warn_msg);
 
-	# Map each setting to the appropriate dialog subroutine and the corresponding
-	# main::ua key name
+	# Map each setting to the appropriate dialog subroutine and the
+	# corresponding main::ua key name
 	#
 	# TODO:
 	#  - Add a trigger to check database connection if related settings are
@@ -326,7 +325,7 @@ sub cfg_recovery_process {
 	# user has installed ispCP by asking this question
 	if (scalar(@$settings) >= 3) {
 		print colored(['bold yellow'], "\n\n\t[WARNING] ").
-			"Your ispCP configuration file has several settings set\n" .
+			"In your ispCP configuration file several settings are set\n" .
 			"\tto an empty value!\n";
 
 		do {
@@ -335,25 +334,25 @@ sub cfg_recovery_process {
 		} while($rdata !~ /^(|y|n)$/i);
 
 		$msg = colored(['bold blue'], "\n\t[NOTICE] ") .
-			"The program ends now!\n\tPlease, run '$main::cfg{'ROOT_DIR'}/" .
+			"The update program ends now!\n\tPlease, run '$main::cfg{'ROOT_DIR'}/" .
 			"engine/setup/ispcp-setup' instead!\n";
 
 		($rdata !~ /^n$/i) or exit_msg(1, $msg);
 	}
 
 	print colored(['bold yellow'], "\n\n\t[WARNING] ") .
-		"Your ispCP configuration file has missing parameters!\n" .
-		"\tThe update script will switch to recovery/upgrade mode now...\n";
+		"In your ispCP configuration file are some new or unset parameters!\n" .
+		"\tThe update script will switch to upgrade mode now...\n";
 
 	do {
 		print "\n\tDo you want to continue [Y/n]: ";
 		chomp($rdata = <STDIN>);
 	} while($rdata !~ /^(|y|n)$/i);
 
-	# Exit with a notice if the user chooses to abort the recovery/update process
+	# Exit with a notice if the user chooses to abort the update process
 	($rdata !~ /^n$/i) or exit_msg(0,
 		colored(['bold blue'], "\n\t[NOTICE] ") .
-		"The recovery/upgrade process was aborted by user...\n"
+		"The upgrade process was exited by user...\n"
 	);
 
 	# For each setting, call the subroutine dialouge if available, otherwise,
@@ -388,9 +387,9 @@ sub cfg_recovery_process {
 			}
 
 			$msg = colored(['bold blue'], "\n\t[NOTICE] ") .
-				"The setting '$_' can't be handle by\n\tthe recovery process!" .
+				"The setting '$_' can't be handle by\n\tthe upgrade process!" .
 				"\n\n\tPlease, set it manually in your $main::ua{'old_cfg_file'}".
-				 "and\n\tre-run this script.\n\n\tThe program will end now !\n";
+				 "and\n\tre-run this script.\n\n\tThis program will end now !\n";
 
 			exit_msg(1, $msg);
 		}
@@ -409,8 +408,8 @@ sub cfg_recovery_process {
 	}
 
 	print colored(['bold blue'], "\n\t[NOTICE] ") .
-		" The recovery/upgrade process ended successfully!\n\tThe update " .
-		"process will continue normally now...\n\n";
+		"The upgrade process ended successfully!\n\tThe update process will " .
+		"continue normally now...\n\n";
 
 	print "\tPlease, type 'Enter' to continue...";
 	$rdata = <STDIN>;
@@ -707,7 +706,7 @@ sub update_engine {
 
 	spacer();
 
-	## IspCP database
+	# ispCP database
 	title('ispCP database');
 	subtitle('Update ispCP database schema:');
 	$rs = update_database_schema();
@@ -715,19 +714,19 @@ sub update_engine {
 
 	spacer();
 
-	# IspCP Services configuration files
+	# ispCP Services configuration files
 	title('Rebuilding all services configuration files');
 	setup_services_cfg();
 
 	spacer();
 
-	## IspCP gui configuration files
+	## ispCP gui configuration files
 	title('Rebuilding all GUI configuration files');
 	setup_gui_cfg();
 
 	spacer();
 
-	## IspCP customers configuration files
+	## ispCP customers configuration files
 	title('Rebuilding all customers configuration files');
 	subtitle('Please wait, this may take some time:');
 
@@ -760,7 +759,7 @@ sub update_engine {
 
 	spacer();
 
-	## IspCP files permissions
+	## ispCP files permissions
 	title('Permissions setup');
 	set_permissions();
 

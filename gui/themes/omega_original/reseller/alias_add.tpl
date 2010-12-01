@@ -19,13 +19,24 @@
 		// Tooltips - begin
 		$('#dmn_help').ispCPtooltips({msg:"{TR_DMN_HELP}"});
 		// Tooltips - end
+
+		// Request for encode_idna request
+		$('input[name=ndomain_name]').blur(function(){
+			dmnName = $('#ndomain_name').val();
+			// Configure the request for encode_idna request
+			$.ajaxSetup({
+				url: $(location).attr('pathname'),
+				type:'POST',
+				data: 'domain=' + dmnName + '&uaction=toASCII',
+				datatype: 'text',
+				beforeSend: function(xhr){xhr.setRequestHeader('Accept','text/plain');},
+				success: function(r){$('#ndomain_mpoint').val(r);},
+					error: ispCPAjaxError
+			});
+			$.ajax();
+		});
 	});
 
-	function makeUser() {
-		var dname = document.forms[0].elements['ndomain_name'].value;
-		dname = dname.toLowerCase();
-		document.forms[0].elements['ndomain_mpoint'].value = "/" + dname;
-	}
 	function setForwardReadonly(obj){
 		if(obj.value == 1) {
 			document.forms[0].elements['forward'].readOnly = false;
@@ -98,7 +109,7 @@
                         <td width="200" class="content2">
 						 {TR_DOMAIN_NAME} <img id="dmn_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" />
 						</td>
-                        <td class="content"><input name="ndomain_name" type="text" class="textinput" style="width:170px" value="{DOMAIN}" onBlur="makeUser();" /></td>
+                        <td class="content"><input id="ndomain_name" name="ndomain_name" type="text" class="textinput" style="width:170px" value="{DOMAIN}" /></td>
                       </tr>
                       <tr>
                         <td width="25">&nbsp;</td>

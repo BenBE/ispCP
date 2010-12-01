@@ -754,8 +754,7 @@ if (isset($_GET['action'])) {
 						`domain_status` = 'change'
 					WHERE
 						`domain_id` = ?
-					;
-				";
+				;";
 				break;
 			case 'alias':
 				$query = "
@@ -765,7 +764,7 @@ if (isset($_GET['action'])) {
 						`alias_status` = 'change'
 					WHERE
 						`alias_id` = ?
-					";
+				;";
 				break;
 			case 'subdomain':
 				$query = "
@@ -775,8 +774,7 @@ if (isset($_GET['action'])) {
 						`subdomain_status` = 'change'
 					WHERE
 						`subdomain_id` = ?
-					;
-				";
+				;";
 				break;
 			case 'subdomain_alias':
 				$query = "
@@ -786,8 +784,7 @@ if (isset($_GET['action'])) {
 						`subdomain_alias_status` = 'change'
 					WHERE
 						`subdomain_alias_id` = ?
-					;
-				";
+				;";
 				break;
 			case 'mail':
 				$query = "
@@ -797,8 +794,7 @@ if (isset($_GET['action'])) {
 						`status` = 'change'
 					WHERE
 						`mail_id` = ?
-					;
-				";
+				;";
 				break;
 			case 'htaccess':
 			case 'htaccess_users':
@@ -810,13 +806,11 @@ if (isset($_GET['action'])) {
 						`status` = 'change'
 					WHERE
 						`id` = ?
-					;
-				";
+				;";
 				break;
 			default:
 				set_page_message(tr('Unknown type!'), 'warning');
 				user_goto('ispcp_debugger.php');
-				break;
 		}
 
 		$rs = exec_query($sql, $query, $_GET['id']);
@@ -857,9 +851,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-
-
-
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
