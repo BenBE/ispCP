@@ -38,16 +38,16 @@ if (!$cfg->LOSTPASSWORD) {
 	);
 }
 
-// check for gd >= 2.x
+// check if GD library is available
 if (!check_gd()) {
-	throw new ispCP_Exception("ERROR: php-extension 'gd' not loaded!");
+	throw new ispCP_Exception(tr("ERROR: php-extension 'gd' not loaded!"));
 }
 
 if (!captcha_fontfile_exists()) {
-	throw new ispCP_Exception("ERROR: captcha fontfile not found!");
+	throw new ispCP_Exception(tr("ERROR: captcha fontfile not found!"));
 }
 
-// remove old uniqkeys
+// remove old unique keys
 removeOldKeys($cfg->LOSTPASSWORD_TIMEOUT);
 
 if (isset($_SESSION['user_theme'])) {
@@ -56,44 +56,43 @@ if (isset($_SESSION['user_theme'])) {
 	$theme_color = $cfg->USER_INITIAL_THEME;
 }
 
-if (isset($_GET['key'])) {
-	if ($_GET['key'] != "") {
-		check_input($_GET['key']);
+// Key request has been triggered
+if (isset($_GET['key']) && $_GET['key'] != "") {
+	check_input($_GET['key']);
 
-		$tpl = new ispCP_pTemplate();
-		$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
+	$tpl = new ispCP_pTemplate();
+	$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
+	$tpl->assign(
+		array(
+			'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
+			'THEME_COLOR_PATH' => "themes/$theme_color",
+			'THEME_CHARSET' => tr('encoding')
+		)
+	);
+
+	if (sendpassword($_GET['key'])) {
 		$tpl->assign(
 			array(
-				'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-				'THEME_COLOR_PATH' => "themes/$theme_color",
-				'THEME_CHARSET' => tr('encoding')
+				'TR_MESSAGE' => tr('Your new password has been sent.'),
+				'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
 			)
 		);
-
-		if (sendpassword($_GET['key'])) {
-			$tpl->assign(
-				array(
-					'TR_MESSAGE' => tr('Your new password has been sent.'),
-					'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
-				)
-			);
-		} else {
-			$tpl->assign(
-				array(
-					'TR_MESSAGE' => tr('New password could not been sent.'),
-					'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
-				)
-			);
-		}
-
-		$tpl->parse('PAGE', 'page');
-		$tpl->prnt();
-
-		if ($cfg->DUMP_GUI_DEBUG) {
-			dump_gui_debug();
-		}
-		die();
+	} else {
+		$tpl->assign(
+			array(
+				'TR_MESSAGE' => tr('New password could not been sent.'),
+				'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
+			)
+		);
 	}
+
+	$tpl->parse('PAGE', 'page');
+	$tpl->prnt();
+
+	if ($cfg->DUMP_GUI_DEBUG) {
+		dump_gui_debug();
+	}
+	die();
 }
 
 if (isset($_POST['uname'])) {

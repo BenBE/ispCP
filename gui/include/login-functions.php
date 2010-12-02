@@ -29,9 +29,7 @@
  */
 
 /**
- * Should be documented
- *
- * @return void
+ * Performs actions needed on session timeout
  */
 function do_session_timeout() {
 
@@ -45,8 +43,7 @@ function do_session_timeout() {
 			`login`
 		WHERE
 			`lastaccess` < ?
-		;
-	";
+	;";
 
 	exec_query($sql, $query, $ttl);
 
@@ -78,8 +75,7 @@ function session_exists($sess_id) {
 			`session_id` = ?
 		AND
 			`ipaddr` = ?
-		;
-	";
+	;";
 
 	$res = exec_query($sql, $query, array($sess_id, $ip));
 
@@ -87,7 +83,7 @@ function session_exists($sess_id) {
 }
 
 /**
- * Returns the user's Ip address
+ * Returns the user's IP address
  *
  * @return string User's Ip address
  * @todo adding proxy detection
@@ -97,9 +93,7 @@ function getipaddr() {
 }
 
 /**
- * Should be documented
- *
- * @return void
+ * Initiates the login
  */
 function init_login() {
 
@@ -125,15 +119,14 @@ function username_exists($username) {
 
 	$username = encode_idna($username);
 
-	$query = '
+	$query = "
 		SELECT
 			`admin_id`
 		FROM
 			`admin`
 		WHERE
 			`admin_name` = ?
-		;
-	';
+	;";
 
 	$res = exec_query($sql, $query, $username);
 
@@ -150,15 +143,14 @@ function get_userdata($username) {
 
 	$sql = ispCP_Registry::get('Db');
 
-	$query = '
+	$query = "
 		SELECT
 			*
 		FROM
 			`admin`
 		WHERE
 			`admin_name` = ?
-		;
-	';
+	;";
 
 	$res = exec_query($sql, $query, $username);
 
@@ -185,15 +177,14 @@ function is_userdomain_expired($username) {
 		return true;
 	}
 
-	$query = '
+	$query = "
 		SELECT
 			`domain_expires`
 		FROM
 			`domain`
 		WHERE
 			`domain_admin_id` = ?
-		;
-	';
+	;";
 
 	$res = exec_query($sql, $query, $udata['admin_id']);
 
@@ -229,15 +220,14 @@ function is_userdomain_ok($username) {
 		return true;
 	}
 
-	$query = '
+	$query = "
 		SELECT
 			`domain_status`
 		FROM
 			`domain`
 		WHERE
 			`domain_admin_id` = ?
-		;
-	';
+	;";
 
 	$res = exec_query($sql, $query, $udata['admin_id']);
 
@@ -247,7 +237,7 @@ function is_userdomain_ok($username) {
 }
 
 /**
- * Unblock IP adress
+ * Unblock IP address
  *
  * @param  $timeout
  * @param string $type
@@ -279,8 +269,7 @@ function unblock($timeout = null, $type = 'bruteforce') {
 					`lastaccess` < ?
 				AND
 					`user_name` is NULL
-				;
-			";
+			;";
 
 			$max = $cfg->BRUTEFORCE_MAX_LOGIN;
 			break;
@@ -296,21 +285,15 @@ function unblock($timeout = null, $type = 'bruteforce') {
 					`lastaccess` < ?
 				AND
 					`user_name` is NULL
-				;
-			";
+			;";
 
 			$max = $cfg->BRUTEFORCE_MAX_CAPTCHA;
 			break;
 		default:
 			write_log(
-				sprintf(
-					'FIXME: %s:%d' . "\n" . 'Unknown unblock reason %s',
-					__FILE__,
-					__LINE__,
-					$type
-				)
+				'FIXME: ' . __FILE__ . ':' . __LINE__ . "\n" .
+				'Unknown unblock reason ' . $type
 			);
-
 			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
 	}
 
@@ -318,9 +301,9 @@ function unblock($timeout = null, $type = 'bruteforce') {
 }
 
 /**
- * Checks if an user Ip address is blocked
+ * Checks if an user IP address is blocked
  *
- * @param string $ipaddr Ip Address to be checked
+ * @param string $ipaddr IP Address to be checked
  * @param string $type Checking type (bruteforce|captcha)
  * @param bool $autodeny
  * @return boolean TRUE if the user Ip address is blocked, FALSE otherwise
@@ -348,8 +331,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 					`ipaddr` = ?
 				AND
 					`login_count` = ?
-				;
-			";
+			;";
 
 			$max = $cfg->BRUTEFORCE_MAX_LOGIN;
 			break;
@@ -363,21 +345,15 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 					`ipaddr` = ?
 				AND
 					`captcha_count` = ?
-				;
-			";
+			;";
 
 			$max = $cfg->BRUTEFORCE_MAX_CAPTCHA;
 			break;
 		default:
 			write_log(
-				sprintf(
-					'FIXME: %s:%d' . "\n" . 'Unknown block reason %s',
-					__FILE__,
-					__LINE__,
-					$type
-				)
+				'FIXME: ' . __FILE__ . ':' . __LINE__ . "\n" .
+				'Unknown unblock reason ' . $type
 			);
-
 			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
 	}
 
@@ -412,7 +388,7 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 		$ipaddr = getipaddr();
 	}
 
-	$query = '
+	$query = "
 		SELECT
 			`lastaccess`
 		FROM
@@ -421,8 +397,7 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 			`ipaddr` = ?
 		AND
 			`user_name` is NULL
-		;
-	';
+	;";
 
 	$res = exec_query($sql, $query, $ipaddr);
 
@@ -459,7 +434,7 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 }
 
 /**
- * Check/block IP if bruteforcing the login or captcha wrong
+ * Check/block IP address if bruteforcing the login or captcha wrong
  *
  * @param string $ipaddr
  * @param string $type
@@ -530,7 +505,7 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 	}
 
 	if ($type == 'captcha' && $cfg->BRUTEFORCE &&
-		$captchacount > $cfg->BRUTEFORCE_MAX_CAPTCHA && $cfg->BRUTEFORCE) {
+		$captchacount > $cfg->BRUTEFORCE_MAX_CAPTCHA) {
 		block_ipaddr($ipaddr, 'CAPTCHA');
 	}
 
@@ -721,8 +696,7 @@ function register_user($uname, $upass) {
 				`lastaccess` = ?
 			WHERE
 				`session_id` = ?
-			;
-		";
+		;";
 
 		exec_query($sql, $query, array($uname, time(), $sess_id));
 
@@ -789,8 +763,7 @@ function check_user_login() {
 			admin.`admin_id` = ?
 		AND
 			login.`session_id` = ?
-		;
-	";
+	;";
 
 	$rs = exec_query(
 			$sql,
@@ -826,8 +799,7 @@ function check_user_login() {
 			`lastaccess` = ?
 		WHERE
 			`session_id` = ?
-		;
-	";
+	;";
 
 	exec_query($sql, $query, array(time(), $sess_id));
 
@@ -934,7 +906,7 @@ function change_user_interface($from_id, $to_id) {
 	$index = null;
 
 	while (1) { // used to easily exit
-		$query = '
+		$query = "
 			SELECT
 				`admin_id`,
 				`admin_name`,
@@ -946,8 +918,7 @@ function change_user_interface($from_id, $to_id) {
 				`admin`
 			WHERE
 				binary `admin_id` = ?
-			;
-		';
+		;";
 
 
 		$rs_from = exec_query($sql, $query, $from_id);
@@ -1043,13 +1014,12 @@ function change_user_interface($from_id, $to_id) {
 		$_SESSION['user_created_by'] = $to_udata['created_by'];
 		$_SESSION['user_login_time'] = time();
 
-		$query = '
+		$query = "
 			INSERT INTO login
 				(`session_id`, `ipaddr`, `user_name`, `lastaccess`)
 			VALUES
 				(?, ?, ?, ?)
-			;
-		';
+		;";
 
 		exec_query(
 			$sql,
@@ -1099,8 +1069,7 @@ function unset_user_login_data($ignorePreserve = false, $restore = false) {
 				`session_id` = ?
 			AND
 				`user_name` = ?
-			;
-		";
+		;";
 
 		$rs = exec_query($sql, $query, array($sess_id, $admin_name));
 

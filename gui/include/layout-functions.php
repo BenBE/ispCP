@@ -102,11 +102,11 @@ function set_page_message($message, $type = 'warning') {
 	} else {
 		$_SESSION['user_page_message'] = $message;
 	}
-	if ($type == 'notice' || $type == 'warning' || $type == 'error'
-		|| $type == 'success') {
+	if ($type != 'notice' || $type != 'warning' || $type != 'error'
+		|| $type != 'success') {
 		$type = 'warning';
 	}
-	$_SESSION['user_page_msg_type'];
+	$_SESSION['user_page_msg_type'] = $type;
 }
 
 /**
