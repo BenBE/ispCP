@@ -143,7 +143,6 @@ function get_welcome_email($admin_id, $admin_type='user') {
 	if (!$data['message']) {
         if ($admin_type == 'user') {
             $data['message'] = tr('
-
 Hello {NAME}!
 
 A new ispCP account has been created for you.
@@ -157,7 +156,7 @@ Remember to change your password often and the first time you login.
 
 You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}
 
-Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/
+Statistics: {BASE_SERVER_VHOST_PREFIX}{USERNAME}/stats/
 User name: {USERNAME}
 Password: {PASSWORD}
 
@@ -167,7 +166,6 @@ The ispCP Team.
 ', true);
         } else {
             $data['message'] = tr('
-
 Hello {NAME}!
 
 A new ispCP account has been created for you.
@@ -209,7 +207,6 @@ function get_lostpassword_activation_email($admin_id) {
 
 	if (!$data['message']) {
 		$data['message'] = tr('
-
 Hello {NAME}!
 Use this link to activate your new ispCP password:
 
@@ -239,7 +236,6 @@ function get_lostpassword_password_email($admin_id) {
 
 	if (!$data['message']) {
 		$data['message'] = tr('
-
 Hello {NAME}!
 
 Your user name is: {USERNAME}

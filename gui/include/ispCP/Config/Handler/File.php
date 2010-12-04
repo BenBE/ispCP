@@ -40,80 +40,72 @@ require_once  INCLUDEPATH . '/ispCP/Config/Handler.php';
  * are stored in a flat file where each pair of key-values are separated by the
  * equal sign.
  *
- * @property string ROOT_TEMPLATE_PATH Root templates path
- * @property string USER_INITIAL_THEME User initial theme
- * @property string LOGIN_TEMPLATE_PATH Login templates path
  * @property string ADMIN_TEMPLATE_PATH Admin templates path
- * @property string RESELLER_TEMPLATE_PATH Reseller templates path
- * @property string CLIENT_TEMPLATE_PATH Client templates path
- * @property string IPS_LOGO_PATH isp logo path
- * @property string PURCHASE_TEMPLATE_PATH Purchase templates path
- * @property string HTML_CHECKED Html attribute for preselected input element
- * @property string HTML_DISABLED Html attribute for disabled input element
- * @property string HTML_READONLY Html attribute for readonly input element
- * @property string HTML_SELECTED Html attribute for selected input element
- * @property string USER_INITIAL_LANG User initial them
- * @property bool DUMP_GUI_DEBUG If true, display some information for debugging
- * @property bool SHOW_COMPRESSION_SIZE If TRUE, show page compression info
- * @property int SESSION_TIMEOUT Session timeout
- * @property string ITEM_ADD_STATUS Status that reflect cheduled data addition
- * @property string ITEM_OK_STATUS  Status that reflect normal state
- * @property string ITEM_CHANGE_STATUS Status for scheduled data changes
- * @property string ITEM_DELETE_STATUS Status for scheduled data deletion
- * @property string ITEM_DISABLED_STATUS Status for disabled domains
- * @property string ITEM_RESTORE_STATUS Status for scheduled data restoring
- * @property string ITEM_TOENABLE_STATUS Status for scheduled enabling
- * @property string ITEM_TODISABLED_STATUS Status for scheduled disabling
- * @property string ITEM_ORDERED_STATUS Status for domain/alias order
- * @property string ITEM_DNSCHANGE_STATUS Status for scheduled dns change
- * @property int MAX_SQL_DATABASE_LENGTH Max. length for database name
- * @property int MAX_SQL_USER_LENGTH Max. length for Sql username
- * @property int MAX_SQL_PASS_LENGTH Max. length for Sql password
- * @property int DOMAIN_ROWS_PER_PAGE Number for domain displayed per page
- * @property string HOSTING_PLANS_LEVEL Hosting plan level (admin|reseller)
- * @property bool TLD_STRICT_VALIDATION If TRUE, Only TLD from iana database are
- * usable
- * @property bool SLD_STRICT_VALIDATION If TRUE, only restricted tld list can
- * have sld with a single character
- * @property int MAX_DNAMES_LABELS Maximum number of labels for a domain name
- * @property int MAX_SUBDNAMES_LABELS Maximum number of labels for a subdomain
- * @property bool ISPCP_SUPPORT_SYSTEM If TRUE, support system is available
- * @property bool LOSTPASSWORD If TRUE lost password is available
- * @property int LOSTPASSWORD_TIMEOUT Timeout for lost password
- * @property int LOSTPASSWORD_CAPTCHA_WIDTH Captcha width
- * @property int LOSTPASSWORD_CAPTCHA_HEIGHT Captcha height
- * @property array LOSTPASSWORD_CAPTCHA_BGCOLOR Captcha background color
- * @property array LOSTPASSWORD_CAPTCHA_TEXTCOLOR Captcha text color
- * @property string LOSTPASSWORD_CAPTCHA_FONT Captcha font
  * @property bool BRUTEFORCE If TRUE, brute force detection is enabled
- * @property int BRUTEFORCE_BLOCK_TIME Blocktime after brute force detection,
- * @property int BRUTEFORCE_MAX_LOGIN Max. number of login attemps before
- * brute force block time
- * @property int BRUTEFORCE_MAX_CAPTCHA Max. number of captcha attemps before
- * blocktime
  * @property bool BRUTEFORCE_BETWEEN If true, block time between login is active
  * @property int BRUTEFORCE_BETWEEN_TIME Block time bettwen each login attemps
- * @property bool MAINTENANCEMODE If TRUE, maintenance mode is enabled
- * @property string MAINTENANCEMODE_MESSAGE Message to display during
- * maintenance
- * @property int PASSWD_CHARS Allowed number of chararacterd for passwords
- * @property bool PASSWD_STRONG If TRUE, only strong password are allowed
- * @property string SERVER_VHOST_FILE Server virtualHost file
- * @property string APACHE_SITES_DIR Apache sites directory
- * @property int LOG_LEVEL Log level (only for user errors)
- * @property bool CREATE_DEFAULT_EMAIL_ADDRESSES If TRUE, create default email
- * addresse (abuse, postmaster, webmaster)
+ * @property int BRUTEFORCE_BLOCK_TIME Blocktime after brute force detection
+ * @property int BRUTEFORCE_MAX_CAPTCHA Max. number of captcha attemps before
+ * blocktime
+ * @property int BRUTEFORCE_MAX_LOGIN Max. number of login attemps before
+ * brute force block time
+ * @property int BuildDate ispCP package Build date
+ * @property bool CHECK_FOR_UPDATES If TRUE, update cheching is enabled
  * @property bool COUNT_DEFAULT_EMAIL_ADDRESSES If TRUE, count the default mail
  * addresses
- * @property bool HARD_MAIL_SUSPENSION
+ * @property bool CREATE_DEFAULT_EMAIL_ADDRESSES If TRUE, create default email
+ * addresse (abuse, postmaster, webmaster)
+ * @property int CRITICAL_UPDATE_REVISION Last critical update revision
+ * @property int CUSTOM_ORDERPANEL_ID Custom order panel id
+ * @property int DATABASE_REVISION Last database revision
+ * @property int DEBUG Debug mode
+ * @property string DEFAULT_ADMIN_ADDRESS Default mail address for administrator
+ * @property int DOMAIN_ROWS_PER_PAGE Number for domain displayed per page
+ * @property bool DUMP_GUI_DEBUG If true, display some information for debugging
+ * @property string DATABASE_USER ispCP database username
+ * @property string DATABASE_PASSWORD ispCP database password
+ * @property string DATABASE_TYPE Database type
+ * @property string DATABASE_HOST Database hostname
+ * @property string DATABASE_NAME Database name
+ * @property string CMD_IFCONFIG Path to ifconfig
+ * @property string CMD_DF Path to df
+ * @property string CMD_VMSTAT Path to vmstat
+ * @property string CMD_SWAPCTL Path to swapctl
+ * @property string CMD_SYSCTL path to sysctl
+ * @property string GUI_ROOT_DIR path to GUI
+ * @property string CMD_SHELL Path to shell interpreter
+ * @property string FTP_HOMEDIR Ftp home directory
+ * @property string GUI_EXCEPTION_WRITERS Exception writer list
+ * @property bool HARD_MAIL_SUSPENSION if TRUE, no mail delivery to disabled
+ * accounts
+ * @property bool ISPCP_SUPPORT_SYSTEM If TRUE, support system is available
+ * @property int LOG_LEVEL Log level (only for user errors)
+ * @property bool LOSTPASSWORD If TRUE lost password is available
+ * @property array LOSTPASSWORD_CAPTCHA_BGCOLOR Captcha background color
+ * @property int LOSTPASSWORD_CAPTCHA_HEIGHT Captcha height
+ * @property array LOSTPASSWORD_CAPTCHA_TEXTCOLOR Captcha text color
+ * @property int LOSTPASSWORD_CAPTCHA_WIDTH Captcha width
+ * @property int LOSTPASSWORD_TIMEOUT Timeout for lost password
+ * @property bool MAINTENANCEMODE If TRUE, maintenance mode is enabled
+ * @property int MAX_DNAMES_LABELS Maximum number of labels for a domain name
+ * @property int MAX_SQL_DATABASE_LENGTH Max. length for database name
+ * @property int MAX_SQL_PASS_LENGTH Max. length for Sql password
+ * @property int MAX_SQL_USER_LENGTH Max. length for Sql username
+ * @property int MAX_SUBDNAMES_LABELS Maximum number of labels for a subdomain
+ * @property int PASSWD_CHARS Allowed number of chararacterd for passwords
+ * @property bool PASSWD_STRONG If TRUE, only strong password are allowed
  * @property bool PREVENT_EXTERNAL_LOGIN_ADMIN If TRUE, login from external
  * site is prevented for administrators
+ * @property bool PREVENT_EXTERNAL_LOGIN_CLIENT If TRUE, login from external
+ * site is prevented for client
  * @property bool PREVENT_EXTERNAL_LOGIN_RESELLER If TRUE, login from external
  * site is prevented for resellers
- * @property bool PREVENT_EXTERNAL_LOGIN_CLIENT
- * @property bool CHECK_FOR_UPDATES If TRUE, update cheching is enabled
- * @property string ISPCP_SUPPORT_SYSTEM_TARGET
- * @property string BASE_SERVER_VHOST_PREFIX
+ * @property int SESSION_TIMEOUT Session timeout
+ * @property bool SHOW_COMPRESSION_SIZE If TRUE, show page compression info
+ * @property bool SLD_STRICT_VALIDATION If TRUE, only restricted tld list can
+ * have sld with a single character
+ * @property bool TLD_STRICT_VALIDATION If TRUE, Only TLD from iana database are
+ * usable
  *
  * @package		ispCP_Config
  * @subpackage	Handler

@@ -35,6 +35,7 @@
 /usr/ports/security/p5-Crypt-DES
 /usr/ports/security/p5-Crypt-PasswdMD5
 /usr/ports/security/p5-Crypt-SSLeay
+/usr/ports/textproc/gsed
 /usr/ports/textproc/p5-HTML-Entities-Numbered
 /usr/ports/www/p5-HTML-Parser
 /usr/ports/www/p5-HTML-Tagset

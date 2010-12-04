@@ -340,11 +340,7 @@ switch ($cfg->LOG_LEVEL) {
 		$tpl->assign('LOG_LEVEL_SELECTED_ERROR', $html_selected);
 } // end switch
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages.
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 

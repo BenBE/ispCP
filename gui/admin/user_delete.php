@@ -73,7 +73,11 @@ if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
 	&& isset($_POST['delete']) && $_POST['delete'] == 1) {
 	delete_domain((int)$_POST['domain_id'], 'manage_users.php');
 } else {
-	set_page_message(tr('Invlaid domain ID!'), 'error');
+	if (isset($_POST['domain_id']) && is_numeric($_POST['domain_id'])) {
+		set_page_message(tr('Domain deletion was aborted.'), 'notice');
+	} else {
+		set_page_message(tr('Invlaid domain ID!'), 'error');
+	}
 	user_goto('manage_users.php');
 }
 
@@ -106,7 +110,8 @@ function delete_user($user_id) {
 		LEFT JOIN
 			`user_gui_props` AS b ON b.`user_id` = a.`admin_id`
 		WHERE
-			`admin_id` = ?";
+			`admin_id` = ?
+	;";
 	$res = exec_query($sql, $query, $user_id);
 	$data = $res->fetchRow();
 	$type = $data['admin_type'];
@@ -158,11 +163,11 @@ function validate_user_deletion($user_id) {
 	$result = false;
 
 	// check if there are domains created by user
-	$query = "SELECT COUNT(`domain_id`) AS `num_domains` FROM `domain` WHERE `domain_created_id` = ?";
+	$query = "SELECT COUNT(`domain_id`) AS `num_domains` FROM `domain` WHERE `domain_created_id` = ?;";
 	$res = exec_query($sql, $query, $user_id);
 	$data = $res->fetchRow();
 	if ($data['num_domains'] == 0) {
-		$query = "SELECT `admin_type` FROM `admin` WHERE `admin_id` = ?";
+		$query = "SELECT `admin_type` FROM `admin` WHERE `admin_id` = ?;";
 		$res = exec_query($sql, $query, $user_id);
 		$data = $res->fetchRow();
 		$type = $data['admin_type'];
@@ -187,7 +192,7 @@ function validate_domain_deletion($domain_id) {
 	global $tpl, $sql;
 
 	// check for domain owns
-	$query = "SELECT `domain_id`, `domain_name`, `domain_created_id` FROM `domain` WHERE `domain_id` = ?";
+	$query = "SELECT `domain_id`, `domain_name`, `domain_created_id` FROM `domain` WHERE `domain_id` = ?;";
 	$res = exec_query($sql, $query, $domain_id);
 	$data = $res->fetchRow();
 	if ($data['domain_id'] == 0) {
@@ -243,7 +248,7 @@ function validate_domain_deletion($domain_id) {
 	}
 
 	// check for ftp acc in MAIN domain
-	$query = "SELECT `ftp_users`.* FROM `ftp_users`, `domain` WHERE `domain`.`domain_id` = ? AND `ftp_users`.`uid` = `domain`.`domain_uid`";
+	$query = "SELECT `ftp_users`.* FROM `ftp_users`, `domain` WHERE `domain`.`domain_id` = ? AND `ftp_users`.`uid` = `domain`.`domain_uid`;";
 	$res = exec_query($sql, $query, $domain_id);
 	if (!$res->EOF) {
 		while (!$res->EOF) {
@@ -326,13 +331,13 @@ function validate_domain_deletion($domain_id) {
 	}
 
 	// Check for databases and -users
-	$query = "SELECT * FROM `sql_database` WHERE `domain_id` = ?";
+	$query = "SELECT * FROM `sql_database` WHERE `domain_id` = ?;";
 	$res = exec_query($sql, $query, $domain_id);
 	if (!$res->EOF) {
 
 		while (!$res->EOF) {
 
-			$query = "SELECT * FROM `sql_user` WHERE `sqld_id` = ?";
+			$query = "SELECT * FROM `sql_user` WHERE `sqld_id` = ?;";
 			$ures = exec_query($sql, $query, $res->fields['sqld_id']);
 
 			$users_a = array();

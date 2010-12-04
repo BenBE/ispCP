@@ -27,14 +27,14 @@
 #
 
 .ifdef $(OSTYPE)==FreeBSD
-.include <../Makefile.fbsd>
+.include <../../Makefile.fbsd>
 .else
-.include <../Makefile.inc>
+.include <../../Makefile.inc>
 .endif
 
 install:
-	cp -R ./database $(SYSTEM_CONF)/database
-	cp -R ./pma $(SYSTEM_CONF)/pma
+	cp -R ./database $(SYSTEM_CONF)
+	cp -R ./pma $(SYSTEM_CONF)
 
 uninstall:
 	rm -rf $(SYSTEM_CONF)/database
