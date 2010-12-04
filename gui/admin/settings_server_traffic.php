@@ -94,7 +94,7 @@ function update_server_settings(&$sql) {
 
 	set_page_message(
 		tr('Server traffic settings updated successfully!'),
-		'notice'
+		'success'
 	);
 }
 
@@ -130,7 +130,7 @@ $tpl->assign(
 	array(
 		'TR_MODIFY' => tr('Modify'),
 		'TR_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
-		'TR_SET_SERVER_TRAFFIC_SETTINGS' => tr('Set server traffic settings'),
+		'TR_SET_SERVER_TRAFFIC_SETTINGS' => tr('Set server traffic (0 for unlimited)'),
 		'TR_MAX_TRAFFIC' => tr('Max traffic [MB]'),
 		'TR_WARNING' => tr('Warning traffic [MB]'),
 	)

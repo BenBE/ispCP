@@ -1389,24 +1389,9 @@ function generate_user_traffic($user_id) {
 	}
 }
 
-function make_usage_vals($current, $max) {
-
-	if($max == 0) {
-		// 1 TeraByte Limit ;) for Unlimited Value
-		$max = 1024 * 1024 * 1024 * 1024;
-	}
-
-	$percent = 100 * $current / $max;
-	$percent = sprintf("%.2f", $percent);
-	$red = (int) $percent;
-
-	return ($red > 100)
-		? array($percent, 100, 0) : array($percent, $red, 100 - $red);
-}
-
 /**
-* @todo implement check for dynamic table/row in SQL query
-*/
+ * @todo implement check for dynamic table/row in SQL query
+ */
 function sub_records_rlike_count($field, $table, $where, $value, $subfield,
 	$subtable, $subwhere, $a, $b) {
 
@@ -1592,6 +1577,14 @@ function get_admin_logo($user_id) {
 	}
 }
 
+/**
+ * Calaculates the length of a graphical bar shown as statistic
+ *
+ * @param int $value		current value
+ * @param int $value_max	maximum value to reach
+ * @param int $bar_width	maximum size of the bar in px
+ * @return int				bar length in percent
+ */
 function calc_bar_value($value, $value_max, $bar_width) {
 
 	if($value_max == 0) {

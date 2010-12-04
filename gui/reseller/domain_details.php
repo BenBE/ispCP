@@ -188,53 +188,21 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 
 	$traff = ($domain_all_traffic / 1024) / 1024;
 
-	// NXW: Unused variable so ...
-	// $mtraff = sprintf("%.2f", $traff);
-
-	if ($domain_traffic_limit == 0) {
-		$pr = 0;
-	} else {
-		$pr = ($traff / $domain_traffic_limit) * 100;
-		$pr = sprintf("%.2f", $pr);
-	}
-
-	// NXW: Unused variable so ...
-	//$indx = (int) $pr;
-
-	// NXW: Unused variables so ...
-	// list($traffic_percent, $indx, $a) = make_usage_vals($domain_all_traffic, $domain_traffic_limit * 1024 * 1024);
-	list($traffic_percent) = make_usage_vals(
-		$domain_all_traffic, $domain_traffic_limit * 1024 * 1024
-	);
+	$traffic_percent = sprintf("%.2f", 100 * $domain_all_traffic / ($domain_traffic_limit * 1024 * 1024));
 
 	// Get disk status
 	$domdu = $data['domain_disk_usage'];
 	$domdl = $data['domain_disk_limit'];
 
-	$tmp = ($domdu / 1024) / 1024;
-
-	if ($domdu == 0) {
-		$dpr = 0;
-	} else if ($domdl == 0) {
-		$dpr = 0;
-	} else {
-		$dpr = ($tmp / $domdl) * 100;
-		$dpr = sprintf("%.2f", $dpr);
-	}
-
-	// NXW: Unused variable so ...
-	// $dindx = (int) $dpr;
 	$domduh = sizeit($domdu);
 
-	// NXW: Unused variables so ...
-	// list($disk_percent, $dindx, $b) = make_usage_vals($domdu, $domdl * 1024 * 1024);
-	list($disk_percent) = make_usage_vals($domdu, $domdl * 1024 * 1024);
+	$disk_percent = sprintf("%.2f", 100 * $domdu / ($domdl * 1024 * 1024));
 
 	// Get current mail count
 	$query = "SELECT COUNT(`mail_id`) AS mcnt "
 			. "FROM `mail_users` "
 			. "WHERE `domain_id` = ? "
-			. "AND `mail_type` NOT RLIKE '_catchall' ";
+			. "AND `mail_type` NOT RLIKE '_catchall'";
 	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
 		$query .= "AND `mail_acc` != 'abuse' "
 				. "AND `mail_acc` != 'postmaster' "
@@ -330,3 +298,4 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		)
 	);
 } // end of load_user_data();
+?>

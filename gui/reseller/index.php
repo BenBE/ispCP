@@ -65,7 +65,7 @@ function gen_system_message(&$tpl, &$sql) {
 			`ticket_level` = 2)
 		AND
 			`ticket_reply` = 0
-	";
+	;";
 
 	$rs = exec_query($sql, $query, array($user_id, $user_id));
 
@@ -133,7 +133,6 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	$crnt_year = date("Y");
 	// global
 	$tmpArr = get_reseller_default_props($sql, $reseller_id);
-	// $tmpArr = generate_reseller_props($reseller_id);
 	if ($tmpArr != NULL) { // there are data in db
 		list($rdmn_current, $rdmn_max,
 			$rsub_current, $rsub_max,
@@ -158,20 +157,6 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 		) = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
-	// NXW: Unused variables so...
-	/*
-	list($udmn_current, $udmn_max, $udmn_uf,
-		$usub_current, $usub_max, $usub_uf,
-		$uals_current, $uals_max, $uals_uf,
-		$umail_current, $umail_max, $umail_uf,
-		$uftp_current, $uftp_max, $uftp_uf,
-		$usql_db_current, $usql_db_max, $usql_db_uf,
-		$usql_user_current, $usql_user_max, $usql_user_uf,
-		$utraff_current, $utraff_max, $utraff_uf,
-		$udisk_current, $udisk_max, $udisk_uf
-	) = generate_reseller_user_props($reseller_id);
-	*/
-
 	list($udmn_current,,,$usub_current,,,$uals_current,,,$umail_current,,,
 		$uftp_current,,,$usql_db_current,,,$usql_user_current,,,$utraff_current,
 		$utraff_max,,$udisk_current, $udisk_max
@@ -179,21 +164,13 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 
 	// Convert into MB values
 	$rtraff_max = $rtraff_max * 1024 * 1024;
-
 	$rtraff_current = $rtraff_current * 1024 * 1024;
-
 	$rdisk_max = $rdisk_max * 1024 * 1024;
-
 	$rdisk_current = $rdisk_current * 1024 * 1024;
-
 	$utraff_max = $utraff_max * 1024 * 1024;
-
 	$udisk_max = $udisk_max * 1024 * 1024;
 
-	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $rtraff_max);
-
-	// NXW: Unused variables so ...
-	// list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $rdisk_max);
+	$traff_percent = sprintf("%.2f", 100 * $utraff_current / $rtraff_max);
 
 	gen_traff_usage($tpl, $utraff_current, $rtraff_max, 400);
 
@@ -240,47 +217,34 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	$tpl->assign(
 		array(
 			'RESELLER_NAME' => tohtml($reseller_name),
-
-			'TRAFF_RED' => $traff_red * 3,
-			'TRAFF_GREEN' => $traff_green * 3,
 			'TRAFF_PERCENT' => $traff_percent,
-
 			'TRAFF_MSG' => ($rtraff_max)
 				? tr('%1$s / %2$s of <strong>%3$s</strong>', sizeit($utraff_current), sizeit($rtraff_current), sizeit($rtraff_max))
 				: tr('%1$s / %2$s of <strong>unlimited</strong>', sizeit($utraff_current), sizeit($rtraff_current)),
-
 			'DISK_MSG' => ($rdisk_max)
 				? tr('%1$s / %2$s of <strong>%3$s</strong>', sizeit($udisk_current), sizeit($rdisk_current), sizeit($rdisk_max))
 				: tr('%1$s / %2$s of <strong>unlimited</strong>', sizeit($udisk_current), sizeit($rdisk_current)),
-
 			'DMN_MSG' => ($rdmn_max)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $udmn_current, $rdmn_current, $rdmn_max)
 				: tr('%1$d / %2$d of <strong>unlimited</strong>', $udmn_current, $rdmn_current),
-
 			'SUB_MSG' => ($rsub_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usub_current, $rsub_current, $rsub_max)
 				: (($rsub_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usub_current, $rsub_current)),
-
 			'ALS_MSG' => ($rals_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $uals_current, $rals_current, $rals_max)
 				: (($rals_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $uals_current, $rals_current)),
-
 			'MAIL_MSG' => ($rmail_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $umail_current, $rmail_current, $rmail_max)
 				: (($rmail_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $umail_current, $rmail_current)),
-
 			'FTP_MSG' => ($rftp_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $uftp_current, $rftp_current, $rftp_max)
 				: (($rftp_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $uftp_current, $rftp_current)),
-
 			'SQL_DB_MSG' => ($rsql_db_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usql_db_current, $rsql_db_current, $rsql_db_max)
 				: (($rsql_db_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usql_db_current, $rsql_db_current)),
-
 			'SQL_USER_MSG' => ($rsql_user_max > 0)
 				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usql_user_current, $rsql_user_current, $rsql_user_max)
 				: (($rsql_user_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usql_user_current, $rsql_user_current)),
-
 			'EXTRAS' => ''
 		)
 	);
@@ -380,3 +344,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
+?>

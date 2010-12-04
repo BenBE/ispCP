@@ -48,11 +48,7 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 $tpl->assign(
 	array(
@@ -201,28 +197,14 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		$pr = sprintf("%.2f", $pr);
 	}
 
-	$indx = (int)$pr;
-
-	list($traffic_percent, $indx, $a) = make_usage_vals($domain_all_traffic, $domain_traffic_limit * 1024 * 1024);
+	$traffic_percent = sprintf("%.2f", 100 * $domain_all_traffic / ($domain_traffic_limit * 1024 * 1024));
 	// Get disk status
 	$domdu = $data['domain_disk_usage'];
 	$domdl = $data['domain_disk_limit'];
 
-	$tmp = ($domdu / 1024) / 1024;
-
-	if ($domdu == 0) {
-		$dpr = 0;
-	} else if ($domdl == 0) {
-		$dpr = 0;
-	} else {
-		$dpr = ($tmp / $domdl) * 100;
-		$dpr = sprintf("%.2f", $dpr);
-	}
-
-	$dindx = (int) $dpr;
 	$domduh = sizeit($domdu);
 
-	list($disk_percent, $dindx, $b) = make_usage_vals($domdu, $domdl * 1024 * 1024);
+	$disk_percent = sprintf("%.2f", 100 * $domdu / ($domdl * 1024 * 1024));
 	// Get current mail count
 	$query = "SELECT COUNT(`mail_id`) AS mcnt
 		FROM `mail_users`
@@ -231,7 +213,8 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
 		$query .= " AND `mail_acc` != 'abuse'
 			AND `mail_acc` != 'postmaster'
-			AND `mail_acc` != 'webmaster'";
+			AND `mail_acc` != 'webmaster'
+		;";
 	}
 	$res6 = exec_query($sql, $query, $data['domain_id']);
 	$dat3 = $res6->fetchRow();
@@ -322,3 +305,4 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 		)
 	);
 } // End of load_user_data();
+?>

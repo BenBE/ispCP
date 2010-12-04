@@ -214,18 +214,12 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	$utraff_max = $utraff_max * 1024 * 1024;
 	$udisk_max = $udisk_max * 1024 * 1024;
-	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $utraff_max);
-	list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $udisk_max);
-	$traff_show_percent = $traff_percent;
-	$disk_show_percent = $disk_percent;
 
-	if ($traff_percent > 100) {
-		$traff_percent = 100;
-	}
+	$traff_show_percent = calc_bar_value($utraff_current, $utraff_max, 400);
+	$disk_show_percent  = calc_bar_value($udisk_current, $udisk_max, 400);
 
-	if ($disk_percent > 100) {
-		$disk_percent = 100;
-	}
+	$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
+	$disk_percent  = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
 
 	$tpl->assign(array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2'));
 
@@ -240,8 +234,6 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'TRAFF_SHOW_PERCENT' => $traff_show_percent,
 			'TRAFF_PERCENT' => $traff_percent,
-			'TRAFF_RED' => $traff_red,
-			'TRAFF_GREEN' => $traff_green,
 
 			'TRAFF_MSG' => ($utraff_max)
 				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($utraff_current), sizeit($utraff_max))
@@ -249,8 +241,6 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'DISK_SHOW_PERCENT' => $disk_show_percent,
 			'DISK_PERCENT' => $disk_percent,
-			'DISK_RED' => $disk_red,
-			'DISK_GREEN' => $disk_green,
 
 			'DISK_MSG' => ($udisk_max)
 				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($udisk_current), sizeit($udisk_max))

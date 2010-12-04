@@ -109,15 +109,22 @@ function get_update_infos(&$tpl) {
 	}
 }
 
-function gen_server_trafic(&$tpl, &$sql) {
-	$query = "SELECT `straff_max`, `straff_warn` FROM `straff_settings`";
+function gen_server_trafic(&$tpl) {
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
+		SELECT
+			`straff_max`, `straff_warn`
+		FROM
+			`straff_settings`
+	;";
 
 	$rs = exec_query($sql, $query);
 
-	$straff_max = (($rs->fields['straff_max']) * 1024) * 1024;
+	$straff_max  = $rs->fields['straff_max'] * 1024 * 1024;
+	$straff_warn = $rs->fields['straff_warn'] * 1024 * 1024;
 
 	$fdofmnth = mktime(0, 0, 0, date("m"), 1, date("Y"));
-
 	$ldofmnth = mktime(1, 0, 0, date("m") + 1, 0, date("Y"));
 
 	$query = "
@@ -129,7 +136,7 @@ function gen_server_trafic(&$tpl, &$sql) {
 			`traff_time` > ?
 		AND
 			`traff_time` < ?
-	";
+	;";
 
 	$rs1 = exec_query($sql, $query, array($fdofmnth, $ldofmnth));
 
@@ -144,21 +151,30 @@ function gen_server_trafic(&$tpl, &$sql) {
 	}
 
 	if (($straff_max != 0 || $straff_max != '') && ($mtraff > $straff_max)) {
-		$tpl->assign('TR_TRAFFIC_WARNING', tr('You are exceeding your traffic limit!')
-			);
+		$tpl->assign(
+			array(
+				'TR_TRAFFIC_WARNING' => tr('You are exceeding your traffic limit!')
+			)
+		);
+	} else if(($straff_warn != 0 || $straff_warn != '') && ($mtraff > $straff_warn)) {
+		$tpl->assign(
+			array(
+				'TR_TRAFFIC_WARNING' => tr('You traffic limit will be reached soon!')
+			)
+		);
 	} else {
 		$tpl->assign('TRAFF_WARN', '');
 	}
 
-	$bar_value = calc_bar_value($traff, $straff_max , 400);
+	$bar_value = calc_bar_value($traff, $straff_max, 400);
 
 	$traff_msg = '';
-    $percent = 0;
+	$percent = 0;
 	if ($straff_max == 0) {
 		$traff_msg = tr('%1$d%% [%2$s of unlimited]', $pr, sizeit($mtraff));
 	} else {
 		$traff_msg = tr('%1$d%% [%2$s of %3$s]', $pr, sizeit($mtraff), sizeit($straff_max));
-		$percent = ($traff/$straff_max)*100;
+		$percent = (($traff/$straff_max)*100 < 99.7) ? ($traff/$straff_max)*100 : 99.7;
 	}
 
 	$tpl->assign(
@@ -194,7 +210,7 @@ get_update_infos($tpl);
 
 gen_system_message($tpl, $sql);
 
-gen_server_trafic($tpl, $sql);
+gen_server_trafic($tpl);
 
 gen_page_message($tpl);
 

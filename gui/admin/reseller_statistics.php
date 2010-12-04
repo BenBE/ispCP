@@ -206,34 +206,17 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 	) = generate_reseller_users_props($reseller_id);
 
 	$rtraff_max = $rtraff_max * 1024 * 1024;
-
 	$rtraff_current = $rtraff_current * 1024 * 1024;
-
 	$rdisk_max = $rdisk_max * 1024 * 1024;
-
 	$rdisk_current = $rdisk_current * 1024 * 1024;
-
 	$utraff_max = $utraff_max * 1024 * 1024;
-
 	$udisk_max = $udisk_max * 1024 * 1024;
 
-	$traff_percent = calc_bar_value($utraff_current, $rtraff_max , 400);
+	$traff_show_percent = calc_bar_value($utraff_current, $rtraff_max, 400);
+	$disk_show_percent  = calc_bar_value($udisk_current, $rdisk_max, 400);
 
-	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $rtraff_max);
-
-	list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $rdisk_max);
-
-	$traff_show_percent = $traff_percent;
-
-	$disk_show_percent = $disk_percent;
-
-	if ($traff_percent > 100) {
-		$traff_percent = 100;
-	}
-
-	if ($disk_percent > 100) {
-		$disk_percent = 100;
-	}
+	$traff_percent = (($utraff_current/$rtraff_max)*100 < 99.7) ? ($utraff_current/$rtraff_max)*100 : 99.7;
+	$disk_percent  = (($udisk_current/$rdisk_max)*100 < 99.7) ? ($udisk_current/$rdisk_max)*100 : 99.7;
 
 	$tpl->assign(
 		array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2')

@@ -199,7 +199,7 @@ SQL_QUERY;
 					`domain`
 				WHERE
 					`domain_admin_id` = ?
-			";
+			;";
 
 			$dres = exec_query ($sql, $query, $admin_id);
 
@@ -216,47 +216,22 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	global $crnt_month, $crnt_year;
 
-	list($domain_name,
-		$domain_id,
-		$web,
-		$ftp,
-		$smtp,
-		$pop3,
-		$utraff_current,
-		$udisk_current,
-		$i,
-		$j
-	) = generate_user_traffic($user_id);
+	list($domain_name, $domain_id, $web, $ftp, $smtp, $pop3, $utraff_current,
+		$udisk_current, $i, $j) = generate_user_traffic($user_id);
 
-	list($usub_current, $usub_max,
-		$uals_current, $uals_max,
-		$umail_current, $umail_max,
-		$uftp_current, $uftp_max,
-		$usql_db_current, $usql_db_max,
-		$usql_user_current, $usql_user_max,
-		$utraff_max, $udisk_max
+	list($usub_current, $usub_max, $uals_current, $uals_max, $umail_current,
+		$umail_max,	$uftp_current, $uftp_max, $usql_db_current, $usql_db_max,
+		$usql_user_current, $usql_user_max,	$utraff_max, $udisk_max
 	) = generate_user_props($user_id);
 
 	$utraff_max = $utraff_max * 1024 * 1024;
-
 	$udisk_max = $udisk_max * 1024 * 1024;
 
-	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $utraff_max);
+	$traff_show_percent = calc_bar_value($utraff_current, $utraff_max, 400);
+	$disk_show_percent  = calc_bar_value($udisk_current, $udisk_max, 400);
 
-	list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $udisk_max);
-
-	$traff_show_percent = $traff_percent;
-
-	$disk_show_percent = $disk_percent;
-
-	if ($traff_percent > 100) {
-		$traff_percent = 100;
-	}
-
-	if ($disk_percent > 100) {
-		$disk_percent = 100;
-	}
-
+	$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
+	$disk_percent  = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
 
 	$tpl->assign(
 		array(
@@ -276,8 +251,6 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'TRAFF_SHOW_PERCENT' => $traff_show_percent,
 			'TRAFF_PERCENT' => $traff_percent,
-			'TRAFF_RED' => $traff_red,
-			'TRAFF_GREEN' => $traff_green,
 
 			'TRAFF_MSG' => ($utraff_max)
 				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($utraff_current), sizeit($utraff_max))
@@ -286,8 +259,6 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'DISK_SHOW_PERCENT' => $disk_show_percent,
 			'DISK_PERCENT' => $disk_percent,
-			'DISK_RED' => $disk_red,
-			'DISK_GREEN' => $disk_green,
 
 			'DISK_MSG' => ($udisk_max)
 				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($udisk_current), sizeit($udisk_max))
@@ -337,11 +308,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
