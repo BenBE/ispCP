@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-05 Benedikt Heintel
+	- GUI:
+		* Fixed #2218: Default quota should be a 100MB or at least 50MB
+
 2010-12-02 Benedikt Heintel
 	- GUI:
 		* Fixed problem with function set_page_message()

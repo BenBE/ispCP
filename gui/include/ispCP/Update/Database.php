@@ -1875,6 +1875,35 @@ class ispCP_Update_Database extends ispCP_Update {
 		return $sqlUpd;
  	}
 
+	/**
+	 * Updated standard user quota to 100MB
+	 *
+	 * @author Benedikt Heintel <benedikt.heintel@ispcp.net>
+	 * @since r3697
+	 * @return array
+	 */
+	protected function _databaseUpdate_46() {
+
+		$sqlUpd = array();
+
+		$sqlUpd[] = "
+			ALTER TABLE
+				`mail_users`
+			CHANGE
+				`quota` `quota` INT( 10 ) NULL DEFAULT '104857600'
+		;";
+		$sqlUpd[] = "
+			UPDATE
+				`mail_users`
+			SET
+				`quota` = '104857600'
+			WHERE
+				`quota` = '10485760';
+		;";
+
+		return $sqlUpd;
+ 	}
+
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
 	 */

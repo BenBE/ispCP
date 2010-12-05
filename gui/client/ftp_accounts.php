@@ -61,6 +61,7 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		$tpl->assign(
 			array(
 				'FTP_MSG' => tr('FTP list is empty!'),
+				'MSG_TYPE' => 'notice',
 				'FTP_ITEM' => '',
 				'FTPS_TOTAL' => '',
 				'TABLE_LIST' => ''

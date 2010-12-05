@@ -510,7 +510,7 @@ function save_data_to_db() {
 	} else {
 		set_page_message(
 			tr("Hosting plan values exceed reseller maximum values!"),
-			'value'
+			'warning'
 		);
 
 		restore_form($tpl, $sql);

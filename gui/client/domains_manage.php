@@ -80,11 +80,16 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 			`alias_id`,
 			`domain_dns`,
 			`domain_type`
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $domain_id);
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(array('DNS_MSG' => tr("Manual zone's records list is empty!"), 'DNS_LIST' => ''));
+		$tpl->assign(
+			array(
+				'DNS_MSG' => tr("Manual zone's records list is empty!"),
+				'DNS_LIST' => ''
+			)
+		);
 		$tpl->parse('DNS_MESSAGE', 'dns_message');
 	} else {
 		$counter = 0;
@@ -109,6 +114,7 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 			$domain_name = decode_idna($rs->fields['domain_name']);
 			$sbd_name = $rs->fields['domain_dns'];
 			$sbd_data = $rs->fields['domain_text'];
+			$sbd_status = $rs->fields['domain_status'];
 			$tpl->assign(
 				array(
 					'DNS_DOMAIN'				=> tohtml($domain_name),
@@ -116,6 +122,7 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 					'DNS_CLASS'					=> tohtml($rs->fields['domain_class']),
 					'DNS_TYPE'					=> tohtml($rs->fields['domain_type']),
 					'DNS_DATA'					=> tohtml($sbd_data),
+					'DNS_STATUS'				=> translate_dmn_status($sbd_status),
 //					'DNS_ACTION_SCRIPT_EDIT'	=> $sub_action,
 					'DNS_ACTION_SCRIPT_DELETE'	=> tohtml($dns_action_script_delete),
 					'DNS_ACTION_DELETE'			=> tohtml($dns_action_delete),
@@ -215,7 +222,7 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 			`subdomain`.`domain_id` = ?
 		ORDER BY
 			`subdomain_name`
-";
+	;";
 
 	$query2 = "
 		SELECT
@@ -233,7 +240,7 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 			`domain_id` = ?
 		ORDER BY
 			`subdomain_alias_name`
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $domain_id);
 	$rs2 = exec_query($sql, $query2, $domain_id);
@@ -350,7 +357,7 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 		ORDER BY
 			`alias_mount`,
 			`alias_name`
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $domain_id);
 
@@ -436,6 +443,7 @@ $tpl->assign(
 		'TR_DNS_TYPE'		=> tr('Type'),
 		'TR_DNS_ACTION'		=> tr('Actions'),
 		'TR_DNS_DATA'		=> tr('Record data'),
+		'TR_DNS_STATUS'		=> tr('Status'),
 		'TR_DOMAIN_NAME'	=> tr('Domain')
 	)
 );
@@ -450,3 +458,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>
