@@ -1882,7 +1882,7 @@ class ispCP_Update_Database extends ispCP_Update {
 	 * @since r3697
 	 * @return array
 	 */
-	protected function _databaseUpdate_46() {
+	protected function _databaseUpdate_47() {
 
 		$sqlUpd = array();
 
