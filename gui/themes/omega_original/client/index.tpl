@@ -57,7 +57,7 @@
           <tr>
             <td width="25">&nbsp;</td>
             <td class="content">{TR_ACCOUNT_NAME} / {TR_MAIN_DOMAIN}</td>
-            <td width="230" class="content2">{ACCOUNT_NAME}</td>
+            <td width="230" class="content2">{ACCOUNT_NAME}  / {DOMAIN_IP}</td>
           </tr>
           <tr>
 	     <td>&nbsp;</td>

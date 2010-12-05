@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-05 Markus Szywon
+	- GUI:
+		* New #2513: show server ip for users in General information menu
+
 2010-12-05 Benedikt Heintel
 	- GUI:
 		* Fixed #2218: Default quota should be a 100MB or at least 50MB

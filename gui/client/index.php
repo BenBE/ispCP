@@ -452,6 +452,7 @@ $domainAlsUrl =
 $tpl->assign(
 	array(
 		'ACCOUNT_NAME'		=> tohtml($account_name),
+		'DOMAIN_IP' 		=> get_user_domain_ip($sql, $dmn_ip_id),
 		'DOMAIN_ALS_URL' 	=> $domainAlsUrl,
 		'MAIN_DOMAIN'		=> tohtml($dmn_name),
 		'DMN_EXPIRES_DATE'	=> $dmn_expires_date,

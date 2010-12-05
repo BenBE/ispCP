@@ -1198,4 +1198,21 @@ function mount_point_exists($dmn_id, $mnt_point) {
 	}
 	return false;
 }
+
+function get_user_domain_ip(&$sql, $dmn_ip_id) {
+
+	$query = "
+		SELECT
+			`ip_number`
+		FROM
+			`server_ips`
+		WHERE
+			`ip_id` = ?
+		;
+	";
+
+	$rs = exec_query($sql, $query, $dmn_ip_id);
+
+	return $rs->fields['ip_number'];
+}
 ?>
