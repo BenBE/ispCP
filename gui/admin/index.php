@@ -55,10 +55,10 @@ function gen_system_message(&$tpl, &$sql) {
 		WHERE
 			`ticket_to` = ?
 		AND
-			`ticket_status` IN ('1', '2')
+			`ticket_status` IN ('1', '4')
 		AND
 			`ticket_reply` = 0
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $user_id);
 
@@ -70,6 +70,7 @@ function gen_system_message(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new support questions', $num_question),
+				'NEW_MSG_TYPE' => 'notice',
 				'TR_VIEW' => tr('View')
 			)
 		);
@@ -84,24 +85,44 @@ function get_update_infos(&$tpl) {
 	$sql = ispCP_Registry::get('Db');
 
 	if (ispCP_Update_Database::getInstance()->checkUpdateExists()) {
-		$tpl->assign(array('DATABASE_UPDATE' => '<a href="database_update.php" class="link">' . tr('A database update is available') . '</a>'));
+		$tpl->assign(
+			array(
+				'DATABASE_UPDATE' => '<a href="database_update.php" class="link">' . tr('A database update is available') . '</a>',
+				'DATABASE_MSG_TYPE' => 'notice'
+			)
+		);
 		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	} else {
 		$tpl->assign(array('DATABASE_UPDATE_MESSAGE' => ''));
 	}
 
 	if (!$cfg->CHECK_FOR_UPDATES) {
-		$tpl->assign(array('UPDATE' => tr('Update checking is disabled!'), 'UPDATE_TYPE' => 'notice'));
+		$tpl->assign(
+			array(
+				'UPDATE' => tr('Update checking is disabled!'),
+				'UPDATE_TYPE' => 'notice'
+			)
+		);
 		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		return false;
 	}
 
 	if (ispCP_Update_Version::getInstance()->checkUpdateExists()) {
-		$tpl->assign(array('UPDATE' => '<a href="ispcp_updates.php" class="link">' . tr('New ispCP update is now available') . '</a>'));
+		$tpl->assign(
+			array(
+				'UPDATE' => '<a href="ispcp_updates.php" class="link">' . tr('New ispCP update is now available') . '</a>',
+				'UPDATE_TYPE' => 'notice'
+			)
+		);
 		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 	} else {
 		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
-			$tpl->assign(array('UPDATE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
+			$tpl->assign(
+				array(
+					'UPDATE' => ispCP_Update_Version::getInstance()->getErrorMessage(),
+					'UPDATE_TYPE' => 'error'
+				)
+			);
 			$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		} else {
 			$tpl->assign(array('UPDATE_MESSAGE' => ''));
@@ -187,9 +208,7 @@ function gen_server_trafic(&$tpl) {
 }
 
 /*
- *
- * static page messages.
- *
+ * static page messages
  */
 
 $tpl->assign(

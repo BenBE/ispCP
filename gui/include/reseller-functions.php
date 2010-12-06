@@ -799,7 +799,10 @@ function check_ruser_data(&$tpl, $noPass) {
 } // end of check_ruser_data()
 
 /**
- * Translate domain status
+ * Translates an ispCP item constant to a human readable, translated text
+ *
+ * @param Const $status item status
+ * @return String		human readable translated status
  */
 function translate_dmn_status($status) {
 
@@ -811,6 +814,7 @@ function translate_dmn_status($status) {
 		case $cfg->ITEM_ADD_STATUS:
 			return tr('Addition in progress');
 		case $cfg->ITEM_CHANGE_STATUS:
+		case $cfg->ITEM_DNSCHANGE_STATUS:
 			return tr('Modification in progress');
 		case $cfg->ITEM_DELETE_STATUS:
 			return tr('Deletion in progress');
@@ -822,6 +826,8 @@ function translate_dmn_status($status) {
 			return tr('Being suspended');
 		case $cfg->ITEM_ORDERED_STATUS:
 			return tr('Awaiting approval');
+		case $cfg->ITEM_PROTECTED_STATUS:
+			return tr('Protected');
 		default:
 			return tr('Unknown error');
 	}

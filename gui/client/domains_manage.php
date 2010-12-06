@@ -103,12 +103,12 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 
 			list($dns_action_delete, $dns_action_script_delete) = gen_user_dns_action(
 				'Delete', $rs->fields['domain_dns_id'],
-				($rs->fields['protected'] == 'no') ? $rs->fields['domain_status'] : 'PROTECTED'
+				($rs->fields['protected'] == 'no') ? $rs->fields['domain_status'] : $cfg->ITEM_PROTECTED_STATUS
 			);
 
 			list($dns_action_edit, $dns_action_script_edit) = gen_user_dns_action(
 				'Edit', $rs->fields['domain_dns_id'],
-				($rs->fields['protected'] == 'no') ? $rs->fields['domain_status'] : 'PROTECTED'
+				($rs->fields['protected'] == 'no') ? $rs->fields['domain_status'] :$cfg->ITEM_PROTECTED_STATUS
 			);
 
 			$domain_name = decode_idna($rs->fields['domain_name']);
@@ -147,7 +147,7 @@ function gen_user_dns_action($action, $dns_id, $status) {
 
 	if ($status == $cfg->ITEM_OK_STATUS) {
 		return array(tr($action), 'dns_'.strtolower($action).'.php?edit_id='.$dns_id);
-	} elseif($action != 'Edit' && $status == 'PROTECTED') {
+	} elseif($action != 'Edit' && $status == $cfg->ITEM_PROTECTED_STATUS) {
 		return array(tr('N/A'), 'protected');
 	}
 

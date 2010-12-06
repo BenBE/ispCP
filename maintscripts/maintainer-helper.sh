@@ -49,10 +49,27 @@
 # Retrieving the main ispCP configuration file path
 if [ -f "/etc/ispcp/ispcp.conf" ] ; then
     CONF_FILE=/etc/ispcp/ispcp.conf
+	CMD_SED=`which sed`
 elif [ -f "/usr/local/etc/ispcp/ispcp.conf" ] ; then
     CONF_FILE=/usr/local/etc/ispcp/ispcp.conf
+	if [ -f "$(which gsed)" ]; then
+		CMD_SED=`which gsed`
+	else
+		CMD_SED=`which sed`
+	fi
 else
     printf "\033[1;31m[Error]\033[0m ispCP configuration file not found!\n"
+    exit 1
+fi
+
+# Retrieving the (g)sed path
+# Retrieving the main ispCP configuration file path
+if [ -f "$(which gsed)" ]; then
+	CMD_SED=`which gsed`
+elif [ -f "$(which sed)" ]; then
+	CMD_SED=`which sed`
+else
+    printf "\033[1;31m[Error]\033[0m neither sed nor gsed found!\n"
     exit 1
 fi
 
@@ -61,7 +78,7 @@ IFS=$
 
 # Reading needed entries from ispcp.conf
 for a in $(grep -E '^(AMAVIS|APACHE_|BASE_SERVER_IP|CMD_|DEBUG|DATABASE_HOST|DEFAULT_ADMIN_ADDRESS|ETC_|LOG_DIR|MTA_|ROOT_|PHP_FASTCGI|SPAMASSASSIN|Version)' \
-${CONF_FILE} | sed 's/\s*=\s*\(.*\)/="\1"/') ; do
+${CONF_FILE} | $CMD_SED 's/\s*=\s*\(.*\)/="\1"/') ; do
 	 eval $a
 done
 
@@ -74,7 +91,7 @@ if [ $DEBUG -eq 1 ]; then
 fi
 
 # ispCP Omega version
-ISPCP_VERSION=$(echo $Version | sed -e 's/\s\+\|[a-z]//gi')
+ISPCP_VERSION=$(echo $Version | $CMD_SED -e 's/\s\+\|[a-z]//gi')
 
 ################################################################################
 #                                   Logging                                    #

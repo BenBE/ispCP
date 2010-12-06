@@ -1,6 +1,14 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-06 Benedikt Heintel
+	- GUI:
+		* Small fix for the ticket system
+		* Update for the DNS feature
+	- DISTS:
+		* Re-Added Ubuntu Karmic (LTS) support
+		* Updated FreeBSD installation
+
 2010-12-05 Markus Szywon
 	- GUI:
 		* New #1012: show server ip for users in General information menu

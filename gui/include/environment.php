@@ -83,6 +83,7 @@ $config->ITEM_TOENABLE_STATUS = 'toenable';
 $config->ITEM_TODISABLED_STATUS = 'todisable';
 $config->ITEM_ORDERED_STATUS = 'ordered';
 $config->ITEM_DNSCHANGE_STATUS = 'dnschange';
+$config->ITEM_PROTECTED = 'protected';
 
 // SQL variables
 $config->MAX_SQL_DATABASE_LENGTH = 64;
