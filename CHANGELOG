@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-07 Markus Szywon
+	- GUI:
+		* Updated Net_DNS to version 1.0.7
+
 2010-12-06 Benedikt Heintel
 	- GUI:
 		* Small fix for the ticket system
