@@ -1,6 +1,14 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-08 Thomas Wacker
+	- CONFIGS:
+		* Fixed #2514: mod_fcgid MaxRequestLen smaller than acceptable PHP
+			upload size
+	- ENGINE/SETUP:
+		* Fixed #2515: ispCP Update exits with status "1" while running
+			ispcp-rqst-mngr
+
 2010-12-07 Markus Szywon
 	- SETUP:
 		* Fixed broken Language Setup
