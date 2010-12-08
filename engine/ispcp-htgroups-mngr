@@ -213,7 +213,7 @@ sub htgroup_mngr_engine {
 				"Domain id $main::htgroup_task_id is missing!"
 			);
 
-			return -1;
+			return 0;
 
 		}
 

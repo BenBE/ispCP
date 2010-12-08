@@ -1259,7 +1259,7 @@ sub sub_mngr_engine {
 		\@main::el, 'sub_mngr_engine()',
 		"Detected orphan entry in table subdomain, subdomain_id: $main::sub_task_id"
 		);
-		return -1;
+		return 0;
 	}
 
 	my $entry = @$rows{$main::sub_task_id};
