@@ -91,9 +91,7 @@ class ispCP_Database {
 	 * @param array $driver_options OPTIONAL Driver options
 	 * @return void
 	 */
-	private function __construct($user, $pass, $type, $host, $name,
-		$driver_options = array()) {
-
+	private function __construct($user, $pass, $type, $host, $name,	$driver_options = array()) {
 		$this->_db = new PDO(
 			$type . ':host=' . $host . ';dbname=' . $name, $user, $pass,
 			$driver_options
@@ -127,16 +125,14 @@ class ispCP_Database {
 	 * @return ispCP_database An ispCP_Database instance that represents the
 	 * connection to the database
 	 */
-	public static function connect($user, $pass, $type, $host, $name,
-		$connection = 'default', $driver_options = null) {
-
+	public static function connect($user, $pass, $type, $host, $name, $connection = 'default', $driver_options = null) {
 		if(is_array($connection)) {
 			$driver_options = $connection;
 			$connection = 'default';
 		}
 
 		if (isset(self::$_instances[$connection])) {
-			self::$_instances[$connection]->close();
+			self::$_instances[$connection] = null;
 		}
 
 		return self::$_instances[$connection] = new self(
@@ -157,7 +153,6 @@ class ispCP_Database {
 	 * @todo Rename the method name to 'getConnection' (Sounds better)
 	 */
 	public static function getInstance($connection = 'default') {
-
 		if (!isset(self::$_instances[$connection])) {
 			throw new ispCP_Exception_Database(
 				"Error: The Database connection $connection doesn't exists!"
@@ -177,7 +172,6 @@ class ispCP_Database {
 	 * @return PDO A PDO instance
 	 */
 	public static function getRawInstance($connection = 'default') {
-
 		if (!isset(self::$_instances[$connection])) {
 			throw new ispCP_Exception_Database(
 				"Error: The Database connection $connection doesn't exists!"
@@ -203,7 +197,6 @@ class ispCP_Database {
 	 * prepared statements are emulated by PDO, FALSE is never returned.
 	 */
 	public function prepare($stmt, $driver_options = null) {
-
 		if (version_compare(PHP_VERSION, '5.2.5', '<')) {
 			if (preg_match('/(ALTER |CREATE |DROP |GRANT |REVOKE |FLUSH )/i',
 				$stmt)) {
@@ -294,7 +287,6 @@ class ispCP_Database {
 	 * represents a result set or FALSE on failure.
 	 */
 	public function execute($stmt, $parameters = null) {
-
 		if($stmt instanceof PDOStatement) {
 			if(is_null($parameters)) {
 				$rs = $stmt->execute();
@@ -334,7 +326,6 @@ class ispCP_Database {
 	 * @return array An array that represents a list of the permanent tables
 	 */
 	public function metaTables() {
-
 		$tables = array();
 
 		$result = $this->_db->query('SHOW TABLES');
@@ -353,7 +344,6 @@ class ispCP_Database {
 	 * @return string Last row identifier that was inserted in database
 	 */
 	public function insertId() {
-
 		return $this->_db->lastInsertId();
 	}
 
@@ -370,7 +360,6 @@ class ispCP_Database {
 	 * @return boolean TRUE on success, FALSE on failure
 	 */
 	public function setAttribute($attribute, $value) {
-
 		return $this->_db->setAttribute($attribute, $value);
 	}
 
@@ -380,7 +369,6 @@ class ispCP_Database {
 	 * @return mixed Attribute value or NULL on failure
 	 */
 	public function getAttribute($attribute) {
-
 		return $this->_db->getAttribute($attribute);
 	}
 
@@ -390,7 +378,6 @@ class ispCP_Database {
 	 * @return boolean TRUE on success, FALSE on failure
 	 */
 	public function startTransaction() {
-
 		$this->_db->beginTransaction();
 	}
 
@@ -400,7 +387,6 @@ class ispCP_Database {
 	 * @return boolean TRUE on success, FALSE on failure
 	 */
 	public function completeTransaction() {
-
 		$this->_db->commit();
 	}
 
@@ -417,7 +403,6 @@ class ispCP_Database {
 	 * @return boolean TRUE on success or FALSE on failure
 	 */
 	public function rollbackTransaction() {
-
 		return $this->_db->rollback();
 	}
 
@@ -430,7 +415,6 @@ class ispCP_Database {
 	 * @return mixed The last SQLSTATE error code
 	 */
 	public function getLastErrorCode() {
-
 		return $this->_lastErrorCode;
 	}
 
@@ -446,7 +430,6 @@ class ispCP_Database {
 	 * {@link prepare()} methods.
 	 */
 	public function getLastErrorMessage() {
-
 		return $this->_lastErrorMessage;
 	}
 
@@ -460,7 +443,6 @@ class ispCP_Database {
 	 * operation
 	 */
 	public function errorMsg() {
-
 		return implode(' - ', $this->_db->errorInfo());
 	}
 
@@ -474,7 +456,6 @@ class ispCP_Database {
 	 * last database operation
 	 */
 	public function errorInfo() {
-
 		return $this->_db->errorInfo();
 	}
 }
