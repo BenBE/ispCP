@@ -5,6 +5,8 @@ ispCP ω 1.0.8 ChangeLog
 	- GUI:
 		* Refcatored lostpassword.php
 		* Fixed: Wrong login count if bruteforce is enabled
+	- LANGAUGES:
+		* Updated Czech (#2516; Thanks to Petr Holeček)
 
 2010-12-08 Jochen Manz
 	- GUI:
