@@ -194,7 +194,8 @@ function importLanguageFile() {
 		);
 		return;
 	} else {
-		if ($file_type == 'text/x-gettext-translation') {
+		$n = stripos($_FILES['lang_file']['name'], '.po');
+		if ($n !== false) {
 			$ab = _importGettextFile($file, $_FILES['lang_file']['name']);
 		} else {
 			$ab = _importTextFile($file);
