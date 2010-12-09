@@ -745,8 +745,8 @@ function check_ruser_data(&$tpl, $noPass) {
 	if (isset($_POST['userfax']))
 		$fax = $_POST['userfax'];
 
-	if (isset($_POST['gender'])
-		&& get_gender_by_code($_POST['gender'], true) !== null) {
+	if (isset($_POST['gender'])	&& 
+		!is_null(get_gender_by_code($_POST['gender'], true))) {
 		$gender = $_POST['gender'];
 	} else {
 		$gender = '';
@@ -768,23 +768,9 @@ function check_ruser_data(&$tpl, $noPass) {
 		}
 	}
 
-	if ($user_email == NULL) {
+	if (is_null($user_email)) {
 		$user_add_error = tr('Incorrect email length or syntax!');
 	}
-	/* we don't want to validate Customer ID, First and Second name and also ZIP
-
-	  else if (!ispcp_limit_check($customer_id)) {
-		$user_add_error = tr('Incorrect customer ID syntax!');
-	} else if (!chk_username($first_name, 40)) {
-
-		$user_add_error = tr('Incorrect first name length or syntax!');
-	} else if (!chk_username($last_name, 40)) {
-
-		$user_add_error = tr('Incorrect second name length or syntax!');
-	} else if (!ispcp_limit_check($zip)) {
-
-		$user_add_error = tr('Incorrect post code length or syntax!');
-	} */
 
 	if ($user_add_error == '_off_') {
 		// send data through session

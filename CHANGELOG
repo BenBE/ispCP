@@ -1,6 +1,15 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-09 Benedikt Heintel
+	- GUI:
+		* Refcatored lostpassword.php
+		* Fixed: Wrong login count if bruteforce is enabled
+
+2010-12-08 Jochen Manz
+	- GUI:
+		* Fixed: Call to undefined method ispCP_Database::close()
+
 2010-12-08 Thomas Wacker
 	- CONFIGS:
 		* Fixed #2514: mod_fcgid MaxRequestLen smaller than acceptable PHP

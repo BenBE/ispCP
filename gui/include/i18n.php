@@ -55,10 +55,10 @@ function curlang($newlang = null, $force = false) {
 		return $_language;
 	}
 
-	if ($language === null || ($newlang !== null && $newlang !== false)) {
+	if (is_null($language) || (!is_null($newlang) && $newlang !== false)) {
 
-		if ($newlang === true || (($newlang === null || $newlang === false) &&
-			$language === null) ) {
+		if ($newlang === true || ((is_null($newlang) || $newlang === false) &&
+			is_null($language))) {
 
 			$newlang = (isset($_SESSION['user_def_lang']))
 				? $_SESSION['user_def_lang'] : $cfg->USER_INITIAL_LANG;
@@ -69,7 +69,7 @@ function curlang($newlang = null, $force = false) {
 		}
 	}
 
-	return ($_language !== null) ? $_language : $language;
+	return (!is_null($_language)) ? $_language : $language;
 }
 
 /**
@@ -78,7 +78,7 @@ function curlang($newlang = null, $force = false) {
  * @access public
  * @version 2.3
  * @author Benedikt Heintel <benedikt.heintel@ispcp.net>
- * @author Laurent Declercq (nuxwin) <laurent.declercq@ispcp.net>
+ * @author Laurent Declercq <laurent.declercq@ispcp.net>
  * @author Raphael Geissert (2007)
  * @param string $msgid string to translate
  * @param mixed $substitution Prevent the returned string from being replaced
@@ -113,7 +113,7 @@ function tr($msgid, $substitution = false) {
 		}
 
 		// Prepare the query only once to improve performances
-		if($stmt == null) {
+		if(is_null($stmt)) {
 			$query = "
 				SELECT
 					`msgstr`
@@ -219,3 +219,4 @@ function replace_html($string) {
 if (false) {
 	tr('_: Localised language');
 }
+?>

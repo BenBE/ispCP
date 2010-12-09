@@ -95,7 +95,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	protected function _write() {
 
-		if($this->_pTemplate != null) {
+		if(!is_null($this->_pTemplate)) {
 			$this->_pTemplate->prnt();
 		} else {
 			echo $this->_message;
@@ -129,7 +129,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 				: $exceptionHandler->getException()->getMessage();
 		}
 
-		if($this->_templateFile != null) {
+		if(!is_null($this->_templateFile)) {
 			$this->_prepareTemplate();
 		}
 

@@ -242,13 +242,14 @@ function is_userdomain_ok($username) {
  * @param  $timeout
  * @param string $type
  * @return void
+ * @throws ispCP_Exception
  */
 function unblock($timeout = null, $type = 'bruteforce') {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if ($timeout === null) {
+	if (is_null($timeout)) {
 		$timeout = $cfg->BRUTEFORCE_BLOCK_TIME;
 	}
 
@@ -294,7 +295,7 @@ function unblock($timeout = null, $type = 'bruteforce') {
 				'FIXME: ' . __FILE__ . ':' . __LINE__ . "\n" .
 				'Unknown unblock reason ' . $type
 			);
-			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
+			throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 	}
 
 	exec_query($sql, $query, array($max, $timeout));
@@ -307,6 +308,7 @@ function unblock($timeout = null, $type = 'bruteforce') {
  * @param string $type Checking type (bruteforce|captcha)
  * @param bool $autodeny
  * @return boolean TRUE if the user Ip address is blocked, FALSE otherwise
+ * @throws ispCP_Exception
  */
 function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 	$autodeny = false) {
@@ -314,7 +316,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if ($ipaddr === null) {
+	if (is_null($ipaddr)) {
 		$ipaddr = getipaddr();
 	}
 
@@ -354,7 +356,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 				'FIXME: ' . __FILE__ . ':' . __LINE__ . "\n" .
 				'Unknown unblock reason ' . $type
 			);
-			throw new ispCP_Exception('FIXME: '.__FILE__.':'.__LINE__);
+			throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 	}
 
 	$res = exec_query($sql, $query, array($ipaddr, $max));
@@ -370,7 +372,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 }
 
 /**
- * Dertermine if the user should wait for login
+ * Determine if the user should wait for login
  *
  * @param string $ipaddr
  * @param boolean $displayMessage
@@ -384,7 +386,7 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 	if (!$cfg->BRUTEFORCE) {
 		return false;
 	}
-	if ($ipaddr === null) {
+	if (is_null($ipaddr)) {
 		$ipaddr = getipaddr();
 	}
 
@@ -434,7 +436,9 @@ function shall_user_wait($ipaddr = null, $displayMessage = true) {
 }
 
 /**
- * Check/block IP address if bruteforcing the login or captcha wrong
+ * This function checks for bruteforce attemps on the login and lost-password
+ * functions. As a result it blocks the coresponding IP address for a given time
+ * span. (Default: 30 sec. between the retries, 30 min. after three retries.)
  *
  * @param string $ipaddr
  * @param string $type
@@ -444,7 +448,7 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if ($ipaddr === null) {
+	if (is_null($ipaddr)) {
 		$ipaddr = getipaddr();
 	}
 
@@ -469,6 +473,7 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 
 	$res = exec_query($sql, $query, $ipaddr);
 
+	// There is no record, add one
 	if ($res->recordCount() == 0) {
 		$query = "
 			REPLACE INTO `login` (
@@ -477,88 +482,78 @@ function check_ipaddr($ipaddr = null, $type = 'bruteforce') {
 				`lastaccess`,
 				`login_count`,
 				`captcha_count`
-			) VALUES (?,?,UNIX_TIMESTAMP(),?,?)
-			;
-		";
+			) VALUES 
+				(?, ?, UNIX_TIMESTAMP(), ?, ?)
+			;";
 
-		exec_query(
-			$sql,
-			$query,
-			array(
-				$sess_id,
-				$ipaddr,
-				(int) ($type == 'bruteforce'),
-				(int) ($type == 'captcha')
-			)
-		);
-	}
+		exec_query($sql, $query, array($sess_id, $ipaddr,
+			(int) ($type == 'bruteforce'), (int) ($type == 'captcha')));
 
-	$data = $res->fetchRow();
+	} elseif($cfg->BRUTEFORCE) {
 
-	$lastaccess = $data['lastaccess'];
-	$logincount = $data['login_count'];
-	$captchacount = $data['captcha_count'];
+		$data = $res->fetchRow();
 
-	if ($type == 'bruteforce' && $cfg->BRUTEFORCE &&
-		$logincount > $cfg->BRUTEFORCE_MAX_LOGIN) {
-		block_ipaddr($ipaddr, 'Login');
-	}
+		$lastaccess = $data['lastaccess'];
+		$logincount = $data['login_count'];
+		$captchacount = $data['captcha_count'];
 
-	if ($type == 'captcha' && $cfg->BRUTEFORCE &&
-		$captchacount > $cfg->BRUTEFORCE_MAX_CAPTCHA) {
-		block_ipaddr($ipaddr, 'CAPTCHA');
-	}
-
-	if ($cfg->BRUTEFORCE_BETWEEN) {
-		$btime = $lastaccess + $cfg->BRUTEFORCE_BETWEEN_TIME;
-	} else {
-		$btime = 0;
-	}
-
-	if ($btime < time()) {
-		if ($type == 'bruteforce') {
-			$query = "
-				UPDATE
-					`login`
-				SET
-					`lastaccess` = UNIX_TIMESTAMP(),
-					`login_count` = `login_count`+1
-				WHERE
-					`ipaddr` = ?
-				AND
-					`user_name` IS NULL
-				;
-			";
-		} else if ($type == 'captcha') {
-			$query = "
-				UPDATE
-					`login`
-				SET
-					`lastaccess` = UNIX_TIMESTAMP(),
-					`captcha_count` = `captcha_count`+1
-				WHERE
-					`ipaddr` = ?
-				AND
-					`user_name` IS NULL
-				;
-			";
+		if ($type == 'bruteforce' && $logincount > $cfg->BRUTEFORCE_MAX_LOGIN) {
+			block_ipaddr($ipaddr, 'Login');
+		}
+		if ($type == 'captcha' && $captchacount > $cfg->BRUTEFORCE_MAX_CAPTCHA) {
+			block_ipaddr($ipaddr, 'CAPTCHA');
 		}
 
-		exec_query($sql, $query, $ipaddr);
-	} else {
-		$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
-		$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
+		if ($cfg->BRUTEFORCE_BETWEEN) {
+			$btime = $lastaccess + $cfg->BRUTEFORCE_BETWEEN_TIME;
+		} else {
+			$btime = 0;
+		}
 
-		write_log(
-			"Login error, <strong><em>$ipaddr</em></strong> wait " . ($btime - time()) .
-			" seconds", E_USER_NOTICE
-		);
+		// Updating Timer for Bruteforce or Captcha
+		if ($btime < time()) {
+			if ($type == 'bruteforce') {
+				$query = "
+					UPDATE
+						`login`
+					SET
+						`lastaccess` = UNIX_TIMESTAMP(),
+						`login_count` = `login_count`+1
+					WHERE
+						`ipaddr` = ?
+					AND
+						`user_name` IS NULL
+					;";
+			} else if ($type == 'captcha') {
+				$query = "
+					UPDATE
+						`login`
+					SET
+						`lastaccess` = UNIX_TIMESTAMP(),
+						`captcha_count` = `captcha_count`+1
+					WHERE
+						`ipaddr` = ?
+					AND
+						`user_name` IS NULL
+					;";
+			}
 
-		system_message(
-			tr('You have to wait %d seconds.', $btime - time()),
-			'warning',
-			$backButtonDestination
-		);
+			exec_query($sql, $query, $ipaddr);
+		} else {
+			$baseServerVHostPrefix = (isset($_SERVER['HTTPS'])) ? "https://" : "http://";
+			$backButtonDestination = $baseServerVHostPrefix . $cfg->BASE_SERVER_VHOST;
+
+			write_log(
+				"Login error, <strong><em>$ipaddr</em></strong> wait " . ($btime - time()) .
+				" seconds", E_USER_NOTICE
+			);
+
+			system_message(
+				tr('You have to wait %d seconds.', $btime - time()),
+				'warning',
+				$backButtonDestination
+			);
+		}
 	}
 }
 
@@ -826,7 +821,7 @@ function check_login($fName = null, $preventExternalLogin = true) {
 		user_goto('/index.php');
 	}
 
-	if ($fName != null) {
+	if (!is_null($fName)) {
 
 		$levels = explode('/', realpath(dirname($fName)));
 		$level = $levels[count($levels) - 1];
@@ -1021,16 +1016,8 @@ function change_user_interface($from_id, $to_id) {
 				(?, ?, ?, ?)
 		;";
 
-		exec_query(
-			$sql,
-			$query,
-			array(
-				session_id(),
-				getipaddr(),
-				$to_udata['admin_name'],
-				$_SESSION['user_login_time']
-			)
-		);
+		exec_query($sql, $query, array(session_id(), getipaddr(),
+			$to_udata['admin_name'], $_SESSION['user_login_time']));
 
 		write_log(
 			sprintf(
@@ -1105,18 +1092,14 @@ function unset_user_login_data($ignorePreserve = false, $restore = false) {
 /**
  * Redirects to user level page
  *
- * @param  $file
- * @param bool $force
- * @return bool
+ * @param String $file
+ * @param boolean $force
+ * @return boolean false if $_SESSION['user_type'] not set and $force == false
  */
-function redirect_to_level_page($file = null, $force = false) {
+function redirect_to_level_page($file = 'index.php', $force = false) {
 
 	if (!isset($_SESSION['user_type']) && !$force)
 		return false;
-
-	if (!$file) {
-		$file = 'index.php';
-	}
 
 	$user_type = isset($_SESSION['user_type']) ? $_SESSION['user_type'] : '';
 
@@ -1125,12 +1108,10 @@ function redirect_to_level_page($file = null, $force = false) {
 			$user_type = 'client';
 		case 'admin':
 		case 'reseller':
-			header('Location: /' . $user_type . '/' . $file);
+			user_goto('/' . $user_type . '/' . $file);
 			break;
 		default:
-			header('Location: /index.php');
+			user_goto('/index.php');
 	}
-
-	exit();
 }
 ?>

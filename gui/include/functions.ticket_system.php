@@ -45,7 +45,7 @@ function hasTicketSystem($user_id = null) {
 
 	if (!$cfg->ISPCP_SUPPORT_SYSTEM) {
 		return false;
-	} elseif ($user_id !== null) {
+	} elseif (!is_null($user_id)) {
 		$sql = ispCP_Registry::get('Db');
 
 		$query = "
@@ -435,7 +435,7 @@ function ticketGetLastDate($ticket_id) {
 
 	$rs = exec_query($sql, $query, array($ticket_id));
 
-	if($rs->fields['ticket_date'] == NULL) {
+	if(is_null($rs->fields['ticket_date'])) {
 		return tr('Never');
 	}
 

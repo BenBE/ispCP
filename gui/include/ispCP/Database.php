@@ -51,7 +51,6 @@ class ispCP_Database {
 	 */
 	protected $_db = null;
 
-
 	/**
 	 * Error code from last error occured
 	 *

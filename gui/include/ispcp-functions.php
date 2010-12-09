@@ -574,8 +574,8 @@ function is_serialized($data) {
 		return true;
 	}
 
-	if(preg_match( "/^[aOs]:[0-9]+:.*[;}]\$/s", $data) ||
-		preg_match( "/^[bid]:[0-9.E-]+;\$/", $data)) {
+	if(preg_match("/^[aOs]:[0-9]+:.*[;}]\$/s", $data) ||
+		preg_match("/^[bid]:[0-9.E-]+;\$/", $data)) {
 
 		return true;
 	}
@@ -607,7 +607,7 @@ function decrypt_db_password($db_pass) {
 		// Initialize encryption
 		@mcrypt_generic_init($td, $key, $iv);
 		// Decrypt encrypted string
-		$decrypted = @mdecrypt_generic ($td, $text);
+		$decrypted = @mdecrypt_generic($td, $text);
 		@mcrypt_module_close($td);
 
 		// Show string
@@ -646,7 +646,7 @@ function encrypt_db_password($db_pass) {
 		// Initialize encryption
 		@mcrypt_generic_init($td, $key, $iv);
 		// Encrypt string
-		$encrypted = @mcrypt_generic ($td, $db_pass);
+		$encrypted = @mcrypt_generic($td, $db_pass);
 		@mcrypt_generic_deinit($td);
 		@mcrypt_module_close($td);
 

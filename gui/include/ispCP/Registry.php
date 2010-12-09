@@ -68,7 +68,7 @@ class ispCP_Registry {
 	 */
 	public static function getInstance() {
 
-		if(self::$_instance == null) {
+		if(is_null(self::$_instance)) {
 			self::$_instance = new self;
 		}
 

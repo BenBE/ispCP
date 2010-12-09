@@ -468,7 +468,7 @@ function gen_admin_list(&$tpl, &$sql) {
 				array(
 					'ADMIN_USERNAME' => tohtml($rs->fields['admin_name']),
 					'ADMIN_CREATED_ON' => tohtml($admin_created),
-					'ADMIN_CREATED_BY' => ($rs->fields['created_by'] != null)
+					'ADMIN_CREATED_BY' => (!is_null($rs->fields['created_by']))
 						? tohtml($rs->fields['created_by']) : tr("System"),
 					'URL_EDIT_ADMIN' => 'admin_edit.php?edit_id=' .
 						$rs->fields['admin_id']

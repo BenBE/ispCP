@@ -290,7 +290,7 @@ class ispCP_VirtualFileSystem {
 			}
 
 			// Check type
-			if ($type !== null && $entry['type'] != $type) {
+			if (!is_null($type) && $entry['type'] != $type) {
 				return false;
 			}
 

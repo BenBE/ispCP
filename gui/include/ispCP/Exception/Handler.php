@@ -158,7 +158,7 @@ class ispCP_Exception_Handler implements SplSubject, IteratorAggregate, Countabl
 	 */
 	public static function &getInstance() {
 
-		if(self::$_instance == null) {
+		if(is_null(self::$_instance)) {
 			self::$_instance = new self();
 		}
 
@@ -258,7 +258,7 @@ class ispCP_Exception_Handler implements SplSubject, IteratorAggregate, Countabl
 	 */
 	public function getException() {
 
-        if ($this->_exception == null) {
+        if (is_null($this->_exception)) {
             return false;
         }
 
@@ -275,7 +275,7 @@ class ispCP_Exception_Handler implements SplSubject, IteratorAggregate, Countabl
 	 */
 	public function getProductionException() {
 
-        if ($this->_productionException == null) {
+        if (is_null($this->_productionException)) {
             return false;
         }
 

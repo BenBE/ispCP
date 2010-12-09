@@ -185,7 +185,7 @@ function _passgen() {
 function passgen() {
 	$pw = null;
 
-	while ($pw == null || !chk_password($pw, 50, "/[<>]/")) {
+	while (is_null($pw) || !chk_password($pw, 50, "/[<>]/")) {
 		$pw = _passgen();
 	}
 

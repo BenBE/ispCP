@@ -716,7 +716,7 @@ function isACE($label) {
  * @todo foreach and "=" inner this loop is unusual
  */
 function ispcp_limit_check($data, $extra = -1) {
-	if ($extra !== null && !is_bool($extra)) {
+	if (!is_null($extra) && !is_bool($extra)) {
 		if (is_array($extra)) {
 			$nextra = '';
 			$max = count($extra);
