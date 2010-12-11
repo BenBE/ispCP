@@ -120,7 +120,7 @@ class ispCP_pTemplate {
 		$this->stack = array();
 		$this->sp = 0;
 
-		$this->set_globals($login);
+		$this->set_globals();
 	}
 
 	private function set_root($set_dir = '.') {
@@ -602,17 +602,15 @@ class ispCP_pTemplate {
 	 * @author Markus Szywon <markus.szywon@ispcp.net>
 	 * @since r3711
 	 */
-	private function set_globals($login) {
+	private function set_globals() {
 		$cfg = ispCP_Registry::get('Config');
-		if ($login != true){
-			if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != '' ){
-				$this->assign('ISP_LOGO', get_logo($_SESSION['user_id']));
-			}
+		if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != '' ){
 			$this->assign(
 				array(
+					'ISP_LOGO'			=> get_logo($_SESSION['user_id']),
 					'THEME_CHARSET'		=> tr('encoding'),
 					'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
-					'THEME_SCRIPT_PATH'	=> "../themes/scripts"
+					'THEME_SCRIPT_PATH'	=> '../themes/scripts'
 				)
 			);
 		} else {
@@ -625,3 +623,4 @@ class ispCP_pTemplate {
 		}
 	}
 }
+?>

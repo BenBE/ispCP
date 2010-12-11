@@ -57,7 +57,7 @@ if (isset($_SESSION['user_theme'])) {
 	$theme_color = $cfg->USER_INITIAL_THEME;
 }
 
-$tpl = new ispCP_pTemplate('', true);
+$tpl = new ispCP_pTemplate();
 $tpl->assign(
 	array(
 		'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
