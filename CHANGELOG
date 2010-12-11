@@ -5,6 +5,7 @@ ispCP ω 1.0.8 ChangeLog
 	- GUI:
 		* New: Global Variables
 		* Refactored TPL System (part I: removed duplicate and obsolete code)
+		* Refcatored lostpassword.php
 
 2010-12-09 Thomas Wacker
 	- GUI:
