@@ -43,15 +43,6 @@ $tpl->define_dynamic('year_list', 'page');
 $tpl->define_dynamic('traffic_table', 'page');
 $tpl->define_dynamic('traffic_table_item', 'traffic_table');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 if (isset($_POST['domain_id'])) {
 	$domain_id = $_POST['domain_id'];
 } else if (isset($_GET['domain_id'])) {
@@ -229,11 +220,7 @@ function generate_page(&$tpl, $domain_id) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
@@ -242,6 +229,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
 		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

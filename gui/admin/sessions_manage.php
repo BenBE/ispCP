@@ -42,10 +42,7 @@ $tpl->define_dynamic('user_session', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_MANAGE_SESSIONS_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_ADMIN_MANAGE_SESSIONS_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions')
 	)
 );
 

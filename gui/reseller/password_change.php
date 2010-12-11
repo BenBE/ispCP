@@ -39,15 +39,6 @@ $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/password_change.tp
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Reseller/Change Password'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 	if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
 		set_page_message(tr('Please fill up all data fields!'), 'warning');
@@ -128,6 +119,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Reseller/Change Password'),
 		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
 		'TR_PASSWORD_DATA' 		=> tr('Password data'),
 		'TR_PASSWORD' 			=> tr('Password'),

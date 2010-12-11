@@ -51,15 +51,6 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 	user_goto('users.php?psi=last');
 }
 
-$tpl->assign(
-	array(
-			'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - User/Add user(step2)'),
-			'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET'								=> tr('encoding'),
-			'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
-	)
-);
-
 /*
  * static page messages.
  */
@@ -71,6 +62,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 		array(
+			'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - User/Add user(step2)'),
 			'TR_ADD_USER'					=> tr('Add user'),
 			'TR_HOSTING_PLAN_PROPERTIES'	=> tr('Hosting plan properties'),
 			'TR_TEMPLATE_NAME'				=> tr('Template name'),

@@ -39,15 +39,6 @@ $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/personal_change.tp
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id']),
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_reseller_personal_data($sql, $_SESSION['user_id']);
 }
@@ -165,6 +156,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
 		'TR_PERSONAL_DATA'			=> tr('Personal data'),
 		'TR_FIRST_NAME'				=> tr('First name'),

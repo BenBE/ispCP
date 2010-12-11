@@ -64,15 +64,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'order_email') {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_ORDER_EMAL' => tr('ispCP - Reseller/Order email setup'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
 
@@ -80,6 +71,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_ORDER_EMAL' => tr('ispCP - Reseller/Order email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MANAGE_ORDERS' => tr('Manage orders'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),

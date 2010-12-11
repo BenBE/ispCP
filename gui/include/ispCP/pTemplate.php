@@ -119,6 +119,8 @@ class ispCP_pTemplate {
 
 		$this->stack = array();
 		$this->sp = 0;
+
+		$this->set_globals();
 	}
 
 	private function set_root($set_dir = '.') {
@@ -592,5 +594,23 @@ class ispCP_pTemplate {
 		foreach ($this->dtpl_values as $key => $value) {
 			print "$key => $value<br>";
 		}
+	}
+
+	/**
+	 * Sets global variables for using in all Templates
+	 *
+	 * @author Markus Szywon <markus.szywon@ispcp.net>
+	 * @since r3711
+	 */
+	private function set_globals() {
+		$cfg = ispCP_Registry::get('Config');
+		$this->assign(
+			array(
+				'ISP_LOGO'		=> get_logo($_SESSION['user_id']),
+				'THEME_CHARSET'		=> tr('encoding'),
+				'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
+				'THEME_SCRIPT_PATH'	=> "../themes/scripts"
+			)
+		);
 	}
 }

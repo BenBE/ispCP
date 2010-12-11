@@ -1,6 +1,11 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-11 Markus Szywon
+	- GUI:
+		* New: Global Variables
+		* Refactored TPL System (part I: removed duplicate and obsolete code)
+
 2010-12-09 Thomas Wacker
 	- GUI:
 		* Fix installing languages files

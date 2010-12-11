@@ -48,10 +48,7 @@ $tpl->define_dynamic('table_list', 'page');
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users')
 	)
 );
 

@@ -313,10 +313,7 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics')
 	)
 );
 

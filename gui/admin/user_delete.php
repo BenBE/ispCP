@@ -54,10 +54,7 @@ $tpl->define_dynamic('logged_from', 'page');
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
+		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain')
 	)
 );
 

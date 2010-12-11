@@ -177,10 +177,7 @@ if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif')
 $tpl->assign(
 	array(
 		'TR_ADMIN_CHANGE_LAYOUT_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'OWN_LOGO' => get_own_logo($_SESSION['user_id']),
-		'THEME_CHARSET' => tr('encoding')
+		'OWN_LOGO' => get_own_logo($_SESSION['user_id'])
 	)
 );
 

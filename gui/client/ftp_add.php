@@ -603,10 +603,7 @@ function gen_page_js(&$tpl) {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User')
 	)
 );
 

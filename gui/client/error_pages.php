@@ -77,9 +77,6 @@ $domain = "http://www." . $domain;
 $tpl->assign(
 	array(
 		'TR_CLIENT_ERROR_PAGE_TITLE' => tr('ispCP - Client/Manage Error Custom Pages'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
 		'DOMAIN' => $domain
 	)
 );

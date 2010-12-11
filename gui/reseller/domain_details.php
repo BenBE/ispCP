@@ -38,22 +38,10 @@ $tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 
+// static page messages
 $tpl->assign(
 	array(
 		'TR_DETAILS_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-$tpl->assign(
-	array(
 		'TR_DOMAIN_DETAILS'		=> tr('Domain details'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),

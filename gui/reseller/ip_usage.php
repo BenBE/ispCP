@@ -40,15 +40,6 @@ $tpl->define_dynamic('logged_from', 'page');
 
 $reseller_id = $_SESSION['user_id'];
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_IP_USAGE_PAGE_TITLE'	=> tr('ispCP - Reseller/IP Usage'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
-
 /**
  * Generate List of Domains assigned to IPs
  *
@@ -198,6 +189,7 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_IP_USAGE_PAGE_TITLE' => tr('ispCP - Reseller/IP Usage'),
 		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'IP_USAGE'		=> tr('IP Usage'),
 		'TR_DOMAIN_NAME'	=> tr('Domain Name')

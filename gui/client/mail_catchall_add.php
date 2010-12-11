@@ -462,10 +462,7 @@ function create_catchall_mail_account(&$sql, $id) {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account'),
-		'THEME_COLOR_PATH'						=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account')
 	)
 );
 

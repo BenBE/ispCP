@@ -45,10 +45,7 @@ if ($cfg->HOSTING_PLANS_LEVEL && $cfg->HOSTING_PLANS_LEVEL !== 'admin') {
 
 $tpl->assign(
 	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE' => tr('ispCP - Admin/Edit Domain'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_EDIT_DOMAIN_PAGE_TITLE' => tr('ispCP - Admin/Edit Domain')
 	)
 );
 

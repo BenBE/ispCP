@@ -167,10 +167,7 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder')
 	)
 );
 

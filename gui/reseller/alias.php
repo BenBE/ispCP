@@ -49,10 +49,7 @@ $tpl->define_dynamic('als_add_button', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias'),
-		'THEME_COLOR_PATH'		=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'			=> tr('encoding'),
-		'ISP_LOGO'				=> get_logo($_SESSION['user_id']),
+		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias')
 	)
 );
 

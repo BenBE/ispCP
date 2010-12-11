@@ -713,12 +713,7 @@ $tpl->define_dynamic('htaccess_list', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_ISPCP_DEBUGGER_PAGE_TITLE' => tr(
-			'ispCP - Virtual Hosting Control System'
-		),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_ADMIN_ISPCP_DEBUGGER_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System')
 	)
 );
 

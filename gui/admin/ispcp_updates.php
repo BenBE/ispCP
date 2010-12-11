@@ -43,10 +43,7 @@ $tpl->define_dynamic('table_header', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System')
 	)
 );
 

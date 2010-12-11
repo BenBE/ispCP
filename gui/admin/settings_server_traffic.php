@@ -41,10 +41,7 @@ $tpl->define_dynamic('hosting_plans', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_CHANGE_SERVER_TRAFFIC_SETTINGS_TITLE' => tr('ispCP - Admin/Server Traffic Settings'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_ADMIN_CHANGE_SERVER_TRAFFIC_SETTINGS_TITLE' => tr('ispCP - Admin/Server Traffic Settings')
 	)
 );
 

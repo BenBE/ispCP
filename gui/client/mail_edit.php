@@ -320,10 +320,7 @@ function update_email_forward(&$tpl, &$sql) {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account')
 	)
 );
 

@@ -48,15 +48,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order management'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
-
 /*
  * Functions
  */
@@ -223,6 +214,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order management'),
 		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
 		'TR_ID'						=> tr('ID'),
 		'TR_DOMAIN'					=> tr('Domain'),

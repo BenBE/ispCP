@@ -41,15 +41,6 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 $tpl->define_dynamic('alias_add', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
-	)
-);
-
 // static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
@@ -58,6 +49,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
 		'TR_ADD_USER'			=> tr('Add user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),

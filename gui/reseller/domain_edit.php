@@ -51,18 +51,10 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 	user_goto('users.php?psi=last');
 }
 
-$tpl->assign(
-	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Edit'),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id'])
-	)
-);
-
 // static page messages
 $tpl->assign(
 	array(
+		'TR_EDIT_DOMAIN_PAGE_TITLE'			=> tr('ispCP - Domain/Edit'),
 		'TR_EDIT_DOMAIN'					=> tr('Edit Domain'),
 		'TR_DOMAIN_PROPERTIES'				=> tr('Domain properties'),
 		'TR_DOMAIN_NAME'					=> tr('Domain name'),

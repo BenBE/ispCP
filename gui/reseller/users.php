@@ -47,15 +47,6 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('edit_option', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Users'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
-
 // TODO: comment!
 unset($_SESSION['dmn_name']);
 unset($_SESSION['ch_hpprops']);
@@ -86,6 +77,7 @@ $crnt_year = date("Y");
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Users'),
 		'TR_MANAGE_USERS' => tr('Manage users'),
 		'TR_USERS' => tr('Users'),
 		'TR_USER_STATUS' => tr('Status'),

@@ -76,10 +76,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 // static page messages
 $tpl->assign(
 	array(
-		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Admin/Lostpw email setup'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Admin/Lostpw email setup')
 	)
 );
 

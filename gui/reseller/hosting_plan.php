@@ -45,21 +45,6 @@ $tpl->define_dynamic('hp_entry', 'hp_table');
 $tpl->define_dynamic('hp_delete', 'page');
 $tpl->define_dynamic('hp_menu_add', 'page');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
 
@@ -67,8 +52,10 @@ gen_logged_from($tpl);
 
 gen_hp_table($tpl, $_SESSION['user_id']);
 
+// static page messages
 $tpl->assign(
 	array(
+		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
 		'TR_HOSTING_PLANS' => tr('Hosting plans'),
 		'TR_PAGE_MENU' => tr('Manage hosting plans'),
 		'TR_PURCHASING' => tr('Purchasing'),

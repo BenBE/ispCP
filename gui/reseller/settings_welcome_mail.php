@@ -65,15 +65,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -81,6 +72,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),

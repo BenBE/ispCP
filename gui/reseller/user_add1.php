@@ -42,15 +42,6 @@ $tpl->define_dynamic('add_user', 'page');
 $tpl->define_dynamic('hp_entry', 'page');
 $tpl->define_dynamic('personalize', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Users/Add user'),
-		'THEME_COLOR_PATH'							=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id']),
-	)
-);
-
 // static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
@@ -60,6 +51,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Users/Add user'),
 		'TR_ADD_USER'				=> tr('Add user'),
 		'TR_CORE_DATA'				=> tr('Core data'),
 		'TR_DOMAIN_NAME'			=> tr('Domain name'),

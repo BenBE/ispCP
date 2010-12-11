@@ -48,10 +48,7 @@ $tpl->define_dynamic('ip_delete_link', 'ip_row');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_IP_MANAGE_PAGE_TITLE'	=> tr('ispCP - Admin/IP manage'),
-		'THEME_COLOR_PATH'				=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
+		'TR_ADMIN_IP_MANAGE_PAGE_TITLE'	=> tr('ispCP - Admin/IP manage')
 	)
 );
 

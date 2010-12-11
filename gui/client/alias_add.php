@@ -44,14 +44,6 @@ if(!is_xhr()) {
 	$tpl->define_dynamic('user_entry', 'page');
 	$tpl->define_dynamic('ip_entry', 'page');
 
-	$tpl->assign(
-		array(
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		)
-	);
-
 	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
 	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
 

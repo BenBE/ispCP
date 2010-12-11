@@ -45,17 +45,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_QUESTION_PAGE_TITLE' => tr('ispCP - Client/Questions & Comments'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
-
 // dynamic page data
 
 $admin_id = $_SESSION['user_created_by'];
@@ -81,6 +70,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_QUESTION_PAGE_TITLE' => tr('ispCP - Client/Questions & Comments'),
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'=> tr('Support tickets'),
 		'TR_STATUS'			=> tr('Status'),

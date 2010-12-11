@@ -80,15 +80,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Reseller/Lostpw email setup'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -96,6 +87,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Reseller/Lostpw email setup'),
 		'TR_LOSTPW_EMAIL' => tr('Lostpw email'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),

@@ -160,16 +160,6 @@ function update_user_gui_props($file_name, $user_id) {
 	exec_query($sql, $query, array($file_name, $user_id));
 }
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_LAYOUT_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
-		'THEME_COLOR_PATH'						=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'OWN_LOGO'								=> get_own_logo($_SESSION['user_id']),
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id']),
-	)
-);
-
 /*
  *
  * static page messages.
@@ -183,6 +173,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_LAYOUT_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
 		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
 		'TR_LAYOUT_NAME'			=> tr('Layout name'),

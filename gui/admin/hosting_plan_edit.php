@@ -54,14 +54,9 @@ gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tp
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
 
 $tpl->assign(
-		array(
-			'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr(
-				'ispCP - Administrator/Edit hosting plan'
-			),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id'])
-		)
+	array(
+		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Administrator/Edit hosting plan')
+	)
 );
 
 $tpl->assign(

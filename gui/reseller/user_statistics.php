@@ -68,15 +68,6 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('./reseller_statistics.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -304,6 +295,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

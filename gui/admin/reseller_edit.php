@@ -873,11 +873,7 @@ if (isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 
 	$tpl->assign(
 		array(
-			'TR_ADMIN_EDIT_RESELLER_PAGE_TITLE' =>
-				tr('ispCP - Admin/Manage users/Edit Reseller'),
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id'])
+			'TR_ADMIN_EDIT_RESELLER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Edit Reseller')
 		)
 	);
 

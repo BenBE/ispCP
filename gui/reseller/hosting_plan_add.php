@@ -50,20 +50,7 @@ $tpl->define_dynamic('ftp_add', 'page');
 $tpl->define_dynamic('sql_db_add', 'page');
 $tpl->define_dynamic('sql_user_add', 'page');
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Add hosting plan'),
-		'THEME_COLOR_PATH'					=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
@@ -72,6 +59,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Add hosting plan'),
 		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
 		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME'			=> tr('Template name'),

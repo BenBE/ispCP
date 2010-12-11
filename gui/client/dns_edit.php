@@ -46,9 +46,6 @@ $tpl->assign(
 		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode)
 			? tr("ispCP - Manage Domain Alias/Add DNS zone's record")
 			: tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
-		'THEME_COLOR_PATH'			=> "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
 		'ACTION_MODE'				=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}'
 	)
 );

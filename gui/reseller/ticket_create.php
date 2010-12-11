@@ -39,17 +39,6 @@ $tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ticket_create.tpl'
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_NEW_TICKET_PAGE_TITLE' => tr('ispCP - Support system - New ticket'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-	)
-);
-
 // dynamic page data
 
 $admin_id = $_SESSION['user_created_by'];
@@ -111,6 +100,7 @@ $tpl->assign($userdata);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_NEW_TICKET_PAGE_TITLE' => tr('ispCP - Support system - New ticket'),
 		'TR_NEW_TICKET' => tr('New ticket'),
 		'TR_LOW' => tr('Low'),
 		'TR_MEDIUM' => tr('Medium'),

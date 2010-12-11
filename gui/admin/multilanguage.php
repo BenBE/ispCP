@@ -513,10 +513,7 @@ $tpl->define_dynamic('lang_def', 'lang_row');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_I18N_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_ADMIN_I18N_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation')
 	)
 );
 

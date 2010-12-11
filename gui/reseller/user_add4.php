@@ -43,14 +43,6 @@ if (!is_xhr()) {
 	$tpl->define_dynamic('alias_list', 'page');
 	$tpl->define_dynamic('alias_entry', 'alias_list');
 
-	$tpl->assign(
-		array(
-			'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-			'THEME_CHARSET' => tr('encoding'),
-			'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		)
-	);
-
 	// static page messages
 	gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 	gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');

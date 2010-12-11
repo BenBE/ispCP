@@ -213,10 +213,7 @@ function gen_server_trafic(&$tpl) {
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Admin/Main Index'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'THEME_CHARSET' => tr('encoding')
+		'TR_ADMIN_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Admin/Main Index')
 	)
 );
 

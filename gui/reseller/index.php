@@ -300,10 +300,7 @@ $tpl->assign(
 		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
 		'TR_LAYOUT' => tr('Layout'),
 		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
-		'TR_DISK_USAGE' => tr ('Disk usage'),
-		'THEME_COLOR_PATH' => "../themes/{$cfg->USER_INITIAL_THEME}",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_DISK_USAGE' => tr ('Disk usage')
 	)
 );
 
