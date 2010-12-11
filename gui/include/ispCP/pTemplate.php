@@ -76,7 +76,7 @@ class ispCP_pTemplate {
 	 *
 	 * @param String $r_dir Folder where the Template file is located
 	 */
-	public function __construct($r_dir = "") {
+	public function __construct($r_dir = "", $login = false) {
 		$this->tpl_name = array();
 		$this->tpl_data = array();
 		$this->tpl_options = array();
@@ -120,7 +120,7 @@ class ispCP_pTemplate {
 		$this->stack = array();
 		$this->sp = 0;
 
-		$this->set_globals();
+		$this->set_globals($login);
 	}
 
 	private function set_root($set_dir = '.') {
@@ -602,15 +602,26 @@ class ispCP_pTemplate {
 	 * @author Markus Szywon <markus.szywon@ispcp.net>
 	 * @since r3711
 	 */
-	private function set_globals() {
+	private function set_globals($login) {
 		$cfg = ispCP_Registry::get('Config');
-		$this->assign(
-			array(
-				'ISP_LOGO'		=> get_logo($_SESSION['user_id']),
-				'THEME_CHARSET'		=> tr('encoding'),
-				'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
-				'THEME_SCRIPT_PATH'	=> "../themes/scripts"
-			)
-		);
+		if ($login != true){
+			if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != '' ){
+				$this->assign('ISP_LOGO', get_logo($_SESSION['user_id']));
+			}
+			$this->assign(
+				array(
+					'THEME_CHARSET'		=> tr('encoding'),
+					'THEME_COLOR_PATH'	=> "../themes/{$cfg->USER_INITIAL_THEME}",
+					'THEME_SCRIPT_PATH'	=> "../themes/scripts"
+				)
+			);
+		} else {
+			$this->assign(
+				array(
+					'THEME_CHARSET'		=> tr('encoding'),
+					'THEME_COLOR_PATH'	=> $cfg->LOGIN_TEMPLATE_PATH
+				)
+			);
+		}
 	}
 }
