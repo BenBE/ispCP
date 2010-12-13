@@ -1014,10 +1014,13 @@ function change_user_interface($from_id, $to_id) {
 				(`session_id`, `ipaddr`, `user_name`, `lastaccess`)
 			VALUES
 				(?, ?, ?, ?)
+			ON DUPLICATE KEY UPDATE
+				`lastaccess` = ?
 		;";
 
 		exec_query($sql, $query, array(session_id(), getipaddr(),
-			$to_udata['admin_name'], $_SESSION['user_login_time']));
+			$to_udata['admin_name'], $_SESSION['user_login_time'],
+			$_SESSION['user_login_time']));
 
 		write_log(
 			sprintf(

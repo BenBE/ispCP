@@ -1,6 +1,11 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-11-13 Benedikt Heintel
+	- GUI:
+		* Fixed #1982: Unable to login after updating because of a record in
+			"login" table (Thanks to Sacoo)
+
 2010-12-12 Markus Szywon
 	- GUI:
 		* Refactored TPL System (part 2: )
