@@ -170,7 +170,11 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	$utraff_max = $utraff_max * 1024 * 1024;
 	$udisk_max = $udisk_max * 1024 * 1024;
 
-	$traff_percent = sprintf("%.2f", 100 * $utraff_current / $rtraff_max);
+	if ($rtraff_max != 0) {
+		$traff_percent = sprintf("%.2f", 100 * $utraff_current / $rtraff_max);
+	} else {
+		$traff_percent = 0;
+	}
 
 	gen_traff_usage($tpl, $utraff_current, $rtraff_max, 400);
 
