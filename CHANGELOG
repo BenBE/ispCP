@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-16 Markus Szywon
+	- LANGUAGES:
+		* Updated Slovak (#2518; Thanks to Rastislav Vasicka)
+
 2010-12-13 Thomas Wacker
 	- GUI:
 		* Fixed possible division by zero bug
