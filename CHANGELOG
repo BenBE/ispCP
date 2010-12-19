@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-19 Markus Szywon
+	- LANGUAGES:
+		* Updated German (#2521; Thanks to hn.vc)
+
 2010-12-19 Thomas Wacker
 	- ENGINE/SETUP/GUI/DISTS:
 		* Fixed #1882: Move ispcp-db-keys.php outside of project directory
