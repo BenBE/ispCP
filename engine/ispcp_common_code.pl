@@ -33,16 +33,19 @@ no warnings 'once';
 $main::engine_debug = undef;
 
 require 'ispcp_common_methods.pl';
-require 'ispcp-db-keys.pl';
 
 ################################################################################
 # Load ispCP configuration from the ispcp.conf file
 
 if(-e '/usr/local/etc/ispcp/ispcp.conf'){
 	$main::cfg_file = '/usr/local/etc/ispcp/ispcp.conf';
+	$main::ispcp_etc_dir = '/usr/local/etc/ispcp';
 } else {
 	$main::cfg_file = '/etc/ispcp/ispcp.conf';
+	$main::ispcp_etc_dir = '/etc/ispcp';
 }
+
+require 'ispcp-load-db-keys.pl';
 
 my $rs = get_conf($main::cfg_file);
 die("FATAL: Can't load the ispcp.conf file") if($rs != 0);
@@ -62,20 +65,20 @@ if ($main::db_pass_key eq '{KEY}' || $main::db_pass_iv eq '{IV}') {
 		"wait...\n";
 
 	print STDOUT "\tIf it takes to long, please check: ".
-	 "http://www.isp-control.net/documentation/frequently_asked_questions/what".
+	 "http://isp-control.net/documentation/frequently_asked_questions/what".
 	 "_does_generating_database_keys_it_may_take_some_time_please_wait..._on_".
 	 "setup_mean\n";
 
-	$rs = sys_command(
-		"perl $main::cfg{'ROOT_DIR'}/keys/rpl.pl " .
-		"$main::cfg{'GUI_ROOT_DIR'}/include/ispcp-db-keys.php " .
-		"$main::cfg{'ROOT_DIR'}/engine/ispcp-db-keys.pl " .
-		"$main::cfg{'ROOT_DIR'}/engine/messenger/ispcp-db-keys.pl"
-	);
+	map {s/'/\\'/g, chop}
+		my $db_pass_key = gen_sys_rand_num(32),
+		my $db_pass_iv = gen_sys_rand_num(8);
+
+	$main::db_pass_key = $db_pass_key;
+	$main::db_pass_iv = $db_pass_iv;
+
+	$rs = write_ispcp_key_cfg();
 
 	die('FATAL: Error during database keys generation!') if ($rs != 0);
-
-	do 'ispcp-db-keys.pl';
 }
 
 ################################################################################

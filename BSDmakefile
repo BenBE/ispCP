@@ -51,7 +51,6 @@ install:
 	cd ./engine && $(MAKE) install
 	cd ./maintscripts && $(MAKE) install
 	cd ./gui && $(MAKE) install
-	cd ./keys && $(MAKE) install
 
 	# @TODO: Move this touch part here to pre-installation script
 	# Create an empty file for courier
@@ -63,7 +62,6 @@ uninstall:
 	cd ./maintscripts && $(MAKE) uninstall
 	cd ./engine && $(MAKE) uninstall
 	cd ./gui && $(MAKE) uninstall
-	cd ./keys && $(MAKE) uninstall
 	rm -rf $(SYSTEM_CONF)
 	rm -rf $(SYSTEM_ROOT)
 	rm -rf $(SYSTEM_LOG)

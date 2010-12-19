@@ -87,7 +87,7 @@ ispCP_Registry::get('exceptionHandler')->attach(
 /**
  * Encryption data
  */
-require_once INCLUDEPATH . '/ispcp-db-keys.php';
+require_once INCLUDEPATH . '/ispcp-load-db-keys.php';
 
 if($ispcp_db_pass_key != '{KEY}' && $ispcp_db_pass_iv != '{IV}') {
 	ispCP_Registry::set('MCRYPT_KEY', $ispcp_db_pass_key);

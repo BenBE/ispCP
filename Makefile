@@ -70,7 +70,6 @@ install:
 	cd ./engine && $(MAKE) install
 	cd ./maintscripts && $(MAKE) install
 	cd ./gui && $(MAKE) install
-	cd ./keys && $(MAKE) install
 
 uninstall:
 

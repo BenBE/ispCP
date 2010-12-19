@@ -240,6 +240,26 @@ sub update_ispcp_cfg {
 }
 
 ################################################################################
+# Create ispCP database key configuration file, if not exist
+#
+# @return int 0 on success, other on failure
+#
+sub update_ispcp_key_cfg {
+	push_el(\@main::el, 'update_ispcp_key_cfg()', 'Starting...');
+
+	if ($main::key_conf eq '') {
+
+		my $rs = write_ispcp_key_cfg();
+
+		return $rs if($rs != 0);
+	}
+
+	push_el(\@main::el, 'update_ispcp_key_cfg()', 'Ending...');
+
+	0;
+}
+
+################################################################################
 # Check for empty values in configuration file
 #
 # Only the configuration settings listed in the exception list can be empty.
@@ -704,6 +724,11 @@ sub update_engine {
 	$rs = 0 if($rs == -5);
 	print_status($rs, 'exit_on_error');
 
+	# Generate ispcp-key.conf
+	subtitle('Update ispCP key configuration file:');
+	$rs = update_ispcp_key_cfg();
+	print_status($rs, 'exit_on_error');
+
 	spacer();
 
 	# ispCP database
@@ -788,7 +813,7 @@ sub update_shutdown {
 
 	print colored(['bold underline'],
 		"\n\tCongratulations, you updated ispCP OMEGA" .
-		"'$main::cfg{'Version'}' successfully!\n\n"),
+		" '$main::cfg{'Version'}' successfully!\n\n"),
 
 		"\tType http://$main::cfg{'BASE_SERVER_VHOST'} into your browser to " .
 		"log in\n\tto your panel.\n\n";

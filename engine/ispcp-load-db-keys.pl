@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
 # Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
@@ -15,17 +14,21 @@
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 # License for the specific language governing rights and limitations
 # under the License.
-#
-# The Original Code is "VHCS - Virtual Hosting Control System".
-#
-# The Initial Developer of the Original Code is moleSoftware GmbH.
-# Portions created by Initial Developer are Copyright (C) 2001-2006
-# by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
-# isp Control Panel. All Rights Reserved.
 
-$main::db_pass_key = '{KEY}';
+if (-e "$main::ispcp_etc_dir/ispcp-keys.conf") {
+	# new configuration file exists
+	$main::key_conf  = "$main::ispcp_etc_dir/ispcp-keys.conf";
 
-$main::db_pass_iv = '{IV}';
+	read_ispcp_key_cfg();
+
+} elsif (-e 'ispcp-db-keys.pl') {
+	# old configuration file exists
+	$main::key_conf = '';
+
+	require 'ispcp-db-keys.pl';
+} else {
+	$main::db_pass_key = '{KEY}';
+	$main::db_pass_iv = '{IV}';
+}
 
 1;

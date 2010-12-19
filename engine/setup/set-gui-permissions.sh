@@ -49,11 +49,6 @@ recursive_set_permissions "$ROOT_DIR/gui/tools/filemanager/temp" \
 recursive_set_permissions "$ROOT_DIR/gui/tools/webmail/data" \
 	$PANEL_USER $APACHE_GROUP 0750 0640
 
-# Decryption keys allow root access to the database, so they must only be
-# accessible by the panel user.
-set_permissions "$ROOT_DIR/gui/include/ispcp-db-keys.php" \
-	$PANEL_USER $PANEL_GROUP 0400
-
 # Main virtual webhosts directory must be owned by root and readable by all
 # the domain-specific users.
 set_permissions $APACHE_WWW_DIR $ROOT_USER $ROOT_GROUP 0555

@@ -2942,3 +2942,93 @@ sub move_dir_content{
 
 	0;
 }
+
+sub trim { $_=shift;
+	s/^\s+//; s/\s+$//;
+	return $_;
+}
+
+################################################################################
+## write_ispcp_key_cfg
+##
+## Write new key configuration file
+##
+## @author Thomas Wacker <thomas.wacker@ispcp.net>
+## @since   1.0.8
+## @version 1.0.8
+## @return	int	0 on success, -1 otherwise
+
+sub write_ispcp_key_cfg {
+
+	push_el(\@main::el, 'write_ispcp_key_cfg()', 'Starting...');
+
+	$main::key_conf = "$main::ispcp_etc_dir/ispcp-keys.conf";
+	print $main::key_conf;
+	print "\n";
+
+	$s = "DB_PASS_KEY=$main::db_pass_key\nDB_PASS_IV=$main::db_pass_iv\n";
+
+	$rs = store_file($main::key_conf, $s, 'root', 'null', 0644);
+	if ($rs != 0) {
+		push_el(
+			\@main::el,
+			'write_ispcp_key_cfg()', '[ERROR] Failed to create file $main::key_conf!'
+		);
+		
+		return -1;
+	}
+
+	push_el(\@main::el, 'write_ispcp_key_cfg()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+## read_ispcp_key_cfg
+##
+## Read new key configuration file
+##
+## @author Thomas Wacker <thomas.wacker@ispcp.net>
+## @since   1.0.8
+## @version 1.0.8
+## @return	int	0 on success, -1 otherwise
+
+sub read_ispcp_key_cfg {
+
+	push_el(\@main::el, 'read_ispcp_key_cfg()', 'Starting...');
+
+	if (!open(F, '<', $main::key_conf)) {
+		push_el(
+			\@main::el,
+			'read_ispcp_key_cfg()',
+			"[ERROR] Can't open $main::key_conf for reading: $!"
+		);
+
+		return 1;
+	}
+
+	my @fdata = <F>;
+	close(F);
+
+	my $line = '', $key = '', $value = '', $pos = 0;
+
+	foreach (@fdata) {
+		$line = $_;
+
+		$pos = index($line, "=");
+		if ($pos > 0) {
+			$key = trim(substr($line, 0, $pos));
+			$value = trim(substr($line, $pos + 1));
+			
+			if ($key eq 'DB_PASS_KEY') {
+				$main::db_pass_key = $value;
+			} elsif ($key eq 'DB_PASS_IV') {
+				$main::db_pass_iv = $value;
+			}
+		}
+	}
+
+	push_el(\@main::el, 'read_ispcp_key_cfg()', 'Ending...');
+
+	0;
+}

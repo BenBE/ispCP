@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-19 Thomas Wacker
+	- ENGINE/SETUP/GUI/DISTS:
+		* Fixed #1882: Move ispcp-db-keys.php outside of project directory
+
 2010-12-16 Markus Szywon
 	- LANGUAGES:
 		* Updated Slovak (#2518; Thanks to Rastislav Vasicka)
@@ -9,7 +13,7 @@ ispCP ω 1.0.8 ChangeLog
 	- GUI:
 		* Fixed possible division by zero bug
 
-2010-11-13 Benedikt Heintel
+2010-12-13 Benedikt Heintel
 	- GUI:
 		* Fixed #1982: Unable to login after updating because of a record in
 			"login" table (Thanks to Sacoo)
@@ -22,7 +26,7 @@ ispCP ω 1.0.8 ChangeLog
 	- GUI:
 		* New: Global Variables
 		* Refactored TPL System (part I: removed duplicate and obsolete code)
-		* Refcatored lostpassword.php
+		* Refactored lostpassword.php
 
 2010-12-09 Thomas Wacker
 	- GUI:

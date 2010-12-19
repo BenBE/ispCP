@@ -288,7 +288,7 @@ $main::cfg_re = '^([\_A-Za-z0-9]+) *= *([^\n\r]*)[\n\r]';
 
 use FindBin;
 use lib "$FindBin::Bin/";
-require 'ispcp-db-keys.pl';
+require '../ispcp-load-db-keys.pl';
 
 umask(027);
 
