@@ -594,7 +594,7 @@ if (!is_xhr()) {
 
 	$tpl->assign(
 		array(
-			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain')
+			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain'),
 			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
 			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
 			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),

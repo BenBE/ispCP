@@ -46,7 +46,7 @@ $tpl->define_dynamic('logged_from', 'page');
  */
 $tpl->assign(
 	array(
-		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias')
+		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
 		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
 		'TR_EDIT_ALIAS' => tr('Edit domain alias'),
 		'TR_ALIAS_NAME' => tr('Alias name'),
