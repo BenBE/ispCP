@@ -154,21 +154,21 @@ function gen_empty_ahp_page(&$tpl) {
 			'HP_SQL_DB_VALUE'		=> '',
 			'HP_SQL_USER_VALUE'		=> '',
 			'HP_TRAFF_VALUE'		=> '',
-			'HP_PRICE'				=> '',
+			'HP_PRICE'			=> '',
 			'HP_SETUPFEE'			=> '',
-			'HP_VELUE'				=> '',
+			'HP_VALUE'			=> '',
 			'HP_PAYMENT'			=> '',
-			'HP_DESCRIPTION_VALUE'	=> '',
+			'HP_DESCRIPTION_VALUE'		=> '',
 			'TR_PHP_YES'			=> '',
-			'TR_PHP_NO'				=> $cfg->HTML_CHECKED,
+			'TR_PHP_NO'			=> $cfg->HTML_CHECKED,
 			'TR_CGI_YES'			=> '',
-			'TR_CGI_NO'				=> $cfg->HTML_CHECKED,
+			'TR_CGI_NO'			=> $cfg->HTML_CHECKED,
 			'VL_BACKUPD'			=> '',
 			'VL_BACKUPS'			=> '',
 			'VL_BACKUPF'			=> '',
 			'VL_BACKUPN'			=> $cfg->HTML_CHECKED,
 			'TR_DNS_YES'			=> '',
-			'TR_DNS_NO'				=> $cfg->HTML_CHECKED,
+			'TR_DNS_NO'			=> $cfg->HTML_CHECKED,
 			'HP_DISK_VALUE'			=> '',
 			'TR_STATUS_YES'			=> $cfg->HTML_CHECKED,
 			'TR_STATUS_NO'			=> '',
@@ -204,10 +204,10 @@ function gen_data_ahp_page(&$tpl) {
 			'HP_SQL_USER_VALUE'		=> tohtml($hp_sql_user),
 			'HP_TRAFF_VALUE'		=> tohtml($hp_traff),
 			'HP_DISK_VALUE'			=> tohtml($hp_disk),
-			'HP_DESCRIPTION_VALUE'	=> tohtml($description),
-			'HP_PRICE'				=> tohtml($price),
+			'HP_DESCRIPTION_VALUE'		=> tohtml($description),
+			'HP_PRICE'			=> tohtml($price),
 			'HP_SETUPFEE'			=> tohtml($setup_fee),
-			'HP_VELUE'				=> tohtml($value),
+			'HP_VALUE'			=> tohtml($value),
 			'HP_PAYMENT'			=> tohtml($payment),
 			'HP_TOS_VALUE'			=> tohtml($tos)
 		)
@@ -216,15 +216,15 @@ function gen_data_ahp_page(&$tpl) {
 	$tpl->assign(
 		array(
 			'TR_PHP_YES'	=> ($hp_php == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_PHP_NO'		=> ($hp_php == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_PHP_NO'	=> ($hp_php == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_CGI_NO'	=> ($hp_cgi == '_no_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPF'	=> ($hp_backup == '_full_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPN'	=> ($hp_backup == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_DNS_NO'		=> ($hp_dns == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_DNS_NO'	=> ($hp_dns == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_STATUS_YES'	=> ($status) ? $cfg->HTML_CHECKED : '',
 			'TR_STATUS_NO'	=> (!$status) ? $cfg->HTML_CHECKED : ''
 		)
@@ -429,3 +429,4 @@ function save_data_to_db(&$tpl, $admin_id) {
 		}
 	}
 } // end of save_data_to_db()
+?>

@@ -84,7 +84,8 @@ $tpl->assign(
 		'TR_OPEN_TICKETS' => tr('Open tickets'),
 		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
 		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
+		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_EDIT' => tr('Edit')
 	)
 );
 
@@ -98,3 +99,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

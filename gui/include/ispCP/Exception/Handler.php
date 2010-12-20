@@ -65,7 +65,7 @@
  * <code>
  * ispCP_Exception_Handler::getInstance()->attach(
  *  new ispCP_Exception_Writer_Browser(
- *		'themes/omega_original/system-message.tpl'
+ *		'themes/omega/system-message.tpl'
  *  )
  * );
  * </code>
@@ -374,3 +374,4 @@ class ispCP_Exception_Handler implements SplSubject, IteratorAggregate, Countabl
 		return count($this->_writers);
 	}
 }
+?>

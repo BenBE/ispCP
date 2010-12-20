@@ -93,6 +93,7 @@ function gen_system_message(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new answer to your support questions', $num_question),
+				'NEW_MSG_TYPE' => 'info',
 				'TR_VIEW' => tr('View')
 			)
 		);
@@ -519,3 +520,4 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+?>

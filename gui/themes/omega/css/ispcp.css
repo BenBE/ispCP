@@ -1,0 +1,633 @@
+/**
+ * ispCP ω (OMEGA) a Virtual Hosting Control System
+ *
+ * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @version		SVN: $Id: admin-functions.php 3645 2010-11-19 16:46:52Z ShadowJumper $
+ * @link		http://isp-control.net
+ * @author		Markus Szywon / ispCP Team
+ *
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "ispCP - ISP Control Panel".
+ *
+ * The Initial Developer of the Original Code is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * isp Control Panel. All Rights Reserved.
+ */
+ 
+@CHARSET "UTF-8";
+
+* {
+	font-family: Arial, sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+a img {
+	border: none;
+}
+
+body {
+	background: url(../images/background/left_bg.jpg) repeat-y top left;
+	font-size: 0.9em;
+	min-height: 100%;
+	min-width: 850px;
+}
+
+.header {
+	background: url(../images/background/top_bg.jpg) repeat-x top left;
+	height: 89px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.header .logo {
+	background: url(../images/background/top_left_bg.jpg) no-repeat;
+}
+
+.location {
+	background: #000 url(../images/background/top_bar_bg.jpg) repeat-x top left;
+	color: #fff;
+	height: 25px;
+	line-height: 25px;
+	padding-left: 200px;
+	position: relative;
+}
+
+.footer {
+	bottom: 10px;
+	color: #fff;
+	font-size: 0.6em;
+	left: 0;
+	position: fixed;
+	text-align: center;
+	width: 197px;
+}
+
+/***********************************************************************************
+ * GENERAL INTERFACE STYLES
+ ***********************************************************************************/
+
+h2 {
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+	font-size: 1.6em;
+    font-variant: small-caps;
+    font-weight: bold;
+    position: relative;
+    left: -33px;
+    padding-left: 33px;
+    height: 33px;
+    background-repeat: no-repeat;
+    margin: 1em 0 0;
+}
+h2 span {
+    display: block;
+    border-bottom: 1px solid #ccc;
+    margin-right: -33px;
+}
+
+form {
+    margin: 0.5em 0;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    text-decoration: none;
+    color: #009;
+    outline: none;
+}
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
+dl {
+    margin-left: 2em;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+dd {
+    margin: 0;
+}
+
+.buttons {
+	margin: 0.5em 0;
+	padding-bottom: 25px;
+	text-align: right;
+}
+
+.buttons input {
+	background: transparent url(../images/background/button.jpg) center left repeat-x;
+	border-color: #eee #000 #000 #eee;
+	border-style: solid;
+	border-width: 1px;
+	color: #fff;
+	font-size: 0.9em;
+	font-weight: bold;
+	height: 21px;
+	line-height: 21px;
+	padding: 0 10px;
+}
+.buttons input:hover, .buttons input:focus {
+	color: #5cbada;
+	cursor: pointer;
+}
+
+.buttons input[type="checkbox"] {
+	height: auto;
+}
+
+.icon {
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 16px;
+	line-height: 16px;
+	margin: 0 5px;
+	padding-left: 20px;
+}
+.icon:first-child {
+	margin-right: 0;
+}
+.icon_big {
+	background-position: top left;
+	background-repeat: no-repeat;
+	display: block;
+	height: 44px;
+	line-height: 44px;
+	padding-left: 48px;
+}
+table .icon {
+    float: none;
+}
+
+.paginator {
+    margin: 0.5em 0;
+}
+.paginator .icon {
+	float: right;
+	height: 20px;
+	overflow: hidden;
+	width: 0px;
+}
+
+.notice, .warning, .error, .success, .info {
+    margin: 2em 1em 1em;
+    border: 1px solid;
+    padding: 15px 10px 15px 50px;
+    text-align: left;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+.notice {
+    color: #0f3d87;
+    border-color: #0f3d87;
+    background-color: #b0def5;
+    background-image: url(../images/messages/info.png);
+}
+
+.warning {
+    color: #954a00;
+    border-color: #954a00;
+    background-color: #ffec9c;
+    background-image: url(../images/messages/warning.png);
+}
+
+.success {
+    color: #3d7a15;
+    border-color: #3d7a15;
+    background-color: #d6f1b3;
+    background-image: url(../images/messages/success.png);
+}
+
+.error {
+    color: #ca1d11;
+    border-color: #ca1d11;
+    background-color: #fdbfad;
+    background-image: url(../images/messages/error.png);
+}
+
+.info {
+    color: #0f3d87;
+    border-color: #0f3d87;
+    background-color: #b0def5;
+    background-image: url(../images/messages/info.png);
+}
+
+.up {
+    color: #3d7a15;
+}
+
+.down {
+    color: #ca1d11;
+}
+
+.graph{
+	height : 20px;
+	background-image : url('../images/background/graph_empty.png');
+	background-position : right top;
+	background-repeat : no-repeat;
+	width : 100%;
+	max-width : 1994px;
+	position : relative;
+}
+.graph span{
+	display : block;
+	min-width : 3px;
+	height : 20px;
+	background-image : url('../images/background/graph_full.png');
+	background-repeat : no-repeat;
+	width : 0;
+	background-position : left top;
+}
+.graph strong{
+	display : block;
+	position : absolute;
+	left: 0;
+	top: 0;
+	color : #000;
+	line-height : 20px;
+	width : 100%;
+	text-align : center;
+}
+
+form table tbody td input[type="text"],
+form table tbody td input[type="password"],
+form table tbody td textarea{
+	min-width : 200px;
+}
+
+/***********************************************************************************
+ * LOCATION BAR STYLES
+ ***********************************************************************************/
+
+.location-area {
+	height: 33px;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+.location-area h1 {
+	background-repeat: no-repeat;
+	color: #fff;
+	font-size: 13px;
+	height: 33px;
+	line-height: 25px;
+	margin-left: 10px;
+	overflow: hidden;
+	padding-left: 35px;
+	white-space: nowrap;	
+	width: 150px;
+}
+.location-menu {
+    float: right;
+    list-style-type: none;
+    margin: -1px 10px 0;
+    padding: 0;
+    height: 25px;
+    line-height: 25px;
+}
+.location-menu li {
+	display: inline;
+}
+.location-menu a {
+    color: #f00;
+    font-weight: bold;
+    background: transparent no-repeat center left;
+    padding: 0 5px 0 22px;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+}
+.location-menu .help { background-image: url(../images/user/help.png); }
+.location-menu .logout { background-image: url(../images/user/logout.png); }
+.location-menu .backadmin { background-image: url(../images/user/backadmin.png); }
+
+.path {
+	display: inline;
+	list-style-type: none;
+}
+.path a {
+    color: #fff;
+    padding: 0 5px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    margin: 0;
+    font-size: 11px;
+}
+.path a:first-child {
+    padding-left: 0px;
+}
+.path a:hover {
+    color: rgb(92,186,218);
+}
+
+.path li {
+	display: inline;
+}
+.path li:before {
+    content: "\0020 \0020 \0020 \00BB \0020";
+    color: #fff;
+}
+.path li:first-child:before {
+    content: "";
+}
+
+/***********************************************************************************
+ * MAIN MENU STYLE
+ ***********************************************************************************/
+.main_menu {
+	background: transparent url(../images/background/mainmenu_left.png) no-repeat top left;
+	float: right;
+	height: 64px;
+	text-align: right;
+}
+.main_menu ul {
+	background: transparent url(../images/background/mainmenu_bg.png) repeat-x top left;
+	height: 64px;
+	line-height: 64px;
+	margin-left: 11px;
+	padding-right: 10px;
+}
+.main_menu li {
+	display: inline;
+}
+.main_menu a:hover {
+	text-decoration: none;
+}
+.main_menu .icon_link {
+	background-position: center center;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	padding: 6px;
+	width: 35px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.main_menu .icon_link:hover{
+	background-color: rgba(204, 204, 204, 0.5);
+}
+
+/***********************************************************************************
+ * LEFT MENU STYLE
+ ***********************************************************************************/
+.left_menu {
+    color: #fff;
+    width: 197px;
+    float: left;
+    padding-bottom: 60px;
+    background: transparent url(../images/background/left_top_bg.jpg) no-repeat top;
+}
+.left_menu ul {
+	list-style: none;
+	margin: 10px 0;
+}
+.left_menu li {
+	display: inline;
+}
+.left_menu a {
+    color: #fff;
+    display: block;
+    padding: 5px 18px;
+    font-weight: bold;
+    background: transparent url(../images/background/bullet.png) no-repeat 3px center;
+    margin: 2px;
+}
+.left_menu a:hover {
+	background-image: url(../images/background/bullet_hover.png);
+	color: #5cbada;
+}
+.left_menu table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+.left_menu th {
+    background: #000 url(../images/background/top_bar_bg.jpg) repeat-x top left;
+    padding: 5px 0 5px 20px;
+    text-align: left;
+    font-size: 12px;
+}
+.left_menu td {
+    padding: 5px 0 5px 20px;
+}
+
+/***********************************************************************************
+ * MAIN STYLE
+ ***********************************************************************************/
+.main {
+	font-size: 0.8em;
+    margin: 0 20px 0 240px;
+}
+.main table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.main tr {
+    border: 1px solid rgb(223,223,223);
+    background: #fff;
+}
+.main tr.line_top{
+	border-top : 3px solid #000; 
+}
+.main tr:nth-child(odd) {
+    background: #f5f5f5;
+}
+.main tfoot td,
+.main th {
+    background: #000 url(../images/background/top_bar_bg.jpg) repeat-x;
+    white-space: nowrap;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    padding: 5px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+.main th:first-child {
+    border-left: 1px solid #000;
+}
+.main th:last-child {
+    border-right: 1px solid #000;
+}
+.description th {
+    background: transparent;
+    color: #000;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+}
+.description th:first-child {
+    border-left: 1px solid #dfdfdf;
+}
+.description th:last-child {
+    border-right: 1px solid #dfdfdf;
+}
+.main th a{
+	color : #fff;
+}
+.main td {
+    padding: 5px;
+    white-space: nowrap;
+    border-top: 1px solid rgb(223,223,223);
+    border-bottom: 1px solid rgb(223,223,223);
+}
+.main fieldset {
+	border: none;
+	margin-bottom: 20px;
+}
+.main legend, .main h3 {
+	color: #000;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+/***********************************************************************************
+ * ICONS
+ ***********************************************************************************/
+
+/* Main menu icons */
+.main_menu .custom_link { background-image: url(../images/menu/custom_link.png); }
+.main_menu .database { background-image: url(../images/menu/database.png); }
+.main_menu .domains { background-image: url(../images/menu/domains.png); }
+.main_menu .email { background-image: url(../images/menu/email.png); }
+.main_menu .ftp { background-image: url(../images/menu/ftp.png); }
+.main_menu .general { background-image: url(../images/menu/general.png); }
+.main_menu .hosting_plans { background-image: url(../images/menu/hosting_plans.png); }
+.main_menu .manage_users { background-image: url(../images/menu/manage_users.png); }
+.main_menu .purchasing { background-image: url(../images/menu/purchasing.png); }
+.main_menu .settings { background-image: url(../images/menu/settings.png); }
+.main_menu .statistics { background-image: url(../images/menu/statistics.png); }
+.main_menu .support { background-image: url(../images/menu/support.png); }
+.main_menu .webtools { background-image: url(../images/menu/webtools.png); }
+.main_menu .custom_link:hover { background-image: url(../images/menu/custom_link_a.png); }
+.main_menu .database:hover { background-image: url(../images/menu/database_a.png); }
+.main_menu .domains:hover { background-image: url(../images/menu/domains_a.png); }
+.main_menu .email:hover { background-image: url(../images/menu/email_a.png); }
+.main_menu .ftp:hover { background-image: url(../images/menu/ftp_a.png); }
+.main_menu .general:hover { background-image: url(../images/menu/general_a.png); }
+.main_menu .hosting_plans:hover { background-image: url(../images/menu/hosting_plans_a.png); }
+.main_menu .manage_users:hover { background-image: url(../images/menu/manage_users_a.png); }
+.main_menu .purchasing:hover { background-image: url(../images/menu/purchasing_a.png); }
+.main_menu .settings:hover { background-image: url(../images/menu/settings_a.png); }
+.main_menu .statistics:hover { background-image: url(../images/menu/statistics_a.png); }
+.main_menu .support:hover { background-image: url(../images/menu/support_a.png); }
+.main_menu .webtools:hover { background-image: url(../images/menu/webtools_a.png); }
+
+/* Left menu heading icons */
+.location .custom_link { background-image: url(../images/menu/custom_link.png); }
+.location .database { background-image: url(../images/menu/database.png); }
+.location .domains { background-image: url(../images/menu/domains.png); }
+.location .email { background-image: url(../images/menu/email.png); }
+.location .ftp { background-image: url(../images/menu/ftp.png); }
+.location .general { background-image: url(../images/menu/general.png); }
+.location .hosting_plans { background-image: url(../images/menu/hosting_plans.png); }
+.location .manage_users { background-image: url(../images/menu/manage_users.png); }
+.location .purchasing { background-image: url(../images/menu/purchasing.png); }
+.location .settings { background-image: url(../images/menu/settings.png); }
+.location .statistics { background-image: url(../images/menu/statistics.png); }
+.location .support { background-image: url(../images/menu/support.png); }
+.location .webtools { background-image: url(../images/menu/webtools.png); }
+
+/* Content icons (table_icons) */
+.main .adminlog { background-image: url(../images/content/table_icon_adminlog.png); }
+.main .billing { background-image: url(../images/content/table_icon_billing.png); }
+.main .debugger { background-image: url(../images/content/table_icon_debugger.png); }
+.main .diskusage { background-image: url(../images/content/table_icon_diskusage.png); }
+.main .doc { background-image: url(../images/content/table_icon_doc.png); }
+.main .domains { background-image: url(../images/content/table_icon_domains.png); }
+.main .email { background-image: url(../images/content/table_icon_email.png); }
+.main .errors { background-image: url(../images/content/table_icon_errors.png); }
+.main .flash { background-image: url(../images/content/table_icon_flash.png); }
+.main .ftp { background-image: url(../images/content/table_icon_ftp.png); }
+.main .general { background-image: url(../images/content/table_icon_general.png); }
+.main .hdd { background-image: url(../images/content/table_icon_hdd.png); }
+.main .htaccess { background-image: url(../images/content/table_icon_htaccess.png); }
+.main .ip { background-image: url(../images/content/table_icon_ip.png); }
+.main .layout { background-image: url(../images/content/table_icon_layout.png); }
+.main .maintenancemode { background-image: url(../images/content/table_icon_maintenancemode.png); }
+.main .multilanguage { background-image: url(../images/content/table_icon_multilanguage.png); }
+.main .no { background-image: url(../images/content/table_icon_no.png); }
+.main .password { background-image: url(../images/content/table_icon_password.png); }
+.main .purchasing { background-image: url(../images/content/table_icon_purchasing.png); }
+.main .serverstatus { background-image: url(../images/content/table_icon_serverstatus.png); }
+.main .hosting_plans { background-image: url(../images/content/table_icon_hosting_plans.png); }
+.main .settings { background-image: url(../images/content/table_icon_settings.png); }
+.main .sql { background-image: url(../images/content/table_icon_sql.png); }
+.main .stats { background-image: url(../images/content/table_icon_stats.png); }
+.main .support { background-image: url(../images/content/table_icon_support.png); }
+.main .system_cpu { background-image: url(../images/content/table_icon_system_cpu.png); }
+.main .system_filesystem { background-image: url(../images/content/table_icon_system_filesystem.png); }
+.main .system_memory { background-image: url(../images/content/table_icon_system_memory.png); }
+.main .system_vital { background-image: url(../images/content/table_icon_system_vital.png); }
+.main .systeminfo { background-image: url(../images/content/table_icon_systeminfo.png); }
+.main .tools { background-image: url(../images/content/table_icon_tools.png); }
+.main .traffic { background-image: url(../images/content/table_icon_traffic.png); }
+.main .update { background-image: url(../images/content/table_icon_update.png); }
+.main .user { background-image: url(../images/content/table_icon_user.png); }
+.main .users { background-image: url(../images/content/table_icon_users.png); }
+.main .users2 { background-image: url(../images/content/table_icon_users2.png); }
+
+/* Content icons (link icons) */
+.i_add_user { background-image: url(../images/icons/add_user.png); }
+.i_awstatsicon { background-image: url(../images/icons/awstatsicon.png); }
+.i_backupicon { background-image: url(../images/icons/backupicon.png); }
+.i_bc_folder { background-image: url(../images/icons/bc_folder.png); }
+.i_bc_locked { background-image: url(../images/icons/bc_locked.png); }
+.i_bc_parent { background-image: url(../images/icons/bc_parent.png); }
+.i_change_password { background-image: url(../images/icons/change_password.png); }
+.i_close_interface { background-image: url(../images/icons/close_interface.png); }
+.i_database_small { background-image: url(../images/icons/database_small.png); }
+.i_db_comit { background-image: url(../images/icons/db_comit.png); }
+.i_delete { background-image: url(../images/icons/delete.png); }
+.i_details { background-image: url(../images/icons/details.png); }
+.i_disabled { background-image: url(../images/icons/disabled.png); }
+.i_document { background-image: url(../images/icons/document.png); }
+.i_domain { background-image: url(../images/icons/domain_icon.png); }
+.i_edit { background-image: url(../images/icons/edit.png); }
+.i_error { background-image: url(../images/icons/error.png); }
+.i_error401 { background-image: url(../images/icons/error401.png); }
+.i_error403 { background-image: url(../images/icons/error403.png); }
+.i_error404 { background-image: url(../images/icons/error404.png); }
+.i_error500 { background-image: url(../images/icons/error500.png); }
+.i_error503 { background-image: url(../images/icons/error503.png); }
+.i_errordocsicon { background-image: url(../images/icons/errordocsicon.png); }
+.i_filemanagericon { background-image: url(../images/icons/filemanagericon.png); }
+.i_ftp_account { background-image: url(../images/icons/ftp_account.png); }
+.i_goto { background-image: url(../images/icons/goto.png); }
+.i_help { background-image: url(../images/icons/help.png); }
+.i_hide_alias { background-image: url(../images/icons/hide_alias.png); }
+.i_htaccessicon { background-image: url(../images/icons/htaccessicon.png); }
+.i_identity { background-image: url(../images/icons/identity.png); }
+.i_locale { background-image: url(../images/icons/locale.png); }
+.i_mail_icon { background-image: url(../images/icons/mail_icon.png); }
+.i_next { background-image: url(../images/icons/next.png); }
+.i_next_gray { background-image: url(../images/icons/next_gray.png); }
+.i_ok { background-image: url(../images/icons/ok.png); }
+.i_pma { background-image: url(../images/icons/pma.png); }
+.i_prev { background-image: url(../images/icons/prev.png); }
+.i_prev_gray { background-image: url(../images/icons/prev_gray.png); }
+.i_reload { background-image: url(../images/icons/reload.png); }
+.i_show_alias { background-image: url(../images/icons/show_alias.png); }
+.i_stats { background-image: url(../images/icons/stats.png); }
+.i_user { background-image: url(../images/icons/user.png); }
+.i_users { background-image: url(../images/icons/users.png); }
+.i_webmailicon { background-image: url(../images/icons/webmailicon.png); }

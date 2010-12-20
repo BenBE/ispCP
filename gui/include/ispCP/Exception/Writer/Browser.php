@@ -156,7 +156,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 
 		$this->_pTemplate->assign(
 			array(
-				'THEME_COLOR_PATH' => '/themes/' . 'omega_original',
+				'THEME_COLOR_PATH' => '/themes/' . 'omega',
 				'BACKBUTTONDESTINATION' => $backButtonDest,
 				'MESSAGE' => $this->_message
 			)
@@ -187,3 +187,4 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 		$this->_pTemplate->parse('PAGE', 'page');
 	} // end prepareTemplate()
 }
+?>

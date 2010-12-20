@@ -1,6 +1,14 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-20 Markus Szywon
+	- GUI:
+		* Replaced ispCP theme with new XHTML theme
+		* New login theme for Squirrelmail
+		* New #701: Add ability to sort table lists (clickable column headers)
+		* New #1807: General Information - Indexes don't make sense
+		* Fixed #456: Success messages should not be red
+
 2010-12-19 Jochen Manz
 	- DISTS: 
 		* Updated BSDmakefile

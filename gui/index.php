@@ -71,7 +71,7 @@ $tpl = new ispCP_pTemplate();
 
 if (($cfg->MAINTENANCEMODE
 		|| ispCP_Update_Database::getInstance()->checkUpdateExists())
-	&& !isset($_GET['admin']) ) {
+	&& !isset($_POST['admin']) ) {
 
 	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
 	$tpl->assign(

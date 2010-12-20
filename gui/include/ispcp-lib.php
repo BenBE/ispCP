@@ -80,7 +80,7 @@ ispCP_Registry::setAlias(
 ispCP_Registry::get('exceptionHandler')->attach(
 	new ispCP_Exception_Writer_Browser(
 		// hardcoded here but will be improved later
-		'themes/omega_original/system-message.tpl'
+		'themes/omega/system-message.tpl'
 	)
 );
 

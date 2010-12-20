@@ -116,7 +116,7 @@ $tpl->assign(
 /*
  * Dynamic page process
  */
-if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
+if (isset($_POST['uaction']) && ('edit_plan' === $_POST['uaction'])) {
 	// Process data
 	if (check_data_iscorrect($tpl)) { // Save data to db
 		save_data_to_db();
@@ -168,7 +168,7 @@ function restore_form(&$tpl) {
 			'HP_DISK_VALUE' => clean_input($_POST['hp_disk'], true),
 			'HP_PRICE' => clean_input($_POST['hp_price'], true),
 			'HP_SETUPFEE' => clean_input($_POST['hp_setupfee'], true),
-			'HP_CURRENCY' => clean_input($_POST['hp_currency'], true),
+			'HP_VALUE' => clean_input($_POST['hp_value'], true),
 			'HP_PAYMENT' => clean_input($_POST['hp_payment'], true),
 			'HP_TOS_VALUE' => clean_input($_POST['hp_tos'], true),
 
@@ -265,7 +265,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 			'HP_DESCRIPTION_VALUE' 	=> tohtml($description),
 			'HP_PRICE' 				=> tohtml($price),
 			'HP_SETUPFEE' 			=> tohtml($setup_fee),
-			'HP_CURRENCY' 			=> tohtml($value),
+			'HP_VALUE' 			=> tohtml($value),
 			'READONLY' 				=> tohtml($readonly),
 			'DISBLED' 				=> tohtml($disabled),
 			'HP_PAYMENT'			=> tohtml($payment),
@@ -406,7 +406,7 @@ function save_data_to_db() {
 	$description = clean_input($_POST['hp_description']);
 	$price = clean_input($_POST['hp_price']);
 	$setup_fee = clean_input($_POST['hp_setupfee']);
-	$value = clean_input($_POST['hp_currency']);
+	$value = clean_input($_POST['hp_value']);
 	$payment = clean_input($_POST['hp_payment']);
 	$status = clean_input($_POST['status']);
 	$tos = clean_input($_POST['hp_tos']);
@@ -445,3 +445,4 @@ function save_data_to_db() {
 	user_goto('hosting_plan.php');
 
 } // end of save_data_to_db()
+?>

@@ -142,7 +142,7 @@ function gen_empty_ahp_page(&$tpl) {
 					'HP_TRAFF_VALUE'		=> '',
 					'HP_PRICE'				=> '',
 					'HP_SETUPFEE'			=> '',
-					'HP_VELUE'				=> '',
+					'HP_VALUE'				=> '',
 					'HP_PAYMENT'			=> '',
 					'HP_DESCRIPTION_VALUE'	=> '',
 					'HP_DISK_VALUE'			=> '',
@@ -195,7 +195,7 @@ function gen_data_ahp_page(&$tpl) {
 					'HP_DESCRIPTION_VALUE'	=> tohtml($description),
 					'HP_PRICE'				=> tohtml($price),
 					'HP_SETUPFEE'			=> tohtml($setup_fee),
-					'HP_VELUE'				=> tohtml($value),
+					'HP_VALUE'				=> tohtml($value),
 					'HP_PAYMENT'			=> tohtml($payment),
 					'HP_TOS_VALUE'			=> tohtml($tos)
 			)
@@ -388,3 +388,4 @@ function save_data_to_db(&$tpl, $admin_id) {
 		user_goto('hosting_plan.php');
 	}
 } // end of save_data_to_db()
+?>

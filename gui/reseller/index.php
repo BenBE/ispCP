@@ -77,6 +77,7 @@ function gen_system_message(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new support questions', $num_question),
+				'NEW_MSG_TYPE' => 'info',
 				'TR_VIEW' => tr('View')
 			)
 		);
@@ -223,32 +224,32 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 			'RESELLER_NAME' => tohtml($reseller_name),
 			'TRAFF_PERCENT' => $traff_percent,
 			'TRAFF_MSG' => ($rtraff_max)
-				? tr('%1$s / %2$s of <strong>%3$s</strong>', sizeit($utraff_current), sizeit($rtraff_current), sizeit($rtraff_max))
-				: tr('%1$s / %2$s of <strong>unlimited</strong>', sizeit($utraff_current), sizeit($rtraff_current)),
+				? tr('%1$s used / %2$s assigned of <strong>%3$s</strong>', sizeit($utraff_current), sizeit($rtraff_current), sizeit($rtraff_max))
+				: tr('%1$s used / %2$s assigned of <strong>unlimited</strong>', sizeit($utraff_current), sizeit($rtraff_current)),
 			'DISK_MSG' => ($rdisk_max)
-				? tr('%1$s / %2$s of <strong>%3$s</strong>', sizeit($udisk_current), sizeit($rdisk_current), sizeit($rdisk_max))
-				: tr('%1$s / %2$s of <strong>unlimited</strong>', sizeit($udisk_current), sizeit($rdisk_current)),
+				? tr('%1$s used / %2$s assigned of <strong>%3$s</strong>', sizeit($udisk_current), sizeit($rdisk_current), sizeit($rdisk_max))
+				: tr('%1$s used / %2$s assigned of <strong>unlimited</strong>', sizeit($udisk_current), sizeit($rdisk_current)),
 			'DMN_MSG' => ($rdmn_max)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $udmn_current, $rdmn_current, $rdmn_max)
-				: tr('%1$d / %2$d of <strong>unlimited</strong>', $udmn_current, $rdmn_current),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $udmn_current, $rdmn_current, $rdmn_max)
+				: tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $udmn_current, $rdmn_current),
 			'SUB_MSG' => ($rsub_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usub_current, $rsub_current, $rsub_max)
-				: (($rsub_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usub_current, $rsub_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $usub_current, $rsub_current, $rsub_max)
+				: (($rsub_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $usub_current, $rsub_current)),
 			'ALS_MSG' => ($rals_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $uals_current, $rals_current, $rals_max)
-				: (($rals_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $uals_current, $rals_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $uals_current, $rals_current, $rals_max)
+				: (($rals_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $uals_current, $rals_current)),
 			'MAIL_MSG' => ($rmail_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $umail_current, $rmail_current, $rmail_max)
-				: (($rmail_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $umail_current, $rmail_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $umail_current, $rmail_current, $rmail_max)
+				: (($rmail_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $umail_current, $rmail_current)),
 			'FTP_MSG' => ($rftp_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $uftp_current, $rftp_current, $rftp_max)
-				: (($rftp_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $uftp_current, $rftp_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $uftp_current, $rftp_current, $rftp_max)
+				: (($rftp_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $uftp_current, $rftp_current)),
 			'SQL_DB_MSG' => ($rsql_db_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usql_db_current, $rsql_db_current, $rsql_db_max)
-				: (($rsql_db_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usql_db_current, $rsql_db_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $usql_db_current, $rsql_db_current, $rsql_db_max)
+				: (($rsql_db_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $usql_db_current, $rsql_db_current)),
 			'SQL_USER_MSG' => ($rsql_user_max > 0)
-				? tr('%1$d / %2$d of <strong>%3$d</strong>', $usql_user_current, $rsql_user_current, $rsql_user_max)
-				: (($rsql_user_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d / %2$d of <strong>unlimited</strong>', $usql_user_current, $rsql_user_current)),
+				? tr('%1$d used / %2$d assigned of <strong>%3$d</strong>', $usql_user_current, $rsql_user_current, $rsql_user_max)
+				: (($rsql_user_max === "-1") ? tr('<strong>disabled</strong>') : tr('%1$d used / %2$d assigned of <strong>unlimited</strong>', $usql_user_current, $rsql_user_current)),
 			'EXTRAS' => ''
 		)
 	);

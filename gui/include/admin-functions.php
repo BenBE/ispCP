@@ -794,10 +794,10 @@ function gen_user_list(&$tpl, &$sql) {
 				|| $rs->fields['domain_status'] == $cfg->ITEM_TODISABLED_STATUS
 				|| $rs->fields['domain_status'] == $cfg->ITEM_DELETE_STATUS) {
 
-				$status_icon = 'reload.png';
+				$status_icon = 'reload';
 				$status_url = '#';
 			} else {
-				$status_icon = 'error.png';
+				$status_icon = 'error';
 				$status_url = 'domain_details.php?domain_id=' .
 					$rs->fields['domain_id'];
 			}
@@ -1610,7 +1610,9 @@ function write_log($msg, $level = E_USER_WARNING) {
 		$client_ip = "unknown";
 	}
 
-	$msg = htmlentities($msg, ENT_QUOTES, tr('encoding'), false).'<br /><small>User IP: ' . $client_ip . '</small>';
+	$msg = htmlentities($msg, ENT_QUOTES, tr('encoding'), false);
+
+	$msg = replace_html($msg, ENT_COMPAT, tr('encoding')).'<br /><small>User IP: '.$client_ip.'</small>';
 
 	$query = "
 		INSERT INTO

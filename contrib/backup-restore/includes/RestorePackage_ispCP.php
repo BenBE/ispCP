@@ -235,7 +235,7 @@ class RestorePackage_ispCP extends BaseController
 		} else {
 			$this->logMessage('Reseller user properties not found: '.$this->reseller_id, ISPCP_LOG_ERROR);
 			$this->reseller_prop_lang = 'lang_EnglishBritain';
-			$this->reseller_prop_layout = 'omega_original';
+			$this->reseller_prop_layout = 'omega';
 			$this->reseller_prop_logo = 0;
 		}
 	}

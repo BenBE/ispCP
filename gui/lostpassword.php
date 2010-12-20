@@ -77,14 +77,14 @@ if (isset($_GET['key']) && !empty($_GET['key'])) {
 		$tpl->assign(
 			array(
 				'TR_MESSAGE' => tr('Your new password has been sent.'),
-				'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
+				'TR_LINK' => '<a href="index.php" class="button">' . tr('Login') . '</a>'
 			)
 		);
 	} else {
 		$tpl->assign(
 			array(
 				'TR_MESSAGE' => tr('New password could not be sent.'),
-				'TR_LINK' => '<a class="link" href="index.php">' . tr('Login') . '</a>'
+				'TR_LINK' => '<a href="index.php" class="button">' . tr('Login') . '</a>'
 			)
 		);
 	}
@@ -103,14 +103,14 @@ if (isset($_GET['key']) && !empty($_GET['key'])) {
 			$tpl->assign(
 				array(
 					'TR_MESSAGE' => tr('Your password request has been initiated. You will receive an email with instructions to complete the process. This reset request will expire in %s minutes.', $cfg->LOSTPASSWORD_TIMEOUT),
-					'TR_LINK' => '<a class="link" href="index.php">' . tr('Back') . '</a>'
+					'TR_LINK' => '<a href="index.php" class="button">' . tr('Back') . '</a>'
 				)
 			);
 		} else {
 			$tpl->assign(
 				array(
 					'TR_MESSAGE' => tr('User or security code was incorrect!'),
-					'TR_LINK' => '<a class="link" href="lostpassword.php">' . tr('Retry') . '</a>'
+					'TR_LINK' => '<a href="lostpassword.php" class="button">' . tr('Retry') . '</a>'
 				)
 			);
 		}

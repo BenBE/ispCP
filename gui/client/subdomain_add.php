@@ -130,7 +130,7 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
 			$tpl->assign(
 				array(
 					'READONLY_FORWARD' => '',
-					'DISABLE_FORWARD' => '',
+					'DISABLE_FORWARD' => ''
 				)
 			);
 		} else {
@@ -139,16 +139,16 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
 			$forward = '';
 			$tpl->assign(
 				array(
-					'READONLY_FORWARD' => ' readonly',
-					'DISABLE_FORWARD' => ' disabled="disabled"',
+					'READONLY_FORWARD'	=> $cfg->HTML_READONLY,
+					'DISABLE_FORWARD'	=> $cfg->HTML_DISABLED
 				)
 			);
 		}
 		$tpl->assign(
 			array(
-				'HTTP_YES' => ($forward_prefix === 'http://') ? 'selected="selected"' : '',
-				'HTTPS_YES' => ($forward_prefix === 'https://') ? 'selected="selected"' : '',
-				'FTP_YES' => ($forward_prefix === 'ftp://') ? 'selected="selected"' : ''
+				'HTTP_YES'		=> ($forward_prefix === 'http://') ? $cfg->HTML_SELECTED : '',
+				'HTTPS_YES'		=> ($forward_prefix === 'https://') ? $cfg->HTML_SELECTED : '',
+				'FTP_YES'		=> ($forward_prefix === 'ftp://') ? $cfg->HTML_SELECTED : ''
 			)
 		);
 		$subdomain_name = clean_input($_POST['subdomain_name']);
@@ -159,8 +159,11 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
 		$forward = '';
 		$tpl->assign(
 			array(
-				'READONLY_FORWARD' => ' readonly',
-				'DISABLE_FORWARD' => ' disabled="disabled"'
+				'READONLY_FORWARD'	=> $cfg->HTML_READONLY,
+				'DISABLE_FORWARD'	=> $cfg->HTML_DISABLED,
+				'HTTP_YES'		=> '',
+				'HTTPS_YES'		=> '',
+				'FTP_YES'		=> ''
 			)
 		);
 	}
@@ -580,12 +583,6 @@ if (!is_xhr()) {
 		header('Location: index.php');
 	}
 
-	$tpl->assign(
-		array(
-			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain')
-		)
-	);
-
 	// static page messages.
 
 	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
@@ -597,6 +594,7 @@ if (!is_xhr()) {
 
 	$tpl->assign(
 		array(
+			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain')
 			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
 			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
 			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),

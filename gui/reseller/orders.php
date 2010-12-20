@@ -178,7 +178,7 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 					. "&nbsp;" . tohtml($rs->fields['city'])
 					. "&nbsp;" . tohtml($rs->fields['state'])
 					. "&nbsp;" . tohtml($rs->fields['country']);
-				$tpl->assign('LINK', 'orders_detailst.php?order_id=' . $rs->fields['id']);
+				$tpl->assign('LINK', 'orders_details.php?order_id=' . $rs->fields['id']);
 			}
 			$tpl->assign(
 				array(
@@ -239,3 +239,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
+?>
