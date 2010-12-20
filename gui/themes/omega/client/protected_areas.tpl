@@ -87,8 +87,4 @@
 			<input type="button" name="protected_user_manage" id="protected_user_manage" value="{TR_MANAGE_USRES}" />
 		</div>
 	</div>
-	<div class="footer">
-		ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
-	</div>
-</body>
-</html>
+<!-- INCLUDE "footer.tpl" -->

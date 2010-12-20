@@ -221,8 +221,4 @@
 			<!-- EDP: scroll_prev -->
 		</div>
 	</div>
-	<div class="footer">
-		ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
-	</div>
-</body>
-</html>
+<!-- INCLUDE "footer.tpl" -->

@@ -120,8 +120,4 @@
 			<input type="button" name="protected_group_add" id="protected_group_add" value="{TR_ADD_GROUP}" />
 		</div>
 	</div>
-	<div class="footer">
-		ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
-	</div>
-</body>
-</html>
+<!-- INCLUDE "footer.tpl" -->

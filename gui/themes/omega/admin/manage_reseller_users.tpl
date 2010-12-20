@@ -84,8 +84,4 @@
 			<!-- EDP: dst_reseller -->
 		</form>
 	</div>
-	<div class="footer">
-		ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
-	</div>
-</body>
-</html>
+<!-- INCLUDE "footer.tpl" -->
