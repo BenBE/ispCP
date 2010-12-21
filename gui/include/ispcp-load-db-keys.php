@@ -24,12 +24,12 @@
 
 /**
  * Load ispCP database encrypted password
- * @param string $dir directory of key configuration file
+ * @param string $ispcpKeyFile ispCP key file
  * @return array element 0 = db_pass_key, element 1 = db_pass_iv
  */
-function ispCP_loadDBKeys($dir) {
+function ispCP_loadDBKeys($ispcpKeyFile) {
 
-	$lines = file($dir . 'ispcp-keys.conf');
+	$lines = file($ispcpKeyFile);
 	foreach ($lines as $line) {
 		$pos = strpos($line, '=');
 		if ($pos > 0) {
@@ -47,29 +47,25 @@ function ispCP_loadDBKeys($dir) {
 	return array($db_pass_key, $db_pass_iv);
 }
 
-function ispCP_getEtcDir() {
-	$ispcp_etc_dir = '';
-	$_tmp = ini_get('open_basedir');
-	if (!empty($_tmp)) {
-		$dirs = explode(':', $_tmp);
-		foreach ($dirs as $dir) {
-			if ($dir == '/etc/ispcp/'
-				|| $dir == '/usr/local/etc/ispcp/'
-			) {
-				$ispcp_etc_dir = $dir;
-				break;
-			}
-		}
+function ispCP_getKeyFile() {
+	switch (PHP_OS) {
+			case 'FreeBSD':
+			case 'OpenBSD':
+			case 'NetBSD':
+					$ispcp_etc_dir = '/usr/local/etc/ispcp/ispcp-keys.conf';
+					break;
+			default:
+					$ispcp_etc_dir = '/etc/ispcp/ispcp-keys.conf';
 	}
 
 	return $ispcp_etc_dir;
 }
 
-$ispcp_etc_dir = ispCP_getEtcDir();
+$ispcpKeyFile = ispCP_getKeyFile();
 
-if (file_exists($ispcp_etc_dir . 'ispcp-keys.conf')) {
+if (file_exists($ispcpKeyFile)) {
 	// load relevant keys from new configuration file
-	list($ispcp_db_pass_key, $ispcp_db_pass_iv) = ispCP_loadDBKeys($ispcp_etc_dir);
+	list($ispcp_db_pass_key, $ispcp_db_pass_iv) = ispCP_loadDBKeys($ispcpKeyFile);
 } else {
 	// old style include
 	require_once INCLUDEPATH . '/ispcp-db-keys.php';

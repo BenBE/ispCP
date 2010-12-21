@@ -73,7 +73,7 @@ function get_user_gui_props(&$sql, $user_id) {
 /**
  * Parses the output of the $_SESSION variable to the template, if exists.
  *
- * @param reference $tpl    the TPL object
+ * @param ispCP_pTemplate $tpl the TPL object
  */
 function gen_page_message(&$tpl) {
 

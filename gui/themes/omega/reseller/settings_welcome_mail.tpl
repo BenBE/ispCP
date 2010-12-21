@@ -36,7 +36,7 @@
 			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
 		</ul>
 		<ul class="path">
-			<li><a href="users.php">{TR_MENU_MANAGE_USERS}</a></li>
+			<li><a href="users.php">{TR_MENU_OVERVIEW}</a></li>
 			<li><a>{TR_MENU_E_MAIL_SETUP}</a></li>
 		</ul>
 	</div>

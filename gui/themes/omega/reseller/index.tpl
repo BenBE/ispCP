@@ -103,6 +103,7 @@
 				<td>{DISK_MSG}</td>
 			</tr>
 		</table>
+		<!-- EDP: props_list -->
 		<!-- BDP: traff_warn -->
 		<div class="warning">{TR_TRAFFIC_WARNING}</div>
 		<!-- EDP: traff_warn -->

@@ -98,6 +98,7 @@
 				<td>{SQL_USERS}</td>
 			</tr>
 		</table>
+		<!-- EDP: props_list -->
 		<h2 class="traffic"><span>{TR_SERVER_TRAFFIC}</span></h2>
 		<!-- BDP: traff_warn -->
 		<div class="warning">{TR_TRAFFIC_WARNING}</div>
