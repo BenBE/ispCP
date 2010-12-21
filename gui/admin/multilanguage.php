@@ -511,27 +511,20 @@ $tpl->define_dynamic('lang_delete_show', 'lang_row');
 $tpl->define_dynamic('lang_radio', 'lang_row');
 $tpl->define_dynamic('lang_def', 'lang_row');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_I18N_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation')
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'upload_language') {
 	importLanguageFile();
 }
 
 showLang($tpl);
 
-/**
- * static page messages
- */
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation'),
 		'TR_MULTILANGUAGE' => tr('Internationalisation'),
 		'TR_INSTALLED_LANGUAGES' => tr('Installed languages'),
 		'TR_LANGUAGE' => tr('Language'),

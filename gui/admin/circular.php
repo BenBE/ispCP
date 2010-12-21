@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/circular.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CIRCULAR_PAGE_TITLE' => tr('ispCP - Admin - Email Marketing')
-	)
-);
-
 function gen_page_data(&$tpl, &$sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
@@ -217,16 +211,14 @@ function send_circular_email($to, $from, $subject, $message) {
 	mail($to, $subject, $message, $headers);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin - Email Marketing'),
 		'TR_CIRCULAR' => tr('Email marketing'),
 		'TR_CORE_DATA' => tr('Core data'),
 		'TR_SEND_TO' => tr('Send message to'),

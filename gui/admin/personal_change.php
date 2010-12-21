@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/personal_change.tpl')
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Admin/Change Personal Data')
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_admin_personal_data($sql, $_SESSION['user_id']);
 }
@@ -154,16 +148,14 @@ function update_admin_personal_data(&$sql, $user_id) {
 	set_page_message(tr('Personal data updated successfully!'), 'success');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
 		'TR_PERSONAL_DATA' => tr('Personal data'),
 		'TR_FIRST_NAME' => tr('First name'),

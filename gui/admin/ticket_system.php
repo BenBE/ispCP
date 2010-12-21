@@ -44,14 +44,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE' => tr('ispCP - Client/Enable Mail Autoresponder')
-	)
-);
-
 // dynamic page data
 
 if (!hasTicketSystem()) {
@@ -73,6 +65,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Enable Mail Autoresponder'),
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'	=> tr('Support tickets'),
 		'TR_TICKET_FROM'	=> tr('From'),

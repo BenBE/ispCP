@@ -40,7 +40,7 @@ $tpl->define_dynamic('page_message', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_ADD_USER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User')
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User')
 	)
 );
 
@@ -280,11 +280,7 @@ function check_user_data() {
 	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');

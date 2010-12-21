@@ -44,12 +44,6 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('clear_log', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADMIN_LOG_PAGE_TITLE'	=> tr('ispCP - Admin/Admin Log')
-	)
-);
-
 function generate_page(&$tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -249,11 +243,8 @@ function clear_log() {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
@@ -263,6 +254,7 @@ generate_page ($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Admin/Admin Log'),
 		'TR_ADMIN_LOG'				=> tr('Admin Log'),
 		'TR_CLEAR_LOG'				=> tr('Clear log'),
 		'TR_DATE'					=> tr('Date'),

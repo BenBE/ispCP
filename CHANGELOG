@@ -1,6 +1,10 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-21 Markus Szywon
+	- GUI:
+		* Template improvements part II
+
 2010-12-21 Thomas Wacker
 	- GUI/SETUP:
 		* Small bugfixes and improvements

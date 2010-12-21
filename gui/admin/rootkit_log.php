@@ -40,12 +40,6 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('service_status', 'page');
 $tpl->define_dynamic('props_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ROOTKIT_LOG_PAGE_TITLE' => tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker')
-	)
-);
-
 $blocksCount = 0;
 
 // Check Log File
@@ -128,17 +122,15 @@ foreach ($config_entries as $config_entry) {
 	$tpl->parse('PROPS_LIST', '.props_list');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
-		'TR_ROOTKIT_LOG' => tr('Anti-Rootkits Tools Log Checker'),
+		'TR_PAGE_TITLE' => tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker'),
+		'TR_ROOTKIT_LOG' => tr('Anti-Rootkits Tools Log Checker')
 	)
 );
 

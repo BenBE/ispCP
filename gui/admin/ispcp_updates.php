@@ -41,12 +41,6 @@ $tpl->define_dynamic('update_message', 'page');
 $tpl->define_dynamic('update_infos', 'page');
 $tpl->define_dynamic('table_header', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System')
-	)
-);
-
 /* BEGIN common functions */
 function get_update_infos(&$tpl) {
 
@@ -85,17 +79,14 @@ function get_update_infos(&$tpl) {
 }
 /* END system functions */
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
 		'TR_UPDATES_TITLE' => tr('ispCP updates'),
 		'TR_AVAILABLE_UPDATES' => tr('Available ispCP updates'),
 		'TR_MESSAGE' => tr('No new ispCP updates available'),

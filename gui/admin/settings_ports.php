@@ -456,12 +456,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 	$tpl->define_dynamic('port_delete_link', 'service_ports');
 	$tpl->define_dynamic('port_delete_show', 'service_ports');
 
-	$tpl->assign(
-		array(
-			'TR_ADMIN_SETTINGS_PAGE_TITLE' => tr('ispCP - Admin/Settings')
-		)
-	);
-
 	gen_admin_mainmenu(
 		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl'
 	);
@@ -471,6 +465,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 
 	$tpl->assign(
 		array(
+			'TR_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
 			'TR_ACTION' => tr('Action'),
 			'TR_UDP' => tr('udp'),
 			'TR_TCP' => tr('tcp'),

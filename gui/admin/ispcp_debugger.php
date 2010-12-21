@@ -711,17 +711,8 @@ $tpl->define_dynamic('subdomain_alias_list', 'page');
 $tpl->define_dynamic('mail_list', 'page');
 $tpl->define_dynamic('htaccess_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ISPCP_DEBUGGER_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System')
-	)
-);
+// static page messages
 
-/*
- *
- * static page messages.
- *
- */
 gen_admin_mainmenu(
 	$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl'
 );
@@ -830,6 +821,7 @@ $errors += get_error_htaccess($sql, $tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
 		'TR_DEBUGGER_TITLE' => tr('ispCP debugger'),
 		'TR_DOMAIN_ERRORS' => tr('Domain errors'),
 		'TR_ALIAS_ERRORS' => tr('Domain alias errors'),

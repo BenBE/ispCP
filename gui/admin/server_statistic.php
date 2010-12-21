@@ -42,12 +42,6 @@ $tpl->define_dynamic('month_list', 'page');
 $tpl->define_dynamic('year_list', 'page');
 $tpl->define_dynamic('day_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_STATICSTICS_PAGE_TITLE' => tr('ispCP - Admin/Server statistics')
-	)
-);
-
 global $month, $year;
 
 if (isset($_GET['month']) && isset($_GET['year'])) {
@@ -205,11 +199,8 @@ function generate_page(&$tpl) {
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
@@ -219,6 +210,7 @@ generate_page($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
 		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

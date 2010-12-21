@@ -46,12 +46,6 @@ $tpl->define_dynamic('card_list', 'page');
 $tpl->define_dynamic('ip_delete_show', 'ip_row');
 $tpl->define_dynamic('ip_delete_link', 'ip_row');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_IP_MANAGE_PAGE_TITLE'	=> tr('ispCP - Admin/IP manage')
-	)
-);
-
 function gen_ip_action($ip_id, $status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -257,11 +251,8 @@ function show_Network_Cards(&$tpl, &$interfaces) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
@@ -273,6 +264,7 @@ show_IPs($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/IP manage')
 		'TR_SETTINGS'		=> tr('Settings'),
 		'MANAGE_IPS'		=> tr('Manage IPs'),
 		'TR_AVAILABLE_IPS'	=> tr('Available IPs'),

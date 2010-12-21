@@ -330,11 +330,6 @@ $tpl->define_dynamic('button_list', 'page');
 $tpl->define_dynamic('add_button', 'page');
 $tpl->define_dynamic('edit_button', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CUSTOM_MENUS_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus')
-	)
-);
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
@@ -354,6 +349,7 @@ gen_button_list($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
 		'TR_TITLE_CUSTOM_MENUS' => tr('Manage custom menus'),
 		'TR_ADD_NEW_BUTTON' => tr('Add new button'),
 		'TR_BUTTON_NAME' => tr('Button name'),

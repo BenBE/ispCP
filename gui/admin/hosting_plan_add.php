@@ -43,23 +43,14 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_add.tpl'
 $tpl->define_dynamic('page_message', 'page');
 
 
-$tpl->assign(
-	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Administrator/Add hosting plan')
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
 
 $tpl->assign(
 		array(
+				'TR_PAGE_TITLE'				=> tr('ispCP - Administrator/Add hosting plan'),
 				'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
 				'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
 				'TR_TEMPLATE_NAME'			=> tr('Template name'),

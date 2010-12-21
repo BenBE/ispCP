@@ -40,14 +40,6 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('tickets_list', 'page');
 $tpl->define_dynamic('tickets_item', 'tickets_list');
 
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_VIEW_TICKET_PAGE_TITLE' => tr('ispCP - Client: Support System: View Ticket')
-	)
-);
-
 // dynamic page data
 
 if (!hasTicketSystem()) {
@@ -107,6 +99,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client: Support System: View Ticket'),
 		'TR_SUPPORT_SYSTEM' => tr('ispCP - Admin: Support System: View Ticket'),
 		'TR_VIEW_SUPPORT_TICKET' => tr('View support ticket'),
 		'TR_TICKET_URGENCY' => tr('Priority'),

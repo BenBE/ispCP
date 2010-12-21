@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_status.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('service_status', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_STATUS_PAGE_TITLE' => tr('ispCP Admin / System Tools / Server Status')
-	)
-);
-
 /*
  * Site functions
  */
@@ -218,11 +212,13 @@ function get_server_status(&$tpl, &$sql) {
 }
 
 // static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP Admin / System Tools / Server Status'),
 		'TR_HOST' => tr('Host'),
 		'TR_SERVICE' => tr('Service'),
 		'TR_STATUS' => tr('Status'),

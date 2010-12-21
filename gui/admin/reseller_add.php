@@ -43,12 +43,6 @@ $tpl->define_dynamic('rsl_ip_message', 'page');
 $tpl->define_dynamic('rsl_ip_list', 'page');
 $tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADD_RESELLER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller')
-	)
-);
-
 /**
  * Get Server IPs
  */
@@ -506,6 +500,7 @@ function check_user_data() {
 }
 
 // static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -515,6 +510,7 @@ add_reseller($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
 		'TR_ADD_RESELLER' => tr('Add reseller'),
 		'TR_CORE_DATA' => tr('Core data'),
 		'TR_USERNAME' => tr('Username'),

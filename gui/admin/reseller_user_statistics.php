@@ -73,12 +73,6 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics')
-	)
-);
-
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 	global $rid;
@@ -306,11 +300,13 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 }
 
 // static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
 		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),

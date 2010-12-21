@@ -43,19 +43,11 @@ if ($cfg->HOSTING_PLANS_LEVEL && $cfg->HOSTING_PLANS_LEVEL !== 'admin') {
 	user_goto('manage_users.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE' => tr('ispCP - Admin/Edit Domain')
-	)
-);
+// static page messages
 
-/*
- *
- * static page messages.
- *
- */
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Edit Domain'),
 		'TR_EDIT_DOMAIN'		=> tr('Edit Domain'),
 		'TR_DOMAIN_PROPERTIES'	=> tr('Domain properties'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),

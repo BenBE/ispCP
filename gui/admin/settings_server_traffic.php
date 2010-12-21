@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_server_traff
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_SERVER_TRAFFIC_SETTINGS_TITLE' => tr('ispCP - Admin/Server Traffic Settings')
-	)
-);
-
 /**
  * @todo What's about the outcommented code?
  */
@@ -115,16 +109,14 @@ function generate_server_data(&$tpl, &$sql) {
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server Traffic Settings'),
 		'TR_MODIFY' => tr('Modify'),
 		'TR_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
 		'TR_SET_SERVER_TRAFFIC_SETTINGS' => tr('Set server traffic (0 for unlimited)'),

@@ -74,11 +74,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 }
 
 // static page messages
-$tpl->assign(
-	array(
-		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Admin/Lostpw email setup')
-	)
-);
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
@@ -87,6 +82,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Lostpw email setup')
 		'TR_LOSTPW_EMAIL' => tr('Lost password e-mail'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),

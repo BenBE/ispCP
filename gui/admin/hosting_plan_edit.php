@@ -42,9 +42,7 @@ $tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
-/**
- * static page messages.
- */
+// static page messages
 
 global $hpid;
 
@@ -55,12 +53,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Administrator/Edit hosting plan')
-	)
-);
-
-$tpl->assign(
-	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Administrator/Edit hosting plan'),
 		'TR_HOSTING PLAN PROPS' => tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME' => tr('Template name'),
 		'TR_MAX_SUBDOMAINS' => tr(

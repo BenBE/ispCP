@@ -244,11 +244,7 @@ if ($edit_id == $_SESSION['user_id']) {
 	user_goto('personal_change.php');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 $query = "
 	SELECT
@@ -294,7 +290,7 @@ if (isset($_POST['genpass'])) {
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_EDIT_USER_PAGE_TITLE'	=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
+		'TR_PAGE_TITLE'					=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
 		'TR_EMPTY_OR_WORNG_DATA'		=> tr('Empty data or wrong field!'),
 		'TR_PASSWORD_NOT_MATCH'			=> tr("Passwords don't match!"),
 		'TR_EDIT_ADMIN'					=> ($rs->fields['admin_type'] == 'admin' ? tr('Edit admin') : tr('Edit user')),

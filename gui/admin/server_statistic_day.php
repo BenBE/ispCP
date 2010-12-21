@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic_day.
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hour_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_DAY_STATS_PAGE_TITLE' => tr('ispCP - Admin/Server day stats')
-	)
-);
-
 global $month, $year, $day;
 
 if (isset($_GET['month']) && isset($_GET['year']) && isset($_GET['day'])
@@ -181,16 +175,14 @@ function generate_page(&$tpl) {
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
 		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_SERVER_DAY_STATISTICS' => tr('Server day statistics'),
 		'TR_MONTH' => tr('Month:'),
@@ -209,7 +201,6 @@ $tpl->assign(
 		'TR_ALL_OUT' => tr('All out'),
 		'TR_ALL' => tr('All'),
 		'TR_BACK' => tr('Back'),
-
 		'MONTH' => $month,
 		'YEAR' => $year,
 		'DAY' => $day

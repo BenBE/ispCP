@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/password_change.tpl')
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Admin/Change Password')
-	)
-);
-
 function update_password() {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -127,16 +121,14 @@ function check_udata($id, $pass) {
 	return false;
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Change Password'),
 		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
 		'TR_PASSWORD_DATA' 		=> tr('Password data'),
 		'TR_PASSWORD' 			=> tr('Password'),

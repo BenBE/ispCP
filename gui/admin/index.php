@@ -207,13 +207,11 @@ function gen_server_trafic(&$tpl) {
 	);
 }
 
-/*
- * static page messages
- */
+// static page messages
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Admin/Main Index')
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Main Index')
 	)
 );
 

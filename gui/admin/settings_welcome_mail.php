@@ -65,23 +65,14 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Email setup')
-	)
-);
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),

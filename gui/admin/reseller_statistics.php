@@ -48,12 +48,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_RESELLER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller statistics')
-	)
-);
-
 $year = 0;
 $month = 0;
 
@@ -273,11 +267,7 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 	$tpl->parse('RESELLER_ENTRY', '.reseller_entry');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 $crnt_month = '';
 $crnt_year = '';
@@ -289,6 +279,7 @@ generate_page ($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller statistics'),
 		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

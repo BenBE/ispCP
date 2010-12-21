@@ -196,17 +196,7 @@ function update_reseller_owner($sql) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_RESELLER_OWNERS_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Reseller assignment')
-	)
-);
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
@@ -217,6 +207,7 @@ gen_reseller_table($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Reseller assignment'),
 		'TR_RESELLER_ASSIGNMENT' => tr('Reseller assignment'),
 		'TR_RESELLER_USERS' => tr('Reseller users'),
 		'TR_NUMBER' => tr('No.'),

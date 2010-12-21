@@ -40,12 +40,6 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('user_session', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_SESSIONS_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions')
-	)
-);
-
 function kill_session($sql) {
 
 	if (isset($_GET['kill']) && $_GET['kill'] !== ''
@@ -112,11 +106,8 @@ function gen_user_sessions(&$tpl, &$sql) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -126,6 +117,7 @@ gen_user_sessions($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
 		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
 		'TR_USERNAME' => tr('Username'),
 		'TR_USERTYPE' => tr('User type'),

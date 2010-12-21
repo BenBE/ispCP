@@ -39,16 +39,11 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_details.tpl');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('custom_buttons', 'page');
 
-$tpl->assign(
-	array(
-		'TR_DETAILS_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Details')
-	)
-);
-
 // static page messages
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
 		'TR_DOMAIN_DETAILS'		=> tr('Domain details'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),

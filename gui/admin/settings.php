@@ -39,12 +39,6 @@ $tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings.tpl');
 $tpl->define_dynamic('def_language', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_SETTINGS_PAGE_TITLE' => tr('ispCP - Admin/Settings')
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 
 	$lostpwd = $_POST['lostpassword'];
@@ -337,12 +331,14 @@ switch ($cfg->LOG_LEVEL) {
 		$tpl->assign('LOG_LEVEL_SELECTED_ERROR', $html_selected);
 } // end switch
 
-// static page messages.
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
 		'TR_GENERAL_SETTINGS' => tr('General settings'),
 		'TR_SETTINGS' => tr('Settings'),
 		'TR_MESSAGE' => tr('Message'),

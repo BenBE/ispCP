@@ -37,12 +37,6 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ip_usage.tpl');
 $tpl->define_dynamic('ip_row', 'page');
 $tpl->define_dynamic('domain_row', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_IP_USAGE_PAGE_TITLE'	=> tr('ispCP - Admin/IP Usage')
-	)
-);
-
 /**
  * Generate List of Domains assigned to IPs
  *
@@ -162,6 +156,7 @@ function listIPDomains(&$tpl, &$sql) {
 }
 
 // static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
@@ -169,6 +164,7 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Admin/IP Usage')
 		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'IP_USAGE'		=> tr('IP Usage'),
 		'TR_DOMAIN_NAME'	=> tr('Domain Name'),

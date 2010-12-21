@@ -176,14 +176,13 @@ if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif')
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_CHANGE_LAYOUT_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
 		'OWN_LOGO' => get_own_logo($_SESSION['user_id'])
 	)
 );
 
-/**
- * static page messages
- */
+// static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 

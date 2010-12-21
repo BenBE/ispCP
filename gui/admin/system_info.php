@@ -84,17 +84,11 @@ foreach ($mount_points as $mountpoint) {
 
 $tpl->parse('DISK_LIST', 'disk_list');
 
-/**
- * static page messages.
- */
-$tpl->assign(
-	array(
-		'TR_ADMIN_SYSTEM_INFO_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System')
-	)
-);
+// static page messages
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Virtual Hosting Control System'),
 		'TR_CPU_BOGOMIPS'		=> tr('CPU bogomips'),
 		'TR_CPU_CACHE'			=> tr('CPU cache'),
 		'TR_CPU_COUNT'			=> tr('Number of CPU Cores'),

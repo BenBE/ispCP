@@ -57,8 +57,7 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 
 	$tpl->assign(
 		array(
-			'TR_ADMIN_ISPCP_UPDATES_PAGE_TITLE'	=>
-				tr('ispCP - Virtual Hosting Control System')
+			'TR_PAGE_TITLE'	=> tr('ispCP - Virtual Hosting Control System')
 		)
 	);
 

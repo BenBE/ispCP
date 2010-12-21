@@ -490,17 +490,7 @@ function check_ip_sets($dest, $users, &$err) {
 	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_RESELLER_USERS_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment')
-	)
-);
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
@@ -511,6 +501,7 @@ gen_user_table($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment'),
 		'TR_USER_ASSIGNMENT' => tr('User assignment'),
 		'TR_RESELLER_USERS' => tr('Users'),
 		'TR_NUMBER' => tr('No.'),

@@ -37,12 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_maintenance_mode.tpl');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MAINTENANCEMODE_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode')
-	)
-);
-
 $selected_on = '';
 $selected_off = '';
 
@@ -71,11 +65,13 @@ if ($cfg->MAINTENANCEMODE) {
 }
 
 // static page messages
+
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode')
 		'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('If the system is in maintenance mode, only administrators can login'),
 		'TR_MESSAGE_TYPE' => 'warning',

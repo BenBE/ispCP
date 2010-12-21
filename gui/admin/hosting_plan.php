@@ -49,17 +49,7 @@ $tpl->define_dynamic('hp_entry', 'hp_table');
 $tpl->define_dynamic('hp_delete', 'page');
 $tpl->define_dynamic('hp_menu_add', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Administrator/Hosting Plan Management')
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
@@ -67,6 +57,7 @@ gen_hp_table($tpl, $_SESSION['user_id']);
 
 $tpl->assign(
 		array(
+			'TR_PAGE_TITLE' => tr('ispCP - Administrator/Hosting Plan Management'),
 			'TR_HOSTING_PLANS' => tr('Hosting plans'),
 			'TR_PAGE_MENU' => tr('Manage hosting plans'),
 			'TR_PURCHASING' => tr('Purchasing'),

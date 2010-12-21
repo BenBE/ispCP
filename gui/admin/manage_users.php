@@ -59,12 +59,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_USERS_PAGE_TITLE' => tr('ispCP - Admin/Manage Users')
-	)
-);
-
 if (isset($_POST['details']) && !empty($_POST['details'])) {
 	$_SESSION['details'] = $_POST['details'];
 } else {
@@ -106,11 +100,13 @@ if (isset($_SESSION['user_added'])) {
 	set_page_message(tr('User disabled successfully'), 'success');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Users')
+	)
+);
 
 if (!$cfg->exists('HOSTING_PLANS_LEVEL')
 	|| strtolower($cfg->HOSTING_PLANS_LEVEL) !== 'admin') {

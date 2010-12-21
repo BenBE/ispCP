@@ -873,7 +873,7 @@ if (isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
 
 	$tpl->assign(
 		array(
-			'TR_ADMIN_EDIT_RESELLER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Edit Reseller')
+			'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Edit Reseller')
 		)
 	);
 
