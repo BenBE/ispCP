@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/domain_statistics.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domain_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('month_item', 'page');
@@ -44,10 +46,13 @@ $tpl->define_dynamic('traff_item', 'traff_list');
 // page functions.
 
 function gen_page_date(&$tpl, $month, $year) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	for ($i = 1; $i <= 12; $i++) {
 		$tpl->assign(
 			array(
-				'MONTH_SELECTED' => ($i == $month) ? 'selected="selected"' : '',
+				'MONTH_SELECTED' => ($i == $month) ? $cfg->HTML_SELECTED : '',
 				'MONTH' => $i
 			)
 		);
@@ -57,7 +62,7 @@ function gen_page_date(&$tpl, $month, $year) {
 	for ($i = $year - 1; $i <= $year + 1; $i++) {
 		$tpl->assign(
 			array(
-				'YEAR_SELECTED' => ($i == $year) ? 'selected="selected"' : '',
+				'YEAR_SELECTED' => ($i == $year) ? $cfg->HTML_SELECTED : '',
 				'YEAR' => $i
 			)
 		);
@@ -66,6 +71,7 @@ function gen_page_date(&$tpl, $month, $year) {
 }
 
 function gen_page_post_data(&$tpl, $current_month, $current_year) {
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'show_traff') {
 		$current_month = $_POST['month'];
 		$current_year = $_POST['year'];
@@ -76,9 +82,10 @@ function gen_page_post_data(&$tpl, $current_month, $current_year) {
 }
 
 function get_domain_trafic($from, $to, $domain_id) {
-	$sql = Database::getInstance();
 
-	$query = <<<SQL_QUERY
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
 		SELECT
 			IFNULL(SUM(`dtraff_web`), 0) AS web_dr,
 			IFNULL(SUM(`dtraff_ftp`), 0) AS ftp_dr,
@@ -92,11 +99,11 @@ function get_domain_trafic($from, $to, $domain_id) {
 			`dtraff_time` >= ?
 		AND
 			`dtraff_time` <= ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($domain_id, $from, $to));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return array(0, 0, 0, 0);
 	} else {
 		return array(
@@ -112,20 +119,23 @@ SQL_QUERY;
  * @todo Check the out commented code at the end of this function, can we remove it?
  */
 function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
+
 	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf,
 	$sum_web, $sum_ftp, $sum_mail, $sum_pop;
 
+	$cfg = ispCP_Registry::get('Config');
+
 	$domain_admin_id = $_SESSION['user_id'];
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`domain_id`
 		FROM
 			`domain`
 		WHERE
 			`domain_admin_id` = ?
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($domain_admin_id));
+	$rs = exec_query($sql, $query, $domain_admin_id);
 	$domain_id = $rs->fields('domain_id');
 	$fdofmnth = mktime(0, 0, 0, $month, 1, $year);
 	$ldofmnth = mktime(1, 0, 0, $month + 1, 0, $year);
@@ -152,7 +162,7 @@ SQL_QUERY;
 	for ($i = 1; $i <= $curday; $i++) {
 		$ftm = mktime(0, 0, 0, $month, $i, $year);
 		$ltm = mktime(23, 59, 59, $month, $i, $year);
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`dtraff_web`, `dtraff_ftp`, `dtraff_mail`, `dtraff_pop`, `dtraff_time`
 			FROM
@@ -163,7 +173,7 @@ SQL_QUERY;
 				`dtraff_time` >= ?
 			AND
 				`dtraff_time` <= ?
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 
@@ -180,7 +190,8 @@ SQL_QUERY;
 		$sum_mail += $smtp_trf;
 		$sum_pop += $pop_trf;
 
-		$date_formt = Config::get('DATE_FORMAT');
+		$date_formt = $cfg->DATE_FORMAT;
+
 		$tpl->assign(
 			array(
 				'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
@@ -217,7 +228,7 @@ SQL_QUERY;
 	$start_date = mktime(0,0,0, $month, 1, $year);
 	$end_date = mktime(0,0,0, $month + 1, 1, $year);
 	$dmn_id = get_user_domain_id($sql, $user_id);
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`dtraff_time` AS traff_date,
 			`dtraff_web` AS web_traff,
@@ -235,7 +246,7 @@ SQL_QUERY;
 			`dtraff_time` < '$end_date'
 		ORDER BY
 			`dtraff_time`
-SQL_QUERY;
+	";
 
 	$rs = execute_query($sql, $query);
 
@@ -243,7 +254,10 @@ SQL_QUERY;
 
 		$tpl->assign('TRAFF_LIST', '');
 
-		set_page_message(tr('Traffic accounting for the selected month is missing!'));
+		set_page_message(
+			tr('Traffic accounting for the selected month is missing!'),
+			'warning'
+		);
 
 	} else {
 
@@ -296,14 +310,10 @@ SQL_QUERY;
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics')
 	)
 );
 
@@ -311,13 +321,14 @@ $tpl->assign(
 
 $current_month = date("m", time());
 $current_year = date("Y", time());
+
 list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
 gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_statistics.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_statistics.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 gen_logged_from($tpl);
 
@@ -342,10 +353,12 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,21 +32,12 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/circular.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/circular.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_CIRCULAR_PAGE_TITLE' => tr('ispCP - Admin - Email Marketing'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 function gen_page_data(&$tpl, &$sql) {
 
@@ -54,15 +45,15 @@ function gen_page_data(&$tpl, &$sql) {
 		$tpl->assign(
 			array(
 				'MESSAGE_SUBJECT' => clean_input($_POST['msg_subject'], true),
-				'MESSAGE_TEXT' => clean_input($_POST['msg_text'], false),
-				'SENDER_EMAIL' => clean_input($_POST['sender_email'], false),
-				'SENDER_NAME' => clean_input($_POST['sender_name'], false)
+				'MESSAGE_TEXT' => clean_input($_POST['msg_text'], true),
+				'SENDER_EMAIL' => clean_input($_POST['sender_email'], true),
+				'SENDER_NAME' => clean_input($_POST['sender_name'], true)
 			)
 		);
 	} else {
 		$user_id = $_SESSION['user_id'];
 
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`fname`, `lname`, `email`
 			FROM
@@ -71,9 +62,9 @@ function gen_page_data(&$tpl, &$sql) {
 				`admin_id` = ?
 			GROUP BY
 				`email`
-SQL_QUERY;
+		";
 
-		$rs = exec_query($sql, $query, array($user_id));
+		$rs = exec_query($sql, $query, $user_id);
 
 		if (isset($rs->fields['fname']) && isset($rs->fields['lname'])) {
 			$sender_name = $rs->fields['fname'] . ' ' . $rs->fields['lname'];
@@ -89,8 +80,8 @@ SQL_QUERY;
 			array(
 				'MESSAGE_SUBJECT' => '',
 				'MESSAGE_TEXT' => '',
-				'SENDER_EMAIL' => $rs->fields['email'],
-				'SENDER_NAME' => $sender_name
+				'SENDER_EMAIL' => tohtml($rs->fields['email']),
+				'SENDER_NAME' => tohtml($sender_name)
 			)
 		);
 	}
@@ -122,7 +113,7 @@ function check_user_data(&$tpl) {
 	}
 
 	if (!empty($err_message)) {
-		set_page_message($err_message);
+		set_page_message($err_message, 'warning');
 
 		return false;
 	} else {
@@ -139,7 +130,7 @@ function send_reseller_message(&$sql) {
 	$sender_email = clean_input($_POST['sender_email'], false);
 	$sender_name = clean_input($_POST['sender_name'], false);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`admin_id`, `fname`, `lname`, `email`
 		FROM
@@ -148,26 +139,29 @@ function send_reseller_message(&$sql) {
 			`admin_type` = 'reseller' AND `created_by` = ?
 		GROUP BY
 			`email`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	while (!$rs->EOF) {
 		if ($_POST['rcpt_to'] == 'rslrs' || $_POST['rcpt_to'] == 'usrs_rslrs') {
 			$to = encode($rs->fields['fname'] . " " . $rs->fields['lname']) . " <" . $rs->fields['email'] . ">";
-			send_circular_email($to, encode($sender_name) . " <$sender_email>", stripslashes($msg_subject),
-				stripslashes($msg_text));
+			send_circular_email($to, encode($sender_name) . " <$sender_email>", $msg_subject,
+				$msg_text);
 		}
 
 		if ($_POST['rcpt_to'] == 'usrs' || $_POST['rcpt_to'] == 'usrs_rslrs') {
 			send_reseller_users_message($sql, $rs->fields['admin_id']);
 		}
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 
-	set_page_message(tr('You send email to your users successfully!'));
-	write_log('Mass email was sent from ' . $sender_name . '<' . $sender_email . '>!');
+	set_page_message(
+		tr('You send email to your users successfully!'),
+		'success'
+	);
+	write_log('Mass email was sent from ' . tohtml($sender_name) . '<' . $sender_email . '>!');
 }
 
 function send_circular(&$tpl, &$sql) {
@@ -187,7 +181,7 @@ function send_reseller_users_message(&$sql, $admin_id) {
 	$sender_email = clean_input($_POST['sender_email'], false);
 	$sender_name = clean_input($_POST['sender_name'], false);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`fname`, `lname`, `email`
 		FROM
@@ -196,14 +190,14 @@ function send_reseller_users_message(&$sql, $admin_id) {
 			`admin_type` = 'user' AND `created_by` = ?
 		GROUP BY
 			`email`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($admin_id));
+	$rs = exec_query($sql, $query, $admin_id);
 
 	while (!$rs->EOF) {
 		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", stripslashes($msg_subject), stripslashes($msg_text));
-		$rs->MoveNext();
+		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
+		$rs->moveNext();
 	}
 }
 
@@ -217,16 +211,14 @@ function send_circular_email($to, $from, $subject, $message) {
 	mail($to, $subject, $message, $headers);
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin - Email Marketing'),
 		'TR_CIRCULAR' => tr('Email marketing'),
 		'TR_CORE_DATA' => tr('Core data'),
 		'TR_SEND_TO' => tr('Send message to'),
@@ -245,14 +237,16 @@ $tpl->assign(
 
 send_circular($tpl, $sql);
 
-gen_page_data ($tpl, $sql);
+gen_page_data($tpl, $sql);
 
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

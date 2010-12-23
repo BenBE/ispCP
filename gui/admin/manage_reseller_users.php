@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/manage_reseller_users.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_users.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('reseller_list', 'page');
@@ -43,10 +45,11 @@ $tpl->define_dynamic('src_reseller_option', 'src_reseller');
 $tpl->define_dynamic('dst_reseller', 'page');
 $tpl->define_dynamic('dst_reseller_option', 'dst_reseller');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 function gen_user_table(&$tpl, &$sql) {
-	$query = <<<SQL_QUERY
+
+	$cfg = ispCP_Registry::get('Config');
+
+	$query = "
 		SELECT
 			`admin_id`, `admin_name`
 		FROM
@@ -55,34 +58,37 @@ function gen_user_table(&$tpl, &$sql) {
 			`admin_type` = 'reseller'
 		ORDER BY
 			`admin_name`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('Reseller or user list is empty!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(tr('Reseller or user list is empty!'), 'notice');
 		user_goto('manage_users.php');
 	}
 
 	$reseller_id = $rs->fields['admin_id'];
+	$all_resellers = array();
 
 	while (!$rs->EOF) {
 
 		if ((isset($_POST['uaction']) && $_POST['uaction'] === 'change_src')
 			&& (isset($_POST['src_reseller']) && $_POST['src_reseller'] == $rs->fields['admin_id'])) {
-			$selected = 'selected="selected"';
+			$selected = $cfg->HTML_SELECTED;
 			$reseller_id = $_POST['src_reseller'];
 		} else if ((isset($_POST['uaction']) && $_POST['uaction'] === 'move_user')
 			&& (isset($_POST['dst_reseller']) && $_POST['dst_reseller'] == $rs->fields['admin_id'])) {
-			$selected = 'selected="selected"';
+			$selected = $cfg->HTML_SELECTED;
 			$reseller_id = $_POST['dst_reseller'];
 		} else {
 			$selected = '';
 		}
 
+		$all_resellers[] = $rs->fields['admin_id'];
+
 		$tpl->assign(
 			array(
-				'SRC_RSL_OPTION'	=> $rs->fields['admin_name'],
+				'SRC_RSL_OPTION'	=> tohtml($rs->fields['admin_name']),
 				'SRC_RSL_VALUE'		=> $rs->fields['admin_id'],
 				'SRC_RSL_SELECTED'	=> $selected,
 			)
@@ -90,7 +96,7 @@ SQL_QUERY;
 
 		$tpl->assign(
 			array(
-				'DST_RSL_OPTION'	=> $rs->fields['admin_name'],
+				'DST_RSL_OPTION'	=> tohtml($rs->fields['admin_name']),
 				'DST_RSL_VALUE'		=> $rs->fields['admin_id'],
 				'DST_RSL_SELECTED'	=> ''
 			)
@@ -98,26 +104,59 @@ SQL_QUERY;
 
 		$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
 		$tpl->parse('DST_RESELLER_OPTION', '.dst_reseller_option');
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 
-	$query = <<<SQL_QUERY
-		SELECT
-			`admin_id`, `admin_name`
-		FROM
-			`admin`
-		WHERE
-			`admin_type` = 'user'
-		AND
-			`created_by` = ?
-		ORDER BY
-			`admin_name`
-SQL_QUERY;
+	if (isset($_POST['src_reseller']) && $_POST['src_reseller'] == 0) {
+		$selected = $cfg->HTML_SELECTED;
+		$reseller_id = 0;
+	} else {
+		$selected = '';
+	}
 
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$tpl->assign(
+		array(
+			'SRC_RSL_OPTION'	=> tr("N/A"),
+			'SRC_RSL_VALUE'		=> 0,
+			'SRC_RSL_SELECTED'	=> $selected,
+		)
+	);
+	$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User list is empty!'));
+	if ($reseller_id === 0) {
+		$query = "
+			SELECT
+				`admin_id`, `admin_name`
+			FROM
+				`admin`
+			WHERE
+				`admin_type` = 'user'
+			AND
+				`created_by` NOT IN (?)
+			ORDER BY
+				`admin_name`
+		";
+		$not_in = implode(',', $all_resellers);
+		$rs = exec_query($sql, $query, $not_in);
+	} else {
+		$query = "
+			SELECT
+				`admin_id`, `admin_name`
+			FROM
+				`admin`
+			WHERE
+				`admin_type` = 'user'
+			AND
+				`created_by` = ?
+			ORDER BY
+				`admin_name`
+		";
+		$rs = exec_query($sql, $query, $reseller_id);
+	}
+
+
+	if ($rs->recordCount() == 0) {
+		set_page_message(tr('User list is empty!'), 'notice');
 
 		$tpl->assign('RESELLER_LIST', '');
 	} else {
@@ -131,20 +170,20 @@ SQL_QUERY;
 
 			$admin_id = $rs->fields['admin_id'];
 
-			$admin_id_var_name = "admin_id_$admin_id";
+			$admin_id_var_name = 'admin_id_' . $admin_id;
 
 			$show_admin_name = decode_idna($rs->fields['admin_name']);
 
 			$tpl->assign(
 				array(
 					'NUMBER' => $i + 1,
-					'USER_NAME' => $show_admin_name,
+					'USER_NAME' => tohtml($show_admin_name),
 					'CKB_NAME' => $admin_id_var_name,
 				)
 			);
 
 			$tpl->parse('RESELLER_ITEM', '.reseller_item');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -153,17 +192,18 @@ SQL_QUERY;
 }
 
 function update_reseller_user($sql) {
+
 	if (isset($_POST['uaction'])
 		&& $_POST['uaction'] === 'move_user'
 		&& check_user_data()) {
-		set_page_message(tr('User was moved'));
+		set_page_message(tr('User was moved'), 'success');
 	}
 }
 
 function check_user_data() {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`admin_id`
 		FROM
@@ -172,18 +212,19 @@ function check_user_data() {
 			`admin_type` = 'user'
 		ORDER BY
 			`admin_name`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$selected_users = '';
 
 	while (!$rs->EOF) {
 		$admin_id = $rs->fields['admin_id'];
 
-		$admin_id_var_name = "admin_id_$admin_id";
+		$admin_id_var_name = 'admin_id_' . $admin_id;
 
-		if (isset($_POST[$admin_id_var_name]) && $_POST[$admin_id_var_name] === 'on') {
+		if (isset($_POST[$admin_id_var_name])
+			&& $_POST[$admin_id_var_name] === 'on') {
 			$selected_users .= $rs->fields['admin_id'] . ';';
 		}
 
@@ -191,27 +232,30 @@ SQL_QUERY;
 	}
 
 	if ($selected_users == '') {
-		set_page_message(tr('Please select some user(s)!'));
+		set_page_message(tr('Please select at least one user!'), 'warning');
 
 		return false;
 	} else if ($_POST['src_reseller'] == $_POST['dst_reseller']) {
-		set_page_message(tr('Source and destination reseller are the same!'));
+		set_page_message(
+			tr('Source and destination reseller are the same!'),
+			'error'
+		);
 
 		return false;
 	}
 
 	$dst_reseller = $_POST['dst_reseller'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`reseller_ips`
 		FROM
 			`reseller_props`
 		WHERE
 			`reseller_id` = ?
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($dst_reseller));
+	$rs = exec_query($sql, $query, $dst_reseller);
 
 	$mru_error = '_off_';
 
@@ -224,7 +268,7 @@ SQL_QUERY;
 	}
 
 	if ($mru_error != '_off_') {
-		set_page_message($mru_error);
+		set_page_message($mru_error, 'error');
 
 		return false;
 	}
@@ -233,7 +277,8 @@ SQL_QUERY;
 }
 
 function manage_reseller_limits($dest_reseller, $src_reseller, $users, &$err) {
-	$sql = Database::getInstance();
+
+	$sql = ispCP_Registry::get('Db');
 
 	list($dest_dmn_current, $dest_dmn_max,
 		$dest_sub_current, $dest_sub_max,
@@ -260,16 +305,16 @@ function manage_reseller_limits($dest_reseller, $src_reseller, $users, &$err) {
 	$users_array = explode(";", $users);
 
 	for ($i = 0, $cnt_users_array = count($users_array) - 1; $i < $cnt_users_array; $i++) {
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`domain_id`, `domain_name`
 			FROM
 				`domain`
 			WHERE
 				`domain_admin_id` = ?
-SQL_QUERY;
+		";
 
-		$rs = exec_query($sql, $query, array($users_array[$i]));
+		$rs = exec_query($sql, $query, $users_array[$i]);
 
 		$domain_name = $rs->fields['domain_name'];
 
@@ -282,7 +327,7 @@ SQL_QUERY;
 			$sql_db_current, $sql_db_max,
 			$sql_user_current, $sql_user_max,
 			$traff_max, $disk_max
-			) = generate_user_props($domain_id);
+		) = generate_user_props($domain_id);
 
 		calculate_reseller_dvals($dest_dmn_current, $dest_dmn_max, $src_dmn_current, $src_dmn_max, 1, $err, 'Domain', $domain_name);
 
@@ -367,9 +412,9 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 		if ($err == '_off_') {
 			$err = '';
 		}
-		$err .= tr('<b>%1$s</b> has unlimited rights for a <b>%2$s</b> Service !<br>', $uname, $obj);
+		$err .= tr('<strong>%1$s</strong> has unlimited rights for a <strong>%2$s</strong> Service !<br>', $uname, $obj);
 
-		$err .= tr('You cannot move <b>%1$s</b> in a destination reseller,<br>which has limits for the <b>%2$s</b> service!', $uname, $obj);
+		$err .= tr('You cannot move <strong>%1$s</strong> in a destination reseller,<br>which has limits for the <strong>%2$s</strong> service!', $uname, $obj);
 
 		return;
 	} else if ($dest_max > 0 && $src_max == 0 && $umax > 0) {
@@ -377,7 +422,7 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>', $uname, $obj);
+			$err .= tr('<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</strong><br>service in destination reseller!<br>', $uname, $obj);
 
 			$err .= tr('Moving aborted!');
 		} else {
@@ -397,7 +442,7 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%1$s</b> is exceeding limits for a <b>%2$s</b><br>service in destination reseller!<br>', $uname, $obj);
+			$err .= tr('<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</strong><br>service in destination reseller!<br>', $uname, $obj);
 
 			$err .= tr('Moving aborted!');
 		} else {
@@ -411,21 +456,22 @@ function calculate_reseller_dvals(&$dest, $dest_max, &$src, $src_max, $umax, &$e
 }
 
 function check_ip_sets($dest, $users, &$err) {
-	$sql = Database::getInstance();
+
+	$sql = ispCP_Registry::get('Db');
 
 	$users_array = explode(";", $users);
 
 	for ($i = 0, $cnt_users_array = count($users_array); $i < $cnt_users_array; $i++) {
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`domain_name`, `domain_ip_id`
 			FROM
 				`domain`
 			WHERE
 				`domain_admin_id` = ?
-SQL_QUERY;
+		";
 
-		$rs = exec_query($sql, $query, array($users_array[$i]));
+		$rs = exec_query($sql, $query, $users_array[$i]);
 
 		$domain_ip_id = $rs->fields['domain_ip_id'];
 
@@ -435,7 +481,7 @@ SQL_QUERY;
 			if ($err == '_off_') {
 				$err = '';
 			}
-			$err .= tr('<b>%s</b> has IP address that cannot be managed from the destination reseller !<br>This user cannot be moved!', $domain_name);
+			$err .= tr('<strong>%s</strong> has IP address that cannot be managed from the destination reseller !<br>This user cannot be moved!', $domain_name);
 
 			return false;
 		}
@@ -444,23 +490,10 @@ SQL_QUERY;
 	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_RESELLER_USERS_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 update_reseller_user($sql);
 
@@ -468,6 +501,7 @@ gen_user_table($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment'),
 		'TR_USER_ASSIGNMENT' => tr('User assignment'),
 		'TR_RESELLER_USERS' => tr('Users'),
 		'TR_NUMBER' => tr('No.'),
@@ -484,7 +518,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

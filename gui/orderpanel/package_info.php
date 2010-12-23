@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,19 +24,22 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/package_info.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/package_info.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
+$tpl->define_dynamic('isenabled', 'page');
 
 /*
  * functions start
@@ -59,8 +62,10 @@ function translate_sse($value) {
 }
 
 function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				*
@@ -70,7 +75,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				`id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($plan_id));
+		$rs = exec_query($sql, $query, $plan_id);
 	} else {
 		$query = "
 			SELECT
@@ -86,7 +91,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		$rs = exec_query($sql, $query, array($user_id, $plan_id));
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('index.php?user_id=' . $user_id);
 	} else {
 		$props = $rs->fields['props'];
@@ -98,7 +103,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 		if ($price == 0 || $price == '') {
 			$price = tr('free of charge');
 		} else {
-			$price .= ' ' . $rs->fields['value'] . ' ' . $rs->fields['payment'];
+			$price .= ' ' . tohtml($rs->fields['value']) . ' ' . tohtml($rs->fields['payment']);
 		}
 
 		if ($setup_fee == 0 || $setup_fee == '') {
@@ -112,12 +117,12 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 
 		$hp_traff = translate_limit_value($hp_traff, true);
 
-		$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
-		
+		$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
+
 		$tpl->assign(
 			array(
 				'PACK_NAME'		=> $rs->fields['name'],
-				'DESCRIPTION'	=> $description,
+				'DESCRIPTION'	=> tohtml($description),
 				'PACK_ID'		=> $rs->fields['id'],
 				'USER_ID'		=> $user_id,
 				'PURCHASE'		=> tr('Purchase'),
@@ -138,6 +143,10 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
 				'CUSTOM_ORDERPANEL_ID'	=> $coid
 			)
 		);
+
+		if ($rs->fields['status'] != 1) {
+			$tpl->assign('ISENABLED', '');
+		}
 	}
 }
 
@@ -151,7 +160,7 @@ function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
  *
  */
 
-$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['id']) && $bcoid) {
@@ -163,10 +172,14 @@ if (isset($_GET['id']) && $bcoid) {
 		$user_id = $_GET['user_id'];
 		$_SESSION['user_id'] = $user_id;
 	} else {
-		system_message(tr('You do not have permission to access this interface!'));
+		throw new ispCP_Exception_Production(
+			tr('You do not have permission to access this interface!')
+		);
 	}
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);
@@ -222,7 +235,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

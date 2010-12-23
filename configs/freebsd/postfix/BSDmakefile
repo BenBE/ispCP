@@ -2,7 +2,7 @@
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,7 +21,7 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -32,6 +32,7 @@
 .include <../../../Makefile.fbsd>
 
 ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix
+ROOT_SASL2_CONF=/usr/local/lib/sasl2
 
 install:
 
@@ -41,11 +42,13 @@ install:
 
 	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
 	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
+	cp ./smtpd.conf $(SYSTEM_CONF)/postfix/smtpd.conf
 
 	cp -R ./backup $(SYSTEM_CONF)/postfix
 	cp -R ./parts $(SYSTEM_CONF)/postfix
 	cp -R ./working $(SYSTEM_CONF)/postfix
 	cp -R ./ispcp $(SYSTEM_CONF)/postfix
+	cp ./smtpd.conf $(ROOT_SASL2_CONF)
 
 #	DISABLE: Should be Installed by postfix package/ports;
 #	@TODO: Delete, if not needed

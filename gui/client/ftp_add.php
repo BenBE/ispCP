@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,9 +32,11 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ftp_add.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('als_list', 'page');
@@ -50,27 +52,31 @@ $tpl->define_dynamic('js_not_domain', 'page');
 // page functions.
 
 function get_alias_mount_point(&$sql, $alias_name) {
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`alias_mount`
 		FROM
 			`domain_aliasses`
 		WHERE
 			`alias_name` = ?
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($alias_name));
+	$rs = exec_query($sql, $query, $alias_name);
 	return $rs->fields['alias_mount'];
 }
 
 function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$dmn_name = decode_idna($dmn_name);
+
 	if ($post_check === 'no') {
 		$tpl->assign(
 			array(
 				'USERNAME' => '',
-				'DOMAIN_NAME' => $dmn_name,
-				'DMN_TYPE_CHECKED' => 'checked="checked"',
+				'DOMAIN_NAME' => tohtml($dmn_name),
+				'DMN_TYPE_CHECKED' => $cfg->HTML_CHECKED,
 				'ALS_TYPE_CHECKED' => '',
 				'SUB_TYPE_CHECKED' => '',
 				'OTHER_DIR' => '',
@@ -81,21 +87,24 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		$tpl->assign(
 			array(
 				'USERNAME' => clean_input($_POST['username'], true),
-				'DOMAIN_NAME' => $dmn_name,
-				'DMN_TYPE_CHECKED' => ($_POST['dmn_type'] === 'dmn') ? 'checked="checked"' : '',
-				'ALS_TYPE_CHECKED' => ($_POST['dmn_type'] === 'als') ? 'checked="checked"' : '',
-				'SUB_TYPE_CHECKED' => ($_POST['dmn_type'] === 'sub') ? 'checked="checked"' : '',
+				'DOMAIN_NAME' => tohtml($dmn_name),
+				'DMN_TYPE_CHECKED' => ($_POST['dmn_type'] === 'dmn') ? $cfg->HTML_CHECKED : '',
+				'ALS_TYPE_CHECKED' => ($_POST['dmn_type'] === 'als') ? $cfg->HTML_CHECKED : '',
+				'SUB_TYPE_CHECKED' => ($_POST['dmn_type'] === 'sub') ? $cfg->HTML_CHECKED : '',
 				'OTHER_DIR' => clean_input($_POST['other_dir'], true),
-				'USE_OTHER_DIR_CHECKED' => (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') ? 'checked="checked"' : ''
+				'USE_OTHER_DIR_CHECKED' => (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') ? $cfg->HTML_CHECKED : ''
 			)
 		);
 	}
 }
 
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
 
-	$query = <<<SQL_QUERY
+	$cfg = ispCP_Registry::get('Config');
+
+	$ok_status = $cfg->ITEM_OK_STATUS;
+
+	$query = "
 		SELECT
 			`alias_id`, `alias_name`
 		FROM
@@ -106,14 +115,14 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			`alias_status` = ?
 		ORDER BY
 			`alias_name`
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'ALS_ID' => 'n/a',
-				'ALS_SELECTED' => 'selected="selected"',
+				'ALS_SELECTED' => $cfg->HTML_SELECTED,
 				'ALS_NAME' => tr('Empty List')
 			)
 		);
@@ -126,24 +135,24 @@ SQL_QUERY;
 			if ($post_check === 'yes') {
 				$als_id = (!isset($_POST['als_id'])) ? '' : $_POST['als_id'];
 				$als_selected = ($als_id == $rs->fields['alias_name'])
-					? 'selected="selected"'
+					? $cfg->HTML_SELECTED
 					: '';
 			} else {
-				$als_selected = (!$first_passed) ? 'selected="selected"' : '';
+				$als_selected = (!$first_passed) ? $cfg->HTML_SELECTED : '';
 			}
 
 			$als_menu_name = decode_idna($rs->fields['alias_name']);
 
 			$tpl->assign(
 				array(
-					'ALS_ID' => $rs->fields['alias_name'],
+					'ALS_ID' => tohtml($rs->fields['alias_name']),
 					'ALS_SELECTED' => $als_selected,
-					'ALS_NAME' => $als_menu_name
+					'ALS_NAME' => tohtml($als_menu_name)
 				)
 			);
 
 			$tpl->parse('ALS_LIST', '.als_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			if (!$first_passed) $first_passed = true;
 		}
@@ -151,8 +160,11 @@ SQL_QUERY;
 }
 
 function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
-	$query = <<<SQL_QUERY
+
+	$cfg = ispCP_Registry::get('Config');
+
+	$ok_status = $cfg->ITEM_OK_STATUS;
+	$query = "
 		SELECT
 			`subdomain_id` AS sub_id, `subdomain_name` AS sub_name
 		FROM
@@ -163,15 +175,15 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 			`subdomain_status` = ?
 		ORDER BY
 			`subdomain_name`
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'SUB_ID' => 'n/a',
-				'SUB_SELECTED' => 'selected="selected"',
+				'SUB_SELECTED' => $cfg->HTML_SELECTED,
 				'SUB_NAME' => tr('Empty list')
 			)
 		);
@@ -185,43 +197,44 @@ SQL_QUERY;
 			if ($post_check === 'yes') {
 				$sub_id = (!isset($_POST['sub_id'])) ? '' : $_POST['sub_id'];
 				$sub_selected = ($sub_id == $rs->fields['sub_name'])
-					? 'selected="selected"'
+					? $cfg->HTML_SELECTED
 					: '';
 			} else {
-				$sub_selected = (!$first_passed) ? 'selected="selected"' : '';
+				$sub_selected = (!$first_passed) ? $cfg->HTML_SELECTED : '';
 			}
 
 			$sub_menu_name = decode_idna($rs->fields['sub_name']);
 			$dmn_menu_name = decode_idna($dmn_name);
 			$tpl->assign(
 				array(
-					'SUB_ID' => $rs->fields['sub_name'],
+					'SUB_ID' => tohtml($rs->fields['sub_name']),
 					'SUB_SELECTED' => $sub_selected,
-					'SUB_NAME' => $sub_menu_name . '.' . $dmn_menu_name
+					'SUB_NAME' => tohtml($sub_menu_name . '.' . $dmn_menu_name)
 				)
 			);
 			$tpl->parse('SUB_LIST', '.sub_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 			if (!$first_passed) $first_passed = true;
 		}
 	}
 }
 
 function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
-	global $last_gid;
-	global $max_gid;
+
+	global $last_gid, $max_gid;
 
 	$query = "SELECT `gid`, `members` FROM `ftp_group` WHERE `groupname` = ?";
 
-	$rs = exec_query($sql, $query, array($dmn_name));
+	$rs = exec_query($sql, $query, $dmn_name);
 
-	if ($rs->RecordCount() == 0) { // there is no such group. we'll need a new one.
+	if ($rs->recordCount() == 0) { // there is no such group. we'll need a new one.
 		list($temp_dmn_id,
 			$temp_dmn_name,
 			$temp_dmn_gid,
 			$temp_dmn_uid,
 			$temp_dmn_created_id,
 			$temp_dmn_created,
+			$temp_dmn_expires,
 			$temp_dmn_last_modified,
 			$temp_dmn_mailacc_limit,
 			$temp_dmn_ftpacc_limit,
@@ -235,20 +248,23 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 			$temp_dmn_disk_limit,
 			$temp_dmn_disk_usage,
 			$temp_dmn_php,
-			$temp_dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+			$temp_dmn_cgi,
+			$allowbackup,
+			$dmn_dns
+		) = get_domain_default_props($sql, $_SESSION['user_id']);
 
-		$query = <<<SQL_QUERY
+		$query = "
 			INSERT INTO ftp_group
 				(`groupname`, `gid`, `members`)
 			VALUES
 				(?, ?, ?)
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($dmn_name, $temp_dmn_gid, $ftp_user));
 		// add entries in the quota tables
 		// first check if we have it by one or other reason
-		$query = "SELECT COUNT(`name`) as cnt FROM `quotalimits` WHERE `name` = ?";
-		$rs = exec_query($sql, $query, array($temp_dmn_name));
+		$query = "SELECT COUNT(`name`) AS cnt FROM `quotalimits` WHERE `name` = ?";
+		$rs = exec_query($sql, $query, $temp_dmn_name);
 		if ($rs->fields['cnt'] == 0) {
 			// ok insert it
 			if ($temp_dmn_disk_limit == 0) {
@@ -257,14 +273,14 @@ SQL_QUERY;
 				$dlim = $temp_dmn_disk_limit * 1024 * 1024;
 			}
 
-			$query = <<<SQL_QUERY
+			$query = "
 				INSERT INTO `quotalimits`
 					(`name`, `quota_type`, `per_session`, `limit_type`,
 					`bytes_in_avail`, `bytes_out_avail`, `bytes_xfer_avail`,
 					`files_in_avail`, `files_out_avail`, `files_xfer_avail`)
 				VALUES
 					(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-SQL_QUERY;
+			";
 
 			$rs = exec_query($sql, $query, array($temp_dmn_name, 'group', 'false', 'hard', $dlim, 0, 0, 0, 0, 0));
 		}
@@ -278,7 +294,7 @@ SQL_QUERY;
 			$members .= ",$ftp_user";
 		}
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`ftp_group`
 			SET
@@ -287,7 +303,7 @@ SQL_QUERY;
 				`gid` = ?
 			AND
 				`groupname` = ?
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($members, $ftp_gid, $dmn_name));
 		return $ftp_gid;
@@ -295,9 +311,10 @@ SQL_QUERY;
 }
 
 function get_ftp_user_uid(&$sql, $dmn_name, $ftp_user, $ftp_user_gid) {
+
 	global $max_uid;
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`uid`
 		FROM
@@ -306,11 +323,11 @@ function get_ftp_user_uid(&$sql, $dmn_name, $ftp_user, $ftp_user_gid) {
 			`userid` = ?
 		AND
 			`gid` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($ftp_user, $ftp_user_gid));
-	if ($rs->RecordCount() > 0) {
-		set_page_message(tr('FTP account already exists!'));
+	if ($rs->recordCount() > 0) {
+		set_page_message(tr('FTP account already exists!'), 'error');
 		return -1;
 	}
 
@@ -320,6 +337,7 @@ SQL_QUERY;
 		$temp_dmn_uid,
 		$temp_dmn_created_id,
 		$temp_dmn_created,
+		$temp_dmn_expires,
 		$temp_dmn_last_modified,
 		$temp_dmn_mailacc_limit,
 		$temp_dmn_ftpacc_limit,
@@ -333,16 +351,22 @@ SQL_QUERY;
 		$temp_dmn_disk_limit,
 		$temp_dmn_disk_usage,
 		$temp_dmn_php,
-		$temp_dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+		$temp_dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	return $temp_dmn_uid;
 }
 
 function add_ftp_user(&$sql, $dmn_name) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$username = strtolower(clean_input($_POST['username']));
 
 	if (!validates_username($username)) {
-		set_page_message(tr("Incorrect username length or syntax!"));
+		set_page_message(tr("Incorrect username length or syntax!"), 'warning');
 		return;
 	}
 
@@ -351,23 +375,23 @@ function add_ftp_user(&$sql, $dmn_name) {
 	switch ($_POST['dmn_type']) {
 		// Default moint point for a domain
 		case 'dmn':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $dmn_name;
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name";
+			$ftp_user = $username . $cfg->FTP_USERNAME_SEPARATOR . $dmn_name;
+			$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name";
 			break;
 		// Default mount point for an alias domain
 		case 'als':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['als_id'];
+			$ftp_user = $username . $cfg->FTP_USERNAME_SEPARATOR . $_POST['als_id'];
 			$alias_mount_point = get_alias_mount_point($sql, $_POST['als_id']);
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name" . $alias_mount_point;
+			$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name" . $alias_mount_point;
 			break;
 		// Default mount point for a subdomain
 		case 'sub':
-			$ftp_user = $username . Config::get('FTP_USERNAME_SEPARATOR') . $_POST['sub_id'] . '.' . $dmn_name;
-			$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . clean_input($_POST['sub_id']);
+			$ftp_user = $username . $cfg->FTP_USERNAME_SEPARATOR . $_POST['sub_id'] . '.' . $dmn_name;
+			$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name/" . clean_input($_POST['sub_id']);
 			break;
 		// Unknown domain type (?)
 		default:
-			set_page_message(tr('Unknown domain type'));
+			set_page_message(tr('Unknown domain type'), 'error');
 			return;
 			break;
 	}
@@ -379,20 +403,23 @@ function add_ftp_user(&$sql, $dmn_name) {
 		// Check for updirs ".."
 		$res = preg_match("/\.\./", $ftp_vhome);
 		if ($res !== 0) {
-			set_page_message(tr('Incorrect mount point length or syntax'));
+			set_page_message(
+				tr('Incorrect mount point length or syntax'),
+				'error'
+			);
 			return;
 		}
-		$ftp_home = Config::get('FTP_HOMEDIR') . "/$dmn_name/" . $ftp_vhome;
+		$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name/" . $ftp_vhome;
 		// Strip possible double-slashes
 		$ftp_home = str_replace('//', '/', $ftp_home);
 		// Check for $ftp_vhome existence
 		// Create a virtual filesystem (it's important to use =&!)
-		$vfs = new vfs($dmn_name, $sql);
+		$vfs = new ispCP_VirtualFileSystem($dmn_name, $sql);
 		// Check for directory existence
 		$res = $vfs->exists($ftp_vhome);
 
 		if (!$res) {
-			set_page_message(tr('%s does not exist', $ftp_vhome));
+			set_page_message(tr('%s does not exist', $ftp_vhome), 'error');
 			return;
 		}
 	} // End of user-specified mount-point
@@ -402,15 +429,15 @@ function add_ftp_user(&$sql, $dmn_name) {
 
 	if ($ftp_uid == -1) return;
 
-	$ftp_shell = Config::get('CMD_SHELL');
+	$ftp_shell = $cfg->CMD_SHELL;
 	$ftp_passwd = crypt_user_pass_with_salt($_POST['pass']);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		INSERT INTO ftp_users
 			(`userid`, `passwd`, `uid`, `gid`, `shell`, `homedir`)
 		VALUES
 			(?, ?, ?, ?, ?, ?)
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($ftp_user, $ftp_passwd, $ftp_uid, $ftp_gid, $ftp_shell, $ftp_home));
 
@@ -418,49 +445,74 @@ SQL_QUERY;
 	update_reseller_c_props($domain_props[4]);
 
 	write_log($_SESSION['user_logged'] . ": add new FTP account: $ftp_user");
-	set_page_message(tr('FTP account added!'));
+	set_page_message(tr('FTP account added!'), 'success');
 	user_goto('ftp_accounts.php');
 }
 
 function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['username']) || $_POST['username'] === '') {
-		set_page_message(tr('Please enter FTP account username!'));
+		set_page_message(tr('Please enter FTP account username!'), 'warning');
 		return;
 	}
 
 	if (!isset($_POST['pass']) || empty($_POST['pass'])
 		|| !isset($_POST['pass_rep'])
 		|| $_POST['pass_rep'] === '') {
-		set_page_message(tr('Password data is missing!'));
+		set_page_message(tr('Password is missing!'), 'warning');
 		return;
 	}
 
 	if ($_POST['pass'] !== $_POST['pass_rep']) {
-		set_page_message(tr('Entered passwords differ from the another!'));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 		return;
 	}
 
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 		return;
 	}
 
 	if ($_POST['dmn_type'] === 'sub' && $_POST['sub_id'] === 'n/a') {
-		set_page_message(tr('Subdomain list is empty! You cannot add FTP accounts there!'));
+		set_page_message(
+			tr('Subdomain list is empty! You cannot add FTP accounts there!'),
+			'warning'
+		);
 		return;
 	}
 
 	if ($_POST['dmn_type'] === 'als' && $_POST['als_id'] === 'n/a') {
-		set_page_message(tr('Alias list is empty! You cannot add FTP accounts there!'));
+		set_page_message(
+			tr('Alias list is empty! You cannot add FTP accounts there!'),
+			'warning'
+		);
 		return;
 	}
 
-	if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on' && empty($_POST['other_dir'])) {
-		set_page_message(tr('Please specify other FTP account dir!'));
+	if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on' &&
+		empty($_POST['other_dir'])) {
+		set_page_message(
+			tr('Please specify other FTP account dir!'),
+			'warning'
+		);
 		return;
 	}
 
@@ -474,6 +526,7 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -487,12 +540,15 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($ftp_acc_cnt, $dmn_ftp_acc_cnt, $sub_ftp_acc_cnt, $als_ftp_acc_cnt) = get_domain_running_ftp_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_ftpacc_limit != 0 && $ftp_acc_cnt >= $dmn_ftpacc_limit) {
-		set_page_message(tr('FTP accounts limit reached!'));
+		set_page_message(tr('FTP accounts limit reached!'), 'warning');
 		user_goto('ftp_accounts.php');
 	} else {
 		if (!isset($_POST['uaction'])) {
@@ -510,6 +566,7 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 }
 
 function gen_page_js(&$tpl) {
+
 	if (isset($_SESSION['subdomain_count'])
 		&& isset($_SESSION['alias_count'])) { // no subdomains and no alias
 		$tpl->parse('JS_NOT_DOMAIN', 'js_not_domain');
@@ -543,14 +600,10 @@ function gen_page_js(&$tpl) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User')
 	)
 );
 
@@ -560,8 +613,8 @@ gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_ftp_accounts.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -579,14 +632,15 @@ $tpl->assign(
 		'TR_USE_OTHER_DIR' => tr('Use other dir'),
 		'TR_ADD' => tr('Add'),
 		'CHOOSE_DIR' => tr('Choose dir'),
-		'FTP_SEPARATOR' => Config::get('FTP_USERNAME_SEPARATOR')
+		'FTP_SEPARATOR' => $cfg->FTP_USERNAME_SEPARATOR
 	)
 );
 
 gen_page_message($tpl);
+
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

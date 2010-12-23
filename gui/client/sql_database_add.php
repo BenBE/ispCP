@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/sql_database_add.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_database_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mysql_prefix_no', 'page');
@@ -45,9 +47,13 @@ $tpl->define_dynamic('mysql_prefix_all', 'page');
 // page functions.
 
 function gen_page_post_data(&$tpl) {
-	if (Config::get('MYSQL_PREFIX') === 'yes') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if ($cfg->MYSQL_PREFIX === 'yes') {
 		$tpl->assign('MYSQL_PREFIX_YES', '');
-		if (Config::get('MYSQL_PREFIX_TYPE') === 'behind') {
+
+		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
@@ -66,10 +72,10 @@ function gen_page_post_data(&$tpl) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_db') {
 		$tpl->assign(
 			array(
-				'DB_NAME' => clean_input($_POST['db_name']),
-				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? 'checked="checked"' : '',
-				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? 'checked="checked"' : '',
-				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? 'checked="checked"' : ''
+				'DB_NAME' => clean_input($_POST['db_name'], true),
+				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? $cfg->HTML_CHECKED : '',
+				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? $cfg->HTML_CHECKED : '',
+				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? $cfg->HTML_CHECKED : ''
 			)
 		);
 	} else {
@@ -77,33 +83,45 @@ function gen_page_post_data(&$tpl) {
 			array(
 				'DB_NAME' => '',
 				'USE_DMN_ID' => '',
-				'START_ID_POS_CHECKED' => 'checked="checked"',
+				'START_ID_POS_CHECKED' => $cfg->HTML_CHECKED,
 				'END_ID_POS_CHECKED' => ''
 			)
 		);
 	}
 }
 
-function check_db_name(&$sql, $db_name) {
-	$query = "SHOW DATABASES";
+/**
+ * Check if a database with same name already exists
+ *
+ * @param  ispCP_Database $sql ispCP_Database instance
+ * @param  string $db_name database name to be checked
+ * @return boolean TRUE if database exists, false otherwise
+ */
+function check_db_name($sql, $db_name) {
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, 'SHOW DATABASES');
 
 	while (!$rs->EOF) {
-		if ($db_name === $rs->fields[0]) return 1;
-		$rs->MoveNext();
+		if ($db_name == $rs->fields['Database']) {
+			return true;
+		}
+
+		$rs->moveNext();
 	}
 
-	return 0;
+	return false;
 }
 
 function add_sql_database(&$sql, $user_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction'])) return;
 
 	// let's generate database name.
 
 	if (empty($_POST['db_name'])) {
-		set_page_message(tr('Please type database name!'));
+		set_page_message(tr('Please specify a database name!'), 'warning');
 		return;
 	}
 
@@ -121,38 +139,44 @@ function add_sql_database(&$sql, $user_id) {
 		$db_name = clean_input($_POST['db_name']);
 	}
 
-	if (strlen($db_name) > Config::get('MAX_SQL_DATABASE_LENGTH')) {
-		set_page_message(tr('Database name is too long!'));
+	if (strlen($db_name) > $cfg->MAX_SQL_DATABASE_LENGTH) {
+		set_page_message(tr('Database name is too long!'), 'warning');
 		return;
 	}
 
 	// have we such database in the system!?
 	if (check_db_name($sql, $db_name)) {
-		set_page_message(tr('Specified database name already exists!'));
+		set_page_message(
+			tr('Specified database name already exists!'),
+			'warning'
+		);
 		return;
 	}
 	// are wildcards used?
 	if (preg_match("/[%|\?]+/", $db_name)) {
-		set_page_message(tr('Wildcards such as %% and ? are not allowed!'));
+		set_page_message(
+			tr('Wildcards such as %% and ? are not allowed!'),
+			'warning'
+		);
 		return;
 	}
 
 	$query = 'create database ' . quoteIdentifier($db_name);
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		INSERT INTO `sql_database`
 			(`domain_id`, `sqld_name`)
 		VALUES
 			(?, ?)
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $db_name));
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
-	write_log($_SESSION['user_logged'] . ": adds new SQL database: " . $db_name);
-	set_page_message(tr('SQL database created successfully!'));
+	write_log($_SESSION['user_logged'] . ": adds new SQL database: " . tohtml($db_name));
+	set_page_message(tr('SQL database created successfully!'), 'notice');
 	user_goto('sql_manage.php');
 }
 
@@ -172,6 +196,7 @@ function check_sql_permissions($sql, $user_id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -185,24 +210,22 @@ function check_sql_permissions($sql, $user_id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($sqld_acc_cnt, $sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_sqld_limit != 0 && $sqld_acc_cnt >= $dmn_sqld_limit) {
-		set_page_message(tr('SQL accounts limit reached!'));
+		set_page_message(tr('SQL accounts limit reached!'), 'warning');
 		user_goto('sql_manage.php');
 	}
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_ADD_SQL_DATABASE_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ADD_SQL_DATABASE_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database')
 	)
 );
 
@@ -214,8 +237,8 @@ gen_page_post_data($tpl);
 
 add_sql_database($sql, $_SESSION['user_id']);
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
 
 gen_logged_from($tpl);
 
@@ -237,6 +260,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

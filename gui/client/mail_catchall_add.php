@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/mail_catchall_add.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_catchall_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mail_list', 'page');
@@ -49,7 +51,9 @@ if (isset($_GET['id'])) {
 // page functions.
 
 function gen_dynamic_page_data(&$tpl, &$sql, $id) {
+
 	global $domain_id;
+	$cfg = ispCP_Registry::get('Config');
 
 	list($dmn_id,
 		$dmn_name,
@@ -57,6 +61,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -70,7 +75,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $_SESSION['user_id']);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	$domain_id = $dmn_id;
 
@@ -81,11 +89,11 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 		$alssub_mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_mailacc_limit != 0 && $mail_acc_cnt >= $dmn_mailacc_limit) {
-		set_page_message(tr('Mail accounts limit reached!'));
+		set_page_message(tr('Mail accounts limit reached!'), 'warning');
 		user_goto('mail_catchall.php');
 	}
 
-	$ok_status = Config::get('ITEM_OK_STATUS');
+	$ok_status = $cfg->ITEM_OK_STATUS;
 	$match = array();
 	if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
 		$item_id = $match[1];
@@ -111,10 +119,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 			";
 
 			$rs = exec_query($sql, $query, array($item_id, $item_id, $ok_status));
-			if ($rs->RecordCount() == 0) {
-				$tpl->assign(array('FORWARD_MAIL' => 'checked="checked"', 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
+			if ($rs->recordCount() == 0) {
+				$tpl->assign(array('FORWARD_MAIL' => $cfg->HTML_CHECKED, 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
 			} else {
-				$tpl->assign(array('NORMAL_MAIL' => 'checked="checked"', 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
+				$tpl->assign(array('NORMAL_MAIL' => $cfg->HTML_CHECKED, 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
 
 				while (!$rs->EOF) {
 					$show_mail_acc = decode_idna($rs->fields['mail_acc']);
@@ -124,13 +132,13 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_domain_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $domain_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_domain_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> tohtml($mail_acc . "@" . $domain_name) // this will be updated if we create catch all
 						)
 					);
 
 					$tpl->parse('MAIL_LIST', '.mail_list');
-					$rs->MoveNext();
+					$rs->moveNext();
 				}
 			}
 		} else if ($item_type === 'alias') {
@@ -154,10 +162,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 
 			$rs = exec_query($sql, $query, array($ok_status, $item_id));
 
-			if ($rs->RecordCount() == 0) {
-				$tpl->assign(array('FORWARD_MAIL' => 'checked="checked"', 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
+			if ($rs->recordCount() == 0) {
+				$tpl->assign(array('FORWARD_MAIL' => $cfg->HTML_CHECKED, 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
 			} else {
-				$tpl->assign(array('NORMAL_MAIL' => 'checked="checked"', 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
+				$tpl->assign(array('NORMAL_MAIL' => $cfg->HTML_CHECKED, 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
 
 				while (!$rs->EOF) {
 					$show_mail_acc = decode_idna($rs->fields['mail_acc']);
@@ -167,13 +175,13 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> tohtml($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
 					$tpl->parse('MAIL_LIST', '.mail_list');
-					$rs->MoveNext();
+					$rs->moveNext();
 				}
 			}
 		} else if ($item_type === 'subdom') {
@@ -200,10 +208,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 
 			$rs = exec_query($sql, $query, array($ok_status, $item_id));
 
-			if ($rs->RecordCount() == 0) {
-				$tpl->assign(array('FORWARD_MAIL' => 'checked="checked"', 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
+			if ($rs->recordCount() == 0) {
+				$tpl->assign(array('FORWARD_MAIL' => $cfg->HTML_CHECKED, 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
 			} else {
-				$tpl->assign(array('NORMAL_MAIL' => 'checked="checked"', 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
+				$tpl->assign(array('NORMAL_MAIL' => $cfg->HTML_CHECKED, 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
 
 				while (!$rs->EOF) {
 					$show_mail_acc = decode_idna($rs->fields['mail_acc']);
@@ -213,13 +221,13 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> tohtml($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
 					$tpl->parse('MAIL_LIST', '.mail_list');
-					$rs->MoveNext();
+					$rs->moveNext();
 				}
 			}
 		} else if ($item_type === 'alssub') {
@@ -246,10 +254,10 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 
 			$rs = exec_query($sql, $query, array($ok_status, $item_id));
 
-			if ($rs->RecordCount() == 0) {
-				$tpl->assign(array('FORWARD_MAIL' => 'checked="checked"', 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
+			if ($rs->recordCount() == 0) {
+				$tpl->assign(array('FORWARD_MAIL' => $cfg->HTML_CHECKED, 'MAIL_LIST' => '', 'DEFAULT' => 'forward'));
 			} else {
-				$tpl->assign(array('NORMAL_MAIL' => 'checked="checked"', 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
+				$tpl->assign(array('NORMAL_MAIL' => $cfg->HTML_CHECKED, 'NORMAL_MAIL_CHECK' => 'checked', 'FORWARD_MAIL' => '', 'DEFAULT' => 'normal'));
 
 				while (!$rs->EOF) {
 					$show_mail_acc = decode_idna($rs->fields['mail_acc']);
@@ -259,13 +267,13 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 					$tpl->assign(
 						array(
 							'MAIL_ID'				=> $rs->fields['mail_id'],
-							'MAIL_ACCOUNT'			=> $show_mail_acc . "@" . $show_alias_name, // this will be shown in the templates
-							'MAIL_ACCOUNT_PUNNY'	=> $mail_acc . "@" . $alias_name // this will be updated if we create catch all
+							'MAIL_ACCOUNT'			=> tohtml($show_mail_acc . "@" . $show_alias_name), // this will be shown in the templates
+							'MAIL_ACCOUNT_PUNNY'	=> tohtml($mail_acc . "@" . $alias_name) // this will be updated if we create catch all
 						)
 					);
 
 					$tpl->parse('MAIL_LIST', '.mail_list');
-					$rs->MoveNext();
+					$rs->moveNext();
 				}
 			}
 		}
@@ -275,10 +283,16 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 }
 
 function create_catchall_mail_account(&$sql, $id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	list($realId, $type) = explode(';', $id);
 	// Check if user is owner of the domain
 	if (!preg_match('(normal|alias|subdom|alssub)', $type) || who_owns_this($realId, $type) != $_SESSION['user_id']) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 		user_goto('mail_catchall.php');
 	}
 
@@ -312,10 +326,10 @@ function create_catchall_mail_account(&$sql, $id) {
 						`mail_id` = ?
 				";
 
-				$rs = exec_query($sql, $query, array($mail_id));
+				$rs = exec_query($sql, $query, $mail_id);
 				$domain_id = $rs->fields['domain_id'];
 				$sub_id = $rs->fields['sub_id'];
-				$status = Config::get('ITEM_ADD_STATUS');
+				$status = $cfg->ITEM_ADD_STATUS;
 
 				// find the mail_addr (catchall -> "@(sub/alias)domain.tld", should be domain part of mail_acc
 				$match = explode('@', $mail_acc);
@@ -341,7 +355,10 @@ function create_catchall_mail_account(&$sql, $id) {
 
 				send_request();
 				write_log($_SESSION['user_logged'] . ": adds new email catch all");
-				set_page_message(tr('Catch all account scheduled for creation!'));
+				set_page_message(
+					tr('Catch all account scheduled for creation!'),
+					'success'
+				);
 				user_goto('mail_catchall.php');
 			} else {
 				user_goto('mail_catchall.php');
@@ -400,18 +417,15 @@ function create_catchall_mail_account(&$sql, $id) {
 
 			foreach ($faray as $value) {
 				$value = trim($value);
-				if (!chk_email($value) && $value !== '') {
-					/* ERROR .. strange :) not email in this line - warning */
-					set_page_message(tr("Mail forward list error!"));
-					return;
-				} else if ($value === '') {
-					set_page_message(tr("Mail forward list error!"));
+				if (!chk_email($value) && $value !== '' || $value === '') {
+					// @todo ERROR .. strange :) not email in this line - warning
+					set_page_message(tr("Mail forward list error!"), 'error');
 					return;
 				}
 				$mail_acc[] = $value;
 			}
 
-			$status = Config::get('ITEM_ADD_STATUS');
+			$status = $cfg->ITEM_ADD_STATUS;
 
 			$query = "
 				INSERT INTO `mail_users`
@@ -433,7 +447,10 @@ function create_catchall_mail_account(&$sql, $id) {
 
 			send_request();
 			write_log($_SESSION['user_logged'] . ": adds new email catch all ");
-			set_page_message(tr('Catch all account scheduled for creation!'));
+			set_page_message(
+				tr('Catch all account scheduled for creation!'),
+				'success'
+			);
 			user_goto('mail_catchall.php');
 		} else {
 			user_goto('mail_catchall.php');
@@ -443,14 +460,9 @@ function create_catchall_mail_account(&$sql, $id) {
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account'),
-		'THEME_COLOR_PATH'						=> "../themes/$theme_color",
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account')
 	)
 );
 
@@ -462,8 +474,8 @@ $tpl->assign('ID', $item_id);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -484,7 +496,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

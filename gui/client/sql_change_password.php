@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/sql_change_password.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_change_password.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
@@ -47,30 +49,54 @@ if (isset($_GET['id'])) {
 
 // page functions.
 function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction'])) {
 		return;
 	}
 
 	if ($_POST['pass'] === '' && $_POST['pass_rep'] === '') {
-		set_page_message(tr('Please type user password!'));
+		set_page_message(tr('Please specify user password!'), 'warning');
 		return;
 	}
 
 	if ($_POST['pass'] !== $_POST['pass_rep']) {
-		set_page_message(tr('Entered passwords do not match!'));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 		return;
 	}
 
-	if (strlen($_POST['pass']) > Config::get('MAX_SQL_PASS_LENGTH')) {
-		set_page_message(tr('Too long user password!'));
+	if (strlen($_POST['pass']) > $cfg->MAX_SQL_PASS_LENGTH) {
+		set_page_message(tr('User password too long!'), 'warning');
+		return;
+	}
+
+	if (isset($_POST['pass'])
+		&& !preg_match('/^[[:alnum:]:!\*\+\#_.-]+$/', $_POST['pass'])) {
+		set_page_message(
+			tr('Don\'t use special chars like "@, $, %..." in the password!'),
+			'warning'
+		);
 		return;
 	}
 
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 		return;
 	}
@@ -90,33 +116,33 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 	$rs = exec_query($sql, $query, array(encrypt_db_password($user_pass), $db_user_name));
 
 	// update user pass in the mysql system tables;
-
+	// TODO use prepared statement for $user_pass
 	$query = "SET PASSWORD FOR '$db_user_name'@'%' = PASSWORD('$user_pass')";
 
 	$rs = execute_query($sql, $query);
-
+	// TODO use prepared statement for $user_pass
 	$query = "SET PASSWORD FOR '$db_user_name'@localhost = PASSWORD('$user_pass')";
 	$rs = execute_query($sql, $query);
 
-	write_log($_SESSION['user_logged'] . ": update SQL user password: " . $db_user_name);
-	set_page_message(tr('SQL user password was successfully changed!'));
+	write_log($_SESSION['user_logged'] . ": update SQL user password: " . tohtml($db_user_name));
+	set_page_message(tr('SQL user password was successfully changed!'), 'warning');
 	user_goto('sql_manage.php');
 }
 
 function gen_page_data(&$tpl, &$sql, $db_user_id) {
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`sqlu_name`
 		FROM
 			`sql_user`
 		WHERE
 			`sqlu_id` = ?
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($db_user_id));
+	$rs = exec_query($sql, $query, $db_user_id);
 	$tpl->assign(
 		array(
-			'USER_NAME' => $rs->fields['sqlu_name'],
+			'USER_NAME' => tohtml($rs->fields['sqlu_name']),
 			'ID' => $db_user_id
 		)
 	);
@@ -129,14 +155,9 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_SQL_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change SQL User Password'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_SQL_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change SQL User Password')
 	)
 );
 
@@ -147,8 +168,8 @@ check_usr_sql_perms($sql, $db_user_id);
 change_sql_user_pass($sql, $db_user_id, $db_user_name);
 
 // static page messages.
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
 
 gen_logged_from($tpl);
 
@@ -156,11 +177,14 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CHANGE_SQL_USER_PASSWORD' => tr('Change SQL user password'),
-		'TR_USER_NAME' => tr('User name'),
-		'TR_PASS' => tr('Password'),
-		'TR_PASS_REP' => tr('Repeat password'),
-		'TR_CHANGE' => tr('Change')
+		'TR_CHANGE_SQL_USER_PASSWORD' 	=> tr('Change SQL user password'),
+		'TR_USER_NAME' 					=> tr('User name'),
+		'TR_PASS' 						=> tr('Password'),
+		'TR_PASS_REP' 					=> tr('Repeat password'),
+		'TR_CHANGE' 					=> tr('Change'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'				=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'					=> tr('Demo Version!')
 	)
 );
 
@@ -168,7 +192,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

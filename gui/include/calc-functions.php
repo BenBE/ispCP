@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -68,8 +68,8 @@ function sizeit($bytes, $to = 'B') {
 		case 'B':
 			break;
 		default:
-			write_log(sprintf('FIXME: %s:%d' . "\n" . 'Unknown byte count %s',__FILE__, __LINE__, $from));
-			die('FIXME: ' . __FILE__ . ':' . __LINE__);
+			write_log(sprintf('FIXME: %s:%d' . "\n" . 'Unknown byte count %s',__FILE__, __LINE__, $to));
+			throw new ispCP_Exception('FIXME: ' . __FILE__ . ':' . __LINE__);
 	}
 
 	if ($bytes == '' || $bytes < 0) {
@@ -154,23 +154,18 @@ function crypt_user_pass_with_salt($data) {
 	return $res;
 }
 
-
-function check_user_pass($crdata, $data) {
-	$salt = get_salt_from($crdata);
-	$udata = crypt($data, $salt);
-	return ($udata == $crdata);
-}
-
 /**
  * Generates random password of size specified in Config Var 'PASSWD_CHARS'
- * 
+ *
  * @return String password
  */
 function _passgen() {
+
+	$cfg = ispCP_Registry::get('Config');
 	$pw = '';
 
 
-	for ($i = 0, $passwd_chars = Config::get('PASSWD_CHARS'); $i <= $passwd_chars; $i++) {
+	for ($i = 0, $passwd_chars = $cfg->PASSWD_CHARS; $i <= $passwd_chars; $i++) {
 		$z = 0;
 
 		do {
@@ -183,14 +178,14 @@ function _passgen() {
 
 /**
  * Generates random password matching the chk_password criteria
- * 
+ *
  * @see _passgen()
  * @return String password
  */
 function passgen() {
 	$pw = null;
 
-	while ($pw == null || !chk_password($pw, 50, "/[<>]/")) {
+	while (is_null($pw) || !chk_password($pw, 50, "/[<>]/")) {
 		$pw = _passgen();
 	}
 
@@ -200,19 +195,20 @@ function passgen() {
 /**
  * Translates -1, 0 or value string into human readable string
  * @version 1.1
- * 
+ *
  * @param Integer input variable to be translated
  * @param boolean calculate value in different unit (default false)
  * @param String unit to calclulate to (default 'MB')
- * @return String 
+ * @return String
  */
 function translate_limit_value($value, $autosize = false, $to = 'MB') {
 	switch ($value) {
-		case -1: 
+		case -1:
 			return tr('disabled');
-		case  0: 
+		case  0:
 			return tr('unlimited');
-		default: 
+		default:
 			return (!$autosize) ? $value : sizeit($value, $to);
 	}
 }
+?>

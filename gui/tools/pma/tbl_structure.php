@@ -3,7 +3,7 @@
 /**
  * Displays table structure infos like fields/columns, indexes, size, rows
  * and allows manipulation of indexes and columns/fields
- * @version $Id: tbl_structure.php 12700 2009-07-22 21:13:11Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -346,7 +346,7 @@ while ($row = PMA_DBI_fetch_assoc($fields_rs)) {
     else {
         echo '<i>' . $strNoneDefault . '</i>';
     } ?></td>
-    <td nowrap="nowrap"><?php echo $row['Extra']; ?></td>
+    <td nowrap="nowrap"><?php echo strtoupper($row['Extra']); ?></td>
     <td align="center">
         <a href="sql.php?<?php echo $url_query; ?>&amp;sql_query=<?php echo urlencode('SELECT COUNT(*) AS ' . PMA_backquote($strRows) . ', ' . PMA_backquote($row['Field']) . ' FROM ' . PMA_backquote($table) . ' GROUP BY ' . PMA_backquote($row['Field']) . ' ORDER BY ' . PMA_backquote($row['Field'])); ?>">
             <?php echo $titles['BrowseDistinctValues']; ?></a>
@@ -405,7 +405,7 @@ while ($row = PMA_DBI_fetch_assoc($fields_rs)) {
         ?>
     </td>
     <?php
-        if (! empty($tbl_type) && ($tbl_type == 'MYISAM' || $tbl_type == 'MARIA')
+        if (! empty($tbl_type) && ($tbl_type == 'MYISAM' || $tbl_type == 'ARIA' || $tbl_type == 'MARIA')
             // FULLTEXT is possible on TEXT, CHAR and VARCHAR
             && (strpos(' ' . $type, 'text') || strpos(' ' . $type, 'char'))) {
             echo "\n";
@@ -460,7 +460,7 @@ if (! $tbl_is_view && ! $db_is_information_schema) {
         PMA_buttonOrImage('submit_mult', 'mult_submit', 'submit_mult_unique', $strUnique, 'b_unique.png');
         PMA_buttonOrImage('submit_mult', 'mult_submit', 'submit_mult_index', $strIndex, 'b_index.png');
     }
-    if (! empty($tbl_type) && ($tbl_type == 'MYISAM' || $tbl_type == 'MARIA')) {
+    if (! empty($tbl_type) && ($tbl_type == 'MYISAM' || $tbl_type == 'ARIA' || $tbl_type == 'MARIA')) {
         PMA_buttonOrImage('submit_mult', 'mult_submit', 'submit_mult_fulltext', $strIdxFulltext, 'b_ftext.png');
     }
 }
@@ -503,7 +503,21 @@ if (! $tbl_is_view && ! $db_is_information_schema) {
     echo $strStructPropose;
     ?></a><?php
     echo PMA_showMySQLDocu('Extending_MySQL', 'procedure_analyse') . "\n";
-    ?><br />
+    
+    
+    if(PMA_Tracker::isActive())
+    {
+        echo '<a href="tbl_tracking.php?' . $url_query . '">';
+        
+        if ($cfg['PropertiesIconic']) 
+        {
+            echo '<img class="icon" src="' . $pmaThemeImage . 'eye.png" width="16" height="16" alt="' . $strTrackingTrackTable . '" /> ';
+        }
+        echo $strTrackingTrackTable . '</a>';
+    }
+    ?>
+    
+    <br />
 <form method="post" action="tbl_addfield.php"
     onsubmit="return checkFormElementInRange(this, 'num_fields', '<?php echo str_replace('\'', '\\\'', $GLOBALS['strInvalidFieldAddCount']); ?>', 1)">
     <?php
@@ -527,7 +541,7 @@ if (! $tbl_is_view && ! $db_is_information_schema) {
         'first' => $strAtBeginningOfTable,
         'after' => sprintf($strAfter, '')
     );
-    PMA_generate_html_radio('field_where', $choices, 'last', false);
+    PMA_display_html_radio('field_where', $choices, 'last', false);
     echo $fieldOptions;
     unset($fieldOptions, $choices);
     ?>
@@ -548,7 +562,6 @@ if ($fields_cnt > 20) {
 /**
  * Displays indexes
  */
-PMA_generate_slider_effect('tablestatistics_indexes', $strDetails);
 
 if (! $tbl_is_view && ! $db_is_information_schema && 'ARCHIVE' !=  $tbl_type) {
     /**
@@ -577,7 +590,8 @@ if (! $tbl_is_view && ! $db_is_information_schema && 'ARCHIVE' !=  $tbl_type) {
 <br />
     <?php
 }
-echo '<div id="tablestatistics">' . "\n";
+
+PMA_generate_slider_effect('tablestatistics', $strDetails);
 
 /**
  * Displays Space usage and row statistics
@@ -598,10 +612,9 @@ if ($cfg['ShowStats']) {
     }
 
     // Gets some sizes
-    $mergetable     = false;
-    if (isset($showtable['Type']) && $showtable['Type'] == 'MRG_MyISAM') {
-        $mergetable = true;
-    }
+
+    $mergetable = PMA_Table::isMerge($GLOBALS['db'], $GLOBALS['table']);
+
     // this is to display for example 261.2 MiB instead of 268k KiB
     $max_digits = 5;
     $decimals = 1;
@@ -675,7 +688,7 @@ if ($cfg['ShowStats']) {
             <?php
         }
         // Optimize link if overhead
-        if (isset($free_size) && ($tbl_type == 'MYISAM' || $tbl_type == 'MARIA' || $tbl_type == 'BDB')) {
+        if (isset($free_size) && ($tbl_type == 'MYISAM' || $tbl_type == 'ARIA' || $tbl_type == 'MARIA' || $tbl_type == 'BDB')) {
             ?>
     <tr class="tblFooters">
         <td colspan="3" align="center">
@@ -812,8 +825,6 @@ if ($cfg['ShowStats']) {
 require './libraries/tbl_triggers.lib.php';
 
 echo '<div class="clearfloat"></div>' . "\n";
-echo '</div>' . "\n";
-echo '</div>' . "\n";
 
 /**
  * Displays the footer

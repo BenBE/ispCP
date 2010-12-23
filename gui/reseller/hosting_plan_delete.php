@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,15 +24,13 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
-
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 if (isset($_GET['hpid']) && is_numeric($_GET['hpid']))
 	$hpid = $_GET['hpid'];
@@ -42,8 +40,8 @@ else {
 }
 
 // Check if there is no order for this plan
-$res = exec_query($sql, "SELECT COUNT(`id`) FROM `orders` WHERE `plan_id` = ?", array($hpid));
-$data = $res->FetchRow();
+$res = exec_query($sql, "SELECT COUNT(`id`) FROM `orders` WHERE `plan_id` = ?", $hpid);
+$data = $res->fetchRow();
 
 if ($data['0'] > 0) {
 	$_SESSION['hp_deleted_ordererror'] = '_yes_';

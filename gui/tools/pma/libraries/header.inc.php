@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: header.inc.php 12639 2009-07-10 14:36:05Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
@@ -106,7 +106,10 @@ if (empty($GLOBALS['is_header_sent'])) {
                     $GLOBALS['strDatabase'],
                     's_db.png');
 
-            if (strlen($GLOBALS['table'])) {
+            // if the table is being dropped, $_REQUEST['purge'] is set
+            // (it always contains "1")
+            // so do not display the table name in upper div
+            if (strlen($GLOBALS['table']) && ! (isset($_REQUEST['purge']))) {
                 require_once './libraries/tbl_info.inc.php';
 
                 echo $separator;

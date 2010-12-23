@@ -5,7 +5,7 @@
  *
  * Derived from webmail.php by Ralf Kraudelt <kraude@wiwi.uni-rostock.de>
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -30,7 +30,11 @@ require_once(SM_PATH . 'functions/plugin.php');
 require_once(SM_PATH . 'functions/constants.php');
 require_once(SM_PATH . 'functions/page_header.php');
 
+// Disable Browser Caching
+//
+header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
+header('Expires: Sat, 1 Jan 2000 00:00:00 GMT');
 $location = get_location();
 
 sqsession_is_active();

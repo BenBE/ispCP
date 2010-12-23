@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,7 +32,7 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['del_id']))
 	$del_id = $_GET['del_id'];
@@ -42,7 +42,7 @@ else {
 }
 $reseller_id = $_SESSION['user_id'];
 
-$query = <<<SQL_QUERY
+$query = "
 	SELECT
 		t1.`domain_id`, t1.`alias_id`, t1.`alias_name`,
 		t2.`domain_id`, t2.`domain_created_id`
@@ -55,19 +55,18 @@ $query = <<<SQL_QUERY
 		t1.`domain_id` = t2.`domain_id`
 	AND
 		t2.`domain_created_id` = ?
-SQL_QUERY;
+";
 
 $rs = exec_query($sql, $query, array($del_id, $reseller_id));
 
-if ($rs->RecordCount() == 0) {
+if ($rs->recordCount() == 0) {
 	user_goto('alias.php');
 }
 
 $alias_name = $rs->fields['alias_name'];
-$delete_status = Config::get('ITEM_DELETE_STATUS');
 
-/* check for mail acc in ALIAS domain (ALIAS MAIL) and delete them */
-$query = <<<SQL_QUERY
+// check for mail acc in ALIAS domain (ALIAS MAIL) and delete them
+$query = "
 	UPDATE
 		`mail_users`
 	SET
@@ -80,16 +79,17 @@ $query = <<<SQL_QUERY
 		(`sub_id` IN (SELECT `subdomain_alias_id` FROM `subdomain_alias` WHERE `alias_id` = ?)
 		AND
 		`mail_type` LIKE '%alssub_%')
+";
 
-SQL_QUERY;
+exec_query($sql, $query, array($cfg->ITEM_DELETE_STATUS, $del_id, $del_id));
 
-exec_query($sql, $query, array($delete_status, $del_id, $del_id));
+$res = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", $del_id);
+$dat = $res->fetchRow();
 
-$res = exec_query($sql, "SELECT `alias_name` FROM `domain_aliasses` WHERE `alias_id` = ?", array($del_id));
-$dat = $res->FetchRow();
-
-exec_query($sql, "UPDATE `subdomain_alias` SET `subdomain_alias_status` = '" . Config::get('ITEM_DELETE_STATUS') . "' WHERE `alias_id` = ?", array($del_id));
-exec_query($sql, "UPDATE `domain_aliasses` SET `alias_status` = '" . Config::get('ITEM_DELETE_STATUS') . "' WHERE `alias_id` = ?", array($del_id));
+// TODO Use prepared statements
+exec_query($sql, "UPDATE `subdomain_alias` SET `subdomain_alias_status` = '" . $cfg->ITEM_DELETE_STATUS . "' WHERE `alias_id` = ?", $del_id);
+// TODO Use prepared statements
+exec_query($sql, "UPDATE `domain_aliasses` SET `alias_status` = '" . $cfg->ITEM_DELETE_STATUS . "' WHERE `alias_id` = ?", $del_id);
 
 update_reseller_c_props($reseller_id);
 

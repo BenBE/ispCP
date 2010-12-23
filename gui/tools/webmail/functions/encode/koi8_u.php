@@ -6,11 +6,13 @@
  * takes a string of unicode entities and converts it to a koi8-u encoded string
  * Unsupported characters are replaced with ?.
  *
- * @copyright &copy; 2004-2009 The SquirrelMail Project Team
+ * @copyright 2004-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: koi8_u.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: koi8_u.php 13893 2010-01-25 02:47:41Z pdontthink $
  * @package squirrelmail
  * @subpackage encode
+ *
+ * @author ispCP Team May 2010 based on a patch of Benny Baumann
  */
 
 /**
@@ -19,10 +21,10 @@
  * @return string koi8-u encoded text
  */
 function charset_encode_koi8_u ($string) {
-   // don't run encoding function, if there is no encoded characters
-   if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
+    // don't run encoding function, if there is no encoded characters
+    if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
 
-    $string=preg_replace("/&#([0-9]+);/e","unicodetokoi8u('\\1')",$string);
+    $string=preg_replace_callback("/&#([0-9]+);/","unicodetokoi8u",$string);
     // $string=preg_replace("/&#[xX]([0-9A-F]+);/e","unicodetokoi8u(hexdec('\\1'))",$string);
 
     return $string;
@@ -40,6 +42,10 @@ function charset_encode_koi8_u ($string) {
  * @return string koi8-u character
  */
 function unicodetokoi8u($var) {
+
+	if(is_array($var)) {
+        $var=$var[1];
+    }
 
     $koi8uchars=array('160' => "\x9A",
                       '169' => "\xBF",

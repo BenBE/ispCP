@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,11 +24,11 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
-/* for mail types */
+// avaiable mail types
 define('MT_NORMAL_MAIL', 'normal_mail');
 define('MT_NORMAL_FORWARD', 'normal_forward');
 define('MT_ALIAS_MAIL', 'alias_mail');
@@ -43,7 +43,9 @@ define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
 function gen_reseller_mainmenu(&$tpl, $menu_file) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$tpl->define_dynamic('menu', $menu_file);
 	$tpl->define_dynamic('isactive_support', 'menu');
@@ -70,8 +72,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
-			'SUPPORT_SYSTEM_PATH' => Config::get('ISPCP_SUPPORT_SYSTEM_PATH'),
-			'SUPPORT_SYSTEM_TARGET' => Config::get('ISPCP_SUPPORT_SYSTEM_TARGET'),
+			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
+			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
 			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
 			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
@@ -90,8 +92,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			`menu_level` = 'all'
 	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('CUSTOM_BUTTONS', '');
 	} else {
 		global $i;
@@ -103,26 +105,37 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			$menu_target = $rs->fields['menu_target'];
 
 			if ($menu_target !== "") {
-				$menu_target = 'target="' . $menu_target . '"';
+				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
 			$tpl->assign(
 				array(
-					'BUTTON_LINK' => $menu_link,
-					'BUTTON_NAME' => $menu_name,
+					'BUTTON_LINK' => tohtml($menu_link),
+					'BUTTON_NAME' => tohtml($menu_name),
 					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
 			);
 
 			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
-	if (!Config::get('ISPCP_SUPPORT_SYSTEM')) {
+	$query = "
+	SELECT
+		`support_system`
+	FROM
+		`reseller_props`
+	WHERE
+		`reseller_id` = ?
+	";
+
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
-	}
+ 	}
 
 	$tpl->parse('MAIN_MENU', 'menu');
 } // end of gen_reseller_menu()
@@ -131,11 +144,14 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
  * Function to generate the menu data for reseller
  */
 function gen_reseller_menu(&$tpl, $menu_file) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$tpl->define_dynamic('menu', $menu_file);
 
 	$tpl->define_dynamic('custom_buttons', 'menu');
+	$tpl->define_dynamic('alias_menu', 'page');
 
 	$tpl->assign(
 		array(
@@ -158,15 +174,18 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
-			'SUPPORT_SYSTEM_PATH' => Config::get('ISPCP_SUPPORT_SYSTEM_PATH'),
-			'SUPPORT_SYSTEM_TARGET' => Config::get('ISPCP_SUPPORT_SYSTEM_TARGET'),
+			'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
+				? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
+			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
+			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
 			'TR_MENU_ORDER_SETTINGS' => tr('Order settings'),
 			'TR_MENU_ORDER_EMAIL' => tr('Order email setup'),
 			'TR_MENU_LOSTPW_EMAIL' => tr('Lostpw email setup'),
-			'VERSION' => Config::get('Version'),
-			'BUILDDATE' => Config::get('BuildDate'),
-			'CODENAME' => Config::get('CodeName')
+			'TR_MENU_IP_USAGE' => tr('IP Usage'),
+			'VERSION' => $cfg->Version,
+			'BUILDDATE' => $cfg->BuildDate,
+			'CODENAME' => $cfg->CodeName
 		)
 	);
 
@@ -181,8 +200,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			`menu_level` = 'all'
 	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('CUSTOM_BUTTONS', '');
 	} else {
 		global $i;
@@ -194,27 +213,38 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			$menu_target = $rs->fields['menu_target'];
 
 			if ($menu_target !== "") {
-				$menu_target = 'target="' . $menu_target . '"';
+				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
 			$tpl->assign(
 				array(
-					'BUTTON_LINK' => $menu_link,
-					'BUTTON_NAME' => $menu_name,
+					'BUTTON_LINK' => tohtml($menu_link),
+					'BUTTON_NAME' => tohtml($menu_name),
 					'BUTTON_TARGET' => $menu_target,
 					'BUTTON_ID' => $i,
 				)
 			);
 
 			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
-	if (!Config::get('ISPCP_SUPPORT_SYSTEM')) {
+	$query = "
+	SELECT
+		`support_system`
+	FROM
+		`reseller_props`
+	WHERE
+		`reseller_id` = ?
+	";
+
+	$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
 	}
-	if (Config::exists('HOSTING_PLANS_LEVEL') && strtolower(Config::get('HOSTING_PLANS_LEVEL')) === 'admin') {
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && strtolower($cfg->HOSTING_PLANS_LEVEL) === 'admin') {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
 
@@ -235,9 +265,9 @@ function get_reseller_default_props(&$sql, $reseller_id) {
 			`reseller_id` = ?
 	";
 	// send sql query
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
-	if (0 == $rs->RowCount()) {
+	if (0 == $rs->rowCount()) {
 		return NULL;
 	}
 
@@ -267,7 +297,7 @@ function get_reseller_default_props(&$sql, $reseller_id) {
  * Making users props
  */
 function generate_reseller_user_props($reseller_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	// Init with empty variables
 	$rdmn_current = 0;
 	$rdmn_max = 0;
@@ -306,13 +336,13 @@ function generate_reseller_user_props($reseller_id) {
 			`created_by` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
-	if ($res->RowCount() == 0) {
+	if ($res->rowCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 	// Process all users of this group
-	while ($data = $res->FetchRow()) {
+	while ($data = $res->fetchRow()) {
 		$admin_id = $data['admin_id'];
 
 		$query = "
@@ -324,9 +354,9 @@ function generate_reseller_user_props($reseller_id) {
 				`domain_admin_id` = ?
 		";
 
-		$dres = exec_query($sql, $query, array($admin_id));
+		$dres = exec_query($sql, $query, $admin_id);
 
-		$ddata = $dres->FetchRow();
+		$ddata = $dres->fetchRow();
 
 		$user_id = $ddata['domain_id'];
 
@@ -360,12 +390,18 @@ function generate_reseller_user_props($reseller_id) {
 			$rsub_max += $sub_max;
 		}
 
-		if ($als_max != -1) {
+		// We always have to count aliases, because a reseller can add aliase for an user wheter the alias function for the user is disabled - TheCry
+		/*if ($als_max != -1) {
 			if ($als_max == 0) $rals_uf = '_on_';
 
 			$rals_current += $als_current;
 			$rals_max += $als_max;
-		}
+		}*/
+		if ($als_max == 0) $rals_uf = '_on_';
+
+		$rals_current += $als_current;
+		$rals_max += $als_max;
+
 
 		if ($mail_max != -1) {
 			if ($mail_max == 0) $rmail_uf = '_on_';
@@ -421,7 +457,7 @@ function generate_reseller_user_props($reseller_id) {
  */
 function get_user_traffic($user_id) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	global $crnt_month, $crnt_year;
 
 	$query = "
@@ -439,13 +475,14 @@ function get_user_traffic($user_id) {
 			`domain_id`
 	";
 
-	$res = exec_query($sql, $query, array($user_id));
+	$res = exec_query($sql, $query, $user_id);
 
-	if ($res->RowCount() == 0 || $res->RowCount() > 1) {
-		// write_log("TRAFFIC WARNING: >$user_id< manages incorrect number of domains >".$res->RowCount()."<");
+	if ($res->rowCount() == 0 || $res->rowCount() > 1) {
+		// write_log("TRAFFIC WARNING: >$user_id< manages incorrect number of
+		// domains >".$res->RowCount()."<");
 		return array('n/a', 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	} else {
-		$data = $res->FetchRow();
+		$data = $res->fetchRow();
 
 		$domain_id = $data['domain_id'];
 
@@ -459,6 +496,8 @@ function get_user_traffic($user_id) {
 
 		$query = "
 			SELECT
+				YEAR(FROM_UNIXTIME(`dtraff_time`)) AS `tyear`,
+				MONTH(FROM_UNIXTIME(`dtraff_time`)) AS `tmonth`,
 				SUM(`dtraff_web`) AS web,
 				SUM(`dtraff_ftp`) AS ftp,
 				SUM(`dtraff_mail`) AS smtp,
@@ -471,11 +510,25 @@ function get_user_traffic($user_id) {
 				`domain_traffic`
 			WHERE
 				`domain_id` = ?
+			GROUP BY
+				`tyear`, `tmonth`
 		";
 
-		$res = exec_query($sql, $query, array($domain_id));
+		$res = exec_query($sql, $query, $domain_id);
 
-		$data = $res->FetchRow();
+		$max_traffic_month =
+		$data['web'] = $data['ftp'] = $data['smtp'] =
+		$data['pop'] = $data['total'] = 0;
+
+		while ($row = $res->fetchRow()) {
+			$data['web'] += $row['web'];
+			$data['ftp'] += $row['ftp'];
+			$data['smtp'] += $row['smtp'];
+			$data['pop'] += $row['total'];
+			if ($row['total'] > $max_traffic_month) {
+				$max_traffic_month = $row['total'];
+			}
+		}
 
 		return array($domain_name,
 			$domain_id,
@@ -486,17 +539,22 @@ function get_user_traffic($user_id) {
 			$data['total'],
 			$domain_disk_usage,
 			$domain_traff_limit,
-			$domain_disk_limit
+			$domain_disk_limit,
+			$max_traffic_month
 		);
 	}
 } // end of get_user_traffic()
 
 /**
- * Get user's probs info from db via sql
+ * Get user's properties from Database
+ *
+ * @param int		$user_id	user's ID
+ * @return Array				user's properies
  */
 function get_user_props($user_id) {
 
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -507,28 +565,30 @@ function get_user_props($user_id) {
 			`domain_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($user_id));
+	$res = exec_query($sql, $query, $user_id);
 
-	if ($res->RowCount() == 0) {
+	if ($res->rowCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$sub_current = get_domain_running_sub_cnt($sql, $user_id);
 	$sub_max = $data['domain_subd_limit'];
 
-	$als_current = records_count( 'domain_aliasses', 'domain_id', $user_id);
+	$als_current = records_count('domain_aliasses', 'domain_id', $user_id);
 	$als_max = $data['domain_alias_limit'];
 
-	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES')) {
-		$mail_current = records_count( 'mail_users', 'domain_id', $user_id);
+	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES) {
+		// Catch all is not a mailbox and haven't to be count
+		$mail_current = records_count('mail_users', 'mail_type NOT RLIKE \'_catchall\' AND domain_id', $user_id);
 	} else {
 		$where = "`mail_acc` != 'abuse'
 		AND `mail_acc` != 'postmaster'
 		AND `mail_acc` != 'webmaster'
+		AND `mail_type` NOT RLIKE '_catchall'
 		AND `domain_id`";
-		$mail_current = records_count( 'mail_users', $where, $user_id);
+		$mail_current = records_count('mail_users', $where, $user_id);
 	}
 	$mail_max = $data['domain_mailacc_limit'];
 
@@ -536,9 +596,10 @@ function get_user_props($user_id) {
 		'userid', 'ftp_users', 'userid', '@', ''
 		);
 
-	$ftp_current += sub_records_rlike_count('subdomain_name', 'subdomain', 'domain_id', $user_id,
+	//We don't need this query, because we don't have ftpusers for a subdomain! Otherwise the counters count wrong - TheCry
+	/*$ftp_current += sub_records_rlike_count('subdomain_name', 'subdomain', 'domain_id', $user_id,
 		'userid', 'ftp_users', 'userid', '@', ''
-		);
+		);*/
 
 	$ftp_current += sub_records_rlike_count('alias_name', 'domain_aliasses', 'domain_id', $user_id,
 		'userid', 'ftp_users', 'userid', '@', ''
@@ -546,7 +607,7 @@ function get_user_props($user_id) {
 
 	$ftp_max = $data['domain_ftpacc_limit'];
 
-	$sql_db_current = records_count( 'sql_database', 'domain_id', $user_id);
+	$sql_db_current = records_count('sql_database', 'domain_id', $user_id);
 	$sql_db_max = $data['domain_sqld_limit'];
 
 	$sql_user_current = get_domain_running_sqlu_acc_cnt($sql, $user_id);
@@ -568,44 +629,12 @@ function get_user_props($user_id) {
 } // end of get_user_props();
 
 /**
- * @deprecated function deprecated in revision r2228
- */
-/*
-function rsl_full_domain_check($data) {
-
-	$data .= '.';
-	$match = array();
-
-	$res = preg_match_all(
-							"/([^\.]*\.)/",
-							$data,
-							$match,
-							PREG_PATTERN_ORDER
-	);
-
-	if ($res == 0) return 0;
-
-	$last = $res - 1;
-
-	for ($i = 0; $i < $last; $i++) {
-		$token = chop($match[0][$i], ".");
-
-		if (!check_dn_rsl_token($token)) {
-			return 0;
-		}
-	}
-
-	$res = preg_match("/^[A-Za-z][A-Za-z0-9]*[A-Za-z]\.$/", $match[0][$last]);
-
-	return ($res == 0) ? 0 : 1;
-} // end of full_domain_check()
-*/
-
-/**
  * Generate IP list
  */
 function generate_ip_list(&$tpl, &$reseller_id) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 	global $domain_ip;
 
 	$query = "
@@ -617,26 +646,26 @@ function generate_ip_list(&$tpl, &$reseller_id) {
 			`reseller_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
+	$res = exec_query($sql, $query, $reseller_id);
 
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$reseller_ips = $data['reseller_ips'];
 
 	$query = "SELECT * FROM `server_ips`";
 
-	$res = exec_query($sql, $query, array());
+	$res = exec_query($sql, $query);
 
-	while ($data = $res->FetchRow()) {
+	while ($data = $res->fetchRow()) {
 		$ip_id = $data['ip_id'];
 
 		if (preg_match("/$ip_id;/", $reseller_ips) == 1) {
-			$selected = ($domain_ip === $ip_id) ? 'selected="selected"' : '';
+			$selected = ($domain_ip === $ip_id) ? $cfg->HTML_SELECTED : '';
 
 			$tpl->assign(
 				array(
 					'IP_NUM' => $data['ip_number'],
-					'IP_NAME' => $data['ip_domain'],
+					'IP_NAME' => tohtml($data['ip_domain']),
 					'IP_VALUE' => $ip_id,
 					'IP_SELECTED' => $selected
 				)
@@ -659,6 +688,8 @@ function check_ruser_data(&$tpl, $noPass) {
 	global $city, $state, $country, $street_one;
 	global $street_two, $mail, $phone;
 	global $fax, $inpass, $domain_ip;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$user_add_error = '_off_';
 	$inpass_re = '';
@@ -714,8 +745,8 @@ function check_ruser_data(&$tpl, $noPass) {
 	if (isset($_POST['userfax']))
 		$fax = $_POST['userfax'];
 
-	if (isset($_POST['gender'])
-		&& get_gender_by_code($_POST['gender'], true) !== null) {
+	if (isset($_POST['gender'])	&& 
+		!is_null(get_gender_by_code($_POST['gender'], true))) {
 		$gender = $_POST['gender'];
 	} else {
 		$gender = '';
@@ -729,31 +760,17 @@ function check_ruser_data(&$tpl, $noPass) {
 		} else if ($inpass_re !== $inpass) {
 			$user_add_error = tr("Passwords don't match!");
 		} else if (!chk_password($inpass)) {
-			if (Config::get('PASSWD_STRONG')) {
-				$user_add_error = sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS'));
+			if ($cfg->PASSWD_STRONG) {
+				$user_add_error = sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS);
 			} else {
-				$user_add_error = sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS'));
+				$user_add_error = sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), $cfg->PASSWD_CHARS);
 			}
 		}
 	}
 
-	if ($user_email == NULL) {
+	if (is_null($user_email)) {
 		$user_add_error = tr('Incorrect email length or syntax!');
 	}
-	/* we don't want to validate Customer ID, First and Second name and also ZIP
-
-	  else if (!ispcp_limit_check($customer_id)) {
-		$user_add_error = tr('Incorrect customer ID syntax!');
-	} else if (!chk_username($first_name, 40)) {
-
-		$user_add_error = tr('Incorrect first name length or syntax!');
-	} else if (!chk_username($last_name, 40)) {
-
-		$user_add_error = tr('Incorrect second name length or syntax!');
-	} else if (!ispcp_limit_check($zip)) {
-
-		$user_add_error = tr('Incorrect post code length or syntax!');
-	} */
 
 	if ($user_add_error == '_off_') {
 		// send data through session
@@ -768,19 +785,37 @@ function check_ruser_data(&$tpl, $noPass) {
 } // end of check_ruser_data()
 
 /**
- * Translate domain status
+ * Translates an ispCP item constant to a human readable, translated text
+ *
+ * @param Const $status item status
+ * @return String		human readable translated status
  */
 function translate_dmn_status($status) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	switch ($status) {
-		case Config::get('ITEM_OK_STATUS'): return tr('OK');
-		case Config::get('ITEM_ADD_STATUS'): return tr('Addition in progress');
-		case Config::get('ITEM_CHANGE_STATUS'): return tr('Modification in progress');
-		case Config::get('ITEM_DELETE_STATUS'): return tr('Deletion in progress');
-		case Config::get('ITEM_DISABLED_STATUS'): return tr('Suspended');
-		case Config::get('ITEM_TOENABLE_STATUS'): return tr('Being enabled');
-		case Config::get('ITEM_TODISABLED_STATUS'): return tr('Being suspended');
-		case Config::get('ITEM_ORDERED_STATUS'): return tr('Awaiting for approval');
-		default: return tr('Unknown error');
+		case $cfg->ITEM_OK_STATUS:
+			return tr('OK');
+		case $cfg->ITEM_ADD_STATUS:
+			return tr('Addition in progress');
+		case $cfg->ITEM_CHANGE_STATUS:
+		case $cfg->ITEM_DNSCHANGE_STATUS:
+			return tr('Modification in progress');
+		case $cfg->ITEM_DELETE_STATUS:
+			return tr('Deletion in progress');
+		case $cfg->ITEM_DISABLED_STATUS:
+			return tr('Suspended');
+		case $cfg->ITEM_TOENABLE_STATUS:
+			return tr('Being enabled');
+		case $cfg->ITEM_TODISABLED_STATUS:
+			return tr('Being suspended');
+		case $cfg->ITEM_ORDERED_STATUS:
+			return tr('Awaiting approval');
+		case $cfg->ITEM_PROTECTED_STATUS:
+			return tr('Protected');
+		default:
+			return tr('Unknown error');
 	}
 } // end of translate_dmn_status()
 
@@ -788,7 +823,7 @@ function translate_dmn_status($status) {
  * Check if the domain already exist
  */
 function ispcp_domain_exists($domain_name, $reseller_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	// query to check if the domain name exist in the table for domains/accounts
 	$query_domain = "
 		SELECT
@@ -799,7 +834,7 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 			`domain_name` = ?
 	";
 
-	$res_domain = exec_query($sql, $query_domain, array($domain_name));
+	$res_domain = exec_query($sql, $query_domain, $domain_name);
 	// query to check if the domain name exists in the table for domain aliases
 	$query_alias = "
 		SELECT
@@ -812,7 +847,7 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 			t1.`alias_name` = ?
 	";
 
-	$res_aliases = exec_query($sql, $query_alias, array($domain_name));
+	$res_aliases = exec_query($sql, $query_alias, $domain_name);
 	// redefine query to check in the table domain/acounts if 3rd level for this reseller is allowed
 	$query_domain = "
 		SELECT
@@ -887,10 +922,10 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 	";
 
 	$subdomains = array();
-	$res_build_sub = exec_query($sql, $query_build_subdomain, array($reseller_id));
+	$res_build_sub = exec_query($sql, $query_build_subdomain, $reseller_id);
 	while (!$res_build_sub->EOF) {
 		$subdomains[] = $res_build_sub->fields['subdomain_name'] . "." . $res_build_sub->fields['domain_name'];
-		$res_build_sub->MoveNext();
+		$res_build_sub->moveNext();
 	}
 
 	if ($res_domain->fields['cnt'] == 0 && $res_aliases->fields['cnt'] == 0 && !in_array($domain_name, $subdomains)) {
@@ -902,7 +937,7 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 
 /**
  * @todo see inline comment, about the messed up code
- * @todo use db prepared statements
+ * @todo use db prepared statements (min. with placeholders like ":reseller_id")
  */
 function gen_manage_domain_query(&$search_query, &$count_query,
 	$reseller_id,
@@ -1028,14 +1063,15 @@ function gen_manage_domain_query(&$search_query, &$count_query,
 	}
 }
 
-function gen_manage_domain_search_options(&$tpl,
-	$search_for,
-	$search_common,
+function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 	$search_status) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if ($search_for === 'n/a' && $search_common === 'n/a'
 		&& $search_status === 'n/a') {
 		// we have no search and let's genarate search fields empty
-		$domain_selected = 'selected="selected"';
+		$domain_selected = $cfg->HTML_SELECTED;
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
@@ -1043,12 +1079,12 @@ function gen_manage_domain_search_options(&$tpl,
 		$state_selected = '';
 		$country_selected = '';
 
-		$all_selected = 'selected="selected"';
+		$all_selected = $cfg->HTML_SELECTED;
 		$ok_selected = '';
 		$suspended_selected = '';
 	}
 	if ($search_common === 'domain_name') {
-		$domain_selected = 'selected="selected"';
+		$domain_selected = $cfg->HTML_SELECTED;
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
@@ -1057,7 +1093,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$country_selected = '';
 	} else if ($search_common === 'customer_id') {
 		$domain_selected = '';
-		$customerid_selected = 'selected="selected"';
+		$customerid_selected = $cfg->HTML_SELECTED;
 		$lastname_selected = '';
 		$company_selected = '';
 		$city_selected = '';
@@ -1066,7 +1102,7 @@ function gen_manage_domain_search_options(&$tpl,
 	} else if ($search_common === 'lname') {
 		$domain_selected = '';
 		$customerid_selected = '';
-		$lastname_selected = 'selected="selected"';
+		$lastname_selected = $cfg->HTML_SELECTED;
 		$company_selected = '';
 		$city_selected = '';
 		$state_selected = '';
@@ -1075,7 +1111,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$domain_selected = '';
 		$customerid_selected = '';
 		$lastname_selected = '';
-		$company_selected = 'selected="selected"';
+		$company_selected = $cfg->HTML_SELECTED;
 		$city_selected = '';
 		$state_selected = '';
 		$country_selected = '';
@@ -1084,7 +1120,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$customerid_selected = '';
 		$lastname_selected = '';
 		$company_selected = '';
-		$city_selected = 'selected="selected"';
+		$city_selected = $cfg->HTML_SELECTED;
 		$state_selected = '';
 		$country_selected = '';
 	} else if ($search_common === 'state') {
@@ -1093,7 +1129,7 @@ function gen_manage_domain_search_options(&$tpl,
 		$lastname_selected = '';
 		$company_selected = '';
 		$city_selected = '';
-		$state_selected = 'selected="selected"';
+		$state_selected = $cfg->HTML_SELECTED;
 		$country_selected = '';
 	} else if ($search_common === 'country') {
 		$domain_selected = '';
@@ -1102,20 +1138,20 @@ function gen_manage_domain_search_options(&$tpl,
 		$company_selected = '';
 		$city_selected = '';
 		$state_selected = '';
-		$country_selected = 'selected="selected"';
+		$country_selected = $cfg->HTML_SELECTED;
 	}
 	if ($search_status === 'all') {
-		$all_selected = 'selected="selected"';
+		$all_selected = $cfg->HTML_SELECTED;
 		$ok_selected = '';
 		$suspended_selected = '';
 	} else if ($search_status === 'ok') {
 		$all_selected = '';
-		$ok_selected = 'selected="selected"';
+		$ok_selected = $cfg->HTML_SELECTED;
 		$suspended_selected = '';
 	} else if ($search_status === 'disabled') {
 		$all_selected = '';
 		$ok_selected = '';
-		$suspended_selected = 'selected="selected"';
+		$suspended_selected = HTML_SELECTED;
 	}
 
 	if ($search_for === "n/a" || $search_for === '') {
@@ -1124,7 +1160,7 @@ function gen_manage_domain_search_options(&$tpl,
 		);
 	} else {
 		$tpl->assign(
-			array('SEARCH_FOR' => stripslashes($search_for))
+			array('SEARCH_FOR' => tohtml($search_for))
 		);
 	}
 
@@ -1161,72 +1197,79 @@ function gen_manage_domain_search_options(&$tpl,
 /**
  * @todo implement use of more secure dynamic table in SQL query
  */
-function gen_def_language(&$tpl, &$sql, &$user_def_language) {
-	$matches = array();
+function gen_def_language(&$tpl, &$sql, $user_def_language) {
+
+	$cfg = ispCP_Registry::get('Config');
 	$languages = array();
-	$query = "SHOW TABLES";
+	$htmlSelected = $cfg->HTML_SELECTED;
+	$query = "SHOW TABLES LIKE 'lang_%'";
 
-	$rs = exec_query($sql, $query, array());
+	$stmt = exec_query($sql, $query);
 
-	while (!$rs->EOF) {
-		$lang_table = $rs->fields[0];
+	$stmt->setFetchStyle(PDO::FETCH_NUM);
 
-		if (preg_match("/lang_([A-Za-z0-9][A-Za-z0-9]+)/", $lang_table, $matches)) {
-			$query = "
-				SELECT
-					`msgstr`
-				FROM
-					$lang_table
-				WHERE
-					`msgid` = 'ispcp_language'
+	while (!$stmt->EOF) {
+		$lang_table = $stmt->fields[0];
+
+		$query = "
+			SELECT
+				`msgstr`
+			FROM
+				`$lang_table`
+			WHERE
+				`msgid` = 'ispcp_language'
+			;
 		";
 
-			$res2 = exec_query($sql, $query, array());
+		$stmt2 = exec_query($sql, $query);
 
-			$query = "
-				SELECT
-					`msgstr`
-				FROM
-					$lang_table
-				WHERE
-					`msgid` = 'ispcp_languageSetlocaleValue'
-			";
+		$query = "
+			SELECT
+				`msgstr`
+			FROM
+				`$lang_table`
+			WHERE
+				`msgid` = 'ispcp_languageSetlocaleValue'
+			;
+		";
 
-			$res3 = exec_query($sql, $query, array());
+		$stmt3 = exec_query($sql, $query);
 
-			if ($res2->RecordCount() == 0 || $res3->RecordCount() == 0) {
-				$language_name = tr('Unknown');
-			} else {
-				$tr_langcode = tr($res3->fields['msgstr']);
-				if ($res3->fields['msgstr'] == $tr_langcode) { // no translation found
-					$language_name = $res2->fields['msgstr'];
-				} else { // found translation
-					$language_name = $tr_langcode;
-				}
+		if ($stmt2->recordCount() == 0 || $stmt3->recordCount() == 0) {
+			$language_name = tr('Unknown');
+		} else {
+			$tr_langcode = tr($stmt3->fields['msgstr']);
+
+			if ($stmt3->fields['msgstr'] == $tr_langcode) { // no translation found
+				$language_name = $stmt2->fields['msgstr'];
+			} else { // found translation
+				$language_name = $tr_langcode;
 			}
-
-			$selected = ($matches[0] === $user_def_language) ? 'selected="selected"' : '';
-
-			array_push($languages, array($matches[0], $selected, $language_name));
 		}
 
-		$rs->MoveNext();
+		$selected = ($lang_table === $user_def_language) ? $htmlSelected : '';
+
+		array_push($languages, array($lang_table, $selected, $language_name));
+
+		$stmt->moveNext();
 	}
 
 	asort($languages[0], SORT_STRING);
 	foreach ($languages as $lang) {
 		$tpl->assign(
 			array(
-				'LANG_VALUE'	=> $lang[0],
+				'LANG_VALUE' => $lang[0],
 				'LANG_SELECTED' => $lang[1],
-				'LANG_NAME'		=> $lang[2]
+				'LANG_NAME' => tohtml($lang[2])
 			)
 		);
+
 		$tpl->parse('DEF_LANGUAGE', '.def_language');
 	}
 }
 
 function gen_domain_details(&$tpl, &$sql, $domain_id) {
+
 	$tpl->assign('USER_DETAILS', '');
 
 	if (isset($_SESSION['details']) && $_SESSION['details'] == 'hide') {
@@ -1256,18 +1299,18 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 			ORDER BY
 				`alias_id` DESC
 		";
-		$alias_rs = exec_query($sql, $alias_query, array($domain_id));
+		$alias_rs = exec_query($sql, $alias_query, $domain_id);
 
-		if ($alias_rs->RecordCount() == 0) {
+		if ($alias_rs->recordCount() == 0) {
 			$tpl->assign('USER_DETAILS', '');
 		} else {
 			while (!$alias_rs->EOF) {
 				$alias_name = $alias_rs->fields['alias_name'];
 
-				$tpl->assign('ALIAS_DOMAIN', decode_idna($alias_name));
+				$tpl->assign('ALIAS_DOMAIN', tohtml(decode_idna($alias_name)));
 				$tpl->parse('USER_DETAILS', '.user_details');
 
-				$alias_rs->MoveNext();
+				$alias_rs->moveNext();
 			}
 		}
 	} else {
@@ -1280,35 +1323,6 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 
 		return;
 	}
-}
-
-function add_domain_extras(&$dmn_id, &$admin_id, &$sql) {
-	$query = "
-		INSERT INTO `domain_extras`
-			(`dmn_id`,
-			`admin_id`,
-			`frontpage`,
-			`htaccess`,
-			`supportsystem`,
-			`backup`,
-			`errorpages`,
-			`webmail`,
-			`filemanager`,
-			`installer`)
-		VALUES
-			(?,
-			?,
-			'0',
-			'1',
-			'1',
-			'1',
-			'1',
-			'1',
-			'1',
-			'0')
-	";
-
-	$rs = exec_query($sql, $query, array($dmn_id, $admin_id));
 }
 
 function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops = "") {
@@ -1328,8 +1342,8 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 					`id` = ?
 			";
 
-			$res = exec_query($sql, $query, array($hpid));
-			$data = $res->FetchRow();
+			$res = exec_query($sql, $query, $hpid);
+			$data = $res->fetchRow();
 			$props = $data['props'];
 		}
 	} else {
@@ -1351,8 +1365,8 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 			`reseller_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($reseller_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $reseller_id);
+	$data = $res->fetchRow();
 	$dmn_current = $data['current_dmn_cnt'];
 	$dmn_max = $data['max_dmn_cnt'];
 
@@ -1382,7 +1396,10 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 
 	if ($dmn_max != 0) {
 		if ($dmn_current + 1 > $dmn_max) {
-			set_page_message(tr('You have reached your domains limit.<br>You cannot add more domains!'));
+			set_page_message(
+				tr('You have reached your domains limit.<br />You cannot add more domains!'),
+				'warning'
+			);
 			$error = true;
 		}
 	}
@@ -1390,10 +1407,16 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 	if ($sub_max != 0) {
 		if ($sub_new != -1) {
 			if ($sub_new == 0) {
-				set_page_message(tr('You have a subdomains limit!<br>You cannot add an user with unlimited subdomains!'));
+				set_page_message(
+					tr('You have a subdomains limit!<br />You cannot add an user with unlimited subdomains!'),
+					'warning'
+				);
 				$error = true;
 			} else if ($sub_current + $sub_new > $sub_max) {
-				set_page_message(tr('You are exceeding your subdomains limit!'));
+				set_page_message(
+					tr('You are exceeding your subdomains limit!'),
+					'warning'
+				);
 				$error = true;
 			}
 		}
@@ -1402,10 +1425,16 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 	if ($als_max != 0) {
 		if ($als_new != -1) {
 			if ($als_new == 0) {
-				set_page_message(tr('You have an aliases limit!<br>You cannot add an user with unlimited aliases!'));
+				set_page_message(
+					tr('You have an aliases limit!<br />You cannot add an user with unlimited aliases!'),
+					'warning'
+				);
 				$error = true;
 			} else if ($als_current + $als_new > $als_max) {
-				set_page_message(tr('You Are Exceeding Your Alias Limit!'));
+				set_page_message(
+					tr('You are exceeding your alias limit!'),
+					'warning'
+				);
 				$error = true;
 			}
 		}
@@ -1413,19 +1442,32 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 
 	if ($mail_max != 0) {
 		if ($mail_new == 0) {
-			set_page_message(tr('You have a mail accounts limit!<br>You cannot add an user with unlimited mail accounts!'));
+			set_page_message(
+				tr('You have a mail accounts limit!<br />You cannot add an user with unlimited mail accounts!'),
+				'warning'
+			);
 			$error = true;
 		} else if ($mail_current + $mail_new > $mail_max) {
-			set_page_message(tr('You are exceeding your mail accounts limit!'));
+			set_page_message(
+				tr('You are exceeding your mail accounts limit!'),
+				'warning'
+			);
+			$error = true;
 		}
 	}
 
 	if ($ftp_max != 0) {
 		if ($ftp_new == 0) {
-			set_page_message(tr('You have a FTP accounts limit!<br>You cannot add an user with unlimited FTP accounts!'));
+			set_page_message(
+				tr('You have a FTP accounts limit!<br />You cannot add an user with unlimited FTP accounts!'),
+				'warning'
+			);
 			$error = true;
 		} else if ($ftp_current + $ftp_new > $ftp_max) {
-			set_page_message(tr('You are exceeding your FTP accounts limit!'));
+			set_page_message(
+				tr('You are exceeding your FTP accounts limit!'),
+				'warning'
+			);
 			$error = true;
 		}
 	}
@@ -1433,10 +1475,16 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 	if ($sql_db_max != 0) {
 		if ($sql_db_new != -1) {
 			if ($sql_db_new == 0) {
-				set_page_message(tr('You have a SQL databases limit!<br>You cannot add an user with unlimited SQL databases!'));
+				set_page_message(
+					tr('You have a SQL databases limit!<br />You cannot add an user with unlimited SQL databases!'),
+					'warning'
+				);
 				$error = true;
 			} else if ($sql_db_current + $sql_db_new > $sql_db_max) {
-				set_page_message(tr('You are exceeding your SQL databases limit!'));
+				set_page_message(
+					tr('You are exceeding your SQL databases limit!'),
+					'warning'
+				);
 				$error = true;
 			}
 		}
@@ -1445,13 +1493,22 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 	if ($sql_user_max != 0) {
 		if ($sql_user_new != -1) {
 			if ($sql_user_new == 0) {
-				set_page_message(tr('You have an SQL users limit!<br>You cannot add an user with unlimited SQL users!'));
+				set_page_message(
+					tr('You have an SQL users limit!<br />You cannot add an user with unlimited SQL users!'),
+					'warning'
+				);
 				$error = true;
 			} else if ($sql_db_new == -1) {
-				set_page_message(tr('You have disabled SQL databases for this user!<br>You cannot have SQL users here!'));
+				set_page_message(
+					tr('You have disabled SQL databases for this user!<br />You cannot have SQL users here!'),
+					'warning'
+				);
 				$error = true;
 			} else if ($sql_user_current + $sql_user_new > $sql_user_max) {
-				set_page_message(tr('You are exceeding your SQL database limit!'));
+				set_page_message(
+					tr('You are exceeding your SQL database limit!'),
+					'warning'
+				);
 				$error = true;
 			}
 		}
@@ -1459,33 +1516,48 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 
 	if ($traff_max != 0) {
 		if ($traff_new == 0) {
-			set_page_message(tr('You have a traffic limit!<br>You cannot add an user with unlimited traffic!'));
+			set_page_message(
+				tr('You have a traffic limit!<br />You cannot add an user with unlimited traffic!'),
+				'warning'
+			);
 			$error = true;
 		} else if ($traff_current + $traff_new > $traff_max) {
-			set_page_message(tr('You are exceeding your traffic limit!'));
+			set_page_message(
+				tr('You are exceeding your traffic limit!'),
+				'warning'
+			);
 			$error = true;
 		}
 	}
 
 	if ($disk_max != 0) {
 		if ($disk_new == 0) {
-			set_page_message(tr('You have a disk limit!<br>You cannot add an user with unlimited disk!'));
+			set_page_message(
+				tr('You have a disk limit!<br />You cannot add an user with unlimited disk!'),
+				'warning'
+			);
 			$error = true;
 		} else if ($disk_current + $disk_new > $disk_max) {
-			set_page_message(tr('You are exceeding your disk limit!'));
+			set_page_message(
+				tr('You are exceeding your disk limit!'),
+				'warning'
+			);
 			$error = true;
 		}
 	}
 
-	if ($error == true) {
+	if ($error === true) {
 		return false;
 	}
 
 	return true;
 }
 
+function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
+	$order_id) {
 
-function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $order_id) {
+	$cfg = ispCP_Registry::get('Config');
+
 	$data = get_order_email($admin_id);
 
 	$from_name = $data['sender_name'];
@@ -1513,8 +1585,8 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $
 		$to = $uemail;
 	}
 
-	$activate_link = Config::get('BASE_SERVER_VHOST_PREFIX').Config::get('BASE_SERVER_VHOST');
-	$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+	$activate_link = $cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST;
+	$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 	$key = sha1($order_id.'-'.$domain_name.'-'.$admin_id.'-'.$coid);
 	$activate_link .= '/orderpanel/activate.php?id='.$order_id.'&k='.$key;
 
@@ -1536,13 +1608,18 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail, $
 	$subject = encode($subject);
 
 	$headers = "From: ". $from . "\n";
-	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . Config::get('Version') . " Service Mailer";
+	$headers .= "MIME-Version: 1.0\n";
+	$headers .= "Content-Type: text/plain; charset=utf-8\n";
+	$headers .= "Content-Transfer-Encoding: 8bit\n";
+	$headers .= "X-Mailer: ispCP " . $cfg->Version . " Service Mailer";
 
 	mail($to, $subject, $message, $headers);
 }
 
 function send_alias_order_email($alias_name) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$user_id = $_SESSION['user_id'];
 
@@ -1587,9 +1664,9 @@ function send_alias_order_email($alias_name) {
 	$search [] = '{ALIAS}';
 	$replace[] = $alias_name;
 	$search [] = '{BASE_SERVER_VHOST}';
-	$replace[] = Config::get('BASE_SERVER_VHOST');
+	$replace[] = $cfg->BASE_SERVER_VHOST;
 	$search [] = '{BASE_SERVER_VHOST_PREFIX}';
-	$replace[] = Config::get('BASE_SERVER_VHOST_PREFIX');
+	$replace[] = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
@@ -1597,7 +1674,10 @@ function send_alias_order_email($alias_name) {
 	$subject = encode($subject);
 
 	$headers = "From: ". $from ."\n";
-	$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . Config::get('Version') . " Service Mailer";
+	$headers .= "MIME-Version: 1.0\n";
+	$headers .= "Content-Type: text/plain; charset=utf-8\n";
+	$headers .= "Content-Transfer-Encoding: 8bit\n";
+	$headers .= "X-Mailer: ispCP {$cfg->Version} Service Mailer";
 
 	$mail_result = mail($to, $subject, $message, $headers);
 
@@ -1608,11 +1688,13 @@ function send_alias_order_email($alias_name) {
 /**
  * add the 3 mail accounts/forwardings to a new domain...
  */
-function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part, $dmn_type = 'domain', $sub_id = 0) {
+function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part,
+	$dmn_type = 'domain', $sub_id = 0) {
 
-	$sql = Database::getInstance();
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
-	if (Config::get('CREATE_DEFAULT_EMAIL_ADDRESSES')) {
+	if ($cfg->CREATE_DEFAULT_EMAIL_ADDRESSES) {
 
 		$forward_type = ($dmn_type == 'alias') ? 'alias_forward' : 'normal_forward';
 
@@ -1634,47 +1716,32 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part, $dmn_
 		";
 
 		// create default forwarder for webmaster@domain.tld to the account's owner
-		$rs = exec_query($sql, $query,
-			array('webmaster',
-				'_no_',
-				$user_email,
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'webmaster@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'webmaster', '_no_', $user_email, $dmn_id, $forward_type,
+				$sub_id, $cfg->ITEM_ADD_STATUS, '_no_', 10485760,
+				'webmaster@' . $dmn_part
 			)
 		);
 
 		// create default forwarder for postmaster@domain.tld to the account's reseller
-		$rs = exec_query($sql, $query,
-			array('postmaster',
-				'_no_',
-				$_SESSION['user_email'],
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'postmaster@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'postmaster', '_no_', $_SESSION['user_email'], $dmn_id,
+				$forward_type, $sub_id, $cfg->ITEM_ADD_STATUS, '_no_',
+				10485760, 'postmaster@' . $dmn_part
 			)
 		);
 
 		// create default forwarder for abuse@domain.tld to the account's reseller
-		$rs = exec_query($sql, $query,
-			array('abuse',
-				'_no_',
-				$_SESSION['user_email'],
-				$dmn_id,
-				$forward_type,
-				$sub_id,
-				Config::get('ITEM_ADD_STATUS'),
-				'_no_',
-				10485760,
-				'abuse@'.$dmn_part
+		$rs = exec_query(
+			$sql, $query,
+			array(
+				'abuse', '_no_', $_SESSION['user_email'], $dmn_id,
+				$forward_type, $sub_id, $cfg->ITEM_ADD_STATUS, '_no_',
+				10485760, 'abuse@' . $dmn_part
 			)
 		);
 
@@ -1683,106 +1750,79 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part, $dmn_
 } // end client_mail_add_default_accounts
 
 /**
- * Get count from table by given domain_id's
- * @param $tablename string database table name
- * @param $ua array domain_ids
- * @return integer count
- */
-function get_reseller_detail_count($tablename, $ua) {
-	global $sql;
-
-	$delstatus = Config::get('ITEM_DELETE_STATUS');
-
-	$query = "SELECT COUNT(*) AS cnt FROM `".$tablename;
-	if ($tablename == 'ftp_users') {
-		$fieldname = 'uid';
-	} else {
-		$fieldname = 'domain_id';
-	}
-	$query .= "` WHERE `".$fieldname."` IN (".implode(',', $ua).")";
-	if ($tablename == 'mail_users') {
-		$query .= " AND `mail_acc` != 'abuse'
-			AND `mail_acc` != 'postmaster'
-			AND `mail_acc` != 'webmaster'
-			AND `mail_type` NOT RLIKE '_catchall'";
-		$query .= " AND status != '".$delstatus."'";
-	} else if ($tablename == 'subdomain') {
-		$query .= " AND subdomain_status != '".$delstatus."'";
-	} else if ($tablename == 'domain_aliasses') {
-		$query .= " AND alias_status != '".$delstatus."'";
-	}
-	$res = exec_query($sql, $query);
-
-	return $res->fields['cnt'];
-}
-
-/**
  * Recalculate current_ properties of reseller
- * @param $reseller_id integer ID of the reseller
+ *
+ * @param int $reseller_id unique reseller identifiant
  * @return array list of properties
  */
 function recalc_reseller_c_props($reseller_id) {
-	global $sql;
 
-	// current_dmn_cnt = domain
-	// current_sub_cnt = subdomain
-	// current_als_cnt = domain_aliasses
-	// current_mail_cnt = mail_users
-	// current_ftp_cnt = ftp_users
-	// current_sql_db_cnt = sql_database
-	// current_sql_user_cnt = sql_user
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
-	$delstatus = Config::get('ITEM_DELETE_STATUS');
+	$delstatus = $cfg->ITEM_DELETE_STATUS;
 
 	// Get all users of reseller:
 	$query = "
 		SELECT
-			`domain_id`,
-			`domain_uid`
+			COUNT(`domain_id`) AS crn_domains,
+			IFNULL(SUM(IF(`domain_subd_limit` >= 0, `domain_subd_limit`, 0)), 0) AS current_sub_cnt,
+			IFNULL(SUM(IF(`domain_alias_limit` >= 0, `domain_alias_limit`, 0)), 0) AS current_als_cnt,
+			IFNULL(SUM(IF(`domain_mailacc_limit` >= 0, `domain_mailacc_limit`, 0)), 0) AS current_mail_cnt,
+			IFNULL(SUM(IF(`domain_ftpacc_limit` >= 0, `domain_ftpacc_limit`, 0)), 0) AS current_ftp_cnt,
+			IFNULL(SUM(IF(`domain_sqld_limit` >= 0, `domain_sqld_limit`, 0)), 0) AS current_sql_db_cnt,
+			IFNULL(SUM(IF(`domain_sqlu_limit` >= 0, `domain_sqlu_limit`, 0)), 0) AS current_sql_user_cnt,
+			IFNULL(SUM(`domain_disk_limit`), 0) AS current_disk_amnt,
+			IFNULL(SUM(`domain_traffic_limit`), 0) AS current_traff_amnt
 		FROM
 			`domain`
 		WHERE
 			`domain_created_id` = ?
 		AND
-			`domain_status` != ?
+			`domain_status` != ?;
 	";
 	$res = exec_query($sql, $query, array($reseller_id, $delstatus));
-	$user_array = $systemuser_array = array();
-	while ($data = $res->FetchRow()) {
-		$user_array[] = $data['domain_id'];
-		$systemuser_array[] = $data['domain_uid'];
-	}
-	$current_dmn_cnt = count($user_array);
+
+	$current_dmn_cnt = $res -> fields['crn_domains'];
+
 	if ($current_dmn_cnt > 0) {
-		$current_sub_cnt = get_reseller_detail_count('subdomain', $user_array);
-		$current_als_cnt = get_reseller_detail_count('domain_aliasses', $user_array);
-		$current_mail_cnt = get_reseller_detail_count('mail_users', $user_array);
-		$current_ftp_cnt = get_reseller_detail_count('ftp_users', $systemuser_array);
-		$current_sql_db_cnt = get_reseller_detail_count('sql_database', $user_array);
-
-		$query = "SELECT COUNT(*) AS cnt FROM `sql_user`";
-		$query .= " WHERE `sqld_id` IN (";
-		$query .= "SELECT sqld_id FROM sql_database";
-		$query .= " WHERE `domain_id` IN (".implode(',', $user_array)."))";
-		$res = exec_query($sql, $query);
-		$current_sql_user_cnt = $res->fields['cnt'];
+		$current_sub_cnt = $res -> fields['current_sub_cnt'];
+		$current_als_cnt = $res -> fields['current_als_cnt'];
+		$current_mail_cnt = $res -> fields['current_mail_cnt'];
+		$current_ftp_cnt = $res -> fields['current_ftp_cnt'];
+		$current_sql_db_cnt = $res->fields['current_sql_db_cnt'];
+		$current_sql_user_cnt = $res->fields['current_sql_user_cnt'];
+		$current_disk_amnt  = $res->fields['current_disk_amnt'];
+		$current_traff_amnt = $res->fields['current_traff_amnt'];
 	} else {
-		$current_sub_cnt =
-		$current_als_cnt =
-		$current_mail_cnt =
-		$current_ftp_cnt =
-		$current_sql_db_cnt =
+		$current_sub_cnt = 0;
+		$current_als_cnt = 0;
+		$current_mail_cnt = 0;
+		$current_ftp_cnt = 0;
+		$current_sql_db_cnt = 0;
 		$current_sql_user_cnt = 0;
+		$current_disk_amnt  = 0;
+		$current_traff_amnt = 0;
 	}
 
-	return array($current_dmn_cnt, $current_sub_cnt, $current_als_cnt,
-				$current_mail_cnt, $current_ftp_cnt, $current_sql_db_cnt,
-				$current_sql_user_cnt);
+	return array(
+		$current_dmn_cnt,
+		$current_sub_cnt,
+		$current_als_cnt,
+		$current_mail_cnt,
+		$current_ftp_cnt,
+		$current_sql_db_cnt,
+		$current_sql_user_cnt,
+		$current_disk_amnt,
+		$current_traff_amnt
+	);
 }
 
 /**
  * Recalculate current_ properties of reseller
- * @param $reseller_id integer ID of the reseller
+ *
+ * @param int $reseller_id unique reseller identifiant
+ * @return void
  */
 function update_reseller_c_props($reseller_id) {
 	global $sql;
@@ -1797,9 +1837,11 @@ function update_reseller_c_props($reseller_id) {
 			`current_mail_cnt` = ?,
 			`current_ftp_cnt` = ?,
 			`current_sql_db_cnt` = ?,
-			`current_sql_user_cnt` = ?
+			`current_sql_user_cnt` = ?,
+			`current_disk_amnt` = ?,
+			`current_traff_amnt` = ?
 		WHERE
-			`reseller_id` = ?
+			`reseller_id` = ?;
 	";
 
 
@@ -1812,11 +1854,13 @@ function update_reseller_c_props($reseller_id) {
 /**
  * Get the reseller id of a domain
  * moved from admin/domain_edit.php to reseller-functions.php
- * @param $domain_id integer ID of domain
- * @return integer ID of reseller or 0 in case of error
+ *
+ * @param int $domain_id unique domain identifiant
+ * @return int unique reseller identifiant or 0 in on error
  */
 function get_reseller_id($domain_id) {
-	$sql = Database::getInstance();
+
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -1826,15 +1870,63 @@ function get_reseller_id($domain_id) {
 		WHERE
 			d.`domain_id` = ?
 		AND
-			d.`domain_admin_id` = a.`admin_id`
+			d.`domain_admin_id` = a.`admin_id`;
 	";
 
-	$rs = exec_query($sql, $query, array($domain_id));
+	$rs = exec_query($sql, $query, $domain_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return 0;
 	}
 
-	$data = $rs->FetchRow();
+	$data = $rs->fetchRow();
 	return $data['created_by'];
 }
+
+/**
+ * Checks if a reseller has the rights to an option
+ *
+ * @param int $reseller_id unique reseller identifiant
+ * @return boolean option permissions or array with all options
+ */
+function check_reseller_permissions($reseller_id, $permission) {
+
+	$sql = ispCP_Registry::get('Db');
+
+	list($rdmn_current, $rdmn_max,
+			$rsub_current, $rsub_max,
+			$rals_current, $rals_max,
+			$rmail_current, $rmail_max,
+			$rftp_current, $rftp_max,
+			$rsql_db_current, $rsql_db_max,
+			$rsql_user_current, $rsql_user_max,
+			$rtraff_current, $rtraff_max,
+			$rdisk_current, $rdisk_max
+		) = get_reseller_default_props($sql, $reseller_id);
+
+	if ($permission == "all_permissions") {
+		return array(
+			$rsub_max,
+			$rals_max,
+			$rmail_max,
+			$rftp_max,
+			$rsql_db_max,
+			$rsql_user_max
+		);
+	} else if ($permission == "subdomain" && $rsub_max == "-1") {
+		return false;
+	} elseif ($permission == "alias" && $rals_max == "-1") {
+		return false;
+	} else if ($permission == "mail" && $rmail_max == "-1") {
+		return false;
+	} else if ($permission == "ftp" && $rftp_max == "-1") {
+		return false;
+	} else if ($permission == "sql_db" && $rsql_db_max == "-1") {
+		return false;
+	} else if ($permission == "sql_user" && $rsql_user_max == "-1") {
+		return false;
+	}
+
+	return true;
+}
+?>

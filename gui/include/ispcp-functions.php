@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,46 +24,71 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 /**
- * @todo use of @ is problematic, instead use try-catch
+ * Checks for lock file
+ *
+ * @return boolean TRUE if file is unlocked, FALSE otherwise
  */
 function check_for_lock_file() {
 
-    $fh = fopen(Config::get('MR_LOCK_FILE'),'r');
-    if (!$fh) {
-        return false;
-    }
+	/**
+	 * @var ispCP_Config_Handler_File $cfg
+	 */
+	$cfg = ispCP_Registry::get('Config');
 
-    while (!flock($fh, LOCK_EX|LOCK_NB)) {
-        usleep(rand(200, 600)*1000);
-        clearstatcache();
-        // and send header to keep connection
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-    }
+	$fh = fopen($cfg->MR_LOCK_FILE, 'r');
 
-    return true;
+	if (!$fh) {
+		return false;
+	}
+
+	while (!flock($fh, LOCK_EX|LOCK_NB)) {
+		usleep(rand(200, 600)*1000);
+		clearstatcache();
+
+		// Send header to keep connection
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+	}
+
+	return true;
 }
 
+/**
+ * Reads line from the socket resource
+ *
+ * @param resource &$socket
+ * @return string A line read from the socket resource
+ */
 function read_line(&$socket) {
+
 	$ch = '';
 	$line = '';
+
 	do {
 		$ch = socket_read($socket, 1);
 		$line = $line . $ch;
 	} while ($ch != "\r" && $ch != "\n");
+
 	return $line;
 }
 
+
 /**
- * @todo use of @ is problematic, instead use try-catch
+ * Send request to the daemon
+ *
+ * @return string Daemon answer
+ * @todo Remove error operator
  */
 function send_request() {
 
-	global $Version;
+	/**
+	 * @var ispCP_Config_Handler_File $cfg
+	 */
+	$cfg = ispCP_Registry::get('Config');
 
 	$code = 999;
 
@@ -79,7 +104,7 @@ function send_request() {
 		return $errno;
 	}
 
-	/* read one line with welcome string */
+	// read one line with welcome string
 	$out = read_line($socket);
 
 	list($code) = explode(' ', $out);
@@ -87,11 +112,11 @@ function send_request() {
 		return $out;
 	}
 
-	/* send hello query */
-	$query = "helo  $Version\r\n";
+	// send hello query
+	$query = "helo  {$cfg->Version}\r\n";
 	socket_write($socket, $query, strlen ($query));
 
-	/* read one line with helo answer */
+	// read one line with helo answer
 	$out = read_line($socket);
 
 	list($code) = explode(' ', $out);
@@ -99,10 +124,10 @@ function send_request() {
 		return $out;
 	}
 
-	/* send reg check query */
+	// send reg check query
 	$query = "execute query\r\n";
 	socket_write ($socket, $query, strlen ($query));
-	/* read one line key replay */
+	// read one line key replay
 	$execute_reply = read_line($socket);
 
 	list($code) = explode(' ', $execute_reply);
@@ -110,10 +135,10 @@ function send_request() {
 		return $out;
 	}
 
-	/* send quit query */
+	// send quit query
 	$quit_query = "bye\r\n";
-	socket_write ($socket, $quit_query, strlen ($quit_query));
-	/* read quit answer */
+	socket_write ($socket, $quit_query, strlen($quit_query));
+	// read quit answer
 	$quit_reply = read_line($socket);
 
 	list($code) = explode(' ', $quit_reply);
@@ -128,52 +153,56 @@ function send_request() {
 	return $answer;
 }
 
-function update_expire_date ( $user_id, $domain_new_expire ) {
+/**
+ * Updates dommain expiration date
+ *
+ * @param  $user_id Customer id
+ * @param  $domain_new_expire New expiration date
+ * @return void
+ */
+function update_expire_date ($user_id, $domain_new_expire ) {
 
-	$sql = Database::getInstance();
+	$db = ispCP_Registry::get('Db');
 
 	$query = "
-			UPDATE
-				`domain`
-			SET
-				`domain_expires` = ?
-			WHERE
-				`domain_id` = ?
-		";
+		UPDATE
+			`domain`
+		SET
+			`domain_expires` = ?
+		WHERE
+			`domain_id` = ?
+		;
+	";
 
-		$rs = exec_query(
-			$sql,
-			$query,
-			array(
-				$domain_new_expire,
-				$user_id
-			)
-		);
+	exec_query(
+		$db, $query,
+		array($domain_new_expire, $user_id)
+	);
 }
 
+/**
+ * Updates customer properties
+ *
+ * @param  $user_id Customer id
+ * @param  $props New properties values
+ * @return void
+ */
 function update_user_props($user_id, $props) {
 
-	$sql = Database::getInstance();
+	/**
+	 * @var ispCP_Config_Handler_File $cfg
+	 */
+	$cfg = ispCP_Registry::get('Config');
+
+	/**
+	 * @var ispCP_Database $db
+	 */
+	$db = ispCP_Registry::get('Db');
 
 	list(
-		$sub_current,
-		$sub_max,
-		$als_current,
-		$als_max,
-		$mail_current,
-		$mail_max,
-		$ftp_current,
-		$ftp_max,
-		$sql_db_current,
-		$sql_db_max,
-		$sql_user_current,
-		$sql_user_max,
-		$traff_max,
-		$disk_max,
-		$domain_php,
-		$domain_cgi,
-		$domain_dns
-	) = explode (";", $props);
+		,$sub_max,,$als_max,,$mail_max,,$ftp_max,,$sql_db_max,,$sql_user_max,
+		$traff_max,$disk_max,$domain_php,$domain_cgi,,$domain_dns
+	) = explode (';', $props);
 
 	// have to check if PHP and/or CGI and/or IP change
 	$domain_last_modified = time();
@@ -191,15 +220,18 @@ function update_user_props($user_id, $props) {
 			`domain_cgi` = ?
 		AND
 			`domain_dns` = ?
+		;
 	";
 
-	$rs = exec_query($sql, $query, array($user_id, $domain_php, $domain_cgi, $domain_dns));
+	$rs = exec_query(
+		$db, $query, array($user_id, $domain_php, $domain_cgi, $domain_dns)
+	);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		// mama mia, we have to rebuild the system entry for this domain
 		// and also all domain alias and subdomains
 
-		$update_status = Config::get('ITEM_CHANGE_STATUS');
+		$update_status = $cfg->ITEM_CHANGE_STATUS;
 
 		// check if we have to wait some system update
 		check_for_lock_file();
@@ -225,26 +257,16 @@ function update_user_props($user_id, $props) {
 				`domain_dns` = ?
 			WHERE
 				`domain_id` = ?
+			;
 		";
 
 		$rs = exec_query(
-			$sql,
+			$db,
 			$query,
 			array(
-				$domain_last_modified,
-				$mail_max,
-				$ftp_max,
-				$traff_max,
-				$sql_db_max,
-				$sql_user_max,
-				$update_status,
-				$als_max,
-				$sub_max,
-				$disk_max,
-				$domain_php,
-				$domain_cgi,
-				$domain_dns,
-				$user_id
+				$domain_last_modified, $mail_max, $ftp_max, $traff_max,
+				$sql_db_max, $sql_user_max, $update_status, $als_max, $sub_max,
+				$disk_max, $domain_php, $domain_cgi, $domain_dns, $user_id
 			)
 		);
 
@@ -257,8 +279,10 @@ function update_user_props($user_id, $props) {
 				`alias_status` = ?
 			WHERE
 				`domain_id` = ?
+			;
 		";
-		$rs = exec_query($sql, $query, array($update_status, $user_id));
+
+		$rs = exec_query($db, $query, array($update_status, $user_id));
 
 		// let's update all subdomains for this domain
 		$query = "
@@ -268,8 +292,10 @@ function update_user_props($user_id, $props) {
 				`subdomain_status` = ?
 			WHERE
 				`domain_id` = ?
+			;
 		";
-		$rs = exec_query($sql, $query, array($update_status, $user_id));
+
+		$rs = exec_query($db, $query, array($update_status, $user_id));
 
 		// let's update all alias subdomains for this domain
 		$query = "
@@ -278,11 +304,20 @@ function update_user_props($user_id, $props) {
 			SET
 				`subdomain_alias_status` = ?
 			WHERE
-				`alias_id` IN (SELECT `alias_id` FROM `domain_aliasses` WHERE `domain_id` = ?)
+				`alias_id` IN (
+					SELECT
+						`alias_id`
+					FROM
+						`domain_aliasses`
+					WHERE
+						`domain_id` = ?
+				)
+			;
 		";
-		$rs = exec_query($sql, $query, array($update_status, $user_id));
 
-		// and now we start the daemon
+		$rs = exec_query($db, $query, array($update_status, $user_id));
+
+		// Send request to the ispCP daemon
 		send_request();
 
 	} else {
@@ -305,37 +340,29 @@ function update_user_props($user_id, $props) {
 				`domain_disk_limit` = ?
 			WHERE
 				domain_id = ?
+			;
 		";
 
 		$rs = exec_query(
-			$sql,
+			$db,
 			$query,
 			array(
-				$sub_max,
-				$als_max,
-				$mail_max,
-				$ftp_max,
-				$sql_db_max,
-				$sql_user_max,
-				$traff_max,
-				$disk_max,
-				$user_id
+				$sub_max, $als_max, $mail_max, $ftp_max, $sql_db_max,
+				$sql_user_max, $traff_max, $disk_max, $user_id
 			)
 		);
 	}
 }
 
-/* end */
-
-function escape_user_data($data) {
-
-	$res_one = preg_replace("/\\\\/", "", $data);
-	$res = preg_replace("/'/", "\\\'", $res_one);
-	return $res;
-
-}
-
+/**
+ * Should be documented
+ *
+ * @param  $arr
+ * @param bool $asPath
+ * @return string
+ */
 function array_decode_idna($arr, $asPath = false) {
+
 	if ($asPath && !is_array($arr)) {
 		return implode('/', array_decode_idna(explode('/', $arr)));
 	}
@@ -343,9 +370,17 @@ function array_decode_idna($arr, $asPath = false) {
 	foreach ($arr as $k => $v) {
 		$arr[$k] = decode_idna($v);
 	}
+
 	return $arr;
 }
 
+/**
+ * Should be documented
+ *
+ * @param $arr
+ * @param bool $asPath
+ * @return string
+ */
 function array_encode_idna($arr, $asPath = false) {
 
 	if ($asPath && !is_array($arr)) {
@@ -358,9 +393,16 @@ function array_encode_idna($arr, $asPath = false) {
 	return $arr;
 }
 
+/**
+ * Should be documented
+ *
+ * @param  $input
+ * @return string
+ */
 function decode_idna($input) {
+
 	if (function_exists('idn_to_unicode')) {
-		return idn_to_unicode($input, 'utf-8');
+		return idn_to_utf8($input, IDNA_USE_STD3_RULES);
 	}
 
 	$IDN = new idna_convert();
@@ -369,28 +411,41 @@ function decode_idna($input) {
 	return ($output == false) ? $input : $output;
 }
 
+/**
+ * Should be documented
+ *
+ * @param  $input
+ * @return string
+ */
 function encode_idna($input) {
+
 	if (function_exists('idn_to_ascii')) {
-		return idn_to_ascii($input, 'utf-8');
+		return idn_to_ascii($input);
 	}
 
 	$IDN = new idna_convert();
 	$output = $IDN->encode($input);
+
 	return $output;
 }
 
-function strip_html($input) {
-	$output = htmlspecialchars($input, ENT_QUOTES, "UTF-8");
-	return $output;
+/**
+ * Should be documented
+ *
+ * @param $integer Number to be checked
+ * @return boolean TRUE if number, FALSE otherwise
+ */
+function is_number($number) {
+
+	return (bool) preg_match('/^[0-9]+$/D', $number);
 }
 
-function is_number($integer) {
-	if (preg_match('/^[0-9]+$/D', $integer)) {
-		return true;
-	}
-	return false;
-}
-
+/**
+ * Should be documented
+ *
+ * @param  $string string to be checked
+ * @return bool TRUE if basic string, FALSE otherwise
+ */
 function is_basicString($string) {
 	if (preg_match('/^[\w\-]+$/D', $string)) {
 		return true;
@@ -399,7 +454,9 @@ function is_basicString($string) {
 }
 
 /**
- * @todo please add a descrition for this function
+ * Should be documented
+ *
+ * @return void
  */
 function unset_messages() {
 
@@ -469,5 +526,137 @@ function unset_messages() {
 		if (array_key_exists($toUnset, $_SESSION)) {
 			unset($_SESSION[$toUnset]);
 		}
+	}
+}
+
+/**
+ * Checks for XMLHttpRequest
+ *
+ * Returns true if the request‘s "X-Requested-With" header
+ * contains "XMLHttpRequest".
+ *
+ * Note: jQuery and Prototype Javascript libraries sends this
+ * header with every Ajax request.
+ *
+ * @author Laurent Declercq (nuxwin) <laurent.declercq@ispcp.net>
+ * @Since r2587
+ * @return boolean TRUE if the request‘s "X-Requested-With" header
+ *  contains "XMLHttpRequest", FALSE otherwise
+ * @todo Move to future Request class
+ */
+function is_xhr() {
+
+	if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+		stristr($_SERVER['HTTP_X_REQUESTED_WITH'], 'XMLHttpRequest') !== false) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Check if a data is serialized
+ *
+ * @since 1.0.7
+ * @author Laurent Declercq (nuxwin) <laurent.declercq@ispcp.net>
+ * @param mixed $data Data to be checked
+ * @return boolean TRUE if serialized data, FALSE otherwise
+ */
+function is_serialized($data) {
+
+	if (!is_string($data)) {
+		return false;
+	}
+
+	$data = trim($data);
+
+	if ('N;' == $data) {
+		return true;
+	}
+
+	if(preg_match("/^[aOs]:[0-9]+:.*[;}]\$/s", $data) ||
+		preg_match("/^[bid]:[0-9.E-]+;\$/", $data)) {
+
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Decrypte database password
+ *
+ * @throws ispCP_Exception
+ * @param  $db_pass Encrypted database password
+ * @return string Decrypted database password
+ * @todo Remove error operator
+ */
+function decrypt_db_password($db_pass) {
+
+	if ($db_pass == '') {
+		return '';
+	}
+
+	if (extension_loaded('mcrypt')) {
+
+		$text = @base64_decode($db_pass . "\n");
+		$td = @mcrypt_module_open('blowfish', '', 'cbc', '');
+		$key = ispCP_Registry::get('MCRYPT_KEY');
+		$iv = ispCP_Registry::get('MCRYPT_IV');
+
+		// Initialize encryption
+		@mcrypt_generic_init($td, $key, $iv);
+		// Decrypt encrypted string
+		$decrypted = @mdecrypt_generic($td, $text);
+		@mcrypt_module_close($td);
+
+		// Show string
+		return trim($decrypted);
+	} else {
+		throw new ispCP_Exception(
+			"Error: PHP extension 'mcrypt' not loaded!"
+		);
+	}
+}
+
+/**
+ * Encrypte database password
+ *
+ * @throws ispCP_Exception
+ * @param $db_pass Database password
+ * @return string Encrypted database password
+ * @todo Remove error operator
+ */
+function encrypt_db_password($db_pass) {
+
+	if (extension_loaded('mcrypt')) {
+
+		$td = @mcrypt_module_open(MCRYPT_BLOWFISH, '', 'cbc', '');
+		$key = ispCP_Registry::get('MCRYPT_KEY');
+		$iv = ispCP_Registry::get('MCRYPT_IV');
+
+		// compatibility with used perl pads
+		$block_size = @mcrypt_enc_get_block_size($td);
+		$strlen = strlen($db_pass);
+
+		$pads = $block_size-$strlen % $block_size;
+
+		$db_pass .= str_repeat(' ', $pads);
+
+		// Initialize encryption
+		@mcrypt_generic_init($td, $key, $iv);
+		// Encrypt string
+		$encrypted = @mcrypt_generic($td, $db_pass);
+		@mcrypt_generic_deinit($td);
+		@mcrypt_module_close($td);
+
+		$text = @base64_encode("$encrypted");
+
+		// Show encrypted string
+		return trim($text);
+	} else {
+		throw new ispCP_Exception(
+			tr("ERROR: PHP extension 'mcrypt' not loaded!")
+		);
 	}
 }

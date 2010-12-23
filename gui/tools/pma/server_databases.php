@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  *
- * @version $Id: server_databases.php 12242 2009-02-20 09:22:20Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -14,6 +14,7 @@ require_once './libraries/common.inc.php';
 
 $GLOBALS['js_include'][] = 'functions.js';
 require './libraries/server_common.inc.php';
+require './libraries/replication.inc.php';
 
 /**
  * avoids 'undefined index' errors
@@ -21,7 +22,21 @@ require './libraries/server_common.inc.php';
 if (empty($_REQUEST['sort_by'])) {
     $sort_by = 'SCHEMA_NAME';
 } else {
-    $sort_by = PMA_sanitize($_REQUEST['sort_by']);
+    $sort_by_whitelist = array(
+        'SCHEMA_NAME',
+        'DEFAULT_COLLATION_NAME',
+        'SCHEMA_TABLES',
+        'SCHEMA_TABLE_ROWS',
+        'SCHEMA_DATA_LENGTH',
+        'SCHEMA_INDEX_LENGTH',
+        'SCHEMA_LENGTH',
+        'SCHEMA_DATA_FREE'
+    );
+    if (in_array($_REQUEST['sort_by'], $sort_by_whitelist)) {
+        $sort_by = $_REQUEST['sort_by'];
+    } else {
+        $sort_by = 'SCHEMA_NAME';
+    }
 }
 
 if (isset($_REQUEST['sort_order'])
@@ -34,7 +49,7 @@ if (isset($_REQUEST['sort_order'])
 $dbstats    = empty($_REQUEST['dbstats']) ? 0 : 1;
 $pos        = empty($_REQUEST['pos']) ? 0 : (int) $_REQUEST['pos'];
 
-
+           
 /**
  * Drops multiple databases
  */
@@ -57,7 +72,7 @@ if ((isset($_REQUEST['drop_selected_dbs']) || isset($_REQUEST['query_type']))
             $selected_db = $_REQUEST['selected_dbs'];
         }
         require './libraries/mult_submits.inc.php';
-        unset($action, $submit_mult, $err_url, $selected_db);
+        unset($action, $submit_mult, $err_url, $selected_db, $GLOBALS['db']);
         if (empty($message)) {
             $message = PMA_Message::success('strDatabasesDropped');
             if ($mult_btn == $strYes) {
@@ -187,6 +202,17 @@ if ($databases_count > 0) {
                 .'        </a></th>' . "\n";
         }
     }
+    
+    foreach ($replication_types as $type) 
+    {
+      if ($type=="master")
+	$name = "strReplicationMaster";
+      elseif($type == "slave")
+	$name = "strReplicationSlave";
+      if (${"server_{$type}_status"})  
+        echo '    <th>'.$GLOBALS[$name].'</th>' . "\n";
+    }
+    
     if ($is_superuser) {
         echo '    <th>' . ($cfg['PropertiesIconic'] ? '' : $strAction) . "\n"
            . '    </th>' . "\n";
@@ -247,6 +273,26 @@ if ($databases_count > 0) {
                 }
             }
         }
+        foreach ($replication_types as $type) {
+            if (${"server_{$type}_status"}) {
+                echo '<td class="tool" style="text-align: center;">' . "\n";
+
+                if (strlen(array_search($current["SCHEMA_NAME"], ${"server_{$type}_Ignore_DB"}))>0) {
+                    echo '<img class="icon" src="' . $pmaThemeImage . 's_cancel.png" width="16" height="16"  alt="NOT REPLICATED" />' . "\n";
+                } else {
+                    $key = array_search($current["SCHEMA_NAME"], ${"server_{$type}_Do_DB"});
+
+                    if (strlen($key) > 0 || (${"server_{$type}_Do_DB"}[0] == "" && count(${"server_{$type}_Do_DB"}) == 1)) {
+                        // if ($key != null) did not work for index "0"
+                        echo '<img class="icon" src="' . $pmaThemeImage . 's_success.png" width="16" height="16"  alt="REPLICATED" />' . "\n";
+                    } else {
+                        echo '';
+                    }
+                }
+
+                echo '</td>';
+            }
+        }
 
         if ($is_superuser) {
             echo '    <td class="tool">' . "\n"
@@ -294,6 +340,13 @@ if ($databases_count > 0) {
             }
         }
     }
+    
+    foreach ($replication_types as $type) 
+    {
+      if (${"server_{$type}_status"})  
+        echo '    <th></th>' . "\n";
+    }
+
     if ($is_superuser) {
         echo '    <th></th>' . "\n";
     }
@@ -303,11 +356,11 @@ if ($databases_count > 0) {
     unset($column_order, $stat_name, $stat, $databases, $table_columns);
 
     if ($is_superuser || $cfg['AllowUserDropDatabase']) {
-        $common_url_query = PMA_generate_common_url() . '&amp;sort_by=' . $sort_by . '&amp;sort_order=' . $sort_order . '&amp;dbstats=' . $dbstats;
+        $common_url_query = PMA_generate_common_url(array('sort_by' => $sort_by, 'sort_order' => $sort_order, 'dbstats' => $dbstats));
         echo '<img class="selectallarrow" src="' . $pmaThemeImage . 'arrow_' . $text_dir . '.png" width="38" height="22" alt="' . $strWithChecked . '" />' . "\n"
-           . '<a href="./server_databases.php?' . $common_url_query . '&amp;checkall=1" onclick="if (markAllRows(\'tabledatabases\')) return false;">' . "\n"
+           . '<a href="./server_databases.php' . $common_url_query . '&amp;checkall=1" onclick="if (markAllRows(\'tabledatabases\')) return false;">' . "\n"
            . '    ' . $strCheckAll . '</a> / ' . "\n"
-           . '<a href="./server_databases.php?' . $common_url_query . '" onclick="if (unMarkAllRows(\'tabledatabases\')) return false;">' . "\n"
+           . '<a href="./server_databases.php' . $common_url_query . '" onclick="if (unMarkAllRows(\'tabledatabases\')) return false;">' . "\n"
            . '    ' . $strUncheckAll . '</a>' . "\n"
            . '<i>' . $strWithChecked . '</i>' . "\n";
         PMA_buttonOrImage('drop_selected_dbs', 'mult_submit', 'drop_selected_dbs', $strDrop, 'b_deltbl.png');

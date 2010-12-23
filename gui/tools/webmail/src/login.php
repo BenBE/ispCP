@@ -6,7 +6,7 @@
  * This a simple login screen. Some housekeeping is done to clean
  * cookies and find language.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -112,7 +112,11 @@ if (!empty($sel)) {
         sqsession_register($sep, 'session_expired_post');
 }
 
+// Disable Browser Caching
+//
+header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
+header('Expires: Sat, 1 Jan 2000 00:00:00 GMT');
 
 do_hook('login_cookie');
 
@@ -158,7 +162,7 @@ if (! isset($color) || ! is_array($color)) {
 
 displayHtmlHeader( "$org_name - " . _("Login"), $header, FALSE );
 
-echo "<body id=\"login_bg\" text=\"$color[8]\" bgcolor=\"$color[4]\" link=\"$color[7]\" vlink=\"$color[7]\" alink=\"$color[7]\" onLoad=\"squirrelmail_loginpage_onload();\">" .
+echo "<body text=\"$color[8]\" bgcolor=\"$color[4]\" link=\"$color[7]\" vlink=\"$color[7]\" alink=\"$color[7]\" onLoad=\"squirrelmail_loginpage_onload();\">" .
      "\n" . addForm('redirect.php', 'post', 'login_form');
 
 $username_form_name = 'login_username';
@@ -187,28 +191,29 @@ if (isset($org_logo) && $org_logo) {
 }
 
 //
-// Modified by ispCP Omega - http://isp-control.net
+// @modified by ispCP Omega - http://isp-control.net
 //
 ?>
-<div id="login_container">
-<?php
+<div id="login_container"> 
+  <h1 id="login_h1"><?php echo _("WebMail")."&nbsp;"._("Login"); ?></h1>
+  <?php
   if (isset($org_logo) && $org_logo) { echo '<img src="' . $org_logo . '" alt="' . sprintf(_("%s Logo"), $org_name) .'"' . $width_and_height . 'id="login_logo" />' . "\n"; }?>
   <fieldset id="login_fieldset">
-  <label for="<?php echo $username_form_name; ?>" class="login_user"><?php echo _("Name:"); ?></label><?php echo "<input type=\"text\" name=\"$username_form_name\" value=\"$loginname_value\" tabindex=\"1\" class=\"login_input\" onfocus=\"alreadyFocused=true;\">"; ?><br />
-  <label for="<?php echo $password_form_name; ?>" class="login_user"><?php echo _("Password:"); ?></label><input name="<?php echo $password_form_name; ?>" type="password" class="login_input" tabindex="2" onfocus="alreadyFocused=true;">
+  <label for="<?php echo $username_form_name; ?>" class="login_user"><?php echo _("Username"); ?>:</label><?php echo "<input type=\"text\" name=\"$username_form_name\" value=\"$loginname_value\" tabindex=\"1\" class=\"login_input\" onfocus=\"alreadyFocused=true;\">"; ?><br />
+  <label for="<?php echo $password_form_name; ?>" class="login_user"><?php echo _("Password"); ?>:</label><input name="<?php echo $password_form_name; ?>" type="password" class="login_input" tabindex="2" onfocus="alreadyFocused=true;">
   <input type="hidden" name="js_autodetect_results" value="SMPREF_JS_OFF">
   <input type="hidden" name="just_logged_in" value="1">
   <input name="button" type="submit" value="<?php echo _("Login"); ?>" class="login_button">
-<?php do_hook('login_form'); ?>
-</fieldset>
-<div id="login_copyright">
-    <?php echo _("Powered by"); ?> <a href="http://www.squirrelmail.org" target="_blank" style="text-decoration: none;" title="Squirrelmail">Squirrelmail.org</a>
-    <br />
-    <?php echo _("Theme by"); ?> <a href="http://www.ispcp.net" target="_blank" style="text-decoration: none;" title="ispCP">ispCP</a>
-</div>
+  <?php do_hook('login_form'); ?>
+  </fieldset>
+  <div id="login_copyright"> 
+    <p><?php echo _("Powered by"); ?> <a href="http://www.squirrelmail.org" target="_blank" style="text-decoration: none;" title="Squirrelmail">Squirrelmail.org</a></p>
+  </div>
 </div>
 </form>
+
 <?php
+
 do_hook('login_bottom');
 ?>
 </body></html>

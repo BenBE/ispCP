@@ -12,17 +12,12 @@
  *       our current sql.php.
  *       Of course the interface would need a way to pass calling parameters.
  *       Also, support DEFINER (like we do in export).
- * @version $Id: db_routines.inc.php 11982 2008-11-24 10:32:56Z nijel $
+ * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
     exit;
 }
-
-/**
- * Append goto to ulr_query.
- */
-$url_query .= '&amp;goto=db_structure.php';
 
 $routines = PMA_DBI_fetch_result('SELECT SPECIFIC_NAME,ROUTINE_NAME,ROUTINE_TYPE,DTD_IDENTIFIER FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA= \'' . PMA_sqlAddslashes($db,true) . '\';');
 
@@ -79,7 +74,7 @@ if ($routines) {
                      </tr>',
                      ($ct%2 == 0) ? 'even' : 'odd',
                      $routine['ROUTINE_NAME'],
-                     ! empty($definition) ? PMA_linkOrButton('db_sql.php?' . $url_query . '&amp;sql_query=' . urlencode($definition) . '&amp;show_query=1&amp;delimiter=' . urlencode($delimiter), $titles['Structure']) : '&nbsp;',
+                     ! empty($definition) ? PMA_linkOrButton('db_sql.php?' . $url_query . '&amp;sql_query=' . urlencode($definition) . '&amp;show_query=1&amp;db_query_force=1&amp;delimiter=' . urlencode($delimiter), $titles['Structure']) : '&nbsp;',
                      '<a href="sql.php?' . $url_query . '&amp;sql_query=' . urlencode($sqlDropProc) . '" onclick="return confirmLink(this, \'' . PMA_jsFormat($sqlDropProc, false) . '\')">' . $titles['Drop'] . '</a>',
                      $routine['ROUTINE_TYPE'],
                      $routine['DTD_IDENTIFIER']);

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,33 +32,38 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('dir_item', 'page');
 $tpl->define_dynamic('action_link', 'page');
 $tpl->define_dynamic('list_item', 'page');
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/ftp_choose_dir.tpl');
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_choose_dir.tpl');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 function gen_directories(&$tpl) {
-	$sql = Database::getInstance();
+
+	$sql = ispCP_Registry::get('Db');
 	// Initialize variables
 	$path = isset($_GET['cur_dir']) ? $_GET['cur_dir'] : '';
 	$domain = $_SESSION['user_logged'];
 	// Create the virtual file system and open it so it can be used
-	$vfs = new vfs($domain, $sql);
+	$vfs = new ispCP_VirtualFileSystem($domain, $sql);
 	// Get the directory listing
 	$list = $vfs->ls($path);
 	if (!$list) {
-		set_page_message(tr('Cannot open directory!<br>Please contact your administrator!'));
+		set_page_message(
+			tr('Cannot open directory!<br />Please contact your administrator!'),
+			'error'
+		);
 		return;
 	}
 	// Show parent directory link
-	$parent = explode('/', $path);
+	$parent = explode(DIRECTORY_SEPARATOR, $path);
 	array_pop($parent);
-	$parent = implode('/', $parent);
+	$parent = implode(DIRECTORY_SEPARATOR, $parent);
 	$tpl->assign('ACTION_LINK', '');
 	$tpl->assign(
 		array(
@@ -72,7 +77,7 @@ function gen_directories(&$tpl) {
 	// Show directories only
 	foreach ($list as $entry) {
 		// Skip non-directory entries
-		if ($entry['type'] != vfs::VFS_TYPE_DIR) {
+		if ($entry['type'] != ispCP_VirtualFileSystem::VFS_TYPE_DIR) {
 			continue;
 		}
 		// Skip '.' and '..'
@@ -87,18 +92,26 @@ function gen_directories(&$tpl) {
 		} else {
 			$image = "folder";
 		}
+
+		// Check if folder does not contain a folder that can not be protected
+		// @todo: valid directories (e.g. /htdocs/disabled/) are excluded (false positive)
+		$forbiddenDirnames = ('/backups|disabled|errors|logs|phptmp/i');
+		$forbidden = preg_match($forbiddenDirnames, $entry['file']);
+		if ($forbidden === 1) {
+			$tpl->assign('ACTION_LINK', '');
+		} else {
+			$tpl->parse('ACTION_LINK', 'action_link');
+		}
 		// Create the directory link
 		$tpl->assign(
 			array(
-				'ACTION' => tr('Protect it'),
-				'PROTECT_IT' => "protected_areas_add.php?file=$dr",
+				'PROTECT_IT' => "protected_areas_add.php?file=".$dr,
 				'ICON' => $image,
-				'DIR_NAME' => $entry['file'],
+				'DIR_NAME' => tohtml($entry['file']),
 				'CHOOSE_IT' => $dr,
-				'LINK' => "ftp_choose_dir.php?cur_dir=$dr",
+				'LINK' => "ftp_choose_dir.php?cur_dir=".$dr,
 			)
 		);
-		$tpl->parse('ACTION_LINK', 'action_link');
 		$tpl->parse('DIR_ITEM' , '.dir_item');
 	}
 }
@@ -107,10 +120,7 @@ function gen_directories(&$tpl) {
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
 	)
 );
 
@@ -118,10 +128,10 @@ gen_directories($tpl);
 
 $tpl->assign(
 	array(
+		'CHOOSE' => tr('Choose'),
 		'TR_DIRECTORY_TREE' => tr('Directory tree'),
 		'TR_DIRS' => tr('Directories'),
-		'TR__ACTION' => tr('Action'),
-		'CHOOSE' => tr('Choose')
+		'TR__ACTION' => tr('Action')
 	)
 );
 
@@ -130,7 +140,10 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+
+?>

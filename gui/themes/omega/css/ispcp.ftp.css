@@ -1,0 +1,87 @@
+/**
+ * ispCP ω (OMEGA) a Virtual Hosting Control System
+ *
+ * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @version		SVN: $Id$
+ * @link		http://isp-control.net
+ * @author 		ispCP Team
+ *
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "ispCP - ISP Control Panel".
+ *
+ * The Initial Developer of the Original Code is ispCP Team.
+ * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * isp Control Panel. All Rights Reserved.
+ */
+ 
+@CHARSET "UTF-8";
+
+* {
+	color: #000;
+	font-family: Arial, sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+h2 {
+	font-size: 1.6em;
+	font-variant: small-caps;
+	font-weight: bold;
+	height: 33px;
+	margin: 1em 0 0;
+	padding-left: 33px;
+}
+
+th {
+	background: #000 url(../images/background/top_bar_bg.jpg) repeat-x;
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #000;
+	color: #fff;
+	font-weight: bold;
+	padding: 5px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+th:first-child {
+	border-left: 1px solid #000;
+}
+
+th:last-child {
+	border-right: 1px solid #000;
+}
+
+td {
+    border-bottom: 1px solid rgb(223,223,223);
+	border-top: 1px solid rgb(223,223,223);
+	padding: 5px;
+	white-space: nowrap;
+}
+
+.icon {
+	background-position: top left;
+	background-repeat: no-repeat;
+	height: 16px;
+	line-height: 16px;
+	margin: 0 5px;
+	padding-left: 20px;
+}
+
+.icon:first-child {
+	margin-right: 0;
+}
+
+.i_bc_folder { background-image: url(../images/icons/bc_folder.png); }
+.i_bc_locked { background-image: url(../images/icons/bc_locked.png); }
+.i_bc_parent { background-image: url(../images/icons/bc_parent.png); }
+.i_choose { background-image: url(../images/icons/bc_parent.png); }

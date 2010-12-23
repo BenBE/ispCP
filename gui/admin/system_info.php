@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,174 +24,107 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
-
-define('IN_PHPSYSINFO', true);
-require_once('../include/phpsysinfo/class.error.inc.php');
-require_once('../include/phpsysinfo/common_functions.php');
-require_once('../include/phpsysinfo/class.' . PHP_OS . '.inc.php');
-$sysinfo = new sysinfo;
-$error = new error;
-
-function compat_array_keys($arr) {
-	$result = array();
-
-	while (list($key, $val) = each($arr)) {
-		$result[] = $key;
-	}
-	return $result;
-}
-
-function compat_in_array($value, $arr) {
-	while (list($key, $val) = each($arr)) {
-		if ($value == $val) {
-			return true;
-		}
-	}
-	return false;
-}
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/system_info.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/system_info.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('disk_list', 'page');
 $tpl->define_dynamic('disk_list_item', 'disk_list');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$sysinfo = new ispCP_SystemInfo();
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_SYSTEM_INFO_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'CPU_MODEL'				=> tohtml($sysinfo->cpu['model']),
+		'CPU_COUNT'				=> tohtml($sysinfo->cpu['cpus']),
+		'CPU_MHZ'				=> tohtml($sysinfo->cpu['cpuspeed']),
+		'CPU_CACHE'				=> tohtml($sysinfo->cpu['cache']),
+		'CPU_BOGOMIPS'			=> tohtml($sysinfo->cpu['bogomips']),
+		'UPTIME'				=> tohtml($sysinfo->uptime),
+		'KERNEL'				=> tohtml($sysinfo->kernel),
+		'LOAD'					=> $sysinfo->load[0] .' '.
+									$sysinfo->load[1] .' '.
+									$sysinfo->load[2],
+		'RAM_TOTAL'				=> sizeit($sysinfo->ram['total'], 'KB'),
+		'RAM_USED'				=> sizeit($sysinfo->ram['used'], 'KB'),
+		'RAM_FREE'				=> sizeit($sysinfo->ram['free'], 'KB'),
+		'SWAP_TOTAL'			=> sizeit($sysinfo->swap['total'], 'KB'),
+		'SWAP_USED'				=> sizeit($sysinfo->swap['used'], 'KB'),
+		'SWAP_FREE'				=> sizeit($sysinfo->swap['free'], 'KB'),
 	)
 );
 
-function gen_mount_point(&$tpl) {
-	global $sysinfo;
-	$mount_points = $sysinfo->filesystems();
+$mount_points = $sysinfo->filesystem;
 
-	while (list($number, $row) = each($mount_points)) {
+foreach ($mount_points as $mountpoint) {
 		$tpl->assign(
 			array(
-				'ITEM_CLASS' => (($number + 1) % 2 == 0) ? 'content' : 'content2',
+				'MOUNT'		=> tohtml($mountpoint['mount']),
+				'TYPE'		=> tohtml($mountpoint['fstype']),
+				'PARTITION'	=> tohtml($mountpoint['disk']),
+				'PERCENT'	=> $mountpoint['percent'],
+				'FREE'		=> sizeit($mountpoint['free'], 'KB'),
+				'USED'		=> sizeit($mountpoint['used'], 'KB'),
+				'SIZE'		=> sizeit($mountpoint['size'], 'KB'),
 			)
 		);
 
-		$tpl->assign(
-			array(
-				'MOUNT'		=> $row['mount'],
-				'TYPE'		=> $row['fstype'],
-				'PARTITION'	=> $row['disk'],
-				'PERCENT'	=> $row['percent'],
-				'FREE'		=> sizeit($row['free'], 'KB'),
-				'USED'		=> sizeit($row['used'], 'KB'),
-				'SIZE'		=> sizeit($row['size'], 'KB'),
-			)
-		);
-
-		$tpl->parse('DISK_LIST_ITEM', '.disk_list_item');
-	}
-
-	$tpl->parse('DISK_LIST', 'disk_list');
+	$tpl->parse('DISK_LIST_ITEM', '.disk_list_item');
 }
 
-/*
- *
- * static page messages.
- *
- */
+$tpl->parse('DISK_LIST', 'disk_list');
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_system_tools.tpl');
-
-gen_mount_point($tpl);
-
-$kernel = $sysinfo->kernel();
-// maybe add translation here
-$text['days'] = tr('days');
-$text['hours'] = tr('hours');
-$text['minutes'] = tr('minutes');
-
-$uptime = uptime($sysinfo->uptime());
-$load = $sysinfo->loadavg();
-$cpu = $sysinfo->cpu_info();
-$mem = $sysinfo->memory();
-
-if (!isset($cpu['model'])) {
-	$cpu['model'] = "n.a.";
-}
-if (!isset($cpu['cpus'])) {
-	$cpu['cpus'] = "n.a.";
-}
-if (!isset($cpu['cpuspeed'])) {
-	$cpu['cpuspeed'] = "n.a.";
-}
-if (!isset($cpu['cache'])) {
-	$cpu['cache'] = "n.a.";
-}
-if (!isset($cpu['bogomips'])) {
-	$cpu['bogomips'] = "n.a.";
-}
+// static page messages
 
 $tpl->assign(
 	array(
-		'TR_SYSTEM_INFO_TITLE'	=> tr('System info'),
-		'TR_SYSTEM_INFO'		=> tr('Vital system info'),
-		'TR_CPU_SYSTEM_INFO'	=> tr('CPU system Info'),
-		'TR_CPU_MODEL'			=> tr('CPU model'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Virtual Hosting Control System'),
+		'TR_CPU_BOGOMIPS'		=> tr('CPU bogomips'),
+		'TR_CPU_CACHE'			=> tr('CPU cache'),
 		'TR_CPU_COUNT'			=> tr('Number of CPU Cores'),
 		'TR_CPU_MHZ'			=> tr('CPU MHz'),
-		'TR_CPU_CACHE'			=> tr('CPU cache'),
-		'TR_CPU_BOGOMIPS'		=> tr('CPU bogomips'),
-		'CPU_MODEL'				=> $cpu['model'],
-		'CPU_COUNT'				=> $cpu['cpus'],
-		'CPU_MHZ'				=> $cpu['cpuspeed'],
-		'CPU_CACHE'				=> $cpu['cache'],
-		'CPU_BOGOMIPS'			=> $cpu['bogomips'],
-		'TR_MEMRY_SYSTEM_INFO'	=> tr('Memory system info'),
-		'TR_RAM'				=> tr('RAM'),
-		'TR_TOTAL'				=> tr('Total'),
-		'TR_USED'				=> tr('Used'),
-		'TR_FREE'				=> tr('Free'),
-		'TR_SWAP'				=> tr('Swap'),
-		'TR_UPTIME'				=> tr('Up time'),
-		'UPTIME'				=> $uptime,
-		'TR_KERNEL'				=> tr('Kernel'),
-		'KERNEL'				=> $kernel,
-		'TR_LOAD'				=> tr('Load'),
-		'LOAD'					=> $load['avg'][0] . ' ' . $load['avg'][1] . ' ' . $load['avg'][2],
-		'RAM'					=> tr('RAM'),
-		'RAM_TOTAL'				=> sizeit($mem['ram']['total'], 'KB'),
-		'RAM_USED'				=> sizeit($mem['ram']['used'], 'KB'),
-		'RAM_FREE'				=> sizeit($mem['ram']['free'], 'KB'),
-		'SWAP_TOTAL'			=> sizeit($mem['swap']['total'], 'KB'),
-		'SWAP_USED'				=> sizeit($mem['swap']['used'], 'KB'),
-		'SWAP_FREE'				=> sizeit($mem['swap']['free'], 'KB'),
+		'TR_CPU_MODEL'			=> tr('CPU model'),
+		'TR_CPU_SYSTEM_INFO'	=> tr('CPU system Info'),
 		'TR_FILE_SYSTEM_INFO'	=> tr('Filesystem system Info'),
+		'TR_FREE'				=> tr('Free'),
+		'TR_KERNEL'				=> tr('Kernel Version'),
+		'TR_LOAD'				=> tr('Load (1 Min, 5 Min, 15 Min)'),
+		'TR_MEMRY_SYSTEM_INFO'	=> tr('Memory system info'),
 		'TR_MOUNT'				=> tr('Mount'),
-		'TR_TYPE'				=> tr('Type'),
+		'TR_RAM'				=> tr('RAM'),
 		'TR_PARTITION'			=> tr('Partition'),
 		'TR_PERCENT'			=> tr('Percent'),
-		'TR_SIZE'				=> tr('Size')
+		'TR_SIZE'				=> tr('Size'),
+		'TR_SWAP'				=> tr('Swap'),
+		'TR_SYSTEM_INFO_TITLE'	=> tr('System info'),
+		'TR_SYSTEM_INFO'		=> tr('Vital system info'),
+		'TR_TOTAL'				=> tr('Total'),
+		'TR_TYPE'				=> tr('Type'),
+		'TR_UPTIME'				=> tr('Up time'),
+		'TR_USED'				=> tr('Used'),
 	)
 );
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
-
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

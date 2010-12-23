@@ -3,11 +3,12 @@
 /**
  * functions for displaying the sql query form
  *
- * @version $Id: sql_query_form.lib.php 12280 2009-03-03 15:19:48Z lem9 $
+ * @version $Id$
  * @usedby  server_sql.php
  * @usedby  db_sql.php
  * @usedby  tbl_sql.php
  * @usedby  tbl_structure.php
+ * @usedby  tbl_tracking.php
  * @usedby  querywindow.php
  * @package phpMyAdmin
  */
@@ -28,6 +29,7 @@ require_once './libraries/bookmark.lib.php'; // used for file listing
  * @usedby  db_sql.php
  * @usedby  tbl_sql.php
  * @usedby  tbl_structure.php
+ * @usedby  tbl_tracking.php
  * @usedby  querywindow.php
  * @uses    $GLOBALS['table']
  * @uses    $GLOBALS['db']
@@ -362,7 +364,7 @@ function PMA_sqlQueryFormInsert($query = '', $is_querywindow = false, $delimiter
         ?>
         <script type="text/javascript">
         //<![CDATA[
-            document.writeln(' <input type="checkbox" name="LockFromUpdate" value="1" id="checkbox_lock" /> <label for="checkbox_lock"><?php echo $GLOBALS['strQueryWindowLock']; ?></label> ');
+            document.writeln(' <input type="checkbox" name="LockFromUpdate" checked="checked" id="checkbox_lock" /> <label for="checkbox_lock"><?php echo $GLOBALS['strQueryWindowLock']; ?></label> ');
         //]]>
         </script>
         <?php

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,14 +24,16 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/addon.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/addon.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -44,20 +46,53 @@ function addon_domain($dmn_name) {
 
 	if (!validates_dname($dmn_name)) {
 		global $validation_err_msg;
-		set_page_message(tr($validation_err_msg));
+		set_page_message(tr($validation_err_msg), 'warning');
 		return;
 	}
 
 	// Should be performed after domain name validation now
 	$dmn_name = encode_idna(strtolower($dmn_name));
 
-	if(ispcp_domain_exists($dmn_name, 0)) {
-		set_page_message(tr('Domain with that name already exists on the system!'));
+	if (ispcp_domain_exists($dmn_name, 0) || $dmn_name == ispCP_Registry::get('Config')->BASE_SERVER_VHOST) {
+		set_page_message(tr('Domain already exists on the system!'), 'warning');
 		return;
 	}
 
 	$_SESSION['domainname'] = $dmn_name;
 	user_goto('address.php');
+}
+
+function is_plan_available(&$sql, $plan_id, $user_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
+		$query = "
+			SELECT
+				*
+			FROM
+				`hosting_plans`
+			WHERE
+				`id` = ?
+			";
+
+		$rs = exec_query($sql, $query, $plan_id);
+	} else {
+		$query = "
+			SELECT
+				*
+			FROM
+				`hosting_plans`
+			WHERE
+				`reseller_id` = ?
+			AND
+				`id` = ?
+		";
+
+		$rs = exec_query($sql, $query, array($user_id, $plan_id));
+	}
+
+	return $rs->recordCount() > 0 && $rs->fields['status'] != 0;
 }
 
 /**
@@ -75,12 +110,22 @@ if (isset($_SESSION['user_id'])) {
 		$plan_id = $_SESSION['plan_id'];
 	} else if (isset($_GET['id'])) {
 		$plan_id = $_GET['id'];
-		$_SESSION['plan_id'] = $plan_id;
+		if (is_plan_available($sql, $plan_id, $user_id)) {
+			$_SESSION['plan_id'] = $plan_id;
+		} else {
+			throw new ispCP_Exception_Production(
+				tr('This hosting plan is not available for purchase')
+			);
+		}
 	} else {
-		system_message(tr('You do not have permission to access this interface!'));
+		throw new ispCP_Exception_Production(
+			tr('You do not have permission to access this interface!')
+		);
 	}
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (isset($_SESSION['domainname'])) {
@@ -107,7 +152,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

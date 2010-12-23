@@ -5,7 +5,7 @@
  * @package    phpMyAdmin-setup
  * @author     Piotr Przybylski <piotrprz@gmail.com>
  * @license    http://www.gnu.org/licenses/gpl.html GNU GPL 2.0
- * @version    $Id: index.inc.php 11975 2008-11-24 09:55:30Z nijel $
+ * @version    $Id$
  */
 
 if (!defined('PHPMYADMIN')) {
@@ -126,7 +126,7 @@ display_form_top('index.php', 'get', array(
 <?php foreach ($_SESSION['ConfigFile']['Servers'] as $id => $server): ?>
 <tr>
     <td><?php echo $id ?></td>
-    <td><?php echo $cf->getServerName($id) ?></td>
+    <td><?php echo htmlspecialchars($cf->getServerName($id)) ?></td>
     <td><?php echo htmlspecialchars($cf->getValue("Servers/$id/auth_type")) ?></td>
     <td><?php echo htmlspecialchars($cf->getServerDSN($id)) ?></td>
     <td style="white-space: nowrap">

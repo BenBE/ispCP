@@ -6,9 +6,9 @@
  * This contains functions that display mailbox information, such as the
  * table row that has sender, date, subject, etc...
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: mailbox_display.php 13818 2009-08-12 08:29:53Z pdontthink $
+ * @version $Id: mailbox_display.php 13932 2010-03-30 05:54:31Z pdontthink $
  * @package squirrelmail
  */
 
@@ -53,7 +53,10 @@ function printMessageInfo($imapConnection, $t, $not_last=true, $key, $mailbox,
            $row_count,
            $allow_server_sort, /* enable/disable server-side sorting */
            $truncate_subject,
-           $truncate_sender;
+           $truncate_sender,
+           $internal_date_sort;
+
+    sqgetGlobalVar('sort', $sort, SQ_SESSION);
 
     $color_string = $color[4];
 
@@ -201,7 +204,7 @@ function printMessageInfo($imapConnection, $t, $not_last=true, $key, $mailbox,
     $col = 0;
     $msg['SUBJECT'] = decodeHeader($msg['SUBJECT']);
 //    $subject = processSubject($msg['SUBJECT'], $indent_array[$msg['ID']]);
-    $subject = truncateWithEntities(str_replace('&nbsp;',' ',$msg['SUBJECT']), $truncate_subject);
+    $subject = sm_truncate_string(str_replace('&nbsp;',' ',$msg['SUBJECT']), $truncate_subject, '...', TRUE);
     if (sizeof($index_order)) {
         foreach ($index_order as $index_order_part) {
             switch ($index_order_part) {
@@ -217,14 +220,19 @@ function printMessageInfo($imapConnection, $t, $not_last=true, $key, $mailbox,
                 $from_xtra = 'title="' . $senderFrom . '"';
                 echo html_tag( 'td',
                     html_tag('label',
-                               $italic . $bold . $flag . $fontstr . truncateWithEntities($senderName, $truncate_sender) .
+                               $italic . $bold . $flag . $fontstr . sm_truncate_string($senderName, $truncate_sender, '...', TRUE) .
                                $fontstr_end . $flag_end . $bold_end . $italic_end,
                            '','','for="msg'.$msg['ID'].'"'),
                            'left',
                            $hlt_color, $from_xtra );
                 break;
             case 3: /* date */
-                $date_string = $msg['DATE_STRING'] . '';
+                // show internal date if using it to sort
+                if ($internal_date_sort && ($sort == 0 || $sort == 1)) {
+                    $date_string = $msg['RECEIVED_DATE_STRING'] . '';
+                } else {
+                    $date_string = $msg['DATE_STRING'] . '';
+                }
                 if ($date_string == '') {
                     $date_string = _("Unknown date");
                 }
@@ -487,7 +495,7 @@ function showMessagesForMailbox($imapConnection, $mailbox, $num_msgs,
                 if (!$use_cache) {
                     $msgs = getSelfSortMessages($imapConnection, $start_msg, $show_num,
                                                 $num_msgs, $sort, $mbxresponse);
-                    $msort = calc_msort($msgs, $sort);
+                    $msort = calc_msort($msgs, $sort, $mailbox);
                 } /* !use cache */
                 break;
         } // switch
@@ -545,7 +553,7 @@ function showMessagesForMailbox($imapConnection, $mailbox, $num_msgs,
     //echo("elapsed time = $t seconds\n");
 }
 
-function calc_msort($msgs, $sort) {
+function calc_msort($msgs, $sort, $mailbox = 'INBOX') {
 
     /*
      * 0 = Date (up)
@@ -560,13 +568,19 @@ function calc_msort($msgs, $sort) {
      * 9 = Size (dn)
      */
 
+    global $internal_date_sort;
+
     if (($sort == 0) || ($sort == 1)) {
         foreach ($msgs as $item) {
-            $msort[] = $item['TIME_STAMP'];
+            if ($internal_date_sort)
+                $msort[] = $item['RECEIVED_TIME_STAMP'];
+            else
+                $msort[] = $item['TIME_STAMP'];
         }
     } elseif (($sort == 2) || ($sort == 3)) {
+        $fld_sort = (handleAsSent($mailbox)?'TO-SORT':'FROM-SORT');
         foreach ($msgs as $item) {
-            $msort[] = $item['FROM-SORT'];
+            $msort[] = $item[$fld_sort];
         }
     } elseif (($sort == 4) || ($sort == 5)) {
         foreach ($msgs as $item) {
@@ -834,7 +848,7 @@ function mail_message_listing_end($num_msgs, $paginator_str, $msg_cnt_str, $colo
 }
 
 function printHeader($mailbox, $sort, $color, $showsort=true) {
-    global $index_order;
+    global $index_order, $internal_date_sort;
     echo html_tag( 'tr' ,'' , 'center', $color[5] );
 
     /* calculate the width of the subject column based on the
@@ -866,7 +880,9 @@ function printHeader($mailbox, $sort, $color, $showsort=true) {
             break;
         case 3: /* date */
             echo html_tag( 'td' ,'' , 'left', '', 'width="5%" nowrap' )
-                 . '<b>' . _("Date") . '</b>';
+                 . '<b>'
+                 . ($internal_date_sort && ($sort == 0 || $sort == 1) ? _("Received") : _("Date"))
+                 . '</b>';
             if ($showsort) {
                 ShowSortButton($sort, $mailbox, 0, 1);
             }

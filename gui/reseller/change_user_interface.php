@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -50,12 +50,30 @@ if (isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])
 
 		if (who_owns_this($to_id, 'client') != $from_id) {
 
-			set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+			set_page_message(
+				tr('User does not exist or you do not have permission to access this interface!'),
+				'error'
+			);
 
-			user_goto('users.php');
+			user_goto('users.php?psi=last');
 		}
 
 	}
+
+    // Remember some data
+    if (isset($_SESSION['search_for'])) {
+        $_SESSION['uistack'] = array('search_for' => $_SESSION['search_for']);
+
+        if (isset($_SESSION['search_status'])) {
+            $_SESSION['uistack']['search_status'] = $_SESSION['search_status'];
+        }
+        if (isset($_SESSION['search_common'])) {
+            $_SESSION['uistack']['search_common'] = $_SESSION['search_common'];
+        }
+        if (isset($_SESSION['search_page'])) {
+            $_SESSION['uistack']['search_page'] = $_SESSION['search_page'];
+        }
+    }
 
 	change_user_interface($from_id, $to_id);
 

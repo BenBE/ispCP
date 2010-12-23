@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/admin_log.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_log.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('log_row', 'page');
 $tpl->define_dynamic('scroll_prev_gray', 'page');
@@ -42,19 +44,10 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('clear_log', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADMIN_LOG_PAGE_TITLE'	=> tr('ispCP - Admin/Admin Log'),
-		'THEME_COLOR_PATH'				=> "../themes/$theme_color",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
-	)
-);
-
 function generate_page(&$tpl) {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$start_index = 0;
 	$rows_per_page = 15;
@@ -66,7 +59,7 @@ function generate_page(&$tpl) {
 		SELECT
 			COUNT(`log_id`) AS cnt
 		FROM
-			`log`
+			`log`;
 	";
 
 	$query = "
@@ -77,7 +70,7 @@ function generate_page(&$tpl) {
 		ORDER BY
 			`log_time` DESC
 		LIMIT
-			$start_index, $rows_per_page
+			$start_index, $rows_per_page;
 	";
 
 	$rs = exec_query($sql, $count_query);
@@ -86,8 +79,8 @@ function generate_page(&$tpl) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->RowCount() == 0) {
-		// set_page_message(tr('Log is empty!'));
+	if ($rs->rowCount() == 0) {
+		// set_page_message(tr('Log is empty!'), 'notice');
 		$tpl->assign(
 			array(
 				'LOG_ROW'		=> '',
@@ -140,42 +133,43 @@ function generate_page(&$tpl) {
 				)
 			);
 
-			$log_message = htmlentities($rs->fields['log_message']);
+			$log_message = $rs->fields['log_message'];
+
 			$replaces = array(
-				'/[^a-zA-Z](delete[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z](remove[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z](add(s|ed)?)[^a-zA-Z]/i'		=> ' <strong style="color:#33CC66">\\1</strong> ',
-				'/[^a-zA-Z](change[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#3300FF">\\1</strong> ',
-				'/[^a-zA-Z](update[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#3300FF">\\1</strong> ',
-				'/[^a-zA-Z](edit(s|ed)?)[^a-zA-Z]/i'	=> ' <strong style="color:#33CC66">\\1</strong> ',
-				'/[^a-zA-Z](unknown)[^a-zA-Z]/i'		=> ' <strong style="color:#CC00FF">\\1</strong> ',
-				'/[^a-zA-Z](logged)[^a-zA-Z]/i'			=> ' <strong style="color:#336600">\\1</strong> ',
-				'/[^a-zA-Z]((session )?manipulation)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/[^a-zA-Z]*(Warning[\!]?)[^a-zA-Z]/i'	=> ' <strong style="color:#FF0000">\\1</strong> ',
-				'/(bad password login data)/i'			=> ' <strong style="color:#FF0000">\\1</strong> '
+				'/[^a-zA-Z](delete[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z](remove[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z](add(s|ed)?)[^a-zA-Z]/i'		=> ' <strong style="color:#3c6">\\1</strong> ',
+				'/[^a-zA-Z](change[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#30f">\\1</strong> ',
+				'/[^a-zA-Z](update[sd]?)[^a-zA-Z]/i'	=> ' <strong style="color:#30f">\\1</strong> ',
+				'/[^a-zA-Z](edit(s|ed)?)[^a-zA-Z]/i'	=> ' <strong style="color:#3c6">\\1</strong> ',
+				'/[^a-zA-Z](unknown)[^a-zA-Z]/i'		=> ' <strong style="color:#c0f">\\1</strong> ',
+				'/[^a-zA-Z](logged)[^a-zA-Z]/i'			=> ' <strong style="color:#360">\\1</strong> ',
+				'/[^a-zA-Z]((session )?manipulation)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/[^a-zA-Z]*(Warning[\!]?)[^a-zA-Z]/i'	=> ' <strong style="color:#f00">\\1</strong> ',
+				'/(bad password login data)/i'			=> ' <strong style="color:#f00">\\1</strong> '
 			);
 
 			foreach ($replaces as $pattern => $replacement) {
 				$log_message = preg_replace($pattern, $replacement, $log_message);
 			}
 
-			$date_formt = Config::get('DATE_FORMAT') . ' H:i';
+			$date_formt = $cfg->DATE_FORMAT . ' H:i';
 			$tpl->assign(
 				array(
-					'MESSAGE'	=> html_entity_decode($log_message),
+					'MESSAGE'	=> $log_message,
 					'DATE'		=> date($date_formt, strtotime($rs->fields['dat'])),
 				)
 			);
 
 			$tpl->parse('LOG_ROW', '.log_row');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		} // end while
 	}
 }
 
 function clear_log() {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'clear_log') {
 		$query = null;
@@ -193,7 +187,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 14 DAY) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 14 DAY) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than two weeks!', $_SESSION['user_logged']);
 
@@ -204,7 +198,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 1 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 1 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than one month!', $_SESSION['user_logged']);
 
@@ -215,7 +209,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 3 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 3 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than three months!', $_SESSION['user_logged']);
 				break;
@@ -225,7 +219,7 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 6 MONTH) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 6 MONTH) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than six months!', $_SESSION['user_logged']);
 				break;
@@ -235,14 +229,13 @@ function clear_log() {
 					DELETE FROM
 						`log`
 					WHERE
-						DATE_SUB(CURDATE(), INTERVAL 1 YEAR) >= `log_time`
+						DATE_SUB(CURDATE(), INTERVAL 1 YEAR) >= `log_time`;
 				";
 				$msg = tr('%s deleted the admin log older than one year!', $_SESSION['user_logged']);
 
 				break;
 			default:
-				system_message(tr('Invalid time period!'));
-				break;
+				throw new ispCP_Exception(tr('Invalid time period!'));
 		}
 
 		$rs = execute_query($sql, $query);
@@ -250,13 +243,10 @@ function clear_log() {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_general_information.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 clear_log();
 
@@ -264,6 +254,7 @@ generate_page ($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Admin/Admin Log'),
 		'TR_ADMIN_LOG'				=> tr('Admin Log'),
 		'TR_CLEAR_LOG'				=> tr('Clear log'),
 		'TR_DATE'					=> tr('Date'),
@@ -282,7 +273,9 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

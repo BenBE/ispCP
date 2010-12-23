@@ -2,7 +2,7 @@
    /** 
     **  spamcop.php -- SpamCop plugin           
     **
-    **  Copyright (c) 1999-2009 The SquirrelMail Project Team
+    **  Copyright (c) 1999-2010 The SquirrelMail Project Team
     **  Licensed under the GNU GPL. For full terms see the file COPYING.
     **  
     **  $Id$                                                         
@@ -19,6 +19,8 @@ function getMessage_RFC822_Attachment($message, $composeMessage, $passed_id,
     global $attachments, $attachment_dir, $username, $data_dir, $uid_support;
     
     $hashed_attachment_dir = getHashedDir($username, $attachment_dir);
+    $localfilename = GenerateRandomString(32, 'FILE', 7);
+        
     if (!$passed_ent_id) {
         $body_a = sqimap_run_command($imapConnection, 
                                     'FETCH '.$passed_id.' RFC822',
@@ -34,22 +36,13 @@ function getMessage_RFC822_Attachment($message, $composeMessage, $passed_id,
         $subject = encodeHeader($message->rfc822_header->subject);
         array_shift($body_a);
         $body = implode('', $body_a) . "\r\n";
-                
-        $localfilename = GenerateRandomString(32, 'FILE', 7);
+        
         $full_localfilename = "$hashed_attachment_dir/$localfilename";
         $fp = fopen( $full_localfilename, 'w');
         fwrite ($fp, $body);
         fclose($fp);
-	
-        /* dirty relative dir fix */
-        if (substr($attachment_dir,0,3) == '../') {
-	   $attachment_dir = substr($attachment_dir,3);
-	   $hashed_attachment_dir = getHashedDir($username, $attachment_dir);
-        }
-	$full_localfilename = "$hashed_attachment_dir/$localfilename";
 
-	$composeMessage->initAttachment('message/rfc822','email.txt', 
-	                 $full_localfilename);
+        $composeMessage->initAttachment('message/rfc822','email.txt', $localfilename);
     }
     return $composeMessage;
 }
@@ -110,16 +103,16 @@ if(! sqgetGlobalVar('composesession', $composesession, SQ_SESSION) ) {
         $message = sqimap_get_message($imap_stream, $passed_id, $mailbox);
         $composeMessage = getMessage_RFC822_Attachment($message, $composeMessage, $passed_id, 
                                       $passed_ent_id, $imap_stream);
-
-    	$compose_messages[$session] = $composeMessage;
-	sqsession_register($compose_messages, 'compose_messages');
+                                      
+        $compose_messages[$session] = $composeMessage;
+        sqsession_register($compose_messages, 'compose_messages');
 
         $fn = getPref($data_dir, $username, 'full_name');
         $em = getPref($data_dir, $username, 'email_address');
 
         $HowItLooks = $fn . ' ';
         if ($em != '')
-          $HowItLooks .= '<' . $em . '>';
+            $HowItLooks .= '<' . $em . '>';
      }
 
 
@@ -153,6 +146,7 @@ echo "</p>";
       $report_email = 'quick.' . $spamcop_id . '@spam.spamcop.net';
    $form_action = sqm_baseuri() . 'src/compose.php';
 ?>  <form method="post" action="<?php echo $form_action?>">
+  <input type="hidden" name="smtoken" value="<?php echo sm_generate_security_token(); ?>" />
   <input type="hidden" name="mailbox" value="<?php echo htmlspecialchars($mailbox) ?>" />
   <input type="hidden" name="spamcop_is_composing" value="<?php echo htmlspecialchars($passed_id) ?>" />
   <input type="hidden" name="send_to" value="<?php echo htmlspecialchars($report_email)?>" />

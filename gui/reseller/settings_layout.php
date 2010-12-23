@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,18 +32,31 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/settings_layout.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/settings_layout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('def_layout', 'page');
+$tpl->define_dynamic('logo_remove_button', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+save_layout();
 
+update_logo();
+
+gen_def_layout($tpl, $cfg->USER_INITIAL_THEME);
+
+if (get_own_logo($_SESSION['user_id']) !== $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
+	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
+} else {
+	$tpl->assign('LOGO_REMOVE_BUTTON', '');
+}
 
 function save_layout() {
-	$sql = Database::getInstance();
 	global $theme_color;
+
+	$sql = ispCP_Registry::get('Db');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 
@@ -57,17 +70,19 @@ function save_layout() {
 			WHERE
 				`user_id` = ?
 		";
-		$rs = exec_query($sql, $query, array($user_layout, $user_id));
+
+		// NXW: Unused variable so...
+		//$rs = exec_query($sql, $query, array($user_layout, $user_id));
+		exec_query($sql, $query, array($user_layout, $user_id));
 		$theme_color = $user_layout;
 		$_SESSION['user_theme_color'] = $user_layout;
 	}
 }
 
-
 function update_logo() {
 
 	$user_id = $_SESSION['user_id'];
-	if (isset($_POST['delete_logo'])) {
+	if (isset($_POST['uaction']) && $_POST['uaction'] === 'delete_logo') {
 
 		$logo = get_own_logo($user_id);
 		if (basename($logo) != 'isp_logo.gif') { // default logo
@@ -76,10 +91,10 @@ function update_logo() {
 		}
 		return;
 
-	} else if (isset($_POST['upload_logo'])) {
+	} else if (isset($_POST['uaction']) && $_POST['uaction'] === 'upload_logo')  {
 
 		if (empty($_FILES['logo_file']['tmp_name'])) {
-				set_page_message(tr('Upload file error!'));
+				set_page_message(tr('Upload file error!'), 'error');
 				return;
 		}
 		$file_type = $_FILES['logo_file']['type'];
@@ -96,7 +111,7 @@ function update_logo() {
 				$fext = 'png';
 				break;
 			default:
-				set_page_message(tr('You can only upload images!'));
+				set_page_message(tr('You can only upload images!'), 'warning');
 				return;
 				break;
 		}
@@ -105,30 +120,33 @@ function update_logo() {
 
 		// Make sure it is really an image
 		if (image_type_to_mime_type(exif_imagetype($fname)) != $file_type) {
-			set_page_message(tr('You can only upload images!'));
+			set_page_message(tr('You can only upload images!'), 'warning');
 			return;
 		}
 
 		// get the size of the image to prevent over large images
-		list($fwidth, $fheight, $ftype, $fattr) = getimagesize($fname);
+		list($fwidth, $fheight) = getimagesize($fname);
 		if ($fwidth > 195 || $fheight > 195) {
-			set_page_message(tr('Images have to be smaller than 195 x 195 pixels!'));
+			set_page_message(
+				tr('Images have to be smaller than 195 x 195 pixels!'),
+				'warning'
+			);
 			return;
 		}
 
-		$newFName = get_user_name($user_id) . '.' . $fext;
+		$newFName = sha1($fname .'-'. $user_id) .'.'. $fext;
 		$path = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/reseller/settings_layout.php') + 1);
 		$logoFile = $path . '/themes/user_logos/' . $newFName;
 		move_uploaded_file($fname, $logoFile);
 		chmod($logoFile, 0644);
 		update_user_gui_props($newFName, $user_id);
-		set_page_message(tr('Your logo was successful uploaded!'));
+		set_page_message(tr('Your logo was successful uploaded!'), 'notice');
 	}
 }
 
 
 function update_user_gui_props($file_name, $user_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		UPDATE
@@ -138,20 +156,9 @@ function update_user_gui_props($file_name, $user_id) {
 		WHERE
 			`user_id` = ?
 	";
-	$rs = exec_query($sql, $query, array($file_name, $user_id));
-}
 
-save_layout();
-gen_def_layout($tpl, $theme_color);
-$tpl->assign(
-	array(
-		'TR_RESELLER_LAYOUT_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
-		'THEME_COLOR_PATH'						=> "../themes/$theme_color",
-		'OWN_LOGO'								=> get_own_logo($_SESSION['user_id']),
-		'THEME_CHARSET'							=> tr('encoding'),
-		'ISP_LOGO'								=> get_logo($_SESSION['user_id']),
-	)
-);
+	exec_query($sql, $query, array($file_name, $user_id));
+}
 
 /*
  *
@@ -159,14 +166,14 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
-update_logo();
 
 $tpl->assign(
 	array(
+		'TR_RESELLER_LAYOUT_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
 		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
 		'TR_LAYOUT_NAME'			=> tr('Layout name'),
@@ -187,7 +194,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

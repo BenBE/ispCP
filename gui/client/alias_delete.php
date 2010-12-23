@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -51,7 +51,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$rs = exec_query($sql, $query, array($dmn_id, $als_id));
 	$alias_name = $rs->fields['alias_name'];
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('domains_manage.php');
 	}
 
@@ -65,9 +65,12 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`alias_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($als_id));
+	$rs = exec_query($sql, $query, $als_id);
 	if ($rs->fields['count'] > 0) {
-		set_page_message(tr('Domain alias you are trying to remove has subdomains!<br>First remove them!'));
+		set_page_message(
+			tr('Domain alias you are trying to remove has subdomains!<br />First remove them!'),
+			'error'
+		);
 		user_goto('domains_manage.php');
 	}
 
@@ -87,10 +90,13 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`mail_type` LIKE '%alssub_%')
 	";
 
-	$rs = exec_query($sql, $query, array($als_id,$als_id));
+	$rs = exec_query($sql, $query, array($als_id, $als_id));
 
 	if ($rs->fields['cnt'] > 0) {
-		set_page_message(tr('Domain alias you are trying to remove has email accounts !<br>First remove them!'));
+		set_page_message(
+			tr('Domain alias you are trying to remove has email accounts!<br />First remove them!'),
+			'error'
+		);
 		user_goto('domains_manage.php');
 	}
 
@@ -112,9 +118,12 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`d`.`domain_id` = `dmn`.`domain_id`
 	";
 
-	$rs = exec_query($sql, $query, array($als_id));
+	$rs = exec_query($sql, $query, $als_id);
 	if ($rs->fields['ftpnum'] > 0) {
-		set_page_message(tr('Domain alias you are trying to remove has FTP accounts!<br>First remove them!'));
+		set_page_message(
+			tr('Domain alias you are trying to remove has FTP accounts!<br />First remove them!'),
+			'error'
+		);
 		user_goto('domains_manage.php');
 	}
 
@@ -127,13 +136,13 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`alias_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($als_id));
+	$rs = exec_query($sql, $query, $als_id);
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
 	send_request();
 	write_log($_SESSION['user_logged'].": delete alias ".$alias_name."!");
-	set_page_message(tr('Alias scheduled for deletion!'));
+	set_page_message(tr('Alias scheduled for deletion!'), 'success');
 	user_goto('domains_manage.php');
 } else {
 	user_goto('domains_manage.php');

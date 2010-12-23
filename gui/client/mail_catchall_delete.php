@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,9 +32,11 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$mail_id = $_GET['id'];
-	$item_delete_status = Config::get('ITEM_DELETE_STATUS');
+	$item_delete_status = $cfg->ITEM_DELETE_STATUS;
 	$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
 
 	$query = "
@@ -50,7 +52,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $mail_id));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('mail_catchall.php');
 	}
 
@@ -67,7 +69,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 
 	send_request();
 	write_log($_SESSION['user_logged'].': deletes email catch all!');
-	set_page_message(tr('Catch all account scheduled for deletion!'));
+	set_page_message(tr('Catch all account scheduled for deletion!'), 'success');
 	user_goto('mail_catchall.php');
 
 } else {

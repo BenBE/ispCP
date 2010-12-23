@@ -27,7 +27,7 @@
  * see ../contrib/squirrelmail.mailto.NT2KXP.reg for a Windows Registry file
  * that will set this up in the most robust manner.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -68,7 +68,11 @@ $force_login = FALSE;
 $compose_only = FALSE;
 
 
+// Disable Browser Caching
+//
+header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
+header('Expires: Sat, 1 Jan 2000 00:00:00 GMT');
 
 $trtable = array('cc'           => 'cc',
                  'bcc'          => 'bcc',

@@ -47,11 +47,14 @@ class Net_DNS_RR_CNAME extends Net_DNS_RR
 
         if ($offset) {
             if ($this->rdlength > 0) {
-                list($cname, $offset) = Net_DNS_Packet::dn_expand($data, $offset);
+                $packet = new Net_DNS_Packet();
+                list($cname, $offset) = $packet->dn_expand($data, $offset);
                 $this->cname = $cname;
             }
+        } elseif (is_array($data)) {
+            $this->cname = $data['cname'];
         } else {
-            $this->cname = ereg_replace("[ \t]+(.+)[\. \t]*$", '\\1', $data);
+            $this->cname = preg_replace("/[ \t]+(.+)[\. \t]*$/", '\\1', $data);
         }
     }
 

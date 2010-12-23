@@ -5,9 +5,9 @@ $ORIGIN {DMN_NAME}.
                 {TIMESTAMP}     ; Serial
 ; dmn [{DMN_NAME}] timestamp entry END.
                 8H              ; Refresh
-                30M             ; Retry
-                4W              ; Expire
-                3H              ; Minimum TTL
+                2H              ; Retry
+                7D              ; Expire
+                1D              ; Minimum TTL
 )
                 IN              NS              ns1.{DMN_NAME}.
                 IN              NS              ns2.{DMN_NAME}.
@@ -30,6 +30,7 @@ relay           IN              CNAME           mail
 smtp            IN              CNAME           mail
 ; CNAME for web transfer
 ftp             IN              CNAME           www
+
 ; sub [{SUB_NAME}] entry BEGIN.
 ; sub [{SUB_NAME}] entry END.
 

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -65,12 +65,38 @@ function check_date($date) {
 	return 0;
 }
 
-function split_date($date) {
+/**
+ * Converts a PHP date Format to the jQuery UI Datepicker date format
+ *
+ * @see http://docs.jquery.com/UI/Datepicker/$.datepicker.formatDate
+ * @param String $dateFormat	PHP date format
+ * @return String				JavaScript date format
+ */
+function jQueryDatepickerDateFormat($dateFormat) {
 
-	if (check_date($date)) {
-		$res = preg_match_all("/^([^\.]+)\.([^\.]+)\.([^\n]+)\n/D", "$date\n", $parts, PREG_PATTERN_ORDER);
-		return array($parts[1][0], $parts[2][0], $parts[3][0]);
-	}
+	$search  = array(
+		// Day
+		'/d/', '/D/', '/j/', '/l/', 
+		// Month
+		'/F/', '/m/', '/M/', '/n/',
+		// Year
+		'/o/', '/y/', '/Y/',
+		// to delete
+		'/N|S|w|z|W|t|L/',
+	);
+	$replace = array(
+		// Day
+		'dd', 'D', 'd', 'DD',
+		// Month
+		'MM', 'mm', 'M', 'm',
+		// Year
+		'y', 'y', 'yy',
+		// delete
+		''
+	);
+	$dateFormat = preg_replace($search, $replace, $dateFormat);
 
-	return '';
+	return $dateFormat;
 }
+
+?>

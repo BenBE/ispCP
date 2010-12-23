@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/sql_manage.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('db_list', 'page');
@@ -44,6 +46,7 @@ $count = -1;
 
 // page functions.
 function gen_db_user_list(&$tpl, &$sql, $db_id) {
+
 	global $count;
 
 	$query = "
@@ -57,9 +60,9 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 			`sqlu_name`
 	";
 
-	$rs = exec_query($sql, $query, array($db_id));
+	$rs = exec_query($sql, $query, $db_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'DB_MSG'	=> tr('Database user list is empty!'),
@@ -81,17 +84,19 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 			$user_mysql = $rs->fields['sqlu_name'];
 			$tpl->assign(
 				array(
-					'DB_USER'	=> $user_mysql,
+					'DB_USER'	=> tohtml($user_mysql),
+					'DB_USER_JS'=> tojs($user_mysql),
 					'USER_ID'	=> $user_id
 				)
 			);
 			$tpl->parse('USER_LIST', '.user_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
 
 function gen_db_list(&$tpl, &$sql, $user_id) {
+
 	$dmn_id = get_user_domain_id($sql, $user_id);
 
 	$query = "
@@ -105,10 +110,10 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 			`sqld_name`
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('Database list is empty!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(tr('Database list is empty!'), 'notice');
 		$tpl->assign('DB_LIST', '');
 	} else {
 		while (!$rs->EOF) {
@@ -117,12 +122,13 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 			gen_db_user_list($tpl, $sql, $db_id);
 			$tpl->assign(
 				array(
-					'DB_ID'		=> "$db_id",
-					'DB_NAME'	=> "$db_name"
+					'DB_ID'		=> $db_id,
+					'DB_NAME'	=> tohtml($db_name),
+					'DB_NAME_JS'=> tojs($db_name)
 				)
 			);
 			$tpl->parse('DB_LIST', '.db_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
@@ -134,13 +140,10 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+
 $tpl->assign(
 	array(
-		'TR_CLIENT_MANAGE_SQL_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_MANAGE_SQL_PAGE_TITLE' => tr('ispCP - Client/Manage SQL')
 	)
 );
 
@@ -150,8 +153,8 @@ gen_db_list($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
 
 gen_logged_from($tpl);
 
@@ -179,7 +182,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

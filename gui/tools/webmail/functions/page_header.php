@@ -5,9 +5,9 @@
  *
  * Prints the page header (duh)
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: page_header.php 13537 2009-04-13 16:52:57Z jervfors $
+ * @version $Id: page_header.php 13904 2010-02-13 16:28:10Z kink $
  * @package squirrelmail
  *
  * @modified by ispCP Omega Team http://isp-control.net
@@ -30,8 +30,8 @@ function displayHtmlHeader( $title = 'SquirrelMail', $xtra = '', $do_hook = TRUE
 
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' .
          "\n\n" . html_tag( 'html' ,'' , '', '', '' ) . "\n<head>\n" .
-         "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />\n";
-		 "<meta name=\"robots\" content=\"noindex,nofollow\">\n";
+         "<meta name=\"robots\" content=\"noindex,nofollow\">\n" .
+         "<meta http-equiv=\"x-dns-prefetch-control\" content=\"off\">\n";
 
     if ( !isset( $custom_css ) || $custom_css == 'none' ) {
         if ($theme_css != '') {
@@ -67,32 +67,6 @@ body {
 
 ECHO;
 
-$cssfile = substr($custom_css, 0, -4);
-    
-    echo "<!--[if lte IE 6]>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $base_uri . "themes/css/".$cssfile."_ie.css\" />\n";
-    echo "<![endif]-->\n";
-    
-    echo "<!--[if gte IE 7]>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $base_uri . "themes/css/".$cssfile."_ie7.css\" />\n";
-    echo "<![endif]-->\n";
-	
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $base_uri . "themes/css/print.css\" media=\"print\" />\n"; 
-    
-echo "<script type=\"text/javascript\" src=\"" . SM_PATH . "functions/jquery.js\"></script>\n";
-//echo "<script src=\"" . SM_PATH . "functions/css_browser_selector.js\" type=\"text/javascript\"></script>\n";
-echo "<script src=\"" . SM_PATH . "functions/jquery.cookie.js\" type=\"text/javascript\"></script>\n";
-echo "<script src=\"" . SM_PATH . "functions/omegaToggle.js\" type=\"text/javascript\"></script>\n";
-echo <<<END
- <script type="text/javascript">
-    $(document).ready(function(){
-		$("#folders_top > p > a").omegaToggle("#folders","folders");
-		$("#cal_top > p > a").omegaToggle("#cal","calendar");
-		$("#todo_top > p > a").omegaToggle("#todo","todo");
-		$("#extra_top > p > a").omegaToggle("#extra","options");
-    });
- </script>
-END;
     echo "\n</head>\n\n";
 
     /* this is used to check elsewhere whether we should call this function */
@@ -290,7 +264,6 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
         . html_tag( 'table', '', '', $color[4], 'border="0" width="100%" cellspacing="0" cellpadding="2"' ) ."\n"
         . html_tag( 'tr', '', '', $color[9] ) ."\n"
         . html_tag( 'td', '', 'left' ) ."\n";
-
     if ( $shortBoxName <> '' && strtolower( $shortBoxName ) <> 'none' ) {
         echo '         ' . _("Current Folder") . ": <b>$shortBoxName&nbsp;</b>\n";
     } else {

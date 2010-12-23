@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,15 +24,15 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 /**
  * check_input checks HTML fields of type <input> for content that could be
- * related to cross site scripting. The function will call die() if any of the
- * defined commands is entered in a protected <input> field. An additional
- * information is displayed to the user.
+ * related to cross site scripting. The function will call ispCP_Exception() if
+ * any of the defined commands is entered in a protected <input> field. An
+ * additional information is displayed to the user.
  *
  * @input String $value The submitted string in the <input> field (value)
  */
@@ -69,8 +69,7 @@ function check_input($value = '') {
 			if (preg_match($VAR, $value) > 0) {
 				$message = "Possible hacking attempt. Script terminated.";
 				write_log($message);
-				system_message(tr($message));
-				die();
+				throw new ispCP_Exception(tr($message));
 			}
 		}
 	}
@@ -114,7 +113,7 @@ function clean_html($text) {
 		chr(162),
 		chr(163),
 		chr(169),
-		/*'chr(\1)'*/
+		//'chr(\1)'
 	);
 
 	$text = preg_replace($search, $replace, $text);
@@ -148,13 +147,33 @@ function clean_input($input, $htmlencode = false) {
 }
 
 /**
+ * Convert any text to HTML
+ * @param string $text
+ * @return string HTML entitied text
+ */
+function tohtml($text) {
+	return htmlentities($text, ENT_QUOTES, "UTF-8");
+}
+
+/**
+ * Convert any text to JavaScript text
+ * @param  $text
+ * @return string JavaScript text
+ */
+function tojs($text) {
+	$result = htmlentities($text, ENT_COMPAT, "UTF-8");
+	$result = strtr($result, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+
+	return $result;
+}
+
+/**
  * Passwort check
  *
  * Check if a password is valid
  *
  * @author		ispCP Team
  * @author		Benedikt Heintel
- * @copyright	2006-2009 by ispCP | http://isp-control.net
  * @version		1.01
  *
  * @access	public
@@ -164,7 +183,8 @@ function clean_input($input, $htmlencode = false) {
  * @return	boolean				valid password or not
  */
 function chk_password($password, $num = 50, $permitted = "") {
-	global $cfg;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	if ($num > 255) {
 		$num = 255;
@@ -173,7 +193,7 @@ function chk_password($password, $num = 50, $permitted = "") {
 	}
 
 	$len = strlen($password);
-	if ($len < Config::get('PASSWD_CHARS') || $len > $num) {
+	if ($len < $cfg->PASSWD_CHARS || $len > $num) {
 		return false;
 	}
 
@@ -181,7 +201,7 @@ function chk_password($password, $num = 50, $permitted = "") {
 		return false;
 	}
 
-	if (Config::get('PASSWD_STRONG')) {
+	if ($cfg->PASSWD_STRONG) {
 		return (bool)(preg_match("/[0-9]/", $password)
 			&& preg_match("/[a-zA-Z]/", $password));
 	} else {
@@ -201,9 +221,7 @@ function chk_password($password, $num = 50, $permitted = "") {
  * Successive instances of a dot or underscore are prohibited
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version 1.0
- * @since rxxxx
  * @param string $username the username to be checked
  * @param int $min_char number of min. chars
  * @param int $max_char number min. chars
@@ -219,68 +237,68 @@ function validates_username($username, $min_char = 2, $max_char = 30) {
 }
 
 /**
- * @todo document this function
+ * Validates an e-mail address
+ *
+ * This function should validate an e-mail address according to RFC 2822.
+ * {@see _validates_tld} will be used to validate the top level domain of the 
+ * address.
+ *
+ * @version 1.1
+ * @param String $email the e-mail address to verify
+ * @param int $num maximum lenght of the e-mail address (Default: 255)
+ * @return boolean whether the address is a valid e-mail address
  */
-function chk_email($email, $num = 60) {
-
-	global $validation_err_msg;
-
+function chk_email($email, $num = 255) {
 	if (strlen($email) > $num) {
 		return false;
 	}
 
-	// split e-mail address by @ chars
-	$email_part = explode('@', $email);
+	$labels = array();
+	/*
+	 * get the domain part (part after the last @) and re-combine the rest to
+	 * the user part.
+	 */
+	$labels = explode('@', $email);
+	$domainPart = array_pop($labels);
+	$userPart = implode('@', $labels);
 
-	// check if at least two parts are available
-	$part_count = count($email_part);
+	/**
+	 * Last part contains the Domain name, we validate with
+	 * {@see validates_dname}, the user part is validated with
+	 * {@see ispcp_check_local_part}
+	 */
+	if (validates_dname($domainPart, true) &&
+		ispcp_check_local_part($userPart, strlen($userPart)))
+		return true;
 
-	if ($part_count != 2) {
-		$validation_err_msg = "Wrong email: $email";
-		return false;
-	}
-
-	// check the local part (before last @) first
-	if (ispcp_check_local_part($email_part[0], $num)) {
-
-		// now check the domain part
-		if(!validates_dname($email_part[1])) {
-			$validation_err_msg = "Wrong email domain name: {$email_part[1]}";
-			return false;
-		} else {
-			return true;
-		}
-
-	} else {
-		$validation_err_msg = "Wrong email local part: {$email_part[2]}";
-		return false;
-	}
+	return false;
 }
 
 /**
- * Checks validity of an e-mail address' local part
+ * Validates the user part of an e-mail address
  *
- * @param String $email e-mail address to be checked
- * @param int $num max. length of e-mail address
- * @return boolean true, if correct
+ * This function validates an e-mail address' user part according to RFC 2822.
+ *
+ * @param string $userPart the user part of the e-mail address
+ * @param int $num maximum lenght of the e-mail address (Default: 150)
+ * @return boolean whether the user part is valid
  */
-function ispcp_check_local_part($email, $num = 60) {
-	if (strlen($email) > $num) {
+function ispcp_check_local_part($userPart, $num = 150) {
+	if (strlen($userPart) > $num) {
 		return false;
 	}
 	// RegEx begin
 	$nonascii = "\x80-\xff"; // non ASCII chars are not allowed
 
-	$nqtext = "[^\\\\$nonascii\015\012\"]"; // all not qouteable chars
+	$nqtext = "[^\\\\$nonascii\015\012\"]"; // all not quoteable chars
 	$qchar = "\\\\[^$nonascii]";			// matched quoted chars
 
-	$normuser = '[a-zA-Z0-9!#$%&\'*+-\/=?^_`{|}~]+';
+	$normuser = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
 	$quotedstring = "\"(?:$nqtext|$qchar)+\"";
-	$user_part = "(?:$normuser|$quotedstring)";
-
-	$regex = $user_part;
+	$regex = "(?:$normuser|$quotedstring)";
 	// RegEx end
-	return (bool) preg_match("/^$regex$/", $email);
+
+	return (bool) preg_match("/^$regex$/", $userPart);
 }
 
 /**
@@ -313,20 +331,21 @@ function ispcp_check_local_part($email, $num = 60) {
  * @version 1.1
  * @since r2228
  * @param string $data full domain name to be check
- * @param boolean $subdname_process NODOC
- * @return boolean TRUE if successful, FALSE otherwize
+ * @param boolean $subdname_process Process up to 99 sub domains instead of MAX_DNAMES_LABELS
+ * @return boolean TRUE if successful, FALSE otherwise
  */
 function validates_dname($dname, $subdname_process = false) {
 
 	global $validation_err_msg;
+	$cfg = ispCP_Registry::get('Config');
 	$validation_err_msg = tr('Wrong domain name syntax or number of labels');
 
-	$max_labels = ($subdname_process) ? 99 : config::get('MAX_DNAMES_LABELS');
+	$max_labels = ($subdname_process) ? 99 : $cfg->MAX_DNAMES_LABELS;
 
-	if(!$subdname_process) {
+	if (!$subdname_process) {
 
 		// Check lenght according RFC 1123 (Max of 255 chars)
-		if(strlen($dname) > 255)	{
+		if (strlen($dname) > 255) {
 			$validation_err_msg = tr('Wrong domain name lenght!');
 			return false;
 		}
@@ -336,19 +355,19 @@ function validates_dname($dname, $subdname_process = false) {
 
 	$matches = array();
 
-	if( ($ret = preg_match($pattern, $dname, $matches)) ) {
+	if ( ($ret = preg_match($pattern, $dname, $matches)) ) {
 
 		$labels = preg_split('/\./', $matches[1], -1, PREG_SPLIT_NO_EMPTY);
 
-		// Validates label[s]
-		foreach($labels as $label) {
-			if(!_validates_dname_label($label)) {
+		// Validates label(s)
+		foreach ($labels as $label) {
+			if (!_validates_dname_label($label)) {
 				$ret = false;
 				break;
 			}
 		}
 
-		if($ret && _validates_sld($matches[2] . '.' . $matches[3]) &&
+		if ($ret && _validates_sld($matches[2] . '.' . $matches[3]) &&
 			_validates_tld($matches[3])) {
 			return true;
 		}
@@ -367,7 +386,7 @@ function validates_dname($dname, $subdname_process = false) {
  * the 'MAX_SUBDNAMES_LABELS' parameter value.
  * This parameter can be overridden by admin in the frontend.
  *
- * Labels 'www|ftp|mail|ns[1-2]?' can not be used as the first part
+ * Labels 'www|ftp|mail|ns[1-2]?' cannot be used as the first part
  * of a subdomain.
  *
  * The string representing the subdomain name must not exceed
@@ -385,11 +404,12 @@ function validates_dname($dname, $subdname_process = false) {
  */
 function validates_subdname($subdname, $dname) {
 
+	$cfg = ispCP_Registry::get('Config');
 	global $validation_err_msg;
 	$validation_err_msg = tr('Wrong subdomain syntax or number of labels!');
 
 	// Check lenght according RFC 1123 (Max of 255 chars)
-	if(strlen($subdname . '.' . $dname) > 255){
+	if (strlen($subdname . '.' . $dname) > 255){
 		$validation_err_msg = tr('Wrong subdomain lenght!');
 		return false;
 	}
@@ -398,7 +418,7 @@ function validates_subdname($subdname, $dname) {
 	$dname_nb_labels = count(explode('.', $dname)) -1;
 
 	// Retrieves the maximum number of labels for the subdomain
-	$subdname_nb_labels = Config::get('MAX_SUBDNAMES_LABELS');
+	$subdname_nb_labels = $cfg->MAX_SUBDNAMES_LABELS;
 
 	$matches = array();
 
@@ -415,16 +435,18 @@ function validates_subdname($subdname, $dname) {
 		([^.]+)
 	$@x";
 
-	if(($ret = preg_match($pattern, $subdname . '.' . $dname , $matches)) && !empty($matches[1])) {
-		$validation_err_msg = tr('Label not allowed: <b>%s</b>', $matches[1]);
+	if (($ret = preg_match($pattern, $subdname . '.' . $dname , $matches)) && !empty($matches[1])) {
+		$validation_err_msg = tr('Label not allowed: <strong>%s</strong>', $matches[1]);
 		$ret = false;
 	}
 
-	if( $ret && $sub_labels = preg_split('/\./', $matches[2], -1, PREG_SPLIT_NO_EMPTY)) {
+	if ($ret && $sub_labels = preg_split('/\./', $matches[2], -1, PREG_SPLIT_NO_EMPTY)) {
 
 		// Validates subdomains label[s]
-		foreach($sub_labels as $label) {
-			if(!_validates_dname_label($label) && !$ret = false) break;
+		foreach ($sub_labels as $label) {
+			if (!_validates_dname_label($label) && !$ret = false) {
+				break;
+			}
 		}
 	}
 
@@ -457,11 +479,11 @@ function validates_subdname($subdname, $dname) {
 function _validates_dname_label($label) {
 
 	global $validation_err_msg;
-	$validation_err_msg = tr('Wrong label syntax: <b>%s</b>', $label);
+	$validation_err_msg = tr('Wrong label syntax: <strong>%s</strong>', $label);
 
 	mb_internal_encoding('UTF-8');
 
-	if(!isACE($label) &&
+	if (!isACE($label) &&
 		mb_strpos($label, '-') !== 0 &&
 		(mb_strrpos($label, '-') !== (mb_strlen($label)-1)) &&
 		mb_substr($label, 2, 2, 'utf-8') !== '--') {
@@ -475,8 +497,8 @@ function _validates_dname_label($label) {
 		// FALSE if the label syntax is wrong
 		$pattern = '@^(?:[a-z0-9][-a-z0-9]{0,61}[a-z0-9]?(?<!-)|([-a-z0-9]{64,}))$@i';
 
-		if(($ret = preg_match($pattern, $label, $matches)) && array_key_exists(1, $matches) ) {
-			$validation_err_msg = tr('Wrong label lenght: <b>%s</b>', $label);
+		if (($ret = preg_match($pattern, $label, $matches)) && array_key_exists(1, $matches) ) {
+			$validation_err_msg = tr('Wrong label lenght: <strong>%s</strong>', $label);
 			$ret = false;
 		}
 
@@ -510,12 +532,13 @@ function _validates_dname_label($label) {
  */
 function _validates_tld($tld) {
 
+	$cfg = ispCP_Registry::get('Config');
 	global $validation_err_msg;
-	$validation_err_msg = tr('Wrong Top Level Domain syntax: <b>%s</b>', $tld);
+	$validation_err_msg = tr('Wrong Top Level Domain syntax: <strong>%s</strong>', $tld);
 
 	$matches = array();
 
-	if(Config::get('TLD_STRICT_VALIDATION')) {
+	if ($cfg->TLD_STRICT_VALIDATION) {
 
 		// This pattern Matches only Top Level Domain listed in Iana root database
 		// ( only ccTLDs and gTLDs, not IDNs )
@@ -524,9 +547,9 @@ function _validates_tld($tld) {
 		// FALSE if the TLD syntax is wrong
 		$pattern =
 			'@^(?:
-				(?:a[cdefgilmnoqrstuwxz]|aero|arpa|asia)|
-				(?:b[abdefghijmnorstvwyz]|biz)|
-				(?:c[acdfghiklmnorsuvxyz]|cat|com|coop)|
+				(?:a[cdefgilmnoqrstuwxz]|aero|asia)|
+				(?:b[abdefghijlmnorstvwyz]|biz)|
+				(?:c[acdfghiklmnoruvxyz]|cat|com|coop)|
 				d[ejkmoz]|
 				(?:e[ceghrstu]|edu)|
 				f[ijkmor]|
@@ -536,18 +559,18 @@ function _validates_tld($tld) {
 				(?:j[emop]|jobs)|
 				k[eghimnprwyz]|
 				l[abcikrstuvy]|
-				(?:m[acdghklmnopqrstuvwxyz]|mil|mobi|museum)|
+				(?:m[acdefghklmnopqrstuvwxyz]|mil|mobi|museum)|
 				(?:n[acefgilopruz]|name|net)|
 				(?:om|org)|
 				(?:p[aefghklmnrstwy]|pro)|
 				qa|
-				r[eouw]|
-				s[abcdeghijklmnortvyz]|
+				r[eosuw]|
+				s[abcdeghijklmnortuvyz]|
 				(?:t[cdfghjklmnoprtvwz]|tel|travel)|
 				u[agkmsyz]|
 				v[aceginu]|
 				w[fs]|
-				y[etu]|
+				y[et]|
 				z[amw]|
 				([a-z]|[a-z]{7,})
 			)$@ix';
@@ -560,8 +583,8 @@ function _validates_tld($tld) {
 		$pattern = '@^(?:[a-z]{2,6}|([a-z]|[a-z]{7,}))$@';
 	}
 
-	if(($ret = preg_match($pattern, $tld, $matches)) && array_key_exists(1, $matches)) {
-		$validation_err_msg = tr('Wrong Top Level Domain lenght: <b>%s</b>', $tld);
+	if (($ret = preg_match($pattern, $tld, $matches)) && array_key_exists(1, $matches)) {
+		$validation_err_msg = tr('Wrong Top Level Domain lenght: <strong>%s</strong>', $tld);
 		$ret = false;
 	}
 
@@ -596,8 +619,9 @@ function _validates_tld($tld) {
 function _validates_sld($sld) {
 
 	global $validation_err_msg;
+	$cfg = ispCP_Registry::get('Config');
 
-	if(Config::get('SLD_STRICT_VALIDATION')) {
+	if ($cfg->SLD_STRICT_VALIDATION) {
 
 		// Single-Character SLD
 		// Note: All another SC SLD are presently reserved in
@@ -616,33 +640,33 @@ function _validates_sld($sld) {
 		// TRUE with $matches[1] set if the SLD is reserved
 		// TRUE with $matches[2] set if the SLD lenght is wrong
 		// FALSE if the SLD syntax is wrong
-		$pattern = "@^".
-			"(?:($reserved_SLD)|".
-			"$scSLD|".
-			"(?:(?:[a-z0-9](?:[a-z0-9]|-+(?!\.))(?:[-a-z0-9](?!\.)){0,60}[a-z0-9]?)|([-a-z0-9]{64,}))\.)".
-			"@x";
+		$pattern = "@^
+			(?:($reserved_SLD)|
+			$scSLD|
+			(?:(?:[a-z0-9](?:[a-z0-9]|-+(?!\.))(?:[-a-z0-9](?!\.)){0,60}[a-z0-9]?)|([-a-z0-9]{64,}))\.)
+		@x";
 
 		$matches = array();
 
-		if(!isACE($sld)) {
+		if (!isACE($sld)) {
 
 			mb_internal_encoding('UTF-8');
 
-			if( mb_strpos( $only_sld_part = mb_substr($sld, 0, mb_strpos($sld, '.')), '-') !== 0 &&
+			if (mb_strpos($only_sld_part = mb_substr($sld, 0, mb_strpos($sld, '.')), '-') !== 0 &&
 				(mb_strrpos($only_sld_part, '-') !== (mb_strlen($only_sld_part)-1)) &&
 				mb_substr($sld, 2, 2, 'utf-8') !== '--' &&
 				preg_match($pattern, encode_idna($sld), $matches)) {
 
-				if(array_key_exists(2, $matches)) {
-					$validation_err_msg = tr('Wrong Second Level Domain lenght: <b>%s</b>', $only_sld_part);
-				} elseif(array_key_exists(1, $matches)) {
-					$validation_err_msg = tr('Wrong domain name: <b>%s</b> is reserved!', $sld);
+				if (array_key_exists(2, $matches)) {
+					$validation_err_msg = tr('Wrong Second Level Domain lenght: <strong>%s</strong>', $only_sld_part);
+				} elseif (array_key_exists(1, $matches)) {
+					$validation_err_msg = tr('Wrong domain name: <strong>%s</strong> is reserved!', $sld);
 				}
 
 				$ret = true;
 			} else {
 
-				$validation_err_msg = tr('Wrong Second Level Domain syntax: <b>%s</b>', $only_sld_part);
+				$validation_err_msg = tr('Wrong Second Level Domain syntax: <strong>%s</strong>', $only_sld_part);
 				$ret = false;
 			}
 
@@ -675,11 +699,11 @@ function isACE($label) {
 	global $validation_err_msg;
 
 	// Check if the input is an ACE label
-	if(strpos($label, 'xn--' ) === 0) {
+	if (strpos($label, 'xn--') === 0) {
 
 		$validation_err_msg = tr(
 			"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br />".
-			"<small>Example: for ACE label <b>xn--bcher-kva</b> use <b>bücher</b> instead</small>."
+			"<small>Example: for ACE label <strong>xn--bcher-kva</strong> use <strong>bücher</strong> instead</small>."
 		);
 
 		return true;
@@ -697,15 +721,14 @@ function isACE($label) {
  *
  * @param string $data ispcp 'limit' field data (by default valids are numbers greater equal 0)
  * @param mixed $extra single extra permitted value or array of permitted values
- * @return boolean	false	incorrect syntax (ranges)
- * 					true	correct syntax (ranges)
+ * @return boolean whether syntax is correct
  * @example ispcp_limit_check($_POST['domains_limit'], null)
  * @example ispcp_limit_check($_POST['ftp_accounts_limit'])
  *
  * @todo foreach and "=" inner this loop is unusual
  */
 function ispcp_limit_check($data, $extra = -1) {
-	if ($extra !== null && !is_bool($extra)) {
+	if (!is_null($extra) && !is_bool($extra)) {
 		if (is_array($extra)) {
 			$nextra = '';
 			$max = count($extra);
@@ -726,29 +749,9 @@ function ispcp_limit_check($data, $extra = -1) {
 }
 
 /**
- * Function for checking URL syntax
- *
- * @param String $url URL data
- * @return boolean	false	incorrect syntax
- * 					true	correct syntax
- */
-function chk_forward_url($url) {
-	$dom_mainpart = '[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\.';
-	$dom_subpart = '(?:[a-zA-Z0-9][a-zA-Z0-9.-]*\.)*';
-	$dom_tldpart = '[a-zA-Z]{2,5}';
-	$domain = $dom_subpart . $dom_mainpart . $dom_tldpart;
-
-	if (!preg_match("/^(http|https|ftp)\:\/\/" . $domain . "/", $url)) {
-		return false;
-	}
-	return true;
-}
-
-/**
  * Validates a mount point
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version	1.0
  * @since r2228
  * @param string $token mount point to validate
@@ -758,15 +761,18 @@ function chk_forward_url($url) {
  */
 function validates_mpoint($mpoint, $max_token_char = null) {
 
-	$pattern = '@^((:?|(:?[[:alnum:]]|/|/(?:htdocs|backup|cgi-bin|errors|logs)[/]?))|.+/|.*//.*)$@';
+	$pattern = '@^((:?|(:?[[:alnum:]]|/|/(?:htdocs|backups|cgi-bin|errors|logs|phptmp)[/]?))|.+/|.*//.*)$@';
 
-	if (preg_match($pattern, $mpoint)) return false;
+	if (preg_match($pattern, $mpoint)) {
+		return false;
+	}
 
 	$tokens = preg_split('@/@', $mpoint, -1, PREG_SPLIT_NO_EMPTY);
 
-	foreach($tokens as $token) {
-		if (!_validates_mpoint_token($token, $max_token_char))
+	foreach ($tokens as $token) {
+		if (!_validates_mpoint_token($token, $max_token_char)) {
 			return false;
+		}
 	}
 
 	return true;
@@ -784,7 +790,6 @@ function validates_mpoint($mpoint, $max_token_char = null) {
  * Successive instances of a dot or underscore are prohibited
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version	1.0
  * @since r2228
  * @access private
@@ -803,37 +808,12 @@ function _validates_mpoint_token($token, $max_char = null) {
 /**
  * @todo document this function
  */
-function get_post($value) {
-	if (array_key_exists($value, $_POST)) {
-		return $_POST[$value];
-	} else {
-		return null;
-	}
-}
-
-/**
- * @todo document this function
- */
 function get_session($value) {
 	if (array_key_exists($value, $_SESSION)) {
 		return $_SESSION[$value];
 	} else {
 		return null;
 	}
-}
-
-/**
- * @todo document this function
- */
-function is_subdir_of($base_domain, $subdomain, $realPath = true) {
-	if ($realPath) {
-		$base_domain = realpath($base_domain);
-		$subdomain = realpath($subdomain);
-	}
-
-	$t = explode($base_domain, $subdomain);
-
-	return (count($t) > 1 && $t[0] === '');
 }
 
 /**
@@ -845,7 +825,7 @@ function is_subdir_of($base_domain, $subdomain, $realPath = true) {
  * @return numeric The id of the admin who owns the id $id of $type type
  */
 function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$who = null;
 	// Fix $type according to type or by alias
@@ -1076,11 +1056,11 @@ function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
 		if ($r['query']) {
 			$matches = array();
 			if (!preg_match('/SELECT[ \t]+`([\w]+)`[ \t]+FROM/i', $r['query'], $matches)) {
-				system_message(tr('Unknown Error'));
+				throw new ispCP_Exception(tr('Unknown Error'));
 			}
 			$select = $matches[1];
 			$rs = exec_query($sql, $r['query'], $id);
-			if ($rs->RecordCount() != 0) {
+			if ($rs->recordCount() != 0) {
 				if ($r['is_final'] || $forcefinal) {
 					$who = $rs->fields[$select];
 				} else {
@@ -1103,3 +1083,4 @@ function who_owns_this($id, $type = 'dmn', $forcefinal = false) {
 
 	return $who;
 }
+?>

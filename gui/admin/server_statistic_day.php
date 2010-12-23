@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,21 +32,12 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/server_statistic_day.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic_day.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hour_list', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_DAY_STATS_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 global $month, $year, $day;
 
@@ -63,7 +54,7 @@ if (isset($_GET['month']) && isset($_GET['year']) && isset($_GET['day'])
 }
 
 function generate_page(&$tpl) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	global $month, $year, $day;
 
 	$all[0] = 0;
@@ -83,20 +74,20 @@ function generate_page(&$tpl) {
 	$ftm = mktime(0, 0, 0, $month, $day, $year);
 	$ltm = mktime(23, 59, 59, $month, $day, $year);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			COUNT(`bytes_in`) AS cnt
 		FROM
 			`server_traffic`
 		WHERE
 			`traff_time` > ? AND `traff_time` < ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($ftm, $ltm));
 
 	$dnum = $rs->fields['cnt'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`traff_time` AS ttime,
 			`bytes_in` AS sbin,
@@ -111,7 +102,7 @@ SQL_QUERY;
 			`server_traffic`
 		WHERE
 			`traff_time` > ? AND `traff_time` < ?
-SQL_QUERY;
+	";
 
 	$rs1 = exec_query($sql, $query, array($ftm, $ltm));
 
@@ -119,10 +110,10 @@ SQL_QUERY;
 
 	if ($dnum != 0) {
 		for ($i = 0; $i < $dnum; $i++) {
-			/* make it in kb mb or bytes :) */
+			// make it in kb mb or bytes :)
 			$ttime = date('H:i', $rs1->fields['ttime']);
 
-			/* make other traffic */
+			// make other traffic
 			$other_in = $rs1->fields['sbin'] - ($rs1->fields['swbin'] + $rs1->fields['smbin'] + $rs1->fields['spbin']);
 			$other_out = $rs1->fields['sbout'] - ($rs1->fields['swbout'] + $rs1->fields['smbout'] + $rs1->fields['spbout']);
 
@@ -160,12 +151,11 @@ SQL_QUERY;
 
 			$tpl->parse('HOUR_LIST', '.hour_list');
 
-			$rs1->MoveNext();
+			$rs1->moveNext();
 		} // end for
 		$all_other_in = $all[6] - ($all[0] + $all[2] + $all[4]);
 		$all_other_out = $all[7] - ($all[1] + $all[3] + $all[5]);
-	} // if dnum
-	else {
+	} else { // if dnum
 		$tpl->assign('HOUR_LIST', '');
 	}
 	$tpl->assign(
@@ -185,16 +175,15 @@ SQL_QUERY;
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_statistics.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
+		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_SERVER_DAY_STATISTICS' => tr('Server day statistics'),
 		'TR_MONTH' => tr('Month:'),
 		'TR_YEAR' => tr('Year:'),
@@ -212,7 +201,6 @@ $tpl->assign(
 		'TR_ALL_OUT' => tr('All out'),
 		'TR_ALL' => tr('All'),
 		'TR_BACK' => tr('Back'),
-
 		'MONTH' => $month,
 		'YEAR' => $year,
 		'DAY' => $day
@@ -225,7 +213,9 @@ generate_page ($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

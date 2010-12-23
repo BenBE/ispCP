@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,49 +32,41 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/sessions_manage.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/sessions_manage.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('user_session', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_SESSIONS_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 function kill_session($sql) {
+
 	if (isset($_GET['kill']) && $_GET['kill'] !== ''
 		&& $_GET['kill'] !== $_SESSION['user_logged']) {
 		$admin_name = $_GET['kill'];
-		$query = <<<SQL_QUERY
-		DELETE FROM
-			`login`
-		WHERE
-			`session_id` = ?
-SQL_QUERY;
+		$query = "
+			DELETE FROM
+				`login`
+			WHERE
+				`session_id` = ?
+		";
 
-		$rs = exec_query($sql, $query, array($admin_name));
-		set_page_message(tr('User session was killed!'));
+		$rs = exec_query($sql, $query, $admin_name);
+		set_page_message(tr('User session was killed!'), 'notice');
 		write_log($_SESSION['user_logged'] . ": killed user session: $admin_name!");
 	}
 }
 
 function gen_user_sessions(&$tpl, &$sql) {
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			*
 		FROM
 			`login`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$row = 1;
 	while (!$rs->EOF) {
@@ -110,17 +102,14 @@ SQL_QUERY;
 
 		$tpl->parse('USER_SESSION', '.user_session');
 
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 kill_session($sql);
 
@@ -128,6 +117,7 @@ gen_user_sessions($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
 		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
 		'TR_USERNAME' => tr('Username'),
 		'TR_USERTYPE' => tr('User type'),
@@ -143,7 +133,8 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

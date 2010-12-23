@@ -4,7 +4,7 @@
  * Set of functions used to build SQL dumps of tables
  *
  * @package phpMyAdmin-Export-SQL
- * @version $Id: sql.php 13118 2009-11-21 13:22:08Z lem9 $
+ * @version $Id$
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -307,9 +307,60 @@ function PMA_exportDBCreate($db)
         return FALSE;
     }
     if (isset($GLOBALS['sql_backquotes']) && isset($GLOBALS['sql_compatibility']) && $GLOBALS['sql_compatibility'] == 'NONE') {
-        return PMA_exportOutputHandler('USE ' . PMA_backquote($db) . ';' . $crlf);
+        $result = PMA_exportOutputHandler('USE ' . PMA_backquote($db) . ';' . $crlf);
+    } else {
+        $result = PMA_exportOutputHandler('USE ' . $db . ';' . $crlf);
     }
-    return PMA_exportOutputHandler('USE ' . $db . ';' . $crlf);
+
+    if ($result && isset($GLOBALS['sql_structure']) && isset($GLOBALS['sql_procedure_function'])) {
+        $text = '';
+        $delimiter = '$$';
+
+        $procedure_names = PMA_DBI_get_procedures_or_functions($db, 'PROCEDURE');
+        $function_names = PMA_DBI_get_procedures_or_functions($db, 'FUNCTION');
+
+        if ($procedure_names || $function_names) {
+            $text .= $crlf
+              . 'DELIMITER ' . $delimiter . $crlf;
+        }
+
+        if ($procedure_names) {
+            $text .=
+                PMA_exportComment()
+              . PMA_exportComment($GLOBALS['strProcedures'])
+              . PMA_exportComment();
+
+            foreach($procedure_names as $procedure_name) {
+                if (! empty($GLOBALS['sql_drop_table'])) {
+		    $text .= 'DROP PROCEDURE IF EXISTS ' . PMA_backquote($procedure_name) . $delimiter . $crlf;
+                }
+                $text .= PMA_DBI_get_definition($db, 'PROCEDURE', $procedure_name) . $delimiter . $crlf . $crlf;
+            }
+        }
+
+        if ($function_names) {
+            $text .=
+                PMA_exportComment()
+              . PMA_exportComment($GLOBALS['strFunctions'])
+              . PMA_exportComment();
+
+            foreach($function_names as $function_name) {
+                if (! empty($GLOBALS['sql_drop_table'])) {
+		    $text .= 'DROP FUNCTION IF EXISTS ' . PMA_backquote($function_name) . $delimiter . $crlf;
+                }
+                $text .= PMA_DBI_get_definition($db, 'FUNCTION', $function_name) . $delimiter . $crlf . $crlf;
+            }
+        }
+
+        if ($procedure_names || $function_names) {
+            $text .= 'DELIMITER ;' . $crlf;
+        }
+
+        if (! empty($text)) {
+            $result = PMA_exportOutputHandler($text);
+        }
+    }
+    return $result;
 }
 
 /**
@@ -352,49 +403,16 @@ function PMA_exportDBFooter($db)
         $text = '';
         $delimiter = '$$';
 
-        $procedure_names = PMA_DBI_get_procedures_or_functions($db, 'PROCEDURE');
-        $function_names = PMA_DBI_get_procedures_or_functions($db, 'FUNCTION');
-
         if (PMA_MYSQL_INT_VERSION > 50100) {
             $event_names = PMA_DBI_fetch_result('SELECT EVENT_NAME FROM information_schema.EVENTS WHERE EVENT_SCHEMA= \'' . PMA_sqlAddslashes($db,true) . '\';');
         } else {
             $event_names = array();
         }
 
-        if ($procedure_names || $function_names || $event_names) {
+        if ($event_names) {
             $text .= $crlf
               . 'DELIMITER ' . $delimiter . $crlf;
-        }
 
-        if ($procedure_names) {
-            $text .=
-                PMA_exportComment()
-              . PMA_exportComment($GLOBALS['strProcedures'])
-              . PMA_exportComment();
-
-            foreach($procedure_names as $procedure_name) {
-                if (! empty($GLOBALS['sql_drop_table'])) {
-		    $text .= 'DROP PROCEDURE IF EXISTS ' . PMA_backquote($procedure_name) . $delimiter . $crlf;
-                }
-                $text .= PMA_DBI_get_definition($db, 'PROCEDURE', $procedure_name) . $delimiter . $crlf . $crlf;
-            }
-        }
-
-        if ($function_names) {
-            $text .=
-                PMA_exportComment()
-              . PMA_exportComment($GLOBALS['strFunctions'])
-              . PMA_exportComment();
-
-            foreach($function_names as $function_name) {
-                if (! empty($GLOBALS['sql_drop_table'])) {
-		    $text .= 'DROP FUNCTION IF EXISTS ' . PMA_backquote($function_name) . $delimiter . $crlf;
-                }
-                $text .= PMA_DBI_get_definition($db, 'FUNCTION', $function_name) . $delimiter . $crlf . $crlf;
-            }
-        }
-
-        if ($event_names) {
             $text .=
                 PMA_exportComment()
               . PMA_exportComment($GLOBALS['strEvents'])
@@ -406,8 +424,7 @@ function PMA_exportDBFooter($db)
                 }
                 $text .= PMA_DBI_get_definition($db, 'EVENT', $event_name) . $delimiter . $crlf . $crlf;
             }
-        }
-        if ($procedure_names || $function_names || $event_names) {
+
             $text .= 'DELIMITER ;' . $crlf;
         }
 
@@ -477,6 +494,7 @@ function PMA_getTableDef($db, $table, $crlf, $error_url, $show_dates = false, $a
     global $cfgRelation;
     global $sql_constraints;
     global $sql_constraints_query; // just the text of the query
+    global $sql_drop_foreign_keys;
 
     $schema_create = '';
     $auto_increment = '';
@@ -615,6 +633,7 @@ function PMA_getTableDef($db, $table, $crlf, $error_url, $show_dates = false, $a
                 // let's do the work
                 $sql_constraints_query .= 'ALTER TABLE ' . PMA_backquote($table) . $crlf;
                 $sql_constraints .= 'ALTER TABLE ' . PMA_backquote($table) . $crlf;
+                $sql_drop_foreign_keys .= 'ALTER TABLE ' . PMA_backquote($db) . '.' . PMA_backquote($table) . $crlf;
 
                 $first = TRUE;
                 for ($j = $i; $j < $sql_count; $j++) {
@@ -630,6 +649,11 @@ function PMA_getTableDef($db, $table, $crlf, $error_url, $show_dates = false, $a
                             $str_tmp = preg_replace('/(CONSTRAINT)/', 'ADD \1', $sql_lines[$j]);
                             $sql_constraints_query .= $str_tmp;
                             $sql_constraints .= $str_tmp;
+                            preg_match('/(CONSTRAINT)([\s])([\S]*)([\s])/', $sql_lines[$j], $matches);
+                            if (! $first) {
+                                $sql_drop_foreign_keys .= ', ';
+                            }
+                            $sql_drop_foreign_keys .= 'DROP FOREIGN KEY ' . $matches[3];
                         }
                         $first = FALSE;
                     } else {

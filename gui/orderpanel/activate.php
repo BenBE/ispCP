@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,11 +24,13 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
+
+$cfg = ispCP_Registry::get('Config');
 
 /**
  * Validate activation parameters
@@ -37,9 +39,12 @@ require '../include/ispcp-lib.php';
  * @return boolean true - validation correct
  */
 function validate_order_key($order_id, $key) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$result = false;
-	$sql = Database::getInstance();
-	$query = <<<SQL_QUERY
+	$sql = ispCP_Registry::get('Db');
+	$query = "
 		SELECT
 			*
 		FROM
@@ -48,14 +53,14 @@ function validate_order_key($order_id, $key) {
 			`id` = ?
 		AND
 			`status` = ?
-SQL_QUERY;
+	";
 	$rs = exec_query($sql, $query, array($order_id, 'unconfirmed'));
-	if ($rs->RecordCount() == 1) {
-		$domain_name 	= $rs->fields['domain_name'];
-		$admin_id 		= $rs->fields['user_id'];
-		$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+	if ($rs->recordCount() == 1) {
+		$domain_name	= $rs->fields['domain_name'];
+		$admin_id		= $rs->fields['user_id'];
+		$coid =    isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 		$ckey = sha1($order_id.'-'.$domain_name.'-'.$admin_id.'-'.$coid);
-		if ($ckey == $key) 
+		if ($ckey == $key)
 			$result = true;
 	}
 	return $result;
@@ -67,25 +72,27 @@ SQL_QUERY;
  */
 function confirm_order($order_id) {
 
-	$sql = Database::getInstance();
-	$query = <<<SQL_QUERY
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
 		SELECT
 			*
 		FROM
 			`orders`
 		WHERE
 			`id` = ?
-SQL_QUERY;
-	$rs = exec_query($sql, $query, array($order_id));
-	if ($rs->RecordCount() == 1) {
+	";
+	$rs = exec_query($sql, $query, $order_id);
+	if ($rs->recordCount() == 1) {
 
-		$query = <<<SQL_QUERY
-		UPDATE `orders` SET `status`=? WHERE `id`=?
-SQL_QUERY;
+		$query = "
+			UPDATE `orders` SET `status` = ? WHERE `id` = ?
+		";
 		exec_query($sql, $query, array('new', $order_id));
 
-		$admin_id 		= $rs->fields['user_id'];
-		$domain_name 	= $rs->fields['domain_name'];
+		$admin_id		= $rs->fields['user_id'];
+		$domain_name	= $rs->fields['domain_name'];
 		$ufname			= $rs->fields['fname'];
 		$ulname			= $rs->fields['lname'];
 		$uemail			= $rs->fields['email'];
@@ -128,24 +135,24 @@ Please login into your ispCP control panel for more details.
 		$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
 
 		$headers = "From: ". $from . "\n";
-		$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . Config::get('Version') . " Service Mailer";
+		$headers .= "MIME-Version: 1.0\n" . "Content-Type: text/plain; charset=utf-8\n" . "Content-Transfer-Encoding: 8bit\n" . "X-Mailer: ispCP " . $cfg->Version . " Service Mailer";
 
 		mail($from, $subject, $message, $headers);
 	}
 }
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id']) || !isset($_GET['k'])) {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(tr('You do not have permission to access this interface!'));
 }
 
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/activate.tpl');
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/activate.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
 $theme_color = isset($_SESSION['user_theme'])
 	? $_SESSION['user_theme']
-	: Config::get('USER_INITIAL_THEME');
+	: $cfg->USER_INITIAL_THEME;
 
 $tpl->assign(
 	array(
@@ -168,6 +175,6 @@ $tpl->assign('PAGE_TITLE', tr('Order confirmation'));
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

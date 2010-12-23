@@ -1,6 +1,6 @@
-ispCP ω (OMEGA) HowTo Install for FreeBSD
+ispCP ω (OMEGA) HowTo Install for FreeBSD 8.1
 ================================================================================
-For other Linux distributions please check the other INSTALL files.
+For other Linux/BSD distributions please check the other INSTALL files.
 ================================================================================
 
 Table of Content
@@ -9,16 +9,17 @@ Table of Content
 2) Requirements
 3) Introduction
 4) Installation
-5) Update
-6) Uninstall
-7) Credits
+5) ispCP in a Jail
+6) Update
+7) Uninstall
+8) Credits
 
 ================================================================================
 1) Version Info
 ---------------
-ispCP ω Version	: 1.1.0
-INSTALL Script	: 4.3
-Maintainer		: Blocker
+ispCP ω Version	: 1.0.8
+INSTALL Script	: 4.8
+Maintainer		: BeNe
 Homepage		: http://www.isp-contol.net
 Distros			: FreeBSD
 
@@ -50,239 +51,372 @@ provides graphic user interfaces for the administrators, resellers and users.
 ================================================================================
 4) Installation
 ---------------
-Make sure you are logged in as root and MySQL is running
-and Name Server rndc.key has been setup.
+Make sure you are logged in as root and Nameserver rndc.key has been setup.
+If not create a rndc.key file:
+	# rndc-confgen -a
 
 1. Untar or unzip the distribution files to a secure directory:
-	# cd /root
-	# tar xjvf ispcp-omega-1.1.0.tar.bz2
+	# cd /usr/local/src
+	# tar xjvf ispcp-omega-1.0.8.tar.bz2
 
-2. Change to the newly created directory:
-	# cd ./ispcp-omega-1.1.0
-
-3. Install the required modules
+2. Install Ports and Portmaster:
+	# portsnap update
+	# portsnap fetch extract
 	# cd /usr/ports/ports-mgmt/portmaster
 	# make install clean
 	# rehash
-	# portmaster $(cat ./docs/FreeBSD/freebsd-packages)
 
-	Apache22 Options
+3. Configure Apache to use worker instead of prefork:
+	# vi /usr/ports/www/apache22/Makefile
+   And change WITH_MPM to worker:
+	# WITH_MPM?=      worker # or prefork, event, itk
 
-	x threads       option
- 	x mysql         option
- 	x suexec        ( Recomended )
- 	+ mod_cband     for bandwitdh management
- 	o mod_php       WARNING: security risk for hosting
- 	+ mod_fastcgi   ( choice for improving security )
-	+ mod_fcgid     ( choice for improving security )
- 	+ mod_proxy     for awstats
+4. Compile required Packages with Portmaster
+	# portmaster `cat ./docs/FreeBSD/freebsd-packages`
 
-	Proftpd Options
+	apache 2.2.17_1 Options
 
-	x IPV6          IP v6 support ( but disable by ispCP )
-	x mysql         Database module
-	x quota         quota module
-	x ratio         ratio module
-	x ctrls         control module
-	- delay         Not Available in ports ?
-	- ctrls_admin   Not Available in ports ?
+	x THREADS
+ 	x IPV6
+ 	x AUTH_BASIC
+ 	x AUTHN_FILE
+ 	x AUTHN_DEFAULT
+ 	x AUTHZ_HOST
+ 	x AUTHZ_GROUPFILE
+ 	x AUTHZ_OWNER
+ 	x AUTHZ_DEFAULT
+ 	x ACTIONS
+ 	x ALIAS
+ 	x AUTOINDEX
+ 	x DEFLATE
+ 	x DIR
+ 	x ENV
+ 	x EXPIRES
+ 	x INFO
+ 	x LOG_CONFIG
+ 	x LOGIO
+ 	x MIME
+ 	x MIME_MAGIC
+ 	x NEGOTIATION
+ 	x REWRITE
+ 	x SETENVIF
+ 	x STATUS
+ 	x VHOST_ALIAS
+	x PROXY
+	x PROXY_CONNECT
+	x PATCH_PROXY_CONNECT
+	x PROXY_HTTP
+ 	x SSL
+ 	x SUEXEC
+	x CGID
 
-	courier-imap Options
+	proftpd 1.3.3c_1 Options
 
-	x userdb        For use with userdb ( ispCP default )
-	x mysql         For use with mysql
+	x CTRLS
+	x IFSESSION
+	x IPV6
+	x NLS
+	x OPENSSL
+	x QUOTA
+	x README
+	x REWRITE
+	x WRAP
+	x MYSQL
 
-	courier-authlib Options
+	postfix 2.7.1,1 Options
 
-	x userdb
-	x mysql
+	x PCRE
+	x SASL2
+	x TLS
+	x MYSQL
+	x CDB
+	x VDA
 
-	Perl Options
+	p5-Net-DNS 0.66_1 Options
 
-	+ Compress-Zlib
-	+ Crypt-Blowfish
-	+ Crypt-CBC
-	+ Crypt-DES
-	+ Crypt-PasswdMD5
-	+ Crypt-SSLeay
-	+ DBD-mysql
-	+ DBI
-	+ Digest-HMAC
-	+ Digest-SHA1
-	+ HTML-Parser
-	+ HTML-Tagset
-	+ HTTP-GHTTP
-	+ IO-stringy
-	+ MIME-tools
-	+ Mail-Tools
-	+ Net-DNS
-	+ Net-Daemon
-	+ Net-IP
-	+ Net-LibIDN
-	+ PlRPC
-	+ URI
-	+ libwww
-	+ Term-ReadPassword
+	x IPV6
 
-	PHP5 Options
+	courier-imap 4.8.1,2 Options
 
-	x apache
+	x IPV6
+	x AUTH_USERDB
+
+	cyrus-sasl 2.1.23 Options
+
+	x BDB
+	x MYSQL
+	x AUTHDAEMOND
+	x LOGIN
+	x PLAIN
+	x CRAM
+	x DIGEST
+
+	x IPV6
+	x AUTH_MYQL
+	x AUTH_USERDB
+
+	courier-authlib 0.63.0 Options
+
+	x AUTH_USERDB
+
+	perl 5.10.1_2  Options
+
+	x PERL_64BITINT
+	x THREADS
+	x USE_PERL
+
+	PHP5 5.3.2_2 Options
+
 	x CLI
 	x CGI
-	x suhosin
-	+ fastcgi
+	x SUHOSIN
+	x IPV6
+	x FASTCGI
+	x PATHINFO
 
-	PHP5-Extensions Options
+	PHP5-Extensions 1.4 Options
 
-	x pcre
-	x bz2
-	x ctype
-	x curl
-	x dbx
-	x domxml
-	x filepro
-	x gd
-	x imap
-	x mcrypt
-	x mhash
-	x mysql
-	x pear
-	x shmop
-	x xmlrpc
-	x xslt
-	x session
-	x php5-pdo_mysql
+	x BZ2
+	x CTYPE
+	x CURL
+	x DBA
+	x DOM
+	x FILEINFO
+	x FILTER
+	x FTP
+	x GD
+	x HASH
+	x ICONV
+	x IMAP
+	x JSON
+	x MBSTRING
+	x MCRYPT
+	x MHASH
+	x MYSQL
+	x MYSQLI
+	x PCRE
+	x PDO
+	x PDO_SQLITE
+	x POSIX
+	x SESSION
+	x SHMOP
+	x SIMPLEXML
+	x SOAP
+	x SOCKET
+	x SPL
+	x SQLITE
+	x TOKENIZER
+	x XML
+	x XMLREADER
+	x XMLRPC
+	x XMLWRITER
+	x ZIP
+	x ZLIB
 
-4. Configure the system.
-	# cpan upgrade
-	# cpan DBI DBD::mysql MIME::Entity MIME::Parser Crypt::CBC Crypt::Blowfish Crypt::PasswdMD5 Term::ReadPassword
+	PHP5-MBString 5.2.12 Options
 
-    Edit /etc/rc.conf and add
-	sendmail_enable="NONE"
-	postfix_enable="YES"
-	proftpd_enable="YES"
-	policyd_weight_enable="YES"
-	mysql_enable="YES"
-	apache22_enable="YES"
-	courier_authdaemond_enable="YES"
-	courier_imap_imapd_enable="YES"
-	courier_imap_imapd_ssl_enable="NO"
-	courier_imap_pop3d_enable="YES"
-	courier_imap_pop3d_ssl_enable="NO"
+	x REGEX
 
-4. (optional) Check the ispcp.conf and adapt it to your requirements.
+	PHP5-DBA 5.12 Options
 
-5. Build the System by using make:
-	# make -f Makefile.fbsd install
+	x CDB
+	x INIFILE
+	x FLATFILE
 
-6. Copy all the directories into your system (you may make backups)
-	# cp -Rv /tmp/ispcp/* /
+	PHP5-SQL-lite 5.3.3_2 Options
 
-7. Now it's time to set up the frontend. Change into the engine directory:
-	# cd /usr/local/www/ispcp/engine/setup
+	x UTF8
 
-8. Configure the MySQL Server and set the MySQL password, if not set:
-	# /usr/local/bin/mysql_install_db
-	# chown -R mysql /var/db/mysql/
-	# /usr/local/etc/rc.d/mysql-server start
-	# mysqladmin -u root password YOUR_PASSWORD
+	PHP5-PCRE 5.3.3_2 Options
 
-9. Start the engine setup:
-	# perl ispcp-setup
+	x BUNDLED_PCRE
 
-10. Install ispCP ω step-by-step
+	awstats 6.95,1 Options
+
+	x IPV6
+
+	curl 7.21.1 Options
+
+	x IPV6
+	x OPENSSL
+	x PROXY
+
+	ca_root_nss 3.12.6 Options
+
+	x ETCSYMLINK
+
+	php5-gd 5.3.3_2 Options
+
+	x T1LIB
+	x TRUETYPE
+
+	libxslt 1.1.26 Options
+
+	x CRYPTO
+
+	rkhunter 1.3.6 Options
+
+	x LSOF
+
+	wget 1.12_2 Options
+
+	x IPV6
+	x NLS
+	x OPENSSL
+
+	p5-IO-Socket-SSL 1.31 Options
+
+	x IDN
+
+	amavisd-new 2.6.4_5,1 Options
+
+	x BDB
+	x MILTER
+	x SPAMASSASSIN
+	x FILE
+	x UNRAR
+	x ARJ
+	x LHA
+	x ARC
+	x CAB
+	x RPM
+	x ZOO
+	x LZOP
+	x FREEZE
+	x P7ZIP
+	x MSWORD
+
+	p5-Mail-SpamAssassin 3.3.0_3 Options
+
+	x AS_ROOT
+	x SPAMC
+	x DKIM
+	x SSL
+	x GNUPG
+	x RAZOR
+
+5.  Configure the system.
+	 # rehash
+
+6. (optional) Check the ispcp.conf and adapt it to your requirements.
+
+7.  Configure the MySQL Server and set the MySQL password, if not set:
+	 # /usr/local/bin/mysql_install_db
+	 # chown -R mysql /var/db/mysql/
+	 # /usr/local/etc/rc.d/mysql-server onestart
+	 # mysqladmin -u root password 'YOUR_PASSWORD'
+
+8.  Build the System by using make:
+	 # cd /usr/local/src/ispcp-omega-1.0.8
+	 # make -f BSDmakefile install
+
+9.  Copy all the directories into your system.
+    If you have not yet, now is a good time to make backups of your server.
+    The following steps do fundamental changes to your system configuration.
+	 # cp -R /tmp/ispcp/* /
+
+10. Maybe empty the folder /usr/share/skel - otherwise you'll have all the files/folders
+    in the home folders:
+	 # cp -a /usr/share/skel /usr/share/skel.bkp
+	 # rm -r /usr/share/skel && mkdir /usr/share/skel
+
+11. Now it's time to set up the frontend. Change into the engine directory:
+	 # cd /usr/local/www/ispcp/engine/setup
+
+12. Start the engine setup. (Please choose FastCGI and NOT fcgid)
+	 # perl ./ispcp-setup
+
+13. Install ispCP ω step-by-step
 
 	If you get no error, all went good; if you get one, look at
 	http://isp-control.net to solve the problem.
 
-11. Clean the temporary folders:
-	# rm -fR /tmp/ispcp
+14. Restore /usr/share/skel:
+	 # rm -r /usr/share/skel && mv /usr/share/skel.bkp /usr/share/skel
 
-12. Load Apache modules
-    Edit /usr/local/etc/apache22/httpd.conf and add for FCGId
-	LoadModule fcgid_module libexec/apache22/mod_fcgid.so
-	Include etc/apache22/extra/fcgid_ispcp.conf
+15. Clean the temporary folders:
+	 # rm -fR /tmp/ispcp/
 
-    or for FastCGI
-	LoadModule fcgid_module libexec/apache22/mod_fastcgi.so
-	Include etc/apache22/extra/fastcgi_ispcp.conf
+16. Log into ispCP and change:
+	"Settings"->"Server Ports" "POSTGREY Port" to 10023.
 
+================================================================================
+5) ispCP ω in a Jail
+--------------------
+	We test ispCP still in a Jail! If you want to use it anyway be sure you have
+	enable SystemV IPC in the /etc/rc.conf on the Hostsystem.
+	 jail_sysvipc_allow="YES"
+	If you are unsure check with:
+	 sysctl security.jail.sysvipc_allowed
 
-WARNING:
-          DEFAULT setting is using mod_php not fastcgi or mod_fcgid !!
-          The configuration is customised for use with apache 2.2.x version
-          using suexec module enable.
-UNDER JAIL:
-          dont forget to modified postfix, prepared for chroot system
-          for mod_fcgid, at master /etc/rc.conf, set jail_sysvipc_allow to YES
-
- ================================================================================
-5) Update
+================================================================================
+6) Update
 ---------
-NOTE: ispCP ω can only be updated from 1.0.0, 1.0.1 or 1.0.2. If you have a
+NOTE: ispCP ω can only be updated from post 1.0.0. If you have a
 version prior 1.0.0 (final release) installed, update to ispCP ω 1.0.0 first.
 
 Make sure you are logged in as root and MySQL is running.
 
-1. Untar or unzip the distribution files to a secure directory:
-	# cd /root
-	# tar xjvf ispcp-omega-1.1.0.tar.bz2
+1.  Untar or unzip the distribution files to a secure directory:
+	 # cd /root
+	 # tar xjvf ispcp-omega-1.0.8.tar.bz2
 
-2. Change to the newly created directory:
-	# cd ./ispcp-omega-1.1.0
+2.  Change to the newly created directory:
+	 # cd ./ispcp-omega-1.0.8
 
-3. Install the required modules
-   see: ./docs/FreeBSD/freebsd-packages
+3.  Install the required modules:
+	see: ./docs/FreeBSD/freebsd-packages
+	# portsnap update
+	 # portmaster `cat ./docs/FreeBSD/freebsd-packages`
 
-4. (optional) Check the ispcp.conf and adapt it to your requirements.
+4.  (optional) Check the ispcp.conf and adapt it to your requirements.
 
-5. Stop the ispcp_deamon and build the System by using make:
-	# /etc/init.d/ispcp_daemon stop
-	# make -f Makefile.fbsd install
+5.  Stop the ispcp_deamon and build the System by using make:
+	 # /usr/local/etc/rc.d/ispcp_daemon stop
+	 # make -f BSDmakefile install
 
-6.Backup files
-	# cp -v /usr/local/www/ispcp/engine/ispcp-db-keys.pl /tmp/ispcp/usr/local/www/ispcp/engine/
-	# cp -v /usr/local/www/ispcp/engine/messenger/ispcp-db-keys.pl /tmp/ispcp/usr/local/www/ispcp/engine/messenger/
-	# cp -v /usr/local/www/ispcp/gui/include/ispcp-db-keys.php /tmp/ispcp/usr/local/www/ispcp/gui/include/
-	# cp -v /var/www/ispcp/gui/themes/user_logos/* /tmp/ispcp/var/www/ispcp/gui/themes/user_logos/
-	# cp -v /usr/local/www/ispcp/gui/tools/pma/config.inc.php /tmp/ispcp/usr/local/www/ispcp/gui/tools/pma/
-	# cp -v /var/www/ispcp/gui/tools/webmail/data/* /tmp/ispcp/var/www/ispcp/gui/tools/webmail/data/
+6.  Backup files
+	 # cp -v /usr/local/www/ispcp/gui/themes/user_logos/* /tmp/ispcp/usr/local/www/ispcp/gui/themes/user_logos/
+	 # cp -Rv /usr/local/www/ispcp/gui/domain_default_page /tmp/ispcp/usr/local/www/ispcp/gui/domain_default_page
+	 # cp -v /usr/local/www/ispcp/gui/tools/webmail/data/* /tmp/ispcp/usr/local/www/ispcp/gui/tools/webmail/data/
 
-. Delete old files to avoid security risks:
-	# rm -fR /usr/local/www/ispcp/engine/messager/
-	# rm -fR /usr/local/www/ispcp/gui/admin/
-	# rm -fR /usr/local/www/ispcp/gui/client/
-	# rm -fR /usr/local/www/ispcp/gui/include/
-	# rm -fR /usr/local/www/ispcp/gui/orderpanel/
-	# rm -fR /usr/local/www/ispcp/gui/themes/
-	# rm -fR /usr/local/www/ispcp/gui/reseller/
-	# rm -f /usr/local/www/ispcp/gui/*.php
+	 For ispCP Omega prior version 1.0.8
+	 # cp -v /usr/local/www/ispcp/engine/ispcp-db-keys.pl /tmp/ispcp/usr/local/www/ispcp/engine/
+	 # cp -v /usr/local/www/ispcp/engine/messenger/ispcp-db-keys.pl /tmp/ispcp/usr/local/www/ispcp/engine/messenger/
+	 # cp -v /usr/local/www/ispcp/gui/include/ispcp-db-keys.php /tmp/ispcp/usr/local/www/ispcp/gui/include/
 
+	 For ispCP Omega prior version 1.0.7 RC2
+	 # cp -v /usr/local/www/ispcp/gui/tools/pma/config.inc.php /tmp/ispcp/usr/local/etc/ispcp/pma/working/
 
-7. Copy /usr and /var directories into your system (you may make backups)
-	# cp -Rv /tmp/ispcp/usr/* /usr/
-	# cp -Rv /tmp/ispcp/var/* /var/
+7.  Delete old files to avoid security risks:
+	 # rm -Rf /usr/local/www/ispcp/engine/
+	 # rm -Rf /usr/local/www/ispcp/gui/{admin,client,include,orderpanel,themes,reseller}/
+	 # rm -Rf /usr/local/www/ispcp/gui/tools/{pma/,filemanager/,webmail/,index.php}
+	 # rm -Rf /usr/local/www/ispcp/gui/{*.php,favicon.ico,robots.txt}
 
-8. Backup ispcp.conf and copy the /etc directory into your system (you may make backups):
-	# mv -v /etc/ispcp/ispcp.conf /etc/ispcp/ispcp.old.conf
-	# cp -Rv /tmp/ispcp/etc/* /etc/
+8.	Backup the current ispcp.conf (you may make backups):
+	 # mv -v /usr/local/etc/ispcp/ispcp.conf /usr/local/etc/ispcp/ispcp.old.conf
 
-9. Now it's time to update your installation. Change into the engine directory:
-	# cd /var/www/ispcp/engine/setup
+9.  Copy /usr and /var directories into your system (you may make backups)
+	 # cp -Rv /tmp/ispcp/usr/* /usr/
+	 # cp -Rv /tmp/ispcp/var/* /var/
 
-10. Start the engine update:
-	# perl ispcp-update
+10. Now it's time to update your installation. Change into the engine directory:
+	 # cd /usr/local/www/ispcp/engine/setup
 
-11. Update ispCP ω step-by-step
+11. Start the engine update:
+	 # perl ./ispcp-update
 
-	If you get no error, all went good; if you get one, look at
-	http://isp-control.net to solve the problem.
+12. Update ispCP ω step-by-step
 
-12. Clean the temporary folders:
-	# rm -fR /tmp/ispcp/
+    If you get no error, all went good; if you get one, look at
+    http://isp-control.net to solve the problem.
+
+13. Clean the temporary folders:
+	 # rm -fR /tmp/ispcp/
 
 ================================================================================
-6) Uninstall
+7) Uninstall
 ------------
 Make sure you are logged in as root and MySQL is running.
 
@@ -290,12 +424,12 @@ Make sure you are logged in as root and MySQL is running.
 	# cd /usr/local/www/ispcp/engine/setup
 
 2. Start the uninstall script:
-	# perl ispcp-uninstall
+	# perl ./ispcp-uninstall
 
 3. Clean up your system
 
 ================================================================================
-7) Credits
+8) Credits
 ----------
 
 ispCP ω is a project of ispCP | isp Control Panel.

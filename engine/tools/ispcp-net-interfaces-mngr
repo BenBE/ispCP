@@ -1,7 +1,7 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -18,20 +18,14 @@
 # The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
 #
 # The Initial Developer of the Original Code is ispCP Team.
-# Portions created by Initial Developer are Copyright (C) 2006-2009 by
+# Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 use FindBin;
 use lib "$FindBin::Bin/..";
 require 'ispcp_common_code.pl';
 
 use strict;
-
 use warnings;
 
 my $rs = undef;
@@ -43,26 +37,38 @@ sub net_interfaces_mngr_start_up {
 
 	push_el(\@main::el, 'net_interfaces_mngr_start_up()', 'Starting...');
 
+	umask(027);
+
 	if (-e $main::ispcp_net_interfaces_mngr_el) {
 		$rs = del_file($main::ispcp_net_interfaces_mngr_el);
 		return $rs if ($rs != 0);
 	}
 
-	$rs = get_conf();
-	return $rs if ($rs != 0);
+	#$rs = get_conf();
+	#return $rs if ($rs != 0);
 
-	my $sql = "SELECT `value` FROM `config` WHERE `name` = 'DATABASE_REVISION';";
+	my $sql = "
+		SELECT
+			`value`
+		FROM
+			`config`
+		WHERE
+			`name` = 'DATABASE_REVISION'
+		;
+	";
+
 	($rs, $ref) = doSQL($sql);
 	return $rs if ($rs != 0);
 
 	my $version = @$ref[0];
+
 	if (@$version[0] < 18){
-		$proceed = "";
+		$proceed = '';
 	}
 
 	push_el(\@main::el, 'net_interfaces_mngr_start_up()', 'Ending...');
-	return 0;
 
+	0;
 }
 
 sub virtual_netcard_add(){
@@ -71,7 +77,15 @@ sub virtual_netcard_add(){
 
 	push_el(\@main::el, 'virtual_netcard_add()', 'Starting...');
 
-	my $sql = "SELECT `ip_id`, `ip_number`, `ip_card` FROM `server_ips` WHERE `ip_number` != '$main::cfg{'BASE_SERVER_IP'}';";
+	my $sql = "
+		SELECT
+			`ip_id`, `ip_number`, `ip_card`
+		FROM
+			`server_ips`
+		WHERE
+			`ip_number` != '$main::cfg{'BASE_SERVER_IP'}'
+		;
+	";
 
 	($rs, $ref) = doSQL($sql);
 	return $rs if ($rs != 0);
@@ -85,16 +99,30 @@ sub virtual_netcard_add(){
 		my $ip_card = @$_[2];
 
 		if (defined($ip_card)){
-			push_el(\@main::el, 'virtual_netcard_add()', "$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} ${ip_number} up");
-			$rs = sys_command("$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} ${ip_number} up");
+			push_el(
+				\@main::el, 'virtual_netcard_add()',
+				"$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} ${ip_number} " .
+				"netmask 255.255.255.255 up"
+			);
+
+            $rs = sys_command(
+                "$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} ${ip_number} " .
+                "netmask 255.255.255.255 up"
+			);
+
 			if ($rs != 0){
-				send_error_mail('virtual_netcard_add()', "Error while trying to add add IP ${ip_number} to network card '${ip_card}'!")
+				send_error_mail(
+					'virtual_netcard_add()',
+					"Error while trying to add IP ${ip_number} to network " .
+					"card '${ip_card}'!"
+				)
 			}
 		}
 	}
 
 	push_el(\@main::el, 'virtual_netcard_add()', 'Ending...');
-	return 0;
+
+	0;
 }
 
 sub virtual_netcard_remove(){
@@ -103,7 +131,17 @@ sub virtual_netcard_remove(){
 
 	push_el(\@main::el, 'virtual_netcard_remove()', 'Starting...');
 
-	my $sql = "SELECT `ip_id`, `ip_number`, `ip_card` FROM `server_ips` WHERE `ip_number` != '$main::cfg{'BASE_SERVER_IP'}' AND `ip_status` !='toadd';";
+	my $sql = "
+		SELECT
+			`ip_id`, `ip_number`, `ip_card`
+		FROM
+			`server_ips`
+		WHERE
+			`ip_number` != '$main::cfg{'BASE_SERVER_IP'}'
+		AND
+			`ip_status` != 'toadd'
+		;
+	";
 
 	($rs, $ref) = doSQL($sql);
 	return $rs if ($rs != 0);
@@ -116,14 +154,24 @@ sub virtual_netcard_remove(){
 		my $ip_number = @$_[1];
 		my $ip_card = @$_[2];
 
-		push_el(\@main::el, 'virtual_netcard_remove()', "$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} down");
-		$rs = sys_command("$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} down");
-		send_error_mail('virtual_netcard_remove()', "Error while trying to remove add IP ${ip_number} to network card '${ip_card}'!") if ($rs != 0);
+		push_el(
+			\@main::el, 'virtual_netcard_remove()',
+			"$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} down"
+		);
 
+		$rs = sys_command(
+			"$main::cfg{'CMD_IFCONFIG'} ${ip_card}:${ip_id} down"
+		);
+
+		send_error_mail(
+			'virtual_netcard_remove()',
+			"Error while trying to remove IP ${ip_number} to network " .
+			"card '${ip_card}'!") if ($rs != 0);
 	}
 
 	push_el(\@main::el, 'virtual_netcard_remove()', 'Ending...');
-	return 0;
+
+	0;
 }
 
 sub net_interfaces_mngr_engine {
@@ -141,16 +189,31 @@ sub net_interfaces_mngr_engine {
 		return $rs if ($rs != 0);
 	}
 
-	my $sql = "DELETE FROM `server_ips` WHERE `ip_status` = 'delete';";
+	my $sql = "
+		DELETE FROM
+			`server_ips`
+		WHERE
+			`ip_status` = 'delete'
+		;
+	";
+
 	($rs, $ref) = doSQL($sql);
 	return $rs if ($rs != 0);
 
-	$sql = "UPDATE `server_ips` SET `ip_status` = 'ok';";
+	$sql = "
+		UPDATE
+			`server_ips`
+		SET
+			`ip_status` = 'ok'
+		;
+	";
+
 	($rs, $ref) = doSQL($sql);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'net_interfaces_mngr_engine()', 'Ending...');
-	return 0;
+
+	0;
 }
 
 sub net_interfaces_mngr_shut_down {
@@ -158,7 +221,8 @@ sub net_interfaces_mngr_shut_down {
 	push_el(\@main::el, 'net_interfaces_mngr_shut_down()', 'Starting...');
 
 	push_el(\@main::el, 'net_interfaces_mngr_shut_down()', 'Ending...');
-	return 0;
+
+	0;
 }
 
 $rs = net_interfaces_mngr_start_up();
@@ -185,4 +249,3 @@ if ($rs != 0) {
 }
 
 exit 0;
-

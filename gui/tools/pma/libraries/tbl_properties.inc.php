@@ -4,7 +4,7 @@
  * Display form for changing/adding table fields/columns
  *
  * included by tbl_addfield.php, -_alter.php, -_create.php
- * @version $Id: tbl_properties.inc.php 13116 2009-11-13 11:14:10Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 if (! defined('PHPMYADMIN')) {
@@ -404,7 +404,7 @@ for ($i = 0; $i < $num_fields; $i++) {
     if ($type_upper == 'BIT') {
         $row['DefaultValue'] = PMA_convert_bit_default_value($row['DefaultValue']);
     } 
- 
+
     $content_cells[$i][$ci] = '<select name="field_default_type[' . $i . ']">';
     foreach ($default_options as $key => $value) {
         $content_cells[$i][$ci] .= '<option value="' . $key . '"';

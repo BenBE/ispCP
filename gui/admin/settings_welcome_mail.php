@@ -2,36 +2,46 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2009 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
- * @link		http://isp-control.net
- * @author		ispCP Team
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
  *
  * @license
- *   This program is free software; you can redistribute it and/or modify it under
- *   the terms of the MPL General Public License as published by the Free Software
- *   Foundation; either version 1.1 of the License, or (at your option) any later
- *   version.
- *   You should have received a copy of the MPL Mozilla Public License along with
- *   this program; if not, write to the Open Source Initiative (OSI)
- *   http://opensource.org | osi@opensource.org
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "VHCS - Virtual Hosting Control System".
+ *
+ * The Initial Developer of the Original Code is moleSoftware GmbH.
+ * Portions created by Initial Developer are Copyright (C) 2001-2006
+ * by moleSoftware GmbH. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/settings_welcome_mail.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_welcome_mail.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $user_id = $_SESSION['user_id'];
 
-$data = get_welcome_email($user_id);
+$data = get_welcome_email($user_id, 'reseller');
 
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 
@@ -48,33 +58,21 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 	}
 
 	if (!empty($message)) {
-		set_page_message($message);
+		set_page_message($message, 'warning');
 	} else {
 		set_welcome_email($user_id, $data);
-		set_page_message(tr('Auto email template data updated!'));
+		set_page_message(tr('Auto email template data updated!'), 'notice');
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Email setup'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
-
-$tpl->assign(
-	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),
@@ -89,10 +87,10 @@ $tpl->assign(
 		'TR_USERTYPE' => tr('User type (admin, reseller, user)'),
 		'TR_BASE_SERVER_VHOST' => tr('URL to this admin panel'),
 		'TR_BASE_SERVER_VHOST_PREFIX' => tr('URL protocol'),
-		'SUBJECT_VALUE' => addslashes(clean_input($data['subject'], true)),
-		'MESSAGE_VALUE' => $data['message'],
-		'SENDER_EMAIL_VALUE' => $data['sender_email'],
-		'SENDER_NAME_VALUE' => $data['sender_name']
+		'SUBJECT_VALUE' => tohtml($data['subject']),
+		'MESSAGE_VALUE' => tohtml($data['message']),
+		'SENDER_EMAIL_VALUE' => tohtml($data['sender_email']),
+		'SENDER_NAME_VALUE' => tohtml($data['sender_name'])
 	)
 );
 
@@ -101,7 +99,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

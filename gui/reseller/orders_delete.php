@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -38,11 +38,11 @@ $reseller_id = $_SESSION['user_id'];
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	$order_id = $_GET['order_id'];
 } else {
-	set_page_message(tr('Wrong order ID!'));
+	set_page_message(tr('Wrong order ID!'), 'error');
 	user_goto('orders.php');
 }
 
-$query = <<<SQL_QUERY
+$query = "
 	SELECT
 		`id`
 	FROM
@@ -51,25 +51,25 @@ $query = <<<SQL_QUERY
 		`id` = ?
 	AND
 		`user_id` = ?
-SQL_QUERY;
+";
 
 $rs = exec_query($sql, $query, array($order_id, $reseller_id));
 
-if ($rs->RecordCount() == 0) {
-	set_page_message(tr('Permission deny!'));
+if ($rs->recordCount() == 0) {
+	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('orders.php');
 }
 
 // delete all FTP Accounts
-$query = <<<SQL_QUERY
+$query = "
 	DELETE FROM
 		`orders`
 	WHERE
 		`id` = ?
-SQL_QUERY;
-$rs = exec_query($sql, $query, array($order_id));
+";
+$rs = exec_query($sql, $query, $order_id);
 
-set_page_message(tr('Customer order was removed successful!'));
+set_page_message(tr('Customer order was removed successful!'), 'success');
 
 write_log($_SESSION['user_logged'].": deletes customer order.");
 user_goto('orders.php');

@@ -13,7 +13,7 @@
     DocumentRoot    {WWW_DIR}/{DMN_NAME}{MOUNT_POINT}/htdocs
 
     ServerName      {SUB_NAME}
-    ServerAlias     www.{SUB_NAME} {SUB_NAME} *.{SUB_NAME}
+    ServerAlias     www.{SUB_NAME} {SUB_NAME}
 
     Alias /errors {WWW_DIR}/{DMN_NAME}/errors/
 
@@ -31,6 +31,9 @@
     <IfModule mod_cband.c>
         CBandUser {DMN_GRP}
     </IfModule>
+
+    # httpd sub entry redirect entry BEGIN.
+    # httpd sub entry redirect entry END.
 
     # httpd sub entry cgi support BEGIN.
     # httpd sub entry cgi support END.

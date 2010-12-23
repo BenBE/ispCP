@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,17 +32,19 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 $reseller_id = $_SESSION['user_id'];
 
 if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
 	$order_id = $_GET['order_id'];
 } else {
-	set_page_message(tr('Wrong order ID!'));
+	set_page_message(tr('Wrong order ID!'), 'error');
 	user_goto('orders.php');
 }
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (isset($cfg->HOSTING_PLANS_LEVEL)
+	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 	$query = "
 		SELECT
 			*
@@ -54,7 +56,7 @@ if (Config::exists('HOSTING_PLANS_LEVEL')
 			`status` = 'update'
 	";
 
-	$rs = exec_query($sql, $query, array($order_id));
+	$rs = exec_query($sql, $query, $order_id);
 } else {
 	$query = "
 		SELECT
@@ -72,8 +74,8 @@ if (Config::exists('HOSTING_PLANS_LEVEL')
 	$rs = exec_query($sql, $query, array($order_id, $reseller_id));
 }
 
-if ($rs->RecordCount() == 0) {
-	set_page_message(tr('Permission deny!'));
+if ($rs->recordCount() == 0) {
+	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('orders.php');
 }
 
@@ -83,26 +85,26 @@ $dmn_id = get_user_domain_id($sql, $customer_id);
 // let's check the reseller limits
 $err_msg = '';
 
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+if (isset($cfg->HOSTING_PLANS_LEVEL)
+	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 	$query = "SELECT `props` FROM `hosting_plans` WHERE `id` = ?";
 	$res = exec_query($sql, $query, $hpid);
 } else {
 	$query = "SELECT `props` FROM `hosting_plans` WHERE `reseller_id` = ? AND `id` = ?";
 	$res = exec_query($sql, $query, array($reseller_id, $hpid));
 }
-$data = $res->FetchRow();
+$data = $res->fetchRow();
 $props = $data['props'];
 
 $_SESSION["ch_hpprops"] = $props;
 
 if (!reseller_limits_check($sql, $err_msg, $reseller_id, $hpid)) {
-	set_page_message(tr("Order Canceled: resellers maximum exceeded!"));
+	set_page_message(tr("Order Canceled: resellers maximum exceeded!"), 'notice');
 	user_goto('orders.php');
 }
 
 if (!empty($err_msg)) {
-	set_page_message($err_msg);
+	set_page_message($err_msg, 'error');
 	unset($_SESSION['domain_ip']);
 	user_goto('orders.php');
 }
@@ -117,14 +119,14 @@ $domain_php = preg_replace("/\_/", "", $domain_php);
 $domain_cgi = preg_replace("/\_/", "", $domain_cgi);
 $domain_dns = preg_replace("/\_/", "", $domain_dns);
 
-if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
 	$query = "SELECT COUNT(`mail_id`) AS cnt
 		FROM `mail_users`
 		WHERE `domain_id` = ?
 		AND (`mail_acc` = 'abuse'
 		OR `mail_acc` = 'postmaster'
 		OR `mail_acc` = 'webmaster')";
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 	$default_mails = $rs->fields['cnt'];
 	$mail += $default_mails;
 }
@@ -190,9 +192,10 @@ if (empty($ed_error)) {
 }
 
 if (empty($ed_error)) {
-	if (Config::get('COUNT_DEFAULT_EMAIL_ADDRESSES') == 0) {
+	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
 		$umail_max -= $default_mails;
 	}
+
 	$user_props = "$usub_current;$usub_max;";
 	$user_props .= "$uals_current;$uals_max;";
 	$user_props .= "$umail_current;$umail_max;";
@@ -201,11 +204,10 @@ if (empty($ed_error)) {
 	$user_props .= "$usql_user_current;$usql_user_max;";
 	$user_props .= "$utraff_max;";
 	$user_props .= "$udisk_max;";
-	// $user_props .= "$domain_ip;";
 	$user_props .= "$domain_php;";
 	$user_props .= "$domain_cgi;";
-	$user_props .= "$domain_dns;";
-	$user_props .= "$backup";
+	$user_props .= "$backup;";
+	$user_props .= "$domain_dns";
 	update_user_props($dmn_id, $user_props);
 
 	$reseller_props = "$rdmn_current;$rdmn_max;";
@@ -221,11 +223,11 @@ if (empty($ed_error)) {
 	update_reseller_props($reseller_id, $reseller_props);
 	// update the sql quotas, too
 	$query = "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?";
-	$rs = exec_query($sql, $query, array($dmn_id));
+	$rs = exec_query($sql, $query, $dmn_id);
 	$temp_dmn_name = $rs->fields['domain_name'];
 
 	$query = "SELECT COUNT(`name`) AS cnt FROM `quotalimits` WHERE `name` = ?";
-	$rs = exec_query($sql, $query, array($temp_dmn_name));
+	$rs = exec_query($sql, $query, $temp_dmn_name);
 	if ($rs->fields['cnt'] > 0) {
 		// we need to update it
 		if ($disk == 0) {
@@ -247,15 +249,26 @@ if (empty($ed_error)) {
 			`id` = ?
 	";
 	exec_query($sql, $query, array('added', $order_id));
-	set_page_message(tr('Domain properties updated successfully!'));
-	user_goto('users.php');
+	set_page_message(tr('Domain properties updated successfully!'), 'success');
+	user_goto('users.php?psi=last');
 } else {
-	set_page_message($ed_error);
+	set_page_message($ed_error, 'error');
 	user_goto('orders.php');
 }
 
 function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
-	if ($rmax == 0 && $umax == -1) {
+	if ($rmax == -1 && $umax >= 0) {
+		if ($u > 0) {
+			$err .= tr('The <em>%s</em> service cannot be disabled!', $obj) . tr('There are <em>%s</em> records on system!', $obj);
+			return;
+		} else if ($data != -1){
+			$err .= tr('The <em>%s</em> have to be disabled!', $obj) . tr('The admin has <em>%s</em> disabled on this system!', $obj);
+			return;
+		} else {
+			$umax = $data;
+		}
+		return;
+	} else if ($rmax == 0 && $umax == -1) {
 		if ($data == -1) {
 			return;
 		} else if ($data == 0) {

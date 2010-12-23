@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,25 +32,24 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_alias.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_alias.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('table_list', 'page');
+$tpl->define_dynamic('table_header', 'page');
 $tpl->define_dynamic('table_item', 'table_list');
 $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
+$tpl->define_dynamic('als_add_button', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias'),
-		'THEME_COLOR_PATH'		=> "../themes/$theme_color",
-		'THEME_CHARSET'			=> tr('encoding'),
-		'ISP_LOGO'				=> get_logo($_SESSION['user_id']),
+		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias')
 	)
 );
 
@@ -60,8 +59,8 @@ $tpl->assign(
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -88,7 +87,7 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -97,15 +96,53 @@ unset_messages();
 
 /**
  * Generate domain alias list
+ *
+ * @todo Use prepared statements (min. with placeholders like ":search_for")
  */
 function generate_als_list(&$tpl, $reseller_id, &$als_err) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
-	$have_aliases = '_no_';
+	// NXW: Unused variables so..
+	/*
+	list($udmn_current, $udmn_max, $udmn_uf,
+		$usub_current, $usub_max, $usub_uf,
+		$uals_current, $uals_max, $uals_uf,
+		$umail_current, $umail_max, $umail_uf,
+		$uftp_current, $uftp_max, $uftp_uf,
+		$usql_db_current, $usql_db_max, $usql_db_uf,
+		$usql_user_current, $usql_user_max, $usql_user_uf,
+		$utraff_current, $utraff_max, $utraff_uf,
+		$udisk_current, $udisk_max, $udisk_uf
+	) = generate_reseller_user_props($reseller_id);
+	*/
+	list(,,,,,,$uals_current) = generate_reseller_user_props($reseller_id);
+
+	// NXW: Unused variables so...
+	/*
+	list($rdmn_current, $rdmn_max,
+		$rsub_current, $rsub_max,
+		$rals_current, $rals_max,
+		$rmail_current, $rmail_max,
+		$rftp_current, $rftp_max,
+		$rsql_db_current, $rsql_db_max,
+		$rsql_user_current, $rsql_user_max,
+		$rtraff_current, $rtraff_max,
+		$rdisk_current, $rdisk_max
+	) = get_reseller_default_props($sql, $reseller_id);
+	*/
+	list(,,,,,$rals_max) = get_reseller_default_props($sql, $reseller_id);
+
+	if ($uals_current >= $rals_max && $rals_max != "0") {
+		$tpl->assign('ALS_ADD_BUTTON', '');
+	}
+
+	// NXW: Unused variable so...
+	//$have_aliases = '_no_';
 
 	$start_index = 0;
 
-	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
+	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
 
 	$current_psi = 0;
 	$_SESSION['search_for'] = '';
@@ -134,7 +171,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	$tpl->assign(
 		array(
 			'PSI'				=> $current_psi,
-			'SEARCH_FOR'		=> stripslashes($search_for),
+			'SEARCH_FOR'		=> tohtml($search_for),
 			'TR_SEARCH'			=> tr('Search'),
 			'M_ALIAS_NAME'		=> tr('Alias name'),
 			'M_ACCOUNT_NAME'	=> tr('Account name'),
@@ -246,25 +283,48 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		";
 	}
 	// let's count
-	$rs = exec_query($sql, $count_query, array($reseller_id));
+	$rs = exec_query($sql, $count_query, $reseller_id);
 	$records_count = $rs->fields['cnt'];
 	// Get all alias records
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
 	if ($records_count == 0) {
-		$tpl->assign(
-			array(
-				'TABLE_LIST'	=> '',
-				'USERS_LIST'	=> '',
-				'SCROLL_PREV'	=> '',
-				'SCROLL_NEXT'	=> '',
-			)
-		);
+		if (isset($_SESSION['search_for']) && $_SESSION['search_for'] != '') {
+			$tpl->assign(
+				array(
+					'TABLE_LIST'				=> '',
+					'USERS_LIST'				=> '',
+					'SCROLL_PREV'				=> '',
+					'SCROLL_NEXT'				=> '',
+					'M_DOMAIN_NAME_SELECTED'	=> '',
+					'M_ACCOUN_NAME_SELECTED'	=> ''
+				)
+			);
+		} else {
+			$tpl->assign(
+				array(
+					'TABLE_LIST'	=> '',
+					'TABLE_HEADER'	=> '',
+					'USERS_LIST'	=> '',
+					'SCROLL_PREV'	=> '',
+					'SCROLL_NEXT'	=> '',
+				)
+			);
+		}
 
 		if (isset($_SESSION['search_for'])) {
 			$als_err = tr('Not found user records matching the search criteria!');
 		} else {
-			$als_err = tr('You have no alias records.');
+			if (isset($_SESSION['almax'])) {
+				if ($_SESSION['almax'] === '_yes_')
+					$als_err = tr('Domain alias limit reached!');
+				else
+					$als_err = tr('You have no alias records.');
+
+				unset($_SESSION['almax']);
+			} else {
+				$als_err = tr('You have no alias records.');
+			}
 		}
 		return;
 	} else {
@@ -299,9 +359,12 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 	while (!$rs->EOF) {
 		$als_id = $rs->fields['alias_id'];
-		$domain_id = $rs->fields['domain_id'];
+		// NXW: Unused variabe so...
+		// $domain_id = $rs->fields['domain_id'];
 		$als_name = $rs->fields['alias_name'];
-		$als_mount_point = $rs->fields['alias_mount'];
+		$als_mount_point = ($rs->fields['alias_mount'] != '')
+			? $rs->fields['alias_mount']
+			: '/';
 		$als_status = $rs->fields['alias_status'];
 		$als_ip_id = $rs->fields['alias_ip_id'];
 		$als_fwd = $rs->fields['url_forward'];
@@ -309,24 +372,22 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$domain_name = decode_idna($rs->fields['domain_name']);
 
-		if ($als_mount_point == '') $als_mount_point = "/";
-
 		$query = "SELECT `ip_number`, `ip_domain` FROM `server_ips` WHERE `ip_id` = ?";
 
-		$alsip_r = exec_query($sql, $query, array($als_ip_id));
-		$alsip_d = $alsip_r->FetchRow();
+		$alsip_r = exec_query($sql, $query, $als_ip_id);
+		$alsip_d = $alsip_r->fetchRow();
 
 		$als_ip = $alsip_d['ip_number'];
 		$als_ip_name = $alsip_d['ip_domain'];
 
 		$page_cont = ($i % 2 == 0) ? 'content' : 'content2';
 
-		if ($als_status === Config::get('ITEM_OK_STATUS')) {
+		if ($als_status === $cfg->ITEM_OK_STATUS) {
 			$delete_link = "alias_delete.php?del_id=" . $als_id;
 			$edit_link = "alias_edit.php?edit_id=" . $als_id;
 			$action_text = tr("Delete");
 			$edit_text = tr("Edit");
-		} else if ($als_status === Config::get('ITEM_ORDERED_STATUS')) {
+		} else if ($als_status === $cfg->ITEM_ORDERED_STATUS) {
 			$delete_link = "alias_order.php?action=delete&del_id=".$als_id;
 			$edit_link = "alias_order.php?action=activate&act_id=".$als_id;
 			$action_text = tr("Delete order");
@@ -344,19 +405,19 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		if (isset($_SESSION['search_common'])
 			&& $_SESSION['search_common'] === 'account_name') {
 			$domain_name_selected = '';
-			$account_name_selected = "selected=\"selected\"";
+			$account_name_selected = $cfg->HTML_SELECTED;
 		} else {
-			$domain_name_selected = "selected=\"selected\"";
+			$domain_name_selected = $cfg->HTML_SELECTED;
 			$account_name_selected = '';
 		}
 
 		$tpl->assign(
 			array(
-				'NAME'						=> $als_name,
-				'ALIAS_IP'					=> "$als_ip ($als_ip_name)",
-				'REAL_DOMAIN'				=> $domain_name,
-				'REAL_DOMAIN_MOUNT'			=> $als_mount_point,
-				'FORWARD'					=> $show_als_fwd,
+				'NAME'						=> tohtml($als_name),
+				'ALIAS_IP'					=> tohtml("$als_ip ($als_ip_name)"),
+				'REAL_DOMAIN'				=> tohtml($domain_name),
+				'REAL_DOMAIN_MOUNT'			=> tohtml($als_mount_point),
+				'FORWARD'					=> tohtml($show_als_fwd),
 				'STATUS'					=> $als_status,
 				'ID'						=> $als_id,
 				'DELETE'					=> $action_text,
@@ -371,7 +432,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$i++;
 		$tpl->parse('TABLE_ITEM', '.table_item');
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 } // End of generate_als_list()
 
@@ -421,6 +482,13 @@ function generate_als_messages(&$tpl, $als_err) {
 			$tpl->assign('MESSAGE', tr('Ordered domain alias not activated!'));
 
 		unset($_SESSION['orderalact']);
+	} else if (isset($_SESSION['almax'])) {
+		if ('_yes_' === $_SESSION['almax'])
+			$tpl->assign('MESSAGE', tr('Domain alias limit reached!'));
+		else
+			$tpl->assign('MESSAGE', '');
+
+		unset($_SESSION['almax']);
 	} else {
 		$tpl->assign('MESSAGE', '');
 		$tpl->assign('PAGE_MESSAGE', "");

@@ -1,7 +1,7 @@
 #!/bin/sh
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -18,7 +18,7 @@
 # The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
 #
 # The Initial Developer of the Original Code is ispCP Team.
-# Portions created by Initial Developer are Copyright (C) 2006-2009 by
+# Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -54,9 +54,14 @@ if [ ! -f ${GUI}/index.php ]; then
 	exit 1
 fi
 
-#/usr/bin/xgettext --language=PHP --output-dir=${GUI}../language-files/po --copyright-holder=ispCP\ Team --keyword=tr --no-wrap ${GUI}*.php ${GUI}*/*.php --default-domain=ispCP --output=ispCP.pot
-/usr/bin/xgettext --language=PHP --output-dir=${GUI}../language-files/po --copyright-holder=ispCP\ Team --keyword=tr --no-wrap ${GUI}/include/i18n.php ${GUI}*.php ${GUI}*/*.php --default-domain=ispCP --output=ispCP.pot --no-location --from-code=utf-8
+/usr/bin/xgettext --language=PHP --output-dir=${GUI}../language-files/po \
+	--copyright-holder=ispCP\ Team --keyword=tr --no-wrap --default-domain=ispCP \
+	--output=ispCP.pot --no-location --from-code=utf-8 \
+	${GUI}/include/i18n.php ${GUI}*.php ${GUI}*/*.php
 
+sed --in-place '/#. Please ignore this entry/d' ${GUI}../language-files/po/ispCP.pot
 sed --in-place 's/msgid "encoding"/#. Please ignore this entry\nmsgid "encoding"/' ${GUI}../language-files/po/ispCP.pot
+sed --in-place '/#. Please fill in the language you are translating to in the following form:\n#. native language name (native country name) - english language name (english country name)/d' ${GUI}../language-files/po/ispCP.pot
+sed --in-place 's/msgid "_: Localised language"/#. Please fill in the language you are translating to in the following form:\n#. native language name (native country name) - english language name (english country name)\nmsgid "_: Localised language"/' ${GUI}../language-files/po/ispCP.pot
 
-exit 1
+exit 0

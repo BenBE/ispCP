@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -36,17 +36,23 @@ function check_gd() {
  * @todo use file_exists in try-catch block
  */
 function captcha_fontfile_exists() {
-	return file_exists(Config::get('LOSTPASSWORD_CAPTCHA_FONT'));
+
+	$cfg = ispCP_Registry::get('Config');
+
+	return file_exists($cfg->LOSTPASSWORD_CAPTCHA_FONT);
 }
 
 function createImage($strSessionVar) {
-	$rgBgColor = Config::get('LOSTPASSWORD_CAPTCHA_BGCOLOR');
-	$rgTextColor = Config::get('LOSTPASSWORD_CAPTCHA_TEXTCOLOR');
 
-	$x = Config::get('LOSTPASSWORD_CAPTCHA_WIDTH');
-	$y = Config::get('LOSTPASSWORD_CAPTCHA_HEIGHT');
+	$cfg = ispCP_Registry::get('Config');
 
-	$font = Config::get('LOSTPASSWORD_CAPTCHA_FONT');
+	$rgBgColor = $cfg->LOSTPASSWORD_CAPTCHA_BGCOLOR;
+	$rgTextColor = $cfg->LOSTPASSWORD_CAPTCHA_TEXTCOLOR;
+
+	$x = $cfg->LOSTPASSWORD_CAPTCHA_WIDTH;
+	$y = $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT;
+
+	$font = $cfg->LOSTPASSWORD_CAPTCHA_FONT;
 
 	$iRandVal = strrand(8, $strSessionVar);
 
@@ -113,11 +119,11 @@ function strrand($length, $strSessionVar) {
 }
 
 function removeOldKeys($ttl) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$boundary = date('Y-m-d H:i:s', time() - $ttl * 60);
 
-	$query = <<<SQL_QUERY
+	$query = "
 		UPDATE
 			`admin`
 		SET
@@ -125,17 +131,17 @@ function removeOldKeys($ttl) {
 			`uniqkey_time` = NULL
 		WHERE
 			`uniqkey_time` < ?
-SQL_QUERY;
+	";
 
-	exec_query($sql, $query, array($boundary));
+	exec_query($sql, $query, $boundary);
 }
 
 function setUniqKey($admin_name, $uniqkey) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	$timestamp = date('Y-m-d H:i:s', time());
 
-	$query = <<<SQL_QUERY
+	$query = "
 		UPDATE
 			`admin`
 		SET
@@ -143,45 +149,45 @@ function setUniqKey($admin_name, $uniqkey) {
 			`uniqkey_time` = ?
 		WHERE
 			`admin_name` = ?
-SQL_QUERY;
+	";
 
 	exec_query($sql, $query, array($uniqkey, $timestamp, $admin_name));
 }
 
 function setPassword($uniqkey, $upass) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
 	if ($uniqkey == '') {
 		die();
 	}
 
-	$query = <<<SQL_QUERY
+	$query = "
 		UPDATE
 			`admin`
 		SET
 			`admin_pass` = ?
 		WHERE
 			`uniqkey` = ?
-SQL_QUERY;
+	";
 
 	exec_query($sql, $query, array(crypt_user_pass($upass), $uniqkey));
 }
 
 function uniqkeyexists($uniqkey) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`uniqkey`
 		FROM
 			`admin`
 		WHERE
 			`uniqkey` = ?
-SQL_QUERY;
+	";
 
-	$res = exec_query($sql, $query, array($uniqkey));
+	$res = exec_query($sql, $query, $uniqkey);
 
-	return ($res->RecordCount() != 0) ? true : false;
+	return ($res->recordCount() != 0) ? true : false;
 }
 
 /**
@@ -198,20 +204,22 @@ function uniqkeygen() {
 }
 
 function sendpassword($uniqkey) {
-	$sql = Database::getInstance();
 
-	$query = <<<SQL_QUERY
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
 		SELECT
 			`admin_name`, `created_by`, `fname`, `lname`, `email`
 		FROM
 			`admin`
 		WHERE
 			`uniqkey` = ?
-SQL_QUERY;
+	";
 
-	$res = exec_query($sql, $query, array($uniqkey));
+	$res = exec_query($sql, $query, $uniqkey);
 
-	if ($res->RecordCount() == 1) {
+	if ($res->recordCount() == 1) {
 		$admin_name = $res->fields['admin_name'];
 
 		$created_by = $res->fields['created_by'];
@@ -228,7 +236,7 @@ SQL_QUERY;
 
 		write_log('Lostpassword: ' . $admin_name . ': password updated');
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`admin`
 			SET
@@ -236,7 +244,7 @@ SQL_QUERY;
 				`uniqkey_time` = ?
 			WHERE
 				`uniqkey` = ?
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array('', '', $uniqkey));
 
@@ -252,9 +260,9 @@ SQL_QUERY;
 
 		$message = $data['message'];
 
-		$base_vhost = Config::get('BASE_SERVER_VHOST');
+		$base_vhost = $cfg->BASE_SERVER_VHOST;
 
-		$base_vhost_prefix = Config::get('BASE_SERVER_VHOST_PREFIX');
+		$base_vhost_prefix = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 		if ($from_name) {
 			$from = '"' . $from_name . '" <' . $from_email . '>';
@@ -289,6 +297,8 @@ SQL_QUERY;
 
 		$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
 
+        $from = tohtml($from);
+
 		write_log("Lostpassword activated: To: |$to|, From: |$from|, Status: |$mail_status| !", E_USER_NOTICE);
 
 		return true;
@@ -298,20 +308,22 @@ SQL_QUERY;
 }
 
 function requestpassword($admin_name) {
-	$sql = Database::getInstance();
 
-	$query = <<<SQL_QUERY
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
 		SELECT
 			`created_by`, `fname`, `lname`, `email`
 		FROM
 			`admin`
 		WHERE
 			`admin_name` = ?
-SQL_QUERY;
+	";
 
-	$res = exec_query($sql, $query, array($admin_name));
+	$res = exec_query($sql, $query, $admin_name);
 
-	if ($res->RecordCount() == 0) {
+	if ($res->recordCount() == 0) {
 		return false;
 	}
 
@@ -337,8 +349,8 @@ SQL_QUERY;
 	$subject = $data['subject'];
 	$message = $data['message'];
 
-	$base_vhost = Config::get('BASE_SERVER_VHOST');
-	$base_vhost_prefix = Config::get('BASE_SERVER_VHOST_PREFIX');
+	$base_vhost = $cfg->BASE_SERVER_VHOST;
+	$base_vhost_prefix = $cfg->BASE_SERVER_VHOST_PREFIX;
 
 	if ($from_name) {
 		$from = '"' . $from_name . "\" <" . $from_email . ">";
@@ -374,7 +386,10 @@ SQL_QUERY;
 
 	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
 
+    $from = tohtml($from);
+
 	write_log("Lostpassword send: To: |$to|, From: |$from|, Status: |$mail_status| !", E_USER_NOTICE);
 
 	return true;
 }
+?>

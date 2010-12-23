@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/reseller_user_statistics.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('page_message', 'page');
@@ -47,8 +49,6 @@ $tpl->define_dynamic('scroll_prev_gray', 'page');
 $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 if (isset($_POST['rid']) && isset($_POST['name'])) {
 	$rid = $_POST['rid'];
@@ -73,22 +73,15 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
-	$sql = Database::getInstance();
+
 	global $rid;
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$start_index = 0;
 
-	$rows_per_page = Config::get('DOMAIN_ROWS_PER_PAGE');
+	$rows_per_page = $cfg->DOMAIN_ROWS_PER_PAGE;
 
 	if (isset($_GET['psi'])) {
 		$start_index = $_GET['psi'];
@@ -103,7 +96,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	);
 
 	// count query
-	$count_query = <<<SQL_QUERY
+	$count_query = "
 		SELECT
 			COUNT(`admin_id`) AS cnt
 		FROM
@@ -112,7 +105,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 			`admin_type` = 'user'
 		AND
 			`created_by` = ?
-SQL_QUERY;
+	";
 
 	$query = <<<SQL_QUERY
 		SELECT
@@ -129,19 +122,19 @@ SQL_QUERY;
 			$start_index, $rows_per_page
 SQL_QUERY;
 
-	$rs = exec_query($sql, $count_query, array($reseller_id));
+	$rs = exec_query($sql, $count_query, $reseller_id);
 	$records_count = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $query, array($reseller_id));
+	$rs = exec_query($sql, $query, $reseller_id);
 
 	$tpl->assign(
 		array(
-			'RESELLER_NAME' => $reseller_name,
+			'RESELLER_NAME' => tohtml($reseller_name),
 			'RESELLER_ID' => $reseller_id
 		)
 	);
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 		$tpl->assign(
 			array(
 				'DOMAIN_LIST' => '',
@@ -180,81 +173,56 @@ SQL_QUERY;
 
 		$tpl->assign(
 			array(
-				'PAGE_MESSAGE' => ''
+				'PAGE_MESSAGE'	=> '',
+				'NO_DOMAINS'	=> ''
 			)
 		);
-
-		$tpl->assign('NO_DOMAINS', '');
 
 		$row = 1;
 
 		while (!$rs->EOF) {
 			$admin_id = $rs->fields['admin_id'];
 
-			$query = <<<SQL_QUERY
+			$query = "
 				SELECT
 					`domain_id`
 				FROM
 					`domain`
 				WHERE
 					`domain_admin_id` = ?
-SQL_QUERY;
+			;";
 
-			$dres = exec_query ($sql, $query, array($admin_id));
+			$dres = exec_query ($sql, $query, $admin_id);
 
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
 
 			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
 
 function generate_domain_entry(&$tpl, $user_id, $row) {
+
 	global $crnt_month, $crnt_year;
 
-	list($domain_name,
-		$domain_id,
-		$web,
-		$ftp,
-		$smtp,
-		$pop3,
-		$utraff_current,
-		$udisk_current,
-		$i,
-		$j
-	) = generate_user_traffic($user_id);
+	list($domain_name, $domain_id, $web, $ftp, $smtp, $pop3, $utraff_current,
+		$udisk_current, $i, $j) = generate_user_traffic($user_id);
 
-	list($usub_current, $usub_max,
-		$uals_current, $uals_max,
-		$umail_current, $umail_max,
-		$uftp_current, $uftp_max,
-		$usql_db_current, $usql_db_max,
-		$usql_user_current, $usql_user_max,
-		$utraff_max, $udisk_max
+	list($usub_current, $usub_max, $uals_current, $uals_max, $umail_current,
+		$umail_max,	$uftp_current, $uftp_max, $usql_db_current, $usql_db_max,
+		$usql_user_current, $usql_user_max,	$utraff_max, $udisk_max
 	) = generate_user_props($user_id);
 
 	$utraff_max = $utraff_max * 1024 * 1024;
-
 	$udisk_max = $udisk_max * 1024 * 1024;
 
-	list($traff_percent, $traff_red, $traff_green) = make_usage_vals($utraff_current, $utraff_max);
+	$traff_show_percent = calc_bar_value($utraff_current, $utraff_max, 400);
+	$disk_show_percent  = calc_bar_value($udisk_current, $udisk_max, 400);
 
-	list($disk_percent, $disk_red, $disk_green) = make_usage_vals($udisk_current, $udisk_max);
-
-	$traff_show_percent = $traff_percent;
-
-	$disk_show_percent = $disk_percent;
-
-	if ($traff_percent > 100) {
-		$traff_percent = 100;
-	}
-
-	if ($disk_percent > 100) {
-		$disk_percent = 100;
-	}
-
+	$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
+	$disk_percent  = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
 
 	$tpl->assign(
 		array(
@@ -266,7 +234,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	$tpl->assign(
 		array(
-			'DOMAIN_NAME' => $domain_name,
+			'DOMAIN_NAME' => tohtml($domain_name),
 
 			'MONTH' => $crnt_month,
 			'YEAR' => $crnt_year,
@@ -274,22 +242,18 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'TRAFF_SHOW_PERCENT' => $traff_show_percent,
 			'TRAFF_PERCENT' => $traff_percent,
-			'TRAFF_RED' => $traff_red,
-			'TRAFF_GREEN' => $traff_green,
 
 			'TRAFF_MSG' => ($utraff_max)
-				? tr('%1$s <br/>of<br/> <b>%2$s</b>', sizeit($utraff_current), sizeit($utraff_max))
-				: tr('%s <br/>of<br/> <b>unlimited</b>', sizeit($utraff_current)),
+				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($utraff_current), sizeit($utraff_max))
+				: tr('%s <br/>of<br/> <strong>unlimited</strong>', sizeit($utraff_current)),
 
 
 			'DISK_SHOW_PERCENT' => $disk_show_percent,
 			'DISK_PERCENT' => $disk_percent,
-			'DISK_RED' => $disk_red,
-			'DISK_GREEN' => $disk_green,
 
 			'DISK_MSG' => ($udisk_max)
-				? tr('%1$s <br/>of<br/> <b>%2$s</b>', sizeit($udisk_current), sizeit($udisk_max))
-				: tr('%s <br/>of<br/> <b>unlimited</b>', sizeit($udisk_current)),
+				? tr('%1$s <br/>of<br/> <strong>%2$s</strong>', sizeit($udisk_current), sizeit($udisk_max))
+				: tr('%s <br/>of<br/> <strong>unlimited</strong>', sizeit($udisk_current)),
 
 
 			'WEB' => sizeit($web),
@@ -299,48 +263,51 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 
 			'SUB_MSG' => ($usub_max)
 				? (($usub_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', sizeit($usub_current), $usub_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', sizeit($usub_current)),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', sizeit($usub_current), $usub_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', sizeit($usub_current)),
 
 			'ALS_MSG' => ($uals_max)
 				? (($uals_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', sizeit($uals_current), $uals_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', sizeit($uals_current)),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', sizeit($uals_current), $uals_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', sizeit($uals_current)),
 
 			'MAIL_MSG' => ($umail_max)
-				? tr('%1$d <br/>of<br/> <b>%2$d</b>', $umail_current, $umail_max)
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $umail_current),
+				? (($umail_max > 0)
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $umail_current, $umail_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $umail_current),
 
 			'FTP_MSG' => ($uftp_max)
-				? tr('%1$d <br/>of<br/> <b>%2$d</b>', $uftp_current, $uftp_max)
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $uftp_current),
+				? (($uftp_max > 0)
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $uftp_current, $uftp_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $uftp_current),
 
 			'SQL_DB_MSG' => ($usql_db_max)
 				? (($usql_db_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $usql_db_current, $usql_db_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $usql_db_current),
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $usql_db_current, $usql_db_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $usql_db_current),
 			'SQL_USER_MSG' => ($usql_user_max)
 				? (($usql_user_max > 0)
-					? tr('%1$d <br/>of<br/> <b>%2$d</b>', $usql_user_current, $usql_user_max)
-					: tr('<b>disabled</b>'))
-				: tr('%d <br/>of<br/> <b>unlimited</b>', $usql_user_current)
+					? tr('%1$d <br/>of<br/> <strong>%2$d</strong>', $usql_user_current, $usql_user_max)
+					: tr('<strong>disabled</strong>'))
+				: tr('%d <br/>of<br/> <strong>unlimited</strong>', $usql_user_current)
 		)
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_statistics.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
+		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),
@@ -359,7 +326,7 @@ $tpl->assign(
 		'TR_FTP' => tr('FTP'),
 		'TR_SQL_DB' => tr('SQL<br>database'),
 		'TR_SQL_USER' => tr('SQL<br>user'),
-		'VALUE_NAME' => $name,
+		'VALUE_NAME' => tohtml($name),
 		'VALUE_RID' => $rid
 	)
 );
@@ -373,7 +340,9 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

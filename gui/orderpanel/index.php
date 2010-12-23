@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,15 +24,17 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/index.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/index.tpl');
 $tpl->define_dynamic('purchase_list', 'page');
 $tpl->define_dynamic('purchase_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
@@ -43,8 +45,10 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_packages_list(&$tpl, &$sql, $user_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				t1.*,
@@ -62,7 +66,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 				t1.`id`
 		";
 
-		$rs = exec_query($sql, $query, array('admin'));
+		$rs = exec_query($sql, $query, 'admin');
 	} else {
 		$query = "
 			SELECT
@@ -75,11 +79,13 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 				`status` = '1'
 		";
 
-		$rs = exec_query($sql, $query, array($user_id));
+		$rs = exec_query($sql, $query, $user_id);
 	}
 
-	if ($rs->RecordCount() == 0) {
-		system_message(tr('No available hosting packages'));
+	if ($rs->recordCount() == 0) {
+		throw new ispCP_Exception_Production(
+			tr('No available hosting packages')
+		);
 	} else {
 		while (!$rs->EOF) {
 			$description = $rs->fields['description'];
@@ -88,23 +94,23 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
 			if ($price == 0 || $price == '') {
 				$price = "/ " . tr('free of charge');
 			} else {
-				$price = "/ " . $price . " " . $rs->fields['value'] . " " . $rs->fields['payment'];
+				$price = "/ " . $price . " " . tohtml($rs->fields['value']) . " " . tohtml($rs->fields['payment']);
 			}
 
 			$tpl->assign(
 				array(
-					'PACK_NAME'	=> $rs->fields['name'],
+					'PACK_NAME'	=> tohtml($rs->fields['name']),
 					'PACK_ID'	=> $rs->fields['id'],
 					'USER_ID'	=> $user_id,
 					'PURCHASE'	=> tr('Purchase'),
-					'PACK_INFO'	=> $description,
+					'PACK_INFO'	=> tohtml($description),
 					'PRICE'		=> $price,
 				)
 			);
 
 			$tpl->parse('PURCHASE_LIST', '.purchase_list');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 }
@@ -118,7 +124,7 @@ function gen_packages_list(&$tpl, &$sql, $user_id) {
  * static page messages.
  *
  */
-$coid = Config::exists('CUSTOM_ORDERPANEL_ID') ? Config::get('CUSTOM_ORDERPANEL_ID'): '';
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
 $bcoid = (empty($coid) || (isset($_GET['coid']) && $_GET['coid'] == $coid));
 
 if (isset($_GET['user_id']) && is_numeric($_GET['user_id']) && $bcoid) {
@@ -127,7 +133,10 @@ if (isset($_GET['user_id']) && is_numeric($_GET['user_id']) && $bcoid) {
 } else if (isset($_SESSION['user_id'])) {
 	$user_id = $_SESSION['user_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	system_message(
+		tr('You do not have permission to access this interface!'),
+		'error'
+	);
 }
 unset($_SESSION['plan_id']);
 
@@ -145,7 +154,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

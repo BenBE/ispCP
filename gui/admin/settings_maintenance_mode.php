@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,19 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/settings_maintenance_mode.tpl');
+$cfg = ispCP_Registry::get('Config');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MAINTENANCEMODE_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_maintenance_mode.tpl');
 
 $selected_on = '';
 $selected_off = '';
@@ -54,32 +45,38 @@ if (isset($_POST['uaction']) AND $_POST['uaction'] == 'apply') {
 	$maintenancemode = $_POST['maintenancemode'];
 	$maintenancemode_message = clean_input($_POST['maintenancemode_message']);
 
-	setConfig_Value('MAINTENANCEMODE', $maintenancemode);
-	setConfig_Value('MAINTENANCEMODE_MESSAGE', $maintenancemode_message);
+	$db_cfg = ispCP_Registry::get('Db_Config');
 
-	set_page_message(tr('Settings saved !'));
+	$db_cfg->MAINTENANCEMODE = $maintenancemode;
+	$db_cfg->MAINTENANCEMODE_MESSAGE = $maintenancemode_message;
+
+	$cfg->replaceWith($db_cfg);
+
+	set_page_message(
+		tr('Settings saved!'),
+		'success'
+	);
 }
 
-if (Config::get('MAINTENANCEMODE')) {
-	$selected_on = 'selected="selected"';
+if ($cfg->MAINTENANCEMODE) {
+	$selected_on = $cfg->HTML_SELECTED;
 } else {
-	$selected_off = 'selected="selected"';
+	$selected_off = $cfg->HTML_SELECTED;
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_system_tools.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode')
 		'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
-		'TR_MESSAGE_TEMPLATE_INFO' => tr('Under this mode only administrators can login'),
+		'TR_MESSAGE_TEMPLATE_INFO' => tr('If the system is in maintenance mode, only administrators can login'),
+		'TR_MESSAGE_TYPE' => 'warning',
 		'TR_MESSAGE' => tr('Message'),
-		'MESSAGE_VALUE' => Config::get('MAINTENANCEMODE_MESSAGE'),
+		'MESSAGE_VALUE' => $cfg->MAINTENANCEMODE_MESSAGE,
 		'SELECTED_ON' => $selected_on,
 		'SELECTED_OFF' => $selected_off,
 		'TR_ENABLED' => tr('Enabled'),
@@ -93,7 +90,9 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

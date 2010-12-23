@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/puser_uadd.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_uadd.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('usr_msg', 'page');
 $tpl->define_dynamic('grp_msg', 'page');
@@ -41,38 +43,48 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('pusres', 'page');
 $tpl->define_dynamic('pgroups', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
-		'THEME_COLOR_PATH'				=> "../themes/$theme_color",
-		'THEME_CHARSET'					=> tr('encoding'),
-		'ISP_LOGO'						=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools')
 	)
 );
 
 function padd_user(&$tpl, &$sql, $dmn_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] == 'add_user') {
 		// we have to add the user
 		if (isset($_POST['username']) && isset($_POST['pass']) && isset($_POST['pass_rep'])) {
 			if (!validates_username($_POST['username'])) {
-				set_page_message(tr('Wrong username!'));
+				set_page_message(tr('Wrong username!'), 'warning');
 				return;
 			}
 			if (!chk_password($_POST['pass'])) {
-				if (Config::get('PASSWD_STRONG')) {
-					set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+				if ($cfg->PASSWD_STRONG) {
+					set_page_message(
+						sprintf(
+							tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+							$cfg->PASSWD_CHARS
+							),
+							'warning'
+						);
 				} else {
-					set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+					set_page_message(
+						sprintf(
+							tr('Password data is shorter than %s signs or includes not permitted signs!'),
+							$cfg->PASSWD_CHARS
+						),
+						'warning'
+					);
 				}
 				return;
 			}
 			if ($_POST['pass'] !== $_POST['pass_rep']) {
-				set_page_message(tr('Passwords do not match!'));
+				set_page_message(tr('Passwords do not match!'), 'warning');
 				return;
 			}
-			$status = Config::get('ITEM_ADD_STATUS');
+			$status = $cfg->ITEM_ADD_STATUS;
 
 			$uname = clean_input($_POST['username']);
 
@@ -90,7 +102,7 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 			";
 			$rs = exec_query($sql, $query, array($uname, $dmn_id));
 
-			if ($rs->RecordCount() == 0) {
+			if ($rs->recordCount() == 0) {
 
 				$query = "
 					INSERT INTO `htaccess_users`
@@ -106,7 +118,7 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 				write_log("$admin_login: add user (protected areas): $uname");
 				user_goto('protected_user_manage.php');
 			} else {
-				set_page_message(tr('User already exist !'));
+				set_page_message(tr('User already exist !'), 'error');
 				return;
 			}
 		}
@@ -121,8 +133,8 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
  *
  */
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
 gen_logged_from($tpl);
 
@@ -156,7 +168,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

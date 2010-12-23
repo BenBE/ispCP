@@ -6,11 +6,13 @@
  * This file contains iso-8859-1 decoding function that is needed to read
  * iso-8859-1 encoded mails in non-iso-8859-1 locale.
  *
- * @copyright &copy; 2003-2009 The SquirrelMail Project Team
+ * @copyright 2003-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: iso_8859_1.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: iso_8859_1.php 13893 2010-01-25 02:47:41Z pdontthink $
  * @package squirrelmail
  * @subpackage decode
+ * 
+ * @author ispCP Team May 2010 based on a patch of Benny Baumann
  */
 
 /**
@@ -23,12 +25,11 @@ function charset_decode_iso_8859_1 ($string) {
     if (! sq_is8bit($string,'iso-8859-1'))
         return $string;
 
-    $string = preg_replace("/([\201-\237])/e","'&#' . ord('\\1') . ';'",$string);
+    $string = preg_replace_callback("/([\201-\377])/",'charset_decode_iso_8859_1_helper',$string);
 
-    /* I don't want to use 0xA0 (\240) in any ranges. RH73 may dislike it */
-    $string = str_replace("\240", '&#160;', $string);
-
-    $string = preg_replace("/([\241-\377])/e","'&#' . ord('\\1') . ';'",$string);
-    return $string;
+	return $string;
 }
 
+function charset_decode_iso_8859_1_helper ($m) {
+    return '&#' . ord($m[1]) . ';';
+}

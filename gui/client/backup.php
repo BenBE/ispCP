@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/backup.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/backup.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
@@ -42,33 +44,31 @@ $tpl->define_dynamic('logged_from', 'page');
 function send_backup_restore_request(&$sql, $user_id) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`domain`
 			SET
 				`domain_status` = 'restore'
 			WHERE
 				`domain_admin_id` = ?
-SQL_QUERY;
+		";
 
-		$rs = exec_query($sql, $query, array($user_id));
+		$rs = exec_query($sql, $query, $user_id);
 
 		send_request();
 		write_log($_SESSION['user_logged'] . ": restore backup files.");
-		set_page_message(tr('Backup archive scheduled for restoring!'));
+		set_page_message(
+			tr('Backup archive scheduled for restoring!'),
+			'success'
+		);
 	}
 }
 
 // common page data.
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_BACKUP_PAGE_TITLE' => tr('ispCP - Client/Daily Backup'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_BACKUP_PAGE_TITLE' => tr('ispCP - Client/Daily Backup')
 	)
 );
 
@@ -78,18 +78,18 @@ send_backup_restore_request($sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_webtools.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
 gen_logged_from($tpl);
 
 check_permissions($tpl);
 
-if (Config::get('ZIP') == "gzip") {
+if ($cfg->ZIP == "gzip") {
 	$name = "backup_YYYY_MM_DD.tar.gz";
-} else if (Config::get('ZIP') == "bzip2") {
+} else if ($cfg->ZIP == "bzip2") {
 	$name = "backup_YYYY_MM_DD.tar.bz2";
-} else { // Config::get('ZIP') == "lzma"
+} else { // Config::getInstance()->get('ZIP') == "lzma"
 	$name = "backup_YYYY_MM_DD.tar.lzma";
 }
 
@@ -114,7 +114,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,24 +24,24 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 function get_email_tpl_data($admin_id, $tpl_name) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`fname`, `lname`, `firm`, `email`
 		FROM
 			`admin`
 		WHERE
 			`admin_id` = ?
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array($admin_id));
+	$rs = exec_query($sql, $query, $admin_id);
 
 	if ((trim($rs->fields('fname')) != '') && (trim($rs->fields('lname')) != '')) {
 		$data['sender_name'] = $rs->fields('fname') . ' ' . $rs->fields('lname');
@@ -63,7 +63,7 @@ SQL_QUERY;
 
 	$data['sender_email'] = $rs->fields('email');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`subject`, `message`
 		FROM
@@ -72,11 +72,11 @@ SQL_QUERY;
 			`owner_id` = ?
 		AND
 			`name` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($admin_id, $tpl_name));
 
-	if ($rs->RowCount() == 1) {
+	if ($rs->rowCount() == 1) {
 		$data['subject'] = $rs->fields['subject'];
 		$data['message'] = $rs->fields['message'];
 	} else {
@@ -89,9 +89,9 @@ SQL_QUERY;
 
 function set_email_tpl_data($admin_id, $tpl_name, $data) {
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`subject`, `message`
 		FROM
@@ -100,22 +100,22 @@ function set_email_tpl_data($admin_id, $tpl_name, $data) {
 			`owner_id` = ?
 		AND
 			`name` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($admin_id, $tpl_name));
 
-	if ($rs->RowCount() == 0) {
+	if ($rs->rowCount() == 0) {
 
-		$query = <<<SQL_QUERY
+		$query = "
 			INSERT INTO `email_tpls`
 				(`subject`, `message`, `owner_id`, `name`)
 			VALUES
 				(?, ?, ?, ?)
-SQL_QUERY;
+		";
 
 	} else {
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`email_tpls`
 			SET
@@ -125,14 +125,14 @@ SQL_QUERY;
 				`owner_id` = ?
 			AND
 				`name` = ?
-SQL_QUERY;
+		";
 
 	}
 
 	exec_query($sql, $query, array($data['subject'], $data['message'], $admin_id, $tpl_name));
 }
 
-function get_welcome_email($admin_id) {
+function get_welcome_email($admin_id, $admin_type='user') {
 
 	$data = get_email_tpl_data($admin_id, 'add-user-auto-msg');
 
@@ -141,8 +141,8 @@ function get_welcome_email($admin_id) {
 	}
 
 	if (!$data['message']) {
-		$data['message'] = tr('
-
+        if ($admin_type == 'user') {
+            $data['message'] = tr('
 Hello {NAME}!
 
 A new ispCP account has been created for you.
@@ -156,7 +156,7 @@ Remember to change your password often and the first time you login.
 
 You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}
 
-Statistics: http://{USERNAME}/stats/
+Statistics: {BASE_SERVER_VHOST_PREFIX}{USERNAME}/stats/
 User name: {USERNAME}
 Password: {PASSWORD}
 
@@ -164,6 +164,29 @@ Best wishes with ispCP!
 The ispCP Team.
 
 ', true);
+        } else {
+            $data['message'] = tr('
+Hello {NAME}!
+
+A new ispCP account has been created for you.
+Your account information:
+
+User type: {USERTYPE}
+User name: {USERNAME}
+Password: {PASSWORD}
+
+Remember to change your password often and the first time you login.
+
+You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}
+
+User name: {USERNAME}
+Password: {PASSWORD}
+
+Best wishes with ispCP!
+The ispCP Team.
+
+', true);
+        }
 
 	}
 
@@ -184,7 +207,6 @@ function get_lostpassword_activation_email($admin_id) {
 
 	if (!$data['message']) {
 		$data['message'] = tr('
-
 Hello {NAME}!
 Use this link to activate your new ispCP password:
 
@@ -214,7 +236,6 @@ function get_lostpassword_password_email($admin_id) {
 
 	if (!$data['message']) {
 		$data['message'] = tr('
-
 Hello {NAME}!
 
 Your user name is: {USERNAME}
@@ -296,8 +317,4 @@ The ispCP Team
 	}
 
 	return $data;
-}
-
-function set_alias_order_email($admin_id, $data) {
-	set_email_tpl_data($admin_id, 'alias-order-msg', $data);
 }

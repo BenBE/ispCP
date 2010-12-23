@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,42 +32,42 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/admin_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
+$cfg = ispCP_Registry::get('Config');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_add.tpl');
+$tpl->define_dynamic('page_message', 'page');
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_ADD_USER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User')
 	)
 );
 
 function add_user(&$tpl, &$sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {
 		if (check_user_data()) {
 			$upass = crypt_user_pass($_POST['pass']);
 
 			$user_id = $_SESSION['user_id'];
 
-			$username = clean_input($_POST['username'], true);
-			$fname = clean_input($_POST['fname'], true);
-			$lname = clean_input($_POST['lname'], true);
-			$gender = clean_input($_POST['gender'], true);
-			$firm = clean_input($_POST['firm'], true);
-			$zip = clean_input($_POST['zip'], true);
-			$city = clean_input($_POST['city'], true);
-			$state = clean_input($_POST['state'], true);
-			$country = clean_input($_POST['country'], true);
-			$email = clean_input($_POST['email'], true);
-			$phone = clean_input($_POST['phone'], true);
-			$fax = clean_input($_POST['fax'], true);
-			$street1 = clean_input($_POST['street1'], true);
-			$street2 = clean_input($_POST['street2'], true);
+			$username = clean_input($_POST['username']);
+			$fname = clean_input($_POST['fname']);
+			$lname = clean_input($_POST['lname']);
+			$gender = clean_input($_POST['gender']);
+			$firm = clean_input($_POST['firm']);
+			$zip = clean_input($_POST['zip']);
+			$city = clean_input($_POST['city']);
+			$state = clean_input($_POST['state']);
+			$country = clean_input($_POST['country']);
+			$email = clean_input($_POST['email']);
+			$phone = clean_input($_POST['phone']);
+			$fax = clean_input($_POST['fax']);
+			$street1 = clean_input($_POST['street1']);
+			$street2 = clean_input($_POST['street2']);
 
 			if (get_gender_by_code($gender, true) === null) {
 				$gender = '';
@@ -133,7 +133,7 @@ function add_user(&$tpl, &$sql) {
 					$street2,
 					$gender));
 
-			$new_admin_id = $sql->Insert_ID();
+			$new_admin_id = $sql->insertId();
 
 			$user_logged = $_SESSION['user_logged'];
 
@@ -186,9 +186,9 @@ function add_user(&$tpl, &$sql) {
 					'STREET_2' => clean_input($_POST['street2'], true),
 					'PHONE' => clean_input($_POST['phone'], true),
 					'FAX' => clean_input($_POST['fax'], true),
-					'VL_MALE' => (($_POST['gender'] == 'M') ? 'selected="selected"' : ''),
-					'VL_FEMALE' => (($_POST['gender'] == 'F') ? 'selected="selected"' : ''),
-					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? 'selected="selected"' : '')
+					'VL_MALE' => (($_POST['gender'] == 'M') ? $cfg->HTML_SELECTED : ''),
+					'VL_FEMALE' => (($_POST['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
+					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? $cfg->HTML_SELECTED : '')
 				)
 			);
 		}
@@ -210,36 +210,50 @@ function add_user(&$tpl, &$sql) {
 				'FAX' => '',
 				'VL_MALE' => '',
 				'VL_FEMALE' => '',
-				'VL_UNKNOWN' => 'selected="selected"'
+				'VL_UNKNOWN' => $cfg->HTML_SELECTED
 			)
 		);
 	} // end else
 }
 
 function check_user_data() {
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	if (!validates_username($_POST['username'])) {
-		set_page_message(tr("Incorrect username length or syntax!"));
+		set_page_message(tr("Incorrect username length or syntax!"), 'warning');
 
 		return false;
 	}
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 
 		return false;
 	}
 	if ($_POST['pass'] != $_POST['pass_rep']) {
-		set_page_message(tr("Entered passwords do not match!"));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 
 		return false;
 	}
 	if (!chk_email($_POST['email'])) {
-		set_page_message(tr("Incorrect email length or syntax!"));
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
 
 		return false;
 	}
@@ -255,10 +269,10 @@ function check_user_data() {
 
 	$username = clean_input($_POST['username']);
 
-	$rs = exec_query($sql, $query, array($username));
+	$rs = exec_query($sql, $query, $username);
 
-	if ($rs->RecordCount() != 0) {
-		set_page_message(tr('This user name already exist!'));
+	if ($rs->recordCount() != 0) {
+		set_page_message(tr('This user name already exist!'), 'error');
 
 		return false;
 	}
@@ -266,14 +280,10 @@ function check_user_data() {
 	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 add_user($tpl, $sql);
 
@@ -314,7 +324,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

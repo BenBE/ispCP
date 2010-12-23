@@ -3,7 +3,7 @@
 /**
  * handle row specifc actions like edit, delete, export
  *
- * @version $Id: tbl_row_action.php 12390 2009-05-04 16:05:24Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -43,7 +43,7 @@ if (isset($_REQUEST['submit_mult'])) {
     $submit_mult = 'row_export';
 }
 
-// garvin: If the 'Ask for confirmation' button was pressed, this can only come
+// If the 'Ask for confirmation' button was pressed, this can only come
 // from 'delete' mode, so we set it straight away.
 if (isset($_REQUEST['mult_btn'])) {
     $submit_mult = 'row_delete';
@@ -79,13 +79,13 @@ require_once './libraries/header.inc.php';
 if (!empty($submit_mult)) {
     switch($submit_mult) {
         case 'row_edit':
-            // garvin: As we got the fields to be edited from the 'rows_to_delete'
-            // checkbox, we use the index of it as the
-            // indicating primary key. Then we built the array which is used for
-            // the tbl_change.php script.
-            $primary_key = array();
-            foreach ($_REQUEST['rows_to_delete'] as $i_primary_key => $del_query) {
-                $primary_key[] = urldecode($i_primary_key);
+            // garvin: As we got the fields to be edited from the 
+            // 'rows_to_delete' checkbox, we use the index of it as the
+            // indicating WHERE clause. Then we build the array which is used 
+            // for the tbl_change.php script.
+            $where_clause = array();
+            foreach ($_REQUEST['rows_to_delete'] as $i_where_clause => $del_query) {
+                $where_clause[] = urldecode($i_where_clause);
             }
 
             $active_page = 'tbl_change.php';
@@ -96,14 +96,13 @@ if (!empty($submit_mult)) {
             // Needed to allow SQL export
             $single_table = TRUE;
 
-            //$sql_query = urldecode($sql_query);
-            // garvin: As we got the fields to be edited from the 'rows_to_delete'
-            // checkbox, we use the index of it as the
-            // indicating primary key. Then we built the array which is used for
-            // the tbl_change.php script.
-            $primary_key = array();
-            foreach ($_REQUEST['rows_to_delete'] as $i_primary_key => $del_query) {
-                $primary_key[] = urldecode($i_primary_key);
+            // garvin: As we got the fields to be edited from the 
+            // 'rows_to_delete' checkbox, we use the index of it as the
+            // indicating WHERE clause. Then we build the array which is used 
+            // for the tbl_change.php script.
+            $where_clause = array();
+            foreach ($_REQUEST['rows_to_delete'] as $i_where_clause => $del_query) {
+                $where_clause[] = urldecode($i_where_clause);
             }
 
             $active_page = 'tbl_export.php';

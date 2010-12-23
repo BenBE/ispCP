@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,24 +32,15 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/server_statistic.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('month_list', 'page');
 $tpl->define_dynamic('year_list', 'page');
 $tpl->define_dynamic('day_list', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_SERVER_STATICSTICS_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 global $month, $year;
 
@@ -65,9 +56,9 @@ if (isset($_GET['month']) && isset($_GET['year'])) {
 }
 
 function get_server_trafic($from, $to) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			IFNULL(SUM(`bytes_in`), 0) AS sbin,
 			IFNULL(SUM(`bytes_out`), 0) AS sbout,
@@ -81,11 +72,11 @@ function get_server_trafic($from, $to) {
 			`server_traffic`
 		WHERE
 			`traff_time` > ? AND `traff_time` < ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($from, $to));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	} else {
 		return array($rs->fields['swbin'], $rs->fields['swbout'],
@@ -98,8 +89,10 @@ SQL_QUERY;
 }
 
 function generate_page(&$tpl) {
-	$sql = Database::getInstance();
+
 	global $month, $year;
+	$sql = ispCP_Registry::get('Db');
+
 
 	if ($month == date('m') && $year == date('Y')) {
 		$curday = date('j');
@@ -124,19 +117,19 @@ function generate_page(&$tpl) {
 		$ftm = mktime(0, 0, 0, $month, $i, $year);
 		$ltm = mktime(23, 59, 59, $month, $i, $year);
 
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				COUNT(`bytes_in`) AS cnt
 			FROM
 				`server_traffic`
 			WHERE
 				`traff_time` > ? AND `traff_time` < ?
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($ftm, $ltm));
 		$has_data = false;
 		// if ($rs->fields['cnt'] > 0) {
-		if ($rs->RecordCount() > 0) {
+		if ($rs->recordCount() > 0) {
 			list($web_in,
 				$web_out,
 				$smtp_in,
@@ -206,13 +199,10 @@ SQL_QUERY;
 	);
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_statistics.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 gen_select_lists($tpl, $month, $year);
 
@@ -220,6 +210,7 @@ generate_page($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
 		'TR_SERVER_STATISTICS' => tr('Server statistics'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),
@@ -244,7 +235,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

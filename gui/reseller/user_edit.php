@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,11 +24,13 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
+
+$cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__);
 
@@ -37,26 +39,15 @@ if (isset($_GET['edit_id'])) {
 } else if (isset($_POST['edit_id'])) {
 	$edit_id = $_POST['edit_id'];
 } else {
-	user_goto('users.php');
+	user_goto('users.php?psi=last');
 }
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_edit.tpl');
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_EDIT_USER_PAGE_TITLE'	=> tr('ispCP - Users/Edit'),
-		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id']),
-	)
-);
 
 /*
  *
@@ -65,6 +56,7 @@ $tpl->assign(
  */
 $tpl->assign(
 	array(
+		'TR_EDIT_USER_PAGE_TITLE'	=> tr('ispCP - Users/Edit'),
 		'TR_EDIT_USER'			=> tr('Edit user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),
@@ -89,13 +81,18 @@ $tpl->assign(
 		'TR_GENDER'				=> tr('Gender'),
 		'TR_MALE'				=> tr('Male'),
 		'TR_FEMALE'				=> tr('Female'),
+		'TR_UNKNOWN'			=> tr('Unknown'),
 		'EDIT_ID'				=> $edit_id,
-		'TR_BTN_ADD_USER'		=> tr('Submit changes')
+		'TR_BTN_ADD_USER'		=> tr('Submit changes'),
+
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
 	)
 );
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -129,14 +126,14 @@ if (isset($_POST['Submit'])
 		$hpid = $_SESSION['edit_ID'];
 	} else {
 		$_SESSION['edit'] = '_no_';
-		user_goto('users.php');
+		user_goto('users.php?psi=last');
 	}
 
 	if (isset($_SESSION['user_name'])) {
 		$dmn_user_name = $_SESSION['user_name'];
 	} else {
 		$_SESSION['edit'] = '_no_';
-		user_goto('users.php');
+		user_goto('users.php?psi=last');
 	}
 
 	if (check_ruser_data($tpl, '_yes_')) { // Save data to db
@@ -154,7 +151,8 @@ gen_edituser_page($tpl);
 gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
-if (Config::get('DUMP_GUI_DEBUG')) {
+
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 //unset_messages();
@@ -167,13 +165,14 @@ if (Config::get('DUMP_GUI_DEBUG')) {
  * Load data from sql
  */
 function load_user_data_page($user_id) {
-	$sql = Database::getInstance();
 	global $dmn_user_name;
 	global $user_email, $customer_id, $first_name;
 	global $last_name, $firm, $zip, $gender;
 	global $city, $state, $country, $street_one;
 	global $street_two, $mail, $phone;
 	global $fax;
+
+	$sql = ispCP_Registry::get('Db');
 
 	$reseller_id = $_SESSION['user_id'];
 
@@ -191,11 +190,14 @@ function load_user_data_page($user_id) {
 	";
 
 	$res = exec_query($sql, $query, array($user_id, $reseller_id));
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
-	if ($res->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
-		user_goto('users.php');
+	if ($res->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
+		user_goto('users.php?psi=last');
 	} else {
 		// Get data from sql
 		$_SESSION['user_name'] = $data['admin_name'];
@@ -225,12 +227,11 @@ function load_user_data_page($user_id) {
  * Show user data
  */
 function gen_edituser_page(&$tpl) {
-	global $dmn_user_name;
-	global $user_email, $customer_id, $first_name;
-	global $last_name, $firm, $zip, $gender;
-	global $city, $state, $country, $street_one;
-	global $street_two, $mail, $phone;
-	global $fax;
+	global $dmn_user_name, $user_email, $customer_id, $first_name, $last_name,
+		$firm, $zip, $gender, $city, $state, $country, $street_one, $street_two,
+		$phone, $fax;
+
+	$cfg = ispCP_Registry::get('Config');
 
 	if ($customer_id == NULL) {
 		$customer_id = '';
@@ -239,22 +240,23 @@ function gen_edituser_page(&$tpl) {
 	// Fill in the fields
 	$tpl->assign(
 		array(
-			'VL_USERNAME'		=> decode_idna($dmn_user_name),
-			'VL_MAIL'			=> empty($user_email) ? '' : $user_email,
-			'VL_USR_ID'			=> empty($customer_id) ? '' : $customer_id,
-			'VL_USR_NAME'		=> empty($first_name) ? '' : $first_name,
-			'VL_LAST_USRNAME'	=> empty($last_name) ? '' : $last_name,
-			'VL_USR_FIRM'		=> empty($firm) ? '' : $firm,
-			'VL_USR_POSTCODE'	=> empty($zip) ? '' : $zip,
-			'VL_USRCITY'		=> empty($city) ? '' : $city,
-			'VL_USRSTATE'		=> empty($state) ?'':$state,
-			'VL_COUNTRY'		=> empty($country) ? '' : $country,
-			'VL_STREET1'		=> empty($street_one) ? '' : $street_one,
-			'VL_STREET2'		=> empty($street_two) ? '' : $street_two,
-			'VL_MALE'			=> ($gender == 'M') ? 'checked="checked"' : '',
-			'VL_FEMALE'			=> ($gender == 'F') ? 'checked="checked"' : '',
-			'VL_PHONE'			=> empty($phone) ? '' : $phone,
-			'VL_FAX'			=> empty($fax) ? '' : $fax
+			'VL_USERNAME' => tohtml(decode_idna($dmn_user_name)),
+			'VL_MAIL' => empty($user_email) ? '' : tohtml($user_email),
+			'VL_USR_ID' => empty($customer_id) ? '' : tohtml($customer_id),
+			'VL_USR_NAME' => empty($first_name) ? '' : tohtml($first_name),
+			'VL_LAST_USRNAME' => empty($last_name) ? '' : tohtml($last_name),
+			'VL_USR_FIRM' => empty($firm) ? '' : tohtml($firm),
+			'VL_USR_POSTCODE' => empty($zip) ? '' : tohtml($zip),
+			'VL_USRCITY' => empty($city) ? '' : tohtml($city),
+			'VL_USRSTATE' => empty($state) ? '' : tohtml($state),
+			'VL_COUNTRY' => empty($country) ? '' : tohtml($country),
+			'VL_STREET1' => empty($street_one) ? '' : tohtml($street_one),
+			'VL_STREET2' => empty($street_two) ? '' : tohtml($street_two),
+			'VL_MALE' => ($gender == 'M') ? $cfg->HTML_SELECTED : '',
+			'VL_FEMALE' => ($gender == 'F') ? $cfg->HTML_SELECTED : '',
+			'VL_UNKNOWN' => ($gender == 'U') ? $cfg->HTML_SELECTED : '',
+			'VL_PHONE' => empty($phone) ? '' : tohtml($phone),
+			'VL_FAX' => empty($fax) ? '' : tohtml($fax)
 		)
 	);
 
@@ -267,29 +269,28 @@ function gen_edituser_page(&$tpl) {
  * Function to update changes into db
  */
 function update_data_in_db($hpid) {
-	$sql = Database::getInstance();
-	global $dmn_user_name;
-	global $user_email, $customer_id, $first_name;
-	global $last_name, $firm, $zip, $gender;
-	global $city, $state, $country, $street_one;
-	global $street_two, $mail, $phone;
-	global $fax, $inpass, $domain_ip;
-	global $admin_login;
+
+	global $dmn_user_name, $user_email, $customer_id, $first_name, $last_name,
+		$firm, $zip, $gender, $city, $state, $country, $street_one, $street_two,
+		$mail, $phone, $fax, $inpass, $admin_login;
+
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	$reseller_id = $_SESSION['user_id'];
 
-	$first_name	= clean_input($first_name, true);
-	$last_name	= clean_input($last_name, true);
-	$firm		= clean_input($firm, true);
-	$gender		= clean_input($gender, true);
-	$zip		= clean_input($zip, true);
-	$city		= clean_input($city, true);
-	$state		= clean_input($state, true);
-	$country	= clean_input($country, true);
-	$phone		= clean_input($phone, true);
-	$fax		= clean_input($fax, true);
-	$street_one	= clean_input($street_one, true);
-	$street_two	= clean_input($street_two, true);
+	$first_name	= clean_input($first_name);
+	$last_name	= clean_input($last_name);
+	$firm		= clean_input($firm);
+	$gender		= clean_input($gender);
+	$zip		= clean_input($zip);
+	$city		= clean_input($city);
+	$state		= clean_input($state);
+	$country	= clean_input($country);
+	$phone		= clean_input($phone);
+	$fax		= clean_input($fax);
+	$street_one	= clean_input($street_one);
+	$street_two	= clean_input($street_two);
 
 	if (empty($inpass)) {
 		// Save without password
@@ -337,18 +338,27 @@ function update_data_in_db($hpid) {
 	} else {
 		// Change password
 		if (!chk_password($_POST['userpassword'])) {
-
-			if (Config::get('PASSWD_STRONG')) {
-				set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+			if (isset($cfg->PASSWD_STRONG)){
+				set_page_message(
+					sprintf(
+						tr('The password must be at least %s chars long and contain letters and numbers to be valid.'), $cfg->PASSWD_CHARS
+					),
+					'warning'
+				);
 			} else {
-				set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+				set_page_message(
+					sprintf(
+						tr('Password data is shorter than %s signs or includes not permitted signs!'),
+						$cfg->PASSWD_CHARS
+					),
+					'warning'
+				);
 			}
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}
 
 		if ($_POST['userpassword'] != $_POST['userpassword_repeat']) {
-
-			set_page_message(tr("Entered passwords do not match!"));
+			set_page_message(tr('Entered passwords do not match!'), 'warning');
 
 			user_goto('user_edit.php?edit_id=' . $hpid);
 		}
@@ -409,9 +419,9 @@ function update_data_in_db($hpid) {
 				`user_name` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($admin_name));
-			if ($rs->RecordCount() != 0) {
-				set_page_message(tr('User session was killed!'));
+		$rs = exec_query($sql, $query, $admin_name);
+			if ($rs->recordCount() != 0) {
+				set_page_message(tr('User session was killed!'), 'notice');
 				write_log($_SESSION['user_logged'] . " killed ".$admin_name."'s session because of password change");
 		}
 	}
@@ -435,5 +445,5 @@ function update_data_in_db($hpid) {
 	unset($_SESSION['user_name']);
 
 	$_SESSION['edit'] = "_yes_";
-	user_goto('users.php');
+	user_goto('users.php?psi=last');
 } // End of update_data_in_db()

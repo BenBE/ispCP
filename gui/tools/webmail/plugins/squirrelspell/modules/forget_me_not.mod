@@ -4,7 +4,7 @@
  * ------------------
  * Squirrelspell module
  *
- * Copyright (c) 1999-2009 The SquirrelMail Project Team
+ * Copyright (c) 1999-2010 The SquirrelMail Project Team
  * Licensed under the GNU GPL. For full terms see the file COPYING.
  *
  * This module saves the added words into the user dictionary. Called
@@ -27,7 +27,8 @@ $sqspell_use_app = $_POST['sqspell_use_app'];
  * "%". To get the array, we explode the "%"'s.
  * Dirty: yes. Is there a better solution? Let me know. ;)
  */
-$new_words = ereg_replace("%", "\n", $words);
+/* @author ispCP PHP5.3 Compatibility Change */
+$new_words = preg_replace("/%/", "\n", $words);
 /**
  * Load the user dictionary and see if there is anything in it.
  */

@@ -1,7 +1,7 @@
 ispcp_table = Thai
 ispcp_language = ไทย - Thai
 ispcp_languageSetlocaleValue = th_TH
-ispcp_languageRevision = 200912181502
+ispcp_languageRevision = 201009151932
 encoding = UTF-8
 Administrator = ผู้ดูแลระบบ
 Add admin = เพิ่มผู้ดูแลระบบ
@@ -41,7 +41,6 @@ Year: = ปี:
 Add domain alias = เพิ่ม domain alias
 Add alias = เพิ่ม alias
 Incorrect mount point syntax = Incorrect <i>mount point</i> syntax!
-Incorrect forward syntax = Incorrect <i>forward</i> syntax!
 Add Cronjob = เพิ่ม Cronjob
 Alias list is empty! = รายการ Alias ว่างเปล่า!
 Add FTP user = เพิ่มผู้ใช้ FTP

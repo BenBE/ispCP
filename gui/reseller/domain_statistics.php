@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,25 +32,16 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_statistics.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_statistics.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('month_list', 'page');
 $tpl->define_dynamic('year_list', 'page');
 $tpl->define_dynamic('traffic_table', 'page');
 $tpl->define_dynamic('traffic_table_item', 'traffic_table');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 if (isset($_POST['domain_id'])) {
 	$domain_id = $_POST['domain_id'];
@@ -74,25 +65,27 @@ if (!is_numeric($domain_id) || !is_numeric($month) || !is_numeric($year)) {
 }
 
 function get_domain_trafic($from, $to, $domain_id) {
-
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
 	$reseller_id = $_SESSION['user_id'];
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			`domain_id`
 		FROM
 			`domain`
 		WHERE
 			`domain_id` = ? AND `domain_created_id` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($domain_id, $reseller_id));
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 		user_goto('user_statistics.php');
 	}
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			IFNULL(SUM(`dtraff_web`), 0) AS web_dr,
 			IFNULL(SUM(`dtraff_ftp`), 0) AS ftp_dr,
@@ -102,10 +95,10 @@ SQL_QUERY;
 			`domain_traffic`
 		WHERE
 			`domain_id` = ? AND `dtraff_time` >= ? AND `dtraff_time` <= ?
-SQL_QUERY;
+	";
 	$rs = exec_query($sql, $query, array($domain_id, $from, $to));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return array(0, 0, 0, 0);
 	} else {
 		return array(
@@ -118,13 +111,18 @@ SQL_QUERY;
 }
 
 function generate_page(&$tpl, $domain_id) {
-	$sql = Database::getInstance();
 	global $month, $year;
-	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf,
-	$sum_web, $sum_ftp, $sum_mail, $sum_pop;
+	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf;
+	global $sum_web, $sum_ftp, $sum_mail, $sum_pop;
 
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
+	// NXW: Unused variables so..
+	/*
 	$fdofmnth = mktime(0, 0, 0, $month, 1, $year);
 	$ldofmnth = mktime(1, 0, 0, $month + 1, 0, $year);
+	*/
 
 	if ($month == date('m') && $year == date('Y')) {
 		$curday = date('j');
@@ -133,8 +131,11 @@ function generate_page(&$tpl, $domain_id) {
 		$curday = date('j', $tmp);
 	}
 
+	// NXW: Unused variables so...
+	/*
 	$curtimestamp = time();
 	$firsttimestamp = mktime(0, 0, 0, $month, 1, $year);
+	*/
 
 	$all[0] = 0;
 	$all[1] = 0;
@@ -150,27 +151,29 @@ function generate_page(&$tpl, $domain_id) {
 		$ftm = mktime(0, 0, 0, $month, $i, $year);
 		$ltm = mktime(23, 59, 59, $month, $i, $year);
 
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`dtraff_web`, `dtraff_ftp`, `dtraff_mail`, `dtraff_pop`, `dtraff_time`
 			FROM
 				`domain_traffic`
 			WHERE
 				`domain_id` = ? AND `dtraff_time` >= ? AND `dtraff_time` <= ?
-SQL_QUERY;
-		$rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
+		";
+		// NXW: Unused variable so..
+		// $rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
+		exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 
-		$has_data = false;
+		// NXW: Unused variable so..
+		// $has_data = false;
 		list($web_trf, $ftp_trf, $pop_trf, $smtp_trf) = get_domain_trafic($ftm, $ltm, $domain_id);
 
-		$date_formt = Config::get('DATE_FORMAT');
 		if ($web_trf == 0 && $ftp_trf == 0 && $smtp_trf == 0 && $pop_trf == 0) {
 			$tpl->assign(
 				array(
 					'MONTH' => $month,
 					'YEAR' => $year,
 					'DOMAIN_ID' => $domain_id,
-					'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
+					'DATE' => date($cfg->DATE_FORMAT, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => 0,
 					'FTP_TRAFFIC' => 0,
 					'SMTP_TRAFFIC' => 0,
@@ -188,7 +191,7 @@ SQL_QUERY;
 
 			$tpl->assign(
 				array(
-					'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
+					'DATE' => date($cfg->DATE_FORMAT, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => sizeit($web_trf),
 					'FTP_TRAFFIC' => sizeit($ftp_trf),
 					'SMTP_TRAFFIC' => sizeit($smtp_trf),
@@ -217,19 +220,16 @@ SQL_QUERY;
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_statistics.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_statistics.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
 		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),
@@ -251,7 +251,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

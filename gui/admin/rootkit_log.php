@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,35 +32,26 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/rootkit_log.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/rootkit_log.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('service_status', 'page');
 $tpl->define_dynamic('props_list', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_ROOTKIT_LOG_PAGE_TITLE' => tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 $blocksCount = 0;
 
-/* Check Log File */
+// Check Log File
 
 $config_entries = array('RKHUNTER_LOG', 'CHKROOTKIT_LOG', 'OTHER_ROOTKIT_LOG');
 
 foreach ($config_entries as $config_entry) {
-	if (empty($config_entry) || !Config::exists($config_entry) || !Config::get($config_entry)) {
+	if (empty($config_entry) || !$cfg->exists($config_entry) || !$cfg->$config_entry) {
 		continue;
 	}
 
-	$filename = Config::get($config_entry);
+	$filename = $cfg->$config_entry;
 	$contents = '';
 
 	if (@file_exists($filename) && is_readable($filename) && filesize($filename)>0) {
@@ -70,7 +61,7 @@ foreach ($config_entries as $config_entry) {
 
 		fclose($handle);
 
-		$contents = nl2br(htmlentities($log));
+		$contents = nl2br(tohtml($log));
 
 		$contents = '<div>' . $contents . '</div>';
 
@@ -96,7 +87,7 @@ foreach ($config_entries as $config_entry) {
 		$search [] = '/0[ \t]+vulnerable/i';
 		$replace[] = '<span style="color:green">$0</span>';
 		$search [] = '#(\[[0-9]{2}:[[0-9]{2}:[[0-9]{2}\][ \t]+-{20,35}[ \t]+)([a-zA-Z0-9 ]+)([ \t]+-{20,35})<br />#e';
-		$replace[] = '"</div><a href=\"#\" onclick=\"showHideBlocks(\'rkhuntb" . $blocksCount . "\');return false;\">$1<b>$2</b>$3</a><br /><div id=\"rkhuntb" . $blocksCount++ . "\">"';
+		$replace[] = '"</div><a href=\"#\" onclick=\"showHideBlocks(\'rkhuntb" . $blocksCount . "\');return false;\">$1<strong>$2</strong>$3</a><br /><div id=\"rkhuntb" . $blocksCount++ . "\">"';
 		// chkrootkit-like log colouring
 		$search [] = '/([^a-z][ \t]+)(INFECTED)/i';
 		$replace[] = '$1<strong style="color:red">$2</strong>';
@@ -119,29 +110,27 @@ foreach ($config_entries as $config_entry) {
 
 		$contents = preg_replace($search, $replace, $contents);
 	} else {
-		$contents = '<strong style="color:#FF0000">' . tr("%s doesn't exist or is empty", $filename) . '</strong>';
+		$contents = '<strong style="color:red">' . tr("%s doesn't exist or is empty", $filename) . '</strong>';
 	}
 
 	$tpl->assign(
 		array(
-			'LOG' => $contents,
-			'FILENAME' => $filename
+			'LOG'		=> $contents,
+			'FILENAME'	=> tohtml($filename)
 		)
 	);
 	$tpl->parse('PROPS_LIST', '.props_list');
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_system_tools.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
-		'TR_ROOTKIT_LOG' => tr('Anti-Rootkits Tools Log Checker'),
+		'TR_PAGE_TITLE' => tr('ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker'),
+		'TR_ROOTKIT_LOG' => tr('Anti-Rootkits Tools Log Checker')
 	)
 );
 
@@ -150,7 +139,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

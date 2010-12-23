@@ -46,7 +46,7 @@
  * @uses    array_intersect()
  * @uses    sprintf()
  * @uses    in_array()
- * @version $Id: db_search.php 12192 2009-01-17 22:22:52Z lem9 $
+ * @version $Id$
  * @author  Thomas Chaumeny <chaume92 at aol.com>
  * @package phpMyAdmin
  */
@@ -317,7 +317,7 @@ $choices = array(
 // 4th parameter set to true to add line breaks
 // 5th parameter set to false to avoid htmlspecialchars() escaping in the label
 //  since we have some HTML in some labels
-PMA_generate_html_radio('search_option', $choices, $search_option, true, false);
+PMA_display_html_radio('search_option', $choices, $search_option, true, false);
 unset($choices);
             ?>
             </td>
@@ -355,7 +355,7 @@ $alter_select =
     <tr><td align="right">
             <?php echo $GLOBALS['strSearchInField']; ?></td>
         <td><input type="text" name="field_str" size="60"
-                value="<?php echo ! empty($field_str) ? $field_str : ''; ?>" /></td>
+                value="<?php echo ! empty($field_str) ? htmlspecialchars($field_str) : ''; ?>" /></td>
     </tr>
     </table>
 </fieldset>

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,21 +32,12 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/alias_edit.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/alias_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 /*
  *
@@ -55,6 +46,7 @@ $tpl->assign(
  */
 $tpl->assign(
 	array(
+		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
 		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
 		'TR_EDIT_ALIAS' => tr('Edit domain alias'),
 		'TR_ALIAS_NAME' => tr('Alias name'),
@@ -65,12 +57,15 @@ $tpl->assign(
 		'TR_ENABLE_FWD' => tr("Enable Forward"),
 		'TR_ENABLE' => tr("Enable"),
 		'TR_DISABLE' => tr("Disable"),
-		'TR_FWD_HELP' => tr("A Forward URL has to start with 'http://'")
+		'TR_DISABLE' => tr("Disable"),
+		'TR_PREFIX_HTTP' => 'http://',
+		'TR_PREFIX_HTTPS' => 'https://',
+		'TR_PREFIX_FTP' => 'ftp://'
 	)
 );
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -106,7 +101,7 @@ gen_editalias_page($tpl, $editid);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -117,11 +112,12 @@ unset_messages();
  * Show user data
  */
 function gen_editalias_page(&$tpl, $edit_id) {
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	$reseller_id = $_SESSION['user_id'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			t1.`domain_id`,
 			t1.`alias_id`,
@@ -129,57 +125,82 @@ function gen_editalias_page(&$tpl, $edit_id) {
 			t2.`domain_id`,
 			t2.`domain_created_id`
 		FROM
-			`domain_aliasses` as t1,
-			`domain` as t2
+			`domain_aliasses` AS t1,
+			`domain` AS t2
 		WHERE
 			t1.`alias_id` = ?
 		AND
 			t1.`domain_id` = t2.`domain_id`
 		AND
 			t2.`domain_created_id` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($edit_id, $reseller_id));
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 		user_goto('alias.php');
 	}
 	// Get data from sql
-	$res = exec_query($sql, "SELECT * FROM `domain_aliasses` WHERE `alias_id` = ?", array($edit_id));
+	$res = exec_query($sql, "SELECT * FROM `domain_aliasses` WHERE `alias_id` = ?", $edit_id);
 
-	if ($res->RecordCount() <= 0) {
+	if ($res->recordCount() <= 0) {
 		$_SESSION['aledit'] = '_no_';
 		user_goto('alias.php');
 	}
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 	// Get IP data
-	$ipres = exec_query($sql, "SELECT * FROM `server_ips` WHERE `ip_id` = ?", array($data['alias_ip_id']));
-	$ipdat = $ipres->FetchRow();
+	$ipres = exec_query($sql, "SELECT * FROM `server_ips` WHERE `ip_id` = ?", $data['alias_ip_id']);
+	$ipdat = $ipres->fetchRow();
 	$ip_data = $ipdat['ip_number'] . ' (' . $ipdat['ip_alias'] . ')';
 
 	if (isset($_POST['uaction']) && ($_POST['uaction'] == 'modify')) {
-		$url_forward = decode_idna($_POST['forward']);
+		$url_forward = strtolower(clean_input($_POST['forward']));
 	} else {
-		$url_forward = decode_idna($data['url_forward']);
-	}
+		$url_forward = decode_idna(preg_replace("(ftp://|https://|http://)", "", $data['url_forward']));
 
-	if ($data["url_forward"] == "no") {
-		$check_en = '';
-		$check_dis = 'checked="checked"';
-		$url_forward = '';
-	} else {
-		$check_en = 'checked="checked"';
-		$check_dis = '';
+		if ($data["url_forward"] == "no") {
+			$check_en = '';
+			$check_dis = $cfg->HTML_CHECKED;
+			$url_forward = '';
+			$tpl->assign(
+				array(
+					'READONLY_FORWARD'	=>	$cfg->HTML_READONLY,
+					'DISABLE_FORWARD'	=>	$cfg->HTML_DISABLED,
+					'HTTP_YES'			=>	'',
+					'HTTPS_YES'			=>	'',
+					'FTP_YES'			=>	''
+				)
+			);
+		} else {
+			$check_en = $cfg->HTML_CHECKED;
+			$check_dis = '';
+			$tpl->assign(
+				array(
+					'READONLY_FORWARD' => '',
+					'DISABLE_FORWARD' => '',
+					'HTTP_YES' => (preg_match("/http:\/\//", $data['url_forward'])) ? $cfg->HTML_SELECTED : '',
+					'HTTPS_YES' => (preg_match("/https:\/\//", $data['url_forward'])) ? $cfg->HTML_SELECTED : '',
+					'FTP_YES' => (preg_match("/ftp:\/\//", $data['url_forward'])) ? $cfg->HTML_SELECTED : ''
+				)
+			);
+		}
+		$tpl->assign(
+				array(
+					'CHECK_EN' => $check_en,
+					'CHECK_DIS' => $check_dis
+				)
+			);
 	}
 	// Fill in the fields
 	$tpl->assign(
 		array(
-			'ALIAS_NAME' => decode_idna($data['alias_name']),
+			'ALIAS_NAME' => tohtml(decode_idna($data['alias_name'])),
 			'DOMAIN_IP' => $ip_data,
-			'FORWARD' => $url_forward,
-			'CHECK_EN' => $check_en,
-			'CHECK_DIS' => $check_dis,
+			'FORWARD' => tohtml($url_forward),
 			'ID' => $edit_id
 		)
 	);
@@ -189,29 +210,58 @@ SQL_QUERY;
  * Check input data
  */
 function check_fwd_data(&$tpl, $alias_id) {
-	$sql = Database::getInstance();
 
-	$forward_url = encode_idna($_POST['forward']);
-	$status = $_POST['status'];
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
+	$forward_url = strtolower(clean_input($_POST['forward']));
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
+	// NXW: Unused variable so...
+	// $admin_login = '';
 
-	if ($status != '0') {
-		if (!chk_forward_url($forward_url)) {
-			$ed_error = tr("Incorrect forward syntax");
+	if (isset($_POST['status']) && $_POST['status'] == 1) {
+		$forward_prefix = clean_input($_POST['forward_prefix']);
+		if (substr_count($forward_url, '.') <= 2) {
+			$ret = validates_dname($forward_url);
+		} else {
+			$ret = validates_dname($forward_url, true);
 		}
-		/** @todo test and remove if no bugs encounter
-		if (!preg_match("/\/$/", $forward_url) && !preg_match("/\?/", $forward_url)) {
-			$forward_url .= "/";
-		}*/
+		if (!$ret) {
+			$ed_error = tr("Wrong domain part in forward URL!");
+		} else {
+			$forward_url = encode_idna($forward_prefix.$forward_url);
+		}
+
+		$check_en = $cfg->HTML_CHECKED;
+		$check_dis = '';
+		$tpl->assign(
+			array(
+				'FORWARD'			=> tohtml($forward_url),
+				'HTTP_YES'			=> ($forward_prefix === 'http://') ? $cfg->HTML_SELECTED : '',
+				'HTTPS_YES'			=> ($forward_prefix === 'https://') ? $cfg->HTML_SELECTED : '',
+				'FTP_YES'			=> ($forward_prefix === 'ftp://') ? $cfg->HTML_SELECTED : '',
+				'CHECK_EN'			=> $check_en,
+				'CHECK_DIS'			=> $check_dis,
+				'DISABLE_FORWARD'	=>	'',
+				'READONLY_FORWARD'	=>	''
+			)
+		);
+	} else {
+		$check_en = $cfg->HTML_CHECKED;
+		$check_dis = '';
+		$forward_url = 'no';
+		$tpl->assign(
+			array(
+				'READONLY_FORWARD' => $cfg->HTML_READONLY,
+				'DISABLE_FORWARD' => $cfg->HTML_DISABLED,
+				'CHECK_EN' => $check_en,
+				'CHECK_DIS' => $check_dis,
+			)
+		);
 	}
 
 	if ($ed_error === '_off_') {
-		if ($_POST['status'] == 0) {
-			$forward_url = "no";
-		}
-
 		$query = "
 			UPDATE
 				`domain_aliasses`
@@ -221,7 +271,7 @@ function check_fwd_data(&$tpl, $alias_id) {
 			WHERE
 				`alias_id` = ?
 		";
-		exec_query($sql, $query, array($forward_url, Config::get('ITEM_CHANGE_STATUS'), $alias_id));
+		exec_query($sql, $query, array($forward_url, $cfg->ITEM_CHANGE_STATUS, $alias_id));
 
 		$query = "
 			UPDATE
@@ -231,12 +281,15 @@ function check_fwd_data(&$tpl, $alias_id) {
 			WHERE
 				`alias_id` = ?
 		";
-		exec_query($sql, $query, array(Config::get('ITEM_CHANGE_STATUS'), $alias_id));
+		exec_query($sql, $query, array($cfg->ITEM_CHANGE_STATUS, $alias_id));
 
 		send_request();
 
+		// NXW: oh my god... Should be review...
+		/*
 		$admin_login = $_SESSION['user_logged'];
 		write_log("$admin_login: changes domain alias forward: " . $rs->fields['t1.alias_name']);
+		*/
 		unset($_SESSION['edit_ID']);
 		$tpl->assign('MESSAGE', "");
 		return true;

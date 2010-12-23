@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,57 +32,58 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/user_add1.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add1.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('add_user', 'page');
 $tpl->define_dynamic('hp_entry', 'page');
 $tpl->define_dynamic('personalize', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
+// static page messages
 
-$tpl->assign(
-		array(
-				'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Users/Add user'),
-				'THEME_COLOR_PATH'							=> "../themes/$theme_color",
-				'THEME_CHARSET'								=> tr('encoding'),
-				'ISP_LOGO'									=> get_logo($_SESSION['user_id']),
-		)
-);
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
-		array(
-			'TR_ADD_USER'				=> tr('Add user'),
-			'TR_CORE_DATA'				=> tr('Core data'),
-			'TR_DOMAIN_NAME'			=> tr('Domain name'),
-			'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
-			'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
-			'TR_DOMAIN_EXPIRE_NEVER'	=> tr('Never'),
-			'TR_DOMAIN_EXPIRE_1_MONTH'	=> tr('1 Month'),
-			'TR_DOMAIN_EXPIRE_2_MONTHS'	=> tr('2 Months'),
-			'TR_DOMAIN_EXPIRE_3_MONTHS'	=> tr('3 Months'),
-			'TR_DOMAIN_EXPIRE_6_MONTHS'	=> tr('6 Months'),
-			'TR_DOMAIN_EXPIRE_1_YEAR'	=> tr('1 Year'),
-			'TR_DOMAIN_EXPIRE_2_YEARS'	=> tr('2 Years'),
-			'TR_CHOOSE_HOSTING_PLAN'	=> tr('Choose hosting plan'),
-			'TR_PERSONALIZE_TEMPLATE'	=> tr('Personalise template'),
-			'TR_YES'					=> tr('yes'),
-			'TR_NO'						=> tr('no'),
-			'TR_NEXT_STEP'				=> tr('Next step'),
-			'TR_DMN_HELP'				=> tr("You do not need 'www.' ispCP will add it on its own.")
-		)
+	array(
+		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Users/Add user'),
+		'TR_ADD_USER'				=> tr('Add user'),
+		'TR_CORE_DATA'				=> tr('Core data'),
+		'TR_DOMAIN_NAME'			=> tr('Domain name'),
+		'TR_DOMAIN_EXPIRE'			=> tr('Domain expire'),
+		'TR_CHOOSE_HOSTING_PLAN'	=> tr('Choose hosting plan'),
+		'TR_PERSONALIZE_TEMPLATE'	=> tr('Personalise template'),
+		'TR_YES'					=> tr('yes'),
+		'TR_NO'						=> tr('no'),
+		'TR_NEXT_STEP'				=> tr('Next step'),
+		'TR_DMN_HELP'				=> tr("You do not need 'www.' ispCP will add it on its own."),
+		'TR_EXPIRE_CHECKBOX'		=> tr('or check if domain should <strong>never</strong> expire'),
+		'TR_SU'						=> tr('Su'),
+		'TR_MO'						=> tr('Mo'), 
+		'TR_TU'						=> tr('Tu'), 
+		'TR_WE'						=> tr('We'), 
+		'TR_TH'						=> tr('Th'), 
+		'TR_FR'						=> tr('Fr'), 
+		'TR_SA'						=> tr('Sa'),
+		'TR_JANUARY'				=> tr('January'),
+		'TR_FEBRUARY'				=> tr('February'),
+		'TR_MARCH'					=> tr('March'),
+		'TR_APRIL'					=> tr('April'),
+		'TR_MAY'					=> tr('May'),
+		'TR_JUNE'					=> tr('June'),
+		'TR_JULY'					=> tr('July'),
+		'TR_AUGUST'					=> tr('August'),
+		'TR_SEPTEMBER'				=> tr('September'),
+		'TR_OCTOBER'				=> tr('October'),
+		'TR_NOVEMBER'				=> tr('November'),
+		'TR_DECEMBER'				=> tr('December'),
+		'VL_DATE_FORMAT'			=> jQueryDatepickerDateFormat($cfg->DATE_FORMAT)
+	)
 );
 
 if (isset($_POST['uaction'])) {
@@ -94,13 +95,12 @@ if (isset($_POST['uaction'])) {
 }
 
 get_hp_data_list($tpl, $_SESSION['user_id']);
-
 gen_page_message($tpl);
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
@@ -111,27 +111,24 @@ unset_messages();
  * Check correction of entered users data
  */
 function check_user_data() {
-
 	global $dmn_name; // domain name
 	global $dmn_expire; // Domain expire date
 	global $dmn_chp; // choosed hosting plan
 	global $dmn_pt;
 	global $validation_err_msg;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
 	// personal template
-	$even_txt = '';
+	$event_txt = '';
 
 	if (isset($_POST['dmn_name'])) {
 		$dmn_name = strtolower(trim($_POST['dmn_name']));
-
-		// Should be perfomed after domain names syntax validation now
-		//$dmn_name = encode_idna($dmn_name);
 	}
 
-	if (isset($_POST['dmn_expire'])) {
-		$dmn_expire = $_POST['dmn_expire'];
+	if (isset($_POST['dmn_expire_date'])) {
+		$dmn_expire = clean_input($_POST['dmn_expire_date']);
 	}
 
 	if (isset($_POST['dmn_tpl'])) {
@@ -144,7 +141,7 @@ function check_user_data() {
 
 	// Check if input string is a valid domain names
 	if (!validates_dname($dmn_name)) {
-		set_page_message($validation_err_msg);
+		set_page_message($validation_err_msg, 'warning');
 		return false;
 	}
 
@@ -152,19 +149,19 @@ function check_user_data() {
 	$dmn_name = encode_idna($dmn_name);
 
 	if (ispcp_domain_exists($dmn_name, $_SESSION['user_id'])) {
-		$even_txt = tr('Domain with that name already exists on the system!');
-	} else if ($dmn_name == Config::get('BASE_SERVER_VHOST')) {
-		$even_txt = tr('Master domain cannot be used!');
+		$event_txt = tr('Domain with that name already exists on the system!');
+	} else if ($dmn_name == $cfg->BASE_SERVER_VHOST) {
+		$event_txt = tr('Master domain cannot be used!');
 	}
 
 	// we have plans only for admins
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (isset($cfg->HOSTING_PLANS_LEVEL)
+		&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 		$dmn_pt = '_no_';
 	}
 
-	if (!empty($even_txt)) { // There are wrong input data
-		set_page_message($even_txt);
+	if (!empty($event_txt)) { // There are wrong input data
+		set_page_message($event_txt, 'error');
 		return false;
 	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
 		// send through the session the data
@@ -177,6 +174,7 @@ function check_user_data() {
 		user_goto('user_add2.php');
 	} else {
 		// check if reseller limits are not touched
+		$ehp_error = ''; // fill dummy to satisfy warning...
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], $dmn_chp)) {
 			// send through the session the data
 			$_SESSION['dmn_name']	= $dmn_name;
@@ -187,7 +185,10 @@ function check_user_data() {
 
 			user_goto('user_add3.php');
 		} else {
-			set_page_message(tr("Hosting plan values exceed reseller maximum values!"));
+			set_page_message(
+				tr("Hosting plan values exceed reseller maximum values!"),
+				'warning'
+			);
 			return false;
 		}
 	}
@@ -197,13 +198,14 @@ function check_user_data() {
  * Show empty page
  */
 function get_empty_au1_page(&$tpl) {
+	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
-			array(
-				'DMN_NAME_VALUE'	=> '',
-				'CHTPL1_VAL'		=> '',
-				'CHTPL2_VAL'		=> 'checked="checked"'
-			)
+		array(
+			'DMN_NAME_VALUE'		=> '',
+			'CHTPL1_VAL'			=> '',
+			'CHTPL2_VAL'			=> $cfg->HTML_CHECKED
+		)
 	);
 
 	$tpl->assign('MESSAGE', '');
@@ -213,18 +215,22 @@ function get_empty_au1_page(&$tpl) {
  * Show first page of add user with data
  */
 function get_data_au1_page(&$tpl) {
-
 	global $dmn_name; // Domain name
 	global $dmn_expire; // Domain expire date
-	global $dmn_chp; // choosed hosting plan;
+	//global $dmn_chp; // choosed hosting plan;
 	global $dmn_pt; // personal template
 
+	$cfg = ispCP_Registry::get('Config');
+
 	$tpl->assign(
-			array(
-				'DMN_NAME_VALUE'	=> $dmn_name,
-				'CHTPL1_VAL'		=> $dmn_pt === "_yes_" ? 'checked="checked"' : '',
-				'CHTPL2_VAL'		=> $dmn_pt === "_yes_" ? '' : 'checked="checked"'
-			)
+		array(
+			'DMN_NAME_VALUE' 			=> tohtml($dmn_name),
+			'CHTPL1_VAL' 				=> $dmn_pt === "_yes_" ? $cfg->HTML_CHECKED : '',
+			'CHTPL2_VAL' 				=> $dmn_pt === "_yes_" ? '' : $cfg->HTML_CHECKED,
+			'VL_DOMAIN_EXPIRE'			=> $dmn_expire,
+			'VL_EXPIRE_DATE_DISABLED'	=> ($dmn_expire == 0) ? $cfg->HTML_DISABLED : '',
+			'VL_EXPIRE_NEVER_SELECTED'	=> ($dmn_expire == 0) ? $cfg->HTML_CHECKED : '',
+		)
 	);
 } // End of get_data_au1_page()
 
@@ -232,13 +238,13 @@ function get_data_au1_page(&$tpl) {
  * Get list with hosting plan for selection
  */
 function get_hp_data_list(&$tpl, $reseller_id) {
-
 	global $dmn_chp;
 
-	$sql = Database::getInstance();
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
 
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+	if (isset($cfg->HOSTING_PLANS_LEVEL)
+		&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
 		$query = "
 			SELECT
 				t1.`id`,
@@ -261,11 +267,14 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 				t1.`name`
 		";
 
-		$rs = exec_query($sql, $query, array('admin'));
+		$rs = exec_query($sql, $query, 'admin');
 		$tpl->assign('PERSONALIZE', '');
 
-		if ($rs->RecordCount() == 0) {
-			set_page_message(tr('You have no hosting plans. Please contact your system administrator.'));
+		if ($rs->recordCount() == 0) {
+			set_page_message(
+				tr('You have no hosting plans. Please contact your system administrator.'),
+				'notice'
+			);
 			$tpl->assign('ADD_USER', '');
 			$tpl->assign('ADD_FORM', '');
 		}
@@ -285,17 +294,17 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 				`name`
 		";
 
-		$rs = exec_query($sql, $query, array($reseller_id));
+		$rs = exec_query($sql, $query, $reseller_id);
 	}
 
-	if (0 !== $rs->RowCount()) { // There are data
-		while (($data = $rs->FetchRow())) {
+	if (0 !== $rs->rowCount()) { // There are data
+		while (($data = $rs->fetchRow())) {
 			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
 			$tpl->assign(
 					array(
-						'HP_NAME'			=> $data['name'],
+						'HP_NAME'			=> tohtml($data['name']),
 						'CHN'				=> $data['id'],
-						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? 'selected="selected"' : ''
+						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
 					)
 			);
 
@@ -303,7 +312,8 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 		}
 
 	} else {
-		// set_page_message(tr('You have no hosting plans. Please add first hosting plan or contact your system administrator.'));
 		$tpl->assign('ADD_USER', '');
 	}
 } // End of get_hp_data_list()
+
+?>

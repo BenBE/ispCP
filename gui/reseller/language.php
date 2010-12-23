@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/language.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/language.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('def_language', 'page');
 $tpl->define_dynamic('logged_from', 'page');
@@ -49,23 +51,21 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
 
 	$user_lang = $_POST['def_language'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		UPDATE
 			`user_gui_props`
 		SET
 			`lang` = ?
 		WHERE
 			`user_id` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($user_lang, $user_id));
 
 	unset($_SESSION['user_def_lang']);
 	$_SESSION['user_def_lang'] = $user_lang;
-	set_page_message(tr('User language updated successfully!'));
+	set_page_message(tr('User language updated successfully!'), 'success');
 }
-
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 // Makes sure that the language selected is the reseller's language
 if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
@@ -77,23 +77,14 @@ if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
 
 gen_def_language($tpl, $sql, $user_def_lang);
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_LANGUAGE_TITLE' => tr('ispCP - Reseller/Change Language'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 /*
  *
  * static page messages.
  *
  */
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_general_information.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -101,6 +92,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_CLIENT_LANGUAGE_TITLE' => tr('ispCP - Reseller/Change Language'),
 		'TR_LANGUAGE' => tr('Language'),
 		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
 		'TR_SAVE' => tr('Save'),
@@ -112,7 +104,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

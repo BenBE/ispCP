@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/manage_users.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_users.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('admin_message', 'page');
 $tpl->define_dynamic('admin_list', 'page');
@@ -57,17 +59,6 @@ $tpl->define_dynamic('scroll_prev', 'page');
 $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_USERS_PAGE_TITLE' => tr('ispCP - Admin/Manage Users'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 if (isset($_POST['details']) && !empty($_POST['details'])) {
 	$_SESSION['details'] = $_POST['details'];
 } else {
@@ -79,46 +70,51 @@ if (isset($_POST['details']) && !empty($_POST['details'])) {
 if (isset($_SESSION['user_added'])) {
 	unset($_SESSION['user_added']);
 
-	set_page_message(tr('User added'));
+	set_page_message(tr('User added successfully'), 'success');
 } else if (isset($_SESSION['reseller_added'])) {
 	unset($_SESSION['reseller_added']);
 
-	set_page_message(tr('Reseller added'));
+	set_page_message(tr('Reseller added successfully'), 'success');
 } else if (isset($_SESSION['user_updated'])) {
 	unset($_SESSION['user_updated']);
 
-	set_page_message(tr('User updated'));
+	set_page_message(tr('User updated successfully'), 'success');
 } else if (isset($_SESSION['user_deleted'])) {
 	unset($_SESSION['user_deleted']);
 
-	set_page_message(tr('User deleted'));
+	set_page_message(tr('User deleted successfully'), 'success');
 } else if (isset($_SESSION['email_updated'])) {
 	unset($_SESSION['email_updated']);
 
-	set_page_message(tr('Email Updated'));
+	set_page_message(tr('Email Updated successfully'), 'success');
 } else if (isset($_SESSION['hdomain'])) {
 	unset($_SESSION['hdomain']);
 
-	set_page_message(tr('This user has a domain!<br>To delete the user first delete the domain!'));
+	set_page_message(
+		tr('This user has a domain!<br />To delete the user first delete the domain!'),
+		'warning'
+	);
 } else if (isset($_SESSION['user_disabled'])) {
 	unset($_SESSION['user_disabled']);
 
-	set_page_message(tr('User was disabled'));
+	set_page_message(tr('User disabled successfully'), 'success');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-if (!Config::exists('HOSTING_PLANS_LEVEL')
-	|| strtolower(Config::get('HOSTING_PLANS_LEVEL')) !== 'admin') {
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Users')
+	)
+);
+
+if (!$cfg->exists('HOSTING_PLANS_LEVEL')
+	|| strtolower($cfg->HOSTING_PLANS_LEVEL) !== 'admin') {
 	$tpl->assign('EDIT_OPTION', '');
 }
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 get_admin_manage_users($tpl, $sql);
 
@@ -127,7 +123,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

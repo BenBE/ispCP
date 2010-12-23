@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * @package phpMyAdmin-Export-CSV
- * @version $Id: csv.php 12602 2009-06-27 11:57:11Z lem9 $
+ * @version $Id$
  */
 if (! defined('PHPMYADMIN')) {
     exit;
@@ -70,7 +70,18 @@ function PMA_exportHeader() {
     // Here we just prepare some values for export
     if ($what == 'excel') {
         $csv_terminated      = "\015\012";
-        $csv_separator          = isset($GLOBALS['excel_edition']) && $GLOBALS['excel_edition'] == 'mac_excel2003' ? ';' : ',';
+        switch($GLOBALS['excel_edition']) {
+        case 'win':
+            // as tested on Windows with Excel 2002 and Excel 2007
+            $csv_separator = ';';
+            break;
+        case 'mac_excel2003':
+            $csv_separator = ';';
+            break;
+        case 'mac_excel2008':
+            $csv_separator = ',';
+            break;
+        }
         $csv_enclosed           = '"';
         $csv_escaped            = '"';
         if (isset($GLOBALS['excel_columns'])) {

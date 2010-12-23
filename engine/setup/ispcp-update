@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -18,350 +18,178 @@
 # The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
 #
 # The Initial Developer of the Original Code is ispCP Team.
-# Portions created by Initial Developer are Copyright (C) 2006-2009 by
+# Portions created by Initial Developer are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
+# Note to developers:
 #
-# Special note for the Dev Team:
-#
-# It is necessary for the error recovery and update procedure that the scripts
-# are idempotent. This means if one run of the script is successful and it is
-# called again, it does not demolish the installation or cause any harm on it.
-# Just ensures that everything is the way it should be.
-# If a call failed or was aborted half way for some reason, the next call should
-# merely do the tasks left undone the first time (if any) and exit with a
-# success status if everything is okay.
-#
-# This is an important point since the successful execution of the script should
-# allow the user to generate configuration files related to services that were
-# not activated during the prior pass (e.g. AWStats).
-#
+# It's important for the recovery process that all the subroutines defined here
+# are idempotent. That means that a subroutine can be called sveral times
+# with the same result. For example: if an error occurs and the script ends, and
+# the script is runed again, the final result should be identical as if the
+# script succeded on the first run.
 
 use strict;
 use warnings;
-
-# FIXME: Check if it ok for all dist
-use Term::ReadKey;
-
-# Todo Add this package to package files
-# (i.e. Debian: libfile-mimeinfo-perl)
-use File::MimeInfo::Magic;
-
-use Term::ANSIColor qw(:constants colored);
-$Term::ANSIColor::AUTORESET = 1;
-
+no warnings 'once';
+use feature 'state';
 use FindBin;
 use lib "$FindBin::Bin/..";
+use PerlVendor::Capture::Tiny qw/capture_merged/;
 
 require 'ispcp_common_code.pl';
 require 'ispcp-setup-methods.pl';
 
-# User entries
-%main::ua = ();
+# We use our own system() subroutine implementation
+# See in the ispcp-setup-methods.pl file
+use subs 'system';
 
-# Re-assigned here to avoid 'used only once: possible typo warning'
-$main::cfg_re = '^[ \t]*([\_A-Za-z0-9]+) *= *([^\n\r]*)[\n\r]';
-@main::db_connect = ();
-$main::db_host = undef;
-$main::db_user = undef;
-$main::db_name = undef;
+################################################################################
+#                       Built-in subroutines overriding                        #
+################################################################################
 
+################################################################################
+# Execute a system command. This is an overridden for the system() function
 #
-## Subroutines - Begin
+# This subroutine overwrites the built-in function that allows to perform some
+# logging operation for the external commands output.
 #
+# See http://perldoc.perl.org/functions/system.html
+#
+sub system {
+	my @args = @_;
 
-# Start the update process
-sub update_startup {
+	state $regExp = qr /(clear|preinst|postinst|tput)/o;
 
-	push_el(\@main::el, 'update_startup()', 'Starting...');
-
-	# FIXME: PM Joxi
-	if(-e '/tmp/ispcp-backup-all.lock') {
-		exit_msg('Backup engine is currently running. Aborting...');
+	if($_[0] !~ $regExp) {
+		my $output = capture_merged { CORE::system(@args); };
+		chomp($output);
+		push_el(\@main::el, 'system()', "[DEBUG] $output") if $output ne '';
+	} else {
+		CORE::system(@args);
 	}
-
-	push_el(\@main::el, 'update_startup()', 'Ending...');
-
-	0;
 }
 
-# Performs all update tasks
-sub update_engine {
+################################################################################
+#                                 Subroutines                                  #
+################################################################################
 
-	push_el(\@main::el, 'update_engine()', 'Starting...');
-
-	my ($rs, $print) = (undef, '');
-
-	# User dialog
-	user_dialog();
-
-	system('clear');
-
-	# Stopping services
-	$print = 'Stopping Services:';
-	print STDOUT "\n\t" . $print;
-	$rs = stop_services();
-	exit_msg(str_to_right('[failed]', length($print)+11), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print)+11);
-
-	# Starting pre-installation script if exists
-	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst") {
-
-		print STDOUT "\n\tStarting pre-installation / update script:";
-		$rs = preinst('update');
-		exit_msg('Failed!', $rs) if($rs != 0);
-
-	}
-
-	#
-	## IspCP main configuration file - Begin
-	#
-
-	print STDOUT BOLD "\n\tispCP main configuration file\n";
-
-	# Loading old ispCP configuration file
-	$print = ' Loading old ispCP configuration file:';
-	print STDOUT "\t" . $print;
-	$rs = load_old_ispcp_cfg();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	# Update ispCP configuration file
-	$print = ' Update ispCP configuration file:';
-	print STDOUT "\t" . $print;
-	$rs = update_ispcp_cfg();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	#
-	## IspCP main configuration file - End
-	#
-
-	#
-	## IspCP database - Begin
-	#
-
-	print STDOUT BOLD "\n\tispCP database\n";
-
-	# Update ispCP database schema
-	$print = ' Update ispCP database schema:';
-	print STDOUT "\t" . $print;
-	$rs = update_database_schema();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	#
-	## IspCP database - End
-	#
-
-	#
-	## IspCP Services configuration files - Begin
-	#
-
-	# Rebuilding all services configuration files
-	print STDOUT BOLD "\n\tRebuilding all service configuration files\n";
-	rebuild_services_cfg();
-
-	#
-	## IspCP Services configuration files - End
-	#
-
-	#
-	## IspCP gui configuration files - Begin
-	#
-
-	# Rebuilding all GUI related configuration files
-	print STDOUT BOLD "\n\tRebuilding all GUI configuration files\n ";
-	rebuild_gui_cfg();
-
-	#
-	## IspCP gui configuration files - End
-	#
-
-	#
-	## IspCP customers configuration files - Begin
-	#
-
-	# Rebuilding all customers configuration files
-	print STDOUT BOLD "\n\tRebuilding all customer configuration files";
-	$print = ' Please wait, this may take some time:';
-	print STDOUT "\n\t" . $print;
-	$rs = rebuild_customers_cfg();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	#
-	## IspCP customers configuration files - End
-	#
-
-	#
-	## IspCP files permissions - Begin
-	#
-
-	# Set engine and GUI permissions
-	print STDOUT BOLD "\n\tSet engine and GUI permissions\n";
-	set_permissions();
-
-	#
-	## IspCP files permissions - End
-	#
-
-	# Starting services
-	$print = 'Starting services:';
-	print STDOUT "\n\t" . $print;
-	$rs = start_services();
-	exit_msg(str_to_right('[failed]', length($print)+11), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print) + 11);
-
-	# Starting Post installation script if it exists
-	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/postinst") {
-
-	print STDOUT "\n\tStarting post installation / update script:\n\n";
-	$rs = postinst('update');
-	exit_msg('Failed!', $rs) if($rs != 0);
-
-	}
-
-	push_el(\@main::el, 'update_engine()', 'Ending...');
-
-	0;
-}
-
-# Shutdown update process
-sub update_shutdown {
-
-	push_el(\@main::el, 'update_shutdown()', 'Starting...');
-
-	# Removes all's empty files in ispCP configuration directories
-	my $rs = setup_cleanup();
-	return $rs if($rs != 0);
-
-	my $shut_down_message = colored(['bold underline'],
-		"\n\n\tCongratulations, you updated ispCP '$main::cfg{'Version'}' successfully!\n\n");
-
-	my $login_message =
-		"\tType http://$main::cfg{'BASE_SERVER_VHOST'} into your browser to log in\n".
-		"\tto your panel.\n\n";
-
-	print STDOUT $shut_down_message, $login_message;
-
-	push_el(\@main::el, 'update_shutdown()', 'Ending...');
-
-	0;
-}
-
+################################################################################
 # User dialog
+#
+# @return void
+#
 sub user_dialog {
 
 	push_el(\@main::el, 'user_dialog()', 'Starting...');
 
 	welcome_note();
-
 	warn_msg();
 
 	push_el(\@main::el, 'user_dialog()', 'Ending...');
-
-	0;
 }
 
-# Welcome note
+################################################################################
+# Display a welcome note and ask the user continue or not note
+#
+# @return void
+#
 sub welcome_note {
 
 	push_el(\@main::el, 'welcome_note()', 'Starting...');
 
-	my $rdata = undef;
-
 	# Clear screen
 	system('clear');
 
-	my $welcome = colored(['bold underline'],
-		"\n\tWelcome to ispCP '$main::cfg{'Version'}' Update Dialog.\n\n");
+	print colored( ['bold underline'],
+		"\n\tWelcome to ispCP '$main::cfg{'Version'}' Update Dialog.\n\n"),
 
-	my $welcome_message =
-		"\tThis program will update your current ispCP OMEGA installation on this\n".
-		"\tserver.\n".
-		"\tPlease make sure you did a backup of all your server data.\n\n";
+		"\tThis program will update your current ispCP OMEGA installation on " .
+		"this\n\tserver.\n\tPlease make sure you did a backup of all your " .
+		"server data.\n\n",
 
-	my $welcome_note = colored(['bold'], "\tNOTE:") .
-		" During the migration process some or all services might require to\n".
-		"\tbe shut down.\n\n";
+		colored(['bold blue'], "\t[NOTICE] ") .
+		"During the migration process some or all services might require to\n".
+		"\tbe shut down.\n\n",
 
-	my $welcome_warning = colored(['bold yellow'], "\tWARNING:") .
-		" Only services that are not marked with 'NO' in your ispcp.conf\n".
+		colored(['bold yellow'], "\t[WARNING] ") .
+		"Only services that are not marked with 'NO' in your ispcp.conf\n".
 		"\tconfiguration file will be processed by this program.\n\n";
 
-	print STDOUT $welcome, $welcome_message, $welcome_note, $welcome_warning;
-
 	do {
+		print "\tDo you want to continue ? [Y/n]: ";
+		chomp($_ = <STDIN>);
+	} while (!/^(y|yes|n|no|)$/i);
 
-		print STDOUT "\tDo you want to continue [Y/n]: ";
-		chomp($rdata = readline \*STDIN);
+	my $rdata = "\L$1";
 
-	} while($rdata !~ /^(|y|n)$/i);
-
-	exit 0 if($rdata =~ /^n$/i);
+	# Exit with a notice if the user chooses to abort the update process
+	($rdata eq '' || $rdata eq 'y' || $rdata eq 'yes') or exit_msg(
+		0, colored(['bold blue'], "\n\t[NOTICE] ") .
+		"The update process was aborted by user...\n"
+	);
 
 	push_el(\@main::el, 'welcome_note()', 'Ending...');
-
-	0;
 }
 
-# Warn message
+################################################################################
+# Display a warn and ask the user continue or not
+#
+# @return void
+#
 sub warn_msg {
 
 	push_el(\@main::el, 'warn_msg()', 'Starting...');
 
-	my $rdata = undef;
+	system('clear');
 
-	my $warning = colored(['bold'], "\n\tNOTICE:") .
-		" Make sure you have read and performed all steps from\n".
-		"\tdocs/distro/INSTALL document (where distro is your linux distribution).\n\n";
-
-	system 'clear';
-
-	print STDOUT $warning;
+	print colored(['bold blue'], "\n\t[NOTICE] ") .
+		"Make sure you have read and performed all steps from\n".
+		"\tdocs/distro/INSTALL document (where distro is your linux " .
+		"distribution).\n\n";
 
 	do {
+		print "\n\tOptions:\n" . "\t\ty : Continue the update\n" .
+  			"\t\tn : Abort and exit\n" .
+  			"\t\ts : Select specific tasks to perform " .
+  			"(Not yet implemented)\n\n" if defined $1 && $1 eq '?';
 
-		if(defined $rdata && $rdata eq '?')	{
+		print "\tDo you want to continue ? [Y/n/?]: ";
+		chomp($_ = <STDIN>);
+	} while (/^(\?)$/ || ! /^(y|yes|n|no|)$/i);
 
-			print STDOUT "\n\tOptions:\n".
-  				"\t\ty : Continue the update\n".
-  				"\t\tn : Abort and exit\n".
-  				"\t\ts : Select specific tasks to perform (Not yet implemented)\n\n";
-		}
+	my $rdata = "\L$1";
 
-		print STDOUT "\tDo you want to continue [Y/n/?]: ";
-
-		chomp($rdata = readline \*STDIN);
-
-	} while($rdata !~ /^(|n|y)$/i);
-
-	exit 0 if($rdata =~ /^n$/i);
+	# Exit with a notice if the user chooses to abort the update process
+	($rdata eq '' || $rdata eq 'y' || $rdata eq 'yes') or exit_msg(
+		0, colored(['bold blue'], "\n\t[NOTICE] ") .
+		"The update process was aborted by user...\n"
+	);
 
 	push_el(\@main::el, 'warn_msg()', 'Ending...');
-
-	0;
 }
 
+################################################################################
 # Load old ispCP main configuration file
+#
+# @return void
+#
 sub load_old_ispcp_cfg {
 
 	push_el(\@main::el, 'load_old_ispcp_config()', 'Starting...');
 
-	my ($rs, $old_ispcp_cfg_file) = (undef, '/etc/ispcp/ispcp.old.conf');
+	my $old_ispcp_cfg_file = '/etc/ispcp/ispcp.old.conf';
+
+	if(-f '/usr/local/etc/ispcp/ispcp.old.conf') {
+		$old_ispcp_cfg_file = '/usr/local/etc/ispcp/ispcp.old.conf';
+	}
 
 	if (get_conf($old_ispcp_cfg_file)) {
-
 		do {
-			print STDOUT "\tPlease enter path to your ispcp.old.conf [/etc/ispcp/ispcp.old.conf]: ";
-			chomp($old_ispcp_cfg_file = readline \*STDIN);
+			print "\n\n\tPlease enter path to your ispcp.old.conf " .
+				"[/etc/ispcp/ispcp.old.conf]: ";
 
+			chomp($old_ispcp_cfg_file = <STDIN>);
 		} while (get_conf($old_ispcp_cfg_file));
 	}
 
@@ -372,30 +200,29 @@ sub load_old_ispcp_cfg {
 	0;
 }
 
+################################################################################
 # Update ispCP main configuration file
+#
+# @return int 1 on success, other on failure
+#
 sub update_ispcp_cfg {
 
-	push_el(\@main::el, 'update_ispcp_config()', 'Starting...');
-
-	my ($rs, $rdata) = (undef, undef);
+	push_el(\@main::el, 'update_ispcp_cfg()', 'Starting...');
 
 	# Loading old ispCP configuration file as a string
-	($rs, $rdata) = get_file($main::ua{'old_cfg_file'});
+	my ($rs, $rdata) = get_file($main::ua{'old_cfg_file'});
 	return $rs if($rs != 0);
 
-	# Loading new configuration from /etc/ispcp/ispcp.conf
+	# Loading new configuration from [/usr/local]/etc/ispcp/ispcp.conf
 	$rs = get_conf();
 	return $rs if($rs != 0);
 
 	# For each cfg line
-	foreach(map{$$_."\n"} \split(/\n/, $rdata))	{
-
+	for (map{$$_."\n"} \split(/\n/, $rdata))	{
 		if(/$main::cfg_re/ && $1 !~ /^BuildDate|Version|CodeName$/) {
-
 			# If the old configuration key still exists in the new file
 			# and its value is different from existing
 			if(defined($main::cfg{$1}) && $main::cfg{$1} ne $2 ) {
-
 				# We restore old value
 				$rs = set_conf_val($1, $2);
 				return $rs if ($rs != 0);
@@ -403,41 +230,235 @@ sub update_ispcp_cfg {
 		}
 	}
 
-	# Store the updated configuration in /etc/ispcp/ispcp.conf and reload it
-	# at the same time
+	# Store the updated configuration and reload it
 	$rs = store_conf();
 	return $rs if ($rs != 0);
 
-	push_el(\@main::el, 'update_ispcp_config()', 'Ending...');
+	push_el(\@main::el, 'update_ispcp_cfg()', 'Ending...');
 
 	0;
 }
 
+################################################################################
+# Create ispCP database key configuration file, if not exist
+#
+# @return int 0 on success, other on failure
+#
+sub update_ispcp_key_cfg {
+	push_el(\@main::el, 'update_ispcp_key_cfg()', 'Starting...');
+
+	if ($main::key_conf eq '') {
+
+		my $rs = write_ispcp_key_cfg();
+
+		return $rs if($rs != 0);
+	}
+
+	push_el(\@main::el, 'update_ispcp_key_cfg()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+# Check for empty values in configuration file
+#
+# Only the configuration settings listed in the exception list can be empty.
+#
+# See main::cfg_recovery_process() for more information about the recovery
+# procedure
+#
+# @return int 0 on success, other on failure
+#
+sub check_ispcp_cfg_file {
+
+	push_el(\@main::el, 'check_ispcp_cfg_file()', 'Starting...');
+
+	my %exception = map {$_ => undef} qw(
+		DATABASE_PASSWORD SECONDARY_DNS ISPCP_SUPPORT_SYSTEM_TARGET
+		MYSQL_PREFIX_TYPE OTHER_ROOTKIT_LOG
+	);
+
+	my $empty_settings = [];
+
+	for (sort keys %main::cfg) {
+		if($main::cfg{$_} eq '' && !exists $exception{$_}) {
+			push @$empty_settings, $_;
+		}
+	}
+
+	# We switch to recovery process if one or more settings have an empty value
+	if (scalar @$empty_settings) {
+		my  $rs = cfg_recovery_process($empty_settings);
+		return $rs;
+	}
+
+	push_el(\@main::el, 'check_ispcp_cfg_file()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+# Recovery process for ispCP cfg settings who's have empty value
+#
+# If a specific dialog subroutine exists for handling the configuration setting,
+# it is called. Otherwise, a error message is returned to the user and the
+# program ends. If a configuration setting is not supported by the recovery
+# process, those who were already corrected are registered before the program
+# ends.
+#
+# The user can also choose not to run the recovery process. In this
+# case, the update process ends.
+#
+# @param ref to an array of ispCP setting names
+# @return int 0 on success, other on failure
+#
+sub cfg_recovery_process {
+
+	push_el(\@main::el, 'check_ispcp_cfg_file()', 'Starting...');
+
+	# Reference to an array of settings that have unallowed empty value
+	my $settings = shift;
+	my ($rs, $msg, $rdata, $warn_msg);
+
+	# Map each setting to the appropriate dialog subroutine and the
+	# corresponding main::ua key name
+	#
+	# TODO:
+	#  - Add a trigger to check database connection if related settings are
+	#    changed
+	#  - Add a subroutine for the 'BASE_SERVER_VHOST' to prevent errors if the
+	#    DNS file doesn't exist
+	my $recovery_dispatcher = {
+		DEFAULT_ADMIN_ADDRESS => [\&ask_admin_email, 'admin_email'],
+		SERVER_HOSTNAME => [\&ask_hostname, 'hostname'],
+		BASE_SERVER_IP => [\&ask_eth, 'eth_ip'],
+		BASE_SERVER_VHOST => [\&ask_vhost, 'admin_vhost'],
+		DATABASE_HOST => [\&ask_db_host, 'db_host'],
+		DATABASE_NAME => [\&ask_db_name, 'db_name'],
+		DATABASE_USER => [\&ask_db_user, 'db_user'],
+		PHP_FASTCGI => [\&ask_fastcgi, 'php_fastcgi'],
+		PHP_TIMEZONE => [\&ask_timezone, 'php_timezone'],
+		LOCAL_DNS_RESOLVER => [\&ask_resolver, 'resolver']
+	};
+
+	# If several parameters are set to an empty value, we should ensure that the
+	# user has installed ispCP by asking this question
+	if (scalar(@$settings) >= 3) {
+		print colored(['bold yellow'], "\n\n\t[WARNING] ").
+			"In your ispCP configuration file several settings are set\n" .
+			"\tto an empty value!\n";
+
+		do {
+			print "\n\tAre you sure you have installed ispCP ? [Y/n]: ";
+			chomp($rdata = <STDIN>);
+		} while($rdata !~ /^(|y|n)$/i);
+
+		$msg = colored(['bold blue'], "\n\t[NOTICE] ") .
+			"The update program ends now!\n\tPlease, run '$main::cfg{'ROOT_DIR'}/" .
+			"engine/setup/ispcp-setup' instead!\n";
+
+		($rdata !~ /^n$/i) or exit_msg(1, $msg);
+	}
+
+	print colored(['bold yellow'], "\n\n\t[WARNING] ") .
+		"In your ispCP configuration file are some new or unset parameters!\n" .
+		"\tThe update script will switch to upgrade mode now...\n";
+
+	do {
+		print "\n\tDo you want to continue [Y/n]: ";
+		chomp($rdata = <STDIN>);
+	} while($rdata !~ /^(|y|n)$/i);
+
+	# Exit with a notice if the user chooses to abort the update process
+	($rdata !~ /^n$/i) or exit_msg(0,
+		colored(['bold blue'], "\n\t[NOTICE] ") .
+		"The upgrade process was exited by user...\n"
+	);
+
+	# For each setting, call the subroutine dialouge if available, otherwise,
+	# saves the value already changed and stops the program with an specific
+	# message.
+	for (@$settings) {
+		# If the recovery process can handle the setting
+		if (exists $recovery_dispatcher->{$_}) {
+
+			# Call related dialog subroutine
+			do {
+				($rs, $warn_msg) = &{$recovery_dispatcher->{$_}[0]}();
+				print STDERR $warn_msg if(defined($warn_msg) && $warn_msg ne '');
+			} while($rs != 0);
+
+			# Set the new configuration value
+			$rs = set_conf_val($_, $main::ua{$recovery_dispatcher->{$_}[1]});
+			return $rs if ($rs != 0);
+
+		# Otherwise, the program will end here with an error message
+		} else {
+			# Store already changed values in ispcp.conf
+			$rs = store_conf();
+			return $rs if($rs != 0);
+
+			# Updates the reference file if needed
+			if($main::cfg_file ne $main::ua{'old_cfg_file'}) {
+				$rs = sys_command_rs(
+					"$main::cfg{CMD_CP} -f $main::cfg_file $main::ua{'old_cfg_file'}"
+				);
+				return $rs if($rs != 0);
+			}
+
+			$msg = colored(['bold blue'], "\n\t[NOTICE] ") .
+				"The setting '$_' can't be handle by\n\tthe upgrade process!" .
+				"\n\n\tPlease, set it manually in your $main::ua{'old_cfg_file'}".
+				 "and\n\tre-run this script.\n\n\tThis program will end now !\n";
+
+			exit_msg(1, $msg);
+		}
+	}
+
+	# Store new configuration settings values and reload the ispcp.conf
+	$rs = store_conf();
+	return $rs if($rs != 0);
+
+	# Updates the reference file if needed
+	if($main::cfg_file ne $main::ua{'old_cfg_file'}) {
+		$rs = sys_command_rs(
+			"$main::cfg{CMD_CP} -f $main::cfg_file $main::ua{'old_cfg_file'}"
+		);
+		return $rs if($rs != 0);
+	}
+
+	print colored(['bold blue'], "\n\t[NOTICE] ") .
+		"The upgrade process ended successfully!\n\tThe update process will " .
+		"continue normally now...\n\n";
+
+	print "\tPlease, type 'Enter' to continue...";
+	$rdata = <STDIN>;
+
+	push_el(\@main::el, 'check_ispcp_cfg_file()', 'Ending...');
+
+	-5;
+}
+
+################################################################################
 # Update ispCP database schema
+#
+# @return int 1 on success, other on failure
+#
 sub update_database_schema {
 
 	push_el(\@main::el, 'update_database_schema()', 'Starting...');
 
-	my ($rs, $cmd, $php, $rdata) = (undef, undef, undef, undef);
-
-	# File preparation - Begin
-
-	($rs, $rdata) = get_file("$main::cfg{'ROOT_DIR'}/engine/setup/updDB.php");
+	my ($rs, $rdata) = get_file("$main::cfg{'ROOT_DIR'}/engine/setup/updDB.php");
 	return $rs if($rs != 0);
 
 	if($rdata =~ s/{GUI_ROOT_DIR}/$main::cfg{'GUI_ROOT_DIR'}/) {
-
-		# Saving the modified file
 		$rs = save_file("$main::cfg{'ROOT_DIR'}/engine/setup/updDB.php", $rdata);
 		return $rs if($rs != 0);
 	}
 
-	# File preparation - End
-
-	$main::db_pwd =~ s/([\'\"])/\\$1/g;
-
-	$cmd = "$main::cfg{'CMD_PHP'} $main::cfg{'ROOT_DIR'}/engine/setup/updDB.php &>/tmp/ispcp-update-database.log";
-	$rs = sys_command_rs($cmd);
+	$rs = sys_command_rs(
+		"$main::cfg{'CMD_PHP'} $main::cfg{'ROOT_DIR'}/engine/setup/updDB.php"
+	);
 	return $rs if($rs !=0);
 
 	push_el(\@main::el, 'update_database_schema()', 'Ending...');
@@ -445,145 +466,50 @@ sub update_database_schema {
 	0;
 }
 
-# Rebuilding all services configuration files
-sub rebuild_services_cfg {
-
-	push_el(\@main::el, 'rebuild_services_config()', 'Starting...');
-
-	my ($rs, $print) = (undef, '');
-
-	$print = ' ispCP Crontab file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_crontab();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP BIND main configuration file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_named();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP PHP (fastCGI modules configuration):';
-	print STDOUT "\t" . $print;
-	$rs = setup_php();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP Apache main vhost file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_httpd_main_vhost();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP Apache AWStats vhost file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_awstats_vhost();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP Postfix configuration files:';
-	print STDOUT "\t" . $print;
-	$rs = setup_mta();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP Courier-Authentication:';
-	print STDOUT "\t" . $print;
-	$rs = setup_po();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP ProFTPd configuration file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_ftpd();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP init scripts:';
-	print STDOUT "\t" . $print;
-	$rs = setup_ispcp_daemon_network();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	push_el(\@main::el, 'rebuild_services_config()', 'Ending...');
-
-	0;
-}
-
-# Rebuilding all gui related configuration files
-sub rebuild_gui_cfg {
-
-	push_el(\@main::el, 'rebuild_gui_cfg()', 'Starting...');
-
-	my ($rs, $print) = (undef, "");
-
-	$print = ' ispCP GUI BIND configuration:';
-	print STDOUT "\t" . $print;
-	$rs = setup_gui_named();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP GUI fastCGI/PHP configuration:';
-	print STDOUT "\t" . $print;
-	$rs = setup_gui_php();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP GUI vhost file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_gui_httpd();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	$print = ' ispCP PMA configuration file:';
-	print STDOUT "\t" . $print;
-	$rs = setup_gui_pma();
-	exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
-	print STDOUT BOLD GREEN str_to_right('[done]', length($print));
-
-	push_el(\@main::el, 'rebuild_gui_cfg()', 'Ending...');
-
-	0;
-}
-
-# Rebuilding all customers configuration files
+################################################################################
+# Rebuild all customers configuration files
+#
+# @return int 1 on success, other on failure
+#
 sub rebuild_customers_cfg {
 
 	push_el(\@main::el, 'rebuild_customers_cfg()', 'Starting...');
 
-	my ($rs, $rdata) = (undef, undef);
-
-	# First, we reset db connection
-	$main::db = undef;
-
-	# Sets the dsn
+	# Sets the DSN
 	@main::db_connect = (
-		"DBI:mysql:$main::db_name:$main::db_host",
-		$main::db_user,
-		$main::db_pwd
+		"DBI:mysql:$main::db_name:$main::db_host", $main::db_user, $main::db_pwd
 	);
 
+	# We force reconnection to the database by removing the current
+	$main::db = undef;
+
 	my $tables = {
-		domain => 'domain_status',
-		domain_aliasses => 'alias_status',
-		subdomain => 'subdomain_status',
-		subdomain_alias => 'subdomain_alias_status',
-		mail_users => 'status',
-		htaccess => 'status',
-		htaccess_groups => 'status',
+		domain => 'domain_status', domain_aliasses => 'alias_status',
+		subdomain => 'subdomain_status', subdomain_alias => 'subdomain_alias_status',
+		mail_users => 'status', htaccess => 'status', htaccess_groups => 'status',
 		htaccess_users => 'status'
 	};
 
 	# Set status as 'change'
 	while (my ($table, $field) = each %$tables) {
-		($rs, $rdata) = doSQL("UPDATE $table SET $field='change' WHERE $field='ok'");
+		my ($rs) = doSQL(
+			"
+				UPDATE
+					$table
+				SET
+					$field = 'change'
+				WHERE
+					($field = 'ok' OR $field = 'disabled')
+				;
+			"
+		);
 		return $rs if ($rs != 0);
 	}
 
-	$main::db = undef;
+	# Unlock is needed here to be able to launch the ispcp-rqst-mngr script
+	close $main::fh_lock_file if defined $main::fh_lock_file;
 
-	$rs = sys_command_rs("perl $main::cfg{'ROOT_DIR'}/engine/ispcp-rqst-mngr &>/tmp/ispcp-update-customers.log");
+	my $rs = sys_command("perl $main::ispcp_rqst_mngr norestart");
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'rebuild_customers_cfg()', 'Ending...');
@@ -591,55 +517,316 @@ sub rebuild_customers_cfg {
 	0;
 }
 
-# Set engine and gui permissions
-# TODO: Move it into ispcp-setup-methods.pl and call it into ispcp-setup
-sub set_permissions {
+################################################################################
+# Update old disabled domain style to new
+#
+# This method is called only if the BuildDate of the current
+# ispCP version installed is less than or equal to 20100228
+# @Since 1.0.5
+#
+# @return int 0 on success, other on failure
+#
+sub update_old_disabled_dmn_layout {
 
-	push_el(\@main::el, 'set_permissions()', 'Starting...');
+	push_el(\@main::el, 'update_old_disabled_dmn_layout()', 'Starting...');
 
-	my ($rs, $cmd, $print) = (undef, undef, '');
+	my ($rs, $rdata);
 
-	foreach(qw/engine gui/) {
+	my $httpd_uid = getpwnam $main::cfg{'APACHE_USER'};
+	my $httpd_gid = getgrnam $main::cfg{'APACHE_GROUP'};
+	my $log_file = '/tmp/ispcp-update-disabled_layout.log';
 
-		$print = " Set $_ permissions:";
-		print STDOUT "\t" . $print ;
+	my $dsd_dmn_skel_dir = "$main::cfg{'GUI_ROOT_DIR'}/domain_disable_page";
 
-		$cmd = "$main::cfg{'CMD_SHELL'} $main::cfg{'ROOT_DIR'}/engine/setup/set-$_-permissions.sh &>/tmp/ispcp-update-permissions.log";
-		$rs = sys_command_rs($cmd);
-		exit_msg(str_to_right('[failed]', length($print)), $rs) if($rs != 0);
+	# Find all disabled domains and  update the layout for each of them
+	# (eg /var/www/virtual/domain.tld.disabled)
+	foreach(map{m@(.*\.disabled)$@} glob "$main::cfg{'APACHE_WWW_DIR'}/*") {
 
-		print STDOUT BOLD GREEN str_to_right('[done]', length($print));
+		# Disabling the DocumentRoot.
+		# Here, we verify that it has not already been done to allow the error
+		# recovery if the process fail
+		if(-e "$_/htdocs" && !-e "$_/htdocs.disabled") {
+			$rs = sys_command_rs(
+				"$main::cfg{'CMD_MV'} $_/htdocs $_/htdocs.disabled "
+			);
+			return $rs if($rs != 0);
+		}
+
+		# Copy the directory that contain the layout for disabled domains
+		$rs = sys_command_rs(
+			"$main::cfg{CMD_CP} -TRfp $dsd_dmn_skel_dir $_/htdocs"
+		);
+		return $rs if($rs != 0);
+
+		## Building the disabled page - Begin
+
+		# Get toUnicode domain name
+		my $unicode_dmn_name = undef;
+
+		if(m@.*/(.*)\.disabled$@) {
+			$unicode_dmn_name = idn_to_unicode($1, 'utf-8');
+		} else {
+			push_el(
+				\@main::el, 'update_old_disabled_dmn_layout()',
+				"[ERROR] Unable to retrieve the domain name from the path!"
+			);
+
+			return -1;
+		}
+
+		# Get the disabled raw page
+		($rs, $rdata) = get_file("$_/htdocs/index.html");
+		return $rs if ($rs != 0);
+
+		# Prepare tags
+		my %tag_hash = (
+			'{DOMAIN_NAME}' => $unicode_dmn_name,
+			'{BASE_SERVER_VHOST}' => $main::cfg{'BASE_SERVER_VHOST'}
+		);
+
+		# Replace tags
+		($rs, $rdata) = prep_tpl(\%tag_hash, $rdata);
+		return $rs if ($rs != 0);
+
+		# Store the file with proper permissions
+		$rs = store_file(
+			"$_/htdocs/index.html", $rdata, $main::cfg{'APACHE_USER'},
+			$main::cfg{'APACHE_GROUP'}, 0644
+		);
+		return $rs if ($rs != 0);
+
+		# Set permissions for the new DocumentRoot
+		$rs = setfmode(
+			"$_/htdocs", $main::cfg{'APACHE_USER'}, $main::cfg{'APACHE_GROUP'},
+			0755
+		);
+		return $rs if ($rs != 0);
+
+		# Set permissions for htdocs/images directory
+		$rs = setfmode(
+			"$_/htdocs/images", $main::cfg{'APACHE_USER'},
+			$main::cfg{'APACHE_GROUP'}, 0755
+		);
+		return $rs if ($rs != 0);
+
+		# Set permissions for all files under .../htdocs/images
+		chmod 0644, glob "$_/htdocs/images/*";
+		chown $httpd_uid, $httpd_gid, glob "$_/htdocs/images/*";
+
+		# Move (eg /var/www/virtual/domain.tld.disabled)
+		# To (eg /var/www/virtual/domain.tld)
+		if(m@(.*)\.disabled$@) {
+			$rs = sys_command_rs("$main::cfg{'CMD_MV'} $_ $1");
+			return $rs if($rs != 0);
+		} else {
+			push_el(
+				\@main::el, 'update_old_disabled_dmn_layout()',
+				"[ERROR] Unable to retrieve the domain name path!"
+			);
+
+			return -1;
+		}
 	}
 
-	push_el(\@main::el, 'set_permissions()', 'Ending...');
+	push_el(\@main::el, 'update_old_disabled_dmn_layout()', 'Ending...');
 
 	0;
 }
 
-#
-## Subroutines - End
-#
+################################################################################
+#                            High level subroutines                            #
+################################################################################
 
+################################################################################
+# Starting update process
 #
-## Main
+# @return void
 #
+sub update_startup {
+
+	push_el(\@main::el, 'update_startup()', 'Starting...');
+
+	# Fixing umask for logfiles permissions on creation (0640)
+	umask(027);
+
+	# Deleting log file if one exist
+	del_file('/tmp/ispcp-setup.log');
+
+	# Ensuring that ispcp-rqst-mngr is not running
+	# Note: The lock file will be released when needed
+	if(lock_system()) {
+		exit_msg(
+			-1, colored(['bold red'], "[ERROR] ") . "Unable to acquire lock!"
+		)
+	}
+
+	if(-e '/tmp/ispcp-backup-all.lock') {
+		exit_msg(
+			0, colored(['bold blue'], '[NOTICE] ') .
+			"Backup engine is currently running. Aborting..."
+		);
+	}
+
+	push_el(\@main::el, 'update_startup()', 'Ending...');
+}
+
+################################################################################
+# Performs all update tasks
+#
+# @return void
+#
+sub update_engine {
+
+	push_el(\@main::el, 'update_engine()', 'Starting...');
+
+	##  Starting user dialog
+	user_dialog();
+
+	system('clear');
+	spacer();
+
+	# Starting ispCP installation
+	title('Starting ispCP update');
+
+	## Stopping services
+	subtitle('Stopping services: ');
+	stop_services();
+	print_status(0);
+
+	spacer();
+
+	## ispCP main configuration file - Begin
+	title('ispCP main configuration file');
+
+	## Starting dist. maintainer pre-installation script if one exists
+	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/preinst") {
+		spacer();
+
+		title("Pre-installation tasks for $main::cfg{'DistName'}");
+		my $rs = preinst('upgrade');
+
+		exit_msg($rs) if ($rs != 0);
+	}
+
+	# Loading old ispCP configuration file
+	subtitle('Loading old ispCP configuration file:');
+	my $rs = load_old_ispcp_cfg();
+	print_status($rs, 'exit_on_error');
+
+	# Update ispCP configuration file
+	subtitle('Update ispCP configuration file:');
+	$rs = update_ispcp_cfg();
+	print_status($rs, 'exit_on_error');
+
+	# Check configuration file
+	subtitle('Check ispCP configuration file:');
+	$rs = check_ispcp_cfg_file();
+	$rs = 0 if($rs == -5);
+	print_status($rs, 'exit_on_error');
+
+	# Generate ispcp-key.conf
+	subtitle('Update ispCP key configuration file:');
+	$rs = update_ispcp_key_cfg();
+	print_status($rs, 'exit_on_error');
+
+	spacer();
+
+	# ispCP database
+	title('ispCP database');
+	subtitle('Update ispCP database schema:');
+	$rs = update_database_schema();
+	print_status($rs, 'exit_on_error');
+
+	spacer();
+
+	# ispCP Services configuration files
+	title('Rebuilding all services configuration files');
+	setup_services_cfg();
+
+	spacer();
+
+	## ispCP gui configuration files
+	title('Rebuilding all GUI configuration files');
+	setup_gui_cfg();
+
+	spacer();
+
+	## ispCP customers configuration files
+	title('Rebuilding all customers configuration files');
+	subtitle('Please wait, this may take some time:');
+
+	# First, we update old disabled domain style to new
+	if($main::cfg{'BuildDate'} <= 20100331) {
+		$rs = update_old_disabled_dmn_layout();
+		# Acts only if action was failed
+		print_status($rs, 'exit_on_error') if($rs != 0);
+	}
+
+	## Rebuilding all customers configuration files
+	$rs = rebuild_customers_cfg();
+	print_status($rs, 'exit_on_error');
+
+	spacer();
+
+	## Additional tasks
+	title('Additional tasks');
+	additional_tasks();
+
+	## Starting dist. maintainer post-installation script if one exists
+	if(-e "$main::cfg{'ROOT_DIR'}/engine/setup/postinst") {
+		spacer();
+
+		title("Post-installation tasks for $main::cfg{'DistName'}");
+		$rs = postinst('configure');
+
+		exit_msg($rs) if ($rs != 0);
+	}
+
+	spacer();
+
+	## ispCP files permissions
+	title('Permissions setup');
+	set_permissions();
+
+	spacer();
+
+	title('Finishing update');
+
+	## Stating services
+	subtitle('Starting services: ');
+	start_services();
+	print_status(0);
+
+	spacer();
+
+	push_el(\@main::el, 'update_engine()', 'Ending...');
+}
+
+################################################################################
+# Shutting down update process
+#
+# @return void
+#
+sub update_shutdown {
+
+	push_el(\@main::el, 'update_shutdown()', 'Starting...');
+
+	print colored(['bold underline'],
+		"\n\tCongratulations, you updated ispCP OMEGA" .
+		" '$main::cfg{'Version'}' successfully!\n\n"),
+
+		"\tType http://$main::cfg{'BASE_SERVER_VHOST'} into your browser to " .
+		"log in\n\tto your panel.\n\n";
+
+	push_el(\@main::el, 'update_shutdown()', 'Ending...');
+}
+
+################################################################################
+#                                Main program                                  #
+################################################################################
 
 update_startup();
 update_engine();
-
-# TODO: Should be modified
-my $rs = setup_rkhunter();
-
-if ($rs != 0) {
-
-	my $el_data = pop_el(\@main::el);
-	my ($sub_name, $msg) = split(/\t#\t/, $el_data);
-
-	print STDERR "$msg\n";
-
-	exit 1;
-}
-
 update_shutdown();
 
 exit 0;

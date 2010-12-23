@@ -1,8 +1,8 @@
-#!/bin/bash
- 
+#!/bin/sh
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,122 +21,40 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
-# read needed entries from ispcp.conf
-CONF_FILE="/etc/ispcp/ispcp.conf"
-if [ -f /usr/local/etc/ispcp/ispcp.conf ]
-then
-    CONF_FILE="/usr/local/etc/ispcp/ispcp.conf"
-fi
-for a in `grep -E '(APACHE_|ROOT_|MTA_MAILBOX_|^LOG_DIR|^DEBUG|^PHP_STARTER_DIR|^MR_LOCK|^CMD_)' ${CONF_FILE} | sed -e 's/ //g'`; do
-    export $a
-done
-
-#
-# fixing engine permissions;
-#
+SELFDIR=$(dirname "$0")
+. $SELFDIR/ispcp-permission-functions.sh
 
 echo -n "	Setting Engine Permissions: ";
-
 if [ $DEBUG -eq 1 ]; then
     echo	"";
 fi
 
-# Fix ispcp.conf perms
-if [ $DEBUG -eq 1 ]; then
-    echo -e "	ug+r,u+w,o-r $ROOT_USER:$APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_UID /etc/ispcp/ispcp.conf";
+# ispcp.conf must be world readable because user "vmail" needs to access it.
+if [ -f /usr/local/etc/ispcp/ispcp.conf ]; then
+	set_permissions "/usr/local/etc/ispcp/ispcp.conf" \
+		$ROOT_USER $ROOT_GROUP 0644
 else
-    echo -n ".";
-fi
-${CMD_CHOWN} $ROOT_USER:$APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_GID ${CONF_FILE}
-${CMD_CHMOD} 0640 ${CONF_FILE}
-
-# Fix rkhunter.log perms
-if [ $DEBUG -eq 1 ]; then
-    echo -e "	ug+r,u+w,o-r $APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_UID:$ROOT_USER /var/log/rkhunter.log";
-else
-    echo -n ".";
+	set_permissions "/etc/ispcp/ispcp.conf" $ROOT_USER $ROOT_GROUP 0644
 fi
 
-#chmod ug+r,u+w,o-r rkhunter.log
-if [ -f /var/log/rkhunter.log ]
-then
-	${CMD_CHOWN} $APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_UID:$ROOT_GROUP /var/log/rkhunter.log
-fi
+# Only root can run engine scripts
+recursive_set_permissions "$ROOT_DIR/engine" $ROOT_USER $ROOT_GROUP 0700 0700
 
-#
-# fixing engine permissions
-#
-if [ $DEBUG -eq 1 ]; then
-    find $ROOT_DIR/engine/ -print0 | xargs -0 ${CMD_CHMOD} -v 0700
-    find $ROOT_DIR/engine/ -print0 | xargs -0 ${CMD_CHOWN} -v $ROOT_USER:$ROOT_GROUP
-else
-    find $ROOT_DIR/engine/ -print0 | xargs -0 ${CMD_CHMOD} 0700
-    find $ROOT_DIR/engine/ -print0 | xargs -0 ${CMD_CHOWN} $ROOT_USER:$ROOT_GROUP
-fi
+# Engine folder must be world-readable because "vmail" user must be able
+# to access its "messenger" subfolder.
+set_permissions "$ROOT_DIR/engine" $ROOT_USER $ROOT_GROUP 0755
 
-#
-# fixing engine folder permissions;
-#
-${CMD_CHMOD} 0755 $ROOT_DIR/engine;
-${CMD_CHOWN} $ROOT_USER:$ROOT_GROUP $ROOT_DIR/engine;
+# Messenger script is run by user "vmail".
+recursive_set_permissions "$ROOT_DIR/engine/messenger" \
+	$MTA_MAILBOX_UID_NAME $MTA_MAILBOX_GID_NAME 0750 0550
+recursive_set_permissions "$LOG_DIR/ispcp-arpl-msgr" \
+	$MTA_MAILBOX_UID_NAME $MTA_MAILBOX_GID_NAME 0750 0640
 
-#
-# fixing fcgi folder permissions in Centos;
-#
-${CMD_CHMOD} 0755 $PHP_STARTER_DIR/master;
-${CMD_CHOWN} $APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_UID:$APACHE_SUEXEC_USER_PREF$APACHE_SUEXEC_MIN_UID $PHP_STARTER_DIR/master;
+# TODO: Fixing fcgid permisions set before 1.0.5
 
-#
-# fixing messager permissions;
-#
+echo " done";
 
-i="$ROOT_DIR/engine/messenger"
-
-if [ $DEBUG -eq 1 ]; then
-	echo "0700 $MTA_MAILBOX_UID_NAME:$MTA_MAILBOX_GID_NAME [$i]";
-else
-	echo -n ".";
-fi
-${CMD_CHMOD} -R 0700 $i;
-${CMD_CHOWN} -R $MTA_MAILBOX_UID_NAME:$MTA_MAILBOX_GID_NAME $i;
-
-
-#
-# fixing messager folder permissions;
-#
-i="$ROOT_DIR/engine/messenger"
-
-if [ $DEBUG -eq 1 ]; then
-	echo "0755 $ROOT_USER:$ROOT_GROUP folder [$i]";
-else
-	echo -n ".";
-fi
-
-${CMD_CHMOD} 0755 $i;
-${CMD_CHOWN} $ROOT_USER:$ROOT_GROUP $i;
-
-
-#
-# fixing messager log folder permissions;
-#
-i="${LOG_DIR}/ispcp-arpl-msgr"
-
-if [ $DEBUG -eq 1 ]; then
-	echo "0755 $MTA_MAILBOX_UID_NAME:$MTA_MAILBOX_GID_NAME folder [$i]";
-else
-	echo -n ".";
-fi
-
-${CMD_CHMOD} 0755 $i;
-${CMD_CHOWN} -R $MTA_MAILBOX_UID_NAME:$MTA_MAILBOX_GID_NAME $i;
-
-
-echo "done";
+exit 0

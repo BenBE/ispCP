@@ -6,11 +6,13 @@
  * takes a string of unicode entities and converts it to a iso-8859-1 encoded string
  * Unsupported characters are replaced with ?.
  *
- * @copyright &copy; 2004-2009 The SquirrelMail Project Team
+ * @copyright 2004-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: iso_8859_1.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: iso_8859_1.php 13893 2010-01-25 02:47:41Z pdontthink $
  * @package squirrelmail
  * @subpackage encode
+ *
+ * @author ispCP Team May 2010 based on a patch of Benny Baumann
  */
 
 /**
@@ -19,10 +21,10 @@
  * @return string iso-8859-1 encoded text
  */
 function charset_encode_iso_8859_1 ($string) {
-   // don't run encoding function, if there is no encoded characters
-   if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
+    // don't run encoding function, if there is no encoded characters
+    if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
 
-    $string=preg_replace("/&#([0-9]+);/e","unicodetoiso88591('\\1')",$string);
+    $string=preg_replace_callback("/&#([0-9]+);/","unicodetoiso88591",$string);
     // $string=preg_replace("/&#[xX]([0-9A-F]+);/e","unicodetoiso88591(hexdec('\\1'))",$string);
 
     return $string;
@@ -40,6 +42,10 @@ function charset_encode_iso_8859_1 ($string) {
  * @return string iso-8859-1 character
  */
 function unicodetoiso88591($var) {
+
+    if(is_array($var)) {
+        $var=$var[1];
+    }
 
     if ($var < 256) {
         $ret = chr ($var);

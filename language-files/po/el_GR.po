@@ -1,0 +1,5051 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: el_GR\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-21 20:54+0100\n"
+"PO-Revision-Date: 2010-11-03 15:46+0200\n"
+"Last-Translator: Anastasios D. Filelis <webmaster@evresis.gr>\n"
+"Language-Team: Greek (Greece) <webmaster@evresos.gr>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: x64PoPot 0.2\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. Please ignore this entry
+msgid "encoding"
+msgstr "UTF-8"
+
+#. Please fill in the language you are translating to in the following form:
+#. native language name (native country name) - english language name (english country name)
+msgid "_: Localised language"
+msgstr "Νέα Ελληνικά - Greek"
+
+msgid "ispCP Omega a Virtual Hosting Control System"
+msgstr "ispCP Omega ένα σύστημα ελέγχου εικονικής φιλοξενίας στο internet"
+
+msgid "Administrator login"
+msgstr "Είσοδος Διαχειριστή"
+
+msgid "Login"
+msgstr "Είσοδος"
+
+msgid "Username"
+msgstr "Όνομα Χρήστη"
+
+msgid "Password"
+msgstr "Συνθηματικό"
+
+msgid "Please enter your login information"
+msgstr "Παρακαλώ δώστε τα στοιχεία εισόδου σας"
+
+msgid "Secure Connection"
+msgstr "Ασφαλής σύνδεση"
+
+msgid "Normal Connection"
+msgstr "Κοινή σύνδεση"
+
+msgid "Lost password"
+msgstr "Χαμένο συνθηματικό"
+
+msgid "Retrieving lost passwords is currently not possible"
+msgstr "Η ανάκτηση των χαμένων συνθηματικών δεν είναι εφικτή"
+
+msgid "ispCP - Virtual Hosting Control System"
+msgstr "ispCP - Σύστημα ελέγχου εικονικής φιλοξενίας"
+
+msgid "Your new password has been sent."
+msgstr "Το συνθηματικό σας έχει αποσταλεί."
+
+msgid "New password could not been sent."
+msgstr "Νέο συνθηματικό δεν μπορεί να αποσταλεί."
+
+#, php-format
+msgid ""
+"Your password request has been initiated. You will receive an email with "
+"instructions to complete the process. This reset request will expire in %s "
+"minutes."
+msgstr ""
+"Η αίτησή σας για αλλαγή συθηματικού εξετάζεται. Θα λάβετε email με οδηγίες "
+"για να ολοκληρώσετε τη διαδικασία. Η αίτηση αλλαγής θα λήξει σε %s λεπτά."
+
+msgid "Back"
+msgstr "Επιστροφή"
+
+msgid "User or security code was incorrect!"
+msgstr "Λάθος χρήστης ή κωδικός ασφαλείας!"
+
+msgid "Retry"
+msgstr "Ξαναπροσπάθησε"
+
+msgid "Security code"
+msgstr "Κωδικός ασφαλείας"
+
+msgid ""
+"(To avoid abuse, we ask you to write the combination of letters on the above "
+"picture into the field \"Security code\")"
+msgstr ""
+"(Για την αποφυγή κατάχρησης, αντιγράψτε το συνδυασμό γραμμάτων από την "
+"παραπάνω εικόνα  στο πεδίο \"Security code\")"
+
+msgid "Request password"
+msgstr "Αίτηση συνθηματικού"
+
+msgid "ispCP - Admin/Manage users/Add User"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών/Εγγραφή Χρήστη"
+
+msgid "Administrator"
+msgstr "Διαχειριστής"
+
+msgid "Incorrect username length or syntax!"
+msgstr "Λάθος στη σύνταξη η στο μήκος ονόματος χρήστη!"
+
+#, fuzzy, php-format
+msgid ""
+"The password must be at least %s chars long and contain letters and numbers "
+"to be valid."
+msgstr ""
+"Το σωστό συνθηματικό πρέπει να έχει ελάχιστο μήκος %s και να περιέχει "
+"γράμματα και αριθούς."
+
+#, php-format
+msgid "Password data is shorter than %s signs or includes not permitted signs!"
+msgstr ""
+"Περιεχόμενο συνθηματικού με λιγότερο από %s σημεία ή με ακατάλληλα σημεία!"
+
+msgid "Entered passwords do not match!"
+msgstr "Τα συνθηματικά που δώθηκαν διαφέρουν!"
+
+msgid "Incorrect email length or syntax!"
+msgstr "Λάθος σύνταξη ή μήκος email."
+
+msgid "This user name already exist!"
+msgstr "Το όνομα χρήστη υπάρχει ήδη!"
+
+msgid "Empty data or wrong field!"
+msgstr "Κενό ή λάθος πεδίο!"
+
+msgid "Passwords don't match!"
+msgstr "Ανόμοια συνθηματικά!"
+
+msgid "Add admin"
+msgstr "Εγγραφή διαχειριστή"
+
+msgid "Core data"
+msgstr "Δεδομένα πυρήνα"
+
+msgid "Repeat password"
+msgstr "Επανάληψη συνθηματικού"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Additional data"
+msgstr "Επιπλέον δεδομένα"
+
+msgid "First name"
+msgstr "Όνομα"
+
+msgid "Last name"
+msgstr "Επώνυμο"
+
+msgid "Gender"
+msgstr "Φύλο"
+
+msgid "Male"
+msgstr "Άνδρας"
+
+msgid "Female"
+msgstr "Γυναίκα"
+
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+msgid "Company"
+msgstr "Εταιρεία"
+
+msgid "Zip/Postal code"
+msgstr "Ταχυδ. κώδικας"
+
+msgid "City"
+msgstr "Πόλη"
+
+msgid "State/Province"
+msgstr "Περιοχή/Νομός"
+
+msgid "Country"
+msgstr "Χώρα"
+
+msgid "Street 1"
+msgstr "Διεύθυνση 1"
+
+msgid "Street 2"
+msgstr "Διεύθυνση 2"
+
+msgid "Phone"
+msgstr "Τηλέφωνο"
+
+msgid "Fax"
+msgstr "Fax"
+
+msgid "Add"
+msgstr "Προσθήκη"
+
+msgid "User session was killed!"
+msgstr "Η σύνοδος με το χρήστη τερματίστηκε."
+
+msgid "Reseller"
+msgstr "Μεταπωλητής"
+
+msgid "Domain account"
+msgstr "Λογαριασμός ονόματος internet"
+
+msgid "ispCP - Admin/Manage users/Edit Administrator"
+msgstr "ispCP - Διαχειριστής/Διαχείριση χρηστών/Μεταβολή Διαχειριστή"
+
+msgid "ispCP - Admin/Manage users/Edit User"
+msgstr "ispCP - Διαχειριστής/Διαχείριση χρηστών/Μεταβολή χρήστη"
+
+msgid "Edit admin"
+msgstr "Μεταβολή διαχειριστή"
+
+msgid "Edit user"
+msgstr "Μεταβολή χρήστη"
+
+msgid "Update"
+msgstr "Μεταβολή"
+
+msgid "Send new login data"
+msgstr "Αποστολή νέων δεδομένων εισόδου"
+
+msgid "Generate password"
+msgstr "Γεννήτρια συνθηματικού"
+
+msgid "Password change is disabled!"
+msgstr "H αλλαγή συνθηματικού είναι ανενεργή! "
+
+msgid "Demo Version!"
+msgstr "Έκδοση επίδειξης!"
+
+msgid "ispCP - Admin/Admin Log"
+msgstr "ispCP - Διαχείριση/Αρχείο καταγραφής Διαχειριστή"
+
+msgid "Log is empty!"
+msgstr "Το αρχείο καταγραφής είναι άδειο!"
+
+#, php-format
+msgid "%s deleted the full admin log!"
+msgstr "%s διαγράφηκε πλήρως το αρχείο καταγραφής διαχειριστή!"
+
+#, php-format
+msgid "%s deleted the admin log older than two weeks!"
+msgstr "%s διαγράφηκε το πριν από δύο εβδομάδες αρχείο καταγραφής διαχειριστή!"
+
+#, php-format
+msgid "%s deleted the admin log older than one month!"
+msgstr "%s διαγράφηκε το πριν από ένα μήνα αρχείο καταγραφής διαχειριστή!"
+
+#, php-format
+msgid "%s deleted the admin log older than three months!"
+msgstr "%s διαγράφηκε το πριν από τρεις μήνες αρχείο καταγραφής διαχειριστή!"
+
+#, php-format
+msgid "%s deleted the admin log older than six months!"
+msgstr "%s διαγράφηκε το πριν από έξι μήνες αρχείο καταγραφής διαχειριστή!"
+
+#, php-format
+msgid "%s deleted the admin log older than one year!"
+msgstr "%s διαγράφηκε το πριν από ένα χρόνο αρχείο καταγραφής διαχειριστή!"
+
+msgid "Invalid time period!"
+msgstr "Άκυρη χρονική περίοδος!"
+
+msgid "Admin Log"
+msgstr "Αρχείο καταγραφής διαχειριστή"
+
+msgid "Clear log"
+msgstr "Άδειασμα αρχείου καταγραφής"
+
+msgid "Date"
+msgstr "Ημερομηνία"
+
+msgid "Message"
+msgstr "Μήνυμα"
+
+msgid "Delete from log:"
+msgstr "Διαγραφή από το αρχείο καταγραφής:"
+
+msgid "everything"
+msgstr "τα πάντα"
+
+msgid "older than 2 weeks"
+msgstr "παλιότερο από 2 εβδομάδες"
+
+msgid "older than 1 month"
+msgstr "παλιότερο από 1 μήνα"
+
+msgid "older than 3 months"
+msgstr "παλιότερο από 3 μήνες"
+
+msgid "older than 6 months"
+msgstr "παλιότερο από 6 μήνες"
+
+msgid "older than 12 months"
+msgstr "παλιότερο από 12 μήνες"
+
+msgid "ispCP - Admin - Email Marketing"
+msgstr "ispCP - Διαχειριστής - Διαφήμιση με email"
+
+msgid "Please specify a message subject!"
+msgstr "Παρακαλώ βάλτε θέμα στο μήνυμα!"
+
+msgid "Please specify a message content!"
+msgstr "Παρακαλώ δώστε περιεχόμενο στο μήνυμα!"
+
+msgid "Please specify a sender name!"
+msgstr "Παρακαλώ δώστε όνομα αποστολέα!"
+
+msgid "Please specify a sender email!"
+msgstr "Παρακαλώ δώστε όνομα παραλήπτη!"
+
+msgid "You send email to your users successfully!"
+msgstr "Στήλατε επιτυχώς email στους χρήστες σας!"
+
+msgid "Email marketing"
+msgstr "Διαφήμιση με email"
+
+msgid "Send message to"
+msgstr "Αποστολή μηνύματος προς"
+
+msgid "All users"
+msgstr "Όλοι οι χρήστες"
+
+msgid "All resellers"
+msgstr "Όλοι οι μεταπωλητές"
+
+msgid "All users & resellers"
+msgstr "Ολοι οι χρήστες & μεταπωλητές"
+
+msgid "Message subject"
+msgstr "Θέμα μηνύματος"
+
+msgid "Senders email"
+msgstr "email Αποστολέα"
+
+msgid "Senders name"
+msgstr "Όνομα αποστολέα"
+
+msgid "Send message"
+msgstr "Αποστολή μηνύματος"
+
+msgid "You have no custom menus."
+msgstr "Δεν έχετε ατομικά μενού επιλογών"
+
+msgid "User"
+msgstr "Χρήστης"
+
+msgid "All"
+msgstr "Όλοι"
+
+msgid "Missing or incorrect data input!"
+msgstr "Ελλιπής ή λάθος εισαγωγή δεδομένων!"
+
+msgid "Invalid URL!"
+msgstr "Άκυρο URL!"
+
+msgid "Invalid target!"
+msgstr "Άκυρος στόχος!"
+
+msgid "Custom menu data updated successful!"
+msgstr "Επιτυχής μεταβολή δεδομένων ατομικού μενού επιλογών!"
+
+msgid "Custom menu deleted successful!"
+msgstr "Επιτυχής διαγραφή ατομικού μενού επιλογών!"
+
+msgid "ispCP - Admin - Manage custom menus"
+msgstr "ispCP - Διαχειριστής - Διαχείριση  μενού επιλογών"
+
+msgid "Manage custom menus"
+msgstr "Διαχείριση μενού επιλογών"
+
+msgid "Add new button"
+msgstr "Νέο κουμπί επιλογής"
+
+msgid "Button name"
+msgstr "Όνομα κουμπιού επιλογής"
+
+msgid "Button link"
+msgstr "Κουμπί επιλογής δεσμού"
+
+msgid "Button target"
+msgstr "Στόχος κουμπιού επιλογής"
+
+msgid "Show in"
+msgstr "Εμφάνιση σε"
+
+msgid "Administrator level"
+msgstr "Επίπεδο διαχειριστή"
+
+msgid "Reseller level"
+msgstr "Επίπεδο μεταπωλητή"
+
+msgid "Enduser level"
+msgstr "Επίπεδο τελικού χρήστη"
+
+msgid "Reseller and enduser level"
+msgstr "Επίπεδο μεταπωλητή και τελικού χρήστη"
+
+msgid "Menu button"
+msgstr "Κουμπί επιλογής μενού"
+
+msgid "Action"
+msgstr "Δράση"
+
+msgid "Edit"
+msgstr "Μεταβολή"
+
+msgid "Delete"
+msgstr "Διαγραφή"
+
+msgid "Level"
+msgstr "Επίπεδο"
+
+msgid "Save"
+msgstr "Καταχώρηση"
+
+msgid "Edit button"
+msgstr "Κουμπί διόρθωσης"
+
+#, php-format
+msgid "Are you sure you want to delete %s?"
+msgstr "Σίγουρα θέλετε διαγραφή του %s;"
+
+msgid "Database updates"
+msgstr "Ενημερώσεις Β.Δ."
+
+msgid "Available database updates"
+msgstr "Διαθέσιμες ενημερώσεις Β.Δ."
+
+msgid "Update details"
+msgstr "Λεπτομέρειες ενημερώσεων"
+
+msgid "New Database update is now available"
+msgstr "Νέα ενημέρωση Β.Δ. είναι διαθέσιμη"
+
+msgid "Do you want to execute the Updates now?"
+msgstr "Θέλετε να γίνει εφαρμογή ενημερώσεων τώρα;"
+
+msgid "Execute updates"
+msgstr "Εφαρμογή ενημερώσεων"
+
+msgid "No database updates available"
+msgstr "Δεν υπάρχουν διαθέσιμες ενημερώσεις"
+
+msgid "ispCP - Domain/Details"
+msgstr "ispCP - Oνόματα internet/Λεπτομέρειες"
+
+msgid "Domain details"
+msgstr "Λεπτομέρειες ονομάτων internet"
+
+msgid "Domain name"
+msgstr "Όνομα  internet"
+
+msgid "Domain IP"
+msgstr "IP ονομάτος internet"
+
+msgid "Status"
+msgstr "Κατάσταση"
+
+msgid "PHP support"
+msgstr "υποστήριξη PHP"
+
+msgid "CGI support"
+msgstr "υποστήριξη CGI"
+
+msgid "Manual DNS support"
+msgstr "Μη αυτόματη υποστήριξη DNS"
+
+msgid "Backup support"
+msgstr "Υποστήριξη αντιγράφων ασφαλείας"
+
+msgid "MySQL support"
+msgstr "Υποστήριξη MySQL"
+
+msgid "Traffic in MB"
+msgstr "Κίνηση σε MB"
+
+msgid "Disk in MB"
+msgstr "Δίσκος σε MB"
+
+msgid "Feature"
+msgstr "Δυνατότητα"
+
+msgid "Used"
+msgstr "Σε χρήση"
+
+msgid "Limit"
+msgstr "Όριο"
+
+msgid "Mail accounts"
+msgstr "Λογαριασμοί email"
+
+msgid "FTP accounts"
+msgstr "Λογαριασμοί FTP"
+
+msgid "SQL databases"
+msgstr "SQL Β.Δ."
+
+msgid "SQL users"
+msgstr "Χρήστες SQL"
+
+msgid "Subdomains"
+msgstr "Υποονόματα  internet"
+
+msgid "Domain aliases"
+msgstr "Ψευδώνυμα ονομάτων  internet"
+
+msgid "Submit changes"
+msgstr "Εφαρμογή αλλαγών"
+
+msgid "Full"
+msgstr "Πλήρες"
+
+msgid "SQL"
+msgstr "SQL"
+
+msgid "Domain"
+msgstr "όνομα  internet"
+
+msgid "No"
+msgstr "Όχι"
+
+msgid "Enabled"
+msgstr "Ενεργό"
+
+msgid "Disabled"
+msgstr "Ανενεργό"
+
+msgid "ispCP - Admin/Edit Domain"
+msgstr "ispCP - Διαχειριστής/Διόρθωση ονόματος  internet"
+
+msgid "Edit Domain"
+msgstr "Διόρθωση ονόματος  internet"
+
+msgid "Domain properties"
+msgstr "Ιδιότητες ονόματος  internet"
+
+msgid "Domain expire"
+msgstr "Λήξη ονόματος  internet"
+
+msgid "New expire date"
+msgstr "Νέα ημερομηνία λήξης"
+
+#, fuzzy
+msgid "Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+"Μέγιστος αριθμός υποονόματων  internet <br /><i>(-1 ανενεργός, 0 "
+"απεριόριστος)</i>"
+
+#, fuzzy
+msgid "Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+"Μέγιστος αριθμός ψευδωνύμων <br /><i>(-1 ανενεργός, 0 απεριόριστος)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών email <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών FTP <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο SQL Β.Δ. <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο χρηστών SQL <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB] <br /><em>(0 unlimited)</em>"
+msgstr "Όριο κίνησης [MB] <br /><i>(0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB] <br /><em>(0 unlimited)</em>"
+msgstr "Όριο δίσκου [MB] <br /><i>(0 απεριόριστο)</i>"
+
+msgid "Backup"
+msgstr "Αντίγραφο Ασφαλείας"
+
+msgid "Cancel"
+msgstr "Άκυρο"
+
+msgid "Yes"
+msgstr "Ναί"
+
+msgid ""
+"In case 'Domain expire' is 'N/A', the expiration date will be set from today."
+msgstr ""
+"Οταν η 'Λήξη ονόματος  internet' είναι  'Δ/Α', η ημερομηνία λήξης τίθεται "
+"από σήμερα."
+
+msgid ""
+"User does not exist or you do not have permission to access this interface!"
+msgstr "Ανύπαρκτος χρήστης ή δεν έχετε εξουσιοδότηση πρόσβασης στη διεπαφή!"
+
+msgid "N/A"
+msgstr "Δ/Α"
+
+msgid "Incorrect subdomains limit!"
+msgstr "Λάθος όριο υποονομάτων internet!"
+
+msgid "Incorrect aliases limit!"
+msgstr "Λάθος όριο ψευδωνύμων!"
+
+msgid "Incorrect mail accounts limit!"
+msgstr "Λάθος όριο λογαριασμών email!"
+
+msgid "Incorrect FTP accounts limit!"
+msgstr "Λάθος όριο λογαριασμών FTP!"
+
+msgid "Incorrect SQL users limit!"
+msgstr "Λάθος όριο χρηστών SQL!"
+
+#, fuzzy
+msgid "SQL databases limit is <em>disabled</em>!"
+msgstr "Το όριο SQL Β.Δ. είναι  <i>ανενεργό</i>!"
+
+msgid "Incorrect SQL databases limit!"
+msgstr "Λάθος όριο SQL Β.Δ.!"
+
+#, fuzzy
+msgid "SQL users limit is <em>disabled</em>!"
+msgstr "Το όριο χρηστών SQL <i>ανενεργό</i>!"
+
+msgid "Incorrect traffic limit!"
+msgstr "Λάθος όριο κίνησης!"
+
+msgid "Incorrect disk quota limit!"
+msgstr "Λάθος όριο χρήσης δίσκου!"
+
+msgid "Subdomain"
+msgstr "Υποόνoμα  internet"
+
+msgid "Alias"
+msgstr "Ψευδώνυμο"
+
+msgid "Mail"
+msgstr "Email"
+
+msgid "FTP"
+msgstr "FTP"
+
+msgid "SQL Database"
+msgstr "Β.Δ. SQL"
+
+msgid "SQL User"
+msgstr "Χρήστης SQL"
+
+msgid "Traffic"
+msgstr "Κίνηση"
+
+msgid "Disk"
+msgstr "Δίσκος"
+
+msgid "Domain properties could not be updated!"
+msgstr "Oι ιδιότητες ονόματος  internet δεν ενημερώθηκαν!"
+
+msgid "Domain properties updated successfully!"
+msgstr "Επιτυχής ενημέρωση ιδιοτήτων ονόματος  internet!"
+
+#, php-format
+msgid "The <em>%s</em> service cannot be disabled! "
+msgstr "H <em>%s</em> υπηρεσία δεν απενεργοποιείται! "
+
+#, php-format
+msgid "There are <em>%s</em> records on system!"
+msgstr "Υπάρχουν <em>%s</em> εγγραφές στο σύστημα!"
+
+#, php-format
+msgid "The <em>%s</em> service cannot be limited! "
+msgstr "Η <em>%s</em> υπηρεσία δεν περιορίζεται! "
+
+#, php-format
+msgid ""
+"Specified number is smaller than <em>%s</em> records, present on the system!"
+msgstr ""
+"Ο δεδομένος αριθμός είναι μικρότερος από <em>%s</em> εγγραφές, που υπάρχουν "
+"στο σύστημα!"
+
+#, php-format
+msgid "There are <em>%s</em> records on the system!"
+msgstr "Υπάρχουν <em>%s</em> εγγραφές στο σύστημα!"
+
+#, php-format
+msgid "The <em>%s</em> service cannot be unlimited! "
+msgstr "Η <em>%s</em> υπηρεσία δεν μπορεί να είναι απεριόριστη! "
+
+#, php-format
+msgid "There are reseller limits for the <em>%s</em> service!"
+msgstr "Υπάρχουν όρια μεταπωλητή για την υπηρεσία <em>%s</em> !"
+
+#, php-format
+msgid "You are exceeding reseller limits for the <em>%s</em> service!"
+msgstr "Έχετε υπερβεί τα όρια μεταπωλητή για την υπηρεσία <em>%s</em> !"
+
+msgid "ispCP - Domain Statistics Data"
+msgstr "ispCP - Στατιστικά δεδομένα ονόματος internet"
+
+msgid "Domain statistics"
+msgstr "Στατιστικά ονόματος  internet"
+
+msgid "Month"
+msgstr "Μήνας"
+
+msgid "Year"
+msgstr "Έτος"
+
+msgid "Show"
+msgstr "Προβολή"
+
+msgid "Web traffic"
+msgstr "Κίνηση Web"
+
+msgid "FTP traffic"
+msgstr "Κίνηση FTP"
+
+msgid "SMTP traffic"
+msgstr "Κίνηση SMTP"
+
+msgid "POP3/IMAP traffic"
+msgstr "Κίνηση POP3/IMAP"
+
+msgid "All traffic"
+msgstr "Ολική Κίνηση"
+
+msgid "Day"
+msgstr "Ημέρα"
+
+msgid "ispCP - Administrator/Hosting Plan Management"
+msgstr "ispCP - Διαχειριστής/Διαχείριση πακέτου φιλοξενίας internet"
+
+msgid "Hosting plans"
+msgstr "Πακέτα φιλοξενίας internet"
+
+msgid "Manage hosting plans"
+msgstr "Διαχείριση πακέτου φιλοξενίας internet"
+
+msgid "Purchasing"
+msgstr "Αγοράζω"
+
+msgid "Add hosting plan"
+msgstr "Προσθήκη πακέτου φιλοξενίας internet"
+
+msgid "Add new user hosting plan"
+msgstr "Προσθήκη νέου πακέτου φιλοξενίας internet"
+
+msgid "Return to previous menu"
+msgstr "Επιστροφή στο προηγούμενο μενού επιλογών"
+
+msgid "Hosting plan added!"
+msgstr "Το πακέτο φιλοξενίας internet προστέθηκε!"
+
+msgid "Hosting plan deleted!"
+msgstr "Το πακέτο φιλοξενίας internet διαγράφηκε!"
+
+msgid "Hosting plan updated!"
+msgstr "Το πακέτο φιλοξενίας internet ενημερώθηκε!"
+
+msgid "Hosting plan can't be deleted, there are orders!"
+msgstr ""
+"Υπάρχουν παραγγελίες και το πακέτο φιλοξενίας internet δεν διαγράφεται!"
+
+msgid "Hosting plans not found!"
+msgstr "Δεν βρέθηκαν πακέτα φιλοξενίας internet!"
+
+msgid "No."
+msgstr "Όχι."
+
+msgid "Name"
+msgstr "Όνομα"
+
+msgid "Show hosting plan"
+msgstr "Προβολή πακέτων φιλοξενίας internet"
+
+msgid "ispCP - Administrator/Add hosting plan"
+msgstr "ispCP - Διαχειριστής/Προσθήκη πακέτου φιλοξενίας internet"
+
+msgid "Hosting plan properties"
+msgstr "Ιδιότητες πακέτου φιλοξενίας internet"
+
+msgid "Template name"
+msgstr "Όνομα προτύπου"
+
+#, fuzzy
+msgid "Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+"Μέγιστος αριθμός υποονομάτων  internet <br /><i>(-1 ανενεργός, 0 "
+"απεριόριστος)</i>"
+
+#, fuzzy
+msgid "Max aliases<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr ""
+"Μέγιστος αριθμός ψευδωνύμων <br /><i>(-1 ανενεργός, 0 απεριόριστος)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών email <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών FTP <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο SQL Β.Δ. <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο χρηστών SQL <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br><em>(0 unlimited)</em>"
+msgstr "Όριο κίνησης [MB] <br /><i>(0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br><em>(0 unlimited)</em>"
+msgstr "Όριο δίσκου [MB] <br /><i>(0 απεριόριστο)</i>"
+
+msgid "PHP"
+msgstr "PHP"
+
+msgid "CGI / Perl"
+msgstr "CGI / Perl"
+
+#, fuzzy
+msgid "Allow adding records to DNS zone"
+msgstr "Επιτρέπεται προσθήκη εγγραφών ζώνης DNS (ΠΕΙΡΑΜΑΤΙΚΟ)"
+
+msgid "Apache logfiles"
+msgstr "Αρχεία καταγραφής Apache "
+
+msgid "AwStats"
+msgstr "ΑωΣτατιστικά"
+
+msgid "yes"
+msgstr "ναι"
+
+msgid "no"
+msgstr "όχι"
+
+msgid "Billing Settings"
+msgstr "Ρυθμίσεις χρεώσεων"
+
+msgid "Price"
+msgstr "Τιμή"
+
+msgid "Setup fee"
+msgstr "Χρέωση εγκατάστασης"
+
+msgid "Currency"
+msgstr "Νόμισμα"
+
+msgid "Payment period"
+msgstr "Περίοδος πληρωμής"
+
+msgid "Available for purchasing"
+msgstr "Διαθέσιμο για αγορά"
+
+msgid "Description"
+msgstr "Περιγραφή"
+
+msgid "(e.g. EUR)"
+msgstr "(π.χ. EUR)"
+
+#, fuzzy
+msgid "Term Of Service"
+msgstr "Υπηρεσία"
+
+msgid ""
+"<strong>Optional:</strong> Leave this field empty if you do not want term of "
+"service for this hosting plan."
+msgstr ""
+
+msgid "Text Only"
+msgstr ""
+
+msgid "Add plan"
+msgstr "Προσθήκη πακέτου "
+
+msgid "Incorrect template name length!"
+msgstr "Λάθος μέγεθος ονόματος προτύπου!"
+
+msgid "Incorrect template description length!"
+msgstr "Λάθος μέγεθος περιγραφής προτύπου!"
+
+msgid "Incorrect price syntax!"
+msgstr "Λάθος στη σύνταξη τιμής!"
+
+msgid "Incorrect setup fee syntax!"
+msgstr "Λάθος σύνταξης χρέωσης εγκατάστασης!"
+
+msgid "Hosting plan with entered name already exists!"
+msgstr "Υπάρχει πακέτο φιλοξενίας internet με το ίδιο όνομα!"
+
+msgid "ispCP - Administrator/Edit hosting plan"
+msgstr "ispCP - Διαχειριστής/Μεταβολή πακέτου φιλοξενίας internet"
+
+msgid "Price Style"
+msgstr "Μορφή τιμής"
+
+msgid "Text"
+msgstr ""
+
+msgid "Update plan"
+msgstr "Ενημέρωση πακέτου"
+
+msgid "Edit hosting plan"
+msgstr "Μεταβολή πακέτου φιλοξενίας internet"
+
+msgid "Undefined reference to data!"
+msgstr "Μή ορισμένη αναφορά σε δεδομένα!"
+
+msgid "Incorrect price. Example: 9.99"
+msgstr "Σφάλμα τιμής. Παράδειγμα: 9.99"
+
+msgid "Incorrect setup fee. Example: 19.99"
+msgstr "Σφάλμα χρέωσης εγκατάστασης. Παράδειγμα: 19.99"
+
+#, fuzzy, php-format
+msgid "You have <strong>%d</strong> new support questions"
+msgstr "Έχετε <b>%d</b> νέα ερωτήματα υποστήριξης"
+
+msgid "View"
+msgstr "Εμφάνιση"
+
+msgid "A database update is available"
+msgstr "Μια ενημέρωση Β.Δ. είναι διαθέσιμη"
+
+msgid "Update checking is disabled!"
+msgstr "Ο έλεγχος ενημερώσεων είναι ανενεργός!"
+
+msgid "New ispCP update is now available"
+msgstr "Υπάρχει διαθέσιμη νέα ενημέρωση για το  ispCP "
+
+msgid "You are exceeding your traffic limit!"
+msgstr "Έχετε υπερβεί το όριο κίνησής σας!"
+
+#, php-format
+msgid "%1$d%% [%2$s of unlimited]"
+msgstr "%1$d%% [%2$s από απεριόριστο]"
+
+#, php-format
+msgid "%1$d%% [%2$s of %3$s]"
+msgstr "%1$d%% [%2$s από %3$s]"
+
+msgid "ispCP - Admin/Main Index"
+msgstr "ispCP - Διαχειριστής/Κεντρικός κατάλογος"
+
+msgid "You cannot delete the last active IP address!"
+msgstr "Δεν μπορείτε να διαγράψετε την τελευταία ενεργή διεύθυνση IP!"
+
+#, fuzzy
+msgid "You have a domain using this IP!"
+msgstr "Σφάλμα: έχουμε όνομα  internet που χρησιμοποιεί αυτή την IP!"
+
+#, fuzzy
+msgid "You have a reseller using this IP!"
+msgstr "Σφάλμα: έχουμε μεταπωλητή που χρησιμοποιεί αυτή την IP!"
+
+msgid "IP was deleted!"
+msgstr "η IP διαγράφηκε!"
+
+msgid "ispCP - Admin/IP manage"
+msgstr "ispCP - Διαχειριστής/Διαχείριση IP "
+
+msgid "Remove IP"
+msgstr "Αφαίρεση IP"
+
+msgid "New IP was added!"
+msgstr "Νέα IP προστέθηκε!"
+
+msgid "Wrong IP number!"
+msgstr "Λάθος αριθμός IP!"
+
+msgid "Please specify domain!"
+msgstr "Παρακαλώ καθορίστε όνομα internet!"
+
+msgid "Please specify alias!"
+msgstr "Παρακαλώ καθορίστε ψευδώνυμο!"
+
+msgid "This IP already exist!"
+msgstr "Η IP αυτή υπάρχει ήδη!"
+
+msgid "Please select nework interface!"
+msgstr "Παρακαλώ επιλέξτε σύνδεση δικτύου!"
+
+msgid "Manage IPs"
+msgstr "Διαχείριση IPs"
+
+msgid "Available IPs"
+msgstr "Διαθέσιμες IPs"
+
+msgid "IP"
+msgstr "IP"
+
+msgid "Network interface"
+msgstr "Σύνδεση δικτύου"
+
+msgid "Add new IP"
+msgstr "Προσθήκη νέου IP"
+
+#, php-format
+msgid "Are you sure you want to delete this IP: %s?"
+msgstr "Είστε σίγουρος ότι θέλετε τη διαγραφή της IP: %s;"
+
+#, fuzzy
+msgid "ispCP - Admin/IP Usage"
+msgstr "ispCP - Διαχειριστής/Διαχείριση IP "
+
+#, fuzzy
+msgid "Total Domains"
+msgstr "Oνόματα internet"
+
+msgid "No records found"
+msgstr ""
+
+msgid "IP Usage"
+msgstr ""
+
+#, fuzzy
+msgid "Domain Name"
+msgstr "Όνομα  internet"
+
+#, fuzzy
+msgid "Reseller Name"
+msgstr "Όνομα μεταπωλητή"
+
+msgid "No domain system errors"
+msgstr "Σύστημα ονομάτων internet χωρίς σφάλματα"
+
+msgid "No domain alias system errors"
+msgstr "Σύστημα ψευδωνύμων ονομάτων internet χωρίς σφάλματα"
+
+msgid "No subdomain system errors"
+msgstr "Σύστημα υποονομάτων internet χωρίς σφάλματα"
+
+msgid "No alias subdomain system errors"
+msgstr "Σύστημα ψευδωνύμων υποονομάτων internet χωρίς σφάλματα"
+
+msgid "No email account system errors"
+msgstr "Σύστημα λογαριασμών email χωρίς σφάλματα"
+
+#, fuzzy
+msgid "missing domain"
+msgstr "Κυρίως όνομα internet"
+
+#, fuzzy
+msgid "missing alias"
+msgstr "Ψευδώνυμα ονομάτων internet"
+
+msgid "orphan entry"
+msgstr ""
+
+#, fuzzy
+msgid "No htaccess related system errors"
+msgstr "Σύστημα ψευδωνύμων ονομάτων internet χωρίς σφάλματα"
+
+#, fuzzy
+msgid "Missing domain"
+msgstr "Κυρίως όνομα internet"
+
+#, php-format
+msgid "Daemon returned %d as status code"
+msgstr "ο Deamon επέστρεψε %d ως κωδικό κατάστασης"
+
+msgid "Unknown type!"
+msgstr "Άγνωστος τύπος!"
+
+msgid "Done"
+msgstr "Έγινε"
+
+msgid "Unknown Error"
+msgstr "Άγνωστο σφάλμα"
+
+msgid "ispCP debugger"
+msgstr "ispCP Εντοπισμός σφαλμάτων"
+
+msgid "Domain errors"
+msgstr "Σφάλματα ονομάτων internet"
+
+msgid "Domain alias errors"
+msgstr "Σφάλματα ψευδωνύμων ονομάτων internet"
+
+msgid "Subdomain errors"
+msgstr "Σφάλματα υποονομάτων internet"
+
+msgid "Alias subdomain errors"
+msgstr "Σφάλματα ψευδωνύμων υποονομάτων  internet"
+
+msgid "Mail account errors"
+msgstr "Σφάλματα λογαριασμών email"
+
+msgid ".htaccess related errors"
+msgstr ""
+
+msgid "ispCP Daemon tools"
+msgstr "ispCP Εργαλεία Daemon"
+
+msgid "Execute requests"
+msgstr "Εκτέλεση αιτημάτων"
+
+msgid "Set status to 'change'"
+msgstr "Θέσε σε κατάσταση 'αλλαγή'"
+
+#, fuzzy, php-format
+msgid "%s Errors in database"
+msgstr "%s Β.Δ. ονόματος internet:"
+
+msgid "Enable update at"
+msgstr "Ενεργοποίησε την ενημέρωση στις"
+
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+msgid "Get it at"
+msgstr "Λήψη στις"
+
+msgid "ispCP updates"
+msgstr "ενημερώσεις ispCP "
+
+msgid "Available ispCP updates"
+msgstr "Διαθέσιμες ispCP ενημερώσεις"
+
+msgid "No new ispCP updates available"
+msgstr "Δεν υπάρχουν διαθέσιμες νέες ενημερώσεις για το ispCP"
+
+msgid "User language updated successfully!"
+msgstr "Η γλώσσα χρήστη ενημερώθηκε επιτυχώς!"
+
+msgid "ispCP - Admin/Change Language"
+msgstr "ispCP - Διαχειριστής/Αλλαγή Γλώσσας"
+
+msgid "Language"
+msgstr "Γλώσσα"
+
+msgid "Choose your default language"
+msgstr "Επιλέξτε την προκαθορισμένη γλώσσα"
+
+msgid "It is not possible to delete system default's language!"
+msgstr ""
+
+msgid "There are users who use this language!"
+msgstr ""
+
+msgid "Language was removed!"
+msgstr "Η γλώσσα αφαιρέθηκε"
+
+msgid "Reseller list is empty!"
+msgstr "Ο κατάλογος μεταπωλητών είναι κενός!"
+
+msgid "ispCP - Admin/Manage users/Reseller assignment"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών/Ανάθεση σε μεταπωλητή"
+
+msgid "Reseller assignment"
+msgstr "Ανάθεση σε μεταπωλητή"
+
+msgid "Reseller users"
+msgstr "Χρήστες μεταπωλητή"
+
+msgid "Mark"
+msgstr "Σημαδέψτε"
+
+msgid "Reseller name"
+msgstr "Όνομα μεταπωλητή"
+
+msgid "Owner"
+msgstr "Ιδιοκτήτης"
+
+msgid "To Admin"
+msgstr "Προς Διαχειριστή"
+
+msgid "Move"
+msgstr "Μεταφορά"
+
+msgid "Reseller or user list is empty!"
+msgstr "Κενός κατάλογος μεταπωλητών ή χρηστών!"
+
+msgid "User list is empty!"
+msgstr "Ο κατάλογος χρηστών είναι κενός!"
+
+msgid "User was moved"
+msgstr "Ο χρήστης μεταφέρθηκε"
+
+#, fuzzy
+msgid "Please select at least one user!"
+msgstr "Επιλέξτε παρακαλώ τουλάχιστον ένα τύπο email!"
+
+msgid "Source and destination reseller are the same!"
+msgstr "Ομοιότητα προέλευσης και προορισμού μεταπωλητή!"
+
+#, fuzzy, php-format
+msgid ""
+"<strong>%1$s</strong> has unlimited rights for a <strong>%2$s</strong> "
+"Service !<br>"
+msgstr ""
+"<b>%1$s</b> έχει απεριόριστα δικαιώματα στην <b>%2$s</b> Υπηρεσία !<br>"
+
+#, fuzzy, php-format
+msgid ""
+"You cannot move <strong>%1$s</strong> in a destination reseller,<br>which "
+"has limits for the <strong>%2$s</strong> service!"
+msgstr ""
+"Δεν γίνεται μεταφορά <b>%1$s</b> στο μεταπωλητή προορισμού,<br>που έχει όρια "
+"για την <b>%2$s</b> υπηρεσία!"
+
+#, fuzzy, php-format
+msgid ""
+"<strong>%1$s</strong> is exceeding limits for a <strong>%2$s</"
+"strong><br>service in destination reseller!<br>"
+msgstr ""
+"<b>%1$s</b> υπέρβαση ορίων για μιά <b>%2$s</b><br>υπηρεσία στο μεταπωλητή "
+"προορισμού!<br>"
+
+msgid "Moving aborted!"
+msgstr "Διακοπή μεταφοράς!"
+
+#, fuzzy, php-format
+msgid ""
+"<strong>%s</strong> has IP address that cannot be managed from the "
+"destination reseller !<br>This user cannot be moved!"
+msgstr ""
+"<b>%s</b> έχει διεύθυνση IP που δεν διαχειρίζεται από το μεταπωλητή "
+"προορισμού!<br>Αυτός ο χρήστης δεν μεταφέρθηκε!"
+
+msgid "ispCP - Admin/Manage users/User assignment"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών/Ανάθεση Χρήστη"
+
+msgid "User assignment"
+msgstr "Ανάθεση Χρήστη"
+
+msgid "Users"
+msgstr "Χρήστες"
+
+msgid "User name"
+msgstr "Όνομα χρήστη"
+
+msgid "From reseller"
+msgstr "Από μεταπωλητή"
+
+msgid "To reseller"
+msgstr "Σε μεταπωλητή"
+
+msgid "ispCP - Admin/Manage Users"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών"
+
+msgid "User added"
+msgstr "Προστέθηκε χρήστης"
+
+msgid "Reseller added"
+msgstr "Προστέθηκε μεταπωλητής"
+
+msgid "User updated"
+msgstr "Ενημερώθηκε χρήστης"
+
+msgid "User deleted"
+msgstr "Διαγράφηκε χρήστης"
+
+msgid "Email Updated"
+msgstr "Ενημερώθηκε email"
+
+#, fuzzy
+msgid ""
+"This user has a domain!<br />To delete the user first delete the domain!"
+msgstr ""
+"Ο χρήστης διαθέτει όνομα  internet!<br>Για τη διαγραφή του, διαγράψτε πρώτα "
+"το όνομα  internet!"
+
+msgid "User was disabled"
+msgstr "Ο χρήστης είναι ανενεργός"
+
+#, fuzzy
+msgid "Uninstall"
+msgstr "Απεγκατάσταση"
+
+#, php-format
+msgid "%d messages translated"
+msgstr "%d μεταφρασμένα μηνύματα"
+
+msgid "Gzipped"
+msgstr ""
+
+msgid "Upload file error!"
+msgstr "Σφάλμα μεταφόρτωσης αρχείου!"
+
+msgid "You can upload only text files!"
+msgstr "Μπορείτε να μεταφορτώσετε μόνο αρχεία κειμένου!"
+
+msgid "Could not read language file!"
+msgstr "Αδυναμία ανάγνωσης αρχείου γλώσσας!"
+
+msgid "Uploaded file is not a valid language file!"
+msgstr "Μεταφορτώθηκε μη έγγυρο αρχείο γλώσσας!"
+
+#, fuzzy
+msgid "Uploaded file does not contain language information!"
+msgstr "Μεταφορτώθηκε αρχείο χωρίς πληροφορίες γλώσσας!"
+
+#, fuzzy, php-format
+msgid "%s added new language: %s"
+msgstr "%s Εγκατάσταση νέας γλώσσας: %s"
+
+msgid "New language installed!"
+msgstr "Εγκαταστάθηκε νέα γλώσσα!"
+
+#, fuzzy, php-format
+msgid "%s updated language: %s"
+msgstr "%s Εγκατεστημένες γλώσσες: %s"
+
+msgid "Language was updated!"
+msgstr "Η γλώσσα ενημερώθηκε!"
+
+msgid "ispCP - Admin/Internationalisation"
+msgstr "ispCP - Διαχειριστής/Διεθνοποίηση"
+
+msgid "Internationalisation"
+msgstr "Διεθνοποίηση"
+
+msgid "Installed languages"
+msgstr "Εγκατεστημένες γλώσσες"
+
+msgid "Messages"
+msgstr "Μηνύματα"
+
+msgid "Panel Default"
+msgstr "Προκαθορισμένη Εφαρμογής"
+
+msgid "Install new language"
+msgstr "Εγκατάσταση νέας γλώσσας"
+
+msgid "Language file"
+msgstr "Αρχείο γλώσσας"
+
+msgid "Install"
+msgstr "Εγκατάσταση"
+
+msgid "Export"
+msgstr "Εξαγωγή"
+
+msgid "Incorrect data input!"
+msgstr "Εσφαλμένα δεδομένα εισόδου!"
+
+msgid "ispCP - Admin/Change Password"
+msgstr "ispCP - Διαχειριστής/Αλλαγή Συνθηματικού"
+
+msgid "Please fill up all data fields!"
+msgstr "Παρακαλώ συμπληρώστε όλα τα πεδία!"
+
+msgid "Passwords do not match!"
+msgstr "Ανόμοια συνθηματικά!"
+
+msgid "The current password is wrong!"
+msgstr "Το τρέχον συνθηματικό είναι λάθος!"
+
+msgid "User password updated successfully!"
+msgstr "Επιτυχής ενημέρωση συνθηματικού χρήστη!"
+
+msgid "Change password"
+msgstr "Αλλαγή συνθηματικού"
+
+msgid "Password data"
+msgstr "Δεδομένα συνθηματικού"
+
+msgid "Update password"
+msgstr "Ενημέρωση συνθηματικού"
+
+msgid "Current password"
+msgstr "Τρέχον συνθηματικό"
+
+msgid "Password change is deactivated!"
+msgstr "Η αλλαγή συνθηματικού απενεργοποιήθηκε!"
+
+msgid "ispCP - Admin/Change Personal Data"
+msgstr "ispCP - Διαχειριστής/Αλλαγή προσωπικών δεδομένων"
+
+msgid "Personal data updated successfully!"
+msgstr "Επιτυχής μεταβολή προσωπικών δεδομένων!"
+
+msgid "Change personal data"
+msgstr "Αλλαγή προσωπικών δεδομένων"
+
+msgid "Personal data"
+msgstr "Προσωπικά δεδομένα"
+
+msgid "Update data"
+msgstr "Μεταβολή δεδομένων"
+
+msgid "ispCP - Admin/Manage users/Add reseller"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών/Προσθήκη μεταπωλητή"
+
+msgid "Reseller IP list is empty!"
+msgstr "Η IP του μεταπωλητή είναι κενή!"
+
+msgid "Assign"
+msgstr "Ανάθεση"
+
+msgid "Label"
+msgstr "Ετικέτα"
+
+msgid "Number"
+msgstr "Αριθμός"
+
+#, php-format
+msgid ""
+"The password must be at least %s long and contain letters and numbers to be "
+"valid."
+msgstr ""
+"Το σωστό συνθηματικό πρέπει να έχει ελάχιστο μήκος %s και να περιέχει "
+"γράμματα και αριθούς."
+
+msgid "Incorrect email syntax!"
+msgstr "Σφάλμα σύνταξης email!"
+
+msgid "Incorrect domains limit!"
+msgstr "Σφάλμα ορίου ονομάτων  internet."
+
+#, fuzzy
+msgid "SQL databases limit is <em>disabled</em> but SQL users limit not!"
+msgstr "Το όριο Β.Δ. SQL είναι <i>ανενεργό</i> αλλά το όριο χρηστών SQL όχι!"
+
+#, fuzzy
+msgid "SQL users limit is <em>disabled</em> but SQL databases limit not!"
+msgstr "Το όριο χρηστών SQL είναι <i>ανενεργό</i> αλλά το όριο Β.Δ. SQL όχι!"
+
+msgid "You must assign at least one IP number for a reseller!"
+msgstr "Πρέπει να αναθέσετε μια τουλαχιστον IP στο μεταπωλητή!"
+
+msgid "Add reseller"
+msgstr "Προσθήκη μεταπωλητή"
+
+#, fuzzy
+msgid "Domains limit<br><em>(0 unlimited)</em>"
+msgstr "Όριο ονομάτων  internet<br><i>(0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο υποονομάτων  internet<br><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο ψευδωνύμων<br><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+msgid "JSP"
+msgstr "JSP"
+
+msgid "SSI"
+msgstr "SSI"
+
+msgid "Frontpage extensions"
+msgstr "Frontpage extensions"
+
+msgid "Backup and restore"
+msgstr "Αντίγραφα ασφαλείας και επαναφορά αντιγράφων"
+
+msgid "Custom error pages"
+msgstr "Σελίδες λαθών εφαρμογής"
+
+msgid "Protected areas"
+msgstr "Προστατευμένες περιοχές"
+
+msgid "Webmail"
+msgstr "Webmail"
+
+msgid "Directory listing"
+msgstr "Κατάσταση καταλόγων"
+
+msgid "Logo upload"
+msgstr "Μεταφόρτωση λογότυπου"
+
+msgid "Support system"
+msgstr "Σύστημα υποστήριξης"
+
+msgid "Reseller IPs"
+msgstr "IPs Μεταπωλητών"
+
+msgid "Customer ID"
+msgstr "Κωδικός Πελάτη"
+
+msgid "Domains"
+msgstr "Oνόματα internet"
+
+msgid "Aliases"
+msgstr "Ψευδώνυμα"
+
+msgid "SQL Databases"
+msgstr "SQL Β.Δ."
+
+msgid "SQL Users"
+msgstr "SQL Χρήστες"
+
+msgid "Web Traffic"
+msgstr "Κίνηση Web"
+
+msgid "Disk storage"
+msgstr "Αποθήκευση Δίσκου"
+
+#, fuzzy, php-format
+msgid ""
+"This reseller's customers are using/have more/higher <strong>%s</strong> "
+"accounts/limits than the new limit you entered."
+msgstr ""
+"Οι πελάτες του μεταπωλητή χρησιμοποιούν/έχουν περισσότερους/ψηλότερα <b>%s</"
+"b> λογαριασμούς/όρια από αυτό το νέο όριο εισαγωγής."
+
+#, fuzzy, php-format
+msgid ""
+"This reseller has already assigned more/higher <strong>%s</strong> accounts/"
+"limits than the new limit you entered."
+msgstr ""
+"Ο μεταπωλητής διαθέτει ήδη περισσότερους/ψηλότερα <b>%s</b> λογαριασμούς/"
+"όρια από το νέο όριο εισαγωγής."
+
+#, fuzzy, php-format
+msgid ""
+"This reseller has customer(s) with unlimited rights for the <strong>%s</"
+"strong> service!"
+msgstr ""
+"Ο μεταπωλητής  διαθέτει πελάτη(ες) με  απεριόριστα δικαιώματα στην υπηρεσία "
+"<b>%s</b> !"
+
+#, fuzzy
+msgid "If you want to limit a reseller, you must first limit its customers!"
+msgstr ""
+"Αν θέλετε να περιορίσετε τον μεταπωλητή, πρέπει πρώτα να περιορίσετε τους "
+"πελάτες του!"
+
+#, fuzzy, php-format
+msgid "This reseller has domains assigned to the <strong>%s</strong> address!"
+msgstr ""
+"Ο μεταπωλητής έχει ανάθεση ονόματων internet στην διεύθυνση <b>%s</b> !"
+
+#, fuzzy
+msgid "The reseller account you trying to edit does not exist!"
+msgstr "ΣΦΑΛΜΑ: Ο λογαριασμός μεταπωλητή που θέλετε να μεταβάλετε δεν υπάρχει!"
+
+msgid "ispCP - Admin/Manage users/Edit Reseller"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Χρηστών/Μεταβολή Μεταπωλητή"
+
+#, fuzzy
+msgid "One or more errors was found! Please, correct them and try again!"
+msgstr ""
+"ΣΦΑΛΜΑ: Βρέθηκαν ένα ή και παραπάνω σφάλματα! Παρακαλώ, διορθώστε τα και "
+"προσπαθήστε ξανά!"
+
+msgid "Reseller data inconsistency!"
+msgstr "Ασυνάρτητα δεδομένα μεταπωλητή!"
+
+msgid "Please, read the message(s) above and trying to correct!"
+msgstr ""
+"Παρακαλώ, διαβάστε το παρπάνω μήνυμα(τα)  και προσπαθήστε να τα διορθώσετε! "
+
+msgid "Edit reseller"
+msgstr "Μεταβολή μεταπωλητή"
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "unlimited"
+msgstr "απεριόριστο"
+
+msgid "Reset"
+msgstr "Επαναφορά"
+
+msgid "Generated password:"
+msgstr "Γεννήτρια συνθηματικού:"
+
+msgid "Type `CTRL+C` to copy the generated password in the clipboard."
+msgstr ""
+"Πατήστε `CTRL+C` για να αντιγράψετε το δημιουργημένο συνθηματικό  στο "
+"πρόχειρο."
+
+#, php-format
+msgid ""
+"ispCP NOTICE:\\n\\nThe `Enter` key is disabled for performance reasons!"
+"\\nInstead, use the %s button to update the data."
+msgstr ""
+"ispCP ΣΗΜΕΙΩΣΗ:\\n\\nΤο πλήκτρο `Enter` είναι ανενεργό για λόγους επιδόσεων!"
+"\\nΑντί αυτού, πιέστε το κουμπί %s για μεταβολή των δεδομένων."
+
+#, fuzzy
+msgid "ispCP - Admin/Reseller statistics"
+msgstr "ispCP - Διαχειριστής/Στατιστικά Χρήστη Μεταπωλητή"
+
+#, fuzzy
+msgid "There are no resellers in your system!"
+msgstr "Δεν βρέθηκε(αν) μεταπωλητής(ές) στο σύστημά σας!"
+
+#, fuzzy, php-format
+msgid "%1$s / %2$s <br/>of<br/> <strong>%3$s</strong>"
+msgstr "%1$s / %2$s <br/>από<br/> <b>%3$s</b>"
+
+#, fuzzy, php-format
+msgid "%1$s / %2$s <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%1$s / %2$s <br/>από<br/> <b>απεριόριστο</b>"
+
+#, fuzzy, php-format
+msgid "%1$d / %2$d <br/>of<br/> <strong>%3$d</strong>"
+msgstr "%1$d / %2$d <br/>από<br/> <b>%3$d</b>"
+
+#, fuzzy, php-format
+msgid "%1$d / %2$d <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%1$d / %2$d <br/>από<br/> <b>απεριόριστο</b>"
+
+#, fuzzy
+msgid "<strong>disabled</strong>"
+msgstr "<b>ανενεργό</b>"
+
+msgid "Reseller statistics table"
+msgstr "Πίνακας στατιστικών μεταπωλητή"
+
+msgid "SQL database"
+msgstr "Β.Δ. SQL"
+
+msgid "SQL user"
+msgstr "Χρήστης SQL"
+
+msgid "ispCP - Admin/Reseller User Statistics"
+msgstr "ispCP - Διαχειριστής/Στατιστικά Χρήστη Μεταπωλητή"
+
+#, fuzzy, php-format
+msgid "%1$s <br/>of<br/> <strong>%2$s</strong>"
+msgstr "%1$s <br/>από<br/> <b>%2$s</b>"
+
+#, fuzzy, php-format
+msgid "%s <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%s <br/>από<br/> <b>απεριόριστο</b>"
+
+#, fuzzy, php-format
+msgid "%1$d <br/>of<br/> <strong>%2$d</strong>"
+msgstr "%1$d <br/>από<br/> <b>%2$d</b>"
+
+#, fuzzy, php-format
+msgid "%d <br/>of<br/> <strong>unlimited</strong>"
+msgstr "%d <br/>από<br/> <b>απεριόριστο</b>"
+
+msgid "Reseller users table"
+msgstr "Πίνακας χρηστών μεταπωλητή"
+
+msgid "This reseller has no domains."
+msgstr "Ο μεταπωλητής δεν διαθέτει ονόματα internet."
+
+msgid "Traffic<br>usage"
+msgstr "Χρήση<br>κίνησης"
+
+msgid "Disk<br>usage"
+msgstr "Χρήση<br>δίσκου"
+
+msgid "Web<br>traffic"
+msgstr "Κίνηση<br>Web"
+
+msgid "FTP<br>traffic"
+msgstr "Κίνηση<br>FTP"
+
+msgid "SMTP<br>traffic"
+msgstr "Κίνηση<br>SMTP"
+
+msgid "POP3/IMAP<br>traffic"
+msgstr "Κίνηση<br>POP3/IMAP"
+
+msgid "SQL<br>database"
+msgstr "SQL<br>Β.Δ."
+
+msgid "SQL<br>user"
+msgstr "SQL<br>χρήστης"
+
+msgid "ispCP Admin / System Tools / Anti-Rootkits Tools Log Checker"
+msgstr ""
+"ispCP Διαχειριστής / Εργαλεία Συστήματος / Εργαλεία Αντί-Rootkits  Ελεγκτής "
+"Αρχείου Καταγραφής"
+
+#, php-format
+msgid "%s doesn't exist or is empty"
+msgstr "%s δεν υπάρχει ή είναι κενό"
+
+msgid "Anti-Rootkits Tools Log Checker"
+msgstr "Εργαλεία Αντί-Rootkits  Ελεγκτής Αρχείου Καταγραφής"
+
+msgid "ispCP - Admin/Server statistics"
+msgstr "ispCP - Διαχειριστής/Στατιστικά διακομιστή"
+
+msgid "Server statistics"
+msgstr "Στατιστικά Διακομιστή"
+
+msgid "Web in"
+msgstr "Web εν"
+
+msgid "Web out"
+msgstr "Web εκ"
+
+msgid "SMTP in"
+msgstr "SMTP εν"
+
+msgid "SMTP out"
+msgstr "SMTP εκ"
+
+msgid "POP3/IMAP in"
+msgstr "POP3/IMAP εν"
+
+msgid "POP3/IMAP out"
+msgstr "POP3/IMAP εκ"
+
+msgid "Other in"
+msgstr "Άλλα εν"
+
+msgid "Other out"
+msgstr "Άλλα εκ"
+
+msgid "All in"
+msgstr "Όλα εν"
+
+msgid "All out"
+msgstr "Όλα εκ"
+
+msgid "ispCP - Admin/Server day stats"
+msgstr "ispCP - Δειαχειριστής/Ημερήσια στατιστικά Διακομιστή"
+
+msgid "Server day statistics"
+msgstr "Ημερήσια στατιστικά Διακομιστή"
+
+msgid "Month:"
+msgstr "Μήνας:"
+
+msgid "Year:"
+msgstr "Έτος:"
+
+msgid "Day:"
+msgstr "Ημέρα:"
+
+msgid "Hour"
+msgstr "Ώρα:"
+
+msgid "ispCP Admin / System Tools / Server Status"
+msgstr "ispCP Διαχειριστής / Εργαλεία Συστήματος / Κατάσταση Διακομιστή"
+
+msgid "UP"
+msgstr "ΠΑΝΩ"
+
+msgid "DOWN"
+msgstr "ΚΑΤΩ"
+
+msgid "Host"
+msgstr "Κεντρικός υπολογιστής"
+
+msgid "Service"
+msgstr "Υπηρεσία"
+
+msgid "Server status"
+msgstr "Κατάσταση Διακομιστή"
+
+msgid "ispCP - Admin/Manage Sessions"
+msgstr "ispCP - Διαχειριστής/Διαχείριση Συνεδριών"
+
+msgid "Manage user sessions"
+msgstr "Διαχείριση συνεδριών χρήστη"
+
+msgid "User type"
+msgstr "Τύπος χρήστη"
+
+msgid "Last access"
+msgstr "Τελευταία πρόσβαση"
+
+msgid "Options"
+msgstr "Επιλογές"
+
+msgid "Kill session"
+msgstr "Τερματισμός συνεδρίας"
+
+msgid "ispCP - Admin/Settings"
+msgstr "ispCP - Διαχειριστής/Ρυθμίσεις"
+
+#, fuzzy
+msgid "Only positive numbers are allowed !"
+msgstr "ΣΦΑΛΜΑ: Επιτρέπονται μόνο θετικοί αριθμοί !"
+
+msgid "Nothing has been changed!"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "%d configuration parameter was updated!"
+msgstr "%d Η γλώσσα ενημερώθηκε!"
+
+#, php-format
+msgid "%d configuration parameters were updated!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameter was created!"
+msgstr ""
+
+#, php-format
+msgid "%d configuration parameters were created!"
+msgstr ""
+
+msgid "General settings"
+msgstr "Γενικές ρυθμίσεις"
+
+msgid "Activation link expire time (minutes)"
+msgstr "Χρόνος εκπνοής δεσμού ενεργοποίησης (λεπτά)"
+
+msgid "Password settings"
+msgstr "Ρυθμίσεις συνθηματικού"
+
+msgid "Use strong Passwords"
+msgstr "Χρήση δύσκολων Συνθηματικών"
+
+msgid "Password length"
+msgstr "Μήκος συνθηματικού"
+
+msgid "Bruteforce detection"
+msgstr "Υπερβολική ανίχνευση"
+
+msgid "Block time between logins"
+msgstr "Χρόνος φραγής μεταξύ εισόδων"
+
+msgid "Max number of login attempts"
+msgstr "Μέγιστος αριθμός προσπαθειών εισόδου"
+
+msgid "Blocktime (minutes)"
+msgstr "Χρόνος φραγής (λεπτά)"
+
+msgid "Block time between logins (seconds)"
+msgstr "Χρόνος φραγής μεταξύ εισόδων (δεύτερα)"
+
+msgid "Max number of CAPTCHA validation attempts"
+msgstr "Μέγιστος αριθμός προσπαθειών επικύρωσης με CAPTCHA"
+
+msgid "Other settings"
+msgstr "Άλλες ρυθμίσεις"
+
+msgid "E-Mail settings"
+msgstr "Ρυθμίσεις E-Mail "
+
+msgid "Create default E-Mail addresses"
+msgstr "Δημιουργία  διεύθυνσης E-Mail προεπιλογής"
+
+msgid "Count default E-Mail addresses"
+msgstr "Αριθμός διεύθυνσεων E-Mail προεπιλογής"
+
+msgid "E-Mail accounts are hard suspended"
+msgstr "Λογαριασμοί E-Mail  που έχουν ανασταλεί"
+
+msgid "Panel default language"
+msgstr "Γλώσσα προεπιλογής εφαρμογής"
+
+msgid "Apply changes"
+msgstr "Εφαρμογή αλλαγών"
+
+msgid "Server ports"
+msgstr "Θύρες διακομιστή"
+
+msgid "Hosting plans available for"
+msgstr "Πακέτα φιλοξενίας internet διαθέσιμα για"
+
+msgid "Admin"
+msgstr "Διαχειριστής"
+
+msgid "Domains per page"
+msgstr "Ονόματα internet ανά σελίδα"
+
+msgid "Log Level"
+msgstr "Επίπεδο καταγραφής"
+
+msgid "Notices, Warnings and Errors"
+msgstr "Επισημάνσεις, Προειδοποιήσεις και Σφάλματα"
+
+msgid "Warnings and Errors"
+msgstr "Προειδοποιήσεις και Σφάλματα"
+
+msgid "Errors"
+msgstr "Σφάλματα"
+
+msgid "Check for update"
+msgstr "Έλεγχος ενημέρωσης"
+
+msgid "Show compression size comment"
+msgstr ""
+
+msgid "Prevent external login for admins"
+msgstr "Πρόληψη εξωτερικών εισόδων για διαχειριστές"
+
+msgid "Prevent external login for resellers"
+msgstr "Πρόληψη εξωτερικών εισόδων για μεταπωλητές"
+
+msgid "Prevent external login for clients"
+msgstr "Πρόληψη εξωτερικών εισόδων για πελάτες"
+
+msgid "Custom orderpanel ID"
+msgstr "Αριθμός παραγγελίας εφαρμογής"
+
+msgid "Domain names validation"
+msgstr "Επικύρωση ονομάτων internet"
+
+msgid "Top Level Domain name strict validation"
+msgstr "Αυστηρή επικύρωση ονόματος internet πρώτου επιπέδου"
+
+msgid ""
+"Only Top Level Domains (TLD) listed in IANA root zone database can be used."
+msgstr ""
+"Μόνο ονόματα internet πρώτου επιπέδου (TLD) που υπάρχουν στην IANA μπορούν "
+"να χρησιμοποιηθούν στην ριζική ζώνη."
+
+msgid "Second Level Domain name strict validation"
+msgstr "Αυστηρή επικύρωση ονόματος internet δευτέρου επιπέδου"
+
+msgid ""
+"Single letter Second Level Domains (SLD) are not allowed under the most Top "
+"Level Domains (TLD). There is a small list of exceptions, e.g. the TLD .de."
+msgstr ""
+"Δευτέρου επιπέδου ονόματα internet με μονό γράμμα (SLD) δεν επιτρέπονται "
+"κάτω από τα περισσότερα ονόματα πρώτου επιπέδου (TLD). Υπάρχουν μερικές "
+"εξαιρέσεις όπως π.χ. το TLD .de."
+
+#, fuzzy
+msgid ""
+"Maximal number of labels for domain names<br />(<em>Excluding SLD & TLD</em>)"
+msgstr ""
+"Μέγιστος αριθμός ετικετών για όνομα internet <br />(<i>Εξαιρούνται SLD & "
+"TLD</i>)"
+
+msgid "Maximal number of labels for subdomains"
+msgstr "Μέγιστος αριθμός ετικετών για υποονόματα internet"
+
+msgid "You can only upload images!"
+msgstr "Μπορείτε να μεταφορώσετε μόνο εικόνες!"
+
+msgid "Images have to be smaller than 195 x 195 pixels!"
+msgstr "Οι εικόνες πρέπει να είναι μικρότερες απο 195 x 195 pixels."
+
+msgid "Your logo was successful uploaded!"
+msgstr "Το λογοτυπό σας μεταφορτώθηκε!"
+
+msgid "Layout settings"
+msgstr "Ρυθμίσεις σχεδιαγράμματος"
+
+msgid "Installed layouts"
+msgstr "Εγκατεστημένα σχεδιαγράμματα"
+
+msgid "Layout name"
+msgstr "Όνομα σχεδιαγράμματος"
+
+msgid "default"
+msgstr "προεπιλογή"
+
+msgid "Upload logo"
+msgstr "Μεταφόρτωση λογοτύπου"
+
+msgid "Logo file"
+msgstr "Αρχείο λογοτύπου"
+
+msgid "Upload"
+msgstr "Μεταφόρτωση"
+
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+msgid "Choose default layout"
+msgstr "Επιλογή σχεδιαγράμματος προεπιλογής"
+
+msgid "Layout"
+msgstr "Σχεδιάγραμμα"
+
+msgid "Please specify a subject!"
+msgstr "Παρακαλώ καθορίστε θέμα!"
+
+msgid "Please specify message!"
+msgstr "Παρακαλώ καθορίστε μήνυμα!"
+
+msgid "Auto email template data updated!"
+msgstr "Ενημερώθηκε το πρώτυπο αυτόματου email!"
+
+msgid "ispCP - Admin/Lostpw email setup"
+msgstr "ispCP - Διαχειριστής/Εγκατάσταση email ΧαμένοΣθ."
+
+msgid "Lost password e-mail"
+msgstr "E-mail χαμένου συνθηματικού"
+
+msgid "Message template info"
+msgstr "Πληροφορίες μήνυματος πρωτύπου"
+
+msgid "Message template"
+msgstr "Μήνυμα πρώτυπο"
+
+msgid "Activation E-Mail"
+msgstr "Ενεργοποίηση E-Mail"
+
+msgid "Password E-Mail"
+msgstr "Συνθηματικό E-Mail"
+
+msgid "User login (system) name"
+msgstr "Όνομα χρήστη για είσοδο (στο σύστημα) "
+
+msgid "User password"
+msgstr "Συνθηματικό χρήστη"
+
+msgid "User (first and last) name"
+msgstr "Ονοματεπώνυμο χρήστη"
+
+msgid "Lost password link"
+msgstr "Δεσμός χαμένου συνθηματικού"
+
+msgid "Subject"
+msgstr "Θέμα"
+
+msgid "URL to this admin panel"
+msgstr "URL στο πίνακα διαχειριστή"
+
+msgid "URL protocol"
+msgstr "URL πρωτόκολλο"
+
+msgid "ispCP - Admin/Maintenance mode"
+msgstr "ispCP - Διαχειριστής/Λειτουργία Συντήρησης"
+
+#, fuzzy
+msgid "Settings saved!"
+msgstr "Οι ρυθμίσεις καταχωρήθηκαν !"
+
+msgid "Maintenance mode"
+msgstr "Λειτουργία Συντήρησης"
+
+msgid "Under this mode only administrators can login"
+msgstr "Η είσοδος στη λειτουργία αυτή επιτρέπεται μόνο σε διαχειριστές"
+
+#, fuzzy
+msgid ""
+"Only letters, numbers, dash and underscore are allowed for services names!"
+msgstr "ΣΦΑΛΜΑ: Μόνο γράμματα, Αριθμοί, παύλες και κατώπαυλες επιτρέπονται!"
+
+#, fuzzy
+msgid "Only positive numbers are allowed for services ports!"
+msgstr "ΣΦΑΛΜΑ: Επιτρέπονται μόνο θετικοί αριθμοί !"
+
+#, fuzzy
+msgid "Service port with same name already exists!"
+msgstr "ΣΦΑΛΜΑ: Η θύρα υπάρχει ήδη!"
+
+#, fuzzy
+msgid "Unallowed protocol!"
+msgstr "URL πρωτόκολλο"
+
+#, fuzzy
+msgid "Incorrect value for show entry!"
+msgstr "Λάθος σύνταξη ή μήκος email."
+
+#, fuzzy
+msgid "Service port was added!"
+msgstr "Νέα IP προστέθηκε!"
+
+#, fuzzy, php-format
+msgid "%d Service port was updated!"
+msgstr "%d Νέα IP προστέθηκε!"
+
+#, fuzzy, php-format
+msgid "%d Services port were updated!"
+msgstr "%d Νέα IP προστέθηκε!"
+
+msgid "Nothing's been changed!"
+msgstr ""
+
+msgid "You have no custom service ports defined."
+msgstr "Δεν έχουν οριστεί θύρες υπηρεσιών εφαρμογής."
+
+#, fuzzy
+msgid "Unknown service port name!"
+msgstr "Προσθήκη νέου πακέτου φιλοξενίας internet"
+
+#, fuzzy
+msgid "Service port was removed!"
+msgstr "Το εισιτήριο άνοιξε πάλι!"
+
+msgid "You are not allowed to remove this port entry!"
+msgstr ""
+
+msgid "udp"
+msgstr "udp"
+
+msgid "tcp"
+msgstr "tcp"
+
+msgid "Port"
+msgstr "Θύρα"
+
+msgid "Protocol"
+msgstr "Πρωτόκολλο"
+
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s service port ?"
+msgstr "Σίγουρα θέλετε διαγραφή του %s;"
+
+msgid "View / Update service(s) port"
+msgstr ""
+
+#, fuzzy
+msgid "Add new service port"
+msgstr "Προσθήκη νέου πακέτου φιλοξενίας internet"
+
+msgid "ispCP - Admin/Server Traffic Settings"
+msgstr "ispCP - Διαχειριστής/Ρυθμίσεις Κίνησης Διακομιστή"
+
+msgid "Wrong data input!"
+msgstr "Λάθος δεδομένα εισόδου!"
+
+msgid "Warning traffic is bigger than max traffic!"
+msgstr "Προειδοποίηση η κίνηση ξεπέρασε  τη μέγιστη τιμή της!"
+
+msgid "Server traffic settings updated successfully!"
+msgstr "Οι ρυθμίσεις κίνησης διακομιστή ενημερώθηκαν!"
+
+msgid "Modify"
+msgstr "Τροποποίηση"
+
+msgid "Server traffic settings"
+msgstr "Ρυθμίσεις κίνησης διακομιστή"
+
+msgid "Set server traffic settings"
+msgstr "Θέστε τις ρυθμίσεις κίνησης διακομιστή"
+
+msgid "Max traffic [MB]"
+msgstr "Μέγιστο κίνησης [MB]"
+
+msgid "Warning traffic [MB]"
+msgstr "Προειδοποίηση κίνησης [MB]"
+
+msgid "ispCP - Admin/Manage users/Email setup"
+msgstr "ispCP -Διαχειριστής/Διαχείριση χρηστών/Ρύθμιση email"
+
+msgid "Email setup"
+msgstr "Ρύθμιση email"
+
+msgid "User real (first and last) name"
+msgstr "Ονοματεπώνυμο χρήστη"
+
+msgid "User type (admin, reseller, user)"
+msgstr "Τύπος χρήστη (διαχειριστής, μεταπωλητής, χρήστης)"
+
+msgid "CPU bogomips"
+msgstr "CPU bogomips"
+
+msgid "CPU cache"
+msgstr "CPU cache"
+
+msgid "Number of CPU Cores"
+msgstr "Αριθμός πυρήνων CPU"
+
+msgid "CPU MHz"
+msgstr "CPU MHz"
+
+msgid "CPU model"
+msgstr "Μοντέλο CPU"
+
+msgid "CPU system Info"
+msgstr "Πληροφορίες CPU συστήματος"
+
+msgid "Filesystem system Info"
+msgstr "Πληροφορίες συστήματος αρχείων"
+
+msgid "Free"
+msgstr "Ελεύθερα"
+
+#, fuzzy
+msgid "Kernel Version"
+msgstr "Έκδοση επίδειξης!"
+
+msgid "Load (1 Min, 5 Min, 15 Min)"
+msgstr ""
+
+msgid "Memory system info"
+msgstr "Πληροφορίες μνήμης συστήματος"
+
+msgid "Mount"
+msgstr "Σύνδεση"
+
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Partition"
+msgstr "Διαμέρισμα"
+
+msgid "Percent"
+msgstr "Ποσοστό"
+
+msgid "Size"
+msgstr "Μέγεθος"
+
+msgid "Swap"
+msgstr "Swap"
+
+msgid "System info"
+msgstr "Πληροφορίες συστήματος"
+
+msgid "Vital system info"
+msgstr "Ζωτικές πληροφορίες συστήματος"
+
+msgid "Total"
+msgstr "Σύνολο"
+
+msgid "Type"
+msgstr "Τύπος"
+
+msgid "Up time"
+msgstr "Χρόνος λειτουργίας"
+
+msgid "ispCP - Client/Questions & Comments"
+msgstr "ispCP - Πελάτης/Ερωτήσεις & Σχόλια"
+
+msgid "Support tickets"
+msgstr "Εισιτήρια υποστήριξης"
+
+msgid "Priority"
+msgstr "Προτεραιότητα"
+
+msgid "Last reply"
+msgstr "Τελευταία απάντηση"
+
+msgid "Delete all"
+msgstr "Διαγραφή όλων"
+
+msgid "Open tickets"
+msgstr "Ανοιχτά εισιτήρια"
+
+msgid "Closed tickets"
+msgstr "Κλειστά εισιτήρια"
+
+msgid "From"
+msgstr "Από"
+
+msgid "Support ticket deleted successfully!"
+msgstr "Επιτυχής διαγραφή εισιτηρίων υποστήριξης!"
+
+msgid "All open support tickets deleted successfully!"
+msgstr "Επιτυχής διαγραφή ανοιχτών εισιτηρίων υποστήριξης!"
+
+msgid "All closed support tickets deleted successfully!"
+msgstr "Επιτυχής διαγραφή κλειστών εισιτηρίων υποστήριξης!"
+
+msgid "ispCP - Client/Enable Mail Autoresponder"
+msgstr "ispCP - Πελάτης/Ενεργοποίηση αυτόματης απάντησης email"
+
+msgid "ispCP - Client: Support System: View Ticket"
+msgstr "ispCP - Πελάτης: Σύστημα Υποστήριξης: Προβολή Εισιτηρίου"
+
+msgid "Please type your message!"
+msgstr "Παρακαλώ γράψτε το μήνυμα σας!"
+
+msgid "Ticket not found!"
+msgstr "Το εισιτήριο δεν βρέθηκε!"
+
+msgid "ispCP - Admin: Support System: View Ticket"
+msgstr "ispCP - Διαχειριστής: Σύστημα υποστήριξης: Προβολή Εισιτηρίου"
+
+msgid "View support ticket"
+msgstr "Προβολή εισιτηρίου υποστήριξης"
+
+msgid "Send message reply"
+msgstr "Στείλτε μήνυμα απάντησης"
+
+msgid "Send reply"
+msgstr "Στείλτε απάντηση"
+
+msgid "ispCP - Delete Domain"
+msgstr "ispCP - Διαγραφή ονόματος internet"
+
+#, fuzzy
+msgid "Invlaid domain ID!"
+msgstr "Λάθος μοναδικός κωδικός ονόματος internet!"
+
+#, fuzzy
+msgid "Invalid user ID!"
+msgstr "Άκυρος μοναδικός κωδικός χρήστη!"
+
+msgid "Logo could not be deleted:"
+msgstr "Το λογότυπο δεν διαγράφεται:"
+
+msgid "There are active domains of reseller/admin!"
+msgstr "Υπάρχουν ενεργά ονόματα internet μεταπωλητών/διαχειριστών."
+
+msgid "Wrong domain ID!"
+msgstr "Λάθος μοναδικός κωδικός ονόματος internet!"
+
+msgid "Delete domain"
+msgstr "Διαγραφή ονόματος internet"
+
+msgid "Domain summary:"
+msgstr "Σύνοψη ονόματος internet:"
+
+msgid "Domain e-mails:"
+msgstr "e-mails ονόματος  internet:"
+
+msgid "Domain FTP accounts:"
+msgstr "FTP λογαριασμοί ονόματος  internet:"
+
+msgid "Domain aliases:"
+msgstr "Ψευδώνυμα ονόματος  internet:"
+
+msgid "Domain subdomains:"
+msgstr "Υποονόματα  internet:"
+
+msgid "Domain databases:"
+msgstr "Β.Δ.  ονόματος internet:"
+
+#, fuzzy
+msgid ""
+"Do you really want to delete the entire domain? This operation cannot be "
+"undone!"
+msgstr ""
+"Είστε σίγουρος για τη πλήρη διαγραφή ονόματος  internet; Αυτή η επιλογή δεν "
+"ανακαλείται!"
+
+msgid "Yes, delete the domain."
+msgstr "Ναι, διαγραφή ονόματος  internet."
+
+msgid "ispCP Client : Add Alias"
+msgstr "ispCP Πελάτης : Προσθήκη Ψευδωνύμου"
+
+msgid "Manage domain alias"
+msgstr "Διαχείριση ψευδωνύμων ονόματος  internet"
+
+msgid "Add domain alias"
+msgstr "Προσθήκη ψευδώνυμου ονόματος  internet"
+
+msgid "User account"
+msgstr "Λογαριασμός χρήστη"
+
+msgid "Directory mount point"
+msgstr "Σημείο σύνδεσης καταλόγου"
+
+msgid "Forward to URL"
+msgstr "Προώθηση στο URL"
+
+msgid "Add alias"
+msgstr "Προσθήκη ψευδώνυμου"
+
+msgid "You do not need 'www.' ispCP will add it on its own."
+msgstr "Παραλείψτε  το 'www.'  θα προστεθεί από το ispCP."
+
+msgid "Wrong domain name!"
+msgstr "Λάθος όνομα internet! "
+
+msgid "Please write mount point!"
+msgstr "Παρακαλώ γράψτε το σημείο σύνδεσης!"
+
+msgid "Enable Forward"
+msgstr "Ενεργοποίηση προωθήσης"
+
+msgid "Enable"
+msgstr "Ενεργό"
+
+msgid "Disable"
+msgstr "Ανενεργό"
+
+msgid "Domain alias limit reached!"
+msgstr "Τα ψευδώνυμα ονόματος internet έφτασαν στο όριο!"
+
+#, fuzzy
+msgid "Domain with that name already exists on the system!"
+msgstr "Το όνομα internet υπάρχει ήδη στο σύστημα!"
+
+msgid "Incorrect mount point syntax"
+msgstr "Incorrect <i>mount point</i> syntax!"
+
+msgid "Master domain cannot be used!"
+msgstr "Κύριο όνομα internet δεν μπορεί να χρησιμοποιηθεί!"
+
+#, fuzzy
+msgid "Wrong address in forward URL!"
+msgstr "Λάθος μέρος ονόματος internet στο URL προώθησης!"
+
+msgid "Wrong domain part in forward URL!"
+msgstr "Λάθος μέρος ονόματος internet στο URL προώθησης!"
+
+msgid "Domain with this name already exist"
+msgstr "Το όνομα internet υπάρχει ήδη"
+
+msgid "There is a subdomain with the same mount point!"
+msgstr "Υπάρχει υποόνομα internet με το ίδιο σημείο σύνδεσης!"
+
+msgid "Alias scheduled for activation!"
+msgstr "Το ψευδώνυμο προωθείται για ενεργοποίηση! "
+
+msgid "Alias scheduled for addition!"
+msgstr "Το ψευδώνυμο προωθείται για προσθήκη! "
+
+#, fuzzy
+msgid ""
+"Domain alias you are trying to remove has subdomains!<br />First remove them!"
+msgstr ""
+"Το ψευδώνυμο ονόματος internet που θέλετε να αφαιρεθεί έχει υποονόματα!<br/"
+">Αφαιρέστε αυτά πρώτα!"
+
+#, fuzzy
+msgid ""
+"Domain alias you are trying to remove has email accounts!<br />First remove "
+"them!"
+msgstr ""
+"Το ψευδώνυμο ονόματος internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς "
+"email!<br/>Αφαιρέστε αυτούς πρώτα!"
+
+#, fuzzy
+msgid ""
+"Domain alias you are trying to remove has FTP accounts!<br />First remove "
+"them!"
+msgstr ""
+"Το ψευδώνυμο ονόματος internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς "
+"FTP!<br/>Αφαιρέστε αυτούς πρώτα!"
+
+msgid "Alias scheduled for deletion!"
+msgstr "Το ψευδώνυμο προωθείται για διαγραφή! "
+
+msgid "ispCP - Manage Domain Alias/Edit Alias"
+msgstr "ispCP - Διαχείριση Ψευδωνύμων ονομάτων internet/Μεταβολή Ψευδωνύμου"
+
+msgid "Edit domain alias"
+msgstr "Μεταβολή ψευδωνύμων ονομάτων internet"
+
+msgid "Alias name"
+msgstr "Ψευδώνυμο"
+
+msgid "Mount Point"
+msgstr "Σημείο σύνδεσης"
+
+#, fuzzy
+msgid ""
+"Subdomain you are trying to remove has email accounts !<br />First remove "
+"them!"
+msgstr ""
+"Το υποόνομα internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς email!<br/"
+">Αφαιρέστε αυτούς πρώτα!"
+
+#, fuzzy
+msgid "Alias subdomain scheduled for deletion!"
+msgstr "Το υποόνομα προωθείται για διαγραφή! "
+
+msgid "Backup archive scheduled for restoring!"
+msgstr "Το αρχείο αντιγράφων ασφαλείας προωθείται για επαναφορά!"
+
+msgid "ispCP - Client/Daily Backup"
+msgstr "ispCP - Πελάτης/Ημερήσιο αντίγραφο ασφαλείας"
+
+msgid "Daily backup"
+msgstr "Ημερήσιο αντίγραφο ασφαλείας"
+
+msgid "Instructions to download today's backup"
+msgstr "Οδηγίες φόρτωσης ημερήσιου αντίγραφου ασφαλείας"
+
+msgid "Login with your FTP account"
+msgstr "Είσοδος με το λογαριασμό σας FTP"
+
+msgid "Switch to backups/ directory"
+msgstr "Εναλλαγή σε αντίγραφα ασφαλείας/ κατάλογο"
+
+msgid "Download the files stored in this directory"
+msgstr "Φόρτωση αρχείων καταλόγου"
+
+msgid "(usually named"
+msgstr "(συνήθως με όνομα"
+
+msgid "Restore backup"
+msgstr "Επαναφορά αντιγράφων ασφαλείας"
+
+msgid ""
+"Click the Restore button and the system will restore the last daily backup"
+msgstr ""
+"Με κλικ στο κουμπί Επαναφορά το σύστημα θα επαναφέρει το πιο πρόσφατο "
+"ημερήσιο αντίγραφο ασφαλείας."
+
+msgid "Restore"
+msgstr "Επαναφορά"
+
+msgid "Are you sure you want to restore the backup?"
+msgstr "Ειστε σίγουρος για την επαναφορά του αντιγράφου ασφαλείας;"
+
+msgid "ispCP - Client/Cronjob Manager"
+msgstr "ispCP - Πελάτης/Διαχείριση Cronjob"
+
+msgid "Cronjob Manager"
+msgstr "Διαχείριση Cronjob"
+
+msgid "Add Cronjob"
+msgstr "Προσθήκη Cronjob"
+
+msgid "Active"
+msgstr "Ενεργό"
+
+msgid "Cronjob"
+msgstr "Cronjob"
+
+msgid "Command to run:"
+msgstr "Εντολή για εκτέλεση:"
+
+msgid "Minute(s):"
+msgstr "Λεπτά:"
+
+msgid "Hour(s):"
+msgstr "Ώρες:"
+
+msgid "Day(s):"
+msgstr "Μέρες:"
+
+msgid "Month(s):"
+msgstr "Μήνες:"
+
+msgid "Weekday(s):"
+msgstr "Ημέρα Εβδομάδας:"
+
+msgid "Edit Cronjob"
+msgstr "Μεταβολή Cronjob"
+
+msgid "Cronjobs"
+msgstr "Cronjobs"
+
+msgid "You are not allowed to remove this DNS record!"
+msgstr ""
+
+#, fuzzy
+msgid "Custom DNS record scheduled for deletion!"
+msgstr "Η εγγραφή ζώνης DNS προωθείται για διαγραφή!"
+
+msgid "ispCP - Manage Domain Alias/Add DNS zone's record"
+msgstr ""
+"ispCP - Διαχείριση ψευδωνύμων ονομάτων internet/Προσθήκη εγγραφής ζώνης DNS "
+
+msgid "ispCP - Manage Domain Alias/Edit DNS zone's record"
+msgstr ""
+"ispCP - Διαχείριση ψευδωνύμων ονομάτων internet/Μεταβολή εγγραφής ζώνης DNS"
+
+msgid "Add DNS zone's record"
+msgstr "Προσθήκη εγγραφής ζώνης DNS"
+
+#, fuzzy
+msgid "Edit DNS zone's record"
+msgstr "Προσθήκη εγγραφής ζώνης DNS"
+
+msgid "DNS zone's records"
+msgstr "Εγγραφές ζώνης DNS"
+
+msgid "Class"
+msgstr "Κλάση"
+
+msgid "Service name"
+msgstr "Όνομα υπηρεσίας"
+
+msgid "IP address"
+msgstr "Διεύθυνση IP"
+
+msgid "IPv6 address"
+msgstr "Διεύθυνση IPv6"
+
+msgid "Service protocol"
+msgstr "Πρωτόκολλο υπηρεσίας"
+
+msgid "TTL"
+msgstr "TTL"
+
+msgid "Relative weight for records with the same priority"
+msgstr "Σχετικό βάρος για εγγραφές ίδιας προταιρεότητας"
+
+msgid "Target host"
+msgstr "Κεντρικός υπολογιστής προορισμού"
+
+msgid "Target port"
+msgstr "Θύρα προορισμού"
+
+msgid "Canonical name"
+msgstr "Κανονικό όνομα"
+
+msgid "Plain record data"
+msgstr "Δεδομένα εγγραφής"
+
+#, fuzzy
+msgid "You are not allowed to edit this DNS record!"
+msgstr "Δεν έχετε εγγραφές ψευδωνύμων."
+
+#, php-format
+msgid "Use of disallowed char(\"%s\") in CNAME"
+msgstr "Χρήση αντικανονικού χαρακτήρα(\"%s\") στο CNAME"
+
+msgid "Name must be filled."
+msgstr "Πρέπει να συμπληρωθεί το όνομα."
+
+#, php-format
+msgid "Wrong IPv4 address (\"%s\")."
+msgstr "Λάθος διεύθυνση IPv4 (\"%s\")."
+
+#, php-format
+msgid "Wrong IPv6 address (\"%s\")."
+msgstr "Λάθος διεύθυνση IPv6 (\"%s\")."
+
+msgid "Port must be a number!"
+msgstr "Η θύρα πρέπει να είναι αριθμός!"
+
+msgid "TTL must be a number!"
+msgstr "Το TTL πρέπει να είναι αριθμός!"
+
+msgid "Priority must be a number!"
+msgstr "Η πρωταιρεότητα πρέπει να είναι αριθμός!"
+
+msgid "Relative weight must be a number!"
+msgstr "Το σχετικό βάρος πρέπει να είναι αριθμός!"
+
+msgid "Service must be filled."
+msgstr "Η υπηρεσία πρέπει να συμπληρωθεί."
+
+msgid "Host must be filled."
+msgstr "Ο κεντρικός υπολογιστής πρέπει να συμπληρωθεί."
+
+msgid "conflict with CNAME record"
+msgstr "Διένεξη με την εγγραφή CNAME"
+
+#, php-format
+msgid "Use of disallowed char(\"%s\") in NAME"
+msgstr "Χρήση απαγορευμένου χαρακτήρα(\"%s\") στο NAME"
+
+#, php-format
+msgid "Record \"%s\" is not part of domain \"%s\"."
+msgstr "Η εγγραφή \"%s\" δεν είναι μέρος του ονόματος internet \"%s\"."
+
+#, php-format
+msgid "Cannot validate %s record. Reason '%s'."
+msgstr "Δεν επικυρώθηκε %s εγγραφή. Εξαιτίας '%s'."
+
+#, php-format
+msgid "Unknown zone type %s!"
+msgstr "Άγνωστος τύπος ζώνης %s!"
+
+#, fuzzy
+msgid "Error: DNS record already exist!"
+msgstr "Ο χρήστης υπάρχει ήδη!"
+
+msgid "ispCP - Client/Domain Statistics"
+msgstr "ispCP - Πελάτης/Στατιστικά ονόματος internet"
+
+msgid "Web Stats"
+msgstr "Στατιστικά Web"
+
+msgid "WEB"
+msgstr "WEB"
+
+msgid "SMTP"
+msgstr "SMTP"
+
+msgid "POP3/IMAP"
+msgstr "POP3/IMAP"
+
+msgid "Sum"
+msgstr "Σύνολο"
+
+msgid "Manual zone's records list is empty!"
+msgstr "Κενή λίστα με τις εγγραφές ζώνης από το χρήστη!"
+
+#, php-format
+msgid "%s record"
+msgstr "%s εγγραφή"
+
+msgid "Subdomain list is empty!"
+msgstr "Ο κατάλογος υποονομάτων internet είναι κενός!"
+
+msgid "Delete order"
+msgstr "Διαγραφή παραγγελίας"
+
+msgid "Alias list is empty!"
+msgstr "Ο κατάλογος ψευδωνύμων είναι κενός!"
+
+msgid "ispCP - Client/Manage Domains"
+msgstr "ispCP - Πελάτης/Διαχείριση ονομάτων internet"
+
+msgid "Manage domains"
+msgstr "Διαχείριση ονομάτων internet"
+
+msgid "Mount point"
+msgstr "Σημείο σύνδεσης"
+
+msgid "Forward"
+msgstr "Προώθηση"
+
+msgid "Actions"
+msgstr "Δράσεις"
+
+msgid "Record data"
+msgstr "Δεδομένα εγγραφής"
+
+msgid "ispCP - Client/Manage Error Custom Pages"
+msgstr "ispCP - Πελάτης/Διαχείριση Σελίδων Σφαλμάτων"
+
+msgid "Server error - please choose error page"
+msgstr "Σφάλμα διακομιστή - παρακαλώ επιλέξτε σελίδα σφάλματος"
+
+msgid "Edit error page"
+msgstr "Μεταβολη σελίδας σφάλματος"
+
+msgid "Custom error page was updated!"
+msgstr "Η σελίδα σφάλματος ενημερώθηκε!"
+
+msgid "System error - custom error page was NOT updated!"
+msgstr "Σφάλμα συστήματος - η σελίδα σφάλματος ΔΕΝ ενημερώθηκε!"
+
+msgid "Error 401 (unauthorised)"
+msgstr "Σφάλμα 401 (χωρίς άδεια)"
+
+msgid "Error 403 (forbidden)"
+msgstr "Σφάλμα 403 (απαγορευτικό)"
+
+msgid "Error 404 (not found)"
+msgstr "Σφάλμα 404 (δεν βρέθηκε)"
+
+msgid "Error 500 (internal server error)"
+msgstr "Σφάλμα 500 (εσωτερικό σφάλμα διακομιστή)"
+
+msgid "Error 503 (service unavailable)"
+msgstr "Σφάλμα 503 (η υπηρεσία δεν διατίθεται)"
+
+msgid "Error pages"
+msgstr "Σελίδες σφαλμάτων"
+
+msgid "FTP list is empty!"
+msgstr "Ο κατάλογος FTP είναι κενός!"
+
+msgid "ispCP - Client/Manage Users"
+msgstr "ispCP - Πελάτης/Διαχείριση Χρηστών"
+
+msgid "Manage users"
+msgstr "Διαχείριση Χρηστών"
+
+msgid "FTPs total"
+msgstr "Σύνολο FTP"
+
+msgid "FTP users"
+msgstr "Χρήστες FTP"
+
+msgid "FTP account"
+msgstr "Λογαριασμοί FTP"
+
+msgid "Empty List"
+msgstr "Κενή λίστα"
+
+msgid "Empty list"
+msgstr "Κενή λίστα"
+
+msgid "FTP account already exists!"
+msgstr "Ο λογαριασμός FTP υπάρχει ήδη!"
+
+msgid "Unknown domain type"
+msgstr "Άγνωστος τύπος όνοματος internet "
+
+msgid "Incorrect mount point length or syntax"
+msgstr "Λάθος μήκος ή σύνταξη σημείου σύνδεσης"
+
+#, php-format
+msgid "%s does not exist"
+msgstr "%s δεν υπάρχει"
+
+msgid "FTP account added!"
+msgstr "Ο λογαριασμός FTP προστέθηκε!"
+
+msgid "Please enter FTP account username!"
+msgstr "Παρακάλω γράψτε το όνομα χρήστη του FTP λογαριασμού!"
+
+msgid "Password is missing!"
+msgstr "Λείπει το συνθηματικό!"
+
+msgid "Subdomain list is empty! You cannot add FTP accounts there!"
+msgstr ""
+"Η λίστα υποονομάτων internet είναι κενή!Δεν μπορείτε να προσθέσετε "
+"λογαριασμούς FTP εκεί!"
+
+msgid "Alias list is empty! You cannot add FTP accounts there!"
+msgstr ""
+"Η λίστα ψευδωνύμων internet είναι κενή!Δεν μπορείτε να προσθέσετε "
+"λογαριασμούς FTP εκεί!"
+
+msgid "Please specify other FTP account dir!"
+msgstr "Παρακάλω ορίστε άλλο κατάλογο FTP λογαριασμού!"
+
+msgid "FTP accounts limit reached!"
+msgstr "Οι λογαριασμοί FTP έφθασαν στο όριο!"
+
+msgid "ispCP - Client/Add FTP User"
+msgstr "ispCP - Πελάτης/Πρόσθήκη χρήστη FTP"
+
+msgid "Add FTP user"
+msgstr "Πρόσθήκη χρήστη FTP"
+
+msgid "To main domain"
+msgstr "Προς κυρίως όνομα internet"
+
+msgid "To domain alias"
+msgstr "Προς ψευδώνυμο ονόματος internet"
+
+msgid "To subdomain"
+msgstr "Προς υποόνομα internet"
+
+msgid "Use other dir"
+msgstr "Χρησιμοποιείστε άλλο φάκελο"
+
+msgid "Choose dir"
+msgstr "Επιλογή φακέλου"
+
+#, fuzzy
+msgid "Cannot open directory!<br />Please contact your administrator!"
+msgstr "Ο φάκελος δεν ανοίγει!<br/>Παρακαλώ ενημερώστε το διαχειριστή σας!"
+
+msgid "Parent Directory"
+msgstr "Γονικός φάκελος"
+
+msgid "Protect it"
+msgstr "Προστάτεψέ το"
+
+msgid "ispCP - Client/Webtools"
+msgstr "ispCP - Πελάτης/Εργαλεία Web"
+
+msgid "Directory tree"
+msgstr "Δένδρο φακέλων"
+
+msgid "Directories"
+msgstr "Φάκελοι"
+
+msgid "Choose"
+msgstr "Επιλογή"
+
+msgid "FTP account deleted successfully!"
+msgstr "Ο λογαριασμός FTP διαγράφηκε επιτυχώς!"
+
+msgid "FTP account data updated!"
+msgstr "Τα δεδομένα λογαριασμού FTP ενημερώθηκαν!"
+
+msgid "ispCP - Client/Edit FTP Account"
+msgstr "ispCP - Πελάτης/Μεταβολή λογαριασμού FTP"
+
+msgid "Edit FTP user"
+msgstr "Μεταβολή λογαριασμού FTP"
+
+msgid "Save changes"
+msgstr "Αποθήκευση αλλαγών"
+
+msgid "Hosting plans available for update"
+msgstr "Διαθέσιμα πακέτα φιλοξενίας internet για ενημέρωση"
+
+msgid "Cancel order"
+msgstr "Ακύρωση παραγγελίας"
+
+msgid "Your order"
+msgstr "Η παραγγελία σας"
+
+msgid "Purchase"
+msgstr "Αγορά"
+
+msgid "There are no available updates"
+msgstr "Δεν υπάρχουν διαθέσιμες ενημερώσεις"
+
+msgid "PHP Support: enabled"
+msgstr "Υποστήριξη PHP: ενεργή"
+
+msgid "PHP Support: disabled"
+msgstr "Υποστήριξη PHP: ανενεργή"
+
+msgid ""
+"You have PHP enabled, but the new hosting plan doesn't has this feature."
+msgstr ""
+"Έχετε ενεργή υποστήριξη PHP, αλλά το νέο πακέτο φιλοξενίας δεν διαθέτει αυτή "
+"τη δυνατότητα."
+
+msgid "CGI Support: enabled"
+msgstr "Υποστήριξη CGI: ενεργή"
+
+msgid "CGI Support: disabled"
+msgstr "Υποστήριξη CGI: ανενεργή"
+
+msgid ""
+"You have CGI enabled, but the new hosting plan doesn't has this feature."
+msgstr ""
+"Έχετε ενεργή υποστήριξη CGI, αλλά το νέο πακέτο φιλοξενίας δεν διαθέτει αυτή "
+"τη δυνατότητα."
+
+msgid "DNS Support: enabled"
+msgstr "Υποστήριξη DNS: ενεργή"
+
+msgid "DNS Support: disabled"
+msgstr "Υποστήριξη DNS: ανενεργή"
+
+msgid ""
+"You have DNS enabled, but the new hosting plan doesn't has this feature."
+msgstr ""
+"Έχετε ενεργή υποστήριξη DNS, αλλά το νέο πακέτο φιλοξενίας δεν διαθέτει αυτή "
+"τη δυνατότητα."
+
+msgid "You have more disk space in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερο χώρο δίσκου σε χρήση από τα όρια του νέου πακέτου "
+"φιλοξενίας internet."
+
+msgid "Disk limit"
+msgstr "Όριο δίσκου"
+
+msgid "You did have more traffic than the new hosting plan limits."
+msgstr ""
+"Είχατε περισσότερη κίνηση από τα όρια του νέου πακέτου φιλοξενίας internet."
+
+msgid "Traffic limit"
+msgstr "Όριο κίνησης"
+
+msgid "You have more aliases in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερα ψευδώνυμα από τα όρια του νέου πακέτου φιλοξενίας internet."
+
+msgid "You have more subdomains in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερα υποονόματα internet από τα όρια του νέου πακέτου "
+"φιλοξενίας."
+
+msgid "You have more Email addresses in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερες διευθύνσεις email από τα όρια του νέου πακέτου φιλοξενίας "
+"internet."
+
+msgid "Emails"
+msgstr "Emails"
+
+msgid "You have more FTP accounts in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερους λογαριασμούς FTP από τα όρια του νέου πακέτου φιλοξενίας "
+"internet."
+
+msgid "FTPs"
+msgstr "FTPs"
+
+msgid "You have more SQL databases in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερες SQL Β.Δ. από τα όρια του νέου πακέτου φιλοξενίας internet."
+
+msgid ""
+"You have more SQL database users in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερους χρήστες Β.Δ. SQL από τα όρια του νέου πακέτου φιλοξενίας "
+"internet."
+
+msgid "free of charge"
+msgstr "δωρεάν"
+
+#, fuzzy
+msgid "You cannot update to this hosting plan, see notices in text."
+msgstr ""
+"Αδύνατη η μετάβαση στο πακέτο φιλοξενίας internet, βλ. τις επισημάνσεις στο "
+"κείμενο."
+
+msgid "Warning:"
+msgstr "Προειδοποίηση:"
+
+msgid "Caution:"
+msgstr "Προσοχή:"
+
+msgid "I understand the warnings - Purchase!"
+msgstr "Κατανοώ τις προειδοποιήσεις - Αγοράζω ! "
+
+msgid "There are no available hosting plans for update"
+msgstr "Δεν υπάρχουν διαθέσιμα πακέτα φιλοξενίας internet για ενημέρωση."
+
+msgid "ispCP - Update hosting plan"
+msgstr "ispCP - Ενημέρωση πακέτου φιλοξενίας internet"
+
+msgid "You have more e-mail addresses in use than the new hosting plan limits."
+msgstr ""
+"Έχετε περισσότερες διευθύνσεις email σε χρήση από τα όρια του νέου πακέτου "
+"φιλοξενίας."
+
+msgid "Your request for hosting pack update was added successfully"
+msgstr ""
+"Η αίτησή σας για ενημερωση του πακέτου φιλοξενίας internet καταχωρήθηκε "
+"επιτυχώς"
+
+msgid "[ispCP OrderPanel] - You have an update order"
+msgstr "[ispCP ΠίνακαςΠαραγγελίας] - Έχετε μια ενημερωμένη παραγγελία"
+
+#, php-format
+msgid ""
+"You have an update order for the account %s\n"
+"\n"
+"Please login into your ispCP control panel at %s for more details"
+msgstr ""
+"Έχετε μια ενημερωμένη παραγγελια για το λογαριασμό %s\n"
+"\n"
+"Παρακαλώ μπείτε στο πίνακα ελέγχου του ispCP στο %s για περισσότερες "
+"λεπτομέρειες."
+
+msgid "Your request for hosting pack update was removed successfully"
+msgstr "Η αίτησή σας για ενημέρωση του πακέτου φιλοξενίας internet αποσύρθηκε "
+
+msgid "disabled"
+msgstr "ανενεργό"
+
+#, fuzzy, php-format
+msgid "You have <strong>%d</strong> new answer to your support questions"
+msgstr "Έχετε <b>%d</b> νέες απαντήσεις για τις ερωτήσεις υποστήριξης"
+
+#, php-format
+msgid "%1$s%% [%2$s of %3$s]"
+msgstr "%1$s%% [%2$s από %3$s]"
+
+#, php-format
+msgid "%1$s%% [%2$s of unlimited]"
+msgstr "%1$s%% [%2$s από απεριόριστα]"
+
+msgid "You are exceeding your disk limit!"
+msgstr "Υπέρβαση στο όριο δίσκου σας!"
+
+msgid "You have no new support questions!"
+msgstr "Δεν έχετε νέες ερωτήσεις υποστήριξης!"
+
+msgid "Not Set"
+msgstr ""
+
+msgid "This Domain is expired"
+msgstr "Το όνομα internet έληξε"
+
+msgid "ispCP - Client/Main Index"
+msgstr "ispCP - Πελάτης/Κυρίως Κατάλογος"
+
+msgid "General information"
+msgstr "Γενικές πληροφορίες"
+
+msgid "Account name"
+msgstr "Όνομα λογαριασμού"
+
+msgid "Main domain"
+msgstr "Κυρίως όνομα internet"
+
+msgid "SQL support"
+msgstr "Υποστήριξη SQL"
+
+msgid "Choose default language"
+msgstr "Επιλογή γλώσσας προεπιλογής"
+
+msgid "Traffic usage"
+msgstr "Χρήση κίνησης"
+
+msgid "Disk usage"
+msgstr "Χρήση δίσκου"
+
+msgid "Alternative URL to reach your website"
+msgstr ""
+
+msgid "ispCP - Client/Change Language"
+msgstr "ispCP - Πελάτης/Αλλαγή Γλώσσας"
+
+msgid "Please wait for update"
+msgstr "Περιμένετε παρακαλώ την ενημέρωση"
+
+msgid "Mail accounts list is empty!"
+msgstr "Η λίστα λογιαριασμών email είναι κενή!"
+
+msgid "Mail users"
+msgstr "Χρήστες email"
+
+msgid "Auto respond"
+msgstr "Αυτόματη απάντηση"
+
+msgid "Domain mails"
+msgstr "Emails ονόματος internet"
+
+msgid "Subdomain mails"
+msgstr "Email υποονόματος internet"
+
+msgid "Alias mails"
+msgstr "Emails ψευδωνύμων"
+
+msgid "Mails total"
+msgstr "Σύνολο emails"
+
+msgid "Show default E-Mail addresses"
+msgstr "Προβολή διεύθυνσης email προεπιλογής"
+
+msgid "Hide default E-Mail Addresses"
+msgstr "Απόκρυψη διεύθυνσης email προεπιλογής"
+
+msgid "Mailformat of an address in your forward list is incorrect!"
+msgstr "Λάθος μορφή μιας διεύθυνσης email στην λίστα προώθησης!"
+
+msgid "Mail forward list empty!"
+msgstr "Κενή λίστα προώθησης email!"
+
+msgid "Forward to same address is not allowed!"
+msgstr "Απαγορεύεται προώθηση στην ίδια διεύθυνση!"
+
+msgid "Mail account already exists!"
+msgstr "Ο λογαριασμός email υπάρχει ήδη!"
+
+msgid "Mail account scheduled for addition!"
+msgstr "Προετοιμάζεται η πρόσθεση του λογαριασμού email!"
+
+msgid "Please select at least one mail type!"
+msgstr "Επιλέξτε παρακαλώ τουλάχιστον ένα τύπο email!"
+
+msgid "Please enter mail account username!"
+msgstr "Παρακαλώ δώστε το όνομα λογαριασμού email!"
+
+#, fuzzy
+msgid "Invalid mail localpart format used!"
+msgstr "Άκυρη χρήση μορφής τοπικού μέρους email!"
+
+msgid "Password data is missing!"
+msgstr "Ελλιπή δεδομένα συνθηματικού!"
+
+msgid "Entered passwords differ!"
+msgstr "Εισαγωγή ανόμοιων συνθηματικών!"
+
+msgid "Subdomain alias"
+msgstr "Ψευδώνυμο υποονόματος internet"
+
+#, php-format
+msgid "%s list is empty! You cannot add mail accounts!"
+msgstr "%s λίστα είναι κενή! Αδύνατη η προσθήκη λογαριασμών email!"
+
+#, fuzzy, php-format
+msgid "%s ID is invalid! You cannot add mail accounts!"
+msgstr "%s άκυρος μοναδικός κωδικός! Αδύνατη προσθήκη λογαριασμών email!"
+
+msgid "Forward list is empty!"
+msgstr "Κενή λίστα προώθησης!"
+
+msgid "Mail accounts limit reached!"
+msgstr "Στο όριο οι λογαριασμοί email!"
+
+msgid "ispCP - Client/Add Mail User"
+msgstr "ispCP - Πελάτης/Προσθήκη Xρήστη Εmail"
+
+msgid "Add mail users"
+msgstr "Προσθήκη χρηστών email"
+
+msgid "To alias subdomain"
+msgstr "Ψευδώνυμο για υποονόματα internet"
+
+msgid "Normal mail"
+msgstr "Κοινό email"
+
+msgid "Forward mail"
+msgstr "Προώθηση email"
+
+msgid "Forward to"
+msgstr "Προώθηση σε"
+
+msgid "Separate multiple email addresses with a line-break."
+msgstr "Διαχωρισμός πολλών email διευθύνσεων με line-break"
+
+msgid "You did not fill all required fields"
+msgstr "Τα υποχρεωτικά πεδία δεν είναι πλήρη"
+
+msgid "Mail account scheduled for modification!"
+msgstr "Ετοιμάστηκε ο λογαριασμός email για μεταβολή!"
+
+msgid "Please type your mail autorespond message!"
+msgstr "Παρακαλώ ορίστε το μήνυμα αυτόματης απάντησης!"
+
+msgid "Mail account scheduler for modification!"
+msgstr "Ετοιμασία λογαριασμού email για μεταβολή!"
+
+msgid "ispCP - Client/Enable Mail Auto Responder"
+msgstr "ispCP - Πελάτης/Ενεργοποίηση Αυτόματης Απάντησης email "
+
+msgid "Edit mail auto responder"
+msgstr "Διόρθωση αυτόματης απάντησης email"
+
+msgid "Your message"
+msgstr "Το μήνυμά σας"
+
+msgid "Enable mail auto responder"
+msgstr "Ενεργοποίηση Αυτόματης Απάντησης email"
+
+msgid "Delete CatchAll"
+msgstr "Διαγραφή CatchAll"
+
+msgid "None"
+msgstr "Τίποτα"
+
+msgid "Create catch all"
+msgstr "Δημιουργία catch all"
+
+msgid "Catch all account"
+msgstr "Λογαριασμός Catch all"
+
+msgid "Catch all"
+msgstr "Catch all"
+
+msgid "Catch all account scheduled for creation!"
+msgstr "Ο λογαριασμός Catch all ετοιμάστηκε για δημιουργία!"
+
+msgid "Mail forward list error!"
+msgstr "Λάθος λίστα προώθησης email!"
+
+msgid "ispCP - Client/Create CatchAll Mail Account"
+msgstr "ispCP - Πελάτης/Δημιουργία CatchAll λογαριασμού email"
+
+msgid "Create catch all mail account"
+msgstr "Δημιουργία CatchAll λογαριασμού email"
+
+msgid "Mail accounts list"
+msgstr "Λίστα λογαριασμών email"
+
+msgid "Catch all account scheduled for deletion!"
+msgstr "Ο λογαριασμός Catch all ετοιμάστηκε για διαγραφή!"
+
+#, fuzzy
+msgid "First delete the CatchAll account for this email!"
+msgstr "Παρακαλώ διαγράψτε πρώτα τον CatchAll λογαριαμό για αυτό το email!"
+
+msgid "Email account not found!"
+msgstr "Ο λογαριασμός email δεν βρέθηκε!"
+
+msgid "ispCP - Manage Mail and FTP / Edit mail account"
+msgstr "ispCP - Διαχείριση EMail και FTP / Διόρθωση λογαριασμού email "
+
+msgid "Mail were updated successfully!"
+msgstr "Επιτυχής ενημέρωση email!"
+
+msgid "Edit email account"
+msgstr "Διόρθωση λογαριασμού email"
+
+msgid "ispCP - Client/Change Password"
+msgstr "ispCP - Πελάτης/Αλλαγή Συνθηματικού"
+
+msgid "ispCP - Client/Change Personal Data"
+msgstr "ispCP - Πελάτης/Αλλαγή Προσωπικών Στοιχείων"
+
+#, fuzzy
+msgid "Unknown SQL user id!"
+msgstr "Λάθος όριο χρηστών SQL!"
+
+#, fuzzy
+msgid "An error occurred while authentication!"
+msgstr "Σφάλμα κατά την επικύρωση!"
+
+msgid "You do not have protected areas"
+msgstr "Δεν έχετε προστατευμένες περιοχές"
+
+msgid "Manage users and groups"
+msgstr "Διαχείριση χρηστών και ομάδων"
+
+msgid "Add user"
+msgstr "Προσθήκη χρήστη"
+
+msgid "Group name"
+msgstr "Όνομα ομάδας"
+
+msgid "Group members"
+msgstr "Μέλη ομάδας"
+
+msgid "Add group"
+msgstr "Προσθήκη ομάδας"
+
+msgid "Group"
+msgstr "Ομάδα"
+
+msgid "Add new protected area"
+msgstr "Προσθήκη νέας προστατευμένης περιοχής"
+
+msgid "Please choose user or group"
+msgstr "Επιλέξτε χρήστη η ομάδα παρακαλώ"
+
+msgid "Please enter area name"
+msgstr "Εισάγετε όνομα περιοχής παρακαλώ"
+
+msgid "Please enter area path"
+msgstr "Εισάγετε τη διαδρομή της περιοχής παρακαλώ"
+
+#, php-format
+msgid "%s doesn't exist"
+msgstr "%s δεν υπάρχει"
+
+msgid "You cannot protect area without selected user(s)!"
+msgstr "Δεν μπορείτε να προστατέψετε περιοχή χωρίς επιλογή χρήστη(ών)!"
+
+msgid "You cannot protect area without selected group(s)"
+msgstr "Δεν μπορείτε να έχετε περιοχή προστασίας χωρίς επιλεγμένη ομάδα(ες)"
+
+msgid "Protected area updated successfully!"
+msgstr "Επιτυχής ενημέρωση προστατευμένης περιοχής!"
+
+msgid "Protected area created successfully!"
+msgstr "Επιτυχής δημιουργία προστατευμένης περιοχής!"
+
+msgid "Protected area status should be OK if you want to edit it!"
+msgstr ""
+"Η κατάσταση προστατευμένης περιοχής πρέπει να είναι ΟΚ για να μεταβληθεί!"
+
+msgid "You have no users !"
+msgstr "Δεν έχετε χρήστες!"
+
+msgid "You have no groups!"
+msgstr "Δεν έχετε ομάδες!"
+
+msgid "Protect this area"
+msgstr "Προστάτεψτε την περιοχή"
+
+msgid "Path"
+msgstr "Διαδρομή"
+
+msgid "Groups"
+msgstr "Ομάδες"
+
+msgid "User auth"
+msgstr "Επικύρωση Χρήστη"
+
+msgid "Group auth"
+msgstr "Επικύρωση Ομάδας"
+
+msgid "Area name"
+msgstr "Όνομα περιοχής"
+
+msgid "Unprotect it"
+msgstr "Άρση προστασίας"
+
+msgid "Protected area status should be OK if you want to delete it!"
+msgstr ""
+"Η κατάσταση προστατευμένης περιοχής πρέπει να είναι ΟΚ για να διαγραφεί!"
+
+msgid "Protected area deleted successfully!"
+msgstr "Επιτυχής διαγραφή προστατευμένης περιοχής!"
+
+msgid "Permission deny!"
+msgstr "Άρνηση άδειας!"
+
+msgid "Protected area was deleted successful!"
+msgstr "Η προστατευμένη περιοχή διαγράφηκε επιτυχώς!"
+
+msgid "Invalid group name!"
+msgstr "Άκυρο όνομα ομάδας!"
+
+msgid "Group already exists!"
+msgstr "Η ομάδα υπάρχει ήδη!"
+
+msgid "Manage user"
+msgstr "Διαχείριση χρήστη"
+
+msgid "Wrong username!"
+msgstr "Λάθος όνομα χρήστη!"
+
+msgid "User already exist !"
+msgstr "Ο χρήστης υπάρχει ήδη!"
+
+#, php-format
+msgid "User was assigned to the %s group"
+msgstr "Ο χρήστης εντάχθηκε στην ομάδα %s "
+
+#, fuzzy, php-format
+msgid "User was deleted from the %s group."
+msgstr "Ο χρήστης διαγράφηκε από την ομάδα %s"
+
+msgid "User assign"
+msgstr "Ένταξη χρήστη"
+
+msgid "Already in:"
+msgstr "Ήδη στην:"
+
+msgid "Member of group:"
+msgstr "Μέλος ομάδας:"
+
+msgid "Select group:"
+msgstr "Επιλογή ομάδας:"
+
+msgid "Update user"
+msgstr "Μεταβολή χρήστη"
+
+msgid "You have no users!"
+msgstr "Δεν έχετε χρήστες!"
+
+#, fuzzy
+msgid "Please specify user password!"
+msgstr "Παρακαλώ δώστε το συνθηματικό χρήστη!"
+
+#, fuzzy
+msgid "User password too long!"
+msgstr "Πολύ μεγάλο όνομα χρήστη!"
+
+msgid "Don't use special chars like \"@, $, %...\" in the password!"
+msgstr ""
+
+msgid "SQL user password was successfully changed!"
+msgstr "Το συνθηματικό χρήστη SQL άλλαξε επιτυχώς!"
+
+msgid "ispCP - Client/Change SQL User Password"
+msgstr "ispCP - Πελάτης/Αλλαγή Συνθηματικού Χρήστη SQL "
+
+msgid "Change SQL user password"
+msgstr "Αλλαγή Συνθηματικού Χρήστη SQL"
+
+msgid "Change"
+msgstr "Αλλαγή"
+
+#, fuzzy
+msgid "Please specify a database name!"
+msgstr "Παρακαλώ δώστε το όνομα Β.Δ.!"
+
+msgid "Database name is too long!"
+msgstr "Πολύ μεγάλο όνομα Β.Δ.!"
+
+msgid "Specified database name already exists!"
+msgstr "Το δεδομένο όνομα Β.Δ. υπάρχει ήδη!"
+
+#, php-format
+msgid "Wildcards such as %% and ? are not allowed!"
+msgstr "Χαρακτήρες μπαλαντέρ σαν %% και ? δεν επιτρέπονται!"
+
+msgid "SQL database created successfully!"
+msgstr "Επιτυχής δημιουργία  Β.Δ. SQL!"
+
+msgid "SQL accounts limit reached!"
+msgstr "Οι λογαριασμοι SQL έφθασαν στο όριο!"
+
+msgid "ispCP - Client/Add SQL Database"
+msgstr "ispCP - Πελάτης/Προσθήκη Β.Δ. SQL"
+
+msgid "Add SQL database"
+msgstr "Προσθήκη Β.Δ. SQL"
+
+msgid "Database name"
+msgstr "Όνομα Β.Δ."
+
+msgid "Use numeric ID"
+msgstr "Χρήση αριθμητικού μοναδικού κωδικού"
+
+msgid "Before the name"
+msgstr "Πρίν το όνομα"
+
+msgid "After the name"
+msgstr "Μετά το όνομα"
+
+msgid "SQL database was removed successfully!"
+msgstr "Η SQL Β.Δ. αφαιρέθηκε επιτυχώς!"
+
+msgid "SQL user was removed successfully!"
+msgstr "Ο χρήστης SQL αφαιρέθηκε επιτυχώς!"
+
+msgid "Database user list is empty!"
+msgstr "Η λίστα χρηστών Β.Δ. είναι κενή!"
+
+msgid "Database list is empty!"
+msgstr "Η λίστα Β.Δ. είναι κενή!"
+
+msgid "ispCP - Client/Manage SQL"
+msgstr "ispCP - Πελάτης/Διαχείριση SQL"
+
+msgid "Manage SQL"
+msgstr "Διαχείριση SQL"
+
+msgid "Database Name and Users"
+msgstr "Όνομα Β.Δ. και Χρήστες"
+
+msgid "phpMyAdmin"
+msgstr "phpMyAdmin"
+
+msgid "Database users"
+msgstr "Χρήστες Β.Δ."
+
+msgid "Add SQL user"
+msgstr "Προσθήκη χρήστη SQL"
+
+msgid "Execute query"
+msgstr "Εκτέλεση ερωτήματος"
+
+msgid "Login phpMyAdmin"
+msgstr "Είσοδος στο phpMyAdmin"
+
+#, php-format
+msgid ""
+"This database will be permanently deleted. This process cannot be recovered. "
+"All users linked to this database will also be deleted if not linked to "
+"another database. Are you sure you want to delete %s?"
+msgstr ""
+"Η Β.Δ. θα διαγραφεί εντελώς. Η διαδικασία δεν είναι αναστρέψιμη. Οι χρήστες "
+"της Β.Δ. θα διαγραφούν επίσης αν δεν ανήκουν σε άλλη Β.Δ..Είστε βέβαιος για "
+"τη διαγραφή της %s;  "
+
+msgid "SQL users limit reached!"
+msgstr "Οι χρήστες SQL έφθασαν στο όριο!"
+
+msgid "Please type user name!"
+msgstr "Παρακαλώ δώστε το όνομα χρήστη!"
+
+msgid "Please type user password!"
+msgstr "Παρακαλώ δώστε το συνθηματικό χρήστη!"
+
+msgid "Too long user password!"
+msgstr "Πολύ μεγάλο συνθηματικό!"
+
+#, fuzzy
+msgid "SQL-user not found! It might has been deleted by another user."
+msgstr "Ο χρήστης SQL-δεν βρέθηκε! Ίσως διαγράφηκε από άλλο χρήστη!"
+
+msgid "User name too long!"
+msgstr "Πολύ μεγάλο όνομα χρήστη!"
+
+msgid "Specified SQL username name already exists!"
+msgstr "Το δεδομένο όνομα χρήστη SQL υπάρχει ήδη!"
+
+msgid "SQL user successfully added!"
+msgstr "Ο χρήστης SQL προστέθηκε επιτυχώς!"
+
+msgid "ispCP - Client/Add SQL User"
+msgstr "ispCP - Πελάτης/Προσθήκη Χρήστη SQL"
+
+msgid "SQL user name"
+msgstr "Όνομα χρήστη SQL"
+
+msgid "In front the name"
+msgstr "Μπροστά από το όνομα"
+
+msgid "Behind the name"
+msgstr "Πίσω από το όνομα"
+
+msgid "Add existing user"
+msgstr "Προσθήκη υπάρχοντος χρήστη"
+
+msgid "Existing SQL users"
+msgstr "Υπάρχοντες SQL χρήστες"
+
+msgid "Subdomains limit reached!"
+msgstr "Το όριο υποονομάτων internet έφθασε!"
+
+msgid "Please specify subdomain name!"
+msgstr "Παρακαλώ δώστε το υποόνομα internet!"
+
+msgid "No valid alias domain selected!"
+msgstr "Επιλέχθηξε άκυρο ψευδώνυμο internet! "
+
+msgid "Subdomain already exists or is not allowed!"
+msgstr "Το υποόνομα internet υπάρχει ή δεν επιτρέπεται!"
+
+msgid "Mount point already in use!"
+msgstr "Το σημείο σύνδεσης είναι ήδη σε χρήση!"
+
+msgid "Incorrect mount point syntax!"
+msgstr "Λάθος σύνταξη σημείου σύνδεσης!"
+
+msgid "Subdomain scheduled for addition!"
+msgstr "Η προσθήκη υποονόματος internet προετοιμάζεται!"
+
+msgid "ispCP - Client/Add Subdomain"
+msgstr "ispCP - Πελάτης/Προσθήκη Υποονόματος Internet"
+
+msgid "Add subdomain"
+msgstr "Προσθήκη Υποονόματος Internet"
+
+msgid "Subdomain data"
+msgstr "Δεδομένα υποονόματος internet"
+
+msgid "Subdomain name"
+msgstr "Όνομα υποονόματος internet"
+
+msgid "Directory tree mount point"
+msgstr "Σημείο σύνδεση δέντρου καταλόγων"
+
+#, fuzzy
+msgid ""
+"The subdomain you are trying to remove has email accounts!<br />Rremove them "
+"first!"
+msgstr ""
+"Το υποόνομα internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς email!<br/"
+">Αφαιρέστε αυτούς πρώτα!"
+
+msgid "Subdomain scheduled for deletion!"
+msgstr "Το υποόνομα προωθείται για διαγραφή! "
+
+#, fuzzy
+msgid "ispCP - Manage Subdomain/Edit Subdomain"
+msgstr "ispCP - Διαχειριστής/Διόρθωση ονόματος  internet"
+
+#, fuzzy
+msgid "Manage subdomain"
+msgstr "Διαχείριση ονομάτων internet"
+
+#, fuzzy
+msgid "Edit subdomain"
+msgstr "Μεταβολή ονόματος internet"
+
+#, fuzzy
+msgid "ispCP - Support System - New ticket"
+msgstr "ispCP - Σύστημα Υποστήριξης - Νέο εισιτήριο υποστήριξης"
+
+msgid "Please specify message subject!"
+msgstr "Παρακαλώ δώστε θέμα μηνύματος!"
+
+msgid "New ticket"
+msgstr "Νέο εισιτήριο υποστήριξης"
+
+msgid "Low"
+msgstr "Χαμηλό"
+
+msgid "Medium"
+msgstr "Μεσαίο"
+
+msgid "High"
+msgstr "Υψηλό"
+
+msgid "Very high"
+msgstr "Πολύ υψηλό"
+
+msgid "ISPCP - Client/Webtools"
+msgstr "ISPCP - Πελάτης/Εργαλεία Web"
+
+msgid "Webtools"
+msgstr "Εργαλεία Web"
+
+msgid "Customize error pages for your domain"
+msgstr "Διαμόρφωση σελίδων λαθών για το όνομα internet σας"
+
+msgid "Backup and restore settings"
+msgstr "Ρυθμίσεις λήψης και επαναφοράς αντιγράφων ασφαλείας"
+
+msgid "Access your mail through the web interface"
+msgstr "Πρόσβαση στο email σας μέσω σύνδεσης Web"
+
+msgid "Access your files through the web interface"
+msgstr "Πρόσβαση στα αρχεία σας μέσω σύνδεσης Web"
+
+msgid "Access your Awstats statistics"
+msgstr "Πρόσβαση στα στατιστικά σας Awstats"
+
+msgid "Manage protected areas, users and groups"
+msgstr "Διαχείριση προστατευμένων περιοχών, χρήστες και ομάδες"
+
+msgid "System tools"
+msgstr "Εργαλεία συστήματος"
+
+msgid "Statistics"
+msgstr "Στατιστικά"
+
+msgid "Reseller statistics"
+msgstr "Στατιστικά μεταπωλητή"
+
+msgid "Admin log"
+msgstr "Αρχείο καταγραφής διαχειριστή"
+
+msgid "Logout"
+msgstr "Έξοδος"
+
+msgid "ispCP database updates"
+msgstr "Ενημερώσεις Β.Δ. ispCP "
+
+msgid "Custom menus"
+msgstr "Ατομικά μενού"
+
+msgid "Overview"
+msgstr "Σύνοψη"
+
+msgid "User sessions"
+msgstr "Σύνοδοι με χρήστες"
+
+msgid "Lostpw email setup"
+msgstr "Εγκατάσταση email ΧαμένοΣθ"
+
+msgid "Rootkit Log"
+msgstr "Αρχείο καταγραφής Rootkit"
+
+msgid "Admin users"
+msgstr "Χρήστες διαχειριστές"
+
+msgid "Normal users"
+msgstr "Χρήστες απλοί"
+
+msgid "System messages"
+msgstr "Μηνύματα Συστήματος"
+
+msgid "No new messages"
+msgstr "Δεν υπάρχουν νέα μηνύματα"
+
+msgid "Server traffic"
+msgstr "Κίνηση Διακομιστή"
+
+msgid "Administrators list is empty!"
+msgstr "Η λίστα διαχειριστών είναι κενή!"
+
+msgid "Creation date"
+msgstr "Ημ/νία Δημιουργίας"
+
+msgid "Created by"
+msgstr "Δημιουργήθηκε από"
+
+msgid "System"
+msgstr "Σύστημα"
+
+msgid "Resellers list is empty!"
+msgstr "Η λίστα μεταπωλητών είναι κενή!"
+
+msgid "Switch to user interface"
+msgstr "Εναλλαγή σε σύνδεση χρήστη"
+
+msgid "Switch"
+msgstr "Εναλλαγή"
+
+msgid "Not found user records matching the search criteria!"
+msgstr "Δεν βρέθηκαν εγγραφές χρήστη που ταιριάζουν με τα κριτήρια αναζήτησης!"
+
+msgid "view aliases"
+msgstr "προβολή ψευδωνύμων"
+
+msgid "Users list is empty!"
+msgstr "Η λίστα χρηστών είναι κενή!"
+
+msgid "Details"
+msgstr "Λεπτομέρειες"
+
+msgid "Edit domain"
+msgstr "Μεταβολή ονόματος internet"
+
+msgid "Are you sure you want to change the status of domain account?"
+msgstr ""
+"Είστε σίγουρος για την αλλαγή κατάστασης του λογαριασμού ονόματος internet;"
+
+msgid "Administrators"
+msgstr "Διαχειριστές"
+
+msgid "Resellers"
+msgstr "Μεταπωλητές"
+
+msgid "Search"
+msgstr "Αναζήτηση"
+
+msgid "Expire date"
+msgstr "Ημερομηνία λήξης"
+
+#, php-format
+msgid "%1$s you are now logged as %2$s"
+msgstr "%1$s τώρα έχετε μπεί σαν %2$s"
+
+msgid "Go back"
+msgstr "Επιστροφή"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Suspended"
+msgstr "Παύθηκε"
+
+msgid "Error"
+msgstr "Σφάλμα"
+
+msgid "ispCP - Order Panel"
+msgstr "ispCP - Πίνακας Παραγγελιών"
+
+#, php-format
+msgid "%.2f PB"
+msgstr "%.2f PB"
+
+#, php-format
+msgid "%.2f TB"
+msgstr "%.2f TB"
+
+#, php-format
+msgid "%.2f GB"
+msgstr "%.2f GB"
+
+#, php-format
+msgid "%.2f MB"
+msgstr "%.2f MB"
+
+#, php-format
+msgid "%.2f KB"
+msgstr "%.2f KB"
+
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+msgid "Email and FTP accounts"
+msgstr "Λογαριασμοί Email και FTP "
+
+msgid "Add mail user"
+msgstr "Προσθήκη χρήστη email"
+
+msgid "PhpMyAdmin"
+msgstr "PhpMyAdmin"
+
+msgid "Filemanager"
+msgstr "Διαχείριση Αρχείων"
+
+msgid "Web statistics"
+msgstr "Στατιστικά Web"
+
+msgid "Group/User management"
+msgstr "Διαχείριση Ομάδας/Χρήστη "
+
+msgid "Email Accounts"
+msgstr "Λογαριασμοί email"
+
+msgid "FTP Accounts"
+msgstr "Λογαριασμοί FTP"
+
+msgid "Update Hosting Package"
+msgstr "Μεταβολή πακέτου φιλοξενίας internet"
+
+msgid "Manage SSL certificate"
+msgstr "Διαχείριση πιστοποιητικού SSL"
+
+msgid "Domain mail"
+msgstr "Εmail Ονόματος internet"
+
+msgid "Email forward"
+msgstr "Προώθηση Email"
+
+msgid "Alias mail"
+msgstr "Email ψευδώνυμου"
+
+msgid "Alias forward"
+msgstr "Προώθηση ψευδωνύμου"
+
+msgid "Subdomain mail"
+msgstr "Email υποονόματος internet"
+
+msgid "Subdomain forward"
+msgstr "Προώθηση υποονόματος internet"
+
+msgid "Alias subdomain mail"
+msgstr "Email ψευδώνυμου υποονόματος"
+
+msgid "Alias subdomain forward"
+msgstr "Προώθηση ψευδωνύμου υποονόματος"
+
+msgid "Unknown type"
+msgstr "Άγνωστος τύπος"
+
+msgid "Welcome {USERNAME} to ispCP!"
+msgstr "Καλωσήλθατε {USERNAME} στο ispCP!"
+
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Statistics: {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/{USERNAME}/stats/\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Γεια σας {NAME}!\n"
+"\n"
+"Δημιουργήθηκε νέος λογαριαμός ispCP για σας.\n"
+"Πληροφορίες λογαριασμού:\n"
+"\n"
+"Τύπος χρήστη: {USERTYPE}\n"
+"Όνομα χρήστη: {USERNAME}\n"
+"Συνθηματικό: {PASSWORD}\n"
+"\n"
+"Θυμηθείτε να αλλάζετε συνθηματικό συχνά και την κατά τη πρώτη σας είσοδο.\n"
+"\n"
+"Μπορείτε να μπείτε τώρα στο {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Στατιστικά: http://{USERNAME}/stats/\n"
+"Όνομα χρήστη: {USERNAME}\n"
+"Συνθηματικό: {PASSWORD}\n"
+"\n"
+"Καλή τύχη με το ispCP!\n"
+"Η ομάδα του ispCP.\n"
+"\n"
+
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"A new ispCP account has been created for you.\n"
+"Your account information:\n"
+"\n"
+"User type: {USERTYPE}\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Remember to change your password often and the first time you login.\n"
+"\n"
+"You can login right now at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"User name: {USERNAME}\n"
+"Password: {PASSWORD}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Γεια σας {NAME}!\n"
+"\n"
+"Δημιουργήθηκε νέος λογαριαμός ispCP για σας.\n"
+"Πληροφορίες λογαριασμού:\n"
+"\n"
+"Τύπος χρήστη: {USERTYPE}\n"
+"Όνομα χρήστη: {USERNAME}\n"
+"Συνθηματικό: {PASSWORD}\n"
+"\n"
+"Θυμηθείτε να αλλάζετε συνθηματικό συχνά και την κατά τη πρώτη σας είσοδο.\n"
+"\n"
+"Μπορείτε να μπείτε τώρα στο {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Στατιστικά: http://{USERNAME}/stats/\n"
+"Όνομα χρήστη: {USERNAME}\n"
+"Συνθηματικό: {PASSWORD}\n"
+"\n"
+"Καλή τύχη με το ispCP!\n"
+"Η ομάδα του ispCP.\n"
+"\n"
+
+msgid "Please activate your new ispCP password!"
+msgstr "Παρακαλώ ενεργοποιείστε το νέο σας συνθηματικό για το ispCP!"
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"Use this link to activate your new ispCP password:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Good Luck with the ispCP System\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Γεια σας {NAME}!\n"
+"Χρησιμοποιήστε αυτό το δεσμό για να ενεργοποιήσετε το νέο συνθηματικό σας "
+"του ispCP:\n"
+"\n"
+"{LINK}\n"
+"\n"
+"Καλή τύχη με το σύστημα ispCP \n"
+"Η ομάδα ispCP \n"
+"\n"
+
+msgid "Your new ispCP login!"
+msgstr "Η νέα σας είσοδος στο iscCP!"
+
+msgid ""
+"\n"
+"\n"
+"Hello {NAME}!\n"
+"\n"
+"Your user name is: {USERNAME}\n"
+"Your password is: {PASSWORD}\n"
+"\n"
+"You can login at {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Best wishes with ispCP!\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Γεια σας {NAME}!\n"
+"\n"
+"Το όνομα σας χρήστη είναι: {USERNAME}\n"
+"Το συνθηματικό σας είναι: {PASSWORD}\n"
+"\n"
+"Μπορείτε να μπείτε στο {BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}\n"
+"\n"
+"Πολλές ευχές με το ispCP!\n"
+"Η ομάδα του ispCP \n"
+"\n"
+
+msgid "Confirmation for domain order {DOMAIN}!"
+msgstr "Επιβεβαίωση παραγγελίας ονόματος internet {DOMAIN}!"
+
+msgid ""
+"\n"
+"\n"
+"Dear {NAME},\n"
+"This is an automatic confirmation for the order of the domain:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"You have to click the following link to continue the domain creation "
+"process.\n"
+"\n"
+"{ACTIVATE_LINK}\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Αγαπητέ {NAME},\n"
+"Αυτόματη επιβεβαίωση για την παραγελία του ονόματος internet:\n"
+"\n"
+"{DOMAIN}\n"
+"\n"
+"Κάντε κλικ στον ακόλουθο δεσμό για τη συνέχιση της διαδικασίας δημιουργίας "
+"ονόματος internet.\n"
+"\n"
+"{ACTIVATE_LINK}\n"
+"\n"
+"Ευχαριστούμε για τη χρήση των υπηρεσιών ispCP.\n"
+"Η ομάδα του ispCP \n"
+"\n"
+
+msgid "New alias order for {CUSTOMER}!"
+msgstr "Παραγγελία νέου ψευδώνυμου από {CUSTOMER}!"
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"Your customer {CUSTOMER} is awaiting for the approval of his new alias:\n"
+"\n"
+"{ALIAS}\n"
+"\n"
+"Once logged in, you can activate his new alias at {BASE_SERVER_VHOST_PREFIX}"
+"{BASE_SERVER_VHOST}/reseller/alias.php\n"
+"\n"
+"Thank you for using ispCP services.\n"
+"The ispCP Team\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Αγαπητέ {RESELLER},\n"
+"Ο πελάτης σας {CUSTOMER} περιμένει έγκριση για νέο ψυδώνυμο:\n"
+"\n"
+"{ALIAS}\n"
+"\n"
+"Κατά την είσοδό σας, ενεργοποιείστε το νέο ψευδώνυμο του στο "
+"{BASE_SERVER_VHOST_PREFIX}{BASE_SERVER_VHOST}/reseller/alias.php\n"
+"\n"
+"Ευχαριστούμε για τη χρήση υπησεσιών του  ispCP.\n"
+"Η ομάδα του ispCP \n"
+"\n"
+
+#, fuzzy
+msgid "Your message has been sent!"
+msgstr "Το μήνυμα σας στάλθηκε!"
+
+msgid "Ticket was closed!"
+msgstr "Το εισιτήριο έκλεισε!"
+
+msgid "Ticket was reopened!"
+msgstr "Το εισιτήριο άνοιξε πάλι!"
+
+msgid "Never"
+msgstr "Ποτέ"
+
+#, fuzzy
+msgid "You don't have support tickets."
+msgstr "Δεν έχετε εισιτήρια υποστήριξης."
+
+msgid "[New]"
+msgstr "[Νέο]"
+
+msgid "[Re]"
+msgstr "[Απ]"
+
+msgid "Open ticket"
+msgstr "Ανοιχτό εισιτήριο"
+
+msgid "Close ticket"
+msgstr "Κλειστό εισιτήριο"
+
+msgid "[Ticket]"
+msgstr "[Εισιτήριο Υποστήριξης]"
+
+#, php-format
+msgid ""
+"Hello %s!\n"
+"\n"
+"You have a new ticket:\n"
+msgstr ""
+"Γεια σας %s!\n"
+"\n"
+"Έχετε νέο εισιτήριο υποστήριξης:\n"
+
+#, php-format
+msgid ""
+"Hello %s!\n"
+"\n"
+"You have an answer for this ticket:\n"
+msgstr ""
+"Γεια σας %s!\n"
+"\n"
+"Έχετε απάντηση για το εισιτήριο υπστήριξης:\n"
+
+#, php-format
+msgid "Priority: %s\n"
+msgstr "Προτεραιότητα: %s\n"
+
+msgid "Log in to answer"
+msgstr "Μπείτε για να απαντήσετε"
+
+msgid "Wrong domain name syntax or number of labels"
+msgstr "Λάθος σύνταξη όνοματος internet ή αριθμού ετικετών"
+
+msgid "Wrong domain name lenght!"
+msgstr "Λάθος μήκος ονόματος internet!"
+
+msgid "Wrong subdomain syntax or number of labels!"
+msgstr "Λάθος σύνταξη υποονόματος internet ή αριθμού ετικετών!"
+
+msgid "Wrong subdomain lenght!"
+msgstr "Λάθος μήκος υποονόματος internet!"
+
+#, fuzzy, php-format
+msgid "Label not allowed: <strong>%s</strong>"
+msgstr "Μη επιτρεπτή ετικέτα: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong label syntax: <strong>%s</strong>"
+msgstr "Λάθος σύνταξη ετικέτας: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong label lenght: <strong>%s</strong>"
+msgstr "Λάθος μήκος ετικέτας: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong Top Level Domain syntax: <strong>%s</strong>"
+msgstr "Λάθος σύνταξη ονόματος πρώτου επιπέδου internet: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong Top Level Domain lenght: <strong>%s</strong>"
+msgstr "Λάθος μήκος ονόματος πρώτου επιπέδου internet: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong Second Level Domain lenght: <strong>%s</strong>"
+msgstr "Λάθος μήκος ονόματος δευτέρου επιπέδου internet: <b>%s</b>"
+
+#, fuzzy, php-format
+msgid "Wrong domain name: <strong>%s</strong> is reserved!"
+msgstr "Λάθος όνομα internet: <b>%s</b> είναι κατειλημμένο!"
+
+#, fuzzy, php-format
+msgid "Wrong Second Level Domain syntax: <strong>%s</strong>"
+msgstr "Λάθος σύνταξη ονόματος δεύτερου επιπέδου: <b>%s</b> "
+
+#, fuzzy
+msgid ""
+"ERROR: ACE labels are not allowed. Please use the ToUnicode equivalent.<br /"
+"><small>Example: for ACE label <strong>xn--bcher-kva</strong> use "
+"<strong>bücher</strong> instead</small>."
+msgstr ""
+"ΣΦΑΛΜΑ: Δεν επιτρέπονται ACE ετικέτες. Παρακαλώ χρησιμοποιήστε την ισότιμη "
+"ToUnicode.<br /><small>Παράδειγμα: για την ACE ετικέτα <b>xn--bcher-kva</b> "
+"αντικαταστήστε με τη <b>bücher</b> </small>."
+
+msgid "ERROR: PHP extension 'mcrypt' not loaded!"
+msgstr ""
+
+#, php-format
+msgid "You have to wait %d seconds."
+msgstr "Περιμένετε για %d δεύτερα."
+
+#, php-format
+msgid "You have been blocked for %d minutes."
+msgstr "Έχετε μπλοκαριστεί για %d λεπτά."
+
+msgid "You entered an incorrect username/password."
+msgstr "Βάλατε ένα λάθος όνομα χρήστη/συνθηματικό."
+
+#, fuzzy
+msgid "System is currently under maintenance! Only administrators can log in."
+msgstr ""
+"Το σύστημα είναι σε συντήρηση! Επιτρέπεται η είσοδος μόνο σε διαχειριστές."
+
+#, php-format
+msgid "%s user already logged or session sharing problem! Aborting..."
+msgstr ""
+"Ο χρήστης %s είναι στο σύστημα ή υπάρχει πρόβλημα κοινής συνόδου! Ματαίωση..."
+
+msgid "User already logged or session sharing problem! Aborting..."
+msgstr ""
+"Ο χρήστης είναι στο σύστημα ή υπάρχει πρόβλημα κοινής συνόδου! Ματαίωση..."
+
+#, php-format
+msgid "%s's account status is not ok!"
+msgstr "Η κατάσταση λογαριασμού του %s δεν είναι ok!"
+
+#, php-format
+msgid "%s's domain expired!"
+msgstr "Το όνομα intrnet του %s έληξε!"
+
+msgid "Request from foreign host was blocked!"
+msgstr "Η αίτηση απομακρυσμένου υπολογιστή μπλοκαρίστηκε!"
+
+msgid "You do not have permission to access this interface!"
+msgstr "Δεν έχετε άδεια προσπέλασης σ' αυτή τη σύνδεση!"
+
+msgid "Domain alias"
+msgstr "Ψευδώνυμα ονομάτων internet"
+
+msgid "Manage Orders"
+msgstr "Διαχείριση Παραγγελιών"
+
+msgid "Order settings"
+msgstr "Ρυθμίσεις παραγγελίας"
+
+msgid "Order email setup"
+msgstr "Παραγγελία εγκατάστασης email"
+
+msgid "Please fill up both data fields for password!"
+msgstr "Παρακαλώ συμπληρώστε και τα δυο πεδία συνθηματικού!"
+
+msgid "Addition in progress"
+msgstr "Η προσθήκη είναι σε εξέλιξη"
+
+msgid "Modification in progress"
+msgstr "Η αλλαγή είναι σε εξέλιξη"
+
+msgid "Deletion in progress"
+msgstr "Η διαγραφή είναι σε εξέλιξη"
+
+msgid "Being enabled"
+msgstr "Ενεργοποιήθηκε"
+
+msgid "Being suspended"
+msgstr "Έχουν ανασταλεί"
+
+#, fuzzy
+msgid "Awaiting approval"
+msgstr "Αναμονή για έγκριση"
+
+msgid "Unknown error"
+msgstr "Άγνωστο σφάλμα"
+
+msgid "hide aliases"
+msgstr "κρύψτε τα ψευδώνυμα"
+
+msgid "You have reached your domains limit.<br />You cannot add more domains!"
+msgstr ""
+"Φθάσατε το όριο ονομάτων internet.<br />Δεν μπορείτε να προσθέσετε άλλα "
+"ονόματα internet!"
+
+msgid ""
+"You have a subdomains limit!<br />You cannot add an user with unlimited "
+"subdomains!"
+msgstr ""
+"Φθάσατε το όριο υποονομάτων internet!<br />Δεν μπορείτε να προσθέσετε χρήστη "
+"με απεριόριστα υποονόματα!"
+
+msgid "You are exceeding your subdomains limit!"
+msgstr "Υπέρβαση στο όριο υποονομάτων internet!"
+
+msgid ""
+"You have an aliases limit!<br />You cannot add an user with unlimited "
+"aliases!"
+msgstr ""
+"Έχετε όριο ψευδωνύμων!<br />Δεν μπορείτε να προσθέσετε χρήστη με απεριόριστα "
+"ψευδώνυμα!"
+
+#, fuzzy
+msgid "You are exceeding your alias limit!"
+msgstr "Υπέρβαση στο όριο δίσκου σας!"
+
+msgid ""
+"You have a mail accounts limit!<br />You cannot add an user with unlimited "
+"mail accounts!"
+msgstr ""
+"Έχετε όριο λογαριασμών email!<br />Δεν μπορείτε να προσθέσετε χρήστη με "
+"απεριόριστους λογαριασμούς email!"
+
+msgid "You are exceeding your mail accounts limit!"
+msgstr "Υπέρβαση στο όριο λογαριασμών email!"
+
+msgid ""
+"You have a FTP accounts limit!<br />You cannot add an user with unlimited "
+"FTP accounts!"
+msgstr ""
+"Έχετε όριο λογαριασμών FTP!<br />Δεν μπορείτε να προσθέσετε χρήστη με "
+"απεριόριστους λογαριασμούς FTP!"
+
+msgid "You are exceeding your FTP accounts limit!"
+msgstr "Υπέρβαση στο όριο λογαριασμών FTP!"
+
+msgid ""
+"You have a SQL databases limit!<br />You cannot add an user with unlimited "
+"SQL databases!"
+msgstr ""
+"Έχετε όριο Β.Δ. SQL!<br />Δεν μπορείτε να προσθέσετε χρήστη με απεριόριστες "
+"Β.Δ. SQL!"
+
+msgid "You are exceeding your SQL databases limit!"
+msgstr "Υπέρβαση στο όριο Β.Δ. SQL!"
+
+msgid ""
+"You have an SQL users limit!<br />You cannot add an user with unlimited SQL "
+"users!"
+msgstr ""
+"Έχετε όριο χρηστών Β.Δ. SQL!<br />Δεν μπορείτε να προσθέσετε χρήστη με "
+"απεριόριστους χρήστες Β.Δ. SQL!"
+
+msgid ""
+"You have disabled SQL databases for this user!<br />You cannot have SQL "
+"users here!"
+msgstr ""
+"Έχετε απενεργοποιήσει τις Β.Δ. SQL για αυτό το χρήστη!<br />Δεν μπορείτε να "
+"έχετε χρήστες SQL εδώ!"
+
+msgid "You are exceeding your SQL database limit!"
+msgstr "Υπέρβαση του ορίου σας σε Β.Δ. SQL!"
+
+msgid ""
+"You have a traffic limit!<br />You cannot add an user with unlimited traffic!"
+msgstr ""
+"Έχετε όριο κίνησης!<br />Δεν μπορείτε να προσθέσετε χρήστη με απεριόριστη "
+"κίνηση!"
+
+msgid "You have a disk limit!<br />You cannot add an user with unlimited disk!"
+msgstr ""
+"Έχετε όριο δίσκου!<br />Δεν μπορείτε να προσθέσετε χρήστη με απεριόριστο "
+"δίσκο!"
+
+msgid "ispCP Error"
+msgstr "Σφάλμα ispCP"
+
+msgid "Error Message"
+msgstr "Μήνυμα σφάλματος"
+
+msgid "You have a new order"
+msgstr "Έχετε νέα παραγγελία"
+
+msgid ""
+"\n"
+"\n"
+"Dear {RESELLER},\n"
+"you have a new order from {NAME} <{MAIL}> for domain {DOMAIN}\n"
+"\n"
+"Please login into your ispCP control panel for more details.\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Αγαπητέ {RESELLER},\n"
+"έχετε νέα παραγγελία {NAME} <{MAIL}> για το όνομα internet {DOMAIN}\n"
+"\n"
+"Παρακαλώ μπείτε στο πίνακα ελέγχου του ispCP για περισσότερες λεπτομέριες.\n"
+"\n"
+
+msgid "Your order has been successfully created."
+msgstr "Επιτυχής δημιουργία της παραγγελίας σας."
+
+msgid "Error creating order! Perhaps already activated?"
+msgstr "Σφάλμα δημιουργίας παραγγελίας! Ίσως έχει ήδη ενεργοποιηθεί;"
+
+msgid "Order confirmation"
+msgstr "Επιβεβαίωση παραγγελίας"
+
+#, fuzzy
+msgid "Domain already exists on the system!"
+msgstr "Το όνομα internet υπάρχει ήδη στο σύστημα!"
+
+msgid "This hosting plan is not available for purchase"
+msgstr "Αυτό το πακέτο φιλοξενίας internet δεν είναι διαθέσιμο για αγορά"
+
+msgid "Add On A Domain"
+msgstr "Πρόσθετο σε όνομα internet"
+
+msgid "Continue"
+msgstr "Συνέχεια"
+
+msgid "(e.g. domain-of-your-choice.com)"
+msgstr "(π.χ. όνομα-της-επιλογής-σας.gr)"
+
+msgid "Please fill out all needed fields!"
+msgstr "Παρακαλώ συμπληρώστε τα αναγκαία πεδία!"
+
+msgid "Enter Address"
+msgstr "Εισαγωγή Διεύθυνσης"
+
+msgid "* denotes mandatory field."
+msgstr "* δηλώνει υποχρεωτικό πεδίο."
+
+#, fuzzy
+msgid "Term of Service"
+msgstr "Υπηρεσία"
+
+msgid "I Accept The Term of Service"
+msgstr ""
+
+msgid "Your Chart"
+msgstr "Το διάγραμμά σας"
+
+msgid "Costs"
+msgstr "Στοιχίζει"
+
+msgid "Personal Data"
+msgstr "Προσωπικά δεδομένα"
+
+msgid "Security code was incorrect!"
+msgstr "Ο κωδικός ασφαλείας ήταν λάθος!"
+
+msgid "You have to accept the Term of Service!"
+msgstr ""
+
+msgid "Check Out"
+msgstr "Εξόφληση"
+
+msgid ""
+"<strong>Thank you for purchasing.</strong><br />You will receive an e-mail "
+"with more details and information."
+msgstr ""
+"<strong>Ευχαριστούμε για την αγορά.</strong><br />Θα λάβετε ένα email με "
+"περισσότερες λεπτομέριες και πληροφορίες."
+
+msgid "No available hosting packages"
+msgstr "Δεν υπάρχουν διαθέσιμα πακέτα φιλοξενίας internet"
+
+msgid "Webspace"
+msgstr "Χώρος Web"
+
+msgid "Domain Features"
+msgstr "Δυνατότητες ονόματος internet"
+
+msgid "Package Features"
+msgstr "Δυνατότητες πακέτου"
+
+msgid "Backup and Restore"
+msgstr "Αντίγραφα Ασφαλείας και Επαναφορά τους"
+
+msgid "Custom Error Pages"
+msgstr "Ατομικές Σελίδες Λαθών "
+
+msgid "Protected Areas"
+msgstr "Περιοχές Προστασίας"
+
+msgid "Custom Apache Logs"
+msgstr "Ατομικά αρχεία καταγραφής Apache"
+
+msgid "Web & E-Mail Support"
+msgstr "Υποστήριξη Web & EMail "
+
+msgid "Your Own Domain"
+msgstr "Το δικό σας όνομα internet"
+
+msgid "ispCP Control Panel"
+msgstr "Πίνακας ελέγχου ispCP"
+
+msgid "Automatic Updates"
+msgstr "Αυτόματες Ενημερώσεις"
+
+msgid "Package Price"
+msgstr "Τιμή Πακέτου"
+
+msgid "Setup Fee"
+msgstr "Τιμή Εγκατάστασης"
+
+msgid "Performance"
+msgstr "Απόδοση"
+
+msgid "ispCP - Manage Domain/Alias"
+msgstr "ispCP - Διαχείριση Ονομάτων internet/Ψευδώνυμα"
+
+msgid "Manage alias"
+msgstr "Διαχείριση ψευδωνύμων"
+
+msgid "Real domain"
+msgstr "Πραγματικό όνομα internet"
+
+msgid "You have no alias records."
+msgstr "Δεν έχετε εγγραφές ψευδωνύμων."
+
+msgid "Activate"
+msgstr "Ενεργοποίηση"
+
+msgid ""
+"Domain alias you are trying to remove has email accounts !<br>First remove "
+"them!"
+msgstr ""
+"Το ψευδώνυμο ονόματος internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς "
+"email!<br/>Αφαιρέστε αυτούς πρώτα!"
+
+msgid ""
+"Domain alias you are trying to remove has FTP accounts!<br>First remove them!"
+msgstr ""
+"Το ψευδώνυμο ονόματος internet που θέλετε να αφαιρεθεί διαθέτει λογαριασμούς "
+"FTP!<br/>Αφαιρέστε αυτούς πρώτα!"
+
+msgid "Domain alias added for termination!"
+msgstr "Ψευδώνυμα ονομάτων internet προστέθηκαν για τερματισμό!"
+
+msgid "Domain alias not added for termination!"
+msgstr "Ψευδώνυμα ονομάτων internet δεν προστέθηκαν για τερματισμό!"
+
+msgid "Domain alias added!"
+msgstr "Προστέθηκε το ψευδώνυμο ονόματος internet!"
+
+msgid "Domain alias not added!"
+msgstr "Tο ψευδώνυμο ονόματος internet δεν προστέθηκε!"
+
+msgid "Domain alias modified!"
+msgstr "Μεταβολή ψευδώνυμου ονόματος internet!"
+
+msgid "Domain alias not modified!"
+msgstr "Δεν μεταβλήθηκε το ψευδώνυμο ονόματος internet !"
+
+msgid "Ordered domain alias not deleted!"
+msgstr "Το ψευδώνυμο που παραγγέλθηκε δεν διαγράφηκε!"
+
+msgid "Ordered domain alias activated!"
+msgstr "Το ψευδώνυμο που παραγγέλθηκε ενεργοποιήθηκε!"
+
+msgid "Ordered domain alias not activated!"
+msgstr "Το ψευδώνυμο που παραγγέλθηκε δεν ενεργοποιήθηκε!"
+
+msgid "ispCP Reseller: Add Alias"
+msgstr "ispCP Μεταπωλητής: Νέο ψευδώνυμο"
+
+msgid "There is no user records for this reseller to add an alias for."
+msgstr ""
+"Δεν υπάρχουν εγγραφές χρήστη για το μεταπωλητή για προσθήκη ψευδωνύμων."
+
+msgid "ispCP - Circular"
+msgstr "ispCP - Κυκλικό"
+
+msgid "Circular"
+msgstr "Κυκλικό"
+
+msgid "ispCP - Domain/Edit"
+msgstr "ispCP - Όνομα internet/Διόρθωση"
+
+msgid "or check if domain should <strong>never</strong> expire"
+msgstr ""
+
+#, fuzzy
+msgid "Su"
+msgstr "Σύνολο"
+
+#, fuzzy
+msgid "Mo"
+msgstr "Μεταφορά"
+
+msgid "Tu"
+msgstr ""
+
+msgid "We"
+msgstr ""
+
+msgid "Th"
+msgstr ""
+
+#, fuzzy
+msgid "Fr"
+msgstr "Ελεύθερα"
+
+#, fuzzy
+msgid "Sa"
+msgstr "Καταχώρηση"
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+#, fuzzy
+msgid "March"
+msgstr "Αναζήτηση"
+
+msgid "April"
+msgstr ""
+
+#, fuzzy
+msgid "May"
+msgstr "Ημέρα"
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+#, fuzzy
+msgid "November"
+msgstr "Αριθμός"
+
+msgid "December"
+msgstr ""
+
+#, php-format
+msgid "The <em>%s</em> service cannot be disabled!"
+msgstr "Η υπηρεσία <em>%s</em> δεν απενεργοποιείται!"
+
+#, php-format
+msgid "The <em>%s</em> have to be disabled!"
+msgstr "Η <em>%s</em> έχει απενεργοποιηθεί!"
+
+#, php-format
+msgid "The admin has <em>%s</em> disabled on this system!"
+msgstr "Ο admin έχει <em>%s</em> απενεργοποιηθεί στο σύστημα !"
+
+#, php-format
+msgid "The <em>%s</em> service cannot be limited!"
+msgstr "Η υπηρεσία <em>%s</em> δεν περιορίζεται!"
+
+#, php-format
+msgid "The <em>%s</em> service cannot be unlimited!"
+msgstr "Η υπηρεσία <em>%s</em> δεν είναι απεριόριστη!"
+
+msgid "ispCP - Reseller/Main Index"
+msgstr "ispCP - Μεταπωλητής/Κυρίως Κατάλογος"
+
+msgid "View details"
+msgstr "Προβολή λεπτομεριών"
+
+msgid "ispCP - Reseller/Add hosting plan"
+msgstr "ispCP - Μεταπωλητής/Προσθήκη πακέτου φιλοξενίας"
+
+msgid "Price must be a number!"
+msgstr "Η τιμή πρέπει να είναι αριθμός!"
+
+msgid "Setup fee must be a number!"
+msgstr "Η τιμή εγκατάστασης πρέπει να είναι αριθμός!"
+
+#, fuzzy
+msgid "SQL databases limit is not <em>disabled</em>!"
+msgstr "Το όριο Β.Δ. SQL δεν είναι <i>ανενεργό</i>!"
+
+msgid "Hosting plan values exceed reseller maximum values!"
+msgstr ""
+"Οι τιμές για το πακέτο φιλοξενίας υπερβαίνουν τις μέγιστες τιμές μεταπωλητή!"
+
+msgid "ispCP - Reseller/Edit hosting plan"
+msgstr "ispCP - Μεταπωλητής/Μεταβολή πακέτου φιλοξενίας"
+
+msgid "View hosting plan"
+msgstr "Προβολή πακέτου φιλοξενίας"
+
+msgid "User accounts"
+msgstr "Λογαριασμοί χρηστών"
+
+msgid "Mail account"
+msgstr "Λογαριασμοί Email"
+
+msgid "Extras"
+msgstr "Πρόσθετα"
+
+#, fuzzy, php-format
+msgid "%1$s / %2$s of <strong>%3$s</strong>"
+msgstr "%1$s / %2$s από <b>%3$s</b>"
+
+#, fuzzy, php-format
+msgid "%1$s / %2$s of <strong>unlimited</strong>"
+msgstr "%1$s / %2$s από <b>απεριόριστο</b>"
+
+#, fuzzy, php-format
+msgid "%1$d / %2$d of <strong>%3$d</strong>"
+msgstr "%1$d / %2$d από <b>%3$d</b>"
+
+#, fuzzy, php-format
+msgid "%1$d / %2$d of <strong>unlimited</strong>"
+msgstr "%1$d / %2$d από <b>απεριόριστο</b>"
+
+#, fuzzy
+msgid "ispCP - Reseller/IP Usage"
+msgstr "ispCP - Μεταπωλητής/Αλλαγή Γλώσσας"
+
+msgid "ispCP - Reseller/Change Language"
+msgstr "ispCP - Μεταπωλητής/Αλλαγή Γλώσσας"
+
+msgid "ispCP - Reseller/Order email setup"
+msgstr "ispCP - Μεταπωλητής/Παραγγελία εγκατάστασης email "
+
+msgid "Manage orders"
+msgstr "Διαχείριση παραγγελιών"
+
+msgid "Activation Link"
+msgstr "Δεσμός Ενεργοποίησης"
+
+msgid "ispCP - Reseller/Order settings"
+msgstr "ispCP - Μεταπωλητής/Ρυθμίσεις παραγγελίας"
+
+msgid "Header"
+msgstr "Κεφαλίδα"
+
+msgid "Preview"
+msgstr "Προεπισκόπηση"
+
+msgid "Implementation URL"
+msgstr "Υλοποίηση URL"
+
+msgid "Footer"
+msgstr "Υποσέλιδο"
+
+msgid "ispCP - Reseller/Order management"
+msgstr "ispCP - Μεταπωλητής/Διαχείριση παραγγελίας"
+
+msgid "You do not have new orders!"
+msgstr "Δεν έχετε νέες παραγγελίες!"
+
+msgid "New order"
+msgstr "Νέα παραγγελία"
+
+msgid "Update order"
+msgstr "Μεταβολή παραγγελίας"
+
+msgid "ID"
+msgstr "Κωδικός"
+
+msgid "Customer data"
+msgstr "Δεδομένα πελάτη"
+
+msgid "Order"
+msgstr "Παραγγελία"
+
+msgid "Hosting plan"
+msgstr "Πακέτο φιλοξενίας"
+
+msgid "Are you sure you want to delete this order?"
+msgstr "Είστε σίγουρος για τη διαγραφή της παραγγελιας;"
+
+msgid "Add/Details"
+msgstr "Προσθήκη/Λεπτομέριες"
+
+msgid "Wrong order ID!"
+msgstr "Λάθος κωδικός παραγγελίας!"
+
+msgid "Order Cancelled: resellers maximum exceeded!"
+msgstr "Ακύρωση Παραγγελίας: Υπέρβαση στο μέγιστο για το μεταπωλητή!"
+
+msgid "Wrong domain name syntax!"
+msgstr "Λάθος στη σύνταξη ονόματος internet!"
+
+msgid "User added!"
+msgstr "Ο χρήστης προστέθηκε!"
+
+msgid "Customer order was removed successful!"
+msgstr "Η παραγγελία πελάτη αφαιρέθηκε επιτυχώς!"
+
+msgid "ispCP - Reseller/Order details"
+msgstr "ispCP - Μεταπωλητής/Λεπτομέριες παραγγελίας"
+
+msgid "Order data updated successfully!"
+msgstr "Επιτυχής μεταβολή δεδομένων παραγγελίας!"
+
+msgid "Order date"
+msgstr "Ημερομηνία παραγγελίας"
+
+msgid "Hosting details"
+msgstr "Λεπτομέριες πακέτου φιλοξενίας"
+
+msgid "Order details"
+msgstr "Λεπτομέριες παραγγελίας"
+
+msgid "Add to the system"
+msgstr "Προσθήκη στο σύστημα"
+
+msgid "Order Canceled: resellers maximum exceeded!"
+msgstr "Ακύρωση Παραγγελίας:Υπέρβαση στο μέγιστο μεταπωλητή!"
+
+msgid "ispCP - Reseller/Change Password"
+msgstr "ispCP - Μεταπωλητής/Αλλαγή Συνθηματικού"
+
+msgid "ispCP - Reseller/Change Personal Data"
+msgstr "ispCP - Μεταπωλητής/Αλλαγή Προσωπικών Δεδομένων"
+
+msgid "ispCP - Reseller/Lostpw email setup"
+msgstr "ispCP - Μεταπωλητής/Εγκατάσταση email ΧαμένοΣθ  "
+
+msgid "Lostpw email"
+msgstr "Email ΧαμένοΣθ"
+
+msgid "Lostpw link"
+msgstr "Δεσμός ΧαμένοΣθ"
+
+msgid "ispCP - Reseller/Manage users/Email setup"
+msgstr "ispCP - Μεταπωλητής/Διαχείριση Χρηστών/Εγκατάσταση email"
+
+msgid "ispCP - Support system - New ticket"
+msgstr "ispCP - Σύστημα Υποστήριξης - Νέο εισιτήριο υποστήριξης"
+
+msgid "ispCP - Reseller: Support System: View Ticket"
+msgstr "ispCP - Μεταπωλητής: Σύστημα Υποστήριξης: Προβολή Εισιτηρίου"
+
+msgid "ispCP - Users/Add user"
+msgstr "ispCP - Χρήστες/Προσθήκη χρήστη"
+
+msgid "Choose hosting plan"
+msgstr "Επιλογή πακέτου φιλοξενίας"
+
+msgid "Personalise template"
+msgstr "Προσωποποίηση πρωτύπου"
+
+msgid "Next step"
+msgstr "Επόμενο βήμα"
+
+msgid "You have no hosting plans. Please contact your system administrator."
+msgstr ""
+"Δεν έχετε πακέτα φιλοξενίας. Παρακαλώ επικοινωνείστε με το διαχειριστή "
+"συστήματος."
+
+msgid "ispCP - User/Add user(step2)"
+msgstr "ispCP - Χρήστης/Προσθήκη χρήστη(βήμα2)"
+
+#, fuzzy
+msgid "Max domains<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Μέγιστο ονόματων internet<br><i>(-1 ανενεργά, 0 απεριόριστα)</i>"
+
+#, fuzzy
+msgid "Mail accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών email <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "FTP accounts limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο λογαριασμών FTP <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL databases limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο SQL Β.Δ. <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "SQL users limit<br /><em>(-1 disabled, 0 unlimited)</em>"
+msgstr "Όριο χρηστών SQL <br /><i>(-1 ανενεργό, 0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Traffic limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Όριο κίνησης [MB] <br /><i>(0 απεριόριστο)</i>"
+
+#, fuzzy
+msgid "Disk limit [MB]<br /><em>(0 unlimited)</em>"
+msgstr "Όριο δίσκου [MB] <br /><i>(0 απεριόριστο)</i>"
+
+msgid "Apache logs"
+msgstr "Αρχεία καταγραφής Apache"
+
+msgid "Awstats"
+msgstr "Awstats"
+
+#, fuzzy
+msgid "Domain data has been altered. Please enter again."
+msgstr "Έγινε μεταβολή δεδομένων ονόματος internet. Παρακαλώ μπείτε πάλι"
+
+msgid "ispCP - User/Add user"
+msgstr "ispCP - Χρήστης/Προσθήκη χρήστη"
+
+msgid "Add other domains to this account"
+msgstr "Προσθήκη και άλλων ονομάτων internet στο λογαριασμό"
+
+#, fuzzy, php-format
+msgid "System error with Domain ID: %d"
+msgstr "Σφάλμα συστήματος με τον μοναδικό κωδικό ονόματος internet: %d"
+
+msgid "ispCP - Users/Edit"
+msgstr "ispCP - Χρήστες/Μεταβολή"
+
+msgid "Users list"
+msgstr "Λίστα χρηστών"
+
+msgid "This reseller has no domains yet."
+msgstr "Ο μεταπωλητής δεν διαθέτει ονόματα internet ακόμη."
+
+msgid "ispCP - Users"
+msgstr "ispCP - Χρήστες"
+
+#, php-format
+msgid "Are you sure you want to change the status of %s?"
+msgstr "Επιβεβαιώνετε την αλλαγή κατάστασης του %s;"
+
+msgid "Stats"
+msgstr "Στατιστικά"
+
+msgid "Edit User"
+msgstr "Μεταβολή Χρήστη"
+
+msgid "Bandwidth"
+msgstr "Εύρος Ζώνης"
+
+msgid "View aliases"
+msgstr "Προβολή ψευδωνύμων"
+
+msgid "You have no users."
+msgstr "Δεν έχετε χρήστες."
+
+#, php-format
+msgid "%1$s of %2$s MB"
+msgstr "%1$s από %2$s MB"
+
+#, fuzzy, php-format
+msgid "%1$s of <strong>unlimited</strong> MB"
+msgstr "%1$s από <b>απεριόριστα</b> MB"
+
+msgid "User data updated!"
+msgstr "Τα δεδομένα χρήστη μεταβλήθηκαν!"
+
+msgid "User data not updated!"
+msgstr "Αμετάβλητα δεδομένα χρήστη!"
+
+#, fuzzy
+msgid ""
+"This user has domain records!<br />First remove the domains from the system!"
+msgstr ""
+"Ο χρήστης έχει εγγραφή ονόματος internet!<br>Αφαιρέστε πρώτα το όνομα "
+"internet από το σύστημα!"
+
+msgid "User terminated!"
+msgstr "Ο χρήστης τερματίστηκε!"
+
+msgid "User not terminated!"
+msgstr "Ο χρήστης δεν τερματίστηκε!"
+
+#~ msgid "ispCP - Reseller statistics"
+#~ msgstr "ispCP - Στατιστικά μεταπωλητή"
+
+#~ msgid "Unchanged"
+#~ msgstr "Αμετάβλητο"
+
+#~ msgid "- 1 Month"
+#~ msgstr "- 1 Μήνας"
+
+#~ msgid "+ 1 Month"
+#~ msgstr "+ 1 Μήνας"
+
+#~ msgid "+ 2 Months"
+#~ msgstr "+ 2 Μήνες"
+
+#~ msgid "+ 3 Months"
+#~ msgstr "+ 3 Μήνες"
+
+#~ msgid "+ 6 Months"
+#~ msgstr "+ 6 Μήνες"
+
+#~ msgid "+ 1 Year"
+#~ msgstr "+ 1 Έτος"
+
+#~ msgid "+ 2 Years"
+#~ msgstr "+ 2 Έτη"
+
+#~ msgid "1 Month"
+#~ msgstr "1 Μήνας"
+
+#~ msgid "2 Months"
+#~ msgstr "2 Μήνες"
+
+#~ msgid "3 Months"
+#~ msgstr "3 Μήνες"
+
+#~ msgid "6 Months"
+#~ msgstr "6 Μήνες"
+
+#~ msgid "1 Year"
+#~ msgstr "1 Έτος"
+
+#~ msgid "2 Years"
+#~ msgstr "2 Έτη"
+
+#~ msgid "Manual DNS support (EXPERIMENTAL)"
+#~ msgstr "Μη αυτόματη υποστήριξη DNS (ΠΕΙΡΑΜΑΤΙΚΗ)"
+
+#~ msgid "Please select some user(s)!"
+#~ msgstr "Παρακαλώ επιλέξετε χρήστη(ες)!"
+
+#~ msgid "Settings saved !"
+#~ msgstr "Οι ρυθμίσεις καταχωρήθηκαν !"
+
+#, fuzzy
+#~ msgid "ERROR: Wrong Ip number!"
+#~ msgstr "Λάθος αριθμός IP!"
+
+#~ msgid "To"
+#~ msgstr "Προς"
+
+#~ msgid "Message was sent."
+#~ msgstr "Το μήνυμα στάλθηκε."
+
+#~ msgid "Add DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "Προσθήκη εγγραφής ζώνης DNS (ΠΕΙΡΑΜΑΤΙΚΟ)"
+
+#~ msgid "Edit DNS zone's record (EXPERIMENTAL)"
+#~ msgstr "Μεταβολή εγγραφής ζώνης DNS (ΠΕΙΡΑΜΑΤΙΚΟ)"
+
+#~ msgid "DNS zone's records (EXPERIMENTAL)"
+#~ msgstr "Εγγραφή ζώνης DNS (ΠΕΙΡΑΜΑΤΙΚΟ)"
+
+#~ msgid "Too user long password!"
+#~ msgstr "Πολύ μεγάλο συνθηματικό!"
+
+#~ msgid "File %s does not exists or cannot be reached!"
+#~ msgstr "Το αρχείο %s δεν υπάρχει ή δεν ανιχνεύθηκε!"
+
+#~ msgid "Error while trying to obtain list of network cards!"
+#~ msgstr "Σφάλμα κατά την λήψη της λίστας με τις κάρτες δικτύου!"
+
+#~ msgid "This IP (%s) is not assigned to any network card!"
+#~ msgstr "Αυτή η IP (%s) δεν ανήκει σε καμία κάρτα δικτύου!"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "Ώρα:"
+
+#, fuzzy
+#~ msgid "Minute"
+#~ msgstr "Λεπτά"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "Λεπτά"
+
+#~ msgid "Couldn't check for updates! Website not reachable."
+#~ msgstr "Δεν γίνεται έλεγχος ενημερώσεων! Ο ιστοτόπος δεν μπορεί να βρεθεί."
+
+#~ msgid "You Are Exceeding Your Alias Limit!"
+#~ msgstr "Υπέρβαση στο όριο ψευδωνύμων!"
+
+#~ msgid "Show server load"
+#~ msgstr "Προβολή φόρτου διακομιστή"
+
+#~ msgid "Services"
+#~ msgstr "Υπηρεσίες"
+
+#~ msgid "days"
+#~ msgstr "Ημέρες"
+
+#~ msgid "hours"
+#~ msgstr "Ώρες"
+
+#~ msgid "Kernel"
+#~ msgstr "Πυρήνας"
+
+#~ msgid "Load"
+#~ msgstr "Φόρτος"
+
+#~ msgid ""
+#~ "We are sorry, but the system is currently under maintenance.\n"
+#~ "Please try again later."
+#~ msgstr ""
+#~ "Λυπούμαστε,αλλά το σύστημα βρίσκεται σε συντήρηση.\n"
+#~ "Παρακαλώ δοκιμάστε αργότερα."
+
+#~ msgid "Could not get config from database"
+#~ msgstr "Δεν μπορεί να ληφθεί η ρύθμιση από τη Β.Δ."
+
+#~ msgid "Incorrect forward syntax"
+#~ msgstr "Incorrect <i>forward</i> syntax!"

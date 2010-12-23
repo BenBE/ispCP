@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,30 +32,24 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/reseller_add.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('rsl_ip_message', 'page');
 $tpl->define_dynamic('rsl_ip_list', 'page');
 $tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_ADD_RESELLER_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
 /**
  * Get Server IPs
  */
 function get_server_ip(&$tpl, &$sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$query = "
 		SELECT
 			`ip_id`, `ip_number`, `ip_domain`
@@ -65,13 +59,13 @@ function get_server_ip(&$tpl, &$sql) {
 			`ip_number`
 	";
 
-	$rs = exec_query($sql, $query, array());
+	$rs = exec_query($sql, $query);
 
 	$i = 0;
 
 	$reseller_ips = '';
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'RSL_IP_MESSAGE' => tr('Reseller IP list is empty!'),
@@ -101,7 +95,7 @@ function get_server_ip(&$tpl, &$sql) {
 			$ip_var_name = "ip_$ip_id";
 
 			if (isset($_POST[$ip_var_name]) && $_POST[$ip_var_name] == 'asgned') {
-				$ip_item_assigned = 'checked="checked"';
+				$ip_item_assigned = $cfg->HTML_CHECKED;
 
 				$reseller_ips .= "$ip_id;";
 			} else {
@@ -121,7 +115,7 @@ function get_server_ip(&$tpl, &$sql) {
 
 			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
 
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			$i++;
 		}
@@ -135,7 +129,9 @@ function get_server_ip(&$tpl, &$sql) {
 }
 
 function add_reseller(&$tpl, &$sql) {
+
 	global $reseller_ips;
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_reseller') {
 		if (check_user_data()) {
@@ -143,20 +139,20 @@ function add_reseller(&$tpl, &$sql) {
 
 			$user_id = $_SESSION['user_id'];
 
-			$username = clean_input($_POST['username'], true);
-			$fname = clean_input($_POST['fname'], true);
-			$lname = clean_input($_POST['lname'], true);
-			$gender = clean_input($_POST['gender'], true);
-			$firm = clean_input($_POST['firm'], true);
-			$zip = clean_input($_POST['zip'], true);
-			$city = clean_input($_POST['city'], true);
-			$state = clean_input($_POST['state'], true);
-			$country = clean_input($_POST['country'], true);
-			$email = clean_input($_POST['email'], true);
-			$phone = clean_input($_POST['phone'], true);
-			$fax = clean_input($_POST['fax'], true);
-			$street1 = clean_input($_POST['street1'], true);
-			$street2 = clean_input($_POST['street2'], true);
+			$username = clean_input($_POST['username']);
+			$fname = clean_input($_POST['fname']);
+			$lname = clean_input($_POST['lname']);
+			$gender = clean_input($_POST['gender']);
+			$firm = clean_input($_POST['firm']);
+			$zip = clean_input($_POST['zip']);
+			$city = clean_input($_POST['city']);
+			$state = clean_input($_POST['state']);
+			$country = clean_input($_POST['country']);
+			$email = clean_input($_POST['email']);
+			$phone = clean_input($_POST['phone']);
+			$fax = clean_input($_POST['fax']);
+			$street1 = clean_input($_POST['street1']);
+			$street2 = clean_input($_POST['street2']);
 
 			$query = "
 				INSERT INTO `admin` (
@@ -217,7 +213,7 @@ function add_reseller(&$tpl, &$sql) {
 					$gender)
 			);
 
-			$new_admin_id = $sql->Insert_ID();
+			$new_admin_id = $sql->insertId();
 
 			$user_logged = $_SESSION['user_logged'];
 
@@ -259,6 +255,7 @@ function add_reseller(&$tpl, &$sql) {
 			$nreseller_max_traffic = clean_input($_POST['nreseller_max_traffic']);
 			$nreseller_max_disk = clean_input($_POST['nreseller_max_disk']);
 			$customer_id = clean_input($_POST['customer_id']);
+			$support_system = clean_input($_POST['support_system']);
 
 			$query = "
 				INSERT INTO `reseller_props` (
@@ -272,7 +269,7 @@ function add_reseller(&$tpl, &$sql) {
 					`max_sql_user_cnt`, `current_sql_user_cnt`,
 					`max_traff_amnt`, `current_traff_amnt`,
 					`max_disk_amnt`, `current_disk_amnt`,
-					`customer_id`
+					`support_system`, `customer_id`
 				) VALUES (
 					?, ?,
 					?, '0',
@@ -284,7 +281,7 @@ function add_reseller(&$tpl, &$sql) {
 					?, '0',
 					?, '0',
 					?, '0',
-					?
+					?, ?
 				)
 				";
 
@@ -298,6 +295,7 @@ function add_reseller(&$tpl, &$sql) {
 					$nreseller_max_sql_user_cnt,
 					$nreseller_max_traffic,
 					$nreseller_max_disk,
+					$support_system,
 					$customer_id)
 			);
 
@@ -331,19 +329,20 @@ function add_reseller(&$tpl, &$sql) {
 					'STREET_2' => clean_input($_POST['street2'], true),
 					'PHONE' => clean_input($_POST['phone'], true),
 					'FAX' => clean_input($_POST['fax'], true),
-					'VL_MALE' => (($_POST['gender'] == 'M') ? 'selected="selected"' : ''),
-					'VL_FEMALE' => (($_POST['gender'] == 'F') ? 'selected="selected"' : ''),
-					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? 'selected="selected"' : ''),
+					'VL_MALE' => (($_POST['gender'] == 'M') ? $cfg->HTML_SELECTED : ''),
+					'VL_FEMALE' => (($_POST['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
+					'VL_UNKNOWN' => ((($_POST['gender'] == 'U') || (empty($_POST['gender']))) ? $cfg->HTML_SELECTED : ''),
 
-					'MAX_DOMAIN_COUNT' => clean_input($_POST['nreseller_max_domain_cnt']),
-					'MAX_SUBDOMAIN_COUNT' => clean_input($_POST['nreseller_max_subdomain_cnt']),
-					'MAX_ALIASES_COUNT' => clean_input($_POST['nreseller_max_alias_cnt']),
-					'MAX_MAIL_USERS_COUNT' => clean_input($_POST['nreseller_max_mail_cnt']),
-					'MAX_FTP_USERS_COUNT' => clean_input($_POST['nreseller_max_ftp_cnt']),
-					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt']),
-					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt']),
-					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic']),
-					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'])
+					'MAX_DOMAIN_COUNT' => clean_input($_POST['nreseller_max_domain_cnt'], true),
+					'MAX_SUBDOMAIN_COUNT' => clean_input($_POST['nreseller_max_subdomain_cnt'], true),
+					'MAX_ALIASES_COUNT' => clean_input($_POST['nreseller_max_alias_cnt'], true),
+					'MAX_MAIL_USERS_COUNT' => clean_input($_POST['nreseller_max_mail_cnt'], true),
+					'MAX_FTP_USERS_COUNT' => clean_input($_POST['nreseller_max_ftp_cnt'], true),
+					'MAX_SQLDB_COUNT' => clean_input($_POST['nreseller_max_sql_db_cnt'], true),
+					'MAX_SQL_USERS_COUNT' => clean_input($_POST['nreseller_max_sql_user_cnt'], true),
+					'MAX_TRAFFIC_AMOUNT' => clean_input($_POST['nreseller_max_traffic'], true),
+					'SUPPORT_SYSTEM' => clean_input($_POST['support_system'], true),
+					'MAX_DISK_AMOUNT' => clean_input($_POST['nreseller_max_disk'], true)
 				)
 			);
 		}
@@ -368,7 +367,7 @@ function add_reseller(&$tpl, &$sql) {
 				'FAX' => '',
 				'VL_MALE' => '',
 				'VL_FEMALE' => '',
-				'VL_UNKNOWN' => 'selected="selected"',
+				'VL_UNKNOWN' => $cfg->HTML_SELECTED,
 
 				'MAX_DOMAIN_COUNT' => '',
 				'MAX_SUBDOMAIN_COUNT' => '',
@@ -385,8 +384,11 @@ function add_reseller(&$tpl, &$sql) {
 }
 
 function check_user_data() {
+
 	global $reseller_ips;
-	$sql = Database::getInstance();
+
+	$cfg = ispCP_Registry::get('Config');
+	$sql = ispCP_Registry::get('Db');
 
 	$username = clean_input($_POST['username']);
 
@@ -397,100 +399,110 @@ function check_user_data() {
 			`admin`
 		WHERE
 			`admin_name` = ?
-	";
+	;";
 
-	$rs = exec_query($sql, $query, array($username));
+	$rs = exec_query($sql, $query, $username);
 
-	if ($rs->RecordCount() != 0) {
-		set_page_message(tr('This user name already exist!'));
-
+	if ($rs->recordCount() != 0) {
+		set_page_message(tr('This user name already exist!'), 'warning');
 		return false;
 	}
 	if (!validates_username(clean_input($_POST['username']))) {
-		set_page_message(tr("Incorrect username length or syntax!"));
-
+		set_page_message(tr("Incorrect username length or syntax!"), 'warning');
 		return false;
 	}
 	if (!chk_password($_POST['pass'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
-
 		return false;
 	}
 	if ($_POST['pass'] != $_POST['pass_rep']) {
-		set_page_message(tr("Entered passwords do not match!"));
-
+		set_page_message(tr("Entered passwords do not match!"), 'warning');
 		return false;
 	}
 	if (!chk_email(clean_input($_POST['email']))) {
-		set_page_message(tr("Incorrect email syntax!"));
-
+		set_page_message(tr("Incorrect email syntax!"), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_domain_cnt'], null)) {
-		set_page_message(tr("Incorrect domains limit!"));
-
+		set_page_message(tr("Incorrect domains limit!"), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_subdomain_cnt'], -1)) {
-		set_page_message(tr("Incorrect subdomains limit!"));
-
+		set_page_message(tr("Incorrect subdomains limit!"), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_alias_cnt'], -1)) {
-		set_page_message(tr('Incorrect aliases limit!'));
-
+		set_page_message(tr('Incorrect aliases limit!'), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_ftp_cnt'], -1)) {
-		set_page_message(tr('Incorrect FTP accounts limit!'));
-
+		set_page_message(tr('Incorrect FTP accounts limit!'), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_mail_cnt'], -1)) {
-		set_page_message(tr('Incorrect mail accounts limit!'));
-
+		set_page_message(tr('Incorrect mail accounts limit!'), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_sql_db_cnt'], -1)) {
-		set_page_message(tr('Incorrect SQL databases limit!'));
-
+		set_page_message(tr('Incorrect SQL databases limit!'), 'warning');
+		return false;
+	} else if ($_POST['nreseller_max_sql_db_cnt'] == -1
+		&& $_POST['nreseller_max_sql_user_cnt'] != -1) {
+		set_page_message(
+			tr('SQL databases limit is <em>disabled</em> but SQL users limit not!'),
+			'warning'
+		);
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_sql_user_cnt'], -1)) {
-		set_page_message(tr('Incorrect SQL users limit!'));
-
+		set_page_message(tr('Incorrect SQL users limit!'), 'warning');
+		return false;
+	} else if ($_POST['nreseller_max_sql_db_cnt'] != -1
+		&& $_POST['nreseller_max_sql_user_cnt'] == -1) {
+		set_page_message(
+			tr('SQL users limit is <em>disabled</em> but SQL databases limit not!'),
+			'warning'
+		);
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_traffic'], null)) {
-		set_page_message(tr('Incorrect traffic limit!'));
-
+		set_page_message(tr('Incorrect traffic limit!'), 'warning');
 		return false;
 	}
 	if (!ispcp_limit_check($_POST['nreseller_max_disk'], null)) {
-		set_page_message(tr('Incorrect disk quota limit!'));
-
+		set_page_message(tr('Incorrect disk quota limit!'), 'warning');
 		return false;
 	}
 	if ($reseller_ips == '') {
-		set_page_message(tr('You must assign at least one IP number for a reseller!'));
-
+		set_page_message(
+			tr('You must assign at least one IP number for a reseller!'),
+			'warning'
+		);
 		return false;
 	}
-
 	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 $reseller_ips = get_server_ip($tpl, $sql);
 
@@ -498,21 +510,22 @@ add_reseller($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
 		'TR_ADD_RESELLER' => tr('Add reseller'),
 		'TR_CORE_DATA' => tr('Core data'),
 		'TR_USERNAME' => tr('Username'),
 		'TR_PASSWORD' => tr('Password'),
 		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
 		'TR_EMAIL' => tr('Email'),
-		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><i>(0 unlimited)</i>'),
-		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><i>(0 unlimited)</i>'),
-		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><i>(0 unlimited)</i>'),
+		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><em>(0 unlimited)</em>'),
+		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
 		'TR_PHP' => tr('PHP'),
 		'TR_PERL_CGI' => tr('CGI / Perl'),
 		'TR_JSP' => tr('JSP'),
@@ -528,6 +541,7 @@ $tpl->assign(
 		'TR_LOGO_UPLOAD' => tr('Logo upload'),
 		'TR_YES' => tr('yes'),
 		'TR_NO' => tr('no'),
+		'TR_SUPPORT_SYSTEM' => tr('Support system'),
 
 		'TR_RESELLER_IPS' => tr('Reseller IPs'),
 
@@ -560,7 +574,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

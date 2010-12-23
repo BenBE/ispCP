@@ -21,9 +21,9 @@
  * Configuration of databasename, username and password is done
  * by using conf.pl or the administrator plugin
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: db_prefs.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: db_prefs.php 13962 2010-07-21 07:05:29Z pdontthink $
  * @package squirrelmail
  * @subpackage prefs
  * @since 1.1.3
@@ -121,6 +121,14 @@ class dbPrefs {
         if (!empty($prefs_user_field)) {
             $this->user_field = $prefs_user_field;
         }
+
+        // the default user field is "user", which in PostgreSQL
+        // is an identifier and causes errors if not escaped
+        //
+        if ($this->db_type == SMDB_PGSQL) {
+           $this->user_field = '"' . $this->user_field . '"';
+        }
+
         if (!empty($prefs_key_field)) {
             $this->key_field = $prefs_key_field;
         }

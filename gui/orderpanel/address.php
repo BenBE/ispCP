@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,14 +24,16 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/address.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/address.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
@@ -41,8 +43,11 @@ $tpl->define_dynamic('purchase_footer', 'page');
  */
 
 function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (isset($_POST['fname'])) {
-		$first_name = clean_input($_POST['fname'], true);
+		$first_name = clean_input($_POST['fname']);
 	} else if (isset($_SESSION['fname'])) {
 		$first_name = $_SESSION['fname'];
 	} else {
@@ -50,7 +55,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['lname'])) {
-		$last_name = clean_input($_POST['lname'], true);
+		$last_name = clean_input($_POST['lname']);
 	} else if (isset($_SESSION['lname'])) {
 		$last_name = $_SESSION['lname'];
 	} else {
@@ -58,7 +63,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['email'])) {
-		$email = clean_input($_POST['email'], true);
+		$email = clean_input($_POST['email']);
 	} else if (isset($_SESSION['email'])) {
 		$email = $_SESSION['email'];
 	} else {
@@ -74,7 +79,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['firm'])) {
-		$company = clean_input($_POST['firm'], true);
+		$company = clean_input($_POST['firm']);
 	} else if (isset($_SESSION['firm'])) {
 		$company = $_SESSION['firm'];
 	} else {
@@ -82,7 +87,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['zip'])) {
-		$postal_code = clean_input($_POST['zip'], true);
+		$postal_code = clean_input($_POST['zip']);
 	} else if (isset($_SESSION['zip'])) {
 		$postal_code = $_SESSION['zip'];
 	} else {
@@ -90,7 +95,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['city'])) {
-		$city = clean_input($_POST['city'], true);
+		$city = clean_input($_POST['city']);
 	} else if (isset($_SESSION['city'])) {
 		$city = $_SESSION['city'];
 	} else {
@@ -98,7 +103,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['state'])) {
-		$state = clean_input($_POST['state'], true);
+		$state = clean_input($_POST['state']);
 	} else if (isset($_SESSION['state'])) {
 		$state = $_SESSION['state'];
 	} else {
@@ -106,7 +111,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['country'])) {
-		$country = clean_input($_POST['country'], true);
+		$country = clean_input($_POST['country']);
 	} else if (isset($_SESSION['country'])) {
 		$country = $_SESSION['country'];
 	} else {
@@ -114,7 +119,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['street1'])) {
-		$street1 = clean_input($_POST['street1'], true);
+		$street1 = clean_input($_POST['street1']);
 	} else if (isset($_SESSION['street1'])) {
 		$street1 = $_SESSION['street1'];
 	} else {
@@ -122,7 +127,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['street2'])) {
-		$street2 = clean_input($_POST['street2'], true);
+		$street2 = clean_input($_POST['street2']);
 	} else if (isset($_SESSION['street2'])) {
 		$street2 = $_SESSION['street2'];
 	} else {
@@ -130,7 +135,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['phone'])) {
-		$phone = clean_input($_POST['phone'], true);
+		$phone = clean_input($_POST['phone']);
 	} else if (isset($_SESSION['phone'])) {
 		$phone = $_SESSION['phone'];
 	} else {
@@ -138,7 +143,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 
 	if (isset($_POST['fax'])) {
-		$fax = clean_input($_POST['fax'], true);
+		$fax = clean_input($_POST['fax']);
 	} else if (isset($_SESSION['fax'])) {
 		$fax = $_SESSION['fax'];
 	} else {
@@ -147,21 +152,21 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 
 	$tpl->assign(
 		array(
-			'VL_USR_NAME'		=> $first_name,
-			'VL_LAST_USRNAME'	=> $last_name,
-			'VL_EMAIL'			=> $email,
-			'VL_USR_FIRM'		=> $company,
-			'VL_USR_POSTCODE'	=> $postal_code,
-			'VL_USRCITY'		=> $city,
-			'VL_USRSTATE'		=> $state,
-			'VL_COUNTRY'		=> $country,
-			'VL_STREET1'		=> $street1,
-			'VL_STREET2'		=> $street2,
-			'VL_PHONE'			=> $phone,
-			'VL_FAX'			=> $fax,
-			'VL_MALE'			=> (($gender === 'M') ? 'selected="selected"' : ''),
-			'VL_FEMALE'			=> (($gender === 'F') ? 'selected="selected"' : ''),
-			'VL_UNKNOWN'		=> (($gender == 'U') ? 'selected="selected"' : '')
+			'VL_USR_NAME'		=> tohtml($first_name),
+			'VL_LAST_USRNAME'	=> tohtml($last_name),
+			'VL_EMAIL'			=> tohtml($email),
+			'VL_USR_FIRM'		=> tohtml($company),
+			'VL_USR_POSTCODE'	=> tohtml($postal_code),
+			'VL_USRCITY'		=> tohtml($city),
+			'VL_USRSTATE'		=> tohtml($state),
+			'VL_COUNTRY'		=> tohtml($country),
+			'VL_STREET1'		=> tohtml($street1),
+			'VL_STREET2'		=> tohtml($street2),
+			'VL_PHONE'			=> tohtml($phone),
+			'VL_FAX'			=> tohtml($fax),
+			'VL_MALE'			=> (($gender === 'M') ? $cfg->HTML_SELECTED : ''),
+			'VL_FEMALE'			=> (($gender === 'F') ? $cfg->HTML_SELECTED : ''),
+			'VL_UNKNOWN'		=> (($gender == 'U') ? $cfg->HTML_SELECTED : '')
 		)
 	);
 }
@@ -175,23 +180,22 @@ function check_address_data(&$tpl) {
 		&& (isset($_POST['lname']) && $_POST['lname'] != '')
 		&& (isset($_POST['zip']) && $_POST['zip'] != '')
 		&& (isset($_POST['city']) && $_POST['city'] != '')
-		&& (isset($_POST['state']) && $_POST['state'] != '')
 		&& (isset($_POST['country']) && $_POST['country'] != '')
 		&& (isset($_POST['street1']) && $_POST['street1'] != '')
 		&& (isset($_POST['phone']) && $_POST['phone'] != '')
 		) {
-		$_SESSION['fname']		= clean_input($_POST['fname'], true);
-		$_SESSION['lname']		= clean_input($_POST['lname'], true);
-		$_SESSION['email']		= clean_input($_POST['email'], true);
-		$_SESSION['zip']		= clean_input($_POST['zip'], true);
-		$_SESSION['city']		= clean_input($_POST['city'], true);
-		$_SESSION['state']		= clean_input($_POST['state'], true);
-		$_SESSION['country']	= clean_input($_POST['country'], true);
-		$_SESSION['street1']	= clean_input($_POST['street1'], true);
-		$_SESSION['phone']		= clean_input($_POST['phone'], true);
+		$_SESSION['fname']		= clean_input($_POST['fname']);
+		$_SESSION['lname']		= clean_input($_POST['lname']);
+		$_SESSION['email']		= clean_input($_POST['email']);
+		$_SESSION['zip']		= clean_input($_POST['zip']);
+		$_SESSION['city']		= clean_input($_POST['city']);
+		$_SESSION['state']		= clean_input($_POST['state']);
+		$_SESSION['country']	= clean_input($_POST['country']);
+		$_SESSION['street1']	= clean_input($_POST['street1']);
+		$_SESSION['phone']		= clean_input($_POST['phone']);
 
 		if (isset($_POST['firm']) && $_POST['firm'] != '') {
-			$_SESSION['firm'] = clean_input($_POST['firm'], true);
+			$_SESSION['firm'] = clean_input($_POST['firm']);
 		}
 
 		if (isset($_POST['gender'])
@@ -202,35 +206,30 @@ function check_address_data(&$tpl) {
 		}
 
 		if (isset($_POST['street2']) && $_POST['street2'] != '') {
-			$_SESSION['street2'] = clean_input($_POST['street2'], true);
+			$_SESSION['street2'] = clean_input($_POST['street2']);
 		}
 
 		if (isset($_POST['fax']) && $_POST['fax'] != '') {
-			$_SESSION['fax'] = clean_input($_POST['fax'], true);
+			$_SESSION['fax'] = clean_input($_POST['fax']);
 		}
 
 		user_goto('chart.php');
 	} else {
-		set_page_message(tr('Please fill out all needed fields!'));
+		set_page_message(tr('Please fill out all needed fields!'), 'warning');
 		$_GET['edit'] = "yes";
 	}
 }
 
-/*
- * functions end
- */
+// functions end
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'address')
@@ -283,7 +282,8 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

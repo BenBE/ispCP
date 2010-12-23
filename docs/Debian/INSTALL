@@ -1,4 +1,4 @@
-ispCP ω (OMEGA) HowTo Install for Debian Etch, Lenny, Squeeze
+ispCP ω (OMEGA) HowTo Install for Debian Lenny, Squeeze
 ================================================================================
 For other Linux distributions please check the other INSTALL files.
 ================================================================================
@@ -16,11 +16,11 @@ Table of Content
 ================================================================================
 1) Version Info
 ---------------
-ispCP ω Version: 1.1.0
-INSTALL Script:		2.6
+ispCP ω Version: 	1.0.8
+INSTALL Script:		2.8
 Maintainer:			Benedikt Heintel
 Homepage:			http://www.isp-contol.net
-Linux Distros:		Debian Etch, Lenny, Squeeze
+Linux Distros:		Debian Lenny, Squeeze
 
 ================================================================================
 2) Requirements
@@ -32,7 +32,6 @@ Pentium III or K6-4 with 500 MHz
 100 MB disk space (only for install of ispCP ω)
 Debian (or even any other *NIX-Distribution)
 
-All Etch required packages are listed in ./docs/Debian/debian-packages-etch
 All Lenny required packages are listed in ./docs/Debian/debian-packages-lenny
 All Squeeze required packages are listed in ./docs/Debian/debian-packages-squeeze
 
@@ -55,29 +54,37 @@ provides graphic user interfaces for the administrators, resellers and users.
 Make sure you are logged in as root and MySQL is running.
 
 1. Untar or unzip the distribution files to a secure directory:
-	# cd /root
-	# tar xjvf ispcp-omega-1.1.0.tar.bz2
+	# cd /usr/local/src
+	# tar xjvf ispcp-omega-1.0.8.tar.bz2
 
 2. Change to the newly created directory:
-	# cd ./ispcp-omega-1.1.0
+	# cd ./ispcp-omega-1.0.8
 
-3. Install the required modules
+3. Install the required packages
+
    First update your system:
-
 	# aptitude update && aptitude safe-upgrade
-	# aptitude install lsb-release
-	# aptitude install $(cat ./docs/Debian/debian-packages-`lsb_release -cs`)
 
    Make sure you have added the non-free into your /etc/apt/sources.list:
 
-   deb     http://ftp.debian.org/debian/            lenny         main contrib non-free
-   deb     http://security.debian.org/              lenny/updates main contrib non-free
+   Lenny:
+	deb     http://ftp.debian.org/debian/	lenny main contrib non-free
+	deb     http://security.debian.org/	lenny/updates main contrib non-free
 
-	(if you get to the proftpd screen, select 'standalone')
-	(if you get to the postfix screen select 'internet site'. 'mail name' should be
-	the server's domain. If you've set debian up correctly on install your domain
-	should be already shown.)
+   Squeeze:
+  	deb     http://ftp.debian.org/debian/	squeeze	main contrib non-free
+	deb     http://security.debian.org/	squeeze/updates main contrib non-free
+
+   Install all required packages:
+
+	# aptitude install lsb-release
+	# aptitude install $(cat ./docs/Debian/debian-packages-`lsb_release -cs`)
+
 	(if you get to the courier screen select 'no' to web directories)
+	(if you get to the postfix screen select 'internet site'. 'mail name' should
+	be the server's domain. If you've set debian up correctly on install your
+	domain should be already shown.)
+	(if you get to the proftpd screen, select 'standalone')
 
 4. (optional) Check the ispcp.conf and adapt it to your requirements.
 
@@ -87,7 +94,7 @@ Make sure you are logged in as root and MySQL is running.
 6. Copy all the directories into your system. If you have not yet, now is a good
    time to make backups of your server. The following steps do fundamental
    changes to your system configuration.
-	# cp -Rv /tmp/ispcp/* /
+	# cp -R /tmp/ispcp/* /
 
 7. Change or create MySQL root password, remove anonymous users, disallow root
 	login remotely, remove test database (and access to it), reload privilege tables.
@@ -109,28 +116,37 @@ Make sure you are logged in as root and MySQL is running.
 ================================================================================
 5) Update
 ---------
-NOTE: ispCP ω can only be updated from 1.0.0, 1.0.1 or 1.0.2. If you have a
+NOTE: ispCP ω can only be updated from post 1.0.0. If you have a
 version prior 1.0.0 (final release) installed, update to ispCP ω 1.0.0 first.
 
 Make sure you are logged in as root and MySQL is running.
 
 1. Untar or unzip the distribution files to a secure directory:
-	# cd /root
-	# tar xjvf ispcp-omega-1.1.0.tar.bz2
+	# cd /usr/local/src
+	# tar xjvf ispcp-omega-1.0.8.tar.bz2
 
 2. Change to the newly created directory:
-	# cd ./ispcp-omega-1.1.0
+	# cd ./ispcp-omega-1.0.8
 
-3. Install the required modules
-   first update your system:
-	# aptitude update && aptitude upgrade
-	# aptitude install lsb-release
-	# aptitude install $(cat ./docs/Debian/debian-packages-`lsb_release -cs`)
+3. Install the required packages
+
+   First update your system:
+	# aptitude update && aptitude safe-upgrade
 
    Make sure you have added the non-free into your /etc/apt/sources.list:
 
-   deb     http://ftp.debian.org/debian/            etch         main contrib non-free
-   deb     http://security.debian.org/              etch/updates main contrib non-free
+   Lenny:
+	deb     http://ftp.debian.org/debian/	lenny main contrib non-free
+	deb     http://security.debian.org/	lenny/updates main contrib non-free
+
+   Squeeze:
+  	deb     http://ftp.debian.org/debian/	squeeze	main contrib non-free
+	deb     http://security.debian.org/	squeeze/updates main contrib non-free
+
+   Install all required packages:
+
+	# aptitude install lsb-release
+	# aptitude install $(cat ./docs/Debian/debian-packages-`lsb_release -cs`)
 
 	(if you get to the courier screen select 'no' to web directories)
 	(if you get to the postfix screen select 'internet site' and then type 'root'
@@ -144,24 +160,30 @@ Make sure you are logged in as root and MySQL is running.
 	# make install
 
 5. Backup files
+	# cp -v /var/www/ispcp/gui/themes/user_logos/* /tmp/ispcp/var/www/ispcp/gui/themes/user_logos/
+	# cp -TRv /var/www/ispcp/gui/domain_default_page /tmp/ispcp/var/www/ispcp/gui/domain_default_page
+	# cp -v /var/www/ispcp/gui/tools/webmail/data/* /tmp/ispcp/var/www/ispcp/gui/tools/webmail/data/
+
+	For ispCP Omega prior version 1.0.8
 	# cp -v /var/www/ispcp/engine/ispcp-db-keys.pl /tmp/ispcp/var/www/ispcp/engine/
 	# cp -v /var/www/ispcp/engine/messenger/ispcp-db-keys.pl /tmp/ispcp/var/www/ispcp/engine/messenger/
 	# cp -v /var/www/ispcp/gui/include/ispcp-db-keys.php /tmp/ispcp/var/www/ispcp/gui/include/
-	# cp -v /var/www/ispcp/gui/themes/user_logos/* /tmp/ispcp/var/www/ispcp/gui/themes/user_logos/
-	# cp -TRv /var/www/ispcp/gui/domain_default_page /tmp/ispcp/var/www/ispcp/gui/domain_default_page
-	# cp -v /var/www/ispcp/gui/tools/pma/config.inc.php /tmp/ispcp/var/www/ispcp/gui/tools/pma/
-	# cp -v /var/www/ispcp/gui/tools/webmail/data/* /tmp/ispcp/var/www/ispcp/gui/tools/webmail/data/
+
+	For ispCP Omega prior version 1.0.7 RC2
+	# cp -v /var/www/ispcp/gui/tools/pma/config.inc.php /tmp/ispcp/etc/ispcp/pma/working/
 
 6. Delete old files to avoid security risks:
-	# rm -fR /var/www/ispcp/engine/
-	# rm -fR /var/www/ispcp/gui/{admin,client,include,orderpanel,themes,reseller}/
-	# rm -fR /var/www/ispcp/gui/*.php
+	# rm -Rf /var/www/ispcp/engine/
+	# rm -Rf /var/www/ispcp/gui/{admin,client,include,orderpanel,themes,reseller}/
+	# rm -Rf /var/www/ispcp/gui/tools/{pma/,filemanager/,webmail/,index.php}
+	# rm -Rf /var/www/ispcp/gui/{*.php,favicon.ico,robots.txt}
 
 7. Copy /usr and /var directories into your system (you may make backups)
 	# cp -R /tmp/ispcp/usr/* /usr/
 	# cp -R /tmp/ispcp/var/* /var/
 
-8. Backup ispcp.conf and copy the /etc directory into your system (you may make backups):
+8. Backup ispcp.conf and copy the /etc directory into your system (you may make
+   backups):
 	# mv /etc/ispcp/ispcp.conf /etc/ispcp/ispcp.old.conf
 	# cp -R /tmp/ispcp/etc/* /etc/
 

@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/mail_autoresponder_enable.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_autoresponder_enable.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
@@ -43,7 +45,7 @@ function check_email_user(&$sql) {
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];
 
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			t1.*,
 			t2.`domain_id`,
@@ -57,46 +59,55 @@ function check_email_user(&$sql) {
 			t2.`domain_id` = t1.`domain_id`
 		AND
 			t2.`domain_name` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($mail_id, $dmn_name));
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 		user_goto('mail_accounts.php');
 	}
 }
 
 function gen_page_dynamic_data(&$tpl, &$sql, $mail_id, $read_from_db) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	// Get Message
 	if ($read_from_db) {
-		$query = <<<SQL_QUERY
+		$query = "
 			SELECT
 				`mail_auto_respond_text`, `mail_acc`
 			FROM
 				`mail_users`
 			WHERE
 				`mail_id` = ?
-SQL_QUERY;
-		$rs = exec_query($sql, $query, array($mail_id));
+		";
+		$rs = exec_query($sql, $query, $mail_id);
 		$mail_name = $rs->fields['mail_acc'];
 
-		$tpl->assign('ARSP_MESSAGE', $rs->fields['mail_auto_respond_text']);
+		$tpl->assign('ARSP_MESSAGE', tohtml($rs->fields['mail_auto_respond_text']));
 		return;
 	} else {
 		$arsp_message = clean_input($_POST['arsp_message']);
 	}
 
-	$item_change_status = Config::get('ITEM_CHANGE_STATUS');
+	$item_change_status = $cfg->ITEM_CHANGE_STATUS;
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'enable_arsp') {
 		if (empty($_POST['arsp_message'])) {
 			$tpl->assign('ARSP_MESSAGE', '');
-			set_page_message(tr('Please type your mail autorespond message!'));
+			set_page_message(
+				tr('Please type your mail autorespond message!'),
+				'warning'
+			);
 			return;
 		}
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`mail_users`
 			SET
@@ -104,7 +115,7 @@ SQL_QUERY;
 				`mail_auto_respond_text` = ?
 			WHERE
 				`mail_id` = ?
-SQL_QUERY;
+		";
 
 		$rs = exec_query($sql, $query, array($item_change_status, $arsp_message, $mail_id));
 
@@ -129,10 +140,13 @@ SQL_QUERY;
 				`mail_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($mail_id));
+		$rs = exec_query($sql, $query, $mail_id);
 		$mail_name = $rs->fields['mailbox'];
 		write_log($_SESSION['user_logged'] . ": changes mail autoresponder: " . $mail_name);
-		set_page_message(tr('Mail account scheduler for modification!'));
+		set_page_message(
+			tr('Mail account scheduler for modification!'),
+			'success'
+		);
 		user_goto('mail_accounts.php');
 	} else {
 		$tpl->assign('ARSP_MESSAGE', '');
@@ -153,14 +167,10 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 	header("Location: index.php");
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder'),
-		'THEME_COLOR_PATH'							=> "../themes/$theme_color",
-		'THEME_CHARSET'								=> tr('encoding'),
-		'ISP_LOGO'									=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder')
 	)
 );
 
@@ -171,8 +181,8 @@ gen_page_dynamic_data($tpl, $sql, $mail_id, !isset($_POST['uaction']));
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -192,7 +202,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

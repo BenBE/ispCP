@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,60 +32,45 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/domain_edit.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('ip_entry', 'page');
 $tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('subdomain_edit', 'page');
+$tpl->define_dynamic('alias_edit', 'page');
+$tpl->define_dynamic('mail_edit', 'page');
+$tpl->define_dynamic('ftp_edit', 'page');
+$tpl->define_dynamic('sql_db_edit', 'page');
+$tpl->define_dynamic('sql_user_edit', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-if (Config::exists('HOSTING_PLANS_LEVEL')
-	&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
-	user_goto('users.php');
+if (isset($cfg->HOSTING_PLANS_LEVEL)
+	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
+	user_goto('users.php?psi=last');
 }
 
+// static page messages
 $tpl->assign(
 	array(
-		'TR_EDIT_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Edit'),
-		'THEME_COLOR_PATH'			=> "../themes/$theme_color",
-		'THEME_CHARSET'				=> tr('encoding'),
-		'ISP_LOGO'					=> get_logo($_SESSION['user_id'])
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-$tpl->assign(
-	array(
+		'TR_EDIT_DOMAIN_PAGE_TITLE'			=> tr('ispCP - Domain/Edit'),
 		'TR_EDIT_DOMAIN'					=> tr('Edit Domain'),
 		'TR_DOMAIN_PROPERTIES'				=> tr('Domain properties'),
 		'TR_DOMAIN_NAME'					=> tr('Domain name'),
 		'TR_DOMAIN_EXPIRE'					=> tr('Domain expire'),
-		'TR_DOMAIN_NEW_EXPIRE'				=> tr('New expire date'),
-		'TR_DOMAIN_EXPIRE_UNCHANGED'		=> tr('Unchanged'),
-		'TR_DOMAIN_EXPIRE_MIN_1_MONTH'		=> tr('- 1 Month'),
-		'TR_DOMAIN_EXPIRE_PLUS_1_MONTH'		=> tr('+ 1 Month'),
-		'TR_DOMAIN_EXPIRE_PLUS_2_MONTHS'	=> tr('+ 2 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_3_MONTHS'	=> tr('+ 3 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_6_MONTHS'	=> tr('+ 6 Months'),
-		'TR_DOMAIN_EXPIRE_PLUS_1_YEAR'		=> tr('+ 1 Year'),
-		'TR_DOMAIN_EXPIRE_PLUS_2_YEARS'		=> tr('+ 2 Years'),
 		'TR_DOMAIN_IP'						=> tr('Domain IP'),
 		'TR_PHP_SUPP'						=> tr('PHP support'),
 		'TR_CGI_SUPP'						=> tr('CGI support'),
-		'TR_DNS_SUPP'						=> tr('Manual DNS support (EXPERIMENTAL)'),
-		'TR_SUBDOMAINS'						=> tr('Max subdomains<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_ALIAS'							=> tr('Max aliases<br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_MAIL_ACCOUNT'					=> tr('Mail accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_FTP_ACCOUNTS'					=> tr('FTP accounts limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_DB'							=> tr('SQL databases limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_SQL_USERS'						=> tr('SQL users limit <br /><i>(-1 disabled, 0 unlimited)</i>'),
-		'TR_TRAFFIC'						=> tr('Traffic limit [MB] <br /><i>(0 unlimited)</i>'),
-		'TR_DISK'							=> tr('Disk limit [MB] <br /><i>(0 unlimited)</i>'),
+		'TR_DNS_SUPP'						=> tr('Manual DNS support'),
+		'TR_SUBDOMAINS'						=> tr('Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_ALIAS'							=> tr('Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAIL_ACCOUNT'					=> tr('Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_FTP_ACCOUNTS'					=> tr('FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_DB'							=> tr('SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_USERS'						=> tr('SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_TRAFFIC'						=> tr('Traffic limit [MB] <br /><em>(0 unlimited)</em>'),
+		'TR_DISK'							=> tr('Disk limit [MB] <br /><em>(0 unlimited)</em>'),
 		'TR_USER_NAME'						=> tr('Username'),
 		'TR_BACKUP'							=> tr('Backup'),
 		'TR_BACKUP_DOMAIN'					=> tr('Domain'),
@@ -96,12 +81,32 @@ $tpl->assign(
 		'TR_CANCEL'							=> tr('Cancel'),
 		'TR_YES'							=> tr('Yes'),
 		'TR_NO'								=> tr('No'),
-		'TR_DMN_EXP_HELP'					=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
+		'TR_EXPIRE_CHECKBOX'				=> tr('or check if domain should <strong>never</strong> expire'),
+		'TR_SU'								=> tr('Su'),
+		'TR_MO'								=> tr('Mo'), 
+		'TR_TU'								=> tr('Tu'), 
+		'TR_WE'								=> tr('We'), 
+		'TR_TH'								=> tr('Th'), 
+		'TR_FR'								=> tr('Fr'), 
+		'TR_SA'								=> tr('Sa'),
+		'TR_JANUARY'						=> tr('January'),
+		'TR_FEBRUARY'						=> tr('February'),
+		'TR_MARCH'							=> tr('March'),
+		'TR_APRIL'							=> tr('April'),
+		'TR_MAY'							=> tr('May'),
+		'TR_JUNE'							=> tr('June'),
+		'TR_JULY'							=> tr('July'),
+		'TR_AUGUST'							=> tr('August'),
+		'TR_SEPTEMBER'						=> tr('September'),
+		'TR_OCTOBER'						=> tr('October'),
+		'TR_NOVEMBER'						=> tr('November'),
+		'TR_DECEMBER'						=> tr('December'),
+		'VL_DATE_FORMAT'					=> jQueryDatepickerDateFormat($cfg->DATE_FORMAT)
 	)
 );
 
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
@@ -116,12 +121,12 @@ if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
 		unset($_SESSION['edit_id']);
 		$_SESSION['edit'] = '_no_';
 
-		user_goto('users.php');
+		user_goto('users.php?psi=last');
 	}
 
 	if (check_user_data($tpl, $sql, $_SESSION['user_id'], $editid)) { // Save data to db
 		$_SESSION['dedit'] = "_yes_";
-		user_goto('users.php');
+		user_goto('users.php?psi=last');
 	}
 	load_additional_data($_SESSION['user_id'], $editid);
 } else {
@@ -144,14 +149,10 @@ gen_editdomain_page($tpl);
  * Load data from sql
  */
 function load_user_data($user_id, $domain_id) {
-	$sql = Database::getInstance();
 
-	global $domain_name, $domain_expires, $domain_ip, $php_sup;
-	global $cgi_supp , $sub, $als;
-	global $mail, $ftp, $sql_db;
-	global $sql_user, $traff, $disk;
-	global $username;
-	global $dns_supp;
+	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk;
+
+	$sql = ispCP_Registry::get('Db');
 
 	$query = "
 		SELECT
@@ -166,20 +167,17 @@ function load_user_data($user_id, $domain_id) {
 
 	$rs = exec_query($sql, $query, array($domain_id, $user_id));
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'error'
+		);
 
-		user_goto('users.php');
+		user_goto('users.php?psi=last');
 	}
 
-	list($a, $sub,
-		$b, $als,
-		$c, $mail,
-		$d, $ftp,
-		$e, $sql_db,
-		$f, $sql_user,
-		$traff, $disk
-	) = generate_user_props($domain_id);;
+	list(,$sub,,$als,,$mail,,$ftp,,$sql_db,,$sql_user,$traff,$disk) =
+		generate_user_props($domain_id);
 
 	load_additional_data($user_id, $domain_id);
 } // End of load_user_data()
@@ -188,10 +186,13 @@ function load_user_data($user_id, $domain_id) {
  * Load additional data
  */
 function load_additional_data($user_id, $domain_id) {
-	$sql = Database::getInstance();
 	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp, $username, $allowbackup;
 	global $dns_supp;
+
+	$sql = ispCP_Registry::get('Db');
+	$cfg = ispCP_Registry::get('Config');
+
 	// Get domain data
 	$query = "
 		SELECT
@@ -207,21 +208,21 @@ function load_additional_data($user_id, $domain_id) {
 			`domain`
 		WHERE
 			`domain_id` = ?
-	";
+	;";
 
 	$res = exec_query($sql, $query, $domain_id);
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
-	$domain_name		= $data['domain_name'];
+	$domain_name = $data['domain_name'];
 
 	$domain_expires = $data['domain_expires'];
 	$_SESSION['domain_expires'] = $domain_expires;
 
 	if ($domain_expires == 0) {
-		$domain_expires = tr('N/A');
+		$domain_expires = '';
 	} else {
-		$date_formt = Config::get('DATE_FORMAT');
-		$domain_expires = date($date_formt, $domain_expires);
+		$date_format = $cfg->DATE_FORMAT;
+		$domain_expires = date($date_format, $domain_expires);
 	}
 
 	$domain_ip_id		= $data['domain_ip_id'];
@@ -241,8 +242,8 @@ function load_additional_data($user_id, $domain_id) {
 			`ip_id` = ?
 	";
 
-	$res = exec_query($sql, $query, array($domain_ip_id));
-	$data = $res->FetchRow();
+	$res = exec_query($sql, $query, $domain_ip_id);
+	$data = $res->fetchRow();
 
 	$domain_ip = $data['ip_number'] . '&nbsp;(' . $data['ip_domain'] . ')';
 	// Get username of domain
@@ -260,7 +261,7 @@ function load_additional_data($user_id, $domain_id) {
 	";
 
 	$res = exec_query($sql, $query, array($domain_admin_id, $user_id));
-	$data = $res->FetchRow();
+	$data = $res->fetchRow();
 
 	$username = $data['admin_name'];
 } // End of load_additional_data()
@@ -269,12 +270,15 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  */
 function gen_editdomain_page(&$tpl) {
-	global $domain_name, $domain_expires, $domain_ip, $php_sup;
+	global $domain_name, $domain_expires, $domain_new_expire, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
 	global $sql_user, $traff, $disk;
 	global $username, $allowbackup;
 	global $dns_supp;
+
+	$cfg = ispCP_Registry::get('Config');
+
 	// Fill in the fields
 	$domain_name = decode_idna($domain_name);
 
@@ -285,7 +289,7 @@ function gen_editdomain_page(&$tpl) {
 	if ($allowbackup === 'dmn') {
 		$tpl->assign(
 			array(
-				'BACKUP_DOMAIN' => 'selected="selected"',
+				'BACKUP_DOMAIN' => $cfg->HTML_SELECTED,
 				'BACKUP_SQL' 	=> '',
 				'BACKUP_FULL' 	=> '',
 				'BACKUP_NO' 	=> '',
@@ -295,7 +299,7 @@ function gen_editdomain_page(&$tpl) {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
-				'BACKUP_SQL' 	=> 'selected="selected"',
+				'BACKUP_SQL' 	=> $cfg->HTML_SELECTED,
 				'BACKUP_FULL' 	=> '',
 				'BACKUP_NO' 	=> '',
 			)
@@ -305,7 +309,7 @@ function gen_editdomain_page(&$tpl) {
 			array(
 				'BACKUP_DOMAIN' => '',
 				'BACKUP_SQL' 	=> '',
-				'BACKUP_FULL' 	=> 'selected="selected"',
+				'BACKUP_FULL' 	=> $cfg->HTML_SELECTED,
 				'BACKUP_NO' 	=> '',
 			)
 		);
@@ -315,31 +319,49 @@ function gen_editdomain_page(&$tpl) {
 				'BACKUP_DOMAIN' => '',
 				'BACKUP_SQL' 	=> '',
 				'BACKUP_FULL' 	=> '',
-				'BACKUP_NO' 	=> 'selected="selected"',
+				'BACKUP_NO' 	=> $cfg->HTML_SELECTED,
 			)
 		);
 	}
 
+	list(
+		$rsub_max,
+		$rals_max,
+		$rmail_max,
+		$rftp_max,
+		$rsql_db_max,
+		$rsql_user_max
+		) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
+
+	if ($rsub_max == "-1") $tpl->assign('ALIAS_EDIT', '');
+	if ($rals_max == "-1") $tpl->assign('SUBDOMAIN_EDIT', '');
+	if ($rmail_max == "-1") $tpl->assign('MAIL_EDIT', '');
+	if ($rftp_max == "-1") $tpl->assign('FTP_EDIT', '');
+	if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_EDIT', '');
+	if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_EDIT', '');
+
 	$tpl->assign(
 		array(
-			'PHP_YES'				=> ($php_sup == 'yes') ? 'selected="selected"' : '',
-			'PHP_NO'				=> ($php_sup != 'yes') ? 'selected="selected"' : '',
-			'CGI_YES'				=> ($cgi_supp == 'yes') ? 'selected="selected"' : '',
-			'CGI_NO'				=> ($cgi_supp != 'yes') ? 'selected="selected"' : '',
-			'DNS_YES'				=> ($dns_supp == 'yes') ? 'selected="selected"' : '',
-			'DNS_NO'				=> ($dns_supp != 'yes') ? 'selected="selected"' : '',
-			'VL_DOMAIN_NAME'		=> $domain_name,
-			'VL_DOMAIN_EXPIRE'		=> $domain_expires,
-			'VL_DOMAIN_IP'			=> $domain_ip,
-			'VL_DOM_SUB'			=> $sub,
-			'VL_DOM_ALIAS'			=> $als,
-			'VL_DOM_MAIL_ACCOUNT'	=> $mail,
-			'VL_FTP_ACCOUNTS'		=> $ftp,
-			'VL_SQL_DB'				=> $sql_db,
-			'VL_SQL_USERS'			=> $sql_user,
-			'VL_TRAFFIC'			=> $traff,
-			'VL_DOM_DISK'			=> $disk,
-			'VL_USER_NAME'			=> $username
+			'PHP_YES'					=> ($php_sup == 'yes') ? $cfg->HTML_SELECTED : '',
+			'PHP_NO'					=> ($php_sup != 'yes') ? $cfg->HTML_SELECTED : '',
+			'CGI_YES'					=> ($cgi_supp == 'yes') ? $cfg->HTML_SELECTED : '',
+			'CGI_NO'					=> ($cgi_supp != 'yes') ? $cfg->HTML_SELECTED : '',
+			'DNS_YES'					=> ($dns_supp == 'yes') ? $cfg->HTML_SELECTED : '',
+			'DNS_NO'					=> ($dns_supp != 'yes') ? $cfg->HTML_SELECTED : '',
+			'VL_EXPIRE_DATE_DISABLED'	=> ($domain_expires == 0) ? $cfg->HTML_DISABLED : '',
+			'VL_EXPIRE_NEVER_SELECTED'	=> ($domain_expires == 0) ? $cfg->HTML_CHECKED : '',
+			'VL_DOMAIN_NAME'			=> tohtml($domain_name),
+			'VL_DOMAIN_EXPIRE'			=> $domain_expires,
+			'VL_DOMAIN_IP'				=> $domain_ip,
+			'VL_DOM_SUB'				=> $sub,
+			'VL_DOM_ALIAS'				=> $als,
+			'VL_DOM_MAIL_ACCOUNT'		=> $mail,
+			'VL_FTP_ACCOUNTS'			=> $ftp,
+			'VL_SQL_DB'					=> $sql_db,
+			'VL_SQL_USERS'				=> $sql_user,
+			'VL_TRAFFIC'				=> $traff,
+			'VL_DOM_DISK'				=> $disk,
+			'VL_USER_NAME'				=> tohtml($username)
 		)
 	);
 } // End of gen_editdomain_page()
@@ -348,14 +370,12 @@ function gen_editdomain_page(&$tpl) {
  * Check input data
  */
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
-	global $sub, $als, $mail, $ftp;
-	global $sql_db, $sql_user, $traff;
-	global $disk, $sql, $domain_ip, $domain_php;
-	global $domain_cgi, $allowbackup;
-	global $domain_dns;
-	global $domain_expires, $domain_new_expire;
 
-	$domain_new_expire = clean_input($_POST['dmn_expire']);
+	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk, $sql,
+		$domain_php, $domain_cgi, $allowbackup, $domain_dns, $domain_expires;
+
+	$domain_expires_date  = (isset($_POST['dmn_expire_date'])) ? clean_input($_POST['dmn_expire_date']) : 0;
+	$domain_expires_never = (isset($_POST['dmn_expire_never'])) ? $_POST['dmn_expire_never'] : "off";
 	$sub 			= clean_input($_POST['dom_sub']);
 	$als 			= clean_input($_POST['dom_alias']);
 	$mail 			= clean_input($_POST['dom_mail_acCount']);
@@ -364,6 +384,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 	$sql_user 		= clean_input($_POST['dom_sql_users']);
 	$traff 			= clean_input($_POST['dom_traffic']);
 	$disk 			= clean_input($_POST['dom_disk']);
+
 	// $domain_ip = $_POST['domain_ip'];
 	$domain_php		= preg_replace("/\_/", "", $_POST['domain_php']);
 	$domain_cgi		= preg_replace("/\_/", "", $_POST['domain_cgi']);
@@ -372,30 +393,55 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
 	$ed_error = '';
 
-	if (!ispcp_limit_check($sub, -1)) {
+	list(
+		$rsub_max,
+		$rals_max,
+		$rmail_max,
+		$rftp_max,
+		$rsql_db_max,
+		$rsql_user_max
+		) = check_reseller_permissions($_SESSION['user_id'], 'all_permissions');
+
+	if ($rsub_max == "-1") {
+		$sub = "-1";
+	} elseif (!ispcp_limit_check($sub, -1)) {
 		$ed_error .= tr('Incorrect subdomains limit!');
 	}
-	if (!ispcp_limit_check($als, -1)) {
+
+	if ($rals_max == "-1") {
+		$als = "-1";
+	} elseif (!ispcp_limit_check($als, -1)) {
 		$ed_error .= tr('Incorrect aliases limit!');
 	}
-	if (!ispcp_limit_check($mail, -1)) {
+
+	if ($rmail_max == "-1") {
+		$mail = "-1";
+	} elseif (!ispcp_limit_check($mail, -1)) {
 		$ed_error .= tr('Incorrect mail accounts limit!');
 	}
-	if (!ispcp_limit_check($ftp, -1)) {
+
+	if ($rftp_max == "-1") {
+		$ftp = "-1";
+	} elseif (!ispcp_limit_check($ftp, -1)) {
 		$ed_error .= tr('Incorrect FTP accounts limit!');
 	}
-	if (!ispcp_limit_check($sql_db, -1)) {
+
+	if ($rsql_db_max == "-1") {
+		$sql_db = "-1";
+	} elseif (!ispcp_limit_check($sql_db, -1)) {
 		$ed_error .= tr('Incorrect SQL users limit!');
+	} else if ($sql_db == -1 && $sql_user != -1) {
+		$ed_error .= tr('SQL databases limit is <em>disabled</em>!');
 	}
-	else if ($sql_db == -1 && $sql_user != -1) {
-		$ed_error .= tr('SQL databases limit is <i>disabled</i>!');
-	}
-	if (!ispcp_limit_check($sql_user, -1)) {
+
+	if ($rsql_user_max == "-1") {
+		$sql_user = "-1";
+	} elseif (!ispcp_limit_check($sql_user, -1)) {
 		$ed_error .= tr('Incorrect SQL databases limit!');
+	} else if ($sql_user == -1 && $sql_db != -1) {
+		$ed_error .= tr('SQL users limit is <em>disabled</em>!');
 	}
-	else if ($sql_user == -1 && $sql_db != -1) {
-		$ed_error .= tr('SQL users limit is <i>disabled</i>!');
-	}
+
 	if (!ispcp_limit_check($traff, null)) {
 		$ed_error .= tr('Incorrect traffic limit!');
 	}
@@ -403,8 +449,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$ed_error .= tr('Incorrect disk quota limit!');
 	}
 
-	// $user_props = generate_user_props($user_id);
-	// $reseller_props = generate_reseller_props($reseller_id);
 	list($usub_current, $usub_max,
 		$uals_current, $uals_max,
 		$umail_current, $umail_max,
@@ -425,8 +469,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$rsql_user_current, $rsql_user_max,
 		$rtraff_current, $rtraff_max,
 		$rdisk_current, $rdisk_max
-	) = get_reseller_default_props($sql, $reseller_id); //generate_reseller_props($reseller_id);
-	list($a, $b, $c, $d, $e, $f, $utraff_current, $udisk_current, $i, $h) = generate_user_traffic($user_id);
+	) = get_reseller_default_props($sql, $reseller_id);
+
+	list(,,,,,,$utraff_current, $udisk_current) = generate_user_traffic($user_id);
 
 	if (empty($ed_error)) {
 		calculate_user_dvals($sub, $usub_current, $usub_max, $rsub_current, $rsub_max, $ed_error, tr('Subdomain'));
@@ -447,9 +492,9 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 				su.`sqld_id` = sd.`sqld_id`
 			AND
 				sd.`domain_id` = ?
-";
+		;";
 
-		$rs = exec_query($sql, $query, array($_SESSION['edit_id']));
+		$rs = exec_query($sql, $query, $_SESSION['edit_id']);
 		calculate_user_dvals($sql_user, $rs->fields['cnt'], $usql_user_max, $rsql_user_current, $rsql_user_max, $ed_error, tr('SQL User'));
 	}
 
@@ -462,13 +507,13 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		// Set domains status to 'change' to update mod_cband's limit
 		if ($previous_utraff_max != $utraff_max) {
 			$query = "UPDATE `domain` SET `domain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			$query = "UPDATE `subdomain` SET `subdomain_status` = 'change' WHERE `domain_id` = ?";
-			exec_query($sql, $query, array($user_id));
+			exec_query($sql, $query, $user_id);
 			send_request();
 		}
 
-		$user_props = "$usub_current;$usub_max;";
+		$user_props  = "$usub_current;$usub_max;";
 		$user_props .= "$uals_current;$uals_max;";
 		$user_props .= "$umail_current;$umail_max;";
 		$user_props .= "$uftp_current;$uftp_max;";
@@ -479,18 +524,19 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		// $user_props .= "$domain_ip;";
 		$user_props .= "$domain_php;";
 		$user_props .= "$domain_cgi;";
+		$user_props .= "$allowbackup;";
 		$user_props .= "$domain_dns";
 		update_user_props($user_id, $user_props);
 
 		$domain_expires = $_SESSION['domain_expires'];
 
-		if ($domain_expires != 0 && $domain_new_expire != 0) {
-			$domain_new_expire = $domain_expires + ($domain_new_expire * 2635200);
-			update_expire_date($user_id, $domain_new_expire);
-		} elseif ($domain_expires == 0 && $domain_new_expire != 0) {
-			$domain_new_expire = time() + ($domain_new_expire * 2635200);
-			update_expire_date($user_id, $domain_new_expire);
+		// Set domain expire date
+		if ($domain_expires_never != "on") {
+			$domain_expires = strtotime($domain_expires_date);
+		} else {
+			$domain_expires = "0";
 		}
+		update_expire_date($user_id, $domain_expires);
 
 		$reseller_props = "$rdmn_current;$rdmn_max;";
 		$reseller_props .= "$rsub_current;$rsub_max;";
@@ -503,7 +549,10 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$reseller_props .= "$rdisk_current;$rdisk_max";
 
 		if (!update_reseller_props($reseller_id, $reseller_props)) {
-			set_page_message(tr('Domain properties could not be updated!'));
+			set_page_message(
+				tr('Domain properties could not be updated!'),
+				'error'
+			);
 
 			return false;
 		}
@@ -518,7 +567,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$temp_dmn_name = $rs->fields['domain_name'];
 
 		$query = "SELECT COUNT(`name`) AS cnt FROM `quotalimits` WHERE `name` = ?";
-		$rs = exec_query($sql, $query, array($temp_dmn_name));
+		$rs = exec_query($sql, $query, $temp_dmn_name);
 		if ($rs->fields['cnt'] > 0) {
 			// we need to update it
 			if ($disk == 0) {
@@ -531,7 +580,10 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			$rs = exec_query($sql, $query, array($dlim, $temp_dmn_name));
 		}
 
-		set_page_message(tr('Domain properties updated successfully!'));
+		set_page_message(
+			tr('Domain properties updated successfully!'),
+			'success'
+		);
 
 		return true;
 	} else {
@@ -543,7 +595,18 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 } // End of check_user_data()
 
 function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
-	if ($rmax == 0 && $umax == -1) {
+	if ($rmax == -1 && $umax >= 0) {
+		if ($u > 0) {
+			$err .= tr('The <em>%s</em> service cannot be disabled!', $obj) . tr('There are <em>%s</em> records on system!', $obj);
+			return;
+		} else if ($data != -1){
+			$err .= tr('The <em>%s</em> have to be disabled!', $obj) . tr('The admin has <em>%s</em> disabled on this system!', $obj);
+			return;
+		} else {
+			$umax = $data;
+		}
+		return;
+	} else if ($rmax == 0 && $umax == -1) {
 		if ($data == -1) {
 			return;
 		} else if ($data == 0) {
@@ -620,14 +683,10 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 			return;
 		}
 	} else if ($rmax > 0 && $umax == 0) {
-		// We Can't Get Here! This clone is present only for sample purposes;
-		if ($data == -1) {
-			die("FIXME: ". __FILE__ .":". __LINE__);
-		} else if ($data == 0) {
-			die("FIXME: ". __FILE__ .":". __LINE__);
-		} else if ($data > 0) {
-			die("FIXME: ". __FILE__ .":". __LINE__);
-		}
+		// We can't get here! This clone is present only for sample purposes;
+		throw new ispCP_Exception(
+			"FIXME: ". __FILE__ .":". __LINE__." \$data = " . $data
+		);
 	} else if ($rmax > 0 && $umax > 0) {
 		if ($data == -1) {
 			if ($u > 0) {
@@ -671,7 +730,9 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();
+
+?>

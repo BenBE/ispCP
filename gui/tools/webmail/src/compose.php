@@ -11,7 +11,7 @@
  *    - Send mail
  *    - Save As Draft
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -179,12 +179,10 @@ function replyAllString($header) {
     $url_replytoallcc = '';
     foreach( $url_replytoall_ar as $email => $personal) {
         if ($personal) {
-            // if personal name contains address separator then surround
-            // the personal name with double quotes.
-            if (strpos($personal,',') !== false) {
-                $personal = '"'.$personal.'"';
-            }
-            $url_replytoallcc .= ", $personal <$email>";
+            // always quote personal name (can't just quote it if
+            // it contains a comma separator, since it might still
+            // be encoded)
+            $url_replytoallcc .= ", \"$personal\" <$email>";
         } else {
             $url_replytoallcc .= ', '. $email;
         }
@@ -662,6 +660,12 @@ elseif (isset($sigappend)) {
 
     $values = newMail($mailbox,$passed_id,$passed_ent_id, $action, $session);
 
+    // forward as attachment - subject is in the message in session
+    //
+    if (sqgetGlobalVar('forward_as_attachment_init', $forward_as_attachment_init, SQ_GET)
+     && $forward_as_attachment_init)
+        $subject = $composeMessage->rfc822_header->subject;
+
     /* in case the origin is not read_body.php */
     if (isset($send_to)) {
         $values['send_to'] = $send_to;
@@ -688,7 +692,7 @@ function newMail ($mailbox='', $passed_id='', $passed_ent_id='', $action='', $se
     global $editor_size, $default_use_priority, $body, $idents,
         $use_signature, $composesession, $data_dir, $username,
         $username, $key, $imapServerAddress, $imapPort, 
-        $composeMessage, $body_quote;
+        $composeMessage, $body_quote, $strip_sigs;
     global $languages, $squirrelmail_language, $default_charset;
 
     /*
@@ -858,6 +862,11 @@ function newMail ($mailbox='', $passed_id='', $passed_ent_id='', $action='', $se
                 $body = "\n" . $body;
                 break;
             case ('forward_as_attachment'):
+                $subject = decodeHeader($orig_header->subject,false,false,true);
+                $subject = trim($subject);
+                if (substr(strtolower($subject), 0, 4) != 'fwd:') {
+                    $subject = 'Fwd: ' . $subject;
+                }
                 $composeMessage = getMessage_RFC822_Attachment($message, $composeMessage, $passed_id, $passed_ent_id, $imapConnection);
                 $body = '';
                 break;
@@ -867,19 +876,21 @@ function newMail ($mailbox='', $passed_id='', $passed_ent_id='', $action='', $se
                 } else {
                     $send_to_cc = replyAllString($orig_header);
                     $send_to_cc = decodeHeader($send_to_cc,false,false,true);
+                    $send_to_cc = str_replace('""', '"', $send_to_cc);
                 }
             case ('reply'):
                 if (!$send_to) {
                     $send_to = $orig_header->reply_to;
                     if (is_array($send_to) && count($send_to)) {
-                        $send_to = $orig_header->getAddr_s('reply_to');
+                        $send_to = $orig_header->getAddr_s('reply_to', ',', FALSE, TRUE);
                     } else if (is_object($send_to)) { /* unneccesarry, just for failsafe purpose */
-                        $send_to = $orig_header->getAddr_s('reply_to');
+                        $send_to = $orig_header->getAddr_s('reply_to', ',', FALSE, TRUE);
                     } else {
-                        $send_to = $orig_header->getAddr_s('from');
+                        $send_to = $orig_header->getAddr_s('from', ',', FALSE, TRUE);
                     }
                 }
                 $send_to = decodeHeader($send_to,false,false,true);
+                $send_to = str_replace('""', '"', $send_to);
                 $subject = decodeHeader($orig_header->subject,false,false,true);
                 $subject = trim($subject);
                 if (substr(strtolower($subject), 0, 3) != 're:') {
@@ -892,6 +903,9 @@ function newMail ($mailbox='', $passed_id='', $passed_ent_id='', $action='', $se
                 $body = '';
                 $cnt = count($rewrap_body);
                 for ($i=0;$i<$cnt;$i++) {
+                    if ($strip_sigs && $rewrap_body[$i] == '-- ') {
+                        break;
+                    }
                     sqWordWrap($rewrap_body[$i], $editor_size, $default_charset);
                     if (preg_match("/^(>+)/", $rewrap_body[$i], $matches)) {
                         $gt = $matches[1];
@@ -949,7 +963,7 @@ function getAttachments($message, &$composeMessage, $passed_id, $entities, $imap
                     break;
             }
 
-            $filename = decodeHeader($filename, false, false);
+            $filename = decodeHeader($filename, false, false, true);
             if (isset($languages[$squirrelmail_language]['XTRA_CODE']) &&
                     function_exists($languages[$squirrelmail_language]['XTRA_CODE'])) {
                 $filename =  $languages[$squirrelmail_language]['XTRA_CODE']('encode', $filename);
@@ -1027,7 +1041,7 @@ function showInputForm ($session, $values=false) {
         $mailprio, $default_use_mdn, $mdn_user_support, $compose_new_win,
         $saved_draft, $mail_sent, $sig_first, $edit_as_new, $action,
         $username, $composesession, $default_charset, $composeMessage,
-        $javascript_on;
+        $javascript_on, $compose_onsubmit;
 
     if ($javascript_on)
         $onfocus = ' onfocus="alreadyFocused=true;"';
@@ -1061,7 +1075,38 @@ function showInputForm ($session, $values=false) {
 
     echo "\n" . '<form name="compose" action="compose.php" method="post" ' .
         'enctype="multipart/form-data"';
+
+    $compose_onsubmit = array();
     do_hook('compose_form');
+
+    // Plugins that use compose_form hook can add an array entry
+    // to the globally scoped $compose_onsubmit; we add them up
+    // here and format the form tag's full onsubmit handler.
+    // Each plugin should use "return false" if they need to
+    // stop form submission but otherwise should NOT use "return
+    // true" to give other plugins the chance to do what they need
+    // to do; SquirrelMail itself will add the final "return true".
+    // Onsubmit text is enclosed inside of double quotes, so plugins
+    // need to quote accordingly.
+    if ($javascript_on) {
+        if (empty($compose_onsubmit))
+            $compose_onsubmit = array();
+        else if (!is_array($compose_onsubmit))
+            $compose_onsubmit = array($compose_onsubmit);
+
+        $onsubmit_text = '';
+        foreach ($compose_onsubmit as $text) {
+            $text = trim($text);
+            if (!empty($text)) {
+                if (substr($text, -1) != ';' && substr($text, -1) != '}')
+                    $text .= '; ';
+                $onsubmit_text .= $text;
+            }
+        }
+
+        if (!empty($onsubmit_text))
+            echo ' onsubmit="' . $onsubmit_text . ' return true;"';
+    }
 
     echo ">\n";
 
@@ -1525,7 +1570,7 @@ function deliverMessage(&$composeMessage, $draft=false) {
     if (!$rfc822_header->from[0]->host) $rfc822_header->from[0]->host = $domain;
     if ($full_name) {
         $from = $rfc822_header->from[0];
-        $full_name_encoded = encodeHeader($full_name);
+        $full_name_encoded = encodeHeader('"' . $full_name . '"');
         if ($full_name_encoded != $full_name) {
             $from_addr = $full_name_encoded .' <'.$from->mailbox.'@'.$from->host.'>';
         } else {

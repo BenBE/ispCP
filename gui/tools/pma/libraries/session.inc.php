@@ -3,7 +3,7 @@
 /**
  * session handling
  *
- * @version $Id: session.inc.php 12014 2008-11-28 13:25:26Z nijel $
+ * @version $Id$
  * @todo    add failover or warn if sessions are not configured properly
  * @todo    add an option to use mm-module for session handler
  * @see     http://www.php.net/session
@@ -101,5 +101,6 @@ function PMA_secureSession()
 {
     // prevent session fixation and XSS
     session_regenerate_id(true);
+    $_SESSION[' PMA_token '] = md5(uniqid(rand(), true));
 }
 ?>

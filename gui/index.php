@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,11 +24,13 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require 'include/ispcp-lib.php';
+
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['logout'])) {
 	unset_user_login_data();
@@ -63,52 +65,47 @@ shall_user_wait();
 
 $theme_color = isset($_SESSION['user_theme'])
 	? $_SESSION['user_theme']
-	: Config::get('USER_INITIAL_THEME');
+	: $cfg->USER_INITIAL_THEME;
 
-$tpl = new pTemplate();
+$tpl = new ispCP_pTemplate();
 
-if ((Config::get('MAINTENANCEMODE')
-		|| databaseUpdate::getInstance()->checkUpdateExists()
-		|| criticalUpdate::getInstance()->checkUpdateExists())
-	&& !isset($_GET['admin'])) {
+if (($cfg->MAINTENANCEMODE
+		|| ispCP_Update_Database::getInstance()->checkUpdateExists())
+	&& !isset($_POST['admin']) ) {
 
-	$tpl->define_dynamic('page', Config::get('LOGIN_TEMPLATE_PATH') . '/maintenancemode.tpl');
+	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
 	$tpl->assign(
 		array(
 			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
-			'THEME_COLOR_PATH'	=> Config::get('LOGIN_TEMPLATE_PATH'),
-			'THEME_CHARSET'		=> tr('encoding'),
-			'TR_MESSAGE'		=> nl2br(Config::get('MAINTENANCEMODE_MESSAGE')),
+			'TR_MESSAGE'		=> nl2br(tohtml($cfg->MAINTENANCEMODE_MESSAGE)),
 			'TR_ADMINLOGIN'		=> tr('Administrator login')
 		)
 	);
 
 } else {
 
-	$tpl->define_dynamic('page', Config::get('LOGIN_TEMPLATE_PATH') . '/index.tpl');
+	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/index.tpl');
 
 	$tpl->assign(
 		array(
 			'TR_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP Omega a Virtual Hosting Control System'),
-			'THEME_COLOR_PATH'			=> Config::get('LOGIN_TEMPLATE_PATH'),
-			'THEME_CHARSET'				=> tr('encoding'),
 			'TR_LOGIN'					=> tr('Login'),
 			'TR_USERNAME'				=> tr('Username'),
 			'TR_PASSWORD'				=> tr('Password'),
 			'TR_LOGIN_INFO'				=> tr('Please enter your login information'),
 			// @todo: make this configurable by ispcp-lib
-			'TR_SSL_LINK'				=> isset($_SERVER['HTTPS']) ? 'http://' . htmlentities($_SERVER['HTTP_HOST']) : 'https://' . htmlentities($_SERVER['HTTP_HOST']),
-			'TR_WEBMAIL_SSL_LINK'       => isset($_SERVER['HTTPS']) ? 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/webmail" : 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/webmail",
-            'TR_FTP_SSL_LINK'           => isset($_SERVER['HTTPS']) ? 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/ftp" : 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/ftp",
-            'TR_PMA_SSL_LINK'           => isset($_SERVER['HTTPS']) ? 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/pma" : 'http://'.htmlentities($_SERVER['HTTP_HOST'])."/pma",
-			'TR_SSL_IMAGE'				=> isset($_SERVER['HTTPS']) ? 'lock.png' : 'unlock.png',
+			'TR_SSL_LINK'               => isset($_SERVER['HTTPS']) ? 'http://' . htmlentities($_SERVER['HTTP_HOST']) : 'https://' . htmlentities($_SERVER['HTTP_HOST']),
+			'TR_WEBMAIL_SSL_LINK'       => "webmail",
+			'TR_FTP_SSL_LINK'           => "ftp",
+			'TR_PMA_SSL_LINK'           => "pma",
+			'TR_SSL_IMAGE'              => isset($_SERVER['HTTPS']) ? 'lock.png' : 'unlock.png',
 			'TR_SSL_DESCRIPTION'		=> !isset($_SERVER['HTTPS']) ? tr('Secure Connection') : tr('Normal Connection')
 		)
 	);
 
 }
 
-if (Config::get('LOSTPASSWORD')) {
+if ($cfg->LOSTPASSWORD) {
 	$tpl->assign('TR_LOSTPW', tr('Lost password'));
 } else {
 	$tpl->assign('TR_LOSTPW', '');
@@ -120,6 +117,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

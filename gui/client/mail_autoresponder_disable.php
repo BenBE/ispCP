@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,7 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 function check_email_user(&$sql) {
+
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];
 
@@ -55,8 +58,11 @@ function check_email_user(&$sql) {
 	$rs = exec_query($sql, $query, array($mail_id, $dmn_name));
 	$mail_acc = $rs->fields['mail_acc'];
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('mail_accounts.php');
 	}
 }
@@ -65,7 +71,7 @@ check_email_user($sql);
 
 if (isset($_GET['id']) && $_GET['id'] !== '') {
 	$mail_id = $_GET['id'];
-	$item_change_status = Config::get('ITEM_CHANGE_STATUS');
+	$item_change_status = $cfg->ITEM_CHANGE_STATUS;
 
 	$query = "
 		UPDATE
@@ -100,10 +106,10 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
 			`mail_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($mail_id));
+	$rs = exec_query($sql, $query, $mail_id);
 	$mail_name = $rs->fields['mailbox'];
 	write_log($_SESSION['user_logged'].": disabled mail autoresponder: ".$mail_name);
-	set_page_message(tr('Mail account scheduled for modification!'));
+	set_page_message(tr('Mail account scheduled for modification!'), 'success');
 	user_goto('mail_accounts.php');
 
 } else {

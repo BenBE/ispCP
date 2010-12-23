@@ -7,7 +7,7 @@
  * and include sql.php to execute it
  *
  * @todo display search form again if no results from previous search
- * @version $Id: tbl_select.php 12627 2009-07-06 12:05:06Z lem9 $
+ * @version $Id$
  * @package phpMyAdmin
  */
 
@@ -304,10 +304,11 @@ while (list($operator) = each($GLOBALS['cfg']['UnaryOperators'])) {
         'ASC'  => $strAscending,
         'DESC' => $strDescending
     );
-    PMA_generate_html_radio('order', $choices, 'ASC', false, true, "formelement");
+    PMA_display_html_radio('order', $choices, 'ASC', false, true, "formelement");
     unset($choices);
 ?>
 </fieldset>
+<br style="clear: both;"/>
 </div>
 </fieldset>
 <fieldset class="tblFooters">
@@ -339,7 +340,7 @@ else {
         $param = PMA_backquote($param);
         $sql_query .= implode(', ', $param);
     } // end if
-
+     
     // avoid a loop, for example when $cfg['DefaultTabTable'] is set 
     // to 'tbl_select.php'
     unset($param);

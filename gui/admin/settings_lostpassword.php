@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,13 +32,14 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/settings_lostpassword.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_lostpassword.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('custom_buttons', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 $user_id = $_SESSION['user_id'];
 
 $selected_on = '';
@@ -64,45 +65,33 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	}
 
 	if (!empty($err_message)) {
-		set_page_message($err_message);
+		set_page_message($err_message, 'warning');
 	} else {
 		set_lostpassword_activation_email($user_id, $data_1);
 		set_lostpassword_password_email($user_id, $data_2);
-		set_page_message(tr('Auto email template data updated!'));
+		set_page_message(tr('Auto email template data updated!'), 'notice');
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-$tpl->assign(
-	array(
-		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Admin/Lostpw email setup'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Lostpw email setup')
 		'TR_LOSTPW_EMAIL' => tr('Lost password e-mail'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),
-		'SUBJECT_VALUE1' => clean_input(addslashes($data_1['subject']), true),
-		'MESSAGE_VALUE1' => $data_1['message'],
-		'SUBJECT_VALUE2' => clean_input(addslashes($data_2['subject']), true),
-		'MESSAGE_VALUE2' => $data_2['message'],
-		'SENDER_EMAIL_VALUE' => $data_1['sender_email'],
-		'SENDER_NAME_VALUE' => $data_1['sender_name'],
+		'SUBJECT_VALUE1' => clean_input($data_1['subject'], true),
+		'MESSAGE_VALUE1' => tohtml($data_1['message']),
+		'SUBJECT_VALUE2' => clean_input($data_2['subject'], true),
+		'MESSAGE_VALUE2' => tohtml($data_2['message']),
+		'SENDER_EMAIL_VALUE' => tohtml($data_1['sender_email']),
+		'SENDER_NAME_VALUE' => tohtml($data_1['sender_name']),
 		'TR_ACTIVATION_EMAIL' => tr('Activation E-Mail'),
 		'TR_PASSWORD_EMAIL' => tr('Password E-Mail'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),
@@ -124,7 +113,9 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

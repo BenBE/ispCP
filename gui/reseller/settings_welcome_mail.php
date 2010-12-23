@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,16 +32,16 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('RESELLER_TEMPLATE_PATH') . '/settings_welcome_mail.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/settings_welcome_mail.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $user_id = $_SESSION['user_id'];
 
-$data = get_welcome_email($user_id);
+$data = get_welcome_email($user_id, 'user');
 
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 	$data['subject'] = clean_input($_POST['auto_subject']);
@@ -49,13 +49,13 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 	$data['message'] = clean_input($_POST['auto_message']);
 
 	if ($data['subject'] == '') {
-		set_page_message(tr('Please specify a subject!'));
+		set_page_message(tr('Please specify a subject!'), 'warning');
 	} else if ($data['message'] == '') {
-		set_page_message(tr('Please specify message!'));
+		set_page_message(tr('Please specify message!'), 'warning');
 	} else {
 		set_welcome_email($user_id, $data);
 
-		set_page_message (tr('Auto email template data updated!'));
+		set_page_message (tr('Auto email template data updated!'), 'notice');
 	}
 }
 
@@ -65,22 +65,14 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
  *
  */
 
-$tpl->assign(
-	array(
-		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-
-gen_reseller_mainmenu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, Config::get('RESELLER_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
+		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),
@@ -95,10 +87,10 @@ $tpl->assign(
 		'TR_USERTYPE' => tr('User type (admin, reseller, user)'),
 		'TR_BASE_SERVER_VHOST' => tr('URL to this admin panel'),
 		'TR_BASE_SERVER_VHOST_PREFIX' => tr('URL protocol'),
-		'SUBJECT_VALUE' => clean_input(addslashes($data['subject']), true),
-		'MESSAGE_VALUE' => $data['message'],
-		'SENDER_EMAIL_VALUE' => $data['sender_email'],
-		'SENDER_NAME_VALUE' => $data['sender_name']
+		'SUBJECT_VALUE' => tohtml($data['subject']),
+		'MESSAGE_VALUE' => tohtml($data['message']),
+		'SENDER_EMAIL_VALUE' => tohtml($data['sender_email']),
+		'SENDER_NAME_VALUE' => tohtml($data['sender_name'])
 	)
 );
 
@@ -107,7 +99,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

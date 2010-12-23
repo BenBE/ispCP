@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,9 +32,11 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
+$cfg = ispCP_Registry::get('Config');
 
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/mail_add.tpl');
+$tpl = new ispCP_pTemplate();
+
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('als_list', 'page');
@@ -47,6 +49,9 @@ $tpl->define_dynamic('to_alias_subdomain', 'page');
 // page functions.
 
 function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$dmn_name = decode_idna($dmn_name);
 
 	if ($post_check === 'no') {
@@ -54,12 +59,12 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		$tpl->assign(
 			array(
 				'USERNAME'				=> "",
-				'DOMAIN_NAME'			=> $dmn_name,
-				'MAIL_DMN_CHECKED'		=> 'checked="checked"',
+				'DOMAIN_NAME'			=> tohtml($dmn_name),
+				'MAIL_DMN_CHECKED'		=> $cfg->HTML_CHECKED,
 				'MAIL_ALS_CHECKED'		=> "",
 				'MAIL_SUB_CHECKED'		=> "",
 				'MAIL_ALS_SUB_CHECKED'	=> "",
-				'NORMAL_MAIL_CHECKED'	=> 'checked="checked"',
+				'NORMAL_MAIL_CHECKED'	=> $cfg->HTML_CHECKED,
 				'FORWARD_MAIL_CHECKED'	=> "",
 				'FORWARD_LIST'			=> ""
 			)
@@ -75,13 +80,13 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 		$tpl->assign(
 			array(
 				'USERNAME'				=> clean_input($_POST['username'], true),
-				'DOMAIN_NAME'			=> $dmn_name,
-				'MAIL_DMN_CHECKED'		=> ($_POST['dmn_type'] === 'dmn') ? 'checked="checked"' : "",
-				'MAIL_ALS_CHECKED'		=> ($_POST['dmn_type'] === 'als') ? 'checked="checked"' : "",
-				'MAIL_SUB_CHECKED'		=> ($_POST['dmn_type'] === 'sub') ? 'checked="checked"' : "",
-				'MAIL_ALS_SUB_CHECKED'	=> ($_POST['dmn_type'] === 'als_sub') ? 'checked="checked"' : "",
-				'NORMAL_MAIL_CHECKED'	=> (isset($_POST['mail_type_normal'])) ? 'checked="checked"' : "",
-				'FORWARD_MAIL_CHECKED'	=> (isset($_POST['mail_type_forward'])) ? 'checked="checked"' : "",
+				'DOMAIN_NAME'			=> tohtml($dmn_name),
+				'MAIL_DMN_CHECKED'		=> ($_POST['dmn_type'] === 'dmn') ? $cfg->HTML_CHECKED : "",
+				'MAIL_ALS_CHECKED'		=> ($_POST['dmn_type'] === 'als') ? $cfg->HTML_CHECKED : "",
+				'MAIL_SUB_CHECKED'		=> ($_POST['dmn_type'] === 'sub') ? $cfg->HTML_CHECKED : "",
+				'MAIL_ALS_SUB_CHECKED'	=> ($_POST['dmn_type'] === 'als_sub') ? $cfg->HTML_CHECKED : "",
+				'NORMAL_MAIL_CHECKED'	=> (isset($_POST['mail_type_normal'])) ? $cfg->HTML_CHECKED : "",
+				'FORWARD_MAIL_CHECKED'	=> (isset($_POST['mail_type_forward'])) ? $cfg->HTML_CHECKED : "",
 				'FORWARD_LIST'			=> $f_list
 			)
 		);
@@ -89,7 +94,10 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 }
 
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+
+	$cfg = ispCP_Registry::get('Config');
+
+	$ok_status = $cfg->ITEM_OK_STATUS;
 
 	$query = "
 		SELECT
@@ -105,11 +113,11 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'ALS_ID'		=> '0',
-				'ALS_SELECTED'	=> 'selected="selected"',
+				'ALS_SELECTED'	=> $cfg->HTML_SELECTED,
 				'ALS_NAME'		=> tr('Empty list')
 			)
 		);
@@ -126,13 +134,13 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				}
 
 				if ($als_id == $rs->fields['alias_id']) {
-					$als_selected = 'selected="selected"';
+					$als_selected = $cfg->HTML_SELECTED;
 				} else {
 					$als_selected = '';
 				}
 			} else {
 				if (!$first_passed) {
-					$als_selected = 'selected="selected"';
+					$als_selected = $cfg->HTML_SELECTED;
 				} else {
 					$als_selected = '';
 				}
@@ -143,11 +151,11 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				array(
 					'ALS_ID'		=> $rs->fields['alias_id'],
 					'ALS_SELECTED'	=> $als_selected,
-					'ALS_NAME'		=> $alias_name
+					'ALS_NAME'		=> tohtml($alias_name)
 				)
 			);
 			$tpl->parse('ALS_LIST', '.als_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			if (!$first_passed)
 				$first_passed = true;
@@ -156,7 +164,10 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 }
 
 function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+
+	$cfg = ispCP_Registry::get('Config');
+
+	$ok_status = $cfg->ITEM_OK_STATUS;
 
 	$query = "
 		SELECT
@@ -173,11 +184,11 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'SUB_ID'		=> '0',
-				'SUB_SELECTED'	=> 'selected="selected"',
+				'SUB_SELECTED'	=> $cfg->HTML_SELECTED,
 				'SUB_NAME'		=> tr('Empty list')
 			)
 		);
@@ -195,13 +206,13 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				}
 
 				if ($sub_id == $rs->fields['sub_id']) {
-					$sub_selected = 'selected="selected"';
+					$sub_selected = $cfg->HTML_SELECTED;
 				} else {
 					$sub_selected = '';
 				}
 			} else {
 				if (!$first_passed) {
-					$sub_selected = 'selected="selected"';
+					$sub_selected = $cfg->HTML_SELECTED;
 				} else {
 					$sub_selected = '';
 				}
@@ -213,11 +224,11 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				array(
 					'SUB_ID'		=> $rs->fields['sub_id'],
 					'SUB_SELECTED'	=> $sub_selected,
-					'SUB_NAME'		=> $sub_name . '.' . $dmn_name
+					'SUB_NAME'		=> tohtml($sub_name . '.' . $dmn_name)
 				)
 			);
 			$tpl->parse('SUB_LIST', '.sub_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			if (!$first_passed)
 				$first_passed = true;
@@ -226,7 +237,10 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 }
 
 function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
-	$ok_status = Config::get('ITEM_OK_STATUS');
+
+	$cfg = ispCP_Registry::get('Config');
+
+	$ok_status = $cfg->ITEM_OK_STATUS;
 
 	$query = "
 		SELECT
@@ -246,11 +260,11 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
 				'ALS_SUB_ID'		=> '0',
-				'ALS_SUB_SELECTED'	=> 'selected="selected"',
+				'ALS_SUB_SELECTED'	=> $cfg->HTML_SELECTED,
 				'ALS_SUB_NAME'		=> tr('Empty list')
 			)
 		);
@@ -268,13 +282,13 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				}
 
 				if ($als_sub_id == $rs->fields['als_sub_id']) {
-					$als_sub_selected = 'selected="selected"';
+					$als_sub_selected = $cfg->HTML_SELECTED;
 				} else {
 					$als_sub_selected = '';
 				}
 			} else {
 				if (!$first_passed) {
-					$als_sub_selected = 'selected="selected"';
+					$als_sub_selected = $cfg->HTML_SELECTED;
 				} else {
 					$als_sub_selected = '';
 				}
@@ -286,11 +300,11 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				array(
 					'ALS_SUB_ID'		=> $rs->fields['als_sub_id'],
 					'ALS_SUB_SELECTED'	=> $als_sub_selected,
-					'ALS_SUB_NAME'		=> $als_sub_name . '.' . $als_name
+					'ALS_SUB_NAME'		=> tohtml($als_sub_name . '.' . $als_name)
 				)
 			);
 			$tpl->parse('ALS_SUB_LIST', '.als_sub_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 
 			if (!$first_passed)
 				$first_passed = true;
@@ -299,6 +313,8 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 }
 
 function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
+
+	$cfg = ispCP_Registry::get('Config');
 
 	$mail_auto_respond = false;
 	$mail_auto_respond_text = '';
@@ -324,7 +340,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 			$sub_id = $_POST['als_id'];
 			$mail_addr = $mail_acc.'@'.decode_idna($dmn_name); // the complete address
 		} else {
-			set_page_message(tr('Unknown domain type'));
+			set_page_message(tr('Unknown domain type'), 'warning');
 			return false;
 		}
 	}
@@ -343,7 +359,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 			$mail_type[] = MT_ALIAS_FORWARD;
 			$sub_id = $_POST['als_id'];
 		} else {
-			set_page_message(tr('Unknown domain type'));
+			set_page_message(tr('Unknown domain type'), 'warning');
 			return false;
 		}
 
@@ -358,14 +374,20 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 		foreach ($farray as $value) {
 			$value = trim($value);
 			if (!chk_email($value) && $value !== '') {
-				/* ERROR .. strange :) not email in this line - warning */
-				set_page_message(tr("Mailformat of an address in your forward list is incorrect!"));
+				// @todo ERROR .. strange :) not email in this line - warning
+				set_page_message(
+					tr("Mailformat of an address in your forward list is incorrect!"),
+					'warning'
+				);
 				return false;
 			} else if ($value === '') {
-				set_page_message(tr("Mail forward list empty!"));
+				set_page_message(tr("Mail forward list empty!"), 'warning');
 				return false;
 			} else if ($mail_acc.'@'.decode_idna($dmn_name) == $value){
-				set_page_message(tr("Forward to same address is not allowed!"));
+				set_page_message(
+					tr("Forward to same address is not allowed!"),
+					'warning'
+				);
 				return false;
 			}
 			$mail_accs[] = $value;
@@ -394,7 +416,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 	$rs = exec_query($sql, $check_acc_query, array($mail_acc, $domain_id, $sub_id, $dmn_type));
 
 	if ($rs->fields['cnt'] > 0) {
-		set_page_message(tr('Mail account already exists!'));
+		set_page_message(tr('Mail account already exists!'), 'warning');
 		return false;
 	}
 
@@ -427,26 +449,28 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 			$domain_id,
 			$mail_type,
 			$sub_id,
-			Config::get('ITEM_ADD_STATUS'),
+			$cfg->ITEM_ADD_STATUS,
 			$mail_auto_respond,
 			$mail_auto_respond_text,
 			$mail_addr));
 
 	update_reseller_c_props(get_reseller_id($domain_id));
 
-	write_log($_SESSION['user_logged'] . ": adds new mail account: " . (isset($mail_addr) ? $mail_addr : $mail_acc));
-	set_page_message(tr('Mail account scheduled for addition!'));
+	write_log($_SESSION['user_logged'] . ": adds new mail account: " . (!empty($mail_addr) ? $mail_addr : $mail_acc));
+	set_page_message(tr('Mail account scheduled for addition!'), 'success');
 	send_request();
 	user_goto('mail_accounts.php');
 }
 
 function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 
+	$cfg = ispCP_Registry::get('Config');
+
 	$mail_type_normal = isset($_POST['mail_type_normal']) ? $_POST['mail_type_normal'] : false;
 	$mail_type_forward = isset($_POST['mail_type_forward']) ? $_POST['mail_type_forward'] : false;
 
 	if (($mail_type_normal == false) && ($mail_type_forward == false)) {
-		set_page_message(tr('Please select at least one mail type!'));
+		set_page_message(tr('Please select at least one mail type!'), 'warning');
 		return false;
 	}
 
@@ -456,29 +480,41 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 	}
 
 	if (!isset($_POST['username']) || $_POST['username'] === '') {
-		set_page_message(tr('Please enter mail account username!'));
+		set_page_message(tr('Please enter mail account username!'), 'warning');
 		return false;
 	}
 
 	$mail_acc = strtolower(clean_input($_POST['username']));
 	if (ispcp_check_local_part($mail_acc) == "0") {
-		set_page_message(tr("Invalid Mail Localpart Format used!"));
+		set_page_message(tr("Invalid mail localpart format used!"), 'warning');
 		return false;
 	}
 
 	if ($mail_type_normal) {
 		if (trim($pass) === '' || trim($pass_rep) === '') {
-			set_page_message(tr('Password data is missing!'));
+			set_page_message(tr('Password data is missing!'), 'warning');
 			return false;
 		} else if ($pass !== $pass_rep) {
-			set_page_message(tr('Entered passwords differ!'));
+			set_page_message(tr('Entered passwords differ!'), 'warning');
 			return false;
 		} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^$]/i")) {
 			// Not permitted chars
-			if (Config::get('PASSWD_STRONG')) {
-				set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+			if ($cfg->PASSWD_STRONG) {
+				set_page_message(
+					sprintf(
+						tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+						$cfg->PASSWD_CHARS
+					),
+					'warning'
+				);
 			} else {
-				set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+				set_page_message(
+					sprintf(
+						tr('Password data is shorter than %s signs or includes not permitted signs!'),
+						$cfg->PASSWD_CHARS
+					),
+					'warning'
+				);
 			}
 			return false;
 		}
@@ -527,23 +563,41 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 
 	if (in_array($_POST['dmn_type'], array('sub', 'als_sub', 'als'))) {
 		if (!isset($_POST[$id])) {
-			set_page_message(sprintf(tr('%s list is empty! You cannot add mail accounts!'),$type));
+			set_page_message(
+				sprintf(
+					tr('%s list is empty! You cannot add mail accounts!'),
+					$type
+				),
+				'error'
+			);
 			return false;
 		}
 		if (!is_numeric($_POST[$id])) {
-			set_page_message(sprintf(tr('%s id is invalid! You cannot add mail accounts!'),$type));
+			set_page_message(
+				sprintf(
+					tr('%s ID is invalid! You cannot add mail accounts!'),
+					$type
+				),
+				'error'
+			);
 			return false;
 		}
 		$rs = exec_query($sql, $query, array($_POST[$id], $dmn_id));
 		if ($rs->fields['name'] == '') {
-			set_page_message(sprintf(tr('%s id is invalid! You cannot add mail accounts!'),$type));
+			set_page_message(
+				sprintf(
+					tr('%s ID is invalid! You cannot add mail accounts!'),
+					$type
+				),
+				'error'
+			);
 			return false;
 		}
 		$dmn_name=$rs->fields['name'];
 	}
 
 	if ($mail_type_forward && empty($_POST['forward_list'])) {
-		set_page_message(tr('Forward list is empty!'));
+		set_page_message(tr('Forward list is empty!'), 'notice');
 		return false;
 	}
 
@@ -557,6 +611,7 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -570,7 +625,10 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($mail_acc_cnt,
 		$dmn_mail_acc_cnt,
@@ -579,7 +637,7 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		$alssub_mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_mailacc_limit != 0 && $mail_acc_cnt >= $dmn_mailacc_limit) {
-		set_page_message(tr('Mail accounts limit reached!'));
+		set_page_message(tr('Mail accounts limit reached!'), 'warning');
 		user_goto('mail_accounts.php');
 	} else {
 		$post_check = isset($_POST['uaction']) ? 'yes' : 'no';
@@ -599,14 +657,9 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 	header("Location: index.php");
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 $tpl->assign(
 	array(
-		'TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE'	=> tr('ispCP - Client/Add Mail User'),
-		'THEME_COLOR_PATH'					=> "../themes/$theme_color",
-		'THEME_CHARSET'						=> tr('encoding'),
-		'ISP_LOGO'							=> get_logo($_SESSION['user_id'])
+		'TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE'	=> tr('ispCP - Client/Add Mail User')
 	)
 );
 
@@ -616,8 +669,8 @@ gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_email_accounts.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
 gen_logged_from($tpl);
 
@@ -646,6 +699,6 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

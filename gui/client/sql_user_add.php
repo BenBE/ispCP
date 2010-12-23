@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,8 +32,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('CLIENT_TEMPLATE_PATH') . '/sql_user_add.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_user_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('mysql_prefix_no', 'page');
@@ -62,6 +64,7 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 		$dmn_uid,
 		$dmn_created_id,
 		$dmn_created,
+		$dmn_expires,
 		$dmn_last_modified,
 		$dmn_mailacc_limit,
 		$dmn_ftpacc_limit,
@@ -75,14 +78,17 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 		$dmn_disk_limit,
 		$dmn_disk_usage,
 		$dmn_php,
-		$dmn_cgi) = get_domain_default_props($sql, $user_id);
+		$dmn_cgi,
+		$allowbackup,
+		$dmn_dns
+	) = get_domain_default_props($sql, $user_id);
 
 	list($sqld_acc_cnt,
 		$sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_sqlu_limit != 0 && $sqlu_acc_cnt >= $dmn_sqlu_limit) {
 		if (!$sqluser_available) {
-			set_page_message(tr('SQL users limit reached!'));
+			set_page_message(tr('SQL users limit reached!'), 'warning');
 			user_goto('sql_manage.php');
 		} else {
 			$tpl->assign('CREATE_SQLUSER', '');
@@ -107,8 +113,11 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 
 	$rs = exec_query($sql, $query, array($db_id, $dmn_name));
 
-	if ($rs->RecordCount() == 0) {
-		set_page_message(tr('User does not exist or you do not have permission to access this interface!'));
+	if ($rs->recordCount() == 0) {
+		set_page_message(
+			tr('User does not exist or you do not have permission to access this interface!'),
+			'warning'
+		);
 		user_goto('sql_manage.php');
 	}
 }
@@ -119,14 +128,14 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 function get_sqluser_list_of_current_db(&$sql, $db_id) {
 	$query = "SELECT `sqlu_name` FROM `sql_user` WHERE `sqld_id` = ?";
 
-	$rs = exec_query($sql, $query, array($db_id));
+	$rs = exec_query($sql, $query, $db_id);
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		return false;
 	} else {
 		while (!$rs->EOF) {
 			$userlist[] = $rs->fields['sqlu_name'];
-			$rs->MoveNext();
+			$rs->moveNext();
 		}
 	}
 
@@ -134,6 +143,9 @@ function get_sqluser_list_of_current_db(&$sql, $db_id) {
 }
 
 function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$first_passed = true;
 	$user_found = false;
 	$oldrs_name = '';
@@ -162,7 +174,7 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 	while (!$rs->EOF) {
 		// Checks if it's the first element of the combobox and set it as selected
 		if ($first_passed) {
-			$select = 'selected="selected"';
+			$select = $cfg->HTML_SELECTED;
 			$first_passed = false;
 		} else {
 			$select = '';
@@ -176,12 +188,12 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 				array(
 					'SQLUSER_ID' => $rs->fields['sqlu_id'],
 					'SQLUSER_SELECTED' => $select,
-					'SQLUSER_NAME' => $rs->fields['sqlu_name']
+					'SQLUSER_NAME' => tohtml($rs->fields['sqlu_name'])
 				)
 			);
 			$tpl->parse('SQLUSER_LIST', '.sqluser_list');
 		}
-		$rs->MoveNext();
+		$rs->moveNext();
 	}
 	// let's hide the combobox in case there are no other sqlusers
 	if (!$user_found) {
@@ -195,7 +207,7 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 function check_db_user(&$sql, $db_user) {
 	$query = "SELECT COUNT(`User`) AS cnt FROM mysql.`user` WHERE `User` = ?";
 
-	$rs = exec_query($sql, $query, array($db_user));
+	$rs = exec_query($sql, $query, $db_user);
 	return $rs->fields['cnt'];
 }
 
@@ -206,54 +218,80 @@ function check_db_user(&$sql, $db_user) {
  * 		in loclal ispcp table -> Error handling
  */
 function add_sql_user(&$sql, $user_id, $db_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if (!isset($_POST['uaction'])) {
 		return;
 	}
 
 	// let's check user input
-
 	if (empty($_POST['user_name']) && !isset($_POST['Add_Exist'])) {
-		set_page_message(tr('Please type user name!'));
+		set_page_message(tr('Please type user name!'), 'warning');
 		return;
 	}
 
 	if (empty($_POST['pass']) && empty($_POST['pass_rep'])
 		&& !isset($_POST['Add_Exist'])) {
-		set_page_message(tr('Please type user password!'));
+		set_page_message(tr('Please type user password!'), 'warning');
 		return;
 	}
 
 	if ((isset($_POST['pass']) && isset($_POST['pass_rep']))
 		&& $_POST['pass'] !== $_POST['pass_rep']
 		&& !isset($_POST['Add_Exist'])) {
-		set_page_message(tr('Entered passwords do not match!'));
+		set_page_message(tr('Entered passwords do not match!'), 'warning');
 		return;
 	}
 
 	if (isset($_POST['pass'])
-		&& strlen($_POST['pass']) > Config::get('MAX_SQL_PASS_LENGTH')
+		&& strlen($_POST['pass']) > $cfg->MAX_SQL_PASS_LENGTH
 		&& !isset($_POST['Add_Exist'])) {
-		set_page_message(tr('Too user long password!'));
+		set_page_message(tr('Too long user password!'), 'warning');
+		return;
+	}
+
+	if (isset($_POST['pass'])
+		&& !preg_match('/^[[:alnum:]:!*+#_.-]+$/', $_POST['pass'])
+		&& !isset($_POST['Add_Exist'])) {
+		set_page_message(
+			tr('Don\'t use special chars like "@, $, %..." in the password!'),
+			'warning'
+		);
 		return;
 	}
 
 	if (isset($_POST['pass'])
 		&& !chk_password($_POST['pass'])
 		&& !isset($_POST['Add_Exist'])) {
-		if (Config::get('PASSWD_STRONG')) {
-			set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+		if ($cfg->PASSWD_STRONG) {
+			set_page_message(
+				sprintf(
+					tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+					$cfg->PASSWD_CHARS
+				), 'warning'
+			);
 		} else {
-			set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+			set_page_message(
+				sprintf(
+					tr('Password data is shorter than %s signs or includes not permitted signs!'),
+					$cfg->PASSWD_CHARS
+				),
+				'warning'
+			);
 		}
 		return;
 	}
 
 	if (isset($_POST['Add_Exist'])) {
 		$query = "SELECT `sqlu_pass` FROM `sql_user` WHERE `sqlu_id` = ?";
-		$rs = exec_query($sql, $query, array($_POST['sqluser_id']));
+		$rs = exec_query($sql, $query, $_POST['sqluser_id']);
 
-		if ($rs->RecordCount() == 0) {
-			set_page_message(tr('SQL-user not found! Maybe it was deleted by another user!'));
+		if ($rs->recordCount() == 0) {
+			set_page_message(
+				tr('SQL-user not found! It might has been deleted by another user.'),
+				'warning'
+			);
 			return;
 		}
 		$user_pass = decrypt_db_password($rs->fields['sqlu_pass']);
@@ -281,25 +319,31 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 		}
 	} else {
 		$query = "SELECT `sqlu_name` FROM `sql_user` WHERE `sqlu_id` = ?";
-		$rs = exec_query($sql, $query, array($_POST['sqluser_id']));
+		$rs = exec_query($sql, $query, $_POST['sqluser_id']);
 		$db_user = $rs->fields['sqlu_name'];
 	}
 
-	if (strlen($db_user) > Config::get('MAX_SQL_USER_LENGTH')) {
-		set_page_message(tr('User name too long!'));
+	if (strlen($db_user) > $cfg->MAX_SQL_USER_LENGTH) {
+		set_page_message(tr('User name too long!'), 'warning');
 		return;
 	}
 	// are wildcards used?
 
 	if (preg_match("/[%|\?]+/", $db_user)) {
-		set_page_message(tr('Wildcards such as %% and ? are not allowed!'));
+		set_page_message(
+			tr('Wildcards such as %% and ? are not allowed!'),
+			'warning'
+		);
 		return;
 	}
 
 	// have we such sql user in the system?!
 
 	if (check_db_user($sql, $db_user) && !isset($_POST['Add_Exist'])) {
-		set_page_message(tr('Specified SQL username name already exists!'));
+		set_page_message(
+			tr('Specified SQL username name already exists!'),
+			'warning'
+		);
 		return;
 	}
 
@@ -329,21 +373,25 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 
 	$rs = exec_query($sql, $query, array($db_id, $dmn_id));
 	$db_name = $rs->fields['db_name'];
+	$db_name = preg_replace("/([_%\?\*])/",'\\\$1',$db_name);
 
 	// add user in the mysql system tables
 	$query = "GRANT ALL PRIVILEGES ON ". quoteIdentifier($db_name) .".* TO ?@? IDENTIFIED BY ?";
 	exec_query($sql, $query, array($db_user, "localhost", $user_pass));
 	exec_query($sql, $query, array($db_user, "%", $user_pass));
 
-	write_log($_SESSION['user_logged'] . ": add SQL user: " . $db_user);
-	set_page_message(tr('SQL user successfully added!'));
+	write_log($_SESSION['user_logged'] . ": add SQL user: " . tohtml($db_user));
+	set_page_message(tr('SQL user successfully added!'), 'notice');
 	user_goto('sql_manage.php');
 }
 
 function gen_page_post_data(&$tpl, $db_id) {
-	if (Config::get('MYSQL_PREFIX') === 'yes') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if ($cfg->MYSQL_PREFIX === 'yes') {
 		$tpl->assign('MYSQL_PREFIX_YES', '');
-		if (Config::get('MYSQL_PREFIX_TYPE') === 'behind') {
+		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
@@ -362,10 +410,10 @@ function gen_page_post_data(&$tpl, $db_id) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {
 		$tpl->assign(
 			array(
-				'USER_NAME' => (isset($_POST['user_name'])) ? $_POST['user_name'] : '',
-				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? 'checked="checked"' : '',
-				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? 'checked="checked"' : '',
-				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? 'checked="checked"' : ''
+				'USER_NAME' => (isset($_POST['user_name'])) ? clean_html($_POST['user_name'], true) : '',
+				'USE_DMN_ID' => (isset($_POST['use_dmn_id']) && $_POST['use_dmn_id'] === 'on') ? $cfg->HTML_CHECKED : '',
+				'START_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] !== 'end') ? $cfg->HTML_CHECKED : '',
+				'END_ID_POS_CHECKED' => (isset($_POST['id_pos']) && $_POST['id_pos'] === 'end') ? $cfg->HTML_CHECKED : ''
 			)
 		);
 	} else {
@@ -374,7 +422,7 @@ function gen_page_post_data(&$tpl, $db_id) {
 				'USER_NAME' => '',
 				'USE_DMN_ID' => '',
 				'START_ID_POS_CHECKED' => '',
-				'END_ID_POS_CHECKED' => 'checked="checked"'
+				'END_ID_POS_CHECKED' => $cfg->HTML_CHECKED
 			)
 		);
 	}
@@ -388,13 +436,9 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$theme_color = Config::get('USER_INITIAL_THEME');
 $tpl->assign(
 	array(
-		'TR_CLIENT_SQL_ADD_USER_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
+		'TR_CLIENT_SQL_ADD_USER_PAGE_TITLE' => tr('ispCP - Client/Add SQL User')
 	)
 );
 
@@ -407,8 +451,8 @@ add_sql_user($sql, $_SESSION['user_id'], $db_id);
 
 // static page messages.
 
-gen_client_mainmenu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, Config::get('CLIENT_TEMPLATE_PATH') . '/menu_manage_sql.tpl');
+gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
+gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
 
 gen_logged_from($tpl);
 
@@ -435,7 +479,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

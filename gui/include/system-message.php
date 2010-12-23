@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,52 +24,96 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 /**
- * @todo possible session injection, check $_SESSION['user_theme'] for valid value
+ * Generates a page message if something terribly goes wrong.
+ *
+ * @todo possible session injection, check $_SESSION['user_theme'] for valid
+ *	value
+ *
+ * @param String $msg					Message Content
+ * @param String $type					Message Type (notice, warning, error, success)
+ * @param string $backButtonDestination Destiation where to go on back link
+ *										click
  */
-function system_message($msg, $backButtonDestination = "") {
+function system_message($msg, $type = 'error', $backButtonDestination = '') {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$theme_color = (isset($_SESSION['user_theme']))
-		? $_SESSION['user_theme']
-		: Config::get('USER_INITIAL_THEME');
+		? $_SESSION['user_theme'] : $cfg->USER_INITIAL_THEME;
 
 	if (empty($backButtonDestination)) {
 		$backButtonDestination = "javascript:history.go(-1)";
 	}
 
-	$tpl = new pTemplate();
+	$tpl = new ispCP_pTemplate();
 
 	// If we are on the login page, path will be like this
-	$template = Config::get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
+	$template = $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
 
 	if (!is_file($template)) {
 		// But if we're inside the panel it will be like this
-		$template = '../' . Config::get('LOGIN_TEMPLATE_PATH') . '/system-message.tpl';
+		$template = '../' . $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
 	}
-
 	if (!is_file($template)) {
-		// And if we don't find the template, we'll just die displaying error message
-		die($msg);
+		// And if we don't find the template, we'll just displaying error
+		// message
+		throw new ispCP_Exception($msg);
 	}
 
 	$tpl->define('page', $template);
-	$tpl->assign(
-		array(
-			'TR_SYSTEM_MESSAGE_PAGE_TITLE'	=> tr('ispCP Error'),
-			'THEME_COLOR_PATH'				=> '/themes/' . $theme_color,
-			'THEME_CHARSET'					=> tr('encoding'),
-			'TR_BACK'						=> tr('Back'),
-			'TR_ERROR_MESSAGE'				=> tr('Error Message'),
-			'MESSAGE'						=> $msg,
-			'BACKBUTTONDESTINATION'			=> $backButtonDestination
-		)
-	);
+
+	// Small workaround to be able to use the system_message() function during
+	// IspCP initialization process without i18n support
+	if (function_exists('tr')) {
+		$tpl->assign(
+			array(
+				'TR_SYSTEM_MESSAGE_PAGE_TITLE' => tr('ispCP Error'),
+				'THEME_COLOR_PATH' => '/themes/' . $theme_color,
+				'THEME_CHARSET' => tr('encoding'),
+				'TR_BACK' => tr('Back'),
+				'TR_ERROR_MESSAGE' => tr('Error Message'),
+				'MESSAGE' => $msg,
+				'MSG_TYPE' => $type,
+				'BACKBUTTONDESTINATION' => $backButtonDestination,
+				'TR_LOGIN' => tr('Login'),
+				'TR_USERNAME' => tr('Username'),
+				'TR_PASSWORD' => tr('Password'),
+				'TR_LOSTPW' => tr('Lost password'),
+				'TR_WEBMAIL_SSL_LINK' => 'webmail',
+				'TR_FTP_SSL_LINK' => 'ftp',
+				'TR_PMA_SSL_LINK' => 'pma'
+			)
+		);
+	} else {
+		$tpl->assign(
+			array(
+				'TR_SYSTEM_MESSAGE_PAGE_TITLE' => 'ispCP Error',
+				'THEME_COLOR_PATH' => '/themes/' . $theme_color,
+				'THEME_CHARSET' => 'encoding',
+				'TR_BACK' => 'Back',
+				'TR_ERROR_MESSAGE' => 'Error Message',
+				'MESSAGE' => $msg,
+				'MSG_TYPE' => $type,
+				'BACKBUTTONDESTINATION' => $backButtonDestination,
+				'TR_LOGIN' => 'Login',
+				'TR_USERNAME' => 'Username',
+				'TR_PASSWORD' => 'Password',
+				'TR_LOSTPW' => 'Lost password',
+				'TR_WEBMAIL_SSL_LINK' => 'webmail',
+				'TR_FTP_SSL_LINK' => 'ftp',
+				'TR_PMA_SSL_LINK' => 'pma'
+			)
+		);
+	}
 
 	$tpl->parse('PAGE', 'page');
 	$tpl->prnt();
 
-	die();
+	exit;
 }
+?>

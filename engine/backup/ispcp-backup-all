@@ -1,8 +1,8 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,13 +21,8 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 use FindBin;
 use lib "$FindBin::Bin/..";
@@ -141,8 +136,15 @@ sub backup_sql {
 	my ($rs, $rdata, $sql) = (undef, undef, undef);
 
 	my $dmn_backup_dir = $main::cfg{'APACHE_WWW_DIR'}."/$dmn_name/backups";
+	my $dbhost = $main::cfg{'DATABASE_HOST'};
+	my $dbuser = $main::cfg{'DATABASE_USER'};
+	my $dbpass = decrypt_db_password($main::cfg{'DATABASE_PASSWORD'});
 
-	$sql = "SELECT sqld_id, sqld_name FROM sql_database WHERE domain_id=$dmn_id";
+	foreach ($dbhost, $dbuser, $dbpass) {
+		$_ =~ s/"/\\"/gm;
+	}
+
+	$sql = "SELECT `sqld_id`, `sqld_name` FROM `sql_database` WHERE `domain_id`='$dmn_id'";
 	($rs, $rdata) = doSQL($sql);
 
 	foreach (@$rdata) {
@@ -151,42 +153,48 @@ sub backup_sql {
 		my $db_name = @$_[1];
 		my $db_backup_file = "$dmn_backup_dir/$db_name.sql";
 		my ($db_filename, $db_compresscmd) = (undef, undef);
+		my $dbname = $db_name;
+		my $dbbackup = $db_backup_file;
 
-		my $db_backupcmd = "$main::cfg{'CMD_MYSQLDUMP'} --add-drop-table --allow-keywords --quote-names -h'$main::cfg{'DATABASE_HOST'}' -u'$main::cfg{'DATABASE_USER'}' -p'".decrypt_db_password($main::cfg{'DATABASE_PASSWORD'})."' '$db_name' >'$db_backup_file'";
+		$dbname =~ s/"/\\"/g;
+		$dbbackup =~ s/"/\\"/g;
+
+		my $db_backupcmd = "$main::cfg{'CMD_MYSQLDUMP'} --add-drop-table --allow-keywords --quote-names";
+		$db_backupcmd .= qq/ -h'$dbhost' -u'$dbuser' -p'$dbpass' '$dbname' > '$dbbackup'/;
 
 		if ($zip eq "bzip2") {
-			$db_filename = "$db_backup_file.bz2";
-			$db_compresscmd = "$main::cfg{'CMD_BZIP'} --force '$db_backup_file'";
+			$db_filename = "$dbbackup.bz2";
+			$db_compresscmd = $main::cfg{'CMD_BZIP'}.qq/ --force '$dbbackup'/;
 		} elsif ($zip eq "gzip") {
-			$db_filename = "$db_backup_file.gz";
-			$db_compresscmd = "$main::cfg{'CMD_GZIP'} --force '$db_backup_file'";
+			$db_filename = "$dbbackup.gz";
+			$db_compresscmd = $main::cfg{'CMD_GZIP'}.qq/ --force '$dbbackup'/;
 		} elsif ($zip eq "lzma") {
-			$db_filename = "$db_backup_file.lzma";
-			$db_compresscmd = "$main::cfg{'CMD_LZMA'} --force '$db_backup_file'";
+			$db_filename = "$dbbackup.lzma";
+			$db_compresscmd = $main::cfg{'CMD_LZMA'}.qq/ --force '$dbbackup'/;
 		} else {
 			push_el(\@main::el, 'backup_sql()', "Domain $dmn_name: Backup algorithm for domain $dmn_name not supported: $zip!");
 			send_error_mail('backup_sql()', "Domain $dmn_name: Backup algorithm for domain $dmn_name not supported: $zip!");
 			return -1;
 		}
 
-		$rs = sys_command($db_backupcmd);
-		if( $rs != 0 ){
+		$rs = sys_command_rs($db_backupcmd);
+		if($rs != 0) {
 			push_el(\@main::el, 'backup_sql()', "Domain $dmn_name: ERROR: Failed to backup database $db_name!");
 			send_error_mail('backup_sql()', "Domain $dmn_name: ERROR: Failed to backup database $db_name!");
 			unlink($db_backup_file);
 			return $rs;
 		}
 
-		$rs = setfmode("$db_backup_file", $domain_uid, $domain_gid, 0660);
-		if( $rs != 0 ){
-			push_el(\@main::el, 'backup_sql()', "Domain $dmn_name: ERROR: Can not chmod 0660 uid: $domain_uid gid: $domain_gid file $db_backup_file!");
-			send_error_mail('backup_sql()', "Domain $dmn_name: ERROR: Can not chmod 0660 uid: $domain_uid gid: $domain_gid file $db_backup_file!");
+		$rs = setfmode("$db_backup_file", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0444);
+		if($rs != 0) {
+			push_el(\@main::el, 'backup_sql()', "Domain $dmn_name: ERROR: Can not chmod 0444 root:root file $db_backup_file!");
+			send_error_mail('backup_sql()', "Domain $dmn_name: ERROR: Can not chmod 0444 root:root file $db_backup_file!");
 			unlink($db_backup_file);
 			return $rs;
 		}
 
 		$rs = sys_command($db_compresscmd);
-		if ($rs != 0){
+		if ($rs != 0) {
 			push_el(\@main::el, 'backup_sql()', "Domain $dmn_name: ERROR: Error while executing  $db_compresscmd!");
 			send_error_mail('backup_sql()', "Domain $dmn_name: ERROR: Error while executing $db_compresscmd!");
 			unlink($db_backup_file);
@@ -250,6 +258,7 @@ sub backup_all_engine {
 		if ($allowbackup eq "full" || $allowbackup eq "dmn" || $allowbackup eq "sql") {
 
 			my $date = get_human_date();
+			my $www_dir = $main::cfg{'APACHE_WWW_DIR'};
 			my $dmn_dir = $main::cfg{'APACHE_WWW_DIR'}."/$dmn_name";
 			my $dmn_backup_dir = $main::cfg{'APACHE_WWW_DIR'}."/$dmn_name/backups";
 			my ($backup_filename, $backup_cmd) = (undef, "");
@@ -259,14 +268,28 @@ sub backup_all_engine {
 			#
 
 			if (! -d $dmn_backup_dir) {
-				$rs = make_dir($dmn_backup_dir, $domain_uid, $domain_gid, 0770);
+				$rs = make_dir($dmn_backup_dir, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 				return $rs if ($rs != 0);
 			}
 
-			if( $zip eq 'bzip2' || $zip eq 'gzip' || $zip eq 'lzma' || $zip eq 'xz') {
-				$backup_filename = "$dmn_name-backup-$date.tar.".($zip eq 'bzip2' ? 'bz2' : ($zip eq 'gzip' ? 'gz' : $zip));
+			$rs = setfmode($dmn_backup_dir, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+			if ($rs != 0) {
+				push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0755 root: root for $dmn_backup_dir!");
+				send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0755 root: root for $dmn_backup_dir!");
+			}
+
+			if ($zip =~ '^(bzip2|gzip|lzma|xz)$') {
+				my $extension = undef;
+
+				if ($zip eq 'bzip2') {
+					$extension = 'bz2';
+				} else {
+					$extension = $zip;
+				}
+
+				$backup_filename = "$dmn_name-backup-$date.tar." . $extension;
 				if ($allowbackup eq "full" || $allowbackup eq "dmn") {
-					$backup_cmd = "$cmd_tar --create --directory=$dmn_dir --$zip --file=$dmn_dir/$backup_filename --exclude=logs --exclude=phptmp --exclude=backups --exclude=$backup_filename --exclude=$backup_filename.log . 2> $dmn_dir/$backup_filename.log";
+					$backup_cmd = "$cmd_tar --create --directory=$dmn_dir --$zip --file=$www_dir/$backup_filename --exclude=logs --exclude=phptmp --exclude=backups . 2> $www_dir/$backup_filename.log";
 				}
 				if ( $allowbackup eq "full" || $allowbackup eq "sql" ) {
 					$rs = backup_sql($dmn_id, $dmn_name, $domain_uid, $domain_gid);
@@ -276,46 +299,46 @@ sub backup_all_engine {
 				send_error_mail('backup_all_engine()', "Backup algorithm not supported: $zip for domain $dmn_name!");
 			}
 
-			if ( length($backup_cmd) != 0 ) {
+			if (length($backup_cmd) != 0 ) {
 				$rs = sys_command($backup_cmd);
 
 				if ($rs == 0) { # everything ok
 
-					$rs = sys_command("$cmd_rm -rf $dmn_dir/$backup_filename.log");
-					if ($rs != 0){
-						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $dmn_dir/$backup_filename.log!");
-						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $dmn_dir/$backup_filename.log!");
+					$rs = sys_command("$cmd_rm -rf $www_dir/$backup_filename.log");
+					if ($rs != 0) {
+						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $www_dir/$backup_filename.log!");
+						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $www_dir/$backup_filename.log!");
 					}
 
 					$rs = sys_command("$cmd_rm -rf $dmn_backup_dir/$dmn_name-*.tar.*");
-					if ($rs != 0){
+					if ($rs != 0) {
 						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $dmn_backup_dir/$dmn_name-*.tar.*!");
 						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_rm -rf $dmn_backup_dir/$dmn_name-*.tar.*!");
 					}
 
-					$rs = sys_command("$cmd_mv -f $dmn_dir/$backup_filename $dmn_backup_dir");
-					if ($rs != 0){
-						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_mv -f $dmn_dir/$backup_filename $dmn_backup_dir!");
-						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_mv -f $dmn_dir/$backup_filename $dmn_backup_dir!");
+					$rs = sys_command("$cmd_mv -f $www_dir/$backup_filename $dmn_backup_dir");
+					if ($rs != 0) {
+						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_mv -f $www_dir/$backup_filename $dmn_backup_dir!");
+						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while executing $cmd_mv -f $www_dir/$backup_filename $dmn_backup_dir!");
 					}
 
-					$rs = setfmode("$dmn_backup_dir/$backup_filename", $domain_uid, $domain_gid, 0660);
-					if ($rs != 0){
-						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0660 uid: $domain_uid gid: $domain_gid for $dmn_backup_dir/$backup_filename!");
-						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0660 uid: $domain_uid gid: $domain_gid for $dmn_backup_dir/$backup_filename!");
+					$rs = setfmode("$dmn_backup_dir/$backup_filename", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0444);
+					if ($rs != 0) {
+						push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0444 root:root for $dmn_backup_dir/$backup_filename!");
+						send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while changing mode to 0444 root:root for $dmn_backup_dir/$backup_filename!");
 					}
 
 				} else { # some error occurred
 
-					push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: ERROR: tar returned exit status $rs, have a look in $dmn_dir/$backup_filename.log");
+					push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: ERROR: tar returned exit status $rs, have a look in $www_dir/$backup_filename.log");
 					# send mail so we know something went wrong...
-					send_error_mail('backup_all_engine()', "Domain $dmn_name: ERROR: tar returned exit status $rs, have a look in $dmn_dir/$backup_filename.log");
+					send_error_mail('backup_all_engine()', "Domain $dmn_name: ERROR: tar returned exit status $rs, have a look in $www_dir/$backup_filename.log");
 
 					# delete backup file...
-					if ( -e "$dmn_dir/$backup_filename" ) {
-						$rs = del_file("$dmn_dir/$backup_filename");
-						if ($rs != 0){
-							push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while removing file $dmn_dir/$backup_filename!");
+					if ( -e "$www_dir/$backup_filename" ) {
+						$rs = del_file("$www_dir/$backup_filename");
+						if ($rs != 0) {
+							push_el(\@main::el, 'backup_all_engine()', "Domain $dmn_name: Error while removing file $www_dir/$backup_filename!");
 # we don't need a second mail...			send_error_mail('backup_all_engine()', "Domain $dmn_name: Error while removing file $dmn_dir/$backup_filename!");
 						}
 					}

@@ -3,7 +3,7 @@
 /**
   * SquirrelMail Add Address Plugin
   * Copyright (c) 1999-2008 The SquirrelMail Project Team
-  * Copyright (c) 2008-2009 Paul Lesniewski <paul@squirrelmail.org>,
+  * Copyright (c) 2008-2010 Paul Lesniewski <paul@squirrelmail.org>,
   * Licensed under the GNU GPL. For full terms see the file COPYING.
   *
   * @package plugins
@@ -715,7 +715,8 @@ function aa_validate_email($email, $verify)
 
    // check formatting
    //
-   if (!eregi('^' . $Email_RegExp_Match . '$', $email))
+   /* @author ispCP PHP5.3 Compatibility Change */
+   if (!preg_match('/^' . $Email_RegExp_Match . '$/i', $email))
       return FALSE;
 
 
@@ -823,7 +824,9 @@ function build_address_import_list($addresses, $dns_check=NULL)
       else // AddressStructure object
       {
          $new_addresses[$i]['email'] = $address->mailbox . '@' . $address->host;
-         $new_addresses[$i]['nickname'] = trim($address->personal);
+         $new_addresses[$i]['nickname'] = trim(decodeHeader($address->personal,
+                                                            FALSE, FALSE),
+                                               " \t\n\r\0\x0B\"");
       }
 
 

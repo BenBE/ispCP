@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,13 +24,15 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
+
+$cfg = ispCP_Registry::get('Config');
 
 if (isset($_GET['edit_id'])) {
 	$edit_id = $_GET['edit_id'];
@@ -40,40 +42,32 @@ if (isset($_GET['edit_id'])) {
 	user_goto('manage_users.php');
 }
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/admin_edit.tpl');
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'THEME_COLOR_PATH'	=> "../themes/$theme_color",
-		'THEME_CHARSET'		=> tr('encoding'),
-		'ISP_LOGO'			=> get_logo($_SESSION['user_id']),
-	)
-);
-
 function update_data(&$sql) {
+
 	global $edit_id;
+	$cfg = ispCP_Registry::get('Config');
 
 	if (isset($_POST['Submit']) && isset($_POST['uaction']) && $_POST['uaction'] === 'edit_user') {
 		if (check_user_data()) {
 			$user_id	= $_SESSION['user_id'];
-			$fname		= clean_input($_POST['fname'], true);
-			$lname		= clean_input($_POST['lname'], true);
-			$firm		= clean_input($_POST['firm'], true);
-			$gender		= clean_input($_POST['gender'], true);
-			$zip		= clean_input($_POST['zip'], true);
-			$city		= clean_input($_POST['city'], true);
-			$state		= clean_input($_POST['state'], true);
-			$country	= clean_input($_POST['country'], true);
-			$email		= clean_input($_POST['email'], true);
-			$phone		= clean_input($_POST['phone'], true);
-			$fax		= clean_input($_POST['fax'], true);
-			$street1	= clean_input($_POST['street1'], true);
-			$street2	= clean_input($_POST['street2'], true);
+			$fname		= clean_input($_POST['fname']);
+			$lname		= clean_input($_POST['lname']);
+			$firm		= clean_input($_POST['firm']);
+			$gender		= clean_input($_POST['gender']);
+			$zip		= clean_input($_POST['zip']);
+			$city		= clean_input($_POST['city']);
+			$state		= clean_input($_POST['state']);
+			$country	= clean_input($_POST['country']);
+			$email		= clean_input($_POST['email']);
+			$phone		= clean_input($_POST['phone']);
+			$fax		= clean_input($_POST['fax']);
+			$street1	= clean_input($_POST['street1']);
+			$street2	= clean_input($_POST['street2']);
 
 			if (empty($_POST['pass'])) {
 				$query = "
@@ -114,18 +108,32 @@ function update_data(&$sql) {
 				$edit_id = $_POST['edit_id'];
 
 				if ($_POST['pass'] != $_POST['pass_rep']) {
-					set_page_message(tr("Entered passwords do not match!"));
+					set_page_message(
+						tr("Entered passwords do not match!"),
+						'warning'
+					);
 
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
 				if (!chk_password($_POST['pass'])) {
-					if (Config::get('PASSWD_STRONG')) {
-						set_page_message(sprintf(tr('The password must be at least %s long and contain letters and numbers to be valid.'), Config::get('PASSWD_CHARS')));
+					if ($cfg->PASSWD_STRONG) {
+						set_page_message(
+							sprintf(
+								tr('The password must be at least %s chars long and contain letters and numbers to be valid.'),
+								$cfg->PASSWD_CHARS
+							),
+							'warning'
+						);
 					} else {
-						set_page_message(sprintf(tr('Password data is shorter than %s signs or includes not permitted signs!'), Config::get('PASSWD_CHARS')));
+						set_page_message(
+							sprintf(
+								tr('Password data is shorter than %s signs or includes not permitted signs!'),
+								$cfg->PASSWD_CHARS
+							),
+							'warning'
+						);
 					}
-
 					user_goto('admin_edit.php?edit_id=' . $edit_id);
 				}
 
@@ -179,9 +187,9 @@ function update_data(&$sql) {
 						`user_name` = ?
 				";
 
-				$rs = exec_query($sql, $query, array($admin_name));
-				if ($rs->RecordCount() != 0) {
-					set_page_message(tr('User session was killed!'));
+				$rs = exec_query($sql, $query, $admin_name);
+				if ($rs->recordCount() != 0) {
+					set_page_message(tr('User session was killed!'), 'notice');
 					write_log($_SESSION['user_logged'] . " killed " . $admin_name . "'s session because of password change");
 				}
 			}
@@ -195,7 +203,7 @@ function update_data(&$sql) {
 			if (isset($_POST['send_data']) && !empty($_POST['pass'])) {
 				$query = "SELECT admin_type FROM admin WHERE admin_id='" . addslashes(htmlspecialchars($edit_id)) . "'";
 
-				$res = exec_query($sql, $query, array());
+				$res = exec_query($sql, $query);
 
 				if ($res->fields['admin_type'] == 'admin') {
 					$admin_type = tr('Administrator');
@@ -224,7 +232,7 @@ function update_data(&$sql) {
 
 function check_user_data() {
 	if (!chk_email($_POST['email'])) {
-		set_page_message(tr("Incorrect email length or syntax!"));
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
 
 		return false;
 	}
@@ -236,11 +244,7 @@ if ($edit_id == $_SESSION['user_id']) {
 	user_goto('personal_change.php');
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 $query = "
 	SELECT
@@ -265,18 +269,18 @@ $query = "
 		`admin_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($edit_id));
+$rs = exec_query($sql, $query, $edit_id);
 
-if ($rs->RecordCount() <= 0) {
+if ($rs->recordCount() <= 0) {
 	user_goto('manage_users.php');
 }
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
 update_data($sql);
 
-$admin_name = decode_idna($rs->fields['admin_name']);
+$admin_name = tohtml(decode_idna($rs->fields['admin_name']));
 
 if (isset($_POST['genpass'])) {
 	$tpl->assign('VAL_PASSWORD', passgen());
@@ -286,7 +290,7 @@ if (isset($_POST['genpass'])) {
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_EDIT_USER_PAGE_TITLE'	=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
+		'TR_PAGE_TITLE'					=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
 		'TR_EMPTY_OR_WORNG_DATA'		=> tr('Empty data or wrong field!'),
 		'TR_PASSWORD_NOT_MATCH'			=> tr("Passwords don't match!"),
 		'TR_EDIT_ADMIN'					=> ($rs->fields['admin_type'] == 'admin' ? tr('Edit admin') : tr('Edit user')),
@@ -315,23 +319,26 @@ $tpl->assign(
 		'TR_UPDATE'						=> tr('Update'),
 		'TR_SEND_DATA'					=> tr('Send new login data'),
 		'TR_PASSWORD_GENERATE'			=> tr('Generate password'),
-		'FIRST_NAME'					=> empty($rs->fields['fname']) ? '' : $rs->fields['fname'],
-		'LAST_NAME'						=> empty($rs->fields['lname']) ? '' : $rs->fields['lname'],
-		'FIRM'							=> empty($rs->fields['firm']) ? '' : $rs->fields['firm'],
-		'ZIP'							=> empty($rs->fields['zip']) ? '' : $rs->fields['zip'],
-		'CITY'							=> empty($rs->fields['city']) ? '' : $rs->fields['city'],
-		'STATE_PROVINCE'				=> empty($rs->fields['state']) ? '' : $rs->fields['state'],
-		'COUNTRY'						=> empty($rs->fields['country']) ? '' : $rs->fields['country'],
-		'STREET_1'						=> empty($rs->fields['street1']) ? '' : $rs->fields['street1'],
-		'STREET_2'						=> empty($rs->fields['street2']) ? '' : $rs->fields['street2'],
-		'PHONE'							=> empty($rs->fields['phone']) ? '' : $rs->fields['phone'],
-		'FAX'							=> empty($rs->fields['fax']) ? '' : $rs->fields['fax'],
-		'USERNAME'						=> $admin_name,
-		'EMAIL'							=> $rs->fields['email'],
-		'VL_MALE'						=> (($rs->fields['gender'] === 'M') ? 'selected="selected"' : ''),
-		'VL_FEMALE'						=> (($rs->fields['gender'] === 'F') ? 'selected="selected"' : ''),
-		'VL_UNKNOWN'					=> ((($rs->fields['gender'] === 'U') || (empty($rs->fields['gender']))) ? 'selected="selected"' : ''),
-		'EDIT_ID'						=> $edit_id
+		'FIRST_NAME'					=> empty($rs->fields['fname']) ? '' : tohtml($rs->fields['fname']),
+		'LAST_NAME'						=> empty($rs->fields['lname']) ? '' : tohtml($rs->fields['lname']),
+		'FIRM'							=> empty($rs->fields['firm']) ? '' : tohtml($rs->fields['firm']),
+		'ZIP'							=> empty($rs->fields['zip']) ? '' : tohtml($rs->fields['zip']),
+		'CITY'							=> empty($rs->fields['city']) ? '' : tohtml($rs->fields['city']),
+		'STATE_PROVINCE'				=> empty($rs->fields['state']) ? '' : tohtml($rs->fields['state']),
+		'COUNTRY'						=> empty($rs->fields['country']) ? '' : tohtml($rs->fields['country']),
+		'STREET_1'						=> empty($rs->fields['street1']) ? '' : tohtml($rs->fields['street1']),
+		'STREET_2'						=> empty($rs->fields['street2']) ? '' : tohtml($rs->fields['street2']),
+		'PHONE'							=> empty($rs->fields['phone']) ? '' : tohtml($rs->fields['phone']),
+		'FAX'							=> empty($rs->fields['fax']) ? '' : tohtml($rs->fields['fax']),
+		'USERNAME'						=> tohtml($admin_name),
+		'EMAIL'							=> tohtml($rs->fields['email']),
+		'VL_MALE'						=> (($rs->fields['gender'] === 'M') ? $cfg->HTML_SELECTED : ''),
+		'VL_FEMALE'						=> (($rs->fields['gender'] === 'F') ? $cfg->HTML_SELECTED : ''),
+		'VL_UNKNOWN'					=> ((($rs->fields['gender'] === 'U') || (empty($rs->fields['gender']))) ? $cfg->HTML_SELECTED : ''),
+		'EDIT_ID'						=> $edit_id,
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'				=> tr('Password change is disabled!'),
+		'DEMO_VERSION'					=> tr('Demo Version!')
 	)
 );
 
@@ -340,7 +347,7 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 unset_messages();

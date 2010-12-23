@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,20 +32,23 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
+$cfg = ispCP_Registry::get('Config');
+
 function save_layout(&$sql) {
+
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 		$user_id = $_SESSION['user_id'];
 
 		$user_layout = $_POST['def_layout'];
 
-		$query = <<<SQL_QUERY
+		$query = "
 			UPDATE
 				`user_gui_props`
 			SET
 				`layout` = ?
 			WHERE
 				`user_id` = ?
-SQL_QUERY;
+		";
 		$rs = exec_query($sql, $query, array($user_layout, $user_id));
 		$_SESSION['user_theme_color'] = $user_layout;
 		$theme_color = $user_layout;
@@ -54,6 +57,7 @@ SQL_QUERY;
 }
 
 function update_logo() {
+
 	$user_id = $_SESSION['user_id'];
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'delete_logo') {
@@ -69,7 +73,10 @@ function update_logo() {
 		return;
 	} else if (isset($_POST['uaction']) && $_POST['uaction'] === 'upload_logo') {
 		if (empty($_FILES['logo_file']['name'])) {
-			set_page_message(tr('Upload file error!'));
+			set_page_message(tr(
+				'Upload file error!'),
+				'error'
+			);
 			return;
 		}
 
@@ -88,7 +95,10 @@ function update_logo() {
 				$fext = 'png';
 				break;
 			default:
-				set_page_message(tr('You can only upload images!'));
+				set_page_message(
+					tr('You can only upload images!'),
+					'warning'
+				);
 				return;
 				break;
 		}
@@ -96,17 +106,23 @@ function update_logo() {
 		$fname = $_FILES['logo_file']['tmp_name'];
 		// Make sure it is really an image
 		if (image_type_to_mime_type(exif_imagetype($fname)) != $file_type) {
-			set_page_message(tr('You can only upload images!'));
+			set_page_message(
+				tr('You can only upload images!'),
+				'warning'
+			);
 			return;
 		}
 		// get the size of the image to prevent over large images
 		list($fwidth, $fheight, $ftype, $fattr) = getimagesize($fname);
 		if ($fwidth > 195 || $fheight > 195) {
-			set_page_message(tr('Images have to be smaller than 195 x 195 pixels!'));
+			set_page_message(
+				tr('Images have to be smaller than 195 x 195 pixels!'),
+				'warning'
+			);
 			return;
 		}
 
-		$newFName = get_user_name($user_id) . '.' . $fext;
+		$newFName = sha1($fname .'-'. $user_id) .'.'. $fext;
 
 		$path = substr($_SERVER['SCRIPT_FILENAME'], 0, strpos($_SERVER['SCRIPT_FILENAME'], '/admin/settings_layout.php') + 1);
 
@@ -116,57 +132,59 @@ function update_logo() {
 
 		update_user_logo($newFName, $user_id);
 
-		set_page_message(tr('Your logo was successful uploaded!'));
+		set_page_message(
+			tr('Your logo was successful uploaded!'),
+			'success'
+		);
 	}
 }
 
 function update_user_logo($file_name, $user_id) {
-	$sql = Database::getInstance();
 
-	$query = <<<SQL_QUERY
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
 		UPDATE
 			`user_gui_props`
 		SET
 			`logo` = ?
 		WHERE
 			`user_id` = ?
-SQL_QUERY;
+	";
 
 	$rs = exec_query($sql, $query, array($file_name, $user_id));
 }
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/settings_layout.tpl');
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_layout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('def_layout', 'page');
+$tpl->define_dynamic('logo_remove_button', 'page');
 
 save_layout($sql);
 
 update_logo();
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
 gen_def_layout($tpl, $_SESSION['user_theme']);
+
+if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
+	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
+} else {
+	$tpl->assign('LOGO_REMOVE_BUTTON', '');
+}
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_CHANGE_LAYOUT_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'OWN_LOGO' => get_own_logo($_SESSION['user_id']),
-		'THEME_CHARSET' => tr('encoding')
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
+		'OWN_LOGO' => get_own_logo($_SESSION['user_id'])
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 $tpl->assign(
 	array(
@@ -191,7 +209,9 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

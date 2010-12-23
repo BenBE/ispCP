@@ -1,8 +1,8 @@
 #!/usr/bin/perl
- 
+
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,13 +21,8 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 $main::db_pwd = undef;
 $main::db_user = undef;
@@ -271,9 +266,16 @@ sub backup_ispcp_engine {
 
 	# Backup of configuration files (/etc/ispcp), preparation
 
-	if( $zip eq 'bzip2' || $zip eq 'gzip' || $zip eq 'lzma') {
+	if ($zip =~ '^(bzip2|gzip|lzma|xz)$') {
+		my $extension = undef;
 
-		$backup_filename = "config-backup-$date.tar.".($zip eq 'bzip2' ? 'bz2' : ($zip eq 'gzip' ? 'gz' : $zip));
+		if ($zip eq 'bzip2') {
+			$extension = 'bz2';
+		} else {
+			$extension = $zip;
+		}
+
+		$backup_filename = "config-backup-$date.tar." . $extension;
 		$backup_cmd = "$cmd_tar --create --directory=$conf_dir --$zip --file=$backup_dir/$backup_filename . 2> $main::cfg{'LOG_DIR'}/$backup_filename.log";
 
 	} else {

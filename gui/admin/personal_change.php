@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -32,21 +32,12 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/personal_change.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/personal_change.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
-
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Admin/Change Personal Data'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_admin_personal_data($sql, $_SESSION['user_id']);
@@ -55,6 +46,9 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 gen_admin_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	$query = "
 		SELECT
 			`fname`,
@@ -76,93 +70,103 @@ function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
 			`admin_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_id));
+	$rs = exec_query($sql, $query, $user_id);
 
 	$tpl->assign(
 		array(
-			'FIRST_NAME' => empty($rs->fields['fname']) ? '' : $rs->fields['fname'],
-			'LAST_NAME' => empty($rs->fields['lname']) ? '' : $rs->fields['lname'],
-			'FIRM' => empty($rs->fields['firm']) ? '' : $rs->fields['firm'],
-			'ZIP' => empty($rs->fields['zip']) ? '' : $rs->fields['zip'],
-			'CITY' => empty($rs->fields['city']) ? '' : $rs->fields['city'],
-			'STATE' => empty($rs->fields['state']) ? '' : $rs->fields['state'],
-			'COUNTRY' => empty($rs->fields['country']) ? '' : $rs->fields['country'],
-			'STREET_1' => empty($rs->fields['street1']) ? '' : $rs->fields['street1'],
-			'STREET_2' => empty($rs->fields['street2']) ? '' : $rs->fields['street2'],
-			'EMAIL' => empty($rs->fields['email']) ? '' : $rs->fields['email'],
-			'PHONE' => empty($rs->fields['phone']) ? '' : $rs->fields['phone'],
-			'FAX' => empty($rs->fields['fax']) ? '' : $rs->fields['fax'],
-			'VL_MALE' => (($rs->fields['gender'] == 'M') ? 'selected="selected"' : ''),
-			'VL_FEMALE' => (($rs->fields['gender'] == 'F') ? 'selected="selected"' : ''),
-			'VL_UNKNOWN' => ((($rs->fields['gender'] == 'U') || (empty($rs->fields['gender']))) ? 'selected="selected"' : ''),
+			'FIRST_NAME' => empty($rs->fields['fname']) ? '' : tohtml($rs->fields['fname']),
+			'LAST_NAME' => empty($rs->fields['lname']) ? '' : tohtml($rs->fields['lname']),
+			'FIRM' => empty($rs->fields['firm']) ? '' : tohtml($rs->fields['firm']),
+			'ZIP' => empty($rs->fields['zip']) ? '' : tohtml($rs->fields['zip']),
+			'CITY' => empty($rs->fields['city']) ? '' : tohtml($rs->fields['city']),
+			'STATE' => empty($rs->fields['state']) ? '' : tohtml($rs->fields['state']),
+			'COUNTRY' => empty($rs->fields['country']) ? '' : tohtml($rs->fields['country']),
+			'STREET_1' => empty($rs->fields['street1']) ? '' : tohtml($rs->fields['street1']),
+			'STREET_2' => empty($rs->fields['street2']) ? '' : tohtml($rs->fields['street2']),
+			'EMAIL' => empty($rs->fields['email']) ? '' : tohtml($rs->fields['email']),
+			'PHONE' => empty($rs->fields['phone']) ? '' : tohtml($rs->fields['phone']),
+			'FAX' => empty($rs->fields['fax']) ? '' : tohtml($rs->fields['fax']),
+			'VL_MALE' => (($rs->fields['gender'] == 'M') ? $cfg->HTML_SELECTED : ''),
+			'VL_FEMALE' => (($rs->fields['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
+			'VL_UNKNOWN' => ((($rs->fields['gender'] == 'U') || (empty($rs->fields['gender']))) ? $cfg->HTML_SELECTED : '')
 		)
 	);
 }
 
-function update_admin_personal_data(&$sql, $user_id) {
-	$fname = clean_input($_POST['fname'], true);
-	$lname = clean_input($_POST['lname'], true);
-	$gender = $_POST['gender'];
-	$firm = clean_input($_POST['firm'], true);
-	$zip = clean_input($_POST['zip'], true);
-	$city = clean_input($_POST['city'], true);
-	$state = clean_input($_POST['state'], true);
-	$country = clean_input($_POST['country'], true);
-	$street1 = clean_input($_POST['street1'], true);
-	$street2 = clean_input($_POST['street2'], true);
-	$email = clean_input($_POST['email'], true);
-	$phone = clean_input($_POST['phone'], true);
-	$fax = clean_input($_POST['fax'], true);
+function check_user_data() {
+	if (!chk_email($_POST['email'])) {
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
 
-	$query = "
-		UPDATE
-			`admin`
-		SET
-			`fname` = ?,
-			`lname` = ?,
-			`firm` = ?,
-			`zip` = ?,
-			`city` = ?,
-			`state` = ?,
-			`country` = ?,
-			`street1` = ?,
-			`street2` = ?,
-			`email` = ?,
-			`phone` = ?,
-			`fax` = ?,
-			`gender` = ?
-		WHERE
-			`admin_id` = ?
-";
+		return false;
+	}
 
-	$rs = exec_query($sql, $query, array($fname,
-			$lname,
-			$firm,
-			$zip,
-			$city,
-			$state,
-			$country,
-			$street1,
-			$street2,
-			$email,
-			$phone,
-			$fax,
-			$gender,
-			$user_id));
-
-	set_page_message(tr('Personal data updated successfully!'));
+	return true;
 }
 
-/*
- *
- * static page messages.
- *
- */
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_general_information.tpl');
+function update_admin_personal_data(&$sql, $user_id) {
+	if (check_user_data()) {
+		$fname = clean_input($_POST['fname']);
+		$lname = clean_input($_POST['lname']);
+		$gender = $_POST['gender'];
+		$firm = clean_input($_POST['firm']);
+		$zip = clean_input($_POST['zip']);
+		$city = clean_input($_POST['city']);
+		$state = clean_input($_POST['state']);
+		$country = clean_input($_POST['country']);
+		$street1 = clean_input($_POST['street1']);
+		$street2 = clean_input($_POST['street2']);
+		$email = clean_input($_POST['email']);
+		$phone = clean_input($_POST['phone']);
+		$fax = clean_input($_POST['fax']);
+
+		$query = "
+			UPDATE
+				`admin`
+			SET
+				`fname` = ?,
+				`lname` = ?,
+				`firm` = ?,
+				`zip` = ?,
+				`city` = ?,
+				`state` = ?,
+				`country` = ?,
+				`street1` = ?,
+				`street2` = ?,
+				`email` = ?,
+				`phone` = ?,
+				`fax` = ?,
+				`gender` = ?
+			WHERE
+				`admin_id` = ?
+	";
+
+		$rs = exec_query($sql, $query, array($fname,
+				$lname,
+				$firm,
+				$zip,
+				$city,
+				$state,
+				$country,
+				$street1,
+				$street2,
+				$email,
+				$phone,
+				$fax,
+				$gender,
+				$user_id));
+
+		set_page_message(tr('Personal data updated successfully!'), 'success');
+	}
+}
+
+// static page messages
+
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA' => tr('Change personal data'),
 		'TR_PERSONAL_DATA' => tr('Personal data'),
 		'TR_FIRST_NAME' => tr('First name'),
@@ -190,7 +194,8 @@ gen_page_message($tpl);
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

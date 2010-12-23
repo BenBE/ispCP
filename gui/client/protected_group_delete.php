@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,13 +24,15 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
+
+$cfg = ispCP_Registry::get('Config');
 
 $dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
 
@@ -43,8 +45,8 @@ if (isset($_GET['gname'])
 	user_goto('protected_areas.php');
 }
 
-$change_status = Config::get('ITEM_DELETE_STATUS');
-$awstats_auth = Config::get('AWSTATS_GROUP_AUTH');
+$change_status = $cfg->ITEM_DELETE_STATUS;
+$awstats_auth = $cfg->AWSTATS_GROUP_AUTH;
 
 $query = "
 	UPDATE
@@ -71,7 +73,7 @@ $query = "
 		`dmn_id` = ?
 ";
 
-$rs = exec_query($sql, $query, array($dmn_id));
+$rs = exec_query($sql, $query, $dmn_id);
 
 while (!$rs->EOF) {
 
@@ -84,10 +86,10 @@ while (!$rs->EOF) {
 	if ($key !== false) {
 		unset($grp_id_splited[$key]);
 		if (count($grp_id_splited) == 0) {
-			$status = Config::get('ITEM_DELETE_STATUS');
+			$status = $cfg->ITEM_DELETE_STATUS;
 		} else {
 			$grp_id = implode(",", $grp_id_splited);
-			$status = Config::get('ITEM_CHANGE_STATUS');
+			$status = $cfg->ITEM_CHANGE_STATUS;
 		}
 		$update_query = "
 			UPDATE
@@ -101,7 +103,7 @@ while (!$rs->EOF) {
 		$rs_update = exec_query($sql, $update_query, array($grp_id, $status, $ht_id));
 	}
 
-	$rs->MoveNext();
+	$rs->moveNext();
 }
 
 send_request();

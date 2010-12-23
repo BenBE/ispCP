@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,17 +24,20 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/checkout.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/checkout.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
+
 
 /*
  * functions start
@@ -90,10 +93,11 @@ function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
 	";
 
 	$rs = exec_query($sql, $query, array($user_id, $plan_id, $date, $domain_name, $fname, $lname, $gender, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $status));
-	//print $sql->ErrorMsg();
-	$order_id = $sql->Insert_ID();
+
+	$order_id = $sql->insertId();
 	send_order_emails($user_id, $domain_name, $fname, $lname, $email, $order_id);
 
+	// Remove useless data
 	unset($_SESSION['details']);
 	unset($_SESSION['domainname']);
 	unset($_SESSION['fname']);
@@ -110,6 +114,8 @@ function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
 	unset($_SESSION['phone']);
 	unset($_SESSION['fax']);
 	unset($_SESSION['plan_id']);
+	unset($_SESSION['image']);
+	unset($_SESSION['tos']);
 }
 
 /*
@@ -122,26 +128,37 @@ function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
  *
  */
 
-
 if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 if (!isset($_POST['capcode']) || $_POST['capcode'] != $_SESSION['image']) {
-	system_message(tr('Security code was incorrect!'));
+	set_page_message(tr('Security code was incorrect!'), 'error');
 	user_goto('chart.php');
 }
 
+
+// If term of service field was set (not empty value)
+if (isset($_SESSION['tos']) && $_SESSION['tos'] == true) {
+	if (!isset($_POST['tosAccept']) || $_POST['tosAccept'] != 1) {
+		set_page_message(
+			tr('You have to accept the Term of Service!'),
+			'warning'
+		);
+		user_goto('chart.php');
+	}
+}
 
 if ((isset($_SESSION['fname']) && $_SESSION['fname'] != '')
 	&& (isset($_SESSION['lname']) && $_SESSION['lname'] != '')
 	&& (isset($_SESSION['email']) && $_SESSION['email'] != '')
 	&& (isset($_SESSION['zip']) && $_SESSION['zip'] != '')
 	&& (isset($_SESSION['city']) && $_SESSION['city'] != '')
-	&& (isset($_SESSION['state']) && $_SESSION['state'] != '')
 	&& (isset($_SESSION['country']) && $_SESSION['country'] != '')
 	&& (isset($_SESSION['street1']) && $_SESSION['street1'] != '')
 	&& (isset($_SESSION['phone']) && $_SESSION['phone'] != '')
@@ -165,6 +182,6 @@ $tpl->assign(
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }

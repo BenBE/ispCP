@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,141 +24,90 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
-Config::set('DB_TYPE', Config::get('DATABASE_TYPE'));
-Config::set('DB_HOST', Config::get('DATABASE_HOST'));
-Config::set('DB_USER', Config::get('DATABASE_USER'));
-Config::set('DB_PASS', decrypt_db_password(Config::get('DATABASE_PASSWORD')));
-Config::set('DB_NAME', Config::get('DATABASE_NAME'));
-
-// Get an Database instance
-@$sql = Database::connect(Config::get('DB_USER'), Config::get('DB_PASS'), Config::get('DB_TYPE'), Config::get('DB_HOST'), Config::get('DB_NAME'))
-	or system_message('ERROR: Unable to connect to SQL server !<br />SQL returned: ' . $sql->ErrorMsg());
-
-// switch optionally to utf8 based communication with the database
-if (Config::exists('DATABASE_UTF8') && Config::get('DATABASE_UTF8') == 'yes') {
-	@$sql->Execute("SET NAMES 'utf8'");
-}
-
-// No longer needed - unset for safety
-Config::set('DB_USER', null);
-Config::set('DB_PASS', null);
-
 /**
- * @todo Please describe this function!
- */
-function execute_query(&$sql, $query) {
+ * Convenience method to execute a query
+ *
+ * <b>Note:</b> You may pass additional parameters. They will be treated as
+ * though you called PDOStatement::setFetchMode() on the resultant statement
+ * object that is wrapped by the ispCP_Database_ResultSet object.
+ *
+ * @see ispCP_Database::execute()
+ * @throws ispCP_Exception_Database
+ * @param  ispCP_Database $db ispCP_Database instance
+ * @param string $query SQL statement to be executed
+ * @param array|int|string $parameters OPTIONAL parameters that represents
+ * data to bind to the placeholders for prepared statement, or an integer
+ * that represents the Fetch mode for Sql statement. The fetch mode must be
+ * one of the PDO::FETCH_* constants
+ * @param int|string|object $parameters OPTIONAL parameter for SQL statement
+ * only. Can be a colum number, an object, a class name (depending of the
+ * Fetch mode used)
+ * @param array $parameters OPTIONAL parameter for Sql statements only. Can
+ * be an array that contains constructor arguments. (See PDO::FETCH_CLASS)
+ * @return ispCP_Database_ResultSet Returns an ispCP_Database_ResultSet object
+ **/
+function execute_query($db, $query, $parameters = null) {
 
-	$rs = $sql->Execute($query);
-	if (!$rs) system_message($sql->ErrorMsg());
-
-	return $rs;
-}
-
-/**
- * @todo Please describe this function!
- */
-function exec_query(&$sql, $query, $data = array(), $failDie = true) {
-
-	$query = $sql->Prepare($query);
-	$rs = $sql->Execute($query, $data);
-
-	if (!$rs && $failDie) {
-
-		$msg = ($query instanceof PDOStatement) ? $query->errorInfo() : $sql->errorInfo();
-		$backtrace = debug_backtrace();
-		$output = isset($msg[2]) ? $msg[2] : $msg;
-		$output .= "\n";
-
-		foreach ($backtrace as $entry) {
-			$output .= "File: ".$entry['file']." (Line: ".$entry['line'].")";
-			$output .= " Function: ".$entry['function']."\n";
-		}
-
-		// Send error output via email to admin
-		$admin_email = Config::get('DEFAULT_ADMIN_ADDRESS');
-
-		if (!empty($admin_email)) {
-			$default_hostname = Config::get('SERVER_HOSTNAME');
-			$default_base_server_ip = Config::get('BASE_SERVER_IP');
-			$Version = Config::get('Version');
-			$headers = "From: \"ispCP Logging Daemon\" <" . $admin_email . ">\n";
-			$headers .= "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 7bit\n";
-			$headers .= "X-Mailer: ispCP $Version Logging Mailer";
-			$subject = "ispCP $Version on $default_hostname ($default_base_server_ip)";
-			$mail_result = mail($admin_email, $subject, $output, $headers);
-		}
-
-		system_message(isset($msg[2]) ? $msg[2] : $msg);
+	if(!is_null($parameters)) {
+		$parameters = func_get_args();
+		array_shift($parameters);
+		$stmt = call_user_func_array(array($db, 'execute'), $parameters);
+	} else {
+		$stmt = $db->execute($query);
 	}
 
-	return $rs;
+	if ($stmt == false)
+		throw new ispCP_Exception_Database($db->getLastErrorMessage());
+
+	return $stmt;
+}
+
+/**
+ * Convenience method to prepare and execute a query
+ *
+ * <b>Note:</b> On failure, and if the $failDie parameter is set to TRUE, this
+ * function sends a mail to the administrator with some relevant information
+ * such as the debug information if the
+ * {@link ispCP_Exception_Writer_Mail writer} is active.
+ *
+ * @throws ispCP_Exception_Database
+ * @param ispCP_Database $db ispCP_Database Instance
+ * @param string $query SQL statement
+ * @param string|int|array $bind Data to bind to the placeholders
+ * @param boolean $failDie If TRUE, throws an ispCP_Exception_Database exception
+ * on failure
+ * @return ispCP_Database_ResultSet Return a ispCP_Database_ResultSet object
+ * that represents a result set or FALSE on failure if $failDie is set to FALSE
+ */
+function exec_query($db, $query, $bind = null, $failDie = true) {
+
+	if(!($stmt = $db->prepare($query)) || !($stmt = $db->execute($stmt, $bind))) {
+		if($failDie) {
+			throw new ispCP_Exception_Database(
+				$db->getLastErrorMessage() . " - Query: $query"
+			);
+		}
+	}
+
+	return $stmt;
 }
 
 /**
  * Function quoteIdentifier
+ *
  * @todo document this function
  */
 function quoteIdentifier($identifier) {
-	$sql = Database::getInstance();
 
-	$identifier = str_replace($sql->nameQuote, '\\' . $sql->nameQuote, $identifier);
+	$db = ispCP_Registry::get('Db');
 
-	return $sql->nameQuote . $identifier . $sql->nameQuote;
-}
+	$identifier = str_replace(
+		$db->nameQuote, '\\' . $db->nameQuote, $identifier
+	);
 
-/**
- * Function match_sqlinjection
- * @todo document this function
- */
-function match_sqlinjection($value, &$matches) {
-	$matches = array();
-	return (preg_match("/((DELETE)|(INSERT)|(UPDATE)|(ALTER)|(CREATE)|( TABLE)|(DROP))\s[A-Za-z0-9 ]{0,200}(\s(FROM)|(INTO)|(TABLE)\s)/i", $value, $matches) > 0);
-}
-
-/**
- * @todo remove check for PHP <= 4.2.2, this produces unmantainable code
- */
-function check_query($exclude = array()) {
-	$matches = null;
-
-	if (phpversion() <= '4.2.2') {
-		$message = "Your PHP version is older than 4.2.2!";
-		write_log($message);
-		system_message($message);
-		die('ERROR: ' . $message);
-	}
-
-	if (!is_array($exclude)) {
-		$exclude = array($exclude);
-	}
-
-	foreach ($_REQUEST as $key => $value) {
-		if (in_array($key, $exclude)) {
-			continue;
-		}
-
-		if (!is_array($value)) {
-			if (match_sqlinjection($value, $matches)) {
-				$message = "Possible SQL injection detected: $key=>$value. <b>${matches[0]}</b>. Script terminated.";
-				write_log($message);
-				system_message($message);
-				die('<b>WARNING</b>: Possible SQL injection detected. Script terminated.');
-			}
-		} else {
-			foreach ($value as $skey => $svalue) {
-				if (!is_array($svalue)) {
-					if (match_sqlinjection($svalue, $matches)) {
-						$message = "Possible SQL injection detected: $skey=>$svalue <b>${matches[0]}</b>. Script terminated.";
-						write_log($message);
-						system_message($message);
-						die('<b>WARNING</b>: Possible SQL injection detected. Script terminated.');
-					}
-				}
-			}
-		}
-	}
+	return $db->nameQuote . $identifier . $db->nameQuote;
 }

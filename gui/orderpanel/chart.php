@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,25 +24,31 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 require '../include/ispcp-lib.php';
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('PURCHASE_TEMPLATE_PATH') . '/chart.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->PURCHASE_TEMPLATE_PATH . '/chart.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('purchase_header', 'page');
+$tpl->define_dynamic('tos_field', 'page');
 $tpl->define_dynamic('purchase_footer', 'page');
+
 
 /*
  * functions start
  */
 
 function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
-	if (Config::exists('HOSTING_PLANS_LEVEL')
-		&& Config::get('HOSTING_PLANS_LEVEL') === 'admin') {
+
+	$cfg = ispCP_Registry::get('Config');
+
+	if (isset($cfg->HOSTING_PLANS_LEVEL)&& $cfg->HOSTING_PLANS_LEVEL == 'admin') {
 		$query = "
 			SELECT
 				*
@@ -52,7 +58,7 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 				`id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($plan_id));
+		$rs = exec_query($sql, $query, $plan_id);
 	} else {
 		$query = "
 			SELECT
@@ -68,29 +74,30 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 		$rs = exec_query($sql, $query, array($user_id, $plan_id));
 	}
 
-	if ($rs->RecordCount() == 0) {
+	if ($rs->recordCount() == 0) {
 		user_goto('index.php');
 	} else {
 		$price = $rs->fields['price'];
 		$setup_fee = $rs->fields['setup_fee'];
 		$total = $price + $setup_fee;
 
+
 		if ($price == 0 || $price == '') {
 			$price = tr('free of charge');
 		} else {
-			$price .= ' ' . $rs->fields['value'] . ' ' . $rs->fields['payment'];
+			$price .= ' ' . tohtml($rs->fields['value']) . ' ' . tohtml($rs->fields['payment']);
 		}
 
 		if ($setup_fee == 0 || $setup_fee == '') {
 			$setup_fee = tr('free of charge');
 		} else {
-			$setup_fee .= ' ' . $rs->fields['value'];
+			$setup_fee .= ' ' . tohtml($rs->fields['value']);
 		}
 
 		if ($total == 0) {
 			$total = tr('free of charge');
 		} else {
-			$total .= ' ' . $rs->fields['value'];
+			$total .= ' ' . tohtml($rs->fields['value']);
 		}
 
 		$tpl->assign(
@@ -98,9 +105,24 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 				'PRICE' => $price,
 				'SETUP' => $setup_fee,
 				'TOTAL' => $total,
-				'TR_PACKAGE_NAME' => $rs->fields['name'],
+				'TR_PACKAGE_NAME' => tohtml($rs->fields['name']),
 			)
 		);
+
+		if ($rs->fields['tos'] != '') {
+			$tpl->assign(
+				array(
+					'TR_TOS_PROPS'	=> tr('Term of Service'),
+					'TR_TOS_ACCEPT' => tr('I Accept The Term of Service'),
+					'TOS'	=> $rs->fields['tos']
+				)
+			);
+
+			$_SESSION['tos'] = true;
+		} else {
+			$tpl->assign(array('TOS_FIELD' => ''));
+			$_SESSION['tos'] = false;
+		}
 	}
 }
 
@@ -122,19 +144,19 @@ function gen_personal_data(&$tpl) {
 
 	$tpl->assign(
 		array(
-			'VL_USR_NAME'		=> $first_name,
-			'VL_LAST_USRNAME'	=> $last_name,
-			'VL_USR_FIRM'		=> $company,
-			'VL_USR_POSTCODE'	=> $postal_code,
-			'VL_USR_GENDER'		=> $gender,
-			'VL_USRCITY'		=> $city,
-			'VL_USRSTATE'		=> $state,
-			'VL_COUNTRY'		=> $country,
-			'VL_STREET1'		=> $street1,
-			'VL_STREET2'		=> $street2,
-			'VL_PHONE'			=> $phone,
-			'VL_FAX'			=> $fax,
-			'VL_EMAIL'			=> $email,
+			'VL_USR_NAME'		=> tohtml($first_name),
+			'VL_LAST_USRNAME'	=> tohtml($last_name),
+			'VL_USR_FIRM'		=> tohtml($company),
+			'VL_USR_POSTCODE'	=> tohtml($postal_code),
+			'VL_USR_GENDER'		=> tohtml($gender),
+			'VL_USRCITY'		=> tohtml($city),
+			'VL_USRSTATE'		=> tohtml($state),
+			'VL_COUNTRY'		=> tohtml($country),
+			'VL_STREET1'		=> tohtml($street1),
+			'VL_STREET2'		=> tohtml($street2),
+			'VL_PHONE'			=> tohtml($phone),
+			'VL_FAX'			=> tohtml($fax),
+			'VL_EMAIL'			=> tohtml($email),
 		)
 	);
 }
@@ -153,7 +175,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['plan_id'])) {
 	$user_id = $_SESSION['user_id'];
 	$plan_id = $_SESSION['plan_id'];
 } else {
-	system_message(tr('You do not have permission to access this interface!'));
+	throw new ispCP_Exception_Production(
+		tr('You do not have permission to access this interface!')
+	);
 }
 
 gen_purchase_haf($tpl, $sql, $user_id);
@@ -161,7 +185,6 @@ gen_chart($tpl, $sql, $user_id, $plan_id);
 gen_personal_data($tpl);
 
 gen_page_message($tpl);
-
 
 $tpl->assign(
 	array(
@@ -189,15 +212,16 @@ $tpl->assign(
 		'TR_PERSONAL_DATA' => tr('Personal Data'),
 		'TR_CAPCODE' => tr('Security code'),
 		'TR_IMGCAPCODE_DESCRIPTION' => tr('(To avoid abuse, we ask you to write the combination of letters on the above picture into the field "Security code")'),
-		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . Config::get('LOSTPASSWORD_CAPTCHA_WIDTH') . '" height="' . Config::get('LOSTPASSWORD_CAPTCHA_HEIGHT') . '" border="0" alt="captcha image">',
-		'THEME_CHARSET' => tr('encoding')
+		'TR_IMGCAPCODE' => '<img src="/imagecode.php" width="' . $cfg->LOSTPASSWORD_CAPTCHA_WIDTH . '" height="' . $cfg->LOSTPASSWORD_CAPTCHA_HEIGHT . '" border="0" alt="captcha image" />',
+		'THEME_CHARSET' => tr('encoding'),
 	)
 );
 
 $tpl->parse('PAGE', 'page');
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();

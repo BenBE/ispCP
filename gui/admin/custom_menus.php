@@ -3,8 +3,8 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2008 by ispCP | http://isp-control.net
- * @version 	SVN: $ID$
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -24,24 +24,27 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
  */
 
 // site functions
 function gen_button_list(&$tpl, &$sql) {
-	$query = <<<SQL_QUERY
+	$query = "
 		SELECT
 			*
 		FROM
 			`custom_menus`
-SQL_QUERY;
+	";
 
-	$rs = exec_query($sql, $query, array());
-	if ($rs->RecordCount() == 0) {
+	$rs = exec_query($sql, $query);
+	if ($rs->recordCount() == 0) {
 		$tpl->assign('BUTTON_LIST', '');
 
-		set_page_message(tr('You have no custom menus.'));
+		set_page_message(
+			tr('You have no custom menus.'),
+			'notice'
+		);
 	} else {
 		global $i;
 
@@ -63,18 +66,18 @@ SQL_QUERY;
 
 			$tpl->assign(
 				array(
-					'BUTTON_LINK'		=> $menu_link,
+					'BUTTON_LINK'		=> tohtml($menu_link),
 					'BUTONN_ID'			=> $menu_id,
-					'LEVEL'				=> $menu_level,
-					'MENU_NAME'			=> $menu_name,
+					'LEVEL'				=> tohtml($menu_level),
+					'MENU_NAME'			=> tohtml($menu_name),
 					'MENU_NAME2'		=> addslashes(clean_html($menu_name)),
-					'LINK'				=> $menu_link,
+					'LINK'				=> tohtml($menu_link),
 					'CONTENT'			=> ($i % 2 == 0) ? 'content' : 'content2'
 				)
 			);
 
 			$tpl->parse('BUTTON_LIST', '.button_list');
-			$rs->MoveNext();
+			$rs->moveNext();
 			$i++;
 		} // end while
 	} // end else
@@ -86,24 +89,33 @@ function add_new_button(&$sql) {
 	} else if ($_POST['uaction'] != 'new_button') {
 		return;
 	} else {
-		$button_name = clean_input($_POST['bname'], true);
+		$button_name = clean_input($_POST['bname']);
 		$button_link = clean_input($_POST['blink']);
 		$button_target = clean_input($_POST['btarget']);
 		$button_view = $_POST['bview'];
 
 		if (empty($button_name) || empty($button_link)) {
-			set_page_message(tr('Missing or incorrect data input!'));
+			set_page_message(
+				tr('Missing or incorrect data input!'),
+				'error'
+			);
 			return;
 		}
 
 		if (!filter_var($button_link, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED)) {
-			set_page_message(tr('Invalid URL!'));
+			set_page_message(
+				tr('Invalid URL!'),
+				'warning'
+			);
 			return;
 		}
 
 		if (!empty($button_target)
 			&& !in_array($button_target, array('_blank', '_parent', '_self', '_top'))) {
-			set_page_message(tr('Invalid target!'));
+			set_page_message(
+				tr('Invalid target!'),
+				'warning'
+			);
 			return;
 		}
 
@@ -123,35 +135,50 @@ function add_new_button(&$sql) {
 				$button_link,
 				$button_target));
 
-		set_page_message(tr('Custom menu data updated successful!'));
+		set_page_message(
+			tr('Custom menu data updated successful!'),
+			'success'
+		);
 		return;
 	}
 }
 
 function delete_button(&$sql) {
 	if ($_GET['delete_id'] === '' || !is_numeric($_GET['delete_id'])) {
-		set_page_message(tr('Missing or incorrect data input!'));
+		set_page_message(
+			tr('Missing or incorrect data input!'),
+			'warning'
+		);
 		return;
 	} else {
 		$delete_id = $_GET['delete_id'];
 
-		$query = <<<SQL_QUERY
+		$query = "
 			DELETE FROM
 				`custom_menus`
 			WHERE
 				`menu_id` = ?
-SQL_QUERY;
+		";
 
-		$rs = exec_query($sql, $query, array($delete_id));
+		$rs = exec_query($sql, $query, $delete_id);
 
-		set_page_message(tr('Custom menu deleted successful!'));
+		set_page_message(
+			tr('Custom menu deleted successful!'),
+			'success'
+		);
 		return;
 	}
 }
 
 function edit_button(&$tpl, &$sql) {
+
+	$cfg = ispCP_Registry::get('Config');
+
 	if ($_GET['edit_id'] === '' || !is_numeric($_GET['edit_id'])) {
-		set_page_message(tr('Missing or incorrect data input!'));
+		set_page_message(
+			tr('Missing or incorrect data input!'),
+			'warning'
+		);
 		return;
 	} else {
 		$edit_id = $_GET['edit_id'];
@@ -165,9 +192,12 @@ function edit_button(&$tpl, &$sql) {
 				`menu_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($edit_id));
-		if ($rs->RecordCount() == 0) {
-			set_page_message(tr('Missing or incorrect data input!'));
+		$rs = exec_query($sql, $query, $edit_id);
+		if ($rs->recordCount() == 0) {
+			set_page_message(
+				tr('Missing or incorrect data input!'),
+				'warning'
+			);
 			$tpl->assign('EDIT_BUTTON', '');
 			return;
 		} else {
@@ -179,32 +209,32 @@ function edit_button(&$tpl, &$sql) {
 			$button_view = $rs->fields['menu_level'];
 
 			if ($button_view === 'admin') {
-				$admin_view = 'selected="selected"';
+				$admin_view = $cfg->HTML_SELECTED;
 				$reseller_view = '';
 				$user_view = '';
 				$all_view = '';
 			} else if ($button_view === 'reseller') {
 				$admin_view = '';
-				$reseller_view = 'selected="selected"';
+				$reseller_view = $cfg->HTML_SELECTED;
 				$user_view = '';
 				$all_view = '';
 			} else if ($button_view === 'user') {
 				$admin_view = '';
 				$reseller_view = '';
-				$user_view = 'selected="selected"';
+				$user_view = $cfg->HTML_SELECTED;
 				$all_view = '';
 			} else {
 				$admin_view = '';
 				$reseller_view = '';
 				$user_view = '';
-				$all_view = 'selected="selected"';
+				$all_view = $cfg->HTML_SELECTED;
 			}
 
 			$tpl->assign(
 				array(
-					'BUTON_NAME'	=> $button_name,
-					'BUTON_LINK'	=> $button_link,
-					'BUTON_TARGET'	=> $button_target,
+					'BUTON_NAME'	=> tohtml($button_name),
+					'BUTON_LINK'	=> tohtml($button_link),
+					'BUTON_TARGET'	=> tohtml($button_target),
 					'ADMIN_VIEW'	=> $admin_view,
 					'RESELLER_VIEW'	=> $reseller_view,
 					'USER_VIEW'		=> $user_view,
@@ -219,30 +249,40 @@ function edit_button(&$tpl, &$sql) {
 }
 
 function update_button(&$sql) {
+
 	if (!isset($_POST['uaction'])) {
 		return;
 	} else if ($_POST['uaction'] != 'edit_button') {
 		return;
 	} else {
-		$button_name = clean_input($_POST['bname'], true);
+		$button_name = clean_input($_POST['bname']);
 		$button_link = clean_input($_POST['blink']);
 		$button_target = clean_input($_POST['btarget']);
 		$button_view = $_POST['bview'];
 		$button_id = $_POST['eid'];
 
 		if (empty($button_name) || empty($button_link) || empty($button_id)) {
-			set_page_message(tr('Missing or incorrect data input!'));
+			set_page_message(
+				tr('Missing or incorrect data input!'),
+				'warning'
+			);
 			return;
 		}
 
 		if (!filter_var($button_link, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED)) {
-			set_page_message(tr('Invalid URL!'));
+			set_page_message(
+				tr('Invalid URL!'),
+				'warning'
+			);
 			return;
 		}
 
 		if (!empty($button_target)
 			&& !in_array($button_target, array('_blank', '_parent', '_self', '_top'))) {
-			set_page_message(tr('Invalid target!'));
+			set_page_message(
+				tr('Invalid target!'),
+				'warning'
+			);
 			return;
 		}
 
@@ -267,7 +307,10 @@ function update_button(&$sql) {
 			)
 		);
 
-		set_page_message(tr('Custom menu data updated successful!'));
+		set_page_message(
+			tr('Custom menu data updated successful!'),
+			'success'
+		);
 		return;
 	}
 }
@@ -276,8 +319,10 @@ require '../include/ispcp-lib.php';
 
 check_login(__FILE__);
 
-$tpl = new pTemplate();
-$tpl->define_dynamic('page', Config::get('ADMIN_TEMPLATE_PATH') . '/custom_menus.tpl');
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/custom_menus.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 $tpl->define_dynamic('button_list', 'page');
@@ -285,18 +330,8 @@ $tpl->define_dynamic('button_list', 'page');
 $tpl->define_dynamic('add_button', 'page');
 $tpl->define_dynamic('edit_button', 'page');
 
-$theme_color = Config::get('USER_INITIAL_THEME');
-
-$tpl->assign(
-	array(
-		'TR_ADMIN_CUSTOM_MENUS_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
-		'THEME_COLOR_PATH' => "../themes/$theme_color",
-		'THEME_CHARSET' => tr('encoding'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id'])
-	)
-);
-gen_admin_mainmenu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, Config::get('ADMIN_TEMPLATE_PATH') . '/menu_settings.tpl');
+gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
+gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
 
 add_new_button($sql);
 
@@ -314,6 +349,7 @@ gen_button_list($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
 		'TR_TITLE_CUSTOM_MENUS' => tr('Manage custom menus'),
 		'TR_ADD_NEW_BUTTON' => tr('Add new button'),
 		'TR_BUTTON_NAME' => tr('Button name'),
@@ -348,7 +384,9 @@ $tpl->parse('PAGE', 'page');
 
 $tpl->prnt();
 
-if (Config::get('DUMP_GUI_DEBUG')) {
+if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 unset_messages();
+?>

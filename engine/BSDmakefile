@@ -2,7 +2,7 @@
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2009 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,13 +21,8 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2009 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
 # isp Control Panel. All Rights Reserved.
-#
-# The ispCP ω Home Page is:
-#
-#    http://isp-control.net
-#
 
 .ifdef $(OSTYPE)==FreeBSD
 .include <../Makefile.fbsd>
@@ -73,13 +68,7 @@ install:
 
 	$(CMD_INSTALL) ./ispcp_common_code.pl $(SYSTEM_ENGINE_ROOT)
 	$(CMD_INSTALL) ./ispcp_common_methods.pl $(SYSTEM_ENGINE_ROOT)
-
-	# keys needed for ispCP engine;
-	$(CMD_INSTALL) ./ispcp-db-keys.pl $(SYSTEM_ENGINE_ROOT)
-
-	# one more copy for auto replay system;
-	$(CMD_INSTALL) ./ispcp-db-keys.pl $(SYSTEM_ENGINE_ROOT)/messenger
-
+	$(CMD_INSTALL) ./ispcp-load-db-keys.pl $(SYSTEM_ENGINE_ROOT) 
 	$(CMD_INSTALL) ./ispcp-apache-logger $(SYSTEM_ENGINE_ROOT)
 	$(CMD_INSTALL) ./ispcp-rqst-mngr $(SYSTEM_ENGINE_ROOT)
 	$(CMD_INSTALL) ./ispcp-dmn-mngr $(SYSTEM_ENGINE_ROOT)
@@ -103,6 +92,7 @@ install:
 
 	$(CMD_INSTALL) ./messenger/ispcp-arpl-msgr $(SYSTEM_ENGINE_ROOT)/messenger
 
+	$(CMD_INSTALL) ./setup/ispcp-permission-functions.sh $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/set-engine-permissions.sh $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/set-gui-permissions.sh $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/reset-setup $(SYSTEM_ENGINE_ROOT)/setup
@@ -112,15 +102,18 @@ install:
 	$(CMD_INSTALL) ./setup/ispcp-uninstall $(SYSTEM_ENGINE_ROOT)/setup
 	$(CMD_INSTALL) ./setup/updDB.php $(SYSTEM_ENGINE_ROOT)/setup
 
+	cp -R ./setup/PerlVendor $(SYSTEM_ENGINE_ROOT)/setup
+	cp -R ./setup/PerlLib $(SYSTEM_ENGINE_ROOT)/setup
+
 	$(CMD_INSTALL) ./tools/ispcp-httpd-logs-mngr $(SYSTEM_ENGINE_ROOT)/tools/ispcp-httpd-logs-mngr
-	$(CMD_INSTALL) ./tools/ispcpphptemp.sh $(SYSTEM_ENGINE_ROOT)/tools/ispcpphptemp.sh
+	$(CMD_INSTALL) ./tools/ispcp-del-logs.sh $(SYSTEM_ENGINE_ROOT)/tools/ispcp-del-logs.sh
+	$(CMD_INSTALL) ./tools/ispcp-del-phptemp.sh $(SYSTEM_ENGINE_ROOT)/tools/ispcp-del-phptemp.sh
 	$(CMD_INSTALL) ./tools/ispcp-net-interfaces-mngr $(SYSTEM_ENGINE_ROOT)/tools/ispcp-net-interfaces-mngr
 
 	$(CMD_INSTALL) ./traffic/ispcp-srv-traff $(SYSTEM_ENGINE_ROOT)/traffic
 	$(CMD_INSTALL) ./traffic/ispcp-vrl-traff $(SYSTEM_ENGINE_ROOT)/traffic
-	$(CMD_INSTALL) ./traffic/ispcp-vrl-traff-correction $(SYSTEM_ENGINE_ROOT)/traffic
 
 uninstall:
 
 	rm -rf $(SYSTEM_ENGINE_ROOT)
-	rm -rf ./*~
+

@@ -3,7 +3,7 @@
 /**
  * the navigation frame - displays server, db and table selection tree
  *
- * @version $Id: navigation.php 12022 2008-11-28 14:35:17Z nijel $
+ * @version $Id$
  * @package phpMyAdmin
  * @uses $GLOBALS['pma']->databases
  * @uses $GLOBALS['server']
@@ -14,6 +14,8 @@
  * @uses $GLOBALS['text_dir']
  * @uses $GLOBALS['charset']
  * @uses $GLOBALS['pmaThemeImage']
+ * @uses $GLOBALS['strNavTableFilter']
+ * @uses $GLOBALS['strReset']
  * @uses $GLOBALS['strNoDatabases']
  * @uses $GLOBALS['strDatabase']
  * @uses $GLOBALS['strGo']
@@ -34,7 +36,6 @@
  * @uses PMA_getTableList()
  * @uses PMA_getRelationsParam()
  * @uses PMA_outBufferPre()
- * @uses session_write_close()
  * @uses strlen()
  * @uses session_write_close()
  * @uses is_array()
@@ -61,23 +62,23 @@ function PMA_exitNavigationFrame()
 }
 
 // keep the offset of the db list in session before closing it
-if (! isset($_SESSION['userconf']['navi_limit_offset'])) {
-    $_SESSION['userconf']['navi_limit_offset'] = 0;
+if (! isset($_SESSION['tmp_user_values']['navi_limit_offset'])) {
+    $_SESSION['tmp_user_values']['navi_limit_offset'] = 0;
 }
-if (! isset($_SESSION['userconf']['table_limit_offset']) || $_SESSION['userconf']['table_limit_offset_db'] != $db) {
-    $_SESSION['userconf']['table_limit_offset'] = 0;
-    $_SESSION['userconf']['table_limit_offset_db'] = $db;
+if (! isset($_SESSION['tmp_user_values']['table_limit_offset']) || $_SESSION['tmp_user_values']['table_limit_offset_db'] != $db) {
+    $_SESSION['tmp_user_values']['table_limit_offset'] = 0;
+    $_SESSION['tmp_user_values']['table_limit_offset_db'] = $db;
 }
 if (isset($_REQUEST['pos'])) {
 	if (isset($_REQUEST['tpos'])) {
-		$_SESSION['userconf']['table_limit_offset'] = (int) $_REQUEST['pos'];
+		$_SESSION['tmp_user_values']['table_limit_offset'] = (int) $_REQUEST['pos'];
 	}
 	else {
-		$_SESSION['userconf']['navi_limit_offset'] = (int) $_REQUEST['pos'];
+		$_SESSION['tmp_user_values']['navi_limit_offset'] = (int) $_REQUEST['pos'];
 	}
 }
-$pos = $_SESSION['userconf']['navi_limit_offset'];
-$tpos = $_SESSION['userconf']['table_limit_offset'];
+$pos = $_SESSION['tmp_user_values']['navi_limit_offset'];
+$tpos = $_SESSION['tmp_user_values']['table_limit_offset'];
 // free the session file, for the other frames to be loaded
 // but only if debugging is not enabled
 if (empty($_SESSION['debug'])) {
@@ -217,7 +218,7 @@ if (! $GLOBALS['server']) {
     <label for="lightm_db"><?php echo $GLOBALS['strDatabase']; ?></label>
     <?php
         echo PMA_generate_common_hidden_inputs() . "\n";
-        echo $GLOBALS['pma']->databases->getHtmlSelectGrouped(true, $_SESSION['userconf']['navi_limit_offset'], $GLOBALS['cfg']['MaxDbList']) . "\n";
+        echo $GLOBALS['pma']->databases->getHtmlSelectGrouped(true, $_SESSION['tmp_user_values']['navi_limit_offset'], $GLOBALS['cfg']['MaxDbList']) . "\n";
         echo '<noscript>' . "\n"
             .'<input type="submit" name="Go" value="' . $GLOBALS['strGo'] . '" />' . "\n"
             .'</noscript>' . "\n"
@@ -226,7 +227,7 @@ if (! $GLOBALS['server']) {
         if (! empty($db)) {
             echo '<div id="databaseList">' . "\n";
         }
-        echo $GLOBALS['pma']->databases->getHtmlListGrouped(true, $_SESSION['userconf']['navi_limit_offset'], $GLOBALS['cfg']['MaxDbList']) . "\n";
+        echo $GLOBALS['pma']->databases->getHtmlListGrouped(true, $_SESSION['tmp_user_values']['navi_limit_offset'], $GLOBALS['cfg']['MaxDbList']) . "\n";
     }
     $_url_params = array('pos' => $pos);
     PMA_listNavigator(count($GLOBALS['pma']->databases), $pos, $_url_params, 'navigation.php', 'frame_navigation', $GLOBALS['cfg']['MaxDbList']);
@@ -296,6 +297,9 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
         echo ' <bdo dir="ltr">(' . $table_count . ')</bdo> ';
     }
     echo '</a></p>';
+    if ($table_count) {
+        echo '<span id=\'NavFilter\' style="display:none;"><span onclick="document.getElementById(\'fast_filter\').value=\'\'; fast_filter(\'\');document.getElementById(\'fast_filter\').focus();" style="background:white;color:black;cursor:pointer;padding:2px;margin:0 0 0 -20px;position:relative;float:right;" title="' . $strReset . '">X</span><input type="text" name="fast_filter" id="fast_filter" title="' . $strNavTableFilter . '" onkeyup="setTimeout(function(word){ return function(){ fast_filter(word);}}(this.value),1000);" style="width:90%;padding:0 -20px 0 0; padding:2px;"  onfocus="this.select();" /></span><script type="text/javascript">document.getElementById(\'NavFilter\').style.display=\'\';</script>';
+    }
 
     /**
      * This helps reducing the navi panel size; in the right panel,
@@ -331,7 +335,7 @@ if ($GLOBALS['cfg']['LeftFrameLight'] && strlen($GLOBALS['db'])) {
     echo '</div>' . "\n";
 
     $common_url_query = PMA_generate_common_url();
-    PMA_displayDbList($GLOBALS['pma']->databases->getGroupedDetails($_SESSION['userconf']['navi_limit_offset'],$GLOBALS['cfg']['MaxDbList']), $_SESSION['userconf']['navi_limit_offset'],$GLOBALS['cfg']['MaxDbList']);
+    PMA_displayDbList($GLOBALS['pma']->databases->getGroupedDetails($_SESSION['tmp_user_values']['navi_limit_offset'],$GLOBALS['cfg']['MaxDbList']), $_SESSION['tmp_user_values']['navi_limit_offset'],$GLOBALS['cfg']['MaxDbList']);
 }
 
 /**
@@ -550,7 +554,8 @@ function PMA_displayTableList($tables, $visible = false,
         echo '<ul id="subel' . $element_counter . '" style="display: none">';
     }
     foreach ($tables as $group => $table) {
-        if (isset($table['is' . $sep . 'group'])) {
+        // only allow grouping if the group has more than 1 table	
+        if (isset($table['is' . $sep . 'group']) && $table['tab' . $sep . 'count'] > 1) {
             $common_url_query = $GLOBALS['common_url_query']
                 . '&amp;tbl_group=' . urlencode($tab_group_full . $group);
 
@@ -606,6 +611,15 @@ function PMA_displayTableList($tables, $visible = false,
             }
             echo '</li>' . "\n";
         } elseif (is_array($table)) {
+            // the table was not grouped because it is the only one with its prefix
+            if (isset($table['is' . $sep . 'group'])) {
+                // get the array with the actual table information
+                foreach ($table as $value) {
+                    if(is_array($value)) {
+                        $table = $value;
+                    }
+                }
+            }
             $link_title = PMA_getTitleForTarget($GLOBALS['cfg']['LeftDefaultTabTable']);
             // quick access icon next to each table name
             echo '<li>' . "\n";

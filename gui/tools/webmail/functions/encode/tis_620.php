@@ -6,23 +6,24 @@
  * takes a string of unicode entities and converts it to a tis-620 encoded string
  * Unsupported characters are replaced with ?.
  *
- * @copyright &copy; 2004-2009 The SquirrelMail Project Team
+ * @copyright 2004-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: tis_620.php 13549 2009-04-15 22:00:49Z jervfors $
+ * @version $Id: tis_620.php 13893 2010-01-25 02:47:41Z pdontthink $
  * @package squirrelmail
  * @subpackage encode
+ *
+ * @author ispCP Team May 2010 based on a patch of Benny Baumann
  */
-
 /**
  * Converts string to tis-620
  * @param string $string text with numeric unicode entities
  * @return string tis-620 encoded text
  */
 function charset_encode_tis_620 ($string) {
-   // don't run encoding function, if there is no encoded characters
-   if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
+    // don't run encoding function, if there is no encoded characters
+    if (! preg_match("'&#[0-9]+;'",$string) ) return $string;
 
-    $string=preg_replace("/&#([0-9]+);/e","unicodetotis620('\\1')",$string);
+    $string=preg_replace_callback("/&#([0-9]+);/","unicodetotis620",$string);
     // $string=preg_replace("/&#[xX]([0-9A-F]+);/e","unicodetotis620(hexdec('\\1'))",$string);
 
     return $string;
@@ -40,6 +41,10 @@ function charset_encode_tis_620 ($string) {
  * @return string tis-620 character
  */
 function unicodetotis620($var) {
+
+	if(is_array($var)) {
+        $var=$var[1];
+    }
 
     $tis620chars=array('3585' => "\xA1",
                        '3586' => "\xA2",

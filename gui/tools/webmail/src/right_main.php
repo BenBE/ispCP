@@ -6,7 +6,7 @@
  * This is where the mailboxes are listed. This controls most of what
  * goes on in SquirrelMail.
  *
- * @copyright &copy; 1999-2009 The SquirrelMail Project Team
+ * @copyright 1999-2010 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
@@ -44,6 +44,11 @@ require_once(SM_PATH . 'functions/html.php');
  *    $username         duh                                *
  *                                                         *
  ***********************************************************/
+
+// Disable Browser Caching //
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: Sat, 1 Jan 2000 00:00:00 GMT');
 
 
 /* lets get the global vars we may need */
@@ -151,6 +156,13 @@ else {
 }
 
 sqimap_mailbox_select($imapConnection, $mailbox);
+
+// the preg_match() is a fix for Dovecot wherein UIDs can be bigger than
+// normal integers - this isn't in 1.4 yet, but when adding new code, why not...
+if (sqgetGlobalVar('unread_passed_id', $unread_passed_id, SQ_GET)
+ && preg_match('/^[0-9]+$/', $unread_passed_id)) {
+    sqimap_toggle_flag($imapConnection, $unread_passed_id, '\\Seen', false, true);
+}
 
 if ($composenew) {
     $comp_uri = SM_PATH . 'src/compose.php?mailbox='. urlencode($mailbox).
