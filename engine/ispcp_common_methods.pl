@@ -2963,8 +2963,6 @@ sub write_ispcp_key_cfg {
 	push_el(\@main::el, 'write_ispcp_key_cfg()', 'Starting...');
 
 	$main::key_conf = "$main::ispcp_etc_dir/ispcp-keys.conf";
-	print $main::key_conf;
-	print "\n";
 
 	$s = "DB_PASS_KEY=$main::db_pass_key\nDB_PASS_IV=$main::db_pass_iv\n";
 
