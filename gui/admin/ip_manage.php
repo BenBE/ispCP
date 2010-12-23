@@ -264,7 +264,7 @@ show_IPs($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/IP manage')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/IP manage'),
 		'TR_SETTINGS'		=> tr('Settings'),
 		'MANAGE_IPS'		=> tr('Manage IPs'),
 		'TR_AVAILABLE_IPS'	=> tr('Available IPs'),

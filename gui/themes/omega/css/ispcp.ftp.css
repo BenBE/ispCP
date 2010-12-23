@@ -29,8 +29,8 @@
 * {
 	color: #000;
 	font-family: Arial, sans-serif;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 h2 {
@@ -62,15 +62,14 @@ th:last-child {
 }
 
 td {
-    border-bottom: 1px solid rgb(223,223,223);
-	border-top: 1px solid rgb(223,223,223);
+    border-bottom: 1px solid #dfdfdf;
+	border-top: 1px solid #dfdfdf;
 	padding: 5px;
 	white-space: nowrap;
 }
 
 .icon {
-	background-position: top left;
-	background-repeat: no-repeat;
+	background: no-repeat top left;
 	height: 16px;
 	line-height: 16px;
 	margin: 0 5px;

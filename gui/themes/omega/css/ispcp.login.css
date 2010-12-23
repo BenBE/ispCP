@@ -29,8 +29,8 @@
 * {
 	color: #000;
 	font-family: Arial, sans-serif;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 a img {
@@ -52,8 +52,7 @@ body {
 }
 
 .button {
-	background: transparent;
-	background-image: url('../images/login/logon_button.png');
+	background: transparent url('../images/login/logon_button.png');
 	border: none;
 	color: #fff;
 	cursor: pointer;
@@ -76,15 +75,12 @@ body {
 	text-align: center;
 	width: 80px;
 	border-radius: 10px;
-	/* Die folgenden Zeilen sind nur fuer alte Browser ohne vollen HTML5 Support */
 	-moz-border-radius:10px;
 	-webkit-border-radius: 10px;
 }
 
 .image_link:hover,
 .image_link:focus {
-	/* Hintergrund mit Alpha Transparenz */
-	/* background: rgba(51, 51, 51, 0.5); */
 	background: rgba(204, 204, 204, 0.5);
 }
 
@@ -95,10 +91,9 @@ body {
 }
 
 .mainbox {
-	background-image: url('../images/login/logon_black.jpg');
-	background-repeat: no-repeat;
+	background: url('../images/login/logon_black.jpg') no-repeat;
 	height: 339px;
-	margin: 0px auto;
+	margin: 0 auto;
 	width: 316px;
 }
 
@@ -108,7 +103,7 @@ body {
 
 .mainbox  fieldset {
 	border: none;
-	margin: 0px auto;
+	margin: 0 auto;
 	width: 270px;
 }
 
@@ -131,8 +126,7 @@ body {
 }
 
 .warning, .success, .error, .info {
-	background-position: 10px center;
-	background-repeat: no-repeat;
+	background: no-repeat 10px center;
 	border: 1px solid;
 	margin: 10px 20px;
 	padding: 15px 10px 15px 50px;
@@ -140,29 +134,25 @@ body {
 }
 
 .warning {
-    color: rgb(149,74,0);
-    border-color: rgb(149,74,0);
-    background-color: rgb(255,236,156);
-    background-image: url(../images/messages/warning.png);
+    color: #954a00;
+    border-color: #954a00;
+	background: #ffec9c url(../images/messages/warning.png);
 }
 
 .success {
-    color: rgb(61,122,21);
-    border-color: rgb(61,122,21);
-    background-color: rgb(214,241,179);
-    background-image: url(../images/messages/success.png);
+    color: #3d7a15;
+    border-color: #3d7a15;
+	background: #d6f1b3 url(../images/messages/success.png);
 }
 
 .error {
-    color: rgb(202,29,17);
-    border-color: rgb(202,29,17);
-    background-color: rgb(253,191,173);
-    background-image: url(../images/messages/error.png);
+    color: #ca1d11;
+    border-color: #ca1d11;
+	background: #fdbfad url(../images/messages/error.png);
 }
 
 .info {
-    color: rgb(15,61,135);
-    border-color: rgb(15,61,135);
-    background-color: rgb(176,222,245);
-    background-image: url(../images/messages/info.png);
+    color: #0f3d87;
+    border-color: #0f3d87;
+	background: #b0def5 url(../images/messages/info.png);
 }

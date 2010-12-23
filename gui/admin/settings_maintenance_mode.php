@@ -71,7 +71,7 @@ gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode')
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode'),
 		'TR_MAINTENANCEMODE' => tr('Maintenance mode'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('If the system is in maintenance mode, only administrators can login'),
 		'TR_MESSAGE_TYPE' => 'warning',
