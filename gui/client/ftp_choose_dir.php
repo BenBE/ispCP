@@ -42,7 +42,9 @@ $tpl->define_dynamic('action_link', 'page');
 $tpl->define_dynamic('list_item', 'page');
 $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_choose_dir.tpl');
 
-
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_directories(&$tpl) {
 
 	$sql = ispCP_Registry::get('Db');

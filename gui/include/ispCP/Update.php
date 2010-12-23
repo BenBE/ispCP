@@ -201,7 +201,6 @@ abstract class ispCP_Update {
 				list($failedUpdate, $queryNb) = $dbConfig->FAILED_UPDATE;
 			} else {
 				$failedUpdate = 'inexistent';
-				$index = -1;
 			}
 
 			try {

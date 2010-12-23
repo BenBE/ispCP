@@ -42,6 +42,11 @@ $tpl->define_dynamic('update_infos', 'page');
 $tpl->define_dynamic('table_header', 'page');
 
 /* BEGIN common functions */
+
+/**
+ * @param ispCP_pTemplate $tpl
+ * @return void
+ */
 function get_update_infos(&$tpl) {
 
 	$cfg = ispCP_Registry::get('Config');

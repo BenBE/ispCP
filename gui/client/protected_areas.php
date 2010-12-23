@@ -48,6 +48,11 @@ $tpl->assign(
 	)
 );
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 	$query = "
 		SELECT
@@ -69,8 +74,6 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 			$tpl->assign('CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			$id = $rs->fields['id'];
-			$user_id = $rs->fields['user_id'];
-			$group_id = $rs->fields['group_id'];
 			$status = $rs->fields['status'];
 			$path = $rs->fields['path'];
 			$auth_name = $rs->fields['auth_name'];

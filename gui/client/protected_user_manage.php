@@ -74,6 +74,11 @@ function gen_group_action($id, $status, $group) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 	$query = "
 		SELECT
@@ -121,7 +126,9 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 }
 
 /**
- * @todo Why is $member = ... out commented?
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
  */
 function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 	$query = "
@@ -144,7 +151,6 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 	} else {
 		$tpl->assign('GRP_MSG', '');
 		while (!$rs->EOF) {
-//			$members = $rs->fields['members'];
 
 			list($group_delete, $group_delete_script) = gen_group_action($rs->fields['id'], $rs->fields['status'], $rs->fields['ugroup']);
 			$tpl->assign(

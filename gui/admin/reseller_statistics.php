@@ -61,6 +61,9 @@ if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = $_GET['year'];
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function generate_page(&$tpl) {
 
 	global $month, $year;
@@ -171,6 +174,13 @@ SQL_QUERY;
 	$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $reseller_name
+ * @param int $row
+ * @return void
+ */
 function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 	global $crnt_month, $crnt_year;
 
@@ -185,23 +195,21 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 		$rdisk_current, $rdisk_max
 	) = generate_reseller_props($reseller_id);
 
-	list($udmn_current, $udmn_max, $udmn_uf,
-		$usub_current, $usub_max, $usub_uf,
-		$uals_current, $uals_max, $uals_uf,
-		$umail_current, $umail_max, $umail_uf,
-		$uftp_current, $uftp_max, $uftp_uf,
-		$usql_db_current, $usql_db_max, $usql_db_uf,
-		$usql_user_current, $usql_user_max, $usql_user_uf,
-		$utraff_current, $utraff_max, $utraff_uf,
-		$udisk_current, $udisk_max, $udisk_uf
+	list($udmn_current, , ,
+		$usub_current, , ,
+		$uals_current, , ,
+		$umail_current, , ,
+		$uftp_current, , ,
+		$usql_db_current, , ,
+		$usql_user_current, , ,
+		$utraff_current, , ,
+		$udisk_current, ,
 	) = generate_reseller_users_props($reseller_id);
 
 	$rtraff_max = $rtraff_max * 1024 * 1024;
 	$rtraff_current = $rtraff_current * 1024 * 1024;
 	$rdisk_max = $rdisk_max * 1024 * 1024;
 	$rdisk_current = $rdisk_current * 1024 * 1024;
-	$utraff_max = $utraff_max * 1024 * 1024;
-	$udisk_max = $udisk_max * 1024 * 1024;
 
 	$traff_show_percent = calc_bar_value($utraff_current, $rtraff_max, 400);
 	$disk_show_percent  = calc_bar_value($udisk_current, $rdisk_max, 400);

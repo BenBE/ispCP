@@ -94,6 +94,10 @@ function get_domain_trafic($from, $to, $domain_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $domain_id
+ */
 function generate_page(&$tpl, $domain_id) {
 
 
@@ -103,18 +107,12 @@ function generate_page(&$tpl, $domain_id) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$fdofmnth = mktime(0, 0, 0, $month, 1, $year);
-	$ldofmnth = mktime(1, 0, 0, $month + 1, 0, $year);
-
 	if ($month == date('m') && $year == date('Y')) {
 		$curday = date('j');
 	} else {
 		$tmp = mktime(1, 0, 0, $month + 1, 0, $year);
 		$curday = date('j', $tmp);
 	}
-
-	$curtimestamp = time();
-	$firsttimestamp = mktime(0, 0, 0, $month, 1, $year);
 
 	$all[0] = 0;
 	$all[1] = 0;
@@ -140,9 +138,7 @@ function generate_page(&$tpl, $domain_id) {
 				`domain_id` = ? AND `dtraff_time` >= ? AND `dtraff_time` <= ?
 		";
 
-		$rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
-
-		$has_data = false;
+		exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 
 		list($web_trf,
 			$ftp_trf,

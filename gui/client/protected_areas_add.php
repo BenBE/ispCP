@@ -194,7 +194,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 				`id` = '$update_id';
 		";
 
-		$rs = exec_query($sql, $query, array($user_id, $group_id, $area_name, $path, $tochange_status));
+		exec_query($sql, $query, array($user_id, $group_id, $area_name, $path, $tochange_status));
 		send_request();
 		set_page_message(tr('Protected area updated successfully!'), 'success');
 	} else {
@@ -205,7 +205,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 				(?, ?, ?, ?, ?, ?, ?);
 		";
 
-		$rs = exec_query($sql, $query, array($dmn_id, $user_id, $group_id, 'Basic' , $area_name, $path, $toadd_status));
+		exec_query($sql, $query, array($dmn_id, $user_id, $group_id, 'Basic' , $area_name, $path, $toadd_status));
 		send_request();
 		set_page_message(tr('Protected area created successfully!'), 'success');
 	}
@@ -213,6 +213,11 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 	user_goto('protected_areas.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');

@@ -87,7 +87,7 @@ function padd_group(&$tpl, &$sql, $dmn_id) {
 						(?, ?, ?)
 				";
 
-				$rs = exec_query($sql, $query, array($dmn_id, $groupname, $change_status));
+				exec_query($sql, $query, array($dmn_id, $groupname, $change_status));
 
 				send_request();
 

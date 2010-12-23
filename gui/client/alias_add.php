@@ -125,11 +125,8 @@ if ($cfg->DUMP_GUI_DEBUG) {
 function check_client_domainalias_counts($sql, $user_id) {
 
 	list(
-		$dmn_id, $dmn_name, $dmn_gid, $dmn_uid,	$dmn_created_id, $dmn_created,
-		$dmn_expires, $dmn_last_modified, $dmn_mailacc_limit, $dmn_ftpacc_limit,
-		$dmn_traff_limit, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_status,
-		$dmn_als_limit, $dmn_subd_limit, $dmn_ip_id, $dmn_disk_limit,
-		$dmn_disk_usage, $dmn_php, $dmn_cgi, $allowbackup, $dmn_dns
+		$dmn_id, , , ,	, ,	, , , ,	, , , ,
+		$dmn_als_limit, , , , , , , ,
 		) = get_domain_default_props($sql, $user_id);
 
 	$als_cnt = get_domain_running_als_cnt($sql, $dmn_id);
@@ -159,11 +156,11 @@ function init_empty_data() {
  * Show data fields
  *
  * @global string $alias_name
- * @global <type> $forward
- * @global <type> $forward_prefix
+ * @global string $forward
+ * @global string $forward_prefix
  * @global string $mount_point
- * @param <type> $tpl
- * @param <type> $reseller_id
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
 
@@ -236,7 +233,7 @@ function add_domain_alias(&$err_al) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$cr_user_id = $domain_id = get_user_domain_id($sql, $_SESSION['user_id']);
+	$cr_user_id = get_user_domain_id($sql, $_SESSION['user_id']);
 	$alias_name	= strtolower($_POST['ndomain_name']);
 	$mount_point = array_encode_idna(strtolower($_POST['ndomain_mpoint']), true);
 
@@ -286,7 +283,7 @@ function add_domain_alias(&$err_al) {
 			} else {
 				$ret = validates_dname($domain, true);
 			}
-			$domain = encode_idna($aurl['host']);
+			
 			if (!$ret) {
 				$err_al = tr("Wrong domain part in forward URL!");
 			} else {
@@ -396,7 +393,7 @@ function add_domain_alias(&$err_al) {
 	;";
 	exec_query($sql, $query, array($cr_user_id, $alias_name, $mount_point, $status, $domain_ip, $forward));
 
-	$als_id = $sql->insertId();
+	$sql->insertId();
 
 	update_reseller_c_props(get_reseller_id($cr_user_id));
 
@@ -424,9 +421,8 @@ function add_domain_alias(&$err_al) {
 } // End of add_domain_alias();
 
 /**
- *
- * @param <type> $tpl
- * @param <type> $error_txt
+ * @param ispCP_pTemplate $tpl
+ * @param string $error_txt
  */
 function gen_page_msg(&$tpl, $error_txt) {
 

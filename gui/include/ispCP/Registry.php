@@ -84,7 +84,7 @@ class ispCP_Registry {
 	 *
 	 * @throws ispCP_Exception
 	 * @param string $index Data key name
-	 * @return mixed Registered data
+	 * @return mixed|ispCP_Config_Handler_File|ispCP_Config_Handler_Db|ispCP_Database Registered data
 	 */
 	public static function &get($index) {
 

@@ -46,6 +46,11 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
 
 // page functions.
+
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_system_message(&$tpl, &$sql) {
 	$user_id = $_SESSION['user_id'];
 
@@ -86,7 +91,12 @@ function gen_system_message(&$tpl, &$sql) {
 	}
 }
 
-
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
 function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	if (0 !== $max_usage) {
 		list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
@@ -106,6 +116,12 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
 function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	if (0 !== $max_usage) {
 		list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
@@ -125,6 +141,11 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $reseller_name
+ */
 function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	global $crnt_month, $crnt_year;
 
@@ -160,7 +181,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 
 	list($udmn_current,,,$usub_current,,,$uals_current,,,$umail_current,,,
 		$uftp_current,,,$usql_db_current,,,$usql_user_current,,,$utraff_current,
-		$utraff_max,,$udisk_current, $udisk_max
+		,,$udisk_current
 	) = generate_reseller_user_props($reseller_id);
 
 	// Convert into MB values
@@ -168,8 +189,6 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	$rtraff_current = $rtraff_current * 1024 * 1024;
 	$rdisk_max = $rdisk_max * 1024 * 1024;
 	$rdisk_current = $rdisk_current * 1024 * 1024;
-	$utraff_max = $utraff_max * 1024 * 1024;
-	$udisk_max = $udisk_max * 1024 * 1024;
 
 	if ($rtraff_max != 0) {
 		$traff_percent = sprintf("%.2f", 100 * $utraff_current / $rtraff_max);
@@ -190,6 +209,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	} else {
 		$tpl->assign('TRAFF_WARN', '');
 	}
+	
 	// warning HDD Usage
 	if ($rdisk_max > 0) {
 		if ($udisk_current > $rdisk_max) {
@@ -255,6 +275,10 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 	);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $admin_id
+ */
 function gen_messages_table(&$tpl, $admin_id) {
 	$sql = ispCP_Registry::get('Db');
 

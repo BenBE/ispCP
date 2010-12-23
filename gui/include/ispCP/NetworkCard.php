@@ -109,7 +109,7 @@ class ispCP_NetworkCard {
 	/**
 	 * Should be documented
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function network() {
 
@@ -126,7 +126,7 @@ class ispCP_NetworkCard {
 	 */
 	private function _getInterface() {
 
-		foreach ($this->network() as $key => $value) {
+		foreach ($this->network() as $value) {
 			$this->_interfaces[] = trim($value);
 		}
 	}

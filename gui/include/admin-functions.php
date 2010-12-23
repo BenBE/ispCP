@@ -69,6 +69,10 @@ function encode($in_str, $charset = 'UTF-8') {
 	return $out_str;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
+ */
 function gen_admin_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -184,6 +188,10 @@ function gen_admin_mainmenu(&$tpl, $menu_file) {
 	$tpl->parse('MAIN_MENU', 'menu');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
+ */
 function gen_admin_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -310,6 +318,10 @@ function get_sql_user_count($sql) {
 	return $rs->recordCount();
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function get_admin_general_info(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -378,6 +390,11 @@ function get_admin_general_info(&$tpl, &$sql) {
 	);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @return void
+ */
 function gen_admin_list(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -485,6 +502,10 @@ function gen_admin_list(&$tpl, &$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_reseller_list(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -592,6 +613,10 @@ function gen_reseller_list(&$tpl, &$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_user_list(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -856,6 +881,10 @@ function gen_user_list(&$tpl, &$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function get_admin_manage_users(&$tpl, &$sql) {
 
 	$tpl->assign(
@@ -1453,6 +1482,11 @@ function sub_records_rlike_count($field, $table, $where, $value, $subfield,
 	return $result;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_month
+ * @param int $user_year
+ */
 function gen_select_lists(&$tpl, $user_month, $user_year) {
 
 	global $crnt_month, $crnt_year;
@@ -1793,6 +1827,9 @@ function update_reseller_props($reseller_id, $props) {
 	return $res;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_logged_from(&$tpl) {
 
 	if(isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])) {
@@ -1909,7 +1946,7 @@ function change_domain_status(&$sql, $domain_id, $domain_name, $action,
 		;
 	";
 
-	$rs = exec_query($sql, $query, array($new_status, $domain_id));
+	exec_query($sql, $query, array($new_status, $domain_id));
 	send_request();
 
 	// let's get back to user overview after the system changes are finished
@@ -2076,6 +2113,12 @@ function gen_admin_domain_query(&$search_query, &$count_query, $start_index,
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $search_for
+ * @param string $search_common
+ * @param string $search_status
+ */
 function gen_admin_domain_search_options(&$tpl, $search_for, $search_common,
 	$search_status) {
 
@@ -2084,7 +2127,7 @@ function gen_admin_domain_search_options(&$tpl, $search_for, $search_common,
 	if($search_for == 'n/a' && $search_common == 'n/a' &&
 		$search_status == 'n/a') {
 
-		// we have no search and let's genarate search fields empty
+		// we have no search and let's generate search fields empty
 		$domain_selected = $cfg->HTML_SELECTED;
 		$customerid_selected = '';
 		$lastname_selected = '';
@@ -2492,9 +2535,13 @@ function delete_domain($domain_id, $goto, $breseller = false) {
 }
 
 /**
-* @todo use template(s) instead of hardcoded (X)HTML
-* @todo possible SESSION hijackin for $_SESSION['user_theme']
-*/
+ * @todo use template(s) instead of hardcoded (X)HTML
+ * @todo possible SESSION hijackin for $_SESSION['user_theme']
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param bool encode
+ */
 function gen_purchase_haf(&$tpl, &$sql, $user_id, $encode = false) {
 
 	$cfg = ispCP_Registry::get('Config');

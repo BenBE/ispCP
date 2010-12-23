@@ -82,7 +82,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Lostpw email setup')
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Lostpw email setup'),
 		'TR_LOSTPW_EMAIL' => tr('Lost password e-mail'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),

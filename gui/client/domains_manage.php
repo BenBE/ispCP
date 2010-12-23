@@ -53,8 +53,15 @@ $tpl->define_dynamic('dns_item', 'dns_list');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @return void
+ */
 function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 	$domain_id = get_user_domain_id($sql, $user_id);
+	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
 		SELECT
@@ -202,6 +209,11 @@ function gen_user_sub_forward($sub_id, $sub_status, $url_forward, $dmn_type) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 
 	$domain_id = get_user_domain_id($sql, $user_id);
@@ -338,6 +350,11 @@ function gen_user_als_forward($als_id, $als_status, $url_forward) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_user_als_list(&$tpl, &$sql, $user_id) {
 
 	$domain_id = get_user_domain_id($sql, $user_id);

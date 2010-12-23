@@ -102,7 +102,7 @@ $tpl->assign(
  * Dynamic page process
  */
 
-if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
+if (isset($_POST['uaction']) && ('edit_plan' === $_POST['uaction'])) {
 	// Process data
 	if (check_data_iscorrect($tpl)) { // Save data to db
 		save_data_to_db();
@@ -134,6 +134,8 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Restore form on any error
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
  */
 function restore_form(&$tpl, &$sql) {
 	$cfg = ispCP_Registry::get('Config');
@@ -174,6 +176,10 @@ function restore_form(&$tpl, &$sql) {
 
 /**
  * Generate load data from sql for requested hosting plan
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $hpid
+ * @param int $admin_id
  */
 function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 	$cfg = ispCP_Registry::get('Config');
@@ -311,6 +317,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 /**
  * Check correction of input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_data_iscorrect(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
@@ -487,7 +494,7 @@ function save_data_to_db() {
 				;
 			";
 
-			$res = exec_query(
+			exec_query(
 				$sql,
 				$query,
 				array(

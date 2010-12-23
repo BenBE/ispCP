@@ -53,6 +53,9 @@ if (isset($_GET['month']) && isset($_GET['year']) && isset($_GET['day'])
 	user_goto('server_statistic.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function generate_page(&$tpl) {
 	$sql = ispCP_Registry::get('Db');
 	global $month, $year, $day;
@@ -68,8 +71,6 @@ function generate_page(&$tpl) {
 
 	$all_other_in = 0;
 	$all_other_out = 0;
-
-	$row = 1;
 
 	$ftm = mktime(0, 0, 0, $month, $day, $year);
 	$ltm = mktime(23, 59, 59, $month, $day, $year);

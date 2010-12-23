@@ -43,8 +43,8 @@ $reseller_id = $_SESSION['user_id'];
 /**
  * Generate List of Domains assigned to IPs
  *
- * @param reference $tpl	The TPL object
- * @param reference $sql	The SQL object
+ * @param ispCP_pTemplate $tpl	The TPL object
+ * @param ispCP_Database $sql	The SQL object
  */
 function listIPDomains(&$tpl, &$sql) {
 	

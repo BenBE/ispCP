@@ -110,7 +110,7 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 					VALUES
 						(?, ?, ?, ?)
 				";
-				$rs = exec_query($sql, $query, array($dmn_id, $uname, $upass, $status));
+				exec_query($sql, $query, array($dmn_id, $uname, $upass, $status));
 
 				send_request();
 

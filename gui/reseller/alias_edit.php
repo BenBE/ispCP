@@ -110,6 +110,8 @@ unset_messages();
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
  */
 function gen_editalias_page(&$tpl, $edit_id) {
 	$sql = ispCP_Registry::get('Db');
@@ -208,6 +210,8 @@ function gen_editalias_page(&$tpl, $edit_id) {
 
 /**
  * Check input data
+ * @param ispCP_pTemplate $tpl
+ * @param int $alias_id
  */
 function check_fwd_data(&$tpl, $alias_id) {
 

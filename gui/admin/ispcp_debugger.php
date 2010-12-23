@@ -574,6 +574,11 @@ function get_error_mails($sql, $tpl) {
 	return $errors;
 }
 
+/**
+ * @param ispCP_Database $sql
+ * @param ispCP_pTemplate $tpl
+ * @return int number of errors
+ */
 function get_error_htaccess($sql, $tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -671,6 +676,7 @@ function get_error_htaccess($sql, $tpl) {
 			$rs->moveNext();
 		}
 	}
+
 	return $errors;
 }
 

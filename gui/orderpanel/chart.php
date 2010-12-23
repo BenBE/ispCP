@@ -44,6 +44,12 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * functions start
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $plan_id
+ */
 function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -126,6 +132,9 @@ function gen_chart(&$tpl, &$sql, $user_id, $plan_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_personal_data(&$tpl) {
 
 	$first_name		= (isset($_SESSION['fname'])) ? $_SESSION['fname'] : '';

@@ -100,7 +100,7 @@ function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
 				AND
 					`id` = ?
 			";
-			$rs = exec_query($sql, $query, array($nadmin_password, $change_status, $dmn_id, $uuser_id,));
+			exec_query($sql, $query, array($nadmin_password, $change_status, $dmn_id, $uuser_id,));
 
 			send_request();
 

@@ -122,6 +122,10 @@ unset_messages();
 
 // Begin function block
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $admin_id
+ */
 function generate_users_list(&$tpl, $admin_id) {
 
 	$sql = ispCP_Registry::get('Db');

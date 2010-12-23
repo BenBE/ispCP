@@ -45,6 +45,10 @@ $tpl->define_dynamic('src_reseller_option', 'src_reseller');
 $tpl->define_dynamic('dst_reseller', 'page');
 $tpl->define_dynamic('dst_reseller_option', 'dst_reseller');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_user_table(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -191,7 +195,7 @@ function gen_user_table(&$tpl, &$sql) {
 	}
 }
 
-function update_reseller_user($sql) {
+function update_reseller_user() {
 
 	if (isset($_POST['uaction'])
 		&& $_POST['uaction'] === 'move_user'
@@ -320,12 +324,12 @@ function manage_reseller_limits($dest_reseller, $src_reseller, $users, &$err) {
 
 		$domain_id = $rs->fields['domain_id'];
 
-		list($sub_current, $sub_max,
-			$als_current, $als_max,
-			$mail_current, $mail_max,
-			$ftp_current, $ftp_max,
-			$sql_db_current, $sql_db_max,
-			$sql_user_current, $sql_user_max,
+		list(, $sub_max,
+			, $als_max,
+			, $mail_max,
+			, $ftp_max,
+			, $sql_db_max,
+			, $sql_user_max,
 			$traff_max, $disk_max
 		) = generate_user_props($domain_id);
 
@@ -495,7 +499,7 @@ function check_ip_sets($dest, $users, &$err) {
 gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
-update_reseller_user($sql);
+update_reseller_user();
 
 gen_user_table($tpl, $sql);
 

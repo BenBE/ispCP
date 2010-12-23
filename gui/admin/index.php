@@ -44,6 +44,11 @@ $tpl->define_dynamic('update_message', 'page');
 $tpl->define_dynamic('database_update_message', 'page');
 $tpl->define_dynamic('traff_warn', 'page');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @return void
+ */
 function gen_system_message(&$tpl, &$sql) {
 	$user_id = $_SESSION['user_id'];
 
@@ -79,10 +84,13 @@ function gen_system_message(&$tpl, &$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @return void
+ */
 function get_update_infos(&$tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
-	$sql = ispCP_Registry::get('Db');
 
 	if (ispCP_Update_Database::getInstance()->checkUpdateExists()) {
 		$tpl->assign(
@@ -130,6 +138,10 @@ function get_update_infos(&$tpl) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @return void
+ */
 function gen_server_trafic(&$tpl) {
 	$sql = ispCP_Registry::get('Db');
 
@@ -189,7 +201,6 @@ function gen_server_trafic(&$tpl) {
 
 	$bar_value = calc_bar_value($traff, $straff_max, 400);
 
-	$traff_msg = '';
 	$percent = 0;
 	if ($straff_max == 0) {
 		$traff_msg = tr('%1$d%% [%2$s of unlimited]', $pr, sizeit($mtraff));

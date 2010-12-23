@@ -197,8 +197,6 @@ function validate_domain_deletion($domain_id) {
 		user_goto('manage_users.php');
 	}
 
-	$reseller = $data['domain_created_id'];
-
 	$tpl->assign(
 		array(
 			'TR_DELETE_DOMAIN'	=> tr('Delete domain'),
@@ -314,7 +312,6 @@ function validate_domain_deletion($domain_id) {
 		$query .= ")";
 		$res = exec_query($sql, $query);
 		while (!$res->EOF) {
-			$any_sub_found = true;
 			$tpl->assign(
 				array(
 					'SUB_NAME' => tohtml($res->fields['subdomain_alias_name']),

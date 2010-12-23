@@ -74,7 +74,7 @@ class ispCP_pTemplate {
 	/**
 	 * Constructor
 	 *
-	 * @param String $r_dir Folder where the Template file is located
+	 * @param string $r_dir Folder where the Template file is located
 	 */
 	public function __construct($r_dir = "", $login = false) {
 		$this->tpl_name = array();
@@ -422,7 +422,6 @@ class ispCP_pTemplate {
 	public function parse_dynamic($pname, $tname, $ADD_FLAG) {
 		$CHILD = false;
 		$parent = '';
-		$swap = '';
 
 		if (!preg_match('/\.[Tt][Pp][Ll]/', @$this->dtpl_name[$tname])
 			&& !preg_match('/_no_file_/', @$this->dtpl_name[$tname])) {

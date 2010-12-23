@@ -39,6 +39,12 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/error_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param string $eid
+ */
 function gen_error_page_data(&$tpl, &$sql, $user_id, $eid) {
 
 	$domain = $_SESSION['user_logged'];

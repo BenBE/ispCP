@@ -204,6 +204,8 @@ function get_menu_vars($menu_link) {
 
 /**
  * @todo currently not being used because there's only one layout/theme
+ * @param ispCP_pTemplate $tpl
+ * @param string $user_def_layout
  */
 function gen_def_layout(&$tpl, $user_def_layout) {
 

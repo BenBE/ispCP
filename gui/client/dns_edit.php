@@ -218,6 +218,8 @@ function decode_zone_data($data) {
 
 /**
  * @todo use template loop instead of this hardcoded HTML
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
  */
 function gen_editdns_page(&$tpl, $edit_id) {
 
@@ -225,7 +227,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	list(
-		$dmn_id, $dmn_name,,,,,,,,,,,,,,,,,,,,,$dmn_dns
+		$dmn_id, ,,,,,,,,,,,,,,,,,,,,,$dmn_dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	if ($dmn_dns != 'yes') {
@@ -451,6 +453,12 @@ function validate_NAME($domain, &$err) {
 	return true;
 }
 
+/**
+ * @throws ispCP_Exception_Database
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
+ * @return bool
+ */
 function check_fwd_data(&$tpl, $edit_id) {
 
 	global $sql;
@@ -460,7 +468,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
 	$err = '';
 
 	$_text = '';

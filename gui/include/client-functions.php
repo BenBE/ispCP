@@ -472,13 +472,17 @@ function get_domain_running_props_cnt(&$sql, $domain_id) {
 	$sub_cnt = get_domain_running_sub_cnt($sql, $domain_id);
 	$als_cnt = get_domain_running_als_cnt($sql, $domain_id);
 
-	list($mail_acc_cnt, $dmn_mail_acc_cnt, $sub_mail_acc_cnt, $als_mail_acc_cnt, $alssub_mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $domain_id);
-	list($ftp_acc_cnt, $dmn_ftp_acc_cnt, $sub_ftp_acc_cnt, $als_ftp_acc_cnt) = get_domain_running_ftp_acc_cnt($sql, $domain_id);
+	list($mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $domain_id);
+	list($ftp_acc_cnt) = get_domain_running_ftp_acc_cnt($sql, $domain_id);
 	list($sqld_acc_cnt, $sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $domain_id);
 
 	return array($sub_cnt, $als_cnt, $mail_acc_cnt, $ftp_acc_cnt, $sqld_acc_cnt, $sqlu_acc_cnt);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
+ */
 function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -583,29 +587,12 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 		} // end while
 	} // end else
 
-	list(
-		$dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$domain_expires,
-		$dmn_last_modified,
+	list(,,,,,,,,
 		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
+		$dmn_ftpacc_limit,,
+		$dmn_sqld_limit,,,
 		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
+		$dmn_subd_limit,,,,,,,
 		$domain_dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
@@ -651,6 +638,11 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 	$tpl->parse('MAIN_MENU', 'menu');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
+ * @return void
+ */
 function gen_client_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -769,29 +761,10 @@ function gen_client_menu(&$tpl, $menu_file) {
 		$tpl->assign('SUPPORT_SYSTEM', '');
 	}
 
-	list(
-		$dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
+	list($dmn_id,,,,,,,,
+		$dmn_mailacc_limit,,,,,,
 		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
+		$dmn_subd_limit,,,,,,,
 		$dmn_dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
@@ -978,34 +951,37 @@ function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
 	$db_user_name = $rs->fields['sqlu_name'];
 
 	if (count_sql_user_by_name($sql, $rs->fields['sqlu_name']) == 0) {
-		$db_id = $rs->fields['sqld_id'];
 
 		// revoke grants on global level, if any;
 		$query = "REVOKE ALL ON *.* FROM ?@'%';";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 
 		$query = "REVOKE ALL ON *.* FROM ?@localhost;";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 
 		// delete user record from mysql.user table;
 		$query = "DROP USER ?@'%';";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 
 		$query = "DROP USER ?@'localhost';";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 
 		// flush privileges.
 		$query = "FLUSH PRIVILEGES;";
-		$rs = exec_query($sql, $query);
+		exec_query($sql, $query);
 	} else {
 		$query = "REVOKE ALL ON $db_name.* FROM ?@'%';";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 
 		$query = "REVOKE ALL ON $db_name.* FROM ?@localhost;";
-		$rs = exec_query($sql, $query, $db_user_name);
+		exec_query($sql, $query, $db_user_name);
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @return void
+ */
 function check_permissions(&$tpl) {
 
 	if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
@@ -1113,8 +1089,6 @@ function delete_sql_database(&$sql, $dmn_id, $db_id) {
 	if ($rs->recordCount() != 0) {
 		while (!$rs->EOF) {
 			$db_user_id = $rs->fields['db_user_id'];
-
-			$db_user_name = $rs->fields['db_user_name'];
 
 			sql_delete_user($sql, $dmn_id, $db_user_id);
 

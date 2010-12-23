@@ -72,6 +72,11 @@ function check_email_user(&$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $mail_id
+ */
 function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -100,7 +105,7 @@ function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 				`mail_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($item_change_status, $arsp_message, $mail_id));
+		exec_query($sql, $query, array($item_change_status, $arsp_message, $mail_id));
 
 		send_request();
 		$query = "
@@ -143,10 +148,8 @@ function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
 		";
 
 		$rs = exec_query($sql, $query, $mail_id);
-		$mail_name = $rs->fields['mail_acc'];
 
 		$tpl->assign('ARSP_MESSAGE', tohtml($rs->fields['mail_auto_respond_text']));
-		return;
 	}
 }
 

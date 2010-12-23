@@ -196,6 +196,7 @@ function check_user_data() {
 
 /**
  * Show empty page
+ * @param ispCP_pTemplate $tpl
  */
 function get_empty_au1_page(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
@@ -213,6 +214,7 @@ function get_empty_au1_page(&$tpl) {
 
 /**
  * Show first page of add user with data
+ * @param ispCP_pTemplate $tpl
  */
 function get_data_au1_page(&$tpl) {
 	global $dmn_name; // Domain name
@@ -236,6 +238,8 @@ function get_data_au1_page(&$tpl) {
 
 /**
  * Get list with hosting plan for selection
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function get_hp_data_list(&$tpl, $reseller_id) {
 	global $dmn_chp;

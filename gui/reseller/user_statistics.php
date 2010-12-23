@@ -68,6 +68,11 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('./reseller_statistics.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $reseller_name
+ */
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -180,6 +185,11 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param int $row
+ */
 function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	global $crnt_month, $crnt_year;

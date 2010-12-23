@@ -42,6 +42,10 @@ define('MT_SUBDOM_CATCHALL', 'subdom_catchall');
 define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
+ */
 function gen_reseller_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -142,6 +146,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 
 /**
  * Function to generate the menu data for reseller
+ * @param ispCP_pTemplate $tpl
+ * @param string $menu_file
  */
 function gen_reseller_menu(&$tpl, $menu_file) {
 
@@ -369,16 +375,9 @@ function generate_reseller_user_props($reseller_id) {
 			$traff_max, $disk_max
 		) = get_user_props($user_id);
 
-		list($tmpval1,
-			$tmpval2,
-			$tmpval3,
-			$tmpval4,
-			$tmpval5,
-			$tmpval16,
+		list(,,,,,,
 			$traff_current,
-			$disk_current,
-			$tmpval7,
-			$tmpval8
+			$disk_current
 		) = generate_user_traffic($user_id);
 
 		$rdmn_current += 1;
@@ -630,6 +629,8 @@ function get_user_props($user_id) {
 
 /**
  * Generate IP list
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function generate_ip_list(&$tpl, &$reseller_id) {
 
@@ -787,8 +788,8 @@ function check_ruser_data(&$tpl, $noPass) {
 /**
  * Translates an ispCP item constant to a human readable, translated text
  *
- * @param Const $status item status
- * @return String		human readable translated status
+ * @param string $status item status
+ * @return string		human readable translated status
  */
 function translate_dmn_status($status) {
 
@@ -874,7 +875,6 @@ function ispcp_domain_exists($domain_name, $reseller_id) {
 	";
 	// here we split the domain name by point separator
 	$split_domain = explode(".", trim($domain_name));
-	$dom_cnt = strlen(trim($domain_name));
 	$dom_part_cnt = 0;
 	$error = 0;
 	// here starts a loop to check if the splitted domain is available for other resellers
@@ -1063,6 +1063,12 @@ function gen_manage_domain_query(&$search_query, &$count_query,
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $search_for
+ * @param string $search_common
+ * @param string $search_status
+ */
 function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 	$search_status) {
 
@@ -1196,6 +1202,9 @@ function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 
 /**
  * @todo implement use of more secure dynamic table in SQL query
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param string $userdef_language
  */
 function gen_def_language(&$tpl, &$sql, $user_def_language) {
 
@@ -1268,6 +1277,11 @@ function gen_def_language(&$tpl, &$sql, $user_def_language) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $domain_id
+ */
 function gen_domain_details(&$tpl, &$sql, $domain_id) {
 
 	$tpl->assign('USER_DETAILS', '');
@@ -1351,7 +1365,7 @@ function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops 
 		$props = $newprops;
 	}
 
-	list($php_new, $cgi_new, $sub_new,
+	list(, , $sub_new,
 		$als_new, $mail_new, $ftp_new,
 		$sql_db_new, $sql_user_new,
 		$traff_new, $disk_new) = explode(";", $props);
@@ -1679,10 +1693,7 @@ function send_alias_order_email($alias_name) {
 	$headers .= "Content-Transfer-Encoding: 8bit\n";
 	$headers .= "X-Mailer: ispCP {$cfg->Version} Service Mailer";
 
-	$mail_result = mail($to, $subject, $message, $headers);
-
-	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
-
+	mail($to, $subject, $message, $headers);
 }
 
 /**
@@ -1716,7 +1727,7 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part,
 		";
 
 		// create default forwarder for webmaster@domain.tld to the account's owner
-		$rs = exec_query(
+		exec_query(
 			$sql, $query,
 			array(
 				'webmaster', '_no_', $user_email, $dmn_id, $forward_type,
@@ -1726,7 +1737,7 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part,
 		);
 
 		// create default forwarder for postmaster@domain.tld to the account's reseller
-		$rs = exec_query(
+		exec_query(
 			$sql, $query,
 			array(
 				'postmaster', '_no_', $_SESSION['user_email'], $dmn_id,
@@ -1736,7 +1747,7 @@ function client_mail_add_default_accounts($dmn_id, $user_email, $dmn_part,
 		);
 
 		// create default forwarder for abuse@domain.tld to the account's reseller
-		$rs = exec_query(
+		exec_query(
 			$sql, $query,
 			array(
 				'abuse', '_no_', $_SESSION['user_email'], $dmn_id,
@@ -1893,15 +1904,12 @@ function check_reseller_permissions($reseller_id, $permission) {
 
 	$sql = ispCP_Registry::get('Db');
 
-	list($rdmn_current, $rdmn_max,
-			$rsub_current, $rsub_max,
-			$rals_current, $rals_max,
-			$rmail_current, $rmail_max,
-			$rftp_current, $rftp_max,
-			$rsql_db_current, $rsql_db_max,
-			$rsql_user_current, $rsql_user_max,
-			$rtraff_current, $rtraff_max,
-			$rdisk_current, $rdisk_max
+	list(,,,
+		$rsub_max,,
+		$rals_max,,
+		$rmail_max,, $rftp_max,,
+		$rsql_db_max,,
+		$rsql_user_max
 		) = get_reseller_default_props($sql, $reseller_id);
 
 	if ($permission == "all_permissions") {

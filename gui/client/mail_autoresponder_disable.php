@@ -56,7 +56,6 @@ function check_email_user(&$sql) {
 ";
 
 	$rs = exec_query($sql, $query, array($mail_id, $dmn_name));
-	$mail_acc = $rs->fields['mail_acc'];
 
 	if ($rs->recordCount() == 0) {
 		set_page_message(

@@ -65,6 +65,11 @@ function get_alias_mount_point(&$sql, $alias_name) {
 	return $rs->fields['alias_mount'];
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $dmn_name
+ * @param string $post_check
+ */
 function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -98,6 +103,12 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param string $post_check
+ */
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -159,6 +170,13 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param string $dmn_name
+ * @param string $post_check
+ */
 function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -228,29 +246,10 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 	$rs = exec_query($sql, $query, $dmn_name);
 
 	if ($rs->recordCount() == 0) { // there is no such group. we'll need a new one.
-		list($temp_dmn_id,
+		list(,
 			$temp_dmn_name,
-			$temp_dmn_gid,
-			$temp_dmn_uid,
-			$temp_dmn_created_id,
-			$temp_dmn_created,
-			$temp_dmn_expires,
-			$temp_dmn_last_modified,
-			$temp_dmn_mailacc_limit,
-			$temp_dmn_ftpacc_limit,
-			$temp_dmn_traff_limit,
-			$temp_dmn_sqld_limit,
-			$temp_dmn_sqlu_limit,
-			$temp_dmn_status,
-			$temp_dmn_als_limit,
-			$temp_dmn_subd_limit,
-			$temp_dmn_ip_id,
-			$temp_dmn_disk_limit,
-			$temp_dmn_disk_usage,
-			$temp_dmn_php,
-			$temp_dmn_cgi,
-			$allowbackup,
-			$dmn_dns
+			$temp_dmn_gid,,,,,,,,,,,,,,,
+			$temp_dmn_disk_limit
 		) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 		$query = "
@@ -260,7 +259,7 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 				(?, ?, ?)
 		";
 
-		$rs = exec_query($sql, $query, array($dmn_name, $temp_dmn_gid, $ftp_user));
+		exec_query($sql, $query, array($dmn_name, $temp_dmn_gid, $ftp_user));
 		// add entries in the quota tables
 		// first check if we have it by one or other reason
 		$query = "SELECT COUNT(`name`) AS cnt FROM `quotalimits` WHERE `name` = ?";
@@ -282,7 +281,7 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 					(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			";
 
-			$rs = exec_query($sql, $query, array($temp_dmn_name, 'group', 'false', 'hard', $dlim, 0, 0, 0, 0, 0));
+			exec_query($sql, $query, array($temp_dmn_name, 'group', 'false', 'hard', $dlim, 0, 0, 0, 0, 0));
 		}
 
 		return $temp_dmn_gid;
@@ -305,7 +304,7 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 				`groupname` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($members, $ftp_gid, $dmn_name));
+		exec_query($sql, $query, array($members, $ftp_gid, $dmn_name));
 		return $ftp_gid;
 	}
 }
@@ -331,30 +330,7 @@ function get_ftp_user_uid(&$sql, $dmn_name, $ftp_user, $ftp_user_gid) {
 		return -1;
 	}
 
-	list($temp_dmn_id,
-		$temp_dmn_name,
-		$temp_dmn_gid,
-		$temp_dmn_uid,
-		$temp_dmn_created_id,
-		$temp_dmn_created,
-		$temp_dmn_expires,
-		$temp_dmn_last_modified,
-		$temp_dmn_mailacc_limit,
-		$temp_dmn_ftpacc_limit,
-		$temp_dmn_traff_limit,
-		$temp_dmn_sqld_limit,
-		$temp_dmn_sqlu_limit,
-		$temp_dmn_status,
-		$temp_dmn_als_limit,
-		$temp_dmn_subd_limit,
-		$temp_dmn_ip_id,
-		$temp_dmn_disk_limit,
-		$temp_dmn_disk_usage,
-		$temp_dmn_php,
-		$temp_dmn_cgi,
-		$allowbackup,
-		$dmn_dns
-	) = get_domain_default_props($sql, $_SESSION['user_id']);
+	list(,,,$temp_dmn_uid) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	return $temp_dmn_uid;
 }
@@ -439,7 +415,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 			(?, ?, ?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($ftp_user, $ftp_passwd, $ftp_uid, $ftp_gid, $ftp_shell, $ftp_home));
+	exec_query($sql, $query, array($ftp_user, $ftp_passwd, $ftp_uid, $ftp_gid, $ftp_shell, $ftp_home));
 
 	$domain_props = get_domain_default_props($sql, $_SESSION['user_id']);
 	update_reseller_c_props($domain_props[4]);
@@ -521,31 +497,11 @@ function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
 
 function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
+		$dmn_name,,,,,,,,
+		$dmn_ftpacc_limit
 	) = get_domain_default_props($sql, $user_id);
 
-	list($ftp_acc_cnt, $dmn_ftp_acc_cnt, $sub_ftp_acc_cnt, $als_ftp_acc_cnt) = get_domain_running_ftp_acc_cnt($sql, $dmn_id);
+	list($ftp_acc_cnt, , , ) = get_domain_running_ftp_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_ftpacc_limit != 0 && $ftp_acc_cnt >= $dmn_ftpacc_limit) {
 		set_page_message(tr('FTP accounts limit reached!'), 'warning');
@@ -565,6 +521,9 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_page_js(&$tpl) {
 
 	if (isset($_SESSION['subdomain_count'])

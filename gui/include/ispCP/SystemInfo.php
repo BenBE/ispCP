@@ -641,7 +641,7 @@ class ispCP_SystemInfo {
 	/**
 	 * Gets the content of a file if sucessful or and error otherwise.
 	 *
-	 * @param dtring $filename Path to file
+	 * @param string $filename Path to file
 	 * @return bool|string
 	 */
 	protected function read($filename) {

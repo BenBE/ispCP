@@ -52,12 +52,16 @@ function kill_session($sql) {
 				`session_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, $admin_name);
+		exec_query($sql, $query, $admin_name);
 		set_page_message(tr('User session was killed!'), 'notice');
 		write_log($_SESSION['user_logged'] . ": killed user session: $admin_name!");
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_user_sessions(&$tpl, &$sql) {
 	$query = "
 		SELECT

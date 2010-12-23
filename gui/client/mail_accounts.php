@@ -140,7 +140,7 @@ function gen_user_mail_auto_respond(
  * Must be documented
  *
  * @param ispCP_pTemplate $tpl reference to pTemplate object
- * @param ispCP_Databse $sql reference to ispcp_Database object
+ * @param ispCP_Database $sql reference to ispcp_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
  * @return int number of domain mails adresses
@@ -517,7 +517,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param pTtempalte $tpl reference to pTemplate object
+ * @param ispCP_pTemplate $tpl reference to pTemplate object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id;
  * @param string $dmn_name domain name

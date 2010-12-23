@@ -140,6 +140,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Generate empty form
+ * @param ispCP_pTemplate $tpl
  */
 function gen_empty_ahp_page(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
@@ -181,6 +182,7 @@ function gen_empty_ahp_page(&$tpl) {
 
 /**
  * Show last entered data for new hp
+ * @param ispCP_pTemplate $tpl
  */
 function gen_data_ahp_page(&$tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
@@ -204,10 +206,10 @@ function gen_data_ahp_page(&$tpl) {
 			'HP_SQL_USER_VALUE'		=> tohtml($hp_sql_user),
 			'HP_TRAFF_VALUE'		=> tohtml($hp_traff),
 			'HP_DISK_VALUE'			=> tohtml($hp_disk),
-			'HP_DESCRIPTION_VALUE'		=> tohtml($description),
-			'HP_PRICE'			=> tohtml($price),
+			'HP_DESCRIPTION_VALUE'	=> tohtml($description),
+			'HP_PRICE'				=> tohtml($price),
 			'HP_SETUPFEE'			=> tohtml($setup_fee),
-			'HP_VALUE'			=> tohtml($value),
+			'HP_VALUE'				=> tohtml($value),
 			'HP_PAYMENT'			=> tohtml($payment),
 			'HP_TOS_VALUE'			=> tohtml($tos)
 		)
@@ -216,15 +218,15 @@ function gen_data_ahp_page(&$tpl) {
 	$tpl->assign(
 		array(
 			'TR_PHP_YES'	=> ($hp_php == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_PHP_NO'	=> ($hp_php == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_PHP_NO'		=> ($hp_php == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_CGI_YES'	=> ($hp_cgi == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_CGI_NO'	=> ($hp_cgi == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_CGI_NO'		=> ($hp_cgi == '_no_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPD'	=> ($hp_backup == '_dmn_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPS'	=> ($hp_backup == '_sql_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPF'	=> ($hp_backup == '_full_') ? $cfg->HTML_CHECKED : '',
 			'VL_BACKUPN'	=> ($hp_backup == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_DNS_YES'	=> ($hp_dns == '_yes_') ? $cfg->HTML_CHECKED : '',
-			'TR_DNS_NO'	=> ($hp_dns == '_no_') ? $cfg->HTML_CHECKED : '',
+			'TR_DNS_NO'		=> ($hp_dns == '_no_') ? $cfg->HTML_CHECKED : '',
 			'TR_STATUS_YES'	=> ($status) ? $cfg->HTML_CHECKED : '',
 			'TR_STATUS_NO'	=> (!$status) ? $cfg->HTML_CHECKED : ''
 		)
@@ -234,6 +236,7 @@ function gen_data_ahp_page(&$tpl) {
 
 /**
  * Check correction of input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_data_correction(&$tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
@@ -369,6 +372,8 @@ function check_data_correction(&$tpl) {
 
 /**
  * Add new host plan to DB
+ * @param ispCP_pTemplate $tpl
+ * @param int $admin_id
  */
 function save_data_to_db(&$tpl, $admin_id) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
@@ -415,7 +420,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				";
 
-				$res = exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status, $tos));
+				exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status, $tos));
 
 				$_SESSION['hp_added'] = '_yes_';
 				user_goto('hosting_plan.php');

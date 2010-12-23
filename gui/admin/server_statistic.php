@@ -88,6 +88,9 @@ function get_server_trafic($from, $to) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function generate_page(&$tpl) {
 
 	global $month, $year;
@@ -100,9 +103,6 @@ function generate_page(&$tpl) {
 		$tmp = mktime(1, 0, 0, $month + 1, 0, $year);
 		$curday = date('j', $tmp);
 	}
-
-	$curtimestamp = time();
-	$firsttimestamp = mktime(0, 0, 0, $month, 1, $year);
 
 	$all[0] = 0;
 	$all[1] = 0;

@@ -268,6 +268,7 @@ function load_additional_data($user_id, $domain_id) {
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
  */
 function gen_editdomain_page(&$tpl) {
 	global $domain_name, $domain_expires, $domain_new_expire, $domain_ip, $php_sup;
@@ -368,6 +369,10 @@ function gen_editdomain_page(&$tpl) {
 
 /**
  * Check input data
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $reseller_id
+ * @param int $user_id
  */
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
@@ -559,7 +564,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
 		// Backup Settings
 		$query = "UPDATE `domain` SET `allowbackup` = ? WHERE `domain_id` = ?";
-		$rs = exec_query($sql, $query, array($allowbackup, $user_id));
+		exec_query($sql, $query, array($allowbackup, $user_id));
 
 		// update the sql quotas, too
 		$query = "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?";
@@ -577,7 +582,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			}
 
 			$query = "UPDATE `quotalimits` SET `bytes_in_avail` = ? WHERE `name` = ?";
-			$rs = exec_query($sql, $query, array($dlim, $temp_dmn_name));
+			exec_query($sql, $query, array($dlim, $temp_dmn_name));
 		}
 
 		set_page_message(

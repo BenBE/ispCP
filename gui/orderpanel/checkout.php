@@ -43,6 +43,13 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * functions start
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $plan_id
+ * @return void
+ */
 function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
 	$date = time();
 	$domain_name = $_SESSION['domainname'];
@@ -92,7 +99,7 @@ function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
 			(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($user_id, $plan_id, $date, $domain_name, $fname, $lname, $gender, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $status));
+	exec_query($sql, $query, array($user_id, $plan_id, $date, $domain_name, $fname, $lname, $gender, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $status));
 
 	$order_id = $sql->insertId();
 	send_order_emails($user_id, $domain_name, $fname, $lname, $email, $order_id);

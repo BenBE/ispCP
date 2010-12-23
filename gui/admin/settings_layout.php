@@ -49,8 +49,9 @@ function save_layout(&$sql) {
 			WHERE
 				`user_id` = ?
 		";
-		$rs = exec_query($sql, $query, array($user_layout, $user_id));
+		exec_query($sql, $query, array($user_layout, $user_id));
 		$_SESSION['user_theme_color'] = $user_layout;
+		// TODO: unused?
 		$theme_color = $user_layout;
 		$user_def_layout = $user_layout;
 	}
@@ -113,7 +114,7 @@ function update_logo() {
 			return;
 		}
 		// get the size of the image to prevent over large images
-		list($fwidth, $fheight, $ftype, $fattr) = getimagesize($fname);
+		list($fwidth, $fheight, , ) = getimagesize($fname);
 		if ($fwidth > 195 || $fheight > 195) {
 			set_page_message(
 				tr('Images have to be smaller than 195 x 195 pixels!'),
@@ -152,7 +153,7 @@ function update_user_logo($file_name, $user_id) {
 			`user_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($file_name, $user_id));
+	exec_query($sql, $query, array($file_name, $user_id));
 }
 
 $tpl = new ispCP_pTemplate();

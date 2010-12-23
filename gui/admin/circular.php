@@ -39,6 +39,11 @@ $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/circular.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('hosting_plans', 'page');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @return void
+ */
 function gen_page_data(&$tpl, &$sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {

@@ -46,6 +46,11 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 gen_reseller_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 

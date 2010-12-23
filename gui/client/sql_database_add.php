@@ -46,6 +46,9 @@ $tpl->define_dynamic('mysql_prefix_all', 'page');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_page_post_data(&$tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -162,7 +165,7 @@ function add_sql_database(&$sql, $user_id) {
 	}
 
 	$query = 'create database ' . quoteIdentifier($db_name);
-	$rs = exec_query($sql, $query);
+	exec_query($sql, $query);
 
 	$query = "
 		INSERT INTO `sql_database`
@@ -171,7 +174,7 @@ function add_sql_database(&$sql, $user_id) {
 			(?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($dmn_id, $db_name));
+	exec_query($sql, $query, array($dmn_id, $db_name));
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
@@ -190,32 +193,11 @@ function check_sql_permissions($sql, $user_id) {
 		header("Location: index.php");
 	}
 
-	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
+	list($dmn_id,,,,,,,,,,,
+		$dmn_sqld_limit
 	) = get_domain_default_props($sql, $user_id);
 
-	list($sqld_acc_cnt, $sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
+	list($sqld_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_sqld_limit != 0 && $sqld_acc_cnt >= $dmn_sqld_limit) {
 		set_page_message(tr('SQL accounts limit reached!'), 'warning');

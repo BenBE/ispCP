@@ -129,6 +129,10 @@ unset_messages();
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $edit_id
+ * @param string $dmn_type
  */
 function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
 	// Get data from sql
@@ -228,14 +232,16 @@ function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
 
 /**
  * Check input data
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $subdomain_id
+ * @param string $dmn_type
  */
 function check_fwd_data(&$tpl, &$sql, $subdomain_id, $dmn_type) {
 
 	$forward_url = strtolower(clean_input($_POST['forward']));
-	$status = $_POST['status'];
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
 
 	if (isset($_POST['status']) && $_POST['status'] == 1) {
 		$forward_prefix = clean_input($_POST['forward_prefix']);
@@ -302,7 +308,7 @@ function check_fwd_data(&$tpl, &$sql, $subdomain_id, $dmn_type) {
 		send_request();
 
 		$admin_login = $_SESSION['user_logged'];
-		write_log("$admin_login: change domain alias forward: " . $rs->fields['t1.alias_name']);
+		write_log("$admin_login: change domain alias forward: " . $subdomain_id);
 		unset($_SESSION['edit_ID']);
 		$tpl->assign('MESSAGE', '');
 		return true;

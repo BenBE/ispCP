@@ -8,6 +8,8 @@ ispCP ω 1.0.8 ChangeLog
 2010-12-23 Thomas Wacker
 	- SETUP:
 		* Fixed broken key generation on update
+	- GUI:
+		* Small fixes, dead code elimination
 
 2010-12-23 Benedikt Heintel
 	- DOCS:

@@ -90,7 +90,7 @@ function update_data(&$sql) {
 					WHERE
 						`admin_id` = ?
 				";
-				$rs = exec_query($sql, $query, array($fname,
+				exec_query($sql, $query, array($fname,
 						$lname,
 						$firm,
 						$zip,
@@ -161,7 +161,7 @@ function update_data(&$sql) {
 						`admin_id` = ?
 				";
 
-				$rs = exec_query($sql, $query, array($upass,
+				exec_query($sql, $query, array($upass,
 						$fname,
 						$lname,
 						$firm,

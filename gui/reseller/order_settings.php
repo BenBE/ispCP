@@ -74,7 +74,7 @@ function save_haf(&$tpl, &$sql) {
 				`user_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($header, $footer, $user_id));
+		exec_query($sql, $query, array($header, $footer, $user_id));
 	} else {
 		// create query
 		$query = "
@@ -84,7 +84,7 @@ function save_haf(&$tpl, &$sql) {
 				(?, ?, ?)
 		";
 
-		$rs = exec_query($sql, $query, array($user_id, $header, $footer));
+		exec_query($sql, $query, array($user_id, $header, $footer));
 	}
 }
 

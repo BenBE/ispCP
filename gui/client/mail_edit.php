@@ -43,6 +43,10 @@ $tpl->define_dynamic('forward_mail', 'page');
 
 // page functions
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function edit_mail_account(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -240,10 +244,10 @@ function update_email_pass($sql) {
 		}
 		return false;
 	} else {
-		$pass=encrypt_db_password($pass);
+		$pass = encrypt_db_password($pass);
 		$status = $cfg->ITEM_CHANGE_STATUS;
 		$query = "UPDATE `mail_users` SET `mail_pass` = ?, `status` = ? WHERE `mail_id` = ?";
-		$rs = exec_query($sql, $query, array($pass, $status, $mail_id));
+		exec_query($sql, $query, array($pass, $status, $mail_id));
 		write_log($_SESSION['user_logged'] . ": change mail account password: $mail_account");
 		return true;
 	}
@@ -309,7 +313,7 @@ function update_email_forward(&$tpl, &$sql) {
 
 	$query = "UPDATE `mail_users` SET `mail_forward` = ?, `mail_type` = ?, `status` = ? WHERE `mail_id` = ?";
 
-	$rs = exec_query($sql, $query, array($forward_list, $mail_type, $status, $mail_id));
+	exec_query($sql, $query, array($forward_list, $mail_type, $status, $mail_id));
 
 	write_log($_SESSION['user_logged'] . ": change mail forward: $mail_account");
 	return true;

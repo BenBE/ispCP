@@ -153,20 +153,20 @@ function check_data(&$errFields) {
 	}
 
 	list(
-		$udmn_current, $udmn_max, $udmn_uf, $usub_current, $usub_max, $usub_uf,
-		$uals_current, $uals_max, $uals_uf, $umail_current, $umail_max, $umail_uf,
-		$uftp_current, $uftp_max, $uftp_uf, $usql_db_current, $usql_db_max,
-		$usql_db_uf, $usql_user_current, $usql_user_max, $usql_user_uf,
-		$utraff_current, $utraff_max, $utraff_uf, $udisk_current, $udisk_max,
+		$udmn_current, , $udmn_uf, $usub_current, , $usub_uf,
+		$uals_current, , $uals_uf, $umail_current, , $umail_uf,
+		$uftp_current, , $uftp_uf, $usql_db_current, ,
+		$usql_db_uf, $usql_user_current, , $usql_user_uf,
+		$utraff_current, , $utraff_uf, $udisk_current, ,
 		$udisk_uf
 	) = generate_reseller_users_props($rdata['edit_id']);
 
 
 	list(
-		$rdmn_current, $rdmn_max, $rsub_current, $rsub_max, $rals_current,
-		$rals_max, $rmail_current, $rmail_max, $rftp_current, $rftp_max,
-		$rsql_db_current, $rsql_db_max, $rsql_user_current, $rsql_user_max,
-		$rtraff_current, $rtraff_max, $rdisk_current, $rdisk_max
+		$rdmn_current, , $rsub_current, , $rals_current,
+		, $rmail_current, , $rftp_current, ,
+		$rsql_db_current, , $rsql_user_current, ,
+		$rtraff_current, , $rdisk_current,
 	) = generate_reseller_props($rdata['edit_id']);
 
 	/**
@@ -520,7 +520,7 @@ function get_reseller_prop($reseller_id) {
 /**
  * Get Server IPs
  *
- * @param object &$tpl reference to the temmplate instance
+ * @param ispCP_pTemplate &$tpl reference to the temmplate instance
  * @param string reseller IP addresses list
  * @return string reseller list of assigned Ips
  */
@@ -638,7 +638,6 @@ function have_reseller_ip_users($reseller_id, $ip, &$ip_num, &$ip_name) {
 	}
 
 	while (!$res->EOF) {
-		$admin_id = $res->fields['admin_id'];
 
 		$query = "
 			SELECT
@@ -754,7 +753,7 @@ function update_reseller() {
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
  * @since r2561
- * [@param object &$tpl reference to the template instance]
+ * @param ispCP_pTemplate &$tpl reference to the template instance
  * @return array reseller properties and additional data
  */
 function &get_data(&$tpl = false) {
@@ -812,8 +811,8 @@ function &get_data(&$tpl = false) {
  * Highlighting erroneous input fields with a appropriate color
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
- * @Since r2587
- * @param object &$tpl reference to the template instance
+ * @since r2587
+ * @param ispCP_pTemplate &$tpl reference to the template instance
  * @param array &$errFields reference to the array of error fields indicators
  * @return void
  */

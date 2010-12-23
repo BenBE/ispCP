@@ -45,6 +45,12 @@ $tpl->define_dynamic('page_message', 'page');
  * Functions
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $order_id
+ */
 function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	$cfg = ispCP_Registry::get('Config');
 

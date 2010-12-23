@@ -44,6 +44,12 @@ $tpl->define_dynamic('table_list', 'page');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param string $dmn_name
+ */
 function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	$query = "
 		SELECT
@@ -97,33 +103,9 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 
 function gen_page_lists(&$tpl, &$sql, $user_id) {
 
-	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
-	) = get_domain_default_props($sql, $user_id);
+	list($dmn_id,$dmn_name) = get_domain_default_props($sql, $user_id);
 
 	gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name);
-	// return $total_mails;
 }
 
 // common page data.

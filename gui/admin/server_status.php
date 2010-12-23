@@ -137,6 +137,10 @@ class status {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function get_server_status(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -165,7 +169,7 @@ function get_server_status(&$tpl, &$sql) {
 		$value = (count(explode(";", $rs->fields['value'])) < 6)
 			? $rs->fields['value'].';'
 			: $rs->fields['value'];
-		list($port, $protocol, $name, $status, $custom, $ip) = explode(";", $value);
+		list($port, $protocol, $name, $status, , $ip) = explode(";", $value);
 		if ($status) {
 			$ispcp_status->AddService(($ip == '127.0.0.1' ? 'localhost' : (empty($ip) ? $cfg->BASE_SERVER_IP : $ip)), (int)$port, $name, $protocol);
 		}

@@ -44,6 +44,9 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('clear_log', 'page');
 
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function generate_page(&$tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -172,8 +175,6 @@ function clear_log() {
 	$sql = ispCP_Registry::get('Db');
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'clear_log') {
-		$query = null;
-		$msg = '';
 
 		switch ($_POST['uaction_clear']) {
 			case 0:
@@ -238,7 +239,7 @@ function clear_log() {
 				throw new ispCP_Exception(tr('Invalid time period!'));
 		}
 
-		$rs = execute_query($sql, $query);
+		execute_query($sql, $query);
 		write_log($msg);
 	}
 }

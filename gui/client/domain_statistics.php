@@ -45,6 +45,11 @@ $tpl->define_dynamic('traff_item', 'traff_list');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $month
+ * @param int $year
+ */
 function gen_page_date(&$tpl, $month, $year) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -117,6 +122,11 @@ function get_domain_trafic($from, $to, $domain_id) {
 
 /**
  * @todo Check the out commented code at the end of this function, can we remove it?
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $month
+ * @param int $year
+ * @param int $user_id
  */
 function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
@@ -137,8 +147,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 	$rs = exec_query($sql, $query, $domain_admin_id);
 	$domain_id = $rs->fields('domain_id');
-	$fdofmnth = mktime(0, 0, 0, $month, 1, $year);
-	$ldofmnth = mktime(1, 0, 0, $month + 1, 0, $year);
 
 	if ($month == date('m') && $year == date('Y')) {
 		$curday = date('j');
@@ -147,8 +155,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 		$curday = date('j', $tmp);
 	}
 
-	$curtimestamp = time();
-	$firsttimestamp = mktime(0, 0, 0, $month, 1, $year);
 	$all[0] = 0;
 	$all[1] = 0;
 	$all[2] = 0;
@@ -175,9 +181,8 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				`dtraff_time` <= ?
 		";
 
-		$rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
+		exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 
-		$has_data = false;
 		list($web_trf,
 			$ftp_trf,
 			$pop_trf,
