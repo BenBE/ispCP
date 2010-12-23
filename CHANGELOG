@@ -2,6 +2,8 @@ ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 2010-12-23 Benedikt Heintel
+	- DOCS:
+		* Updated README
 	- GUI:
 		* Fixed #2524: Sanitycheck for email addresses rejects museum and travel
 			TLDs.
@@ -22,7 +24,7 @@ ispCP ω 1.0.8 ChangeLog
 		* New #701: Add ability to sort table lists (clickable column headers)
 		* New #1807: General Information - Indexes don't make sense
 		* Fixed #456: Success messages should not be red
-		* some template improvements part I
+		* Some template improvements part I
 
 2010-12-19 Jochen Manz
 	- DISTS: 
@@ -47,7 +49,7 @@ ispCP ω 1.0.8 ChangeLog
 2010-12-13 Benedikt Heintel
 	- GUI:
 		* Fixed #1982: Unable to login after updating because of a record in
-			"login" table (Thanks to Sacoo)
+			"login" table (Thanks to aseques)
 
 2010-12-12 Markus Szywon
 	- GUI:
