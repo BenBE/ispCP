@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `lang_EnglishBritain`;
 CREATE TABLE `lang_EnglishBritain` (
   `msgid` text collate utf8_unicode_ci,
   `msgstr` text collate utf8_unicode_ci,
-  KEY msgid (msgid(25))
+  KEY `msgid` (msgid(25))
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --

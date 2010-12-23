@@ -492,16 +492,14 @@ sub rebuild_customers_cfg {
 
 	# Set status as 'change'
 	while (my ($table, $field) = each %$tables) {
-		my ($rs) = doSQL(
-			"
+		my $rs = doSQL("
 				UPDATE
 					$table
 				SET
 					$field = 'change'
 				WHERE
-					($field = 'ok' OR $field = 'disabled')
-				;
-			"
+					$field = 'ok'
+			;"
 		);
 		return $rs if ($rs != 0);
 	}
@@ -509,7 +507,7 @@ sub rebuild_customers_cfg {
 	# Unlock is needed here to be able to launch the ispcp-rqst-mngr script
 	close $main::fh_lock_file if defined $main::fh_lock_file;
 
-	my $rs = sys_command("perl $main::ispcp_rqst_mngr norestart");
+	my $rs = sys_command("perl $main::ispcp_rqst_mngr update");
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'rebuild_customers_cfg()', 'Ending...');

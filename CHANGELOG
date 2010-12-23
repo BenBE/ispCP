@@ -1,4 +1,4 @@
-ispCP ω 1.0.8 ChangeLog
+ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 2010-12-23 Markus Szywon
@@ -12,6 +12,8 @@ ispCP ω 1.0.8 ChangeLog
 		* Small fixes, dead code elimination
 
 2010-12-23 Benedikt Heintel
+	- CONFIGS:
+		* Added: Dovecot compatibility to postfix's master.cf (Thanks to aseques)
 	- DOCS:
 		* Updated README
 	- GUI:

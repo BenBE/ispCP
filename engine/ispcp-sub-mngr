@@ -1254,6 +1254,7 @@ sub sub_mngr_engine {
 	my ($rs, $rows) = doHashSQL($sql, 'subdomain_id');
 	return -1 if ($rs != 0);
 
+	# Check for orphans and delete them
 	if(!@$rows{$main::sub_task_id}){
 		push_el(
 		\@main::el, 'sub_mngr_engine()',
@@ -1313,7 +1314,7 @@ sub sub_mngr_engine {
 	}
 
 	# Update subdomain status or remove entry on delete
-	($rs) = doSQL($sql);
+	$rs = doSQL($sql);
 	return -1 if ($rs != 0);
 
 	push_el(\@main::el, 'sub_mngr_engine()', 'Ending...');

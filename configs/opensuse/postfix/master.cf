@@ -148,3 +148,5 @@ procmail  unix  -       n       n       -       -       pipe
   flags=R user=nobody argv=/usr/bin/procmail -t -m /etc/procmailrc ${sender} ${recipient}
 retry     unix  -       -       n       -       -       error
 proxywrite unix -       -       n       -       1       proxymap
+dovecot unix - n n - - pipe
+  flags=DROhu user=vmail:mail argv=/usr/lib/dovecot/deliver -f ${sender} -d ${recipient} -s
