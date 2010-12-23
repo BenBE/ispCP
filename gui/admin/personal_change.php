@@ -93,59 +93,70 @@ function gen_admin_personal_data(&$tpl, &$sql, $user_id) {
 	);
 }
 
+function check_user_data() {
+	if (!chk_email($_POST['email'])) {
+		set_page_message(tr('Incorrect email length or syntax!'), 'warning');
+
+		return false;
+	}
+
+	return true;
+}
+
 function update_admin_personal_data(&$sql, $user_id) {
+	if (check_user_data()) {
+		$fname = clean_input($_POST['fname']);
+		$lname = clean_input($_POST['lname']);
+		$gender = $_POST['gender'];
+		$firm = clean_input($_POST['firm']);
+		$zip = clean_input($_POST['zip']);
+		$city = clean_input($_POST['city']);
+		$state = clean_input($_POST['state']);
+		$country = clean_input($_POST['country']);
+		$street1 = clean_input($_POST['street1']);
+		$street2 = clean_input($_POST['street2']);
+		$email = clean_input($_POST['email']);
+		$phone = clean_input($_POST['phone']);
+		$fax = clean_input($_POST['fax']);
 
-	$fname = clean_input($_POST['fname']);
-	$lname = clean_input($_POST['lname']);
-	$gender = $_POST['gender'];
-	$firm = clean_input($_POST['firm']);
-	$zip = clean_input($_POST['zip']);
-	$city = clean_input($_POST['city']);
-	$state = clean_input($_POST['state']);
-	$country = clean_input($_POST['country']);
-	$street1 = clean_input($_POST['street1']);
-	$street2 = clean_input($_POST['street2']);
-	$email = clean_input($_POST['email']);
-	$phone = clean_input($_POST['phone']);
-	$fax = clean_input($_POST['fax']);
+		$query = "
+			UPDATE
+				`admin`
+			SET
+				`fname` = ?,
+				`lname` = ?,
+				`firm` = ?,
+				`zip` = ?,
+				`city` = ?,
+				`state` = ?,
+				`country` = ?,
+				`street1` = ?,
+				`street2` = ?,
+				`email` = ?,
+				`phone` = ?,
+				`fax` = ?,
+				`gender` = ?
+			WHERE
+				`admin_id` = ?
+	";
 
-	$query = "
-		UPDATE
-			`admin`
-		SET
-			`fname` = ?,
-			`lname` = ?,
-			`firm` = ?,
-			`zip` = ?,
-			`city` = ?,
-			`state` = ?,
-			`country` = ?,
-			`street1` = ?,
-			`street2` = ?,
-			`email` = ?,
-			`phone` = ?,
-			`fax` = ?,
-			`gender` = ?
-		WHERE
-			`admin_id` = ?
-";
+		$rs = exec_query($sql, $query, array($fname,
+				$lname,
+				$firm,
+				$zip,
+				$city,
+				$state,
+				$country,
+				$street1,
+				$street2,
+				$email,
+				$phone,
+				$fax,
+				$gender,
+				$user_id));
 
-	$rs = exec_query($sql, $query, array($fname,
-			$lname,
-			$firm,
-			$zip,
-			$city,
-			$state,
-			$country,
-			$street1,
-			$street2,
-			$email,
-			$phone,
-			$fax,
-			$gender,
-			$user_id));
-
-	set_page_message(tr('Personal data updated successfully!'), 'success');
+		set_page_message(tr('Personal data updated successfully!'), 'success');
+	}
 }
 
 // static page messages

@@ -1,6 +1,12 @@
 ispCP ω 1.0.8 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-23 Benedikt Heintel
+	- GUI:
+		* Fixed #2524: Sanitycheck for email addresses rejects museum and travel
+			TLDs.
+		* Added: sanity check for administrator e-mail address on data change
+
 2010-12-21 Markus Szywon
 	- GUI:
 		* Template improvements part II
@@ -450,7 +456,7 @@ ispCP ω 1.0.8 ChangeLog
 		* Fixed #2467: Orderpanel should not allow client to try register master
 			domain
 		* Fixed #2468: Subdomain management should not allow client to
-			try register master domain (Thanks to Obi_Wan)
+			try register master domain (Thanks to Klaas Tamming)
 		* Fixed #1998: Add support for subdomain redirect (Thanks to JCD)
 	- LANGUAGES:
 		* Updated Romanian
@@ -698,7 +704,7 @@ ispCP ω 1.0.8 ChangeLog
 
 2010-08-12 Laurent Declercq
 	- ENGINE:
-		* Removed: Useless postfix restart (Thanks to Marc)
+		* Removed: Useless postfix restart (Thanks to Marc Pujol)
 
 2010-08-11 Benedikt Heintel
 	- ENGINE:
@@ -2693,17 +2699,17 @@ facilitate the maintenances.
 	⁻ TOOLS:
 		* Fixed #1981: Updated phpMyAdmin to version 3.2.2
 
-2009-09-11 Andreca Daniel
+2009-09-11 Daniel Andreca
 	- ENGINE:
 		* Fixed #1984: Adding subdomain causes apache restart - not reload
 
-2009-09-10 Andreca Daniel
+2009-09-10 Daniel Andreca
 	- DOCS:
 		* Missing dependince
 	- GUI:
 		* Fixed #1979: Domain Alias Redirect
 
-2009-09-09 Andreca Daniel
+2009-09-09 Daniel Andreca
 	- ENGINE:
 		* Fixed #1979: Domain Alias Redirect
 
@@ -2721,7 +2727,7 @@ facilitate the maintenances.
 		* Fixed #1969: The 6th field of a system cron file must be the name of
 			the user that the command will be executed
 
-2009-09-07 Andreca Daniel
+2009-09-07 Daniel Andreca
 	- TOOLS:
 		* Fixed #1948: Filemanager Config is wrong / ispCP pic is missing
 
@@ -2729,12 +2735,12 @@ facilitate the maintenances.
 	- ENGINE:
 		* Fixed #1976: Deleting a user account by going properly
 
-2009-09-06 Andreca Daniel
+2009-09-06 Daniel Andreca
 	- LANGUAGES:
 		* Updated Catalan
 		* Updated Danish
 
-2009-09-05 Andreca Daniel
+2009-09-05 Daniel Andreca
 	- GUI:
 		* Fixed #1975: Error update last version trunk 05/09
 		* Fixed #1974: Reseller properties cannot be edited after working with
@@ -2782,7 +2788,7 @@ facilitate the maintenances.
 	- DOCS:
 		* Update for OpenSuSE 11.1
 
-2009-08-31 Andreca Daniel
+2009-08-31 Daniel Andreca
 	- LANGUAGES:
 		* Updated Turkish
 
@@ -2790,7 +2796,7 @@ facilitate the maintenances.
 	- ENGINE:
 		* AGAIN fixing slow setup due to not using pseudo-random
 
-2009-08-30 Andreca Daniel
+2009-08-30 Daniel Andreca
 	- ENGINE:
 		* Update for ispcp-update
 	- GUI:
@@ -2807,7 +2813,7 @@ facilitate the maintenances.
 	- GUI:
 		* Fixed #1954: GUI/Frontend locking issues
 
-2009-08-28 Andreca Daniel
+2009-08-28 Daniel Andreca
 	- ENGINE:
 		* Fixed #1958: Gui Permissions Problem
 
@@ -2825,7 +2831,7 @@ facilitate the maintenances.
 	- DOCS:
 		* Updates all docs
 
-2009-08-27 Andreca Daniel
+2009-08-27 Daniel Andreca
 	- CONFIGS:
 		* Update support for Debian Squeeze
 	- ENGINE:
@@ -2835,7 +2841,7 @@ facilitate the maintenances.
 	- DOCS:
 		* Fixed #1936: Remove Support for older Distribution Versions
 
-2009-08-21 Andreca Daniel
+2009-08-21 Daniel Andreca
 	- GUI:
 		* Added compatibility for php V5.3
 	- TOOLS
@@ -2854,7 +2860,7 @@ facilitate the maintenances.
 2009-08-18 Benedikt Heintel
 	- RELEASE ispCP ω Omega 1.0.1 (revoked)
 
-2009-08-18 Andreca Daniel
+2009-08-18 Daniel Andreca
 	- GUI:
 		* Fixed #1931: Error when adding/deleting Domain/FTP etc
 
@@ -2882,7 +2888,7 @@ facilitate the maintenances.
 	- GUI:
 		* Fixed #1918: Can't delete an Admin- or Reselleraccount
 
-2009-08-11 Andreca Daniel
+2009-08-11 Daniel Andreca
 	- TOOLS:
 		* Fixed #1920 Error while installing snapshot 08/11/2009
 		* Fixed #1919 Error in webmail
@@ -2896,7 +2902,7 @@ facilitate the maintenances.
 	- CONFIGS:
 		* Fixed #1889: Fix fcgi 500 server errors
 
-2009-08-08 Andreca Daniel
+2009-08-08 Daniel Andreca
 	- TOOLS:
 		* Fixed #1916: class.HTMLPurifier_AttrDef_HTML_Class.php missing
 	- CONFIGS:
@@ -3164,7 +3170,7 @@ facilitate the maintenances.
 	- ENGINE:
 		* Fixed #1777 (invalid Permissions after Backup Restore)
 
-2009-04-22 Andreca Daniel
+2009-04-22 Daniel Andreca
 	- CONFIGS:
 		* Add support for Debian Squeeze
 
@@ -3203,7 +3209,8 @@ facilitate the maintenances.
 	- GUI:
 		* Fixed word wrap problem with long descriptions, which results in hugh
 			webpage widths
-		* Fixed syntax bug in admin/hosting_plan_edit.php, thanks to tomdooley
+		* Fixed syntax bug in admin/hosting_plan_edit.php (thanks to Thomas
+			Wacker)
 
 2009-04-16 Thomas Häber
 	- GUI:

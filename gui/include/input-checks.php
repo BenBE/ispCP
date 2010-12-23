@@ -174,7 +174,6 @@ function tojs($text) {
  *
  * @author		ispCP Team
  * @author		Benedikt Heintel
- * @copyright	2006-2009 by ispCP | http://isp-control.net
  * @version		1.01
  *
  * @access	public
@@ -222,9 +221,7 @@ function chk_password($password, $num = 50, $permitted = "") {
  * Successive instances of a dot or underscore are prohibited
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version 1.0
- * @since rxxxx
  * @param string $username the username to be checked
  * @param int $min_char number of min. chars
  * @param int $max_char number min. chars
@@ -240,52 +237,68 @@ function validates_username($username, $min_char = 2, $max_char = 30) {
 }
 
 /**
- * @todo document this function
+ * Validates an e-mail address
+ *
+ * This function should validate an e-mail address according to RFC 2822.
+ * {@see _validates_tld} will be used to validate the top level domain of the 
+ * address.
+ *
+ * @version 1.1
+ * @param String $email the e-mail address to verify
+ * @param int $num maximum lenght of the e-mail address (Default: 255)
+ * @return boolean whether the address is a valid e-mail address
  */
-function chk_email($email, $num = 50) {
+function chk_email($email, $num = 255) {
 	if (strlen($email) > $num) {
+		return false;
+	}
+
+	$labels = array();
+	/*
+	 * get the domain part (part after the last @) and re-combine the rest to
+	 * the user part.
+	 */
+	$labels = explode('@', $email);
+	$domainPart = array_pop($labels);
+	$userPart = implode('@', $labels);
+
+	/**
+	 * Last part contains the Domain name, we validate with
+	 * {@see validates_dname}, the user part is validated with
+	 * {@see ispcp_check_local_part}
+	 */
+	if (validates_dname($domainPart, true) &&
+		ispcp_check_local_part($userPart, strlen($userPart)))
+		return true;
+
+	return false;
+}
+
+/**
+ * Validates the user part of an e-mail address
+ *
+ * This function validates an e-mail address' user part according to RFC 2822.
+ *
+ * @param string $userPart the user part of the e-mail address
+ * @param int $num maximum lenght of the e-mail address (Default: 150)
+ * @return boolean whether the user part is valid
+ */
+function ispcp_check_local_part($userPart, $num = 150) {
+	if (strlen($userPart) > $num) {
 		return false;
 	}
 	// RegEx begin
 	$nonascii = "\x80-\xff"; // non ASCII chars are not allowed
 
-	$nqtext = "[^\\\\$nonascii\015\012\"]"; // all not qouteable chars
+	$nqtext = "[^\\\\$nonascii\015\012\"]"; // all not quoteable chars
 	$qchar = "\\\\[^$nonascii]";			// matched quoted chars
 
 	$normuser = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
 	$quotedstring = "\"(?:$nqtext|$qchar)+\"";
-	$user_part = "(?:$normuser|$quotedstring)";
-
-	$dom_mainpart = '[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]\\.';
-	$dom_subpart = '(?:[a-zA-Z0-9][a-zA-Z0-9.-]*\\.)*';
-	$dom_tldpart = '[a-zA-Z]{2,5}';
-	$domain_part = "$dom_subpart$dom_mainpart$dom_tldpart";
-
-	$regex = "$user_part\@$domain_part";
+	$regex = "(?:$normuser|$quotedstring)";
 	// RegEx end
-	return (bool) preg_match("/^$regex$/", $email);
-}
 
-/**
- * @todo document this function
- */
-function ispcp_check_local_part($email, $num = 50) {
-	if (strlen($email) > $num) {
-		return false;
-	}
-	// RegEx begin
-	$nonascii = "\x80-\xff"; // non ASCII chars are not allowed
-
-	$nqtext = "[^\\\\$nonascii\015\012\"]";
-	$qchar = "\\\\[^$nonascii]";
-
-	$normuser = "[a-zA-Z0-9][a-zA-Z0-9_.-]*";
-	$quotedstring = "\"(?:$nqtext|$qchar)+\"";
-	$user_part = "(?:$normuser|$quotedstring)";
-
-	$regex = $user_part;
-	// RegEx end
-	return (bool) preg_match("/^$regex$/", $email);
+	return (bool) preg_match("/^$regex$/", $userPart);
 }
 
 /**
@@ -318,8 +331,8 @@ function ispcp_check_local_part($email, $num = 50) {
  * @version 1.1
  * @since r2228
  * @param string $data full domain name to be check
- * @param boolean $subdname_process NODOC
- * @return boolean TRUE if successful, FALSE otherwize
+ * @param boolean $subdname_process Process up to 99 sub domains instead of MAX_DNAMES_LABELS
+ * @return boolean TRUE if successful, FALSE otherwise
  */
 function validates_dname($dname, $subdname_process = false) {
 
@@ -346,7 +359,7 @@ function validates_dname($dname, $subdname_process = false) {
 
 		$labels = preg_split('/\./', $matches[1], -1, PREG_SPLIT_NO_EMPTY);
 
-		// Validates label[s]
+		// Validates label(s)
 		foreach ($labels as $label) {
 			if (!_validates_dname_label($label)) {
 				$ret = false;
@@ -708,8 +721,7 @@ function isACE($label) {
  *
  * @param string $data ispcp 'limit' field data (by default valids are numbers greater equal 0)
  * @param mixed $extra single extra permitted value or array of permitted values
- * @return boolean	false	incorrect syntax (ranges)
- * 					true	correct syntax (ranges)
+ * @return boolean whether syntax is correct
  * @example ispcp_limit_check($_POST['domains_limit'], null)
  * @example ispcp_limit_check($_POST['ftp_accounts_limit'])
  *
@@ -740,7 +752,6 @@ function ispcp_limit_check($data, $extra = -1) {
  * Validates a mount point
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version	1.0
  * @since r2228
  * @param string $token mount point to validate
@@ -779,7 +790,6 @@ function validates_mpoint($mpoint, $max_token_char = null) {
  * Successive instances of a dot or underscore are prohibited
  *
  * @author Laurent Declercq <l.declercq@nuxwin.com>
- * @copyright 2006-2009 by ispCP | http://isp-control.net
  * @version	1.0
  * @since r2228
  * @access private
