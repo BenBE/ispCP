@@ -320,13 +320,10 @@ function _importTextFile($file) {
     while (!feof($fp) && $errors <= 3) {
         $t = fgets($fp);
 
-        $msgid = '';
-        $msgstr = '';
-
-        @list($msgid, $msgstr) = $t = explode(' = ', $t);
+        $t = explode(' = ', $t);
 
         if (count($t) != 1) {
-            $ab[$msgid] = rtrim($msgstr);
+            $ab[$t[0]] = rtrim($t[1]);
         } else {
             $errors++;
         }

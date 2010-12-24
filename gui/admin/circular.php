@@ -92,7 +92,7 @@ function gen_page_data(&$tpl, &$sql) {
 	}
 }
 
-function check_user_data(&$tpl) {
+function check_user_data() {
 	global $msg_subject, $msg_text, $sender_email, $sender_name;
 
 	$err_message = '';
@@ -171,7 +171,7 @@ function send_reseller_message(&$sql) {
 
 function send_circular(&$tpl, &$sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
-		if (check_user_data($tpl)) {
+		if (check_user_data()) {
 			send_reseller_message($sql);
 			unset($_POST['uaction']);
 			gen_page_data($tpl, $sql);

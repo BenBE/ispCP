@@ -167,7 +167,7 @@ class ispCP_Database_ResultSet {
 	 *
 	 * @author Laurent Declercq <laurent.declercq@ispcp.net>
 	 * @since 1.0.7
-	 * @param  $fetchStyle Controls how the next row will be returned to the
+	 * @param int $fetchStyle Controls how the next row will be returned to the
 	 * caller. This value must be one of the PDO::FETCH_* constants
 	 * @return void
 	 * @todo Finish fetch style implementation

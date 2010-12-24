@@ -58,7 +58,8 @@ function createImage($strSessionVar) {
 
 	$im = imagecreate($x, $y) or die('Cannot initialize new GD image stream.');
 
-	$background_color = imagecolorallocate($im, $rgBgColor[0],
+	// Set background color
+	imagecolorallocate($im, $rgBgColor[0],
 		$rgBgColor[1],
 		$rgBgColor[2]);
 
@@ -246,7 +247,7 @@ function sendpassword($uniqkey) {
 				`uniqkey` = ?
 		";
 
-		$rs = exec_query($sql, $query, array('', '', $uniqkey));
+		exec_query($sql, $query, array('', '', $uniqkey));
 
 		if ($created_by == 0) { $created_by = 1; }
 

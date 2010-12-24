@@ -51,9 +51,6 @@ function save_layout(&$sql) {
 		";
 		exec_query($sql, $query, array($user_layout, $user_id));
 		$_SESSION['user_theme_color'] = $user_layout;
-		// TODO: unused?
-		$theme_color = $user_layout;
-		$user_def_layout = $user_layout;
 	}
 }
 

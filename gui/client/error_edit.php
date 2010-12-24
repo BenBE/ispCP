@@ -45,7 +45,7 @@ $tpl->define_dynamic('logged_from', 'page');
  * @param int $user_id
  * @param string $eid
  */
-function gen_error_page_data(&$tpl, &$sql, $user_id, $eid) {
+function gen_error_page_data(&$tpl, &$sql, $eid) {
 
 	$domain = $_SESSION['user_logged'];
 
@@ -82,7 +82,7 @@ if (!isset($_GET['eid'])) {
 }
 
 if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
-	gen_error_page_data($tpl, $sql, $_SESSION['user_id'], $_GET['eid']);
+	gen_error_page_data($tpl, $sql, $_GET['eid']);
 } else {
 	$tpl->assign(
 		array(

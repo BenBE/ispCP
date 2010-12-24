@@ -41,7 +41,7 @@ $tpl->define_dynamic('logged_from', 'page');
 
 // page functions.
 
-function write_error_page(&$sql, $user_id, $eid) {
+function write_error_page(&$sql, $eid) {
 
 	$error = $_POST['error'];
 	$file = '/errors/' . $eid . '.html';
@@ -50,13 +50,13 @@ function write_error_page(&$sql, $user_id, $eid) {
 	return $vfs->put($file, $error);
 }
 
-function update_error_page(&$sql, $user_id) {
+function update_error_page(&$sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_error') {
 		$eid = intval($_POST['eid']);
 
 		if (in_array($eid, array(401, 402, 403, 404, 500, 503))
-			&& write_error_page($sql, $_SESSION['user_id'], $eid)) {
+			&& write_error_page($sql, $eid)) {
 			set_page_message(tr('Custom error page was updated!'), 'success');
 		} else {
 			set_page_message(
@@ -83,7 +83,7 @@ $tpl->assign(
 
 // dynamic page data.
 
-update_error_page($sql, $_SESSION['user_id']);
+update_error_page($sql);
 
 // static page messages.
 
