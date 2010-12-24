@@ -1,10 +1,6 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2010-12-24 Benedikt Heintel
-	- GUI:
-		* Refcatored Statistics
-
 2010-12-24 Thomas Wacker
 	- GUI:
 		* Dead code elimination
