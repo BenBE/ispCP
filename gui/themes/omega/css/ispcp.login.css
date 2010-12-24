@@ -126,7 +126,8 @@ body {
 }
 
 .warning, .success, .error, .info {
-	background: no-repeat 10px center;
+	background-position: 10px center;
+	background-repeat: no-repeat;
 	border: 1px solid;
 	margin: 10px 20px;
 	padding: 15px 10px 15px 50px;
@@ -134,25 +135,29 @@ body {
 }
 
 .warning {
-    color: #954a00;
-    border-color: #954a00;
-	background: #ffec9c url(../images/messages/warning.png);
+	background-color: #ffec9c;
+	background-image: url(../images/messages/warning.png);
+	border-color: #954a00;
+	color: #954a00;
 }
 
 .success {
     color: #3d7a15;
     border-color: #3d7a15;
-	background: #d6f1b3 url(../images/messages/success.png);
+    background-color: #d6f1b3;
+    background-image: url(../images/messages/success.png);
 }
 
 .error {
-    color: #ca1d11;
-    border-color: #ca1d11;
-	background: #fdbfad url(../images/messages/error.png);
+	background-color: #fdbfad;
+	background-image: url(../images/messages/error.png);
+	border-color: #ca1d11;
+	color: #ca1d11;
 }
 
 .info {
-    color: #0f3d87;
-    border-color: #0f3d87;
-	background: #b0def5 url(../images/messages/info.png);
+	background-color: #b0def5;
+	background-image: url(../images/messages/info.png);
+	border-color: #0f3d87;
+	color: #0f3d87;
 }
