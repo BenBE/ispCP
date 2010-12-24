@@ -73,15 +73,23 @@ if (($cfg->MAINTENANCEMODE
 		|| ispCP_Update_Database::getInstance()->checkUpdateExists())
 	&& !isset($_POST['admin']) ) {
 
-	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
-	$tpl->assign(
-		array(
-			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
-			'TR_MESSAGE'		=> nl2br(tohtml($cfg->MAINTENANCEMODE_MESSAGE)),
-			'TR_ADMINLOGIN'		=> tr('Administrator login')
-		)
-	);
-
+    $tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
+            $tpl->assign(
+                    array(
+                            'TR_PAGE_TITLE'         => tr('ispCP Omega a Virtual Hosting Control System'),
+                            'THEME_COLOR_PATH'      => $cfg->LOGIN_TEMPLATE_PATH,
+                            'THEME_CHARSET'         => tr('encoding'),
+                            'TR_MESSAGE'            => nl2br(tohtml($cfg->MAINTENANCEMODE_MESSAGE)),
+                            'TR_ADMINLOGIN'         => tr('Administrator login'),
+                            // @todo: make this configurable by ispcp-lib
+                            'TR_SSL_LINK'           => isset($_SERVER['HTTPS']) ? 'http://' . htmlentities($_SERVER['HTTP_HOST']) : 'https://' . htmlentities($_SERVER['HTTP_HOST']),
+                            'TR_WEBMAIL_SSL_LINK'   => "webmail",
+                            'TR_FTP_SSL_LINK'       => "ftp",
+                            'TR_PMA_SSL_LINK'       => "pma",
+                            'TR_SSL_IMAGE'          => isset($_SERVER['HTTPS']) ? 'lock.png' : 'unlock.png',
+                            'TR_SSL_DESCRIPTION'    => !isset($_SERVER['HTTPS']) ? tr('Secure Connection') : tr('Normal Connection')
+                    )
+            );
 } else {
 
 	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/index.tpl');
