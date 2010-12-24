@@ -293,9 +293,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 }
 
 /*
- *
- * static page messages.
- *
+ * static page messages
  */
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');

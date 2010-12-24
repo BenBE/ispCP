@@ -1652,8 +1652,7 @@ function write_log($msg, $level = E_USER_WARNING) {
 		INSERT INTO
 			`log` (`log_time`,`log_message`)
 		VALUES(NOW(), ?)
-		;
-	";
+	;";
 
 	exec_query($sql, $query, $msg, false);
 
