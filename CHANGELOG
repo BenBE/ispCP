@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-27 Markus Szywon
+	- GUI:
+		* Some small fixes
+
 2010-12-25 Markus Szywon
 	- LANGUAGES:
 		* Updated Hungary (#2526; Thanks to Jónás Zsolt)

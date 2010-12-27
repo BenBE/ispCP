@@ -60,10 +60,10 @@ if (isset($_SESSION['user_theme'])) {
 $tpl = new ispCP_pTemplate();
 $tpl->assign(
 	array(
-		'TR_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'TR_WEBMAIL_SSL_LINK'       => 'webmail',
-		'TR_FTP_SSL_LINK'           => 'ftp',
-		'TR_PMA_SSL_LINK'           => 'pma'
+		'TR_PAGE_TITLE'		=> tr('ispCP - Virtual Hosting Control System'),
+		'TR_WEBMAIL_SSL_LINK'	=> 'webmail',
+		'TR_FTP_SSL_LINK'	=> 'ftp',
+		'TR_PMA_SSL_LINK'	=> 'pma'
 	)
 );
 
