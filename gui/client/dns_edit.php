@@ -44,7 +44,7 @@ $add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 // static page messages
 $tpl->assign(
 	array(
-		'TR_TITLE'				=> ($add_mode)
+		'TR_PAGE_TITLE'			=> ($add_mode)
 			? tr("ispCP - Manage Domain Alias/Add DNS zone's record")
 			: tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
 		'ACTION_MODE'			=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}',

@@ -66,7 +66,7 @@ gen_cron_jobs($tpl, $sql, $_SESSION['user_id']);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Cronjob Manager')
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Cronjob Manager'),
 		'TR_CRON_MANAGER' => tr('Cronjob Manager'),
 		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
 		'TR_CRONJOBS' => tr('Cronjobs'),
