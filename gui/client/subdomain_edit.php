@@ -39,19 +39,10 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_edit.tpl')
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
+// static page messages
 $tpl->assign(
 	array(
-		'TR_EDIT_SUBDOMAIN_PAGE_TITLE'	=> tr('ispCP - Manage Subdomain/Edit Subdomain')
-	)
-);
-
-/*
- *
- * static page messages.
- *
-*/
-$tpl->assign(
-	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Subdomain/Edit Subdomain'),
 		'TR_MANAGE_SUBDOMAIN'	=> tr('Manage subdomain'),
 		'TR_EDIT_SUBDOMAIN'		=> tr('Edit subdomain'),
 		'TR_SUBDOMAIN_NAME'		=> tr('Subdomain name'),

@@ -321,7 +321,7 @@ function gen_messages_table(&$tpl, $admin_id) {
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
 		'TR_SAVE' => tr('Save'),
 		'TR_MESSAGES' => tr('Messages'),
 		'TR_LANGUAGE' => tr('Language'),

@@ -205,12 +205,6 @@ function check_sql_permissions($sql, $user_id) {
 	}
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_SQL_DATABASE_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database')
-	)
-);
-
 // dynamic page data.
 
 check_sql_permissions($sql, $_SESSION['user_id']);
@@ -228,6 +222,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
 		'TR_ADD_DATABASE' => tr('Add SQL database'),
 		'TR_DB_NAME' => tr('Database name'),
 		'TR_USE_DMN_ID' => tr('Use numeric ID'),

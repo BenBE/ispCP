@@ -114,7 +114,7 @@ $url .= '&amp;user_id=' . $_SESSION['user_id'];
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
 		'TR_MANAGE_ORDERS' => tr('Manage Orders'),
 		'TR_APPLY_CHANGES' => tr('Apply changes'),
 		'TR_HEADER' => tr('Header'),

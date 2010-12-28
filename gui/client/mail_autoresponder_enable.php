@@ -168,19 +168,12 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 }
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ENABLE_AUTORESPOND_PAGE_TITLE'	=> tr('ispCP - Client/Enable Mail Auto Responder')
-	)
-);
-
 // dynamic page data.
 
 check_email_user($sql);
 gen_page_dynamic_data($tpl, $sql, $mail_id);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -190,6 +183,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Enable Mail Auto Responder'),
 		'TR_ENABLE_MAIL_AUTORESPONDER'	=> tr('Enable mail auto responder'),
 		'TR_ARSP_MESSAGE'				=> tr('Your message'),
 		'TR_ENABLE'						=> tr('Save'),
@@ -207,3 +201,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

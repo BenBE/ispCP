@@ -63,7 +63,8 @@ td {
 }
 
 .icon {
-	background: no-repeat top left;
+	background-position: top left;
+	background-repeat: no-repeat;
 	height: 16px;
 	line-height: 16px;
 	margin: 0 5px;

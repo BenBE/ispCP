@@ -189,7 +189,7 @@ listIPDomains($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_IP_USAGE_PAGE_TITLE' => tr('ispCP - Reseller/IP Usage'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/IP Usage'),
 		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'IP_USAGE'		=> tr('IP Usage'),
 		'TR_DOMAIN_NAME'	=> tr('Domain Name')

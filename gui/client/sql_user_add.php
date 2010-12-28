@@ -436,12 +436,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_SQL_ADD_USER_PAGE_TITLE' => tr('ispCP - Client/Add SQL User')
-	)
-);
-
 // dynamic page data.
 
 $sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
@@ -460,6 +454,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
 		'TR_ADD_SQL_USER' => tr('Add SQL user'),
 		'TR_USER_NAME' => tr('SQL user name'),
 		'TR_USE_DMN_ID' => tr('Use numeric ID'),
@@ -484,3 +479,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

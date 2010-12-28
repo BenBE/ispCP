@@ -557,15 +557,6 @@ function gen_page_js(&$tpl) {
 	unset($_SESSION['alias_count']);
 }
 
-// common page data.
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Add FTP User')
-	)
-);
-
 // dynamic page data.
 
 gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
@@ -581,6 +572,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
 		'TR_ADD_FTP_USER' => tr('Add FTP user'),
 		'TR_USERNAME' => tr('Username'),
 		'TR_TO_MAIN_DOMAIN' => tr('To main domain'),

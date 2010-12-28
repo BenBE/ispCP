@@ -1,4 +1,5 @@
 <!-- INCLUDE "header.tpl" -->
+<body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		function action_delete(url, subject) {
@@ -8,8 +9,6 @@
 		}
 	/* ]]> */
 	</script>
-</head>
-<body>
 	<div class="header">
 		{MAIN_MENU}
 		<div class="logo">

@@ -62,7 +62,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 		array(
-			'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - User/Add user(step2)'),
+			'TR_PAGE_TITLE'					=> tr('ispCP - User/Add user(step2)'),
 			'TR_ADD_USER'					=> tr('Add user'),
 			'TR_HOSTING_PLAN_PROPERTIES'	=> tr('Hosting plan properties'),
 			'TR_TEMPLATE_NAME'				=> tr('Template name'),

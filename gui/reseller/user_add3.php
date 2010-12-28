@@ -49,7 +49,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - User/Add user'),
 		'TR_ADD_USER'			=> tr('Add user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),

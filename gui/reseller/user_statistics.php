@@ -303,7 +303,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

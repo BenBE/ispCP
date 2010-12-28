@@ -146,7 +146,8 @@ dd {
 }
 
 .icon {
-	background: no-repeat top left;
+	background-position: top left;
+	background-repeat: no-repeat;
 	height: 16px;
 	line-height: 16px;
 	margin: 0 5px;
@@ -156,7 +157,8 @@ dd {
 	margin-right: 0;
 }
 .icon_big {
-	background: no-repeat top left;
+	background-position: top left;
+	background-repeat: no-repeat;
 	display: block;
 	height: 44px;
 	line-height: 44px;
@@ -229,14 +231,18 @@ table .icon {
 }
 
 .graph{
-	background: url('../images/background/graph_empty.png') no-repeat right top;
+	background-image : url('../images/background/graph_empty.png');
+	background-position : right top;
+	background-repeat : no-repeat;
 	height : 20px;
 	max-width : 1994px;
 	position : relative;
 	width : 100%;
 }
 .graph span{
-	background: url('../images/background/graph_full.png') no-repeat left top;
+	background-image : url('../images/background/graph_full.png');
+	background-position : left top;
+	background-repeat : no-repeat;
 	display : block;
 	height : 20px;
 	min-width : 3px;
@@ -359,7 +365,8 @@ form table tbody td textarea{
 	text-decoration: none;
 }
 .main_menu .icon_link {
-	background: no-repeat center center;
+	background-position: center center;
+	background-repeat: no-repeat;
 	display: inline-block;
 	height: 32px;
 	line-height: 32px;

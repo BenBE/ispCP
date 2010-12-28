@@ -42,12 +42,6 @@ $tpl->define_dynamic('dir_item', 'page');
 $tpl->define_dynamic('action_link', 'page');
 $tpl->define_dynamic('protected_areas', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
-	)
-);
-
 /**
  * @param ispCP_pTemplate $tpl
  * @param ispCP_Database $sql
@@ -113,23 +107,24 @@ gen_htaccess_entries($tpl, $sql, $dmn_id);
 
 $tpl->assign(
 	array(
-		'TR_HTACCESS' => tr('Protected areas'),
-		'TR_DIRECTORY_TREE' => tr('Directory tree'),
-		'TR_DIRS' => tr('Name'),
-		'TR__ACTION' => tr('Action'),
-		'TR_MANAGE_USRES' => tr('Manage users and groups'),
-		'TR_USERS' => tr('User'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_ADD_USER' => tr('Add user'),
-		'TR_GROUPNAME' => tr('Group name'),
-		'TR_GROUP_MEMBERS' => tr('Group members'),
-		'TR_ADD_GROUP' => tr('Add group'),
-		'TR_EDIT' => tr('Edit'),
-		'TR_GROUP' => tr('Group'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_STATUS' => tr('Status'),
-		'TR_ADD_AREA' => tr('Add new protected area')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
+		'TR_HTACCESS'		=> tr('Protected areas'),
+		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
+		'TR_DIRS'			=> tr('Name'),
+		'TR__ACTION'		=> tr('Action'),
+		'TR_MANAGE_USRES'	=> tr('Manage users and groups'),
+		'TR_USERS'			=> tr('User'),
+		'TR_USERNAME'		=> tr('Username'),
+		'TR_ADD_USER'		=> tr('Add user'),
+		'TR_GROUPNAME'		=> tr('Group name'),
+		'TR_GROUP_MEMBERS'	=> tr('Group members'),
+		'TR_ADD_GROUP'		=> tr('Add group'),
+		'TR_EDIT'			=> tr('Edit'),
+		'TR_GROUP'			=> tr('Group'),
+		'TR_DELETE'			=> tr('Delete'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_ADD_AREA'		=> tr('Add new protected area')
 	)
 );
 
@@ -143,3 +138,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

@@ -59,7 +59,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Edit hosting plan'),
+		'TR_PAGE_TITLE'	=> tr('ispCP - Reseller/Edit hosting plan'),
 		'TR_HOSTING PLAN PROPS' => tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME' => tr('Template name'),
 		'TR_MAX_SUBDOMAINS' => tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),

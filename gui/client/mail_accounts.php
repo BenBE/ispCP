@@ -46,12 +46,6 @@ $tpl->define_dynamic('mails_total', 'page');
 $tpl->define_dynamic('no_mails', 'page');
 $tpl->define_dynamic('table_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users')
-	)
-);
-
 // page functions.
 
 /**
@@ -762,7 +756,6 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == 'no') {
 gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
-
 gen_client_mainmenu(
 	$tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl'
 );
@@ -773,20 +766,20 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_MANAGE_USERS' => tr('Manage users'),
-		'TR_MAIL_USERS' => tr('Mail users'),
-		'TR_MAIL' => tr('Mail'),
-		'TR_TYPE' => tr('Type'),
-		'TR_STATUS' => tr('Status'),
-		'TR_ACTION' => tr('Action'),
-		'TR_AUTORESPOND' => tr('Auto respond'),
-		'TR_DMN_MAILS' => tr('Domain mails'),
-		'TR_SUB_MAILS' => tr('Subdomain mails'),
-		'TR_ALS_MAILS' => tr('Alias mails'),
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Users'),
+		'TR_MANAGE_USERS'	=> tr('Manage users'),
+		'TR_MAIL_USERS'		=> tr('Mail users'),
+		'TR_MAIL'			=> tr('Mail'),
+		'TR_TYPE'			=> tr('Type'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_ACTION'			=> tr('Action'),
+		'TR_AUTORESPOND'	=> tr('Auto respond'),
+		'TR_DMN_MAILS'		=> tr('Domain mails'),
+		'TR_SUB_MAILS'		=> tr('Subdomain mails'),
+		'TR_ALS_MAILS'		=> tr('Alias mails'),
 		'TR_TOTAL_MAIL_ACCOUNTS' => tr('Mails total'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' =>
-			tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_DELETE'			=> tr('Delete'),
+		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
 
@@ -821,3 +814,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

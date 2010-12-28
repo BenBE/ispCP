@@ -1,5 +1,4 @@
 <!-- INCLUDE "header.tpl" -->
-</head>
 <body>
 	<div class="header">
 		{MAIN_MENU}

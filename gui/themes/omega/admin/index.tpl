@@ -1,6 +1,11 @@
 <!-- INCLUDE "header.tpl" -->
-</head>
 <body>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		$(document).ready(function(){
+		});
+	/* ]]> */
+	</script>
 	<div class="header">
 		{MAIN_MENU}
 		<div class="logo">

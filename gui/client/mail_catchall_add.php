@@ -435,14 +435,6 @@ function create_catchall_mail_account(&$sql, $id) {
 	}
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account')
-	)
-);
-
 // dynamic page data.
 
 gen_dynamic_page_data($tpl, $sql, $item_id);
@@ -450,7 +442,6 @@ create_catchall_mail_account($sql, $item_id);
 $tpl->assign('ID', $item_id);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -460,6 +451,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'						=> tr('ispCP - Client/Create CatchAll Mail Account'),
 		'TR_CREATE_CATCHALL_MAIL_ACCOUNT'	=> tr('Create catch all mail account'),
 		'TR_MAIL_LIST'						=> tr('Mail accounts list'),
 		'TR_CREATE_CATCHALL'				=> tr('Create catch all'),
@@ -478,3 +470,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

@@ -161,7 +161,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
 		'TR_PERSONAL_DATA'			=> tr('Personal data'),
 		'TR_FIRST_NAME'				=> tr('First name'),

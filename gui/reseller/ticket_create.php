@@ -100,19 +100,19 @@ $tpl->assign($userdata);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_NEW_TICKET_PAGE_TITLE' => tr('ispCP - Support system - New ticket'),
-		'TR_NEW_TICKET' => tr('New ticket'),
-		'TR_LOW' => tr('Low'),
-		'TR_MEDIUM' => tr('Medium'),
-		'TR_HIGH' => tr('High'),
-		'TR_VERI_HIGH' => tr('Very high'),
-		'TR_URGENCY' => tr('Priority'),
-		'TR_EMAIL' => tr('Email'),
-		'TR_SUBJECT' => tr('Subject'),
-		'TR_YOUR_MESSAGE' => tr('Your message'),
-		'TR_SEND_MESSAGE' => tr('Send message'),
-		'TR_OPEN_TICKETS' => tr('Open tickets'),
-		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
+		'TR_PAGE_TITLE'		=> tr('ispCP - Support system - New ticket'),
+		'TR_NEW_TICKET'		=> tr('New ticket'),
+		'TR_LOW'			=> tr('Low'),
+		'TR_MEDIUM'			=> tr('Medium'),
+		'TR_HIGH'			=> tr('High'),
+		'TR_VERI_HIGH'		=> tr('Very high'),
+		'TR_URGENCY'		=> tr('Priority'),
+		'TR_EMAIL'			=> tr('Email'),
+		'TR_SUBJECT'		=> tr('Subject'),
+		'TR_YOUR_MESSAGE'	=> tr('Your message'),
+		'TR_SEND_MESSAGE'	=> tr('Send message'),
+		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
+		'TR_CLOSED_TICKETS'	=> tr('Closed tickets'),
 	)
 );
 

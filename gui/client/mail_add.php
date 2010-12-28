@@ -658,18 +658,11 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 	header("Location: index.php");
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE'	=> tr('ispCP - Client/Add Mail User')
-	)
-);
-
 // dynamic page data.
 
 gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -679,6 +672,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
 		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
 		'TR_USERNAME'			=> tr('Username'),
 		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
@@ -703,3 +697,5 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
+?>

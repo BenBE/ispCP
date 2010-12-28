@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/cronjobs_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CRONJOBS_TITLE' => tr('ispCP - Client/Cronjob Manager')
-	)
-);
-
 /**
  * @todo Implement this function
  */
@@ -57,12 +51,7 @@ function update_cron_job(&$tpl, &$sql, $cron_id) {
 function gen_cron_job(&$tpl, &$sql, $user_id) {
 } // End of gen_cron_job()
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -77,6 +66,7 @@ gen_cron_job($tpl, $sql, $_SESSION['user_id']);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Cronjob Manager'),
 		'TR_CRON_MANAGER' => tr('Cronjob Manager'),
 		'TR_EDIT_CRONJOB' => tr('Edit Cronjob'),
 		'TR_NAME' => tr('Name'),

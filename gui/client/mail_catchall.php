@@ -338,14 +338,6 @@ function gen_page_lists(&$tpl, &$sql, $user_id)
 	gen_page_catchall_list($tpl, $sql, $dmn_id, $dmn_name);
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Users')
-	)
-);
-
 // dynamic page data.
 
 if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
@@ -364,6 +356,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Manage Users'),
 		'TR_STATUS'					=> tr('Status'),
 		'TR_ACTION'					=> tr('Action'),
 		'TR_CATCHALL_MAIL_USERS'	=> tr('Catch all account'),
@@ -383,3 +376,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

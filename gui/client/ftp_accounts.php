@@ -108,22 +108,12 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 	gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name);
 }
 
-// common page data.
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_USERS_PAGE_TITLE' => tr('ispCP - Client/Manage Users')
-	)
-);
-
 // dynamic page data.
 
 
 gen_page_lists($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
 
@@ -133,6 +123,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage Users'),
 		'TR_MANAGE_USERS' => tr('Manage users'),
 		'TR_TYPE' => tr('Type'),
 		'TR_STATUS' => tr('Status'),

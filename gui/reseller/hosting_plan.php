@@ -55,7 +55,7 @@ gen_hp_table($tpl, $_SESSION['user_id']);
 // static page messages
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
 		'TR_HOSTING_PLANS' => tr('Hosting plans'),
 		'TR_PAGE_MENU' => tr('Manage hosting plans'),
 		'TR_PURCHASING' => tr('Purchasing'),

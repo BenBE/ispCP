@@ -74,19 +74,11 @@ function update_error_page(&$sql) {
 $domain = $_SESSION['user_logged'];
 $domain = "http://www." . $domain;
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ERROR_PAGE_TITLE' => tr('ispCP - Client/Manage Error Custom Pages'),
-		'DOMAIN' => $domain
-	)
-);
-
 // dynamic page data.
 
 update_error_page($sql);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -96,14 +88,16 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ERROR_401' => tr('Error 401 (unauthorised)'),
-		'TR_ERROR_403' => tr('Error 403 (forbidden)'),
-		'TR_ERROR_404' => tr('Error 404 (not found)'),
-		'TR_ERROR_500' => tr('Error 500 (internal server error)'),
-		'TR_ERROR_503' => tr('Error 503 (service unavailable)'),
-		'TR_ERROR_PAGES' => tr('Error pages'),
-		'TR_EDIT' => tr('Edit'),
-		'TR_VIEW' => tr('View')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Error Custom Pages'),
+		'DOMAIN'			=> $domain,
+		'TR_ERROR_401'		=> tr('Error 401 (unauthorised)'),
+		'TR_ERROR_403'		=> tr('Error 403 (forbidden)'),
+		'TR_ERROR_404'		=> tr('Error 404 (not found)'),
+		'TR_ERROR_500'		=> tr('Error 500 (internal server error)'),
+		'TR_ERROR_503'		=> tr('Error 503 (service unavailable)'),
+		'TR_ERROR_PAGES'	=> tr('Error pages'),
+		'TR_EDIT'			=> tr('Edit'),
+		'TR_VIEW'			=> tr('View')
 	)
 );
 
@@ -117,3 +111,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

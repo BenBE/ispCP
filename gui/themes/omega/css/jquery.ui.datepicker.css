@@ -27,11 +27,6 @@
  */
 
 /**
- * Import needed UI Theme styles
- */
-@import url('jquery.ui.core.css');
-
-/**
  * Configuration for the jQuery UI Datepicker
  */
 .ui-datepicker { 

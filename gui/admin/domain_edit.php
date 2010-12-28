@@ -309,7 +309,7 @@ function gen_editdomain_page(&$tpl) {
 				'BACKUP_NO' => '',
 			)
 		);
-	} elseif ($allowbackup === 'no')  {
+	} else {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',

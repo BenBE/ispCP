@@ -107,7 +107,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_VIEW_TICKET_PAGE_TITLE'	=> tr('ispCP - Reseller: Support System: View Ticket'),
+		'TR_PAGE_TITLE'	=> tr('ispCP - Reseller: Support System: View Ticket'),
 		'TR_SUPPORT_SYSTEM' => tr('Support system'),
 		'TR_VIEW_SUPPORT_TICKET' => tr('View support ticket'),
 		'TR_TICKET_URGENCY' => tr('Priority'),

@@ -442,12 +442,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	}
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan')
-	)
-);
-
 /**
  * @todo the 2nd query has 2 identical tables in FROM-clause, is this OK?
  */
@@ -629,6 +623,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
 		'TR_LANGUAGE'	=> tr('Language'),
 		'TR_SAVE'		=> tr('Save'),
 	)

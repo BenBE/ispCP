@@ -1,6 +1,5 @@
 <!-- INCLUDE "header.tpl" -->
-	<link href="{THEME_COLOR_PATH}/css/jquery.tablesorter.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="{THEME_SCRIPT_PATH}/jquery.tablesorter.js"></script>
+<body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		$(document).ready(function(){
@@ -9,7 +8,14 @@
 			// Target - end
 
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({
+				cssHeader: 'tablesorter',
+				sortList: [[1,2]],
+				headers: {
+					0: { sorter: false },
+					4: { sorter: false }
+				}
+			});
 			// TableSorter - end
 		});
 
@@ -25,8 +31,6 @@
 		}
 	/* ]]> */
 	</script>
-</head>
-<body>
 	<div class="header">
 		{MAIN_MENU}
 		<div class="logo">

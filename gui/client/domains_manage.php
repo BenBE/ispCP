@@ -413,21 +413,13 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 	}
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_DOMAINS_PAGE_TITLE'	=> tr('ispCP - Client/Manage Domains')
-	)
-);
-
 // dynamic page data.
 
 gen_user_sub_list($tpl, $sql, $_SESSION['user_id']);
 gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
 gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
-// static page messages.
 
+// static page messages.
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
 
@@ -437,6 +429,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Domains'),
 		'TR_MANAGE_DOMAINS'	=> tr('Manage domains'),
 		'TR_DOMAIN_ALIASES'	=> tr('Domain aliases'),
 		'TR_ALS_NAME'		=> tr('Name'),

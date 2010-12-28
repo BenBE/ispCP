@@ -39,14 +39,6 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ticket_create.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-// common page data
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_NEW_TICKET_PAGE_TITLE' => tr('ispCP - Support System - New ticket')
-	)
-);
-
 // dynamic page data
 
 $reseller_id = $_SESSION['user_created_by'];
@@ -108,6 +100,7 @@ $tpl->assign($userdata);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Support System - New ticket'),
 		'TR_NEW_TICKET' => tr('New ticket'),
 		'TR_LOW' => tr('Low'),
 		'TR_MEDIUM' => tr('Medium'),
@@ -133,3 +126,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

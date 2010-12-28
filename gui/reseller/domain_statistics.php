@@ -217,18 +217,18 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_WEB_TRAFFIC' => tr('Web traffic'),
-		'TR_FTP_TRAFFIC' => tr('FTP traffic'),
-		'TR_SMTP_TRAFFIC' => tr('SMTP traffic'),
-		'TR_POP3_TRAFFIC' => tr('POP3/IMAP traffic'),
-		'TR_ALL_TRAFFIC' => tr('All traffic'),
-		'TR_ALL' => tr('All'),
-		'TR_DAY' => tr('Day')
+		'TR_PAGE_TITLE'			=> tr('ispCP - Domain Statistics Data'),
+		'TR_DOMAIN_STATISTICS'	=> tr('Domain statistics'),
+		'TR_MONTH'				=> tr('Month'),
+		'TR_YEAR'				=> tr('Year'),
+		'TR_SHOW'				=> tr('Show'),
+		'TR_WEB_TRAFFIC'		=> tr('Web traffic'),
+		'TR_FTP_TRAFFIC'		=> tr('FTP traffic'),
+		'TR_SMTP_TRAFFIC'		=> tr('SMTP traffic'),
+		'TR_POP3_TRAFFIC'		=> tr('POP3/IMAP traffic'),
+		'TR_ALL_TRAFFIC'		=> tr('All traffic'),
+		'TR_ALL'				=> tr('All'),
+		'TR_DAY'				=> tr('Day')
 	)
 );
 

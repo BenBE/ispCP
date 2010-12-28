@@ -313,15 +313,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 }
 
-// common page data.
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics')
-	)
-);
-
 // dynamic page data.
 
 $current_month = date("m", time());
@@ -331,7 +322,6 @@ list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $
 gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_statistics.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_statistics.tpl');
 
@@ -341,6 +331,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
 		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
 		'DOMAIN_URL' => 'http://' . $_SESSION['user_logged'] . '/stats/',
 		'TR_AWSTATS' => tr('Web Stats'),

@@ -178,12 +178,7 @@ function send_circular_email($to, $from, $subject, $message) {
 	mail($to, $subject, $message, $headers);
 }
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -191,7 +186,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_CIRCULAR_PAGE_TITLE' => tr('ispCP - Circular'),
+		'TR_PAGE_TITLE' => tr('ispCP - Circular'),
 		'TR_CIRCULAR' => tr('Circular'),
 		'TR_CORE_DATA' => tr('Core data'),
 		'TR_SEND_TO' => tr('Send message to'),

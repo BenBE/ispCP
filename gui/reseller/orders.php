@@ -219,7 +219,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order management'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order management'),
 		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
 		'TR_ID'						=> tr('ID'),
 		'TR_DOMAIN'					=> tr('Domain'),

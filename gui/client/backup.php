@@ -64,14 +64,6 @@ function send_backup_restore_request(&$sql, $user_id) {
 	}
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_BACKUP_PAGE_TITLE' => tr('ispCP - Client/Daily Backup')
-	)
-);
-
 // dynamic page data.
 
 send_backup_restore_request($sql, $_SESSION['user_id']);
@@ -95,6 +87,7 @@ if ($cfg->ZIP == "gzip") {
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Daily Backup'),
 		'TR_BACKUP' => tr('Backup'),
 		'TR_DAILY_BACKUP' => tr('Daily backup'),
 		'TR_DOWNLOAD_DIRECTION' => tr("Instructions to download today's backup"),

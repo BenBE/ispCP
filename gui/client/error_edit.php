@@ -62,16 +62,6 @@ function gen_error_page_data(&$tpl, &$sql, $eid) {
 	$tpl->assign(array('ERROR' => ''));
 }
 
-// common page data.
-
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ERROR_PAGE_TITLE' => tr('ispCP - Client/Manage Error Custom Pages')
-	)
-);
-
 // dynamic page data.
 
 if (!isset($_GET['eid'])) {
@@ -93,7 +83,6 @@ if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
 }
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -103,10 +92,11 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ERROR_EDIT_PAGE' => tr('Edit error page'),
-		'TR_SAVE' => tr('Save'),
-		'TR_CANCEL' => tr('Cancel'),
-		'EID' => $eid
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage Error Custom Pages'),
+		'TR_ERROR_EDIT_PAGE'	=> tr('Edit error page'),
+		'TR_SAVE'				=> tr('Save'),
+		'TR_CANCEL'				=> tr('Cancel'),
+		'EID'					=> $eid
 	)
 );
 
@@ -120,3 +110,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

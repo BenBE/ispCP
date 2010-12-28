@@ -41,7 +41,7 @@ $tpl->define_dynamic('logged_from', 'page');
 // static page messages
 $tpl->assign(
 	array(
-		'TR_DETAILS_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Domain/Details'),
 		'TR_DOMAIN_DETAILS'		=> tr('Domain details'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),

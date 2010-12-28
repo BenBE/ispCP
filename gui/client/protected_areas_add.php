@@ -42,12 +42,6 @@ $tpl->define_dynamic('group_item', 'page');
 $tpl->define_dynamic('user_item', 'page');
 $tpl->define_dynamic('unprotect_it', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
-	)
-);
-
 /**
  * @todo use db prepared statements
  */
@@ -405,7 +399,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 }
 
 // static page messages
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -421,6 +414,7 @@ gen_protect_it($tpl, $sql, $dmn_id);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
 		'TR_HTACCESS' => tr('Protected areas'),
 		'TR_PROTECT_DIR' => tr('Protect this area'),
 		'TR_PATH' => tr('Path'),
@@ -449,5 +443,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
-
 ?>

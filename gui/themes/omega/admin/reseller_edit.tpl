@@ -1,7 +1,6 @@
 <!-- INCLUDE "header.tpl" -->
-	<link href="{THEME_COLOR_PATH}/css/jquery.ui.tooltip.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="{THEME_SCRIPT_PATH}/jquery.ispcpTooltips.js"></script>
-	<script type="text/javascript">
+<body>
+		<script type="text/javascript">
 	/*<![CDATA[*/
 
 	/*
@@ -64,8 +63,6 @@
 	});
 	/*]]>*/
 	</script>
-</head>
-<body>
 	<div class="header">
 		{MAIN_MENU}
 		<div class="logo">

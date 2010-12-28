@@ -161,12 +161,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_SQL_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change SQL User Password')
-	)
-);
-
 
 // dynamic page data.
 $db_user_name = gen_page_data($tpl, $sql, $db_user_id);
@@ -183,6 +177,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Change SQL User Password'),
 		'TR_CHANGE_SQL_USER_PASSWORD' 	=> tr('Change SQL user password'),
 		'TR_USER_NAME' 					=> tr('User name'),
 		'TR_PASS' 						=> tr('Password'),

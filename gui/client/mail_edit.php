@@ -322,12 +322,6 @@ function update_email_forward(&$tpl, &$sql) {
 // end page functions.
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account')
-	)
-);
-
 // dynamic page data.
 
 edit_mail_account($tpl, $sql);
@@ -339,7 +333,6 @@ if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
 }
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -349,6 +342,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
 		'TR_EDIT_EMAIL_ACCOUNT'	=> tr('Edit email account'),
 		'TR_SAVE'				=> tr('Save'),
 		'TR_PASSWORD'			=> tr('Password'),
@@ -369,3 +363,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

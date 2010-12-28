@@ -47,18 +47,7 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('als_add_button', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias')
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -72,6 +61,7 @@ generate_als_messages($tpl, $err_txt);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias'),
 		'TR_MANAGE_ALIAS'	=> tr('Manage alias'),
 		'TR_NAME'			=> tr('Name'),
 		'TR_REAL_DOMAIN'	=> tr('Real domain'),

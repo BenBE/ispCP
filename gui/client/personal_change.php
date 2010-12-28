@@ -39,12 +39,6 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/personal_change.tpl'
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Client/Change Personal Data')
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_user_personal_data($sql, $_SESSION['user_id']);
 }
@@ -145,12 +139,7 @@ function update_user_personal_data(&$sql, $user_id) {
 	set_page_message(tr('Personal data updated successfully!'), 'success');
 }
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
 
@@ -160,6 +149,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
 		'TR_PERSONAL_DATA'			=> tr('Personal data'),
 		'TR_FIRST_NAME'				=> tr('First name'),

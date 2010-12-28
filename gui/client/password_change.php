@@ -40,12 +40,6 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/password_change.tpl'
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change Password')
-	)
-);
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 	if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
 		set_page_message(tr('Please fill up all data fields!'), 'warning');
@@ -129,6 +123,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Change Password'),
 		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
 		'TR_PASSWORD_DATA' 		=> tr('Password data'),
 		'TR_PASSWORD' 			=> tr('Password'),
@@ -151,3 +146,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

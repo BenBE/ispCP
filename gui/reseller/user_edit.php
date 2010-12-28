@@ -56,7 +56,7 @@ $tpl->define_dynamic('ip_entry', 'page');
  */
 $tpl->assign(
 	array(
-		'TR_EDIT_USER_PAGE_TITLE'	=> tr('ispCP - Users/Edit'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Users/Edit'),
 		'TR_EDIT_USER'			=> tr('Edit user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),

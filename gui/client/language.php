@@ -74,18 +74,7 @@ if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
 
 gen_def_language($tpl, $sql, $user_def_lang);
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_LANGUAGE_TITLE' => tr('ispCP - Client/Change Language')
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
 
@@ -94,9 +83,11 @@ gen_logged_from($tpl);
 check_permissions($tpl);
 
 $tpl->assign(
-	array('TR_LANGUAGE' => tr('Language'),
-		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
-		'TR_SAVE' => tr('Save'),
+	array(
+		'TR_CLIENT_LANGUAGE_TITLE'	=> tr('ispCP - Client/Change Language'),
+		'TR_LANGUAGE'				=> tr('Language'),
+		'TR_CHOOSE_DEFAULT_LANGUAGE'=> tr('Choose default language'),
+		'TR_SAVE'					=> tr('Save')
 	)
 );
 
@@ -111,3 +102,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

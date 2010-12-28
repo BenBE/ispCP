@@ -120,20 +120,15 @@ function gen_directories(&$tpl) {
 
 // functions end
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
-	)
-);
-
 gen_directories($tpl);
 
 $tpl->assign(
 	array(
-		'CHOOSE' => tr('Choose'),
-		'TR_DIRECTORY_TREE' => tr('Directory tree'),
-		'TR_DIRS' => tr('Directories'),
-		'TR__ACTION' => tr('Action')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
+		'CHOOSE'			=> tr('Choose'),
+		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
+		'TR_DIRS'			=> tr('Directories'),
+		'TR__ACTION'		=> tr('Action')
 	)
 );
 

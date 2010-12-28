@@ -59,7 +59,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Add hosting plan'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Add hosting plan'),
 		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
 		'TR_HOSTING PLAN PROPS'		=> tr('Hosting plan properties'),
 		'TR_TEMPLATE_NAME'			=> tr('Template name'),

@@ -224,14 +224,6 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 	}
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_EDIT_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Edit FTP Account')
-	)
-);
-
 // dynamic page data.
 
 
@@ -253,7 +245,6 @@ gen_page_dynamic_data($tpl, $sql, $ftp_acc);
 update_ftp_account($sql, $ftp_acc, $dmn_name);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
 
@@ -263,6 +254,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Edit FTP Account'),
 		'TR_EDIT_FTP_USER' 		=> tr('Edit FTP user'),
 		'TR_FTP_ACCOUNT' 		=> tr('FTP account'),
 		'TR_PASSWORD' 			=> tr('Password'),

@@ -152,12 +152,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 }
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_SQL_PAGE_TITLE' => tr('ispCP - Client/Manage SQL')
-	)
-);
-
 // dynamic page data.
 
 gen_db_list($tpl, $sql, $_SESSION['user_id']);
@@ -173,6 +167,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
 		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
 		'TR_DELETE'				=> tr('Delete'),
 		'TR_DATABASE'			=> tr('Database Name and Users'),
