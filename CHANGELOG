@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-29 Benedikt Heintel
+	- ENGINE:
+		* Replaced deprecated make_dir() by makepath()
+
 2010-12-28 Markus Szywon
 	- GUI:
 		* Template improvements part III
@@ -9,6 +13,10 @@ ispCP ω 1.1.0 ChangeLog
 2010-12-27 Markus Szywon
 	- GUI:
 		* Some small fixes
+
+2010-12-25 Benedikt Heintel
+	- DAEMON:
+		* Rewrote make files
 
 2010-12-25 Markus Szywon
 	- LANGUAGES:
@@ -731,7 +739,7 @@ ispCP ω 1.1.0 ChangeLog
 	- SETUP:
 		* Changed: Get user's local timezone from system config
 		* Changed: Check timezone against OLSON database
-		* Removed: Depreciated first-check.sh
+		* Removed: Deprecated first-check.sh
 
 2010-08-12 Laurent Declercq
 	- ENGINE:

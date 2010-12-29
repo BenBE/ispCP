@@ -268,7 +268,7 @@ sub backup_all_engine {
 			#
 
 			if (! -d $dmn_backup_dir) {
-				$rs = make_dir($dmn_backup_dir, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+				$rs = makepath($dmn_backup_dir, $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 				return $rs if ($rs != 0);
 			}
 

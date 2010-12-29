@@ -1561,12 +1561,12 @@ sub dmn_add_httpd_file_data {
 	# Starter directory for usual user
 
 	if(!(-d "$starter_dir/$dmn_name")) {
-		$rs = make_dir("$starter_dir/$dmn_name", $sys_user, $sys_group, 0555);
+		$rs = makepath("$starter_dir/$dmn_name", $sys_user, $sys_group, 0555);
 		return $rs if ($rs != 0);
 	}
 
 	if (! -d "$starter_dir/$dmn_name/php5") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$starter_dir/$dmn_name/php5", $sys_user, $sys_group, 0550
 		);
 		return $rs if ($rs != 0);
@@ -1578,7 +1578,7 @@ sub dmn_add_httpd_file_data {
 		$main::cfg{'AWSTATS_MODE'} eq 1) {
 
 		if (! -d "$www_dir/$dmn_name/statistics") {
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$dmn_name/statistics", $sys_user, $sys_group, 0755
 			);
 			return $rs if ($rs != 0);
@@ -1587,25 +1587,25 @@ sub dmn_add_httpd_file_data {
 
 	# Domain WWW directories
 
-	$rs = make_dir("$www_dir/$dmn_name", $sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name", $sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/cgi-bin", $sys_user, $sys_group, 0755);
+	$rs = makepath("$www_dir/$dmn_name/cgi-bin", $sys_user, $sys_group, 0755);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/logs",$sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name/logs",$sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/phptmp", $sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name/phptmp", $sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+	$rs = makepath("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
+	$rs = makepath("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775);
+	$rs = makepath("$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775);
 	return $rs if ($rs != 0);
 
 
@@ -1668,7 +1668,7 @@ sub dmn_add_httpd_file_data {
 
 	# check if htdocs folder does not exist
 	if (!(-e "$www_dir/$dmn_name/htdocs/")) {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/htdocs", $sys_user, $sys_group, 0775
 		);
 		return $rs if ($rs != 0);
@@ -1730,7 +1730,7 @@ sub dmn_add_httpd_file_data {
 
 	# check if disable folder does not exist
 	if (!(-e "$www_dir/$dmn_name/disabled")) {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/disabled", $httpd_uid, $httpd_gid, 0755
 		);
 		return $rs if ($rs != 0);
@@ -1876,12 +1876,12 @@ sub dmn_change_httpd_file_data {
 	# Starter-Scripts for FastCGI
 
 	if(! -d "$starter_dir/$dmn_name") {
-		$rs = make_dir("$starter_dir/$dmn_name", $sys_user, $sys_group, 0755);
+		$rs = makepath("$starter_dir/$dmn_name", $sys_user, $sys_group, 0755);
 		return $rs if ($rs != 0);
 	}
 
 	if (! -d "$starter_dir/$dmn_name/php5") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$starter_dir/$dmn_name/php5", $sys_user, $sys_group, 0550
 		);
 		return $rs if ($rs != 0);
@@ -1893,7 +1893,7 @@ sub dmn_change_httpd_file_data {
 		&& $main::cfg{'AWSTATS_MODE'} eq 1) {
 
 		if (! -d "$www_dir/$dmn_name/statistics") {
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$dmn_name/statistics", $sys_user, $sys_group, 0555
 			);
 			return $rs if ($rs != 0);
@@ -1903,24 +1903,24 @@ sub dmn_change_httpd_file_data {
 	# Domain WWW directories
 
 	if(! -d "$www_dir/$dmn_name/phptmp") {
-		$rs = make_dir("$www_dir/$dmn_name/phptmp", $sys_user, $sys_group, 0770);
+		$rs = makepath("$www_dir/$dmn_name/phptmp", $sys_user, $sys_group, 0770);
 		return $rs if ($rs != 0);
 	}
 
 	if(! -d "$www_dir/$dmn_name/backups") {
-		$rs = make_dir("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+		$rs = makepath("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 		return $rs if ($rs != 0);
 	}
 
 	# Default error pages
 
 	if(! -d "$www_dir/$dmn_name/errors") {
-		$rs = make_dir("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
+		$rs = makepath("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
 		return $rs if ($rs != 0);
 	}
 
 	if(! -d "$www_dir/$dmn_name/errors/inc") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775
 		);
 		return $rs if ($rs != 0);
@@ -1973,7 +1973,7 @@ sub dmn_change_httpd_file_data {
 	if (!-e "$www_dir/$dmn_name/disabled" &&
 		!-e "$www_dir/$dmn_name/htdocs.disabled") {
 
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/disabled", $httpd_uid, $httpd_gid, 0755
 		);
 		return $rs if ($rs != 0);
@@ -2534,7 +2534,7 @@ sub dmn_add_mta_file_data {
 	my $mailbox_uid_name = $main::cfg{'MTA_MAILBOX_UID_NAME'};
 	my $mailbox_gid_name = $main::cfg{'MTA_MAILBOX_GID_NAME'};
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$virtual_mail_dir/$dmn_name", $mailbox_uid_name, $mailbox_gid_name,
 		0700
 	);

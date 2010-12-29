@@ -103,7 +103,7 @@ sub copy_subdomain_logs {
 
             if (! -d $dest_dir)
             {
-               $rs = make_dir($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
+               $rs = makepath($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
 
                return $rs if ($rs != 0);
 
@@ -177,7 +177,7 @@ sub copy_domain_logs {
 
             if (! -d $dest_dir)
             {
-               $rs = make_dir($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
+               $rs = makepath($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
 
                return $rs if ($rs != 0);
 
@@ -257,7 +257,7 @@ sub copy_alias_logs {
 
             if (! -d $dest_dir)
             {
-               $rs = make_dir($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
+               $rs = makepath($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
 
                return $rs if ($rs != 0);
 
@@ -352,7 +352,7 @@ sub copy_subdomain_alias_logs {
 
             if (! -d $dest_dir)
             {
-               $rs = make_dir($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
+               $rs = makepath($dest_dir, $domain_uid, $main::cfg{'APACHE_GROUP'}, 0770);
 
                return $rs if ($rs != 0);
 

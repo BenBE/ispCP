@@ -2551,7 +2551,7 @@ sub setup_ftpd {
 	## To fill ftp_traff.log file with something
 
 	if (! -e "$main::cfg{'TRAFF_LOG_DIR'}/proftpd") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$main::cfg{'TRAFF_LOG_DIR'}/proftpd", $main::cfg{'ROOT_USER'},
 			$main::cfg{'ROOT_GROUP'}, 0755
 		);
@@ -2780,7 +2780,7 @@ sub setup_gui_php {
 
 	## Create the fcgi directories tree for the GUI if it doesn't exists
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$main::cfg{'PHP_STARTER_DIR'}/master/php5", $main::cfg{'ROOT_USER'},
 		$main::cfg{'ROOT_GROUP'}, 0755
 	);

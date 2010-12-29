@@ -566,15 +566,15 @@ sub sub_add_httpd_file_data {
 	my $sysGroup = "$main::cfg{APACHE_SUEXEC_USER_PREF}@$data{domain_gid}";
 
 	# Creating subdomain dir if it don't already exist or just set these perms
-	my $rs = make_dir($subDir, $sysUser, $sysGroup, 0755);
+	my $rs = makepath($subDir, $sysUser, $sysGroup, 0755);
 	return -1 if ($rs != 0);
 
 	# Creating cgi-bin dir if it don't already exist or just set these perms
-	$rs= make_dir("$subDir/cgi-bin", $sysUser, $sysGroup, 0755);
+	$rs= makepath("$subDir/cgi-bin", $sysUser, $sysGroup, 0755);
 	return -1 if ($rs != 0);
 
 	## Creating phptmp dir if it don't already exist or just set these perms
-	$rs = make_dir(
+	$rs = makepath(
 		"$subDir/phptmp", $sysUser, $main::cfg{'APACHE_GROUP'}, 0770
 	);
 	return -1 if ($rs != 0);
@@ -582,7 +582,7 @@ sub sub_add_httpd_file_data {
 	# Creating htdocs directory with default page if it don't already exist
 	if (!-e "$subDir/htdocs/") {
 
-		$rs = make_dir("$subDir/htdocs", $sysUser, $sysGroup, 0755);
+		$rs = makepath("$subDir/htdocs", $sysUser, $sysGroup, 0755);
 		return -1 if ($rs != 0);
 
 		# Get default index.html default page content
@@ -917,7 +917,7 @@ sub sub_add_mta_file_data {
 	}
 
 	# Creating mail directory if it don't already exist or just set these perms
-	my $rs = make_dir(
+	my $rs = makepath(
 		"$main::cfg{MTA_VIRTUAL_MAIL_DIR}/@$data{subdomain_name}." .
 			@$data{'domain_name'}, $main::cfg{'MTA_MAILBOX_UID_NAME'},
 			$main::cfg{'MTA_MAILBOX_GID_NAME'}, 0700

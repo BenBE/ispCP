@@ -1692,7 +1692,7 @@ sub als_add_httpd_file_data {
 	# Domain WWW directories;
 	#
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name",
 		$sys_user,
 		$httpd_gid,
@@ -1700,7 +1700,7 @@ sub als_add_httpd_file_data {
 	);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name/cgi-bin",
 		$sys_user,
 		$sys_group,
@@ -1708,7 +1708,7 @@ sub als_add_httpd_file_data {
 	);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name/logs",
 		$sys_user,
 		$httpd_gid,
@@ -1716,7 +1716,7 @@ sub als_add_httpd_file_data {
 	);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name/phptmp",
 		$sys_user,
 		$httpd_gid,
@@ -1724,7 +1724,7 @@ sub als_add_httpd_file_data {
 	);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name/errors",
 		$sys_user,
 		$sys_group,
@@ -1732,7 +1732,7 @@ sub als_add_httpd_file_data {
 	);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$www_dir/$als_name/errors/inc",
 		$sys_user,
 		$sys_group,
@@ -1747,7 +1747,7 @@ sub als_add_httpd_file_data {
 	if ($main::cfg{'AWSTATS_ACTIVE'} eq 'yes' && $main::cfg{'AWSTATS_MODE'} eq 1) {
 		if (! -d "$www_dir/$als_name/statistics") {
 
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$als_name/statistics",
 				$sys_user,
 				$sys_group,
@@ -1846,7 +1846,7 @@ sub als_add_httpd_file_data {
 
 	if (!(-e "$www_dir/$als_name/htdocs/")) {
 
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$als_name/htdocs",
 			$sys_user,
 			$sys_group,
@@ -1947,7 +1947,7 @@ sub als_change_httpd_file_data {
 	if ($main::cfg{'AWSTATS_ACTIVE'} eq 'yes' && $main::cfg{'AWSTATS_MODE'} eq 1) {
 
 		if (! -d "$www_dir/$als_name/statistics") {
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$als_name/statistics",
 				$sys_user,
 				$sys_group,
@@ -1963,7 +1963,7 @@ sub als_change_httpd_file_data {
 
 	if( ! -d "$www_dir/$als_name/phptmp") {
 
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$als_name/phptmp",
 			$sys_user,
 			$sys_group,
@@ -2395,7 +2395,7 @@ sub als_add_mta_file_data {
 	my $mailbox_uid_name = $main::cfg{'MTA_MAILBOX_UID_NAME'};
 	my $mailbox_gid_name = $main::cfg{'MTA_MAILBOX_GID_NAME'};
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$virtual_mail_dir/$als_name",
 		$mailbox_uid_name,
 		$mailbox_gid_name,

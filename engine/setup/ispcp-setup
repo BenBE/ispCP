@@ -313,14 +313,14 @@ sub setup_system_dirs {
 		"$main::cfg{'APACHE_SUEXEC_USER_PREF'}$main::cfg{'APACHE_SUEXEC_MIN_GID'}"
 		]
 	) {
-		my $rs = make_dir($_->[0], $_->[1], $_->[2], 0755);
+		my $rs = makepath($_->[0], $_->[1], $_->[2], 0755);
 		return $rs if ($rs != 0);
 	}
 
 	# AWStats dir, use of $main::ua{'awstats_on'}, instead of
 	# $main::cfg{'AWSTATS_ACTIVE'}, because variable not yet set.
 	if ($main::ua{'awstats_on'} eq 'yes' || $main::ua{'awstats_on'} eq 'y') {
-		my $rs = make_dir(
+		my $rs = makepath(
 			$main::cfg{'AWSTATS_CACHE_DIR'}, $main::cfg{'APACHE_USER'},
 			$main::cfg{'APACHE_GROUP'}, 0755
 		);

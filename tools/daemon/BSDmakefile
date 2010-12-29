@@ -36,7 +36,7 @@ CFLAGS := -g -ansi -Wall -Wstrict-prototypes -pedantic
 #CFLAGS += -O0
 #.endif
 
-OBJS = ispcp_daemon.o message.o daemon_init.o say.o signal-handlers.o\
+OBJS := ispcp_daemon.o message.o daemon_init.o say.o signal-handlers.o\
 receive_data.o send_data.o take_connection.o send_line.o recv_line.o\
 helo_cmd.o helo_syntax.o lr_cmd.o lr_syntax.o bye_cmd.o bye_syntax.o
 
