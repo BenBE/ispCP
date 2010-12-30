@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-30 Thomas Wacker
+	- GUI:
+		* Fixed possible division by zero bugs
+
 2010-12-29 Benedikt Heintel
 	- ENGINE:
 		* Replaced deprecated make_dir() by makepath()

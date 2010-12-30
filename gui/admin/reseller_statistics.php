@@ -214,8 +214,17 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 	$traff_show_percent = calc_bar_value($utraff_current, $rtraff_max, 400);
 	$disk_show_percent  = calc_bar_value($udisk_current, $rdisk_max, 400);
 
-	$traff_percent = (($utraff_current/$rtraff_max)*100 < 99.7) ? ($utraff_current/$rtraff_max)*100 : 99.7;
-	$disk_percent  = (($udisk_current/$rdisk_max)*100 < 99.7) ? ($udisk_current/$rdisk_max)*100 : 99.7;
+	if ($rtraff_max > 0) {
+		$traff_percent = (($utraff_current/$rtraff_max)*100 < 99.7) ? ($utraff_current/$rtraff_max)*100 : 99.7;
+	} else {
+		$traff_percent = 0;
+	}
+
+	if ($rdisk_max > 0) {
+		$disk_percent = (($udisk_current/$rdisk_max)*100 < 99.7) ? ($udisk_current/$rdisk_max)*100 : 99.7;
+	} else {
+		$disk_percent = 0;
+	}
 
 	$tpl->assign(
 		array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2')
