@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-01-03 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.3.9
+
 2010-12-30 Thomas Wacker
 	- GUI:
 		* Fixed possible division by zero bugs
