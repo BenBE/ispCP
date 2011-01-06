@@ -50,27 +50,25 @@ function system_message($msg, $type = 'error', $backButtonDestination = '') {
 		$backButtonDestination = "javascript:history.go(-1)";
 	}
 
-	$tpl = new ispCP_pTemplate();
+	$smarty = ispCP_Smarty::getInstance();
 
 	// If we are on the login page, path will be like this
-	$template = $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
+	$template = 'system-message.tpl';
 
-	if (!is_file($template)) {
+	if (!is_file($smarty->get_template_dir().'/'.$template)) {
 		// But if we're inside the panel it will be like this
-		$template = '../' . $cfg->LOGIN_TEMPLATE_PATH . '/system-message.tpl';
+		$template = '../system-message.tpl';
 	}
-	if (!is_file($template)) {
+	if (!is_file($smarty->get_template_dir().'/'.$template)) {
 		// And if we don't find the template, we'll just displaying error
 		// message
 		throw new ispCP_Exception($msg);
 	}
 
-	$tpl->define('page', $template);
-
 	// Small workaround to be able to use the system_message() function during
 	// IspCP initialization process without i18n support
 	if (function_exists('tr')) {
-		$tpl->assign(
+		$smarty->assign(
 			array(
 				'TR_PAGE_TITLE' => tr('ispCP Error'),
 				'TR_BACK' => tr('Back'),
@@ -88,7 +86,7 @@ function system_message($msg, $type = 'error', $backButtonDestination = '') {
 			)
 		);
 	} else {
-		$tpl->assign(
+		$smarty->assign(
 			array(
 				'TR_PAGE_TITLE' => 'ispCP Error',
 				'TR_BACK' => 'Back',
@@ -107,8 +105,7 @@ function system_message($msg, $type = 'error', $backButtonDestination = '') {
 		);
 	}
 
-	$tpl->parse('PAGE', 'page');
-	$tpl->prnt();
+	$smarty->display($template);
 
 	exit;
 }

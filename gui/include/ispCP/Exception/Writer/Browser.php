@@ -78,13 +78,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	public function __construct($templateFile = '') {
 
-		if($templateFile !='') {
-			if(is_readable($templateFile = $templateFile) ||
-				is_readable($templateFile = "../$templateFile")) {
-
-				$this->_templateFile = $templateFile;
-			}
-		}
+		$this->_templateFile = $templateFile;
 	}
 
 	/**
@@ -96,7 +90,11 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	protected function _write() {
 
 		if(!is_null($this->_pTemplate)) {
-			$this->_pTemplate->prnt();
+			if (!is_file($this->_pTemplate->get_template_dir().'/'.$this->_templateFile)) {
+				$this->_pTemplate->display($this->_templateFile);
+			} else {
+				$this->_pTemplate->display('../'.$this->_templateFile);
+			}
 		} else {
 			echo $this->_message;
 		}
@@ -144,8 +142,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	protected function _prepareTemplate() {
 
-		$this->_pTemplate = new ispCP_pTemplate();
-		$this->_pTemplate->define('page', $this->_templateFile);
+		$this->_pTemplate = ispCP_Smarty::getInstance();
 
 
 		if(ispCP_Registry::isRegistered('backButtonDestination')) {
@@ -156,9 +153,9 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 
 		$this->_pTemplate->assign(
 			array(
-				'THEME_COLOR_PATH' => '/themes/' . 'omega',
 				'BACKBUTTONDESTINATION' => $backButtonDest,
-				'MESSAGE' => $this->_message
+				'MESSAGE' => $this->_message,
+				'MSG_TYPE' => 'error'
 			)
 		);
 
@@ -166,7 +163,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 		if (function_exists('tr')) {
 			$this->_pTemplate->assign(
 				array(
-					'TR_SYSTEM_MESSAGE_PAGE_TITLE' => tr('ispCP Error'),
+					'TR_PAGE_TITLE' => tr('ispCP Error'),
 					'THEME_CHARSET' => tr('encoding'),
 					'TR_BACK' => tr('Back'),
 					'TR_ERROR_MESSAGE' => tr('Error Message'),
@@ -176,7 +173,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 		} else {
 			$this->_pTemplate->assign(
 				array(
-					'TR_SYSTEM_MESSAGE_PAGE_TITLE' => 'ispCP Error',
+					'TR_PAGE_TITLE' => 'ispCP Error',
 					'THEME_CHARSET' => 'UTF-8',
 					'TR_BACK' => 'Back',
 					'TR_ERROR_MESSAGE' => 'Error Message',
@@ -184,7 +181,6 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 			);
 		}
 
-		$this->_pTemplate->parse('PAGE', 'page');
 	} // end prepareTemplate()
 }
 ?>
