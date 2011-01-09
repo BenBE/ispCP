@@ -67,14 +67,14 @@ $theme_color = isset($_SESSION['user_theme'])
 	? $_SESSION['user_theme']
 	: $cfg->USER_INITIAL_THEME;
 
-$smarty = ispCP_Smarty::getInstance();
+$tpl = new ispCP_pTemplate();
 
 if (($cfg->MAINTENANCEMODE
 		|| ispCP_Update_Database::getInstance()->checkUpdateExists())
 	&& !isset($_POST['admin']) ) {
 
-	$template = 'maintenancemode.tpl';
-	$smarty->assign(
+	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/maintenancemode.tpl');
+	$tpl->assign(
 		array(
 			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
 			'TR_MESSAGE'		=> nl2br(tohtml($cfg->MAINTENANCEMODE_MESSAGE)),
@@ -90,9 +90,9 @@ if (($cfg->MAINTENANCEMODE
 	);
 } else {
 
-	$template = 'index.tpl';
+	$tpl->define_dynamic('page', $cfg->LOGIN_TEMPLATE_PATH . '/index.tpl');
 
-	$smarty->assign(
+	$tpl->assign(
 		array(
 			'TR_PAGE_TITLE'		=> tr('ispCP Omega a Virtual Hosting Control System'),
 			'TR_LOGIN'		=> tr('Login'),
@@ -112,13 +112,16 @@ if (($cfg->MAINTENANCEMODE
 }
 
 if ($cfg->LOSTPASSWORD) {
-	$smarty->assign('TR_LOSTPW', tr('Lost password'));
+	$tpl->assign('TR_LOSTPW', tr('Lost password'));
 } else {
-	$smarty->assign('TR_LOSTPW', '');
+	$tpl->assign('TR_LOSTPW', '');
 }
 
-gen_page_message($smarty);
-$smarty->display($template);
+$tpl->define_dynamic('page_message', 'page');
+gen_page_message($tpl);
+
+$tpl->parse('PAGE', 'page');
+$tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
