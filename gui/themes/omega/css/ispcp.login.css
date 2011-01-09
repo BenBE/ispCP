@@ -1,0 +1,157 @@
+/**
+ * ispCP ω (OMEGA) a Virtual Hosting Control System
+ *
+ * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @version		SVN: $Id: ispcp.login.css 3742 2010-12-25 23:34:05Z ShadowJumper $
+ * @link		http://isp-control.net
+ * @author 		ispCP Team
+ *
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ */
+
+@CHARSET "UTF-8";
+
+* {
+	color: #000;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+a img {
+	border: none;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+a.button  {
+	height: 23px;
+	line-height: 23px;
+}
+
+body {
+	font-size: 0.8em;
+}
+
+.button {
+	background: transparent url('../images/login/logon_button.png');
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	float: right;
+	font-weight: bold;
+	height: 25px;
+	line-height: 25px;
+	margin-right: 15px;
+	margin-top: 8px;
+	padding-bottom: 2px;
+	width: 110px;
+}
+.button:hover {
+	color: #5cbada;
+}
+
+.image_link {
+	display: inline-block;
+	padding: 15px 6px;
+	text-align: center;
+	width: 80px;
+	border-radius: 10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius: 10px;
+}
+
+.image_link:hover,
+.image_link:focus {
+	background: rgba(204, 204, 204, 0.5);
+}
+
+.main {
+	position: absolute;
+	top: 15%;
+	width: 99%;
+}
+
+.mainbox {
+	background: url('../images/login/logon_black.jpg') no-repeat;
+	height: 339px;
+	margin: 0 auto;
+	width: 316px;
+}
+
+.mainbox  form {
+	padding-top: 175px;
+}
+
+.mainbox  fieldset {
+	border: none;
+	margin: 0 auto;
+	width: 270px;
+}
+
+.mainbox  label {
+	color: #fff;
+	display: inline-block;
+	font-weight: bold;
+	margin-top: 5px;
+	width: 100px;
+}
+
+.textfield {
+	width: 150px;
+}
+
+.toolbox {
+	margin: 10px auto;
+	text-align: center;
+	width: 316px;
+}
+
+.warning, .success, .error, .info {
+	background-position: 10px center;
+	background-repeat: no-repeat;
+	border: 1px solid;
+	margin: 10px 20px;
+	padding: 15px 10px 15px 50px;
+	text-align: left;
+}
+
+.warning {
+	background-color: #ffec9c;
+	background-image: url(../images/messages/warning.png);
+	border-color: #954a00;
+	color: #954a00;
+}
+
+.success {
+    color: #3d7a15;
+    border-color: #3d7a15;
+    background-color: #d6f1b3;
+    background-image: url(../images/messages/success.png);
+}
+
+.error {
+	background-color: #fdbfad;
+	background-image: url(../images/messages/error.png);
+	border-color: #ca1d11;
+	color: #ca1d11;
+}
+
+.info {
+	background-color: #b0def5;
+	background-image: url(../images/messages/info.png);
+	border-color: #0f3d87;
+	color: #0f3d87;
+}

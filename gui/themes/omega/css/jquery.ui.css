@@ -1,0 +1,31 @@
+/**
+ * ispCP ω (OMEGA) a Virtual Hosting Control System
+ *
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id: jquery.ui.core.css 3726 2010-12-21 17:27:01Z ShadowJumper $
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
+ *
+ * @license
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is "jQuery Project".
+ *
+ * The Initial Developer of the Original Code is The jQuery Project.
+ * Portions created by Initial Developer are Copyright (C) 2010 by
+ * The jQuery Project. All Rights Reserved.
+ * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * isp Control Panel. All Rights Reserved.
+ */
+
+@import url('jquery.ui.core.css');
+@import url('jquery.ui.datepicker.css');
+@import url('jquery.ui.tooltip.css');
