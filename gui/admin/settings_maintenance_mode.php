@@ -81,7 +81,10 @@ $tpl->assign(
 		'SELECTED_OFF' => $selected_off,
 		'TR_ENABLED' => tr('Enabled'),
 		'TR_DISABLED' => tr('Disabled'),
-		'TR_APPLY_CHANGES' => tr('Apply changes')
+		'TR_APPLY_CHANGES' => tr('Apply changes'),
+        // The entries below are for Demo versions only
+        'SELECT_DISABLED' => tr('Maintenancemode change is deactivated!'),
+        'DEMO_VERSION' => tr('Demo Version!')
 	)
 );
 
