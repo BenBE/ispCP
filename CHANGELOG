@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-01-13 Benedikt Heintel
+	- GUI:
+		* Fixed #2533: Single-Character SLD for .is (Thanks to Siggi)
+
 2011-01-06 Markus Szywon
 	- GUI:
 		* Replace pTemplate with Smarty part I
