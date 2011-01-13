@@ -43,7 +43,8 @@ install:
 		(cd ./postfix && $(MAKE) install &); \
 		(cd ./courier && $(MAKE) install &); \
 		(cd ./proftpd && $(MAKE) install &); \
-		(cd ./logrotate && $(MAKE) install); \
+		(cd ./logrotate && $(MAKE) install &); \
+		(cd ./sysconfig && $(MAKE) install &); \
 	fi
 
 uninstall:
@@ -58,5 +59,6 @@ uninstall:
 		(cd ./courier && $(MAKE) uninstall &); \
 		(cd ./proftpd && $(MAKE) uninstall &); \
 		(cd ./logrotate && $(MAKE) uninstall &); \
+		(cd ./sysconfig && $(MAKE) uninstall &); \
 	fi
 
