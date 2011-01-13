@@ -50,43 +50,21 @@ if (isset($_GET['id'])) {
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $id
+ */
 function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 
 	global $domain_id;
 	$cfg = ispCP_Registry::get('Config');
 
-	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
-	) = get_domain_default_props($sql, $_SESSION['user_id']);
+	list($dmn_id,,,,,,,,$dmn_mailacc_limit) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	$domain_id = $dmn_id;
 
-	list($mail_acc_cnt,
-		$dmn_mail_acc_cnt,
-		$sub_mail_acc_cnt,
-		$als_mail_acc_cnt,
-		$alssub_mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
+	list($mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_mailacc_limit != 0 && $mail_acc_cnt >= $dmn_mailacc_limit) {
 		set_page_message(tr('Mail accounts limit reached!'), 'warning');
@@ -299,7 +277,6 @@ function create_catchall_mail_account(&$sql, $id) {
 	$match = array();
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'create_catchall' && $_POST['mail_type'] === 'normal') {
 		if (preg_match("/(\d+);(normal|alias|subdom|alssub)/", $id, $match) == 1) {
-			$item_id = $match[1];
 			$item_type = $match[2];
 			$post_mail_id = $_POST['mail_id'];
 
@@ -351,7 +328,7 @@ function create_catchall_mail_account(&$sql, $id) {
 						(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				";
 
-				$rs = exec_query($sql, $query, array($mail_acc, '_no_', '_no_', $domain_id, $mail_type, $sub_id, $status, '_no_', NULL, $mail_addr));
+				exec_query($sql, $query, array($mail_acc, '_no_', '_no_', $domain_id, $mail_type, $sub_id, $status, '_no_', NULL, $mail_addr));
 
 				send_request();
 				write_log($_SESSION['user_logged'] . ": adds new email catch all");
@@ -443,7 +420,7 @@ function create_catchall_mail_account(&$sql, $id) {
 					(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			";
 
-			$rs = exec_query($sql, $query, array(implode(',', $mail_acc), '_no_', '_no_', $domain_id, $mail_type, $sub_id, $status, '_no_', NULL, $mail_addr));
+			exec_query($sql, $query, array(implode(',', $mail_acc), '_no_', '_no_', $domain_id, $mail_type, $sub_id, $status, '_no_', NULL, $mail_addr));
 
 			send_request();
 			write_log($_SESSION['user_logged'] . ": adds new email catch all ");
@@ -458,14 +435,6 @@ function create_catchall_mail_account(&$sql, $id) {
 	}
 }
 
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_CREATE_CATCHALL_PAGE_TITLE'	=> tr('ispCP - Client/Create CatchAll Mail Account')
-	)
-);
-
 // dynamic page data.
 
 gen_dynamic_page_data($tpl, $sql, $item_id);
@@ -473,7 +442,6 @@ create_catchall_mail_account($sql, $item_id);
 $tpl->assign('ID', $item_id);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -483,6 +451,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'						=> tr('ispCP - Client/Create CatchAll Mail Account'),
 		'TR_CREATE_CATCHALL_MAIL_ACCOUNT'	=> tr('Create catch all mail account'),
 		'TR_MAIL_LIST'						=> tr('Mail accounts list'),
 		'TR_CREATE_CATCHALL'				=> tr('Create catch all'),
@@ -501,3 +470,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

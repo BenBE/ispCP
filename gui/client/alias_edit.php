@@ -39,19 +39,11 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
+// static page messages
 $tpl->assign(
 	array(
-		'TR_EDIT_ALIAS_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias')
-	)
-);
 
-/*
- *
- * static page messages.
- *
- */
-$tpl->assign(
-	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
 		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
 		'TR_EDIT_ALIAS' => tr('Edit domain alias'),
 		'TR_ALIAS_NAME' => tr('Alias name'),
@@ -115,6 +107,8 @@ unset_messages();
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
  */
 function gen_editalias_page(&$tpl, $edit_id) {
 
@@ -187,6 +181,8 @@ function gen_editalias_page(&$tpl, $edit_id) {
 
 /**
  * Check input data
+ * @param ispCP_pTemplate $tpl
+ * @param int $alias_id
  */
 function check_fwd_data(&$tpl, $alias_id) {
 
@@ -194,10 +190,9 @@ function check_fwd_data(&$tpl, $alias_id) {
 	$sql = ispCP_Registry::get('Db');
 
 	$forward_url = strtolower(clean_input($_POST['forward']));
-	$status = $_POST['status'];
+
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
 
 	if (isset($_POST['status']) && $_POST['status'] == 1) {
 		$forward_prefix = clean_input($_POST['forward_prefix']);

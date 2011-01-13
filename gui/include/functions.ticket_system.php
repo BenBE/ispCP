@@ -138,7 +138,7 @@ function changeTicketStatus($ticket_id, $ticket_status) {
 			(`ticket_from` = ? OR `ticket_to` = ?)
 	;";
 
-	$rs = exec_query($sql, $query, array(
+	exec_query($sql, $query, array(
 			$ticket_status,
 			$ticket_id,
 			$ticket_id,
@@ -166,7 +166,7 @@ function createTicket($user_id, $admin_id, $urgency, $subject, $message,
 	$sql = ispCP_Registry::get('Db');
 
 	if ($userLevel < 1 || $userLevel > 2)
-		throw ispcp_Exception("ERROR: User level is not valid!");
+		throw new ispCP_Exception("ERROR: User level is not valid!");
 
 	$ticket_date = time();
 	$subject = clean_input($subject);
@@ -262,7 +262,7 @@ function updateTicket($ticket_id, $user_id, $urgency,
 			(?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($ticket_from, $ticket_to, null,
+	exec_query($sql, $query, array($ticket_from, $ticket_to, null,
 			$ticket_id, $urgency, $ticket_date, $subject, $user_message)
 	);
 
@@ -380,7 +380,7 @@ function getTicketUrgency($ticket_urgency) {
  * @version	1.0.0
  *
  * @param int $ticket_id	the ID of the ticket to display
- * @return String			the formatted ticket sender
+ * @return string			the formatted ticket sender
  */
 function getTicketSender($ticket_id) {
 	$sql = ispCP_Registry::get('Db');
@@ -450,12 +450,12 @@ function ticketGetLastDate($ticket_id) {
  * @since	1.0.7
  * @version	1.0.0
  *
- * @param reference $tpl    the TPL object
- * @param int $user_id      the ID of the admin
- * @param int $start		the first ticket to show
- * @param int $count		the maximal count of shown tickets
- * @param String $userLevel	the user level
- * @param String $status	status of the tickets: 'open' and 'closed' allowed
+ * @param ispCP_pTemplate $tpl	the TPL object
+ * @param int $user_id      	the ID of the admin
+ * @param int $start			the first ticket to show
+ * @param int $count			the maximal count of shown tickets
+ * @param string $userLevel		the user level
+ * @param string $status		status of the tickets: 'open' and 'closed' allowed
  */
 function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status) {
 	$sql = ispCP_Registry::get('Db');
@@ -590,10 +590,10 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
  * @since	1.0.7
  * @version	1.0.0
  *
- * @param reference $tpl	the Template object
- * @param int $ticket_id	the ID of the ticket to display
- * @param int $user_id		the ID of the user
- * @param int $screenwidth	the width of the display
+ * @param ispCP_pTemplate $tpl	the Template object
+ * @param int $ticket_id		the ID of the ticket to display
+ * @param int $user_id			the ID of the user
+ * @param int $screenwidth		the width of the display
  */
 function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
 	$cfg = ispCP_Registry::get('Config');
@@ -663,9 +663,9 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
  * @since	1.0.7
  * @version	1.0.0
  *
- * @param reference $tpl	the Template object
- * @param int $ticket_id	the ID of the ticket to display
- * @param int $screenwidth	the width of the display
+ * @param ispCP_pTemplate $tpl	the Template object
+ * @param int $ticket_id		the ID of the ticket to display
+ * @param int $screenwidth		the width of the display
  */
 function showTicketReplies(&$tpl, $ticket_id, $screenwidth) {
 	$cfg = ispCP_Registry::get('Config');
@@ -699,7 +699,7 @@ function showTicketReplies(&$tpl, $ticket_id, $screenwidth) {
 
 		$tpl->assign(
 			array(
-				'FROM'				=> getTicketSender($ticket_id),
+				'FROM'				=> tohtml(getTicketSender($ticket_id)),
 				'DATE'				=> date($cfg->DATE_FORMAT, $ticket_date),
 				'TICKET_CONTENT'	=> nl2br(tohtml($ticket_message))
 			)

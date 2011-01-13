@@ -45,6 +45,8 @@ $tpl->define_dynamic('select_admin_option', 'select_admin');
 
 /**
  * @todo check if it's useful to have the table admin two times in the same query
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
  */
 function gen_reseller_table(&$tpl, &$sql) {
 
@@ -188,7 +190,7 @@ function update_reseller_owner($sql) {
 						`admin_id` = ?
 				";
 
-				$up = exec_query($sql, $query, array($dest_admin, $admin_id));
+				exec_query($sql, $query, array($dest_admin, $admin_id));
 			}
 
 			$rs->moveNext();

@@ -56,7 +56,7 @@ $tpl->define_dynamic('ip_entry', 'page');
  */
 $tpl->assign(
 	array(
-		'TR_EDIT_USER_PAGE_TITLE'	=> tr('ispCP - Users/Edit'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Users/Edit'),
 		'TR_EDIT_USER'			=> tr('Edit user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),
@@ -225,6 +225,7 @@ function load_user_data_page($user_id) {
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
  */
 function gen_edituser_page(&$tpl) {
 	global $dmn_user_name, $user_email, $customer_id, $first_name, $last_name,

@@ -42,12 +42,6 @@ $tpl->define_dynamic('group_item', 'page');
 $tpl->define_dynamic('user_item', 'page');
 $tpl->define_dynamic('unprotect_it', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
-	)
-);
-
 /**
  * @todo use db prepared statements
  */
@@ -194,7 +188,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 				`id` = '$update_id';
 		";
 
-		$rs = exec_query($sql, $query, array($user_id, $group_id, $area_name, $path, $tochange_status));
+		exec_query($sql, $query, array($user_id, $group_id, $area_name, $path, $tochange_status));
 		send_request();
 		set_page_message(tr('Protected area updated successfully!'), 'success');
 	} else {
@@ -205,7 +199,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 				(?, ?, ?, ?, ?, ?, ?);
 		";
 
-		$rs = exec_query($sql, $query, array($dmn_id, $user_id, $group_id, 'Basic' , $area_name, $path, $toadd_status));
+		exec_query($sql, $query, array($dmn_id, $user_id, $group_id, 'Basic' , $area_name, $path, $toadd_status));
 		send_request();
 		set_page_message(tr('Protected area created successfully!'), 'success');
 	}
@@ -213,6 +207,11 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 	user_goto('protected_areas.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -400,7 +399,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 }
 
 // static page messages
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -416,6 +414,7 @@ gen_protect_it($tpl, $sql, $dmn_id);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Webtools'),
 		'TR_HTACCESS' => tr('Protected areas'),
 		'TR_PROTECT_DIR' => tr('Protect this area'),
 		'TR_PATH' => tr('Path'),
@@ -444,5 +443,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
-
 ?>

@@ -52,6 +52,11 @@ $tpl->define_dynamic('scroll_next', 'page');
  * Functions
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_order_page(&$tpl, &$sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 
@@ -214,7 +219,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order management'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order management'),
 		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
 		'TR_ID'						=> tr('ID'),
 		'TR_DOMAIN'					=> tr('Domain'),

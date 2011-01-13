@@ -28,6 +28,12 @@
  * isp Control Panel. All Rights Reserved.
  */
 
+/**
+ * @param int|float $crnt
+ * @param int|float $max
+ * @param int|float $bars_max
+ * @return array
+ */
 function calc_bars($crnt, $max, $bars_max) {
 	if ($max != 0) {
 		$percent_usage = (100 * $crnt) / $max;
@@ -166,7 +172,6 @@ function _passgen() {
 
 
 	for ($i = 0, $passwd_chars = $cfg->PASSWD_CHARS; $i <= $passwd_chars; $i++) {
-		$z = 0;
 
 		do {
 			$z = mt_rand(42, 123);

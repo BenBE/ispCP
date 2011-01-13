@@ -253,7 +253,6 @@ function chk_email($email, $num = 255) {
 		return false;
 	}
 
-	$labels = array();
 	/*
 	 * get the domain part (part after the last @) and re-combine the rest to
 	 * the user part.
@@ -423,8 +422,6 @@ function validates_subdname($subdname, $dname) {
 	$matches = array();
 
 	// Check number of labels and get the data
-	$pattern = "/^((?:[^.]+\.){1,{$subdname_nb_labels}}?)((?:[^.]+\.){{$dname_nb_labels}}?)$/i";
-
 	// TRUE if the subdomain syntax or number of labels is correct
 	// TRUE with $matches[1] set and no empty if the first label of the subdomain is reserved
 	// FALSE if the subdomain syntax is wrong
@@ -690,7 +687,7 @@ function _validates_sld($sld) {
  * @author Laurent Declercq <l.declercq@nuxwin.com>
  * @version 1.0
  * @since r2266
- * @param $label label to be validates
+ * @param string $label label to be validates
  * @return boolean TRUE if the string is an ACE lable, FALSE otherwise
  * @todo Check ASCII range
  */

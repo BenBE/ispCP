@@ -285,7 +285,7 @@ sub backup_ispcp_engine {
 	}
 
 	if(! -d $backup_dir) {
-		$rs = make_dir($backup_dir, 0, 0, 0750);
+		$rs = makepath($backup_dir, 0, 0, 0750);
 		return $rs if ($rs != 0);
 	}
 

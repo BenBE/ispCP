@@ -57,34 +57,20 @@ if (isset($_GET['id'])) {
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $db_id
+ * @param bool $sqluser_available
+ * @return void
+ */
 function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available) {
-	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
+	list($dmn_id,,,,,,,,,,,,
+		$dmn_sqlu_limit
 	) = get_domain_default_props($sql, $user_id);
 
-	list($sqld_acc_cnt,
-		$sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
+	list(,$sqlu_acc_cnt) = get_domain_running_sql_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_sqlu_limit != 0 && $sqlu_acc_cnt >= $dmn_sqlu_limit) {
 		if (!$sqluser_available) {
@@ -124,6 +110,9 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 
 /**
  * Returns an array with a list of the sqlusers of the current database
+ * @param ispCP_Database $sql
+ * @param int $db_id
+ * @return array|bool
  */
 function get_sqluser_list_of_current_db(&$sql, $db_id) {
 	$query = "SELECT `sqlu_name` FROM `sql_user` WHERE `sqld_id` = ?";
@@ -142,6 +131,13 @@ function get_sqluser_list_of_current_db(&$sql, $db_id) {
 	return $userlist;
 }
 
+/**
+ * @param ispCP_Database $sql
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param int $db_id
+ * @return bool
+ */
 function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -356,7 +352,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 			(?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($db_id, $db_user, encrypt_db_password($user_pass)));
+	exec_query($sql, $query, array($db_id, $db_user, encrypt_db_password($user_pass)));
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
@@ -385,6 +381,10 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 	user_goto('sql_manage.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $db_id
+ */
 function gen_page_post_data(&$tpl, $db_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -436,12 +436,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_SQL_ADD_USER_PAGE_TITLE' => tr('ispCP - Client/Add SQL User')
-	)
-);
-
 // dynamic page data.
 
 $sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
@@ -460,6 +454,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
 		'TR_ADD_SQL_USER' => tr('Add SQL user'),
 		'TR_USER_NAME' => tr('SQL user name'),
 		'TR_USE_DMN_ID' => tr('Use numeric ID'),
@@ -484,3 +479,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

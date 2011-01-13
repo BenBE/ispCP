@@ -29,6 +29,12 @@
  */
 
 // site functions
+
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @return void
+ */
 function gen_button_list(&$tpl, &$sql) {
 	$query = "
 		SELECT
@@ -130,7 +136,7 @@ function add_new_button(&$sql) {
 			VALUES (?, ?, ?, ?)
 		";
 
-		$rs = exec_query($sql, $query, array($button_view,
+		exec_query($sql, $query, array($button_view,
 				$button_name,
 				$button_link,
 				$button_target));
@@ -160,7 +166,7 @@ function delete_button(&$sql) {
 				`menu_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, $delete_id);
+		exec_query($sql, $query, $delete_id);
 
 		set_page_message(
 			tr('Custom menu deleted successful!'),
@@ -170,6 +176,10 @@ function delete_button(&$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function edit_button(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -298,7 +308,7 @@ function update_button(&$sql) {
 				`menu_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array(
+		exec_query($sql, $query, array(
 				$button_view,
 				$button_name,
 				$button_link,

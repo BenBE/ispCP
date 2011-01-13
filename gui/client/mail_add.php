@@ -48,6 +48,11 @@ $tpl->define_dynamic('to_alias_subdomain', 'page');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $dmn_name
+ * @param string $post_check
+ */
 function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -93,6 +98,12 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param bool $post_check
+ */
 function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -163,6 +174,14 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param string $dmn_name
+ * @param string $post_check
+ * @return void
+ */
 function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -236,6 +255,12 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ * @param string $post_check
+ */
 function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -396,7 +421,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 	}
 
 	$mail_type = implode(',', $mail_type);
-	list($dmn_type, $type) = explode('_', $mail_type, 2);
+	list($dmn_type) = explode('_', $mail_type, 2);
 
 	$check_acc_query = "
 		SELECT
@@ -424,7 +449,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 		|| preg_match("/^alias_mail/", $mail_type)
 		|| preg_match("/^subdom_mail/", $mail_type)
 		|| preg_match("/^alssub_mail/", $mail_type)) {
-		$mail_pass=encrypt_db_password($mail_pass);
+		$mail_pass = encrypt_db_password($mail_pass);
 	}
 
 	$query = "
@@ -443,7 +468,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 			(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array($mail_acc,
+	exec_query($sql, $query, array($mail_acc,
 			$mail_pass,
 			$mail_forward,
 			$domain_id,
@@ -606,35 +631,11 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 
 function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 	list($dmn_id,
-		$dmn_name,
-		$dmn_gid,
-		$dmn_uid,
-		$dmn_created_id,
-		$dmn_created,
-		$dmn_expires,
-		$dmn_last_modified,
-		$dmn_mailacc_limit,
-		$dmn_ftpacc_limit,
-		$dmn_traff_limit,
-		$dmn_sqld_limit,
-		$dmn_sqlu_limit,
-		$dmn_status,
-		$dmn_als_limit,
-		$dmn_subd_limit,
-		$dmn_ip_id,
-		$dmn_disk_limit,
-		$dmn_disk_usage,
-		$dmn_php,
-		$dmn_cgi,
-		$allowbackup,
-		$dmn_dns
+		$dmn_name,,,,,,,
+		$dmn_mailacc_limit,,,,,,,,,,,,,,
 	) = get_domain_default_props($sql, $user_id);
 
-	list($mail_acc_cnt,
-		$dmn_mail_acc_cnt,
-		$sub_mail_acc_cnt,
-		$als_mail_acc_cnt,
-		$alssub_mail_acc_cnt) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
+	list($mail_acc_cnt,,,,) = get_domain_running_mail_acc_cnt($sql, $dmn_id);
 
 	if ($dmn_mailacc_limit != 0 && $mail_acc_cnt >= $dmn_mailacc_limit) {
 		set_page_message(tr('Mail accounts limit reached!'), 'warning');
@@ -657,18 +658,11 @@ if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
 	header("Location: index.php");
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_ADD_MAIL_ACC_PAGE_TITLE'	=> tr('ispCP - Client/Add Mail User')
-	)
-);
-
 // dynamic page data.
 
 gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -678,6 +672,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
 		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
 		'TR_USERNAME'			=> tr('Username'),
 		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
@@ -702,3 +697,5 @@ $tpl->prnt();
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
+?>

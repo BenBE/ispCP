@@ -113,22 +113,28 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 			`sqlu_name` = ?
 	";
 
-	$rs = exec_query($sql, $query, array(encrypt_db_password($user_pass), $db_user_name));
+	exec_query($sql, $query, array(encrypt_db_password($user_pass), $db_user_name));
 
 	// update user pass in the mysql system tables;
 	// TODO use prepared statement for $user_pass
 	$query = "SET PASSWORD FOR '$db_user_name'@'%' = PASSWORD('$user_pass')";
 
-	$rs = execute_query($sql, $query);
+	execute_query($sql, $query);
 	// TODO use prepared statement for $user_pass
 	$query = "SET PASSWORD FOR '$db_user_name'@localhost = PASSWORD('$user_pass')";
-	$rs = execute_query($sql, $query);
+	execute_query($sql, $query);
 
 	write_log($_SESSION['user_logged'] . ": update SQL user password: " . tohtml($db_user_name));
 	set_page_message(tr('SQL user password was successfully changed!'), 'warning');
 	user_goto('sql_manage.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $db_user_id
+ * @return mixed
+ */
 function gen_page_data(&$tpl, &$sql, $db_user_id) {
 	$query = "
 		SELECT
@@ -155,12 +161,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_SQL_CHANGE_PASSWORD_PAGE_TITLE' => tr('ispCP - Client/Change SQL User Password')
-	)
-);
-
 
 // dynamic page data.
 $db_user_name = gen_page_data($tpl, $sql, $db_user_id);
@@ -177,6 +177,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Change SQL User Password'),
 		'TR_CHANGE_SQL_USER_PASSWORD' 	=> tr('Change SQL user password'),
 		'TR_USER_NAME' 					=> tr('User name'),
 		'TR_PASS' 						=> tr('Password'),

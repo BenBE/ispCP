@@ -17,8 +17,8 @@ Table of Content
 ================================================================================
 1) Version Info
 ---------------
-ispCP ω Version	: 1.0.8
-INSTALL Script	: 4.8
+ispCP ω Version	: 1.1.0
+INSTALL Script	: 4.9
 Maintainer		: BeNe
 Homepage		: http://www.isp-contol.net
 Distros			: FreeBSD
@@ -57,10 +57,9 @@ If not create a rndc.key file:
 
 1. Untar or unzip the distribution files to a secure directory:
 	# cd /usr/local/src
-	# tar xjvf ispcp-omega-1.0.8.tar.bz2
+	# tar xjvf ispcp-omega-1.1.0.tar.bz2
 
 2. Install Ports and Portmaster:
-	# portsnap update
 	# portsnap fetch extract
 	# cd /usr/ports/ports-mgmt/portmaster
 	# make install clean
@@ -110,7 +109,7 @@ If not create a rndc.key file:
  	x SUEXEC
 	x CGID
 
-	proftpd 1.3.3c_1 Options
+	proftpd 1.3.3c_3 Options
 
 	x CTRLS
 	x IFSESSION
@@ -123,7 +122,7 @@ If not create a rndc.key file:
 	x WRAP
 	x MYSQL
 
-	postfix 2.7.1,1 Options
+	postfix 2.7.2,1 Options
 
 	x PCRE
 	x SASL2
@@ -141,7 +140,7 @@ If not create a rndc.key file:
 	x IPV6
 	x AUTH_USERDB
 
-	cyrus-sasl 2.1.23 Options
+	cyrus-sasl 2.1.23_1 Options
 
 	x BDB
 	x MYSQL
@@ -295,6 +294,16 @@ If not create a rndc.key file:
 	x GNUPG
 	x RAZOR
 
+	gsed 4.2.1_2 Options
+
+	x NLS
+
+	screen 4.0.3_9 Options
+
+	x INFO
+	x MAN
+	x NETHACK
+
 5.  Configure the system.
 	 # rehash
 
@@ -307,7 +316,7 @@ If not create a rndc.key file:
 	 # mysqladmin -u root password 'YOUR_PASSWORD'
 
 8.  Build the System by using make:
-	 # cd /usr/local/src/ispcp-omega-1.0.8
+	 # cd /usr/local/src/ispcp-omega-1.1.0
 	 # make -f BSDmakefile install
 
 9.  Copy all the directories into your system.
@@ -359,10 +368,10 @@ Make sure you are logged in as root and MySQL is running.
 
 1.  Untar or unzip the distribution files to a secure directory:
 	 # cd /root
-	 # tar xjvf ispcp-omega-1.0.8.tar.bz2
+	 # tar xjvf ispcp-omega-1.1.0.tar.bz2
 
 2.  Change to the newly created directory:
-	 # cd ./ispcp-omega-1.0.8
+	 # cd ./ispcp-omega-1.1.0
 
 3.  Install the required modules:
 	see: ./docs/FreeBSD/freebsd-packages

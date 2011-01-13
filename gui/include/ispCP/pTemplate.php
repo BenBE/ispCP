@@ -2,6 +2,13 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
+ * @copyright 	2001-2006 by moleSoftware GmbH
+ * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @version 	SVN: $Id$
+ * @link 		http://isp-control.net
+ * @author 		ispCP Team
+ *
+ * @license
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -19,16 +26,6 @@
  * by moleSoftware GmbH. All Rights Reserved.
  * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
  * isp Control Panel. All Rights Reserved.
- *
- * @category	ispCP
- * @package		ispCP_pTemplate
- * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
- * @author 		VHCS Team
- * @author 		ispCP Team
- * @version 	SVN: $Id$
- * @link		http://isp-control.net ispCP Home Site
- * @license		http://www.mozilla.org/MPL/ MPL 1.1
  */
 
 /**
@@ -74,7 +71,8 @@ class ispCP_pTemplate {
 	/**
 	 * Constructor
 	 *
-	 * @param String $r_dir Folder where the Template file is located
+	 * @param string $r_dir Folder where the Template file is located
+	 * @param boolean $login
 	 */
 	public function __construct($r_dir = "", $login = false) {
 		$this->tpl_name = array();
@@ -123,10 +121,21 @@ class ispCP_pTemplate {
 		$this->set_globals();
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $set_dir
+	 */
 	private function set_root($set_dir = '.') {
 		$this->root_dir = $set_dir;
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $nsp_name
+	 * @param String $nsp_data
+	 */
 	public function assign($nsp_name, $nsp_data = '') {
 		if (gettype($nsp_name) == "array") {
 			foreach ($nsp_name as $key => $value) {
@@ -137,6 +146,11 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $nsp_name
+	 */
 	public function unsign($nsp_name) {
 		if (gettype($nsp_name) == "array") {
 			foreach ($nsp_name as $key => $value) {
@@ -147,6 +161,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $t_name
+	 * @param String $t_value
+	 */
 	public function define($t_name, $t_value = '') {
 		if (gettype($t_name) == "array") {
 			foreach ($t_name as $key => $value) {
@@ -161,6 +181,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $t_name
+	 * @param String $t_value
+	 */
 	public function define_dynamic($t_name, $t_value = '') {
 		if (gettype($t_name) == "array") {
 			foreach ($t_name as $key => $value) {
@@ -175,6 +201,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 * 
+	 * @param String $t_name
+	 * @param String $t_value
+	 */
 	public function define_no_file($t_name, $t_value = '') {
 		if (gettype($t_name) == "array") {
 			foreach ($t_name as $key => $value) {
@@ -189,6 +221,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $t_name
+	 * @param String $t_value
+	 */
 	public function define_no_file_dynamic($t_name, $t_value = '') {
 		if (gettype($t_name) == "array") {
 			foreach ($t_name as $key => $value) {
@@ -205,6 +243,13 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $data
+	 * @param int $spos
+	 * @return boolean
+	 */
 	public function find_next($data, $spos) {
 		do {
 			$tag_spos = strpos($data, $this->tpl_start_tag, $spos + 1);
@@ -237,9 +282,15 @@ class ispCP_pTemplate {
 		} while (true);
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $data
+	 * @param int $spos
+	 * @return boolean
+	 */
 	private function find_next_curl($data, $spos) {
 		$curl_b = strpos($data, '{', $spos + 1);
-
 		$curl_e = strpos($data, '}', $spos + 1);
 
 		if ($curl_b) {
@@ -261,6 +312,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $data
+	 * @return String
+	 */
 	private function devide_dynamic($data) {
 		$start_from = -1;
 
@@ -297,6 +354,12 @@ class ispCP_pTemplate {
 		return $data;
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $data
+	 * @return String
+	 */
 	private function substitute_dynamic($data) {
 		$this->sp = 0;
 
@@ -365,6 +428,12 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $fname
+	 * @return boolean
+	 */
 	private function is_safe($fname) {
 		return (file_exists(($this->root_dir) . '/' . $fname)) ? true : false;
 	}
@@ -381,6 +450,11 @@ class ispCP_pTemplate {
 		return in_array($namespace, $this->namespace);
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $fname
+	 */
 	public function get_file($fname) {
 		if (is_array($fname)) {
 			$fname = (!empty($this->__includeRelativePath) ? $this->__includeRelativePath . '/' : '') . $fname[1];
@@ -407,6 +481,12 @@ class ispCP_pTemplate {
 		return null;
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $tname
+	 * @return mixed
+	 */
 	private function find_origin($tname) {
 		if (!@$this->dtpl_name[$tname]) {
 			return false;
@@ -419,10 +499,17 @@ class ispCP_pTemplate {
 		return $tname;
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $pname
+	 * @param String $tname
+	 * @param mixed $ADD_FLAG
+	 * @return boolean
+	 */
 	public function parse_dynamic($pname, $tname, $ADD_FLAG) {
 		$CHILD = false;
 		$parent = '';
-		$swap = '';
 
 		if (!preg_match('/\.[Tt][Pp][Ll]/', @$this->dtpl_name[$tname])
 			&& !preg_match('/_no_file_/', @$this->dtpl_name[$tname])) {
@@ -470,6 +557,12 @@ class ispCP_pTemplate {
 		return true;
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $pname
+	 * @param String $tname
+	 */
 	public function parse($pname, $tname) {
 		if (!preg_match('/[A-Z0-9][A-Z0-9\_]*/', $pname)) {
 			return false;
@@ -523,6 +616,11 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $pname
+	 */
 	public function prnt($pname = '') {
 		if ($pname) {
 			print @$this->namespace[$pname];
@@ -531,6 +629,11 @@ class ispCP_pTemplate {
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 *
+	 * @param String $pname
+	 */
 	public function FastPrint($pname = '') {
 		if ($pname) {
 			$this->prnt($pname);
@@ -539,60 +642,84 @@ class ispCP_pTemplate {
 		}
 	}
 
-	/* functions added for debugging */
+/**
+ *  Debug Functions
+ */
+
+	/**
+	 * @todo document this function
+	 */
 	public function print_namespace() {
-		print "<br><u>'namespace' contents</u><br>";
+		print "<br /><u>'namespace' contents</u><br />";
 
 		foreach ($this->namespace as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_tpl_name() {
-		print "<br><u>'tpl_name' contents</u><br>";
+		print "<br /><u>'tpl_name' contents</u><br />";
 
 		foreach ($this->tpl_name as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_dtpl_name() {
-		print "<br><u>'dtpl_name' contents</u><br>";
+		print "<br /><u>'dtpl_name' contents</u><br />";
 
 		foreach ($this->dtpl_name as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_tpl_data() {
-		print "<br><u>'tpl_data' contents</u><br>";
+		print "<br /><u>'tpl_data' contents</u><br />";
 
 		foreach ($this->tpl_data as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_dtpl_data() {
-		print "<br><u>'dtpl_data' contents</u><br>";
+		print "<br /><u>'dtpl_data' contents</u><br />";
 
 		foreach ($this->dtpl_data as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_dtpl_options() {
-		print "<br><u>'dtpl_options' contents</u><br>";
+		print "<br /><u>'dtpl_options' contents</u><br />";
 
 		foreach ($this->dtpl_options as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 
+	/**
+	 * @todo document this function
+	 */
 	public function print_dtpl_values() {
-		print "<br><u>'dtpl_values' contents</u><br>";
+		print "<br /><u>'dtpl_values' contents</u><br />";
 
 		foreach ($this->dtpl_values as $key => $value) {
-			print "$key => $value<br>";
+			print "$key => $value<br />";
 		}
 	}
 

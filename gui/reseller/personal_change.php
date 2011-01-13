@@ -46,6 +46,11 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 gen_reseller_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 
@@ -156,7 +161,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
 		'TR_PERSONAL_DATA'			=> tr('Personal data'),
 		'TR_FIRST_NAME'				=> tr('First name'),

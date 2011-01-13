@@ -62,7 +62,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 		array(
-			'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - User/Add user(step2)'),
+			'TR_PAGE_TITLE'					=> tr('ispCP - User/Add user(step2)'),
 			'TR_ADD_USER'					=> tr('Add user'),
 			'TR_HOSTING_PLAN_PROPERTIES'	=> tr('Hosting plan properties'),
 			'TR_TEMPLATE_NAME'				=> tr('Template name'),
@@ -157,7 +157,8 @@ function get_pageone_param() {
 	if (isset($_SESSION['dmn_name'])) {
 		$dmn_name 			= $_SESSION['dmn_name'];
 		$dmn_expire 		= $_SESSION['dmn_expire_date'];
-		$dmn_expire_never 	= $_SESSION['dmn_expire_never'];
+		// TODO: validate global var
+		//$dmn_expire_never = $_SESSION['dmn_expire_never'];
 		$dmn_chp 			= $_SESSION['dmn_tpl'];
 	} else {
 		return false;
@@ -168,6 +169,7 @@ function get_pageone_param() {
 
 /**
  * Show page with initial data fields
+ * @param ispCP_pTemplate $tpl
  */
 function get_init_au2_page(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
@@ -247,6 +249,7 @@ function get_hp_data($hpid, $admin_id) {
 
 /**
  * Check validity of input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_user_data(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;

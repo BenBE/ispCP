@@ -84,7 +84,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Change Language')
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Change Language'),
 		'TR_LANGUAGE' => tr('Language'),
 		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose your default language'),
 		'TR_SAVE' => tr('Save'),

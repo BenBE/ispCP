@@ -43,12 +43,6 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('pusres', 'page');
 $tpl->define_dynamic('pgroups', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools')
-	)
-);
-
 function padd_user(&$tpl, &$sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -110,7 +104,7 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 					VALUES
 						(?, ?, ?, ?)
 				";
-				$rs = exec_query($sql, $query, array($dmn_id, $uname, $upass, $status));
+				exec_query($sql, $query, array($dmn_id, $uname, $upass, $status));
 
 				send_request();
 
@@ -127,12 +121,7 @@ function padd_user(&$tpl, &$sql, $dmn_id) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -144,6 +133,7 @@ padd_user($tpl, $sql, get_user_domain_id($sql, $_SESSION['user_id']));
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Webtools'),
 		'TR_HTACCESS'			=> tr('Protected areas'),
 		'TR_ACTION'				=> tr('Action'),
 		'TR_USER_MANAGE'		=> tr('Manage user'),
@@ -173,3 +163,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

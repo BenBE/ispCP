@@ -51,7 +51,7 @@ if (!is_xhr()) {
 
 	$tpl->assign(
 		array(
-			'TR_ADD_USER_PAGE_TITLE' => tr('ispCP - User/Add user'),
+			'TR_PAGE_TITLE' => tr('ispCP - User/Add user'),
 			'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
 			'TR_ADD_ALIAS' => tr('Add domain alias'),
 			'TR_DOMAIN_NAME' => tr('Domain name'),
@@ -244,13 +244,12 @@ function init_empty_data() {
  * @global  $forward
  * @global  $forward_prefix
  * @global string $mount_point
- * @param <type> $tpl
- * @param <type> $reseller_id
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
 	global $alias_name, $forward, $forward_prefix, $mount_point;
 
-	$cfgd = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
 	$dmn_id = $_SESSION['dmn_id'];
@@ -352,7 +351,7 @@ function add_domain_alias(&$err_al) {
 			} else {
 				$ret = validates_dname($domain, true);
 			}
-			$domain = encode_idna($aurl['host']);
+
 			if (!$ret) {
 				$err_al = tr("Wrong domain part in forward URL!");
 			} else {
@@ -441,9 +440,8 @@ function add_domain_alias(&$err_al) {
 } // End of add_domain_alias();
 
 /**
- *
- * @param <type> $tpl
- * @param <type> $error_txt
+ * @param ispCP_pTemplate $tpl
+ * @param string $error_txt
  */
 function gen_page_msg(&$tpl, $error_txt) {
 	if ($error_txt != '_off_') {

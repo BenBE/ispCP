@@ -73,6 +73,11 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $reseller_name
+ */
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 	global $rid;
@@ -203,12 +208,17 @@ SQL_QUERY;
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param int $row
+ */
 function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	global $crnt_month, $crnt_year;
 
 	list($domain_name, $domain_id, $web, $ftp, $smtp, $pop3, $utraff_current,
-		$udisk_current, $i, $j) = generate_user_traffic($user_id);
+		$udisk_current, , ) = generate_user_traffic($user_id);
 
 	list($usub_current, $usub_max, $uals_current, $uals_max, $umail_current,
 		$umail_max,	$uftp_current, $uftp_max, $usql_db_current, $usql_db_max,
@@ -221,8 +231,17 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 	$traff_show_percent = calc_bar_value($utraff_current, $utraff_max, 400);
 	$disk_show_percent  = calc_bar_value($udisk_current, $udisk_max, 400);
 
-	$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
-	$disk_percent  = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
+	if ($utraff_max > 0) {
+		$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
+	} else {
+		$traff_percent = 0;
+	}
+
+	if ($udisk_max > 0) {
+		$disk_percent = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
+	} else {
+		$disk_percent = 0;
+	}
 
 	$tpl->assign(
 		array(

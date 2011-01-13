@@ -94,6 +94,11 @@ unset_messages();
 
 // Begin function block
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param ispCP_Database $sql
+ */
 function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -113,7 +118,6 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$res = exec_query($sql, $query, $domain_id);
 	$data = $res->fetchRow();
 
-
 	if ($res->recordCount() <= 0) {
 		user_goto('manage_users.php');
 	}
@@ -121,14 +125,16 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	// Get admin data
 	$query = "SELECT `admin_name` FROM `admin` WHERE `admin_id` = ?";
 	$res1 = exec_query($sql, $query, $data['domain_admin_id']);
-	$data1 = $res1->fetchRow();
+	$res1->fetchRow();
+
 	if ($res1->recordCount() <= 0) {
 		user_goto('manage_users.php');
 	}
+
 	// Get IP info
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
 	$ipres = exec_query($sql, $query, $data['domain_ip_id']);
-	$ipdat = $ipres->fetchRow();
+	$ipres->fetchRow();
 	// Get status name
 	$dstatus = $data['domain_status'];
 
@@ -167,10 +173,6 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$res7 = exec_query($sql, $query, array($data['domain_id'], $fdofmnth, $ldofmnth));
 	$dtraff = $res7->fetchRow();
 	$sumtraff = $dtraff['dtraff_web'] + $dtraff['dtraff_ftp'] + $dtraff['dtraff_mail'] + $dtraff['dtraff_pop'];
-	$dtraffmb = sprintf("%.1f", ($sumtraff / 1024) / 1024);
-
-	$month = date("m");
-	$year = date("Y");
 
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
 	$res8 = exec_query($sql, $query, $data['domain_ip_id']);
@@ -178,16 +180,6 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 
 	$domain_traffic_limit = $data['domain_traffic_limit'];
 	$domain_all_traffic = $sumtraff; //$dtraff['traffic'];
-
-	$traff = ($domain_all_traffic / 1024) / 1024;
-	$mtraff = sprintf("%.2f", $traff);
-
-	if ($domain_traffic_limit == 0) {
-		$pr = 0;
-	} else {
-		$pr = ($traff / $domain_traffic_limit) * 100;
-		$pr = sprintf("%.2f", $pr);
-	}
 
 	$traffic_percent = sprintf("%.2f", 100 * $domain_all_traffic / ($domain_traffic_limit * 1024 * 1024));
 	// Get disk status

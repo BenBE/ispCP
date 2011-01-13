@@ -70,7 +70,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_QUESTION_PAGE_TITLE' => tr('ispCP - Client/Questions & Comments'),
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Questions & Comments'),
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'=> tr('Support tickets'),
 		'TR_STATUS'			=> tr('Status'),

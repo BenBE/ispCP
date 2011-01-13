@@ -90,3 +90,4 @@ SQL_QUERY;
 	set_page_message(tr('Permission deny!'), 'error');
 	user_goto('protected_areas.php');
 }
+?>

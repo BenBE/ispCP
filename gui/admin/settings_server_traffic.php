@@ -81,7 +81,7 @@ function update_server_settings(&$sql) {
 			`straff_max` = ?,
 			`straff_warn` = ?
 	";
-	$rs = exec_query($sql, $query, array($max_traffic, $traffic_warning));
+	exec_query($sql, $query, array($max_traffic, $traffic_warning));
 
 	set_page_message(
 		tr('Server traffic settings updated successfully!'),
@@ -89,6 +89,10 @@ function update_server_settings(&$sql) {
 	);
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function generate_server_data(&$tpl, &$sql) {
 
 	$query = "

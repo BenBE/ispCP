@@ -57,6 +57,10 @@ function gen_ip_action($ip_id, $status) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function show_IPs(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -115,6 +119,10 @@ function show_IPs(&$tpl, &$sql) {
 	} // end while
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function add_ip(&$tpl, &$sql) {
 
 	global $ip_number, $domain, $alias, $ip_card;
@@ -130,7 +138,7 @@ function add_ip(&$tpl, &$sql) {
 				VALUES
 					(?, ?, ?, ?, ?, ?)
 			";
-			$rs = exec_query($sql, $query, array($ip_number, htmlspecialchars($domain, ENT_QUOTES, "UTF-8"),
+			exec_query($sql, $query, array($ip_number, htmlspecialchars($domain, ENT_QUOTES, "UTF-8"),
 			htmlspecialchars($alias, ENT_QUOTES, "UTF-8"), htmlspecialchars($ip_card, ENT_QUOTES, "UTF-8"), NULL, $cfg->ITEM_ADD_STATUS));
 
 			send_request();
@@ -227,6 +235,10 @@ function IP_exists() {
 	return true;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_NetworkCard $interfaces
+ */
 function show_Network_Cards(&$tpl, &$interfaces) {
 
 	if ($interfaces->getErrors() != '') {
@@ -264,7 +276,7 @@ show_IPs($tpl, $sql);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/IP manage')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/IP manage'),
 		'TR_SETTINGS'		=> tr('Settings'),
 		'MANAGE_IPS'		=> tr('Manage IPs'),
 		'TR_AVAILABLE_IPS'	=> tr('Available IPs'),

@@ -45,6 +45,12 @@ $tpl->define_dynamic('user_list', 'db_list');
 $count = -1;
 
 // page functions.
+
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $db_id
+ */
 function gen_db_user_list(&$tpl, &$sql, $db_id) {
 
 	global $count;
@@ -95,6 +101,11 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_db_list(&$tpl, &$sql, $user_id) {
 
 	$dmn_id = get_user_domain_id($sql, $user_id);
@@ -141,12 +152,6 @@ if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 }
 
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_MANAGE_SQL_PAGE_TITLE' => tr('ispCP - Client/Manage SQL')
-	)
-);
-
 // dynamic page data.
 
 gen_db_list($tpl, $sql, $_SESSION['user_id']);
@@ -162,6 +167,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
 		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
 		'TR_DELETE'				=> tr('Delete'),
 		'TR_DATABASE'			=> tr('Database Name and Users'),

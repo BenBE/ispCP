@@ -84,7 +84,7 @@ function update_password() {
 				WHERE
 					`admin_id` = ?
 			";
-			$rs = exec_query($sql, $query, array($upass, $user_id));
+			exec_query($sql, $query, array($upass, $user_id));
 
 			set_page_message(
 				tr('User password updated successfully!'),

@@ -1,7 +1,61 @@
-ispCP ω 1.0.8 ChangeLog
+ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-01-06 Markus Szywon
+	- GUI:
+		* Replace pTemplate with Smarty part I
+
+2011-01-04 Markus Szywon
+	- GUI:
+		* Template improvements part IV
+		* Updated Slovak (#2518; Thanks to Rastislav Vasicka)
+
+2011-01-03 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.3.9
+
+2010-12-30 Thomas Wacker
+	- GUI:
+		* Fixed possible division by zero bugs
+
+2010-12-29 Benedikt Heintel
+	- ENGINE:
+		* Replaced deprecated make_dir() by makepath()
+
+2010-12-28 Markus Szywon
+	- GUI:
+		* Template improvements part III
+		* Some small fixes
+		
+2010-12-27 Markus Szywon
+	- GUI:
+		* Some small fixes
+
+2010-12-25 Benedikt Heintel
+	- DAEMON:
+		* Rewrote make files
+
+2010-12-25 Markus Szywon
+	- LANGUAGES:
+		* Updated Hungary (#2526; Thanks to Jónás Zsolt)
+
+2010-12-24 Thomas Wacker
+	- GUI:
+		* Dead code elimination
+
+2010-12-23 Markus Szywon
+	- GUI:
+		* Some small fixes
+
+2010-12-23 Thomas Wacker
+	- SETUP:
+		* Fixed broken key generation on update
+	- GUI:
+		* Small fixes, dead code elimination
+
 2010-12-23 Benedikt Heintel
+	- CONFIGS:
+		* Added: Dovecot compatibility to postfix's master.cf (Thanks to aseques)
 	- DOCS:
 		* Updated README
 	- GUI:
@@ -702,7 +756,7 @@ ispCP ω 1.0.8 ChangeLog
 	- SETUP:
 		* Changed: Get user's local timezone from system config
 		* Changed: Check timezone against OLSON database
-		* Removed: Depreciated first-check.sh
+		* Removed: Deprecated first-check.sh
 
 2010-08-12 Laurent Declercq
 	- ENGINE:

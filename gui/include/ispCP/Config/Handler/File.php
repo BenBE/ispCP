@@ -106,6 +106,63 @@ require_once  INCLUDEPATH . '/ispCP/Config/Handler.php';
  * have sld with a single character
  * @property bool TLD_STRICT_VALIDATION If TRUE, Only TLD from iana database are
  * usable
+ * @property mixed ITEM_ADD_STATUS
+ * @property mixed ITEM_ORDERED_STATUS
+ * @property mixed ITEM_CHANGE_STATUS
+ * @property mixed ITEM_DELETE_STATUS
+ * @property mixed ITEM_RESTORE_STATUS
+ * @property mixed ITEM_TOENABLE_STATUS
+ * @property mixed ITEM_TODISABLED_STATUS
+ * @property mixed ITEM_DISABLED_STATUS
+ * @property mixed ITEM_DNSCHANGE_STATUS
+ * @property mixed ITEM_OK_STATUS
+ * @property mixed ITEM_PROTECTED_STATUS
+ * @property string MAINTENANCEMODE_MESSAGE
+ * @property string HTML_SELECTED
+ * @property string HTML_CHECKED
+ * @property string HTML_READONLY
+ * @property string HTML_DISABLED
+ * @property mixed HOSTING_PLANS_LEVEL
+ * @property string USER_INITIAL_LANG
+ * @property mixed BASE_SERVER_IP
+ * @property string DATE_FORMAT
+ * @property string IPS_LOGO_PATH
+ * @property string CLIENT_TEMPLATE_PATH
+ * @property mixed AWSTATS_GROUP_AUTH
+ * @property string ZIP
+ * @property string BASE_SERVER_VHOST
+ * @property string BASE_SERVER_VHOST_PREFIX
+ * @property mixed USER_INITIAL_THEME
+ * @property mixed FTP_USERNAME_SEPARATOR
+ * @property mixed MYSQL_PREFIX
+ * @property mixed MYSQL_PREFIX_TYPE
+ * @property mixed APACHE_SUEXEC_USER_PREF
+ * @property string LOGIN_TEMPLATE_PATH
+ * @property mixed PORT_POSTGREY
+ * @property mixed FAILED_UPDATE
+ * @property mixed DATABASE_UTF8
+ * @property mixed PHP_TIMEZONE
+ * @property mixed MAIL_BODY_FOOTPRINTS
+ * @property mixed MAIL_WRITER_EXPIRY_TIME
+ * @property string ROOT_TEMPLATE_PATH
+ * @property string RESELLER_TEMPLATE_PATH
+ * @property string PURCHASE_TEMPLATE_PATH
+ * @property string LOSTPASSWORD_CAPTCHA_FONT
+ * @property string SERVER_VHOST_FILE
+ * @property string APACHE_SITES_DIR
+ * @property string ISPCP_SUPPORT_SYSTEM_TARGET
+ * @property string ISPCP_SUPPORT_SYSTEM_PATH
+ * @property string SERVER_HOSTNAME
+ * @property string MR_LOCK_FILE
+ * @property string Version
+ * @property string CodeName
+ * @property string WEBMAIL_PATH
+ * @property string WEBMAIL_TARGET
+ * @property string PMA_PATH
+ * @property string PMA_TARGET
+ * @property string FILEMANAGER_PATH
+ * @property string FILEMANAGER_TARGET
+ * @property string AWSTATS_ACTIVE
  *
  * @package		ispCP_Config
  * @subpackage	Handler

@@ -116,6 +116,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Generate empty form
+ * @param ispCP_pTemplate $tpl
  */
 function gen_empty_ahp_page(&$tpl) {
 
@@ -159,6 +160,7 @@ function gen_empty_ahp_page(&$tpl) {
 
 /**
  * Show last entered data for new hp
+ * @param ispCP_pTemplate $tpl
  */
 function gen_data_ahp_page(&$tpl) {
 
@@ -213,6 +215,7 @@ function gen_data_ahp_page(&$tpl) {
 
 /**
  * Check correction of input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_data_correction(&$tpl) {
 
@@ -322,6 +325,8 @@ function check_data_correction(&$tpl) {
 
 /**
  * Add new host plan to DB
+ * @param ispCP_pTemplate $tpl
+ * @param int $admin_id
  */
 function save_data_to_db(&$tpl, $admin_id) {
 
@@ -335,7 +340,6 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 	$sql = ispCP_Registry::get('Db');
 
-	$query = "SELECT `id` FROM `hosting_plans` WHERE `name` = ? AND `reseller_id` = ?";
 	$query = "
 		SELECT
 			t1.`id`, t1.`name`, t1.`reseller_id`, t1.`name`, t1.`props`,
@@ -373,7 +377,7 @@ function save_data_to_db(&$tpl, $admin_id) {
 				) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		";
 
-		$res = exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status, $tos));
+		exec_query($sql, $query, array($admin_id, $hp_name, $description, $hp_props, $price, $setup_fee, $value, $payment, $status, $tos));
 
 		$_SESSION['hp_added'] = '_yes_';
 		user_goto('hosting_plan.php');

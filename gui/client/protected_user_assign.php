@@ -70,6 +70,11 @@ function get_htuser_name(&$sql, &$uuser_id, &$dmn_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 	if (isset($_GET['uname'])
 		&& $_GET['uname'] !== ''
@@ -199,7 +204,7 @@ function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 				`dmn_id` = ?
 		";
 
-		$rs_update = exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
+		exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
 
 		send_request();
 		set_page_message(
@@ -255,7 +260,7 @@ function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
 					`dmn_id` = ?
 			";
 
-			$rs_update = exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
+			exec_query($sql, $update_query, array($members, $change_status, $group_id, $dmn_id));
 			send_request();
 
 			set_page_message(

@@ -45,6 +45,12 @@ $tpl->define_dynamic('page_message', 'page');
  * Functions
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $order_id
+ */
 function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	$cfg = ispCP_Registry::get('Config');
 
@@ -221,7 +227,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE'	=> tr('ispCP - Reseller/Order details'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order details'),
 		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
 		'TR_DATE'					=> tr('Order date'),
 		'TR_HP'						=> tr('Hosting plan'),

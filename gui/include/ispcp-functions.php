@@ -65,7 +65,6 @@ function check_for_lock_file() {
  */
 function read_line(&$socket) {
 
-	$ch = '';
 	$line = '';
 
 	do {
@@ -85,12 +84,7 @@ function read_line(&$socket) {
  */
 function send_request() {
 
-	/**
-	 * @var ispCP_Config_Handler_File $cfg
-	 */
 	$cfg = ispCP_Registry::get('Config');
-
-	$code = 999;
 
 	@$socket = socket_create (AF_INET, SOCK_STREAM, 0);
 	if ($socket < 0) {
@@ -156,11 +150,11 @@ function send_request() {
 /**
  * Updates dommain expiration date
  *
- * @param  $user_id Customer id
- * @param  $domain_new_expire New expiration date
+ * @param int $user_id Customer id
+ * @param int $domain_new_expire New expiration date
  * @return void
  */
-function update_expire_date ($user_id, $domain_new_expire ) {
+function update_expire_date($user_id, $domain_new_expire) {
 
 	$db = ispCP_Registry::get('Db');
 
@@ -183,8 +177,8 @@ function update_expire_date ($user_id, $domain_new_expire ) {
 /**
  * Updates customer properties
  *
- * @param  $user_id Customer id
- * @param  $props New properties values
+ * @param int $user_id Customer id
+ * @param string $props New properties values
  * @return void
  */
 function update_user_props($user_id, $props) {
@@ -260,7 +254,7 @@ function update_user_props($user_id, $props) {
 			;
 		";
 
-		$rs = exec_query(
+		exec_query(
 			$db,
 			$query,
 			array(
@@ -282,7 +276,7 @@ function update_user_props($user_id, $props) {
 			;
 		";
 
-		$rs = exec_query($db, $query, array($update_status, $user_id));
+		exec_query($db, $query, array($update_status, $user_id));
 
 		// let's update all subdomains for this domain
 		$query = "
@@ -295,7 +289,7 @@ function update_user_props($user_id, $props) {
 			;
 		";
 
-		$rs = exec_query($db, $query, array($update_status, $user_id));
+		exec_query($db, $query, array($update_status, $user_id));
 
 		// let's update all alias subdomains for this domain
 		$query = "
@@ -315,7 +309,7 @@ function update_user_props($user_id, $props) {
 			;
 		";
 
-		$rs = exec_query($db, $query, array($update_status, $user_id));
+		exec_query($db, $query, array($update_status, $user_id));
 
 		// Send request to the ispCP daemon
 		send_request();
@@ -343,7 +337,7 @@ function update_user_props($user_id, $props) {
 			;
 		";
 
-		$rs = exec_query(
+		exec_query(
 			$db,
 			$query,
 			array(
@@ -587,7 +581,7 @@ function is_serialized($data) {
  * Decrypte database password
  *
  * @throws ispCP_Exception
- * @param  $db_pass Encrypted database password
+ * @param string $db_pass Encrypted database password
  * @return string Decrypted database password
  * @todo Remove error operator
  */
@@ -623,7 +617,7 @@ function decrypt_db_password($db_pass) {
  * Encrypte database password
  *
  * @throws ispCP_Exception
- * @param $db_pass Database password
+ * @param string $db_pass Database password
  * @return string Encrypted database password
  * @todo Remove error operator
  */

@@ -41,12 +41,6 @@ $tpl->define_dynamic('active_awstats', 'page');
 $tpl->define_dynamic('active_email', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ISPCP - Client/Webtools')
-	)
-);
-
 // Check, if e-mail is active for this user
 list(
 	$dmn_id,
@@ -82,12 +76,7 @@ if ($backup == 'no') {
 	$tpl->assign('ACTIVE_BACKUP', '');
 }
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl,$cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -97,6 +86,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ISPCP - Client/Webtools'),
 		'TR_WEBTOOLS' => tr('Webtools'),
 		'TR_BACKUP' => tr('Backup'),
 		'TR_ERROR_PAGES' => tr('Error pages'),
@@ -119,3 +109,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

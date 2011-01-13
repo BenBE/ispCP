@@ -47,18 +47,7 @@ $tpl->define_dynamic('scroll_next_gray', 'page');
 $tpl->define_dynamic('scroll_next', 'page');
 $tpl->define_dynamic('als_add_button', 'page');
 
-$tpl->assign(
-	array(
-		'TR_ALIAS_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias')
-	)
-);
-
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
 gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
 
@@ -72,6 +61,7 @@ generate_als_messages($tpl, $err_txt);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Manage Domain/Alias'),
 		'TR_MANAGE_ALIAS'	=> tr('Manage alias'),
 		'TR_NAME'			=> tr('Name'),
 		'TR_REAL_DOMAIN'	=> tr('Real domain'),
@@ -98,47 +88,20 @@ unset_messages();
  * Generate domain alias list
  *
  * @todo Use prepared statements (min. with placeholders like ":search_for")
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $als_err
  */
 function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
-	// NXW: Unused variables so..
-	/*
-	list($udmn_current, $udmn_max, $udmn_uf,
-		$usub_current, $usub_max, $usub_uf,
-		$uals_current, $uals_max, $uals_uf,
-		$umail_current, $umail_max, $umail_uf,
-		$uftp_current, $uftp_max, $uftp_uf,
-		$usql_db_current, $usql_db_max, $usql_db_uf,
-		$usql_user_current, $usql_user_max, $usql_user_uf,
-		$utraff_current, $utraff_max, $utraff_uf,
-		$udisk_current, $udisk_max, $udisk_uf
-	) = generate_reseller_user_props($reseller_id);
-	*/
 	list(,,,,,,$uals_current) = generate_reseller_user_props($reseller_id);
-
-	// NXW: Unused variables so...
-	/*
-	list($rdmn_current, $rdmn_max,
-		$rsub_current, $rsub_max,
-		$rals_current, $rals_max,
-		$rmail_current, $rmail_max,
-		$rftp_current, $rftp_max,
-		$rsql_db_current, $rsql_db_max,
-		$rsql_user_current, $rsql_user_max,
-		$rtraff_current, $rtraff_max,
-		$rdisk_current, $rdisk_max
-	) = get_reseller_default_props($sql, $reseller_id);
-	*/
 	list(,,,,,$rals_max) = get_reseller_default_props($sql, $reseller_id);
 
 	if ($uals_current >= $rals_max && $rals_max != "0") {
 		$tpl->assign('ALS_ADD_BUTTON', '');
 	}
-
-	// NXW: Unused variable so...
-	//$have_aliases = '_no_';
 
 	$start_index = 0;
 
@@ -359,8 +322,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 	while (!$rs->EOF) {
 		$als_id = $rs->fields['alias_id'];
-		// NXW: Unused variabe so...
-		// $domain_id = $rs->fields['domain_id'];
 		$als_name = $rs->fields['alias_name'];
 		$als_mount_point = ($rs->fields['alias_mount'] != '')
 			? $rs->fields['alias_mount']
@@ -436,6 +397,10 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 	}
 } // End of generate_als_list()
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param string $als_err
+ */
 function generate_als_messages(&$tpl, $als_err) {
 	if ($als_err != '_off_') {
 		$tpl->assign(

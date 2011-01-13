@@ -213,7 +213,6 @@ function validate_domain_deletion($domain_id) {
 		$query .= ")";
 		$res = exec_query($sql, $query);
 		while (!$res->EOF) {
-			$any_sub_found = true;
 			$tpl->assign(
 				array(
 					'SUB_NAME' => tohtml($res->fields['subdomain_alias_name']),

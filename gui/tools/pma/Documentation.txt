@@ -1,4 +1,4 @@
-phpMyAdmin 3.3.8.1 Documentation
+phpMyAdmin 3.3.9 Documentation
 
   * Top
   * Requirements
@@ -20,8 +20,6 @@ phpMyAdmin 3.3.8.1 Documentation
   * Local documents:
       + Version history: ChangeLog
       + License: LICENSE
-  * Documentation version:
-    $Id$
 
 Requirements
 
@@ -2011,16 +2009,14 @@ provider is unwilling to change the settings:
 1.17 Which MySQL versions does phpMyAdmin support?
 
 Since phpMyAdmin 3.0.x, only MySQL 5.0.1 and newer are supported. For older
-MySQL versions, you need to use 2.8.x branch. phpMyAdmin can connect to your
-MySQL server using PHP's classic MySQL extension as well as the improved MySQL
-extension (MySQLi) that is available in php 5.0. The latter one should be used
-unless you have good reason not to do so.
+MySQL versions, you need to use the latest 2.x branch. phpMyAdmin can connect
+to your MySQL server using PHP's classic MySQL extension as well as the
+improved MySQL extension (MySQLi) that is available in php 5.0. The latter one
+should be used unless you have good reason not to do so.
 When compiling php, we strongly recommend that you manually link the MySQL
 extension of your choice to a MySQL client library of at least the same minor
 version since the one that is bundled with some PHP distributions is rather old
-and might cause problems (see FAQ 1.17a). If your webserver is running on a
-windows system, you might want to try MySQL's Connector/PHP instead of the
-MySQL / MySQLi extensions that are bundled with the official php Win32 builds.
+and might cause problems (see FAQ 1.17a).
 
 1.17a I cannot connect to the MySQL server. It always returns the error
 message, "Client does not support authentication protocol requested by server;
@@ -2052,7 +2048,7 @@ Configuration".
 
 To connect to a MySQL server, PHP needs a set of MySQL functions called "MySQL
 extension". This extension may be part of the PHP distribution (compiled-in),
-otherwise it needs to be loaded dynamically. Its name is probably mysql.so or 
+otherwise it needs to be loaded dynamically. Its name is probably mysql.so or
 php_mysql.dll. phpMyAdmin tried to load the extension but failed.
 
 Usually, the problem is solved by installing a software package called
@@ -2261,8 +2257,8 @@ Example from the Apache 2.2 documentation:
 
 ProxyPass /mirror/foo/ http://backend.example.com/
 ProxyPassReverse /mirror/foo/ http://backend.example.com/
-ProxyPassReverseCookieDomain backend.example.com public.example.com 
-ProxyPassReverseCookiePath / /mirror/foo/ 
+ProxyPassReverseCookieDomain backend.example.com public.example.com
+ProxyPassReverseCookiePath / /mirror/foo/
 
 Note: if the backend url looks like http://host/~user/phpmyadmin, the tilde (~)
 must be url encoded as %7E in the ProxyPassReverse* lines. This is not specific
@@ -2305,7 +2301,7 @@ I do?
 
 For RedHat users, Harald Legner suggests this on the mailing list:
 
-On my RedHat-Box the socket of MySQL is /var/lib/mysql/mysql.sock. In your 
+On my RedHat-Box the socket of MySQL is /var/lib/mysql/mysql.sock. In your
 php.ini you will find a line
 
 mysql.default_socket = /tmp/mysql.sock
@@ -2440,7 +2436,7 @@ back to phpMyAdmin. You should be able to log in again.
 or a time limit error.
 
 Compressed dumps are built in memory and because of this are limited to php's
-memory limit. For GZip/BZip2 exports this can be overcome since 2.5.4 using 
+memory limit. For GZip/BZip2 exports this can be overcome since 2.5.4 using
 $cfg['CompressOnFly'] (enabled by default). Zip exports can not be handled this
 way, so if you need Zip files for larger dump, you have to use another way.
 
@@ -2509,7 +2505,7 @@ transformations, see our Link section on the official phpMyAdmin-homepage.
 
 When MySQL is running in ANSI-compatibility mode, there are some major
 differences in how SQL is structured (see http://dev.mysql.com/doc/mysql/en/
-ANSI_mode.html). Most important of all, the quote-character (") is interpreted
+ansi-mode.html). Most important of all, the quote-character (") is interpreted
 as an identifier quote character and not as a string quote character, which
 makes many internal phpMyAdmin operations into invalid SQL statements. There is
 no workaround to this behaviour. News to this item will be posted in Bug report
@@ -2945,7 +2941,7 @@ pages?
   * Select a table from the list, enter its coordinates and click Save.
     Coordinates are relative; your diagram will be automatically scaled to fit
     the page. When initially placing tables on the page, just pick any
-    coordinates -- say, 50x50. After clicking Save, you can then use the 
+    coordinates -- say, 50x50. After clicking Save, you can then use the
     graphical editor to position the element correctly.
   * When you'd like to look at your PDF, first be sure to click the Save button
     beneath the list of tables and coordinates, to save any changes you made
@@ -3160,7 +3156,7 @@ is done whenever you enter Structure page for this table.
 
 6.25 How does BLOB streaming work in phpMyAdmin?
 
-First, for general information about BLOB streaming on MySQL, visit 
+First, for general information about BLOB streaming on MySQL, visit
 blobstreaming.org. We currently support streaming if you are running MySQL 5.1
 with the PBXT and PBMS storage engines. Moreover, only PBMS 0.5.04 is
 supported.
@@ -3298,7 +3294,7 @@ If you're planning to contribute source, please read the following information:
   * Please enable showing PHP errors and warnings by the $cfg['Error_Handler']
     ['display'] configuration directive.
   * Please try to keep up the file-naming conventions. Table-related stuff goes
-    to tbl_*.php, db-related code to db_*.php, server-related tools to 
+    to tbl_*.php, db-related code to db_*.php, server-related tools to
     server_*.php and so on.
   * Please don't put message strings in your code, instead add the string (at
     least) to english-utf-8.inc.php and print() it out.

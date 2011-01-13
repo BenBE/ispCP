@@ -164,12 +164,12 @@ function load_user_data($user_id, $domain_id) {
 		user_goto('manage_users.php');
 	}
 
-	list($a, $sub,
-		$b, $als,
-		$c, $mail,
-		$d, $ftp,
-		$e, $sql_db,
-		$f, $sql_user,
+	list(, $sub,
+		, $als,
+		, $mail,
+		, $ftp,
+		, $sql_db,
+		, $sql_user,
 		$traff, $disk
 	) = generate_user_props($domain_id);;
 
@@ -262,6 +262,7 @@ function load_additional_data($user_id, $domain_id) {
 
 /**
  * Show user data
+ * @param ispCP_pTemplate $tpl
  */
 function gen_editdomain_page(&$tpl) {
 
@@ -308,7 +309,7 @@ function gen_editdomain_page(&$tpl) {
 				'BACKUP_NO' => '',
 			)
 		);
-	} elseif ($allowbackup === 'no')  {
+	} else {
 		$tpl->assign(
 			array(
 				'BACKUP_DOMAIN' => '',
@@ -346,6 +347,7 @@ function gen_editdomain_page(&$tpl) {
 
 /**
  * Check input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
@@ -427,7 +429,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		$rtraff_current, $rtraff_max,
 		$rdisk_current, $rdisk_max
 	) = get_reseller_default_props($sql, $reseller_id); //generate_reseller_props($reseller_id);
-	list($a, $b, $c, $d, $e, $f, $utraff_current, $udisk_current, $i, $h) = generate_user_traffic($user_id);
+	list(, , , , , , $utraff_current, $udisk_current, , ) = generate_user_traffic($user_id);
 
 	if (empty($ed_error)) {
 		calculate_user_dvals($sub, $usub_current, $usub_max, $rsub_current, $rsub_max, $ed_error, tr('Subdomain'));
@@ -515,7 +517,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 
 		// Backup Settings
 		$query = "UPDATE `domain` SET `allowbackup` = ? WHERE `domain_id` = ?";
-		$rs = exec_query($sql, $query, array($allowbackup, $user_id));
+		exec_query($sql, $query, array($allowbackup, $user_id));
 
 		// update the sql quotas, too
 		$query = "SELECT `domain_name` FROM `domain` WHERE `domain_id` = ?";
@@ -533,7 +535,7 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 			}
 
 			$query = "UPDATE `quotalimits` SET `bytes_in_avail` = ? WHERE `name` = ?";
-			$rs = exec_query($sql, $query, array($dlim, $temp_dmn_name));
+			exec_query($sql, $query, array($dlim, $temp_dmn_name));
 		}
 
 		set_page_message(

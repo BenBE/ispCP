@@ -113,6 +113,8 @@ function gen_hp_message() {
 
 /**
  * Extract and show data for hosting plans
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function gen_hp_table(&$tpl, $reseller_id) {
 

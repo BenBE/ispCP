@@ -49,7 +49,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADD_USER_PAGE_TITLE'	=> tr('ispCP - User/Add user'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - User/Add user'),
 		'TR_ADD_USER'			=> tr('Add user'),
 		'TR_CORE_DATA'			=> tr('Core data'),
 		'TR_USERNAME'			=> tr('Username'),
@@ -162,6 +162,7 @@ function init_in_values() {
 
 /**
  * generate page add user 3
+ * @param ispCP_pTemplate $tpl
  */
 function gen_user_add3_page(&$tpl) {
 	global $dmn_name, $hpid, $dmn_user_name, $user_email, $customer_id,
@@ -326,7 +327,7 @@ function add_user_data($reseller_id) {
 		)
 	";
 
-	$res = exec_query(
+	exec_query(
 		$sql,
 		$query,
 		array(
@@ -368,7 +369,7 @@ function add_user_data($reseller_id) {
 		)
 	";
 
-	$res = exec_query(
+	exec_query(
 		$sql,
 		$query,
 		array(
@@ -441,7 +442,7 @@ function add_user_data($reseller_id) {
 			(?, ?, ?)
 	";
 
-	$res = exec_query($sql, $query, array($record_id,
+	exec_query($sql, $query, array($record_id,
 			$user_def_lang,
 			$user_theme_color));
 	// send request to daemon

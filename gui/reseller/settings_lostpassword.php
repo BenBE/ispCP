@@ -87,7 +87,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_LOSTPW_EMAL_SETUP' => tr('ispCP - Reseller/Lostpw email setup'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Lostpw email setup'),
 		'TR_LOSTPW_EMAIL' => tr('Lostpw email'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_MESSAGE_TEMPLATE' => tr('Message template'),

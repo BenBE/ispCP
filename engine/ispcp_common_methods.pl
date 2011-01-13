@@ -898,68 +898,6 @@ sub sys_command_stderr {
 	0;
 }
 
-sub make_dir {
-
-	push_el(\@main::el, 'make_dir()', 'Starting...');
-	push_el(
-		\@main::el, 'make_dir()',
-		'[WARNING] This function is deprecated. Use makepath() instead ...'
-	);
-
-	my ($dname, $duid, $dgid, $dperms) = @_;
-
-	if (!defined $dname || !defined $duid || !defined $dgid || !defined $dperms
-		|| $dname eq '' || $duid eq '' || $dgid eq '' || $dperms eq '' ) {
-		push_el(
-			\@main::el, 'make_dir()',
-			"[ERROR] Undefined input data, dname: |$dname|, duid: |$duid|, " .
-				"dgid: |$dgid|, dperms: |$dperms| !"
-		);
-
-		return -1;
-	}
-
-	my ($rs, $rdata) = ('', '');
-
-	if (-e $dname && -f $dname) {
-		push_el(
-			\@main::el, 'make_dir()',
-			"[NOTICE] '$dname' exists as file ! removing file first..."
-		);
-
-		return -1 if (del_file($dname) != 0);
-	}
-
-	if (!(-e $dname && -d $dname)) {
-		push_el(
-			\@main::el, 'make_dir()',
-			"[NOTICE] '$dname' doesn't exists as directory! creating..."
-		);
-
-		$rs =  mkpath($dname);
-
-		if (!$rs) {
-			push_el(
-				\@main::el, 'make_dir()',"[ERROR] mkdir() returned '$rs' status!"
-			);
-
-			return -1;
-		}
-
-	} else {
-		push_el(
-			\@main::el, 'make_dir()',
-			"[NOTICE] '$dname' exists ! Setting its permissions..."
-		);
-	}
-
-	return -1 if (setfmode($dname, $duid, $dgid, $dperms) != 0);
-
-	push_el(\@main::el, 'make_dir()', 'Ending...');
-
-	0;
-}
-
 ################################################################################
 # Delete a directory
 #
@@ -2963,8 +2901,6 @@ sub write_ispcp_key_cfg {
 	push_el(\@main::el, 'write_ispcp_key_cfg()', 'Starting...');
 
 	$main::key_conf = "$main::ispcp_etc_dir/ispcp-keys.conf";
-	print $main::key_conf;
-	print "\n";
 
 	$s = "DB_PASS_KEY=$main::db_pass_key\nDB_PASS_IV=$main::db_pass_iv\n";
 

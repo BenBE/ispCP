@@ -47,12 +47,6 @@ $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('pusres', 'page');
 $tpl->define_dynamic('pgroups', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools')
-	)
-);
-
 function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -100,7 +94,7 @@ function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
 				AND
 					`id` = ?
 			";
-			$rs = exec_query($sql, $query, array($nadmin_password, $change_status, $dmn_id, $uuser_id,));
+			exec_query($sql, $query, array($nadmin_password, $change_status, $dmn_id, $uuser_id,));
 
 			send_request();
 
@@ -134,11 +128,8 @@ function check_get(&$get_input) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+
 
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
@@ -218,6 +209,7 @@ if (isset($_GET['uname'])
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Webtools'),
 		'TR_HTACCESS'			=> tr('Protected areas'),
 		'TR_ACTION'				=> tr('Action'),
 		'TR_UPDATE_USER'		=> tr('Update user'),

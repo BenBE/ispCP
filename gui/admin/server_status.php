@@ -48,7 +48,6 @@ $tpl->define_dynamic('service_status', 'page');
  */
 class status {
 	var $all = array();
-	var $log = false;
 
 	/**
 	 * AddService adds a service to a multi-dimensional array
@@ -89,15 +88,9 @@ class status {
 
 			if ($fp) {
 				$this->all[$i]['status'] = true;
-				if ($this->log) {
-					$this->AddLog($this->all[$i]['ip'], $this->all[$i]['port'], $this->all[$i]['service'], $this->all[$i]['type'], 'TRUE');
-				}
 			}
 			else {
 				$this->all[$i]['status'] = false;
-				if ($this->log) {
-					$this->AddLog($this->all[$i]['ip'], $this->all[$i]['port'], $this->all[$i]['service'], $this->all[$i]['type'], 'FALSE');
-				}
 			}
 
 			if ($fp)
@@ -137,6 +130,10 @@ class status {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function get_server_status(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -156,8 +153,6 @@ function get_server_status(&$tpl, &$sql) {
 
 	$ispcp_status = new status;
 
-	// Enable logging?
-	$ispcp_status->log = false; // Default is false
 	$ispcp_status->AddService('localhost', 9876, 'ispCP Daemon', 'tcp');
 
 	// Dynamic added Ports
@@ -165,7 +160,7 @@ function get_server_status(&$tpl, &$sql) {
 		$value = (count(explode(";", $rs->fields['value'])) < 6)
 			? $rs->fields['value'].';'
 			: $rs->fields['value'];
-		list($port, $protocol, $name, $status, $custom, $ip) = explode(";", $value);
+		list($port, $protocol, $name, $status, , $ip) = explode(";", $value);
 		if ($status) {
 			$ispcp_status->AddService(($ip == '127.0.0.1' ? 'localhost' : (empty($ip) ? $cfg->BASE_SERVER_IP : $ip)), (int)$port, $name, $protocol);
 		}

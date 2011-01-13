@@ -74,7 +74,7 @@ function save_haf(&$tpl, &$sql) {
 				`user_id` = ?
 		";
 
-		$rs = exec_query($sql, $query, array($header, $footer, $user_id));
+		exec_query($sql, $query, array($header, $footer, $user_id));
 	} else {
 		// create query
 		$query = "
@@ -84,7 +84,7 @@ function save_haf(&$tpl, &$sql) {
 				(?, ?, ?)
 		";
 
-		$rs = exec_query($sql, $query, array($user_id, $header, $footer));
+		exec_query($sql, $query, array($user_id, $header, $footer));
 	}
 }
 
@@ -114,7 +114,7 @@ $url .= '&amp;user_id=' . $_SESSION['user_id'];
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
 		'TR_MANAGE_ORDERS' => tr('Manage Orders'),
 		'TR_APPLY_CHANGES' => tr('Apply changes'),
 		'TR_HEADER' => tr('Header'),

@@ -42,6 +42,12 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * functions start
  */
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param int $plan_id
+ */
 function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 
 	$cfg = ispCP_Registry::get('Config');

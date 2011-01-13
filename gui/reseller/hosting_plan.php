@@ -55,7 +55,7 @@ gen_hp_table($tpl, $_SESSION['user_id']);
 // static page messages
 $tpl->assign(
 	array(
-		'TR_RESELLER_MAIN_INDEX_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
 		'TR_HOSTING_PLANS' => tr('Hosting plans'),
 		'TR_PAGE_MENU' => tr('Manage hosting plans'),
 		'TR_PURCHASING' => tr('Purchasing'),
@@ -111,6 +111,8 @@ function gen_hp_message(&$tpl) {
 
 /**
  * Extract and show data for hosting plans
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
  */
 function gen_hp_table(&$tpl, $reseller_id) {
 	global $external_event;

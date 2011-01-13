@@ -41,7 +41,7 @@ $tpl->define_dynamic('logged_from', 'page');
 // static page messages
 $tpl->assign(
 	array(
-		'TR_DETAILS_DOMAIN_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Domain/Details'),
 		'TR_DOMAIN_DETAILS'		=> tr('Domain details'),
 		'TR_DOMAIN_NAME'		=> tr('Domain name'),
 		'TR_DOMAIN_IP'			=> tr('Domain IP'),
@@ -98,6 +98,11 @@ unset_messages();
 
 // Begin function block
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param int $domain_id
+ */
 function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -134,7 +139,7 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 	// Get IP info
 	$query = "SELECT * FROM `server_ips` WHERE `ip_id` = ?";
 	$ipres = exec_query($sql, $query, $data['domain_ip_id']);
-	$ipdat = $ipres->fetchRow();
+	$ipres->fetchRow();
 	// Get staus name
 	$dstatus = translate_dmn_status($data['domain_status']);
 
@@ -173,8 +178,6 @@ function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
 
 	$domain_traffic_limit = $data['domain_traffic_limit'];
 	$domain_all_traffic = $sumtraff;
-
-	$traff = ($domain_all_traffic / 1024) / 1024;
 
 	$traffic_percent = sprintf("%.2f", 100 * $domain_all_traffic / ($domain_traffic_limit * 1024 * 1024));
 

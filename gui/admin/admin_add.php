@@ -38,12 +38,10 @@ $tpl = new ispCP_pTemplate();
 $tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_add.tpl');
 $tpl->define_dynamic('page_message', 'page');
 
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User')
-	)
-);
-
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function add_user(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -116,7 +114,7 @@ function add_user(&$tpl, &$sql) {
 					)
 			";
 
-			$rs = exec_query($sql, $query, array($username,
+			exec_query($sql, $query, array($username,
 					$upass,
 					$user_id,
 					$fname,
@@ -152,7 +150,7 @@ function add_user(&$tpl, &$sql) {
 				) VALUES (?,?,?,?)
 			";
 
-			$rs = exec_query($sql, $query, array($new_admin_id,
+			exec_query($sql, $query, array($new_admin_id,
 					$user_def_lang,
 					$user_theme_color,
 					$user_logo));
@@ -289,6 +287,7 @@ add_user($tpl, $sql);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User'),
 		'TR_EMPTY_OR_WORNG_DATA' => tr('Empty data or wrong field!'),
 		'TR_PASSWORD_NOT_MATCH' => tr("Passwords don't match!"),
 		'TR_ADD_ADMIN' => tr('Add admin'),

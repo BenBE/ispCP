@@ -45,12 +45,6 @@ $tpl->define_dynamic('pgroups', 'page');
 $tpl->define_dynamic('group_members', 'page');
 $tpl->define_dynamic('table_list', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE'	=> tr('ispCP - Client/Webtools')
-	)
-);
-
 function gen_user_action($id, $status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -74,6 +68,11 @@ function gen_group_action($id, $status, $group) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
+ */
 function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 	$query = "
 		SELECT
@@ -121,7 +120,9 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 }
 
 /**
- * @todo Why is $member = ... out commented?
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $dmn_id
  */
 function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 	$query = "
@@ -144,7 +145,6 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 	} else {
 		$tpl->assign('GRP_MSG', '');
 		while (!$rs->EOF) {
-//			$members = $rs->fields['members'];
 
 			list($group_delete, $group_delete_script) = gen_group_action($rs->fields['id'], $rs->fields['status'], $rs->fields['ugroup']);
 			$tpl->assign(
@@ -191,11 +191,7 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 	}
 }
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
 
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
@@ -212,6 +208,7 @@ gen_pgroups($tpl, $sql, $dmn_id);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
 		'TR_HTACCESS'			=> tr('Protected areas'),
 		'TR_ACTION'				=> tr('Action'),
 		'TR_USER_MANAGE'		=> tr('Manage user'),

@@ -173,7 +173,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_LAYOUT_DATA_PAGE_TITLE'	=> tr('ispCP - Reseller/Change Personal Data'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
 		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
 		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
 		'TR_LAYOUT_NAME'			=> tr('Layout name'),

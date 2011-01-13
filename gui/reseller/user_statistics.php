@@ -68,6 +68,11 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('./reseller_statistics.php');
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $reseller_id
+ * @param string $reseller_name
+ */
 function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -180,6 +185,11 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
+ * @param int $row
+ */
 function generate_domain_entry(&$tpl, $user_id, $row) {
 
 	global $crnt_month, $crnt_year;
@@ -209,8 +219,17 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 	$traff_show_percent = calc_bar_value($utraff_current, $utraff_max, 400);
 	$disk_show_percent  = calc_bar_value($udisk_current, $udisk_max, 400);
 
-	$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
-	$disk_percent  = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
+	if ($utraff_max > 0) {
+		$traff_percent = (($utraff_current/$utraff_max)*100 < 99.7) ? ($utraff_current/$utraff_max)*100 : 99.7;
+	} else {
+		$traff_percent = 0;
+	}
+
+	if ($udisk_max > 0) {
+		$disk_percent = (($udisk_current/$udisk_max)*100 < 99.7) ? ($udisk_current/$udisk_max)*100 : 99.7;
+	} else {
+		$disk_percent = 0;
+	}
 
 	$tpl->assign(array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2'));
 
@@ -283,9 +302,7 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 }
 
 /*
- *
- * static page messages.
- *
+ * static page messages
  */
 
 gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
@@ -295,7 +312,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_USER_STATISTICS_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
 		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
 		'TR_MONTH' => tr('Month'),
 		'TR_YEAR' => tr('Year'),

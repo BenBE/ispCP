@@ -39,7 +39,13 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/error_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-function gen_error_page_data(&$tpl, &$sql, $user_id, $eid) {
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param string $eid
+ */
+function gen_error_page_data(&$tpl, &$sql, $eid) {
 
 	$domain = $_SESSION['user_logged'];
 
@@ -56,16 +62,6 @@ function gen_error_page_data(&$tpl, &$sql, $user_id, $eid) {
 	$tpl->assign(array('ERROR' => ''));
 }
 
-// common page data.
-
-
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_ERROR_PAGE_TITLE' => tr('ispCP - Client/Manage Error Custom Pages')
-	)
-);
-
 // dynamic page data.
 
 if (!isset($_GET['eid'])) {
@@ -76,7 +72,7 @@ if (!isset($_GET['eid'])) {
 }
 
 if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
-	gen_error_page_data($tpl, $sql, $_SESSION['user_id'], $_GET['eid']);
+	gen_error_page_data($tpl, $sql, $_GET['eid']);
 } else {
 	$tpl->assign(
 		array(
@@ -87,7 +83,6 @@ if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
 }
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -97,10 +92,11 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ERROR_EDIT_PAGE' => tr('Edit error page'),
-		'TR_SAVE' => tr('Save'),
-		'TR_CANCEL' => tr('Cancel'),
-		'EID' => $eid
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage Error Custom Pages'),
+		'TR_ERROR_EDIT_PAGE'	=> tr('Edit error page'),
+		'TR_SAVE'				=> tr('Save'),
+		'TR_CANCEL'				=> tr('Cancel'),
+		'EID'					=> $eid
 	)
 );
 
@@ -114,3 +110,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

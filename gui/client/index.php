@@ -67,6 +67,10 @@ function gen_num_limit_msg($num, $limit) {
 	return $num . '&nbsp;/&nbsp;' . $limit;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function gen_system_message(&$tpl, &$sql) {
 	$user_id = $_SESSION['user_id'];
 
@@ -102,6 +106,12 @@ function gen_system_message(&$tpl, &$sql) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
 function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 	if ($max_usage != 0) {
@@ -125,6 +135,12 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
 function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 
@@ -148,6 +164,18 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $dmn_sqld_limit
+ * @param int $dmn_sqlu_limit
+ * @param string $dmn_php
+ * @param string $dmn_cgi
+ * @param string $backup
+ * @param string $dns
+ * @param int $dmn_subd_limit
+ * @param int $als_cnt
+ * @param int $dmn_mailacc_limit
+ */
 function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
 	$dmn_cgi,$backup, $dns, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
 
@@ -232,9 +260,11 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
 } // end check_user_permissions()
 
 /**
- * Calculate the usege traffic/ return array (persent/value)
+ * Calculate the usage traffic
+ * @param int $domain_id
+ * @return array percent, value
  */
-function make_traff_usege($domain_id) {
+function make_traff_usage($domain_id) {
 	$sql = ispCP_Registry::get('Db');
 
 	$res = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_admin_id` = ?", $domain_id);
@@ -252,7 +282,7 @@ function make_traff_usege($domain_id) {
 		array($domain_id, $fdofmnth, $ldofmnth));
 	$data = $res->fetchRow();
 	$traff = ($data['traffic'] / 1024) / 1024;
-	$mtraff = sprintf("%.2f", $traff);
+
 	if ($dat['domain_traffic_limit'] == 0) {
 		$pr = 0;
 	} else {
@@ -262,8 +292,13 @@ function make_traff_usege($domain_id) {
 
 	return array($pr, $traff);
 
-} // End of make_traff_usege()
+} // End of make_traff_usage()
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
 	$query = "
 		SELECT
@@ -389,11 +424,11 @@ $dtraff_pr = 0;
 $dmn_traff_usege = 0;
 $dmn_traff_limit = $dmn_traff_limit * 1024 * 1024;
 
-list($dtraff_pr, $dmn_traff_usege) = make_traff_usege($_SESSION['user_id']);
+list($dtraff_pr, $dmn_traff_usage) = make_traff_usage($_SESSION['user_id']);
 
 $dmn_disk_limit = $dmn_disk_limit * 1024 * 1024;
 
-gen_traff_usage($tpl, $dmn_traff_usege * 1024 * 1024, $dmn_traff_limit, 400);
+gen_traff_usage($tpl, $dmn_traff_usage * 1024 * 1024, $dmn_traff_limit, 400);
 
 gen_disk_usage($tpl, $dmn_disk_usage, $dmn_disk_limit, 400);
 
@@ -484,28 +519,28 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_MAIN_INDEX_PAGE_TITLE' 	=> tr('ispCP - Client/Main Index'),
-		'TR_GENERAL_INFORMATION' 		=> tr('General information'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Main Index'),
+		'TR_GENERAL_INFORMATION' 	=> tr('General information'),
 		'TR_ACCOUNT_NAME'			=> tr('Account name'),
 		'TR_DOMAIN_EXPIRE' 			=> tr('Domain expire'),
 		'TR_MAIN_DOMAIN'			=> tr('Main domain'),
 		'TR_PHP_SUPPORT' 			=> tr('PHP support'),
 		'TR_CGI_SUPPORT' 			=> tr('CGI support'),
 		'TR_DNS_SUPPORT' 			=> tr('Manual DNS support'),
-		'TR_BACKUP_SUPPORT' 			=> tr('Backup support'),
+		'TR_BACKUP_SUPPORT' 		=> tr('Backup support'),
 		'TR_MYSQL_SUPPORT' 			=> tr('SQL support'),
 		'TR_SUBDOMAINS' 			=> tr('Subdomains'),
-		'TR_DOMAIN_ALIASES' 			=> tr('Domain aliases'),
+		'TR_DOMAIN_ALIASES' 		=> tr('Domain aliases'),
 		'TR_MAIL_ACCOUNTS' 			=> tr('Mail accounts'),
 		'TR_FTP_ACCOUNTS' 			=> tr('FTP accounts'),
 		'TR_SQL_DATABASES' 			=> tr('SQL databases'),
 		'TR_SQL_USERS' 				=> tr('SQL users'),
 		'TR_MESSAGES' 				=> tr('Support system'),
 		'TR_LANGUAGE' 				=> tr('Language'),
-		'TR_CHOOSE_DEFAULT_LANGUAGE' 		=> tr('Choose default language'),
-		'TR_SAVE' 				=> tr('Save'),
+		'TR_CHOOSE_DEFAULT_LANGUAGE'=> tr('Choose default language'),
+		'TR_SAVE' 					=> tr('Save'),
 		'TR_LAYOUT' 				=> tr('Layout'),
-		'TR_CHOOSE_DEFAULT_LAYOUT' 		=> tr('Choose default layout'),
+		'TR_CHOOSE_DEFAULT_LAYOUT' 	=> tr('Choose default layout'),
 		'TR_TRAFFIC_USAGE' 			=> tr('Traffic usage'),
 		'TR_DISK_USAGE'				=> tr('Disk usage'),
 		'TR_DMN_TMP_ACCESS'			=> tr('Alternative URL to reach your website')

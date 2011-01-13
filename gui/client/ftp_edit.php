@@ -49,6 +49,11 @@ $tpl->define_dynamic('logged_from', 'page');
 
 // page functions.
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param string $ftp_acc
+ */
 function gen_page_dynamic_data(&$tpl, &$sql, $ftp_acc) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -154,7 +159,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 						`userid` = ?
 				";
 
-				$rs = exec_query($sql, $query, array($pass, $other_dir, $ftp_acc));
+				exec_query($sql, $query, array($pass, $other_dir, $ftp_acc));
 			} else {
 				$query = "
 					UPDATE
@@ -164,7 +169,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 					WHERE
 						`userid` = ?
 				";
-				$rs = exec_query($sql, $query, array($pass, $ftp_acc));
+				exec_query($sql, $query, array($pass, $ftp_acc));
 			}
 
 			write_log($_SESSION['user_logged'] . ": updated FTP " . $ftp_acc . " account data");
@@ -184,9 +189,7 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 					);
 					return;
 				}
-				$ftp_home = $cfg->FTP_HOMEDIR . "/$dmn_name/" . $other_dir;
-				// Strip possible double-slashes
-				$ftp_home = str_replace('//', '/', $other_dir);
+
 				// Check for $other_dir existence
 				// Create a virtual filesystem (it's important to use =&!)
 				$vfs = new ispCP_VirtualFileSystem($dmn_name, $sql);
@@ -214,20 +217,12 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 					`userid` = ?
 			";
 
-			$rs = exec_query($sql, $query, array($other_dir, $ftp_acc));
+			exec_query($sql, $query, array($other_dir, $ftp_acc));
 			set_page_message(tr('FTP account data updated!'), 'success');
 			user_goto('ftp_accounts.php');
 		}
 	}
 }
-
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_EDIT_FTP_ACC_PAGE_TITLE' => tr('ispCP - Client/Edit FTP Account')
-	)
-);
 
 // dynamic page data.
 
@@ -250,7 +245,6 @@ gen_page_dynamic_data($tpl, $sql, $ftp_acc);
 update_ftp_account($sql, $ftp_acc, $dmn_name);
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
 
@@ -260,6 +254,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Edit FTP Account'),
 		'TR_EDIT_FTP_USER' 		=> tr('Edit FTP user'),
 		'TR_FTP_ACCOUNT' 		=> tr('FTP account'),
 		'TR_PASSWORD' 			=> tr('Password'),

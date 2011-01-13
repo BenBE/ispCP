@@ -44,6 +44,12 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * functions start
  */
 
+/**
+ * @throws ispCP_Exception_Production
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_packages_list(&$tpl, &$sql, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');

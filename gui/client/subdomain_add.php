@@ -38,13 +38,13 @@ $cfg = ispCP_Registry::get('Config');
 
 /**
  *
- * @param <type> $tpl
- * @param <type> $erro_txt
+ * @param ispCP_pTemplate $tpl
+ * @param string $error_txt
  */
-function gen_page_msg(&$tpl, $erro_txt) {
+function gen_page_msg(&$tpl, $error_txt) {
 
-	if ($erro_txt != '_off_') {
-		$tpl->assign('MESSAGE', $erro_txt);
+	if ($error_txt != '_off_') {
+		$tpl->assign('MESSAGE', $error_txt);
 		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
@@ -89,16 +89,15 @@ function check_subdomain_permissions($user_id) {
 }
 
 /**
- *
- * @param <type> $tpl
- * @param <type> $user_id
+ * @param ispCP_pTemplate $tpl
+ * @param int $user_id
  */
 function gen_user_add_subdomain_data(&$tpl, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	$subdomain_name = $subdomain_mnt_pt = $forward = $forward_prefix = '';
+	$subdomain_name = $subdomain_mnt_pt = $forward_prefix = '';
 
 	$query = "
 		SELECT
@@ -180,9 +179,9 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
 
 /**
  *
- * @param <type> $tpl
- * @param <type> $dmn_id
- * @param <type> $post_check
+ * @param ispCP_pTemplate $tpl
+ * @param int $dmn_id
+ * @param string $post_check
  */
 function gen_dmn_als_list(&$tpl, $dmn_id, $post_check) {
 
@@ -322,66 +321,8 @@ function subdmn_exists($user_id, $domain_id, $sub_name) {
 
 /**
  *
- * @param <type> $user_id
- * @param <type> $domain_id
- * @param <type> $sub_name
- * @param <type> $sub_mnt_pt
- * @return <type>
- */
-function subdmn_mnt_pt_exists($user_id, $domain_id, $sub_name, $sub_mnt_pt) {
-
-	if ($_POST['dmn_type'] == 'als') {
-		$query = "
-			SELECT
-				COUNT(`subdomain_alias_id`) AS cnt
-			FROM
-				`subdomain_alias`
-			WHERE
-				`alias_id` = ?
-			AND
-				`subdomain_alias_mount` = ?
-		;";
-		if (isset($query2))
-			unset($query2);
-		if (isset($rs2))
-			unset($rs2);
-	} else {
-		$query = "
-			SELECT
-				COUNT(`subdomain_id`) AS cnt
-			FROM
-				`subdomain`
-			WHERE
-				`domain_id` = ?
-			AND
-				`subdomain_mount` = ?
-		;";
-
-		$query2 = "
-			SELECT
-				COUNT(`alias_id`) AS cnt
-			FROM
-				`domain_aliasses`
-			WHERE
-				`domain_id` = ?
-			AND
-				`alias_mount` = ?
-		;";
-	}
-	$rs = exec_query($sql, $query, array($domain_id, $sub_mnt_pt));
-	if (isset($query2))
-		$rs2 = exec_query($sql, $query2, array($domain_id, $sub_mnt_pt));
-
-	if ($rs->fields['cnt'] > 0 || (isset($rs2) && $rs2->fields['cnt'] > 0)) {
-		return true;
-	}
-	return false;
-}
-
-/**
- *
- * @param <type> $user_id
- * @param <type> $domain_id
+ * @param int $user_id
+ * @param int $domain_id
  * @param <type> $sub_name
  * @param <type> $sub_mnt_pt
  * @param <type> $forward
@@ -419,11 +360,11 @@ function subdomain_schedule($user_id, $domain_id, $sub_name, $sub_mnt_pt, $forwa
 		;";
 	}
 
-	$rs = exec_query($sql, $query, array($domain_id, $sub_name, $sub_mnt_pt, $forward, $status_add));
+	exec_query($sql, $query, array($domain_id, $sub_name, $sub_mnt_pt, $forward, $status_add));
 
 	update_reseller_c_props(get_reseller_id($domain_id));
 
-	$sub_id = $sql->insertId();
+	$sql->insertId();
 
 	// We do not need to create the default mail addresses, subdomains are
 	// related to their domains.
@@ -527,7 +468,7 @@ function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
 				} else {
 					$ret = validates_dname($domain, true);
 				}
-				$domain = encode_idna($surl['host']);
+
 				if (!$ret) {
 					$err_sub = tr('Wrong domain part in forward URL!');
 				} else {
@@ -555,7 +496,6 @@ function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
 			}
 		} else {
 			// now let's fix the mountpoint
-			$mount_point = array_encode_idna($mount_point, true);
 			$sub_mnt_pt = array_encode_idna($sub_mnt_pt, true);
 		}
 		if ('_off_' !== $err_sub) {
@@ -594,7 +534,7 @@ if (!is_xhr()) {
 
 	$tpl->assign(
 		array(
-			'TR_CLIENT_ADD_SUBDOMAIN_PAGE_TITLE' => tr('ispCP - Client/Add Subdomain'),
+			'TR_PAGE_TITLE'						=> tr('ispCP - Client/Add Subdomain'),
 			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
 			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
 			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),

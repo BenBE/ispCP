@@ -275,8 +275,6 @@ class ispCP_Initializer {
 		// Get a reference to the ispCP_Exception_Handler object
 		$exceptionHandler = ispCP_Registry::get('exceptionHandler');
 
-		$admin_email = $this->_config->DEFAULT_ADMIN_ADDRESS;
-
 		$writerObservers = explode(',', $this->_config->GUI_EXCEPTION_WRITERS);
 		$writerObservers = array_map('trim', $writerObservers);
 		$writerObservers = array_map('strtolower', $writerObservers);

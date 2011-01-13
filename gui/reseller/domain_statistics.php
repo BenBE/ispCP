@@ -110,6 +110,10 @@ function get_domain_trafic($from, $to, $domain_id) {
 	}
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $domain_id
+ */
 function generate_page(&$tpl, $domain_id) {
 	global $month, $year;
 	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf;
@@ -118,24 +122,12 @@ function generate_page(&$tpl, $domain_id) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
-	// NXW: Unused variables so..
-	/*
-	$fdofmnth = mktime(0, 0, 0, $month, 1, $year);
-	$ldofmnth = mktime(1, 0, 0, $month + 1, 0, $year);
-	*/
-
 	if ($month == date('m') && $year == date('Y')) {
 		$curday = date('j');
 	} else {
 		$tmp = mktime(1, 0, 0, $month + 1, 0, $year);
 		$curday = date('j', $tmp);
 	}
-
-	// NXW: Unused variables so...
-	/*
-	$curtimestamp = time();
-	$firsttimestamp = mktime(0, 0, 0, $month, 1, $year);
-	*/
 
 	$all[0] = 0;
 	$all[1] = 0;
@@ -159,12 +151,8 @@ function generate_page(&$tpl, $domain_id) {
 			WHERE
 				`domain_id` = ? AND `dtraff_time` >= ? AND `dtraff_time` <= ?
 		";
-		// NXW: Unused variable so..
-		// $rs = exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 		exec_query($sql, $query, array($domain_id, $ftm, $ltm));
 
-		// NXW: Unused variable so..
-		// $has_data = false;
 		list($web_trf, $ftp_trf, $pop_trf, $smtp_trf) = get_domain_trafic($ftm, $ltm, $domain_id);
 
 		if ($web_trf == 0 && $ftp_trf == 0 && $smtp_trf == 0 && $pop_trf == 0) {
@@ -229,18 +217,18 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_DOMAIN_STATISTICS_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_WEB_TRAFFIC' => tr('Web traffic'),
-		'TR_FTP_TRAFFIC' => tr('FTP traffic'),
-		'TR_SMTP_TRAFFIC' => tr('SMTP traffic'),
-		'TR_POP3_TRAFFIC' => tr('POP3/IMAP traffic'),
-		'TR_ALL_TRAFFIC' => tr('All traffic'),
-		'TR_ALL' => tr('All'),
-		'TR_DAY' => tr('Day')
+		'TR_PAGE_TITLE'			=> tr('ispCP - Domain Statistics Data'),
+		'TR_DOMAIN_STATISTICS'	=> tr('Domain statistics'),
+		'TR_MONTH'				=> tr('Month'),
+		'TR_YEAR'				=> tr('Year'),
+		'TR_SHOW'				=> tr('Show'),
+		'TR_WEB_TRAFFIC'		=> tr('Web traffic'),
+		'TR_FTP_TRAFFIC'		=> tr('FTP traffic'),
+		'TR_SMTP_TRAFFIC'		=> tr('SMTP traffic'),
+		'TR_POP3_TRAFFIC'		=> tr('POP3/IMAP traffic'),
+		'TR_ALL_TRAFFIC'		=> tr('All traffic'),
+		'TR_ALL'				=> tr('All'),
+		'TR_DAY'				=> tr('Day')
 	)
 );
 

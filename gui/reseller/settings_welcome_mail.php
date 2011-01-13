@@ -72,7 +72,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_ADMIN_MANAGE_EMAIL_SETUP_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Manage users/Email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),
 		'TR_USER_LOGIN_NAME' => tr('User login (system) name'),

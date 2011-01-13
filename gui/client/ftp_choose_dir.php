@@ -42,7 +42,9 @@ $tpl->define_dynamic('action_link', 'page');
 $tpl->define_dynamic('list_item', 'page');
 $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_choose_dir.tpl');
 
-
+/**
+ * @param ispCP_pTemplate $tpl
+ */
 function gen_directories(&$tpl) {
 
 	$sql = ispCP_Registry::get('Db');
@@ -118,20 +120,15 @@ function gen_directories(&$tpl) {
 
 // functions end
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_WEBTOOLS_PAGE_TITLE' => tr('ispCP - Client/Webtools')
-	)
-);
-
 gen_directories($tpl);
 
 $tpl->assign(
 	array(
-		'CHOOSE' => tr('Choose'),
-		'TR_DIRECTORY_TREE' => tr('Directory tree'),
-		'TR_DIRS' => tr('Directories'),
-		'TR__ACTION' => tr('Action')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
+		'CHOOSE'			=> tr('Choose'),
+		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
+		'TR_DIRS'			=> tr('Directories'),
+		'TR__ACTION'		=> tr('Action')
 	)
 );
 

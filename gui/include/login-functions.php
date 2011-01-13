@@ -253,8 +253,6 @@ function unblock($timeout = null, $type = 'bruteforce') {
 		$timeout = $cfg->BRUTEFORCE_BLOCK_TIME;
 	}
 
-	$max = 0;
-
 	$timeout = time() - ($timeout * 60);
 
 	switch ($type) {
@@ -319,8 +317,6 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 	if (is_null($ipaddr)) {
 		$ipaddr = getipaddr();
 	}
-
-	$max = 0;
 
 	switch ($type) {
 		case 'bruteforce':
@@ -1061,7 +1057,7 @@ function unset_user_login_data($ignorePreserve = false, $restore = false) {
 				`user_name` = ?
 		;";
 
-		$rs = exec_query($sql, $query, array($sess_id, $admin_name));
+		exec_query($sql, $query, array($sess_id, $admin_name));
 
 	}
 

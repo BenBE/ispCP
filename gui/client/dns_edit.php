@@ -41,26 +41,18 @@ $DNS_allowed_types = array('A', 'AAAA', 'SRV', 'CNAME', 'MX');
 
 $add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 
+// static page messages
 $tpl->assign(
 	array(
-		'TR_EDIT_DNS_PAGE_TITLE'	=> ($add_mode)
+		'TR_PAGE_TITLE'			=> ($add_mode)
 			? tr("ispCP - Manage Domain Alias/Add DNS zone's record")
 			: tr("ispCP - Manage Domain Alias/Edit DNS zone's record"),
-		'ACTION_MODE'				=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}'
-	)
-);
-
-/*
- * static page messages.
- */
-$tpl->assign(
-	array(
+		'ACTION_MODE'			=> ($add_mode) ? 'dns_add.php' : 'dns_edit.php?edit_id={ID}',
 		'TR_MODIFY'				=> tr('Modify'),
 		'TR_CANCEL'				=> tr('Cancel'),
 		'TR_ADD'				=> tr('Add'),
 		'TR_DOMAIN'				=> tr('Domain'),
-		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record") :
-										tr("Edit DNS zone's record"),
+		'TR_EDIT_DNS'			=> ($add_mode) ? tr("Add DNS zone's record") : tr("Edit DNS zone's record"),
 		'TR_DNS'				=> tr("DNS zone's records"),
 		'TR_DNS_NAME'			=> tr('Name'),
 		'TR_DNS_CLASS'			=> tr('Class'),
@@ -218,6 +210,8 @@ function decode_zone_data($data) {
 
 /**
  * @todo use template loop instead of this hardcoded HTML
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
  */
 function gen_editdns_page(&$tpl, $edit_id) {
 
@@ -225,7 +219,7 @@ function gen_editdns_page(&$tpl, $edit_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	list(
-		$dmn_id, $dmn_name,,,,,,,,,,,,,,,,,,,,,$dmn_dns
+		$dmn_id, ,,,,,,,,,,,,,,,,,,,,,$dmn_dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
 	if ($dmn_dns != 'yes') {
@@ -451,6 +445,12 @@ function validate_NAME($domain, &$err) {
 	return true;
 }
 
+/**
+ * @throws ispCP_Exception_Database
+ * @param ispCP_pTemplate $tpl
+ * @param int $edit_id
+ * @return bool
+ */
 function check_fwd_data(&$tpl, $edit_id) {
 
 	global $sql;
@@ -460,7 +460,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 
 	// unset errors
 	$ed_error = '_off_';
-	$admin_login = '';
 	$err = '';
 
 	$_text = '';

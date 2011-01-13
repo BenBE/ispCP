@@ -77,7 +77,7 @@ $crnt_year = date("Y");
 
 $tpl->assign(
 	array(
-		'TR_CLIENT_CHANGE_PERSONAL_DATA_PAGE_TITLE' => tr('ispCP - Users'),
+		'TR_PAGE_TITLE' => tr('ispCP - Users'),
 		'TR_MANAGE_USERS' => tr('Manage users'),
 		'TR_USERS' => tr('Users'),
 		'TR_USER_STATUS' => tr('Status'),
@@ -122,6 +122,10 @@ unset_messages();
 
 // Begin function block
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param int $admin_id
+ */
 function generate_users_list(&$tpl, $admin_id) {
 
 	$sql = ispCP_Registry::get('Db');

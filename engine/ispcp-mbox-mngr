@@ -536,19 +536,19 @@ sub mbox_add_mta_file_data {
 		return $rs if ($rs != 0);
 
 		my $dir_name = "$virtual_mail_dir/$dmn_name/$mail_acc";
-		$rs = make_dir($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0755);
+		$rs = makepath($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0755);
 		return $rs if ($rs != 0);
 
 		$dir_name = "$virtual_mail_dir/$dmn_name/$mail_acc/cur";
-		$rs = make_dir($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
+		$rs = makepath($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
 		return $rs if ($rs != 0);
 
 		$dir_name = "$virtual_mail_dir/$dmn_name/$mail_acc/tmp";
-		$rs = make_dir($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
+		$rs = makepath($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
 		return $rs if ($rs != 0);
 
 		$dir_name = "$virtual_mail_dir/$dmn_name/$mail_acc/new";
-		$rs = make_dir($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
+		$rs = makepath($dir_name, $mailbox_uid_name, $mailbox_gid_name, 0700);
 		return $rs if ($rs != 0);
 
 	} if ($mail_type =~ /^(normal|alias|subdom|alssub)(_mail|_forward).*/);

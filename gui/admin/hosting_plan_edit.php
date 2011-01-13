@@ -141,6 +141,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Restore form on any error
+ * @param ispCP_pTemplate $tpl
  */
 function restore_form(&$tpl) {
 
@@ -183,6 +184,10 @@ function restore_form(&$tpl) {
 
 /**
  * Generate load data from sql for requested hosting plan
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $hpid
+ * @param int $admin_id
  */
 function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
@@ -282,6 +287,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 /**
  * Check correction of input data
+ * @param ispCP_pTemplate $tpl
  */
 function check_data_iscorrect(&$tpl) {
 
@@ -425,7 +431,7 @@ function save_data_to_db() {
 		;
 	";
 
-	$res = exec_query(
+	exec_query(
 		$sql,
 		$query,
 		array(

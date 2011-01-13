@@ -40,12 +40,6 @@ $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 $tpl->define_dynamic('cronjobs', 'page');
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_CRONJOBS_TITLE' => tr('ispCP - Client/Cronjob Manager')
-	)
-);
-
 /*
  * functions start
  */
@@ -60,12 +54,7 @@ function gen_cron_jobs(&$tpl, &$sql, $user_id) {
  * functions end
  */
 
-/*
- *
- * static page messages.
- *
- */
-
+// static page messages
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
 
@@ -77,6 +66,7 @@ gen_cron_jobs($tpl, $sql, $_SESSION['user_id']);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Cronjob Manager'),
 		'TR_CRON_MANAGER' => tr('Cronjob Manager'),
 		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s'),
 		'TR_CRONJOBS' => tr('Cronjobs'),

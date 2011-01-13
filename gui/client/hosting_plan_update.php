@@ -64,6 +64,11 @@ function check_update_current_value($curr, $new) {
 	return $result;
 }
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
 function gen_hp(&$tpl, &$sql, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -94,7 +99,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, $domain_id);
 	$current = $rs->fetchRow();
 
-	$availabe_order = 0;
 	$hp_title = tr('Hosting plans available for update');
 	// let's see if we have an order
 	$query = "
@@ -111,7 +115,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, array($user_id, 'added'));
 
 	if ($rs->recordCount() > 0) {
-		$availabe_order = 1;
 		$availabe_hp_id = $rs->fields['plan_id'];
 
 		$query = "
@@ -217,11 +220,10 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			$hp_sql_user,
 			$hp_traff,
 			$hp_disk,
-			$hp_backup,
+			,
 			$hp_dns
 		) = explode(";", $rs->fields['props']);
 
-		$details = '';
 		$warning_msgs = $error_msgs = array();
 
 		if ($hp_php === '_yes_') {
@@ -440,12 +442,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 	}
 }
 
-$tpl->assign(
-	array(
-		'TR_CLIENT_UPDATE_HP'	=> tr('ispCP - Update hosting plan')
-	)
-);
-
 /**
  * @todo the 2nd query has 2 identical tables in FROM-clause, is this OK?
  */
@@ -466,19 +462,6 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 	$rs = exec_query($sql, $query, $user_id);
 	$domain_id = $rs->fields['domain_id'];
 
-	// get current domain settings
-	$query = "
-		SELECT
-			*
-		FROM
-			`domain`
-		WHERE
-			`domain_id` = ?
-	";
-
-	$rs = exec_query($sql, $query, $domain_id);
-	$current = $rs->fetchRow();
-
 	$query = "
 		SELECT
 			*
@@ -490,7 +473,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 
 	$error_msgs = array();
 	$rs = exec_query($sql, $query, $order_id);
-	list($hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns) = explode(";", $rs->fields['props']);
+	list(, , $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db, $hp_sql_user, , $hp_disk) = explode(";", $rs->fields['props']);
 
 	$traffic = get_user_traffic($domain_id);
 
@@ -560,7 +543,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 			(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	";
 
-	$rs = exec_query($sql, $query, array(
+	exec_query($sql, $query, array(
 		$_SESSION['user_created_by'], $order_id, $date, $_SESSION['user_logged'],
 		$user_id, '', '', '', '', '', '', '', '', '', '', '', '', $status
 	));
@@ -598,7 +581,7 @@ function add_new_order(&$tpl, &$sql, $order_id, $user_id) {
 		$_SESSION['user_logged'],
 		$cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST);
 
-	$mail_result = mail($to, $subject, $message, $headers);
+	mail($to, $subject, $message, $headers);
 }
 
 function del_order(&$tpl, &$sql, $order_id, $user_id) {
@@ -612,7 +595,7 @@ function del_order(&$tpl, &$sql, $order_id, $user_id) {
 			`customer_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($_SESSION['user_created_by'], $user_id));
+	exec_query($sql, $query, array($_SESSION['user_created_by'], $user_id));
 	set_page_message(
 		tr('Your request for hosting pack update was removed successfully'),
 		'success'
@@ -640,6 +623,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
 		'TR_LANGUAGE'	=> tr('Language'),
 		'TR_SAVE'		=> tr('Save'),
 	)

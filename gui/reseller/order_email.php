@@ -71,7 +71,7 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_RESELLER_ORDER_EMAL' => tr('ispCP - Reseller/Order email setup'),
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Order email setup'),
 		'TR_EMAIL_SETUP' => tr('Email setup'),
 		'TR_MANAGE_ORDERS' => tr('Manage orders'),
 		'TR_MESSAGE_TEMPLATE_INFO' => tr('Message template info'),

@@ -43,6 +43,10 @@ $tpl->define_dynamic('forward_mail', 'page');
 
 // page functions
 
+/**
+ * @param ispCP_pTemplate $tpl
+ * @param ispCP_Database $sql
+ */
 function edit_mail_account(&$tpl, &$sql) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -240,10 +244,10 @@ function update_email_pass($sql) {
 		}
 		return false;
 	} else {
-		$pass=encrypt_db_password($pass);
+		$pass = encrypt_db_password($pass);
 		$status = $cfg->ITEM_CHANGE_STATUS;
 		$query = "UPDATE `mail_users` SET `mail_pass` = ?, `status` = ? WHERE `mail_id` = ?";
-		$rs = exec_query($sql, $query, array($pass, $status, $mail_id));
+		exec_query($sql, $query, array($pass, $status, $mail_id));
 		write_log($_SESSION['user_logged'] . ": change mail account password: $mail_account");
 		return true;
 	}
@@ -309,7 +313,7 @@ function update_email_forward(&$tpl, &$sql) {
 
 	$query = "UPDATE `mail_users` SET `mail_forward` = ?, `mail_type` = ?, `status` = ? WHERE `mail_id` = ?";
 
-	$rs = exec_query($sql, $query, array($forward_list, $mail_type, $status, $mail_id));
+	exec_query($sql, $query, array($forward_list, $mail_type, $status, $mail_id));
 
 	write_log($_SESSION['user_logged'] . ": change mail forward: $mail_account");
 	return true;
@@ -317,12 +321,6 @@ function update_email_forward(&$tpl, &$sql) {
 
 // end page functions.
 
-
-$tpl->assign(
-	array(
-		'TR_CLIENT_EDIT_EMAIL_PAGE_TITLE'	=> tr('ispCP - Manage Mail and FTP / Edit mail account')
-	)
-);
 
 // dynamic page data.
 
@@ -335,7 +333,6 @@ if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
 }
 
 // static page messages.
-
 gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
 gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
 
@@ -345,6 +342,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
 		'TR_EDIT_EMAIL_ACCOUNT'	=> tr('Edit email account'),
 		'TR_SAVE'				=> tr('Save'),
 		'TR_PASSWORD'			=> tr('Password'),
@@ -365,3 +363,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

@@ -15,20 +15,24 @@
 # License for the specific language governing rights and limitations
 # under the License.
 
+$main::db_pass_key = '{KEY}';
+$main::db_pass_iv = '{IV}';
+$main::key_conf = '';
+
 if (-e "$main::ispcp_etc_dir/ispcp-keys.conf") {
 	# new configuration file exists
 	$main::key_conf  = "$main::ispcp_etc_dir/ispcp-keys.conf";
 
 	read_ispcp_key_cfg();
 
-} elsif (-e 'ispcp-db-keys.pl') {
-	# old configuration file exists
-	$main::key_conf = '';
-
-	require 'ispcp-db-keys.pl';
 } else {
-	$main::db_pass_key = '{KEY}';
-	$main::db_pass_iv = '{IV}';
+	# search for old configuration file in path
+	foreach (@INC) {
+		if (-f "$_/ispcp-db-keys.pl") {
+			require 'ispcp-db-keys.pl';
+			last;
+		}
+	}
 }
 
 1;

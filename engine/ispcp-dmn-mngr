@@ -906,10 +906,7 @@ sub get_auto_num {
 
 	push_el(\@main::el, 'get_auto_num()', 'Ending...');
 
-	# FIXME (ispcomm): close will be never reached!
 	return $num;
-
-	close('db');
 }
 
 ################################################################################
@@ -1561,12 +1558,12 @@ sub dmn_add_httpd_file_data {
 	# Starter directory for usual user
 
 	if(!(-d "$starter_dir/$dmn_name")) {
-		$rs = make_dir("$starter_dir/$dmn_name", $sys_user, $sys_group, 0555);
+		$rs = makepath("$starter_dir/$dmn_name", $sys_user, $sys_group, 0555);
 		return $rs if ($rs != 0);
 	}
 
 	if (! -d "$starter_dir/$dmn_name/php5") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$starter_dir/$dmn_name/php5", $sys_user, $sys_group, 0550
 		);
 		return $rs if ($rs != 0);
@@ -1578,7 +1575,7 @@ sub dmn_add_httpd_file_data {
 		$main::cfg{'AWSTATS_MODE'} eq 1) {
 
 		if (! -d "$www_dir/$dmn_name/statistics") {
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$dmn_name/statistics", $sys_user, $sys_group, 0755
 			);
 			return $rs if ($rs != 0);
@@ -1587,25 +1584,25 @@ sub dmn_add_httpd_file_data {
 
 	# Domain WWW directories
 
-	$rs = make_dir("$www_dir/$dmn_name", $sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name", $sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/cgi-bin", $sys_user, $sys_group, 0755);
+	$rs = makepath("$www_dir/$dmn_name/cgi-bin", $sys_user, $sys_group, 0755);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/logs",$sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name/logs",$sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/phptmp", $sys_user, $httpd_gid, 0770);
+	$rs = makepath("$www_dir/$dmn_name/phptmp", $sys_user, $httpd_gid, 0770);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+	$rs = makepath("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
+	$rs = makepath("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
 	return $rs if ($rs != 0);
 
-	$rs = make_dir("$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775);
+	$rs = makepath("$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775);
 	return $rs if ($rs != 0);
 
 
@@ -1668,7 +1665,7 @@ sub dmn_add_httpd_file_data {
 
 	# check if htdocs folder does not exist
 	if (!(-e "$www_dir/$dmn_name/htdocs/")) {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/htdocs", $sys_user, $sys_group, 0775
 		);
 		return $rs if ($rs != 0);
@@ -1730,7 +1727,7 @@ sub dmn_add_httpd_file_data {
 
 	# check if disable folder does not exist
 	if (!(-e "$www_dir/$dmn_name/disabled")) {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/disabled", $httpd_uid, $httpd_gid, 0755
 		);
 		return $rs if ($rs != 0);
@@ -1876,12 +1873,12 @@ sub dmn_change_httpd_file_data {
 	# Starter-Scripts for FastCGI
 
 	if(! -d "$starter_dir/$dmn_name") {
-		$rs = make_dir("$starter_dir/$dmn_name", $sys_user, $sys_group, 0755);
+		$rs = makepath("$starter_dir/$dmn_name", $sys_user, $sys_group, 0755);
 		return $rs if ($rs != 0);
 	}
 
 	if (! -d "$starter_dir/$dmn_name/php5") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$starter_dir/$dmn_name/php5", $sys_user, $sys_group, 0550
 		);
 		return $rs if ($rs != 0);
@@ -1893,7 +1890,7 @@ sub dmn_change_httpd_file_data {
 		&& $main::cfg{'AWSTATS_MODE'} eq 1) {
 
 		if (! -d "$www_dir/$dmn_name/statistics") {
-			$rs = make_dir(
+			$rs = makepath(
 				"$www_dir/$dmn_name/statistics", $sys_user, $sys_group, 0555
 			);
 			return $rs if ($rs != 0);
@@ -1903,24 +1900,24 @@ sub dmn_change_httpd_file_data {
 	# Domain WWW directories
 
 	if(! -d "$www_dir/$dmn_name/phptmp") {
-		$rs = make_dir("$www_dir/$dmn_name/phptmp", $sys_user, $sys_group, 0770);
+		$rs = makepath("$www_dir/$dmn_name/phptmp", $sys_user, $sys_group, 0770);
 		return $rs if ($rs != 0);
 	}
 
 	if(! -d "$www_dir/$dmn_name/backups") {
-		$rs = make_dir("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
+		$rs = makepath("$www_dir/$dmn_name/backups", $main::cfg{'ROOT_USER'}, $main::cfg{'ROOT_GROUP'}, 0755);
 		return $rs if ($rs != 0);
 	}
 
 	# Default error pages
 
 	if(! -d "$www_dir/$dmn_name/errors") {
-		$rs = make_dir("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
+		$rs = makepath("$www_dir/$dmn_name/errors", $sys_user, $sys_group, 0775);
 		return $rs if ($rs != 0);
 	}
 
 	if(! -d "$www_dir/$dmn_name/errors/inc") {
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/errors/inc", $sys_user, $sys_group, 0775
 		);
 		return $rs if ($rs != 0);
@@ -1973,7 +1970,7 @@ sub dmn_change_httpd_file_data {
 	if (!-e "$www_dir/$dmn_name/disabled" &&
 		!-e "$www_dir/$dmn_name/htdocs.disabled") {
 
-		$rs = make_dir(
+		$rs = makepath(
 			"$www_dir/$dmn_name/disabled", $httpd_uid, $httpd_gid, 0755
 		);
 		return $rs if ($rs != 0);
@@ -2534,7 +2531,7 @@ sub dmn_add_mta_file_data {
 	my $mailbox_uid_name = $main::cfg{'MTA_MAILBOX_UID_NAME'};
 	my $mailbox_gid_name = $main::cfg{'MTA_MAILBOX_GID_NAME'};
 
-	$rs = make_dir(
+	$rs = makepath(
 		"$virtual_mail_dir/$dmn_name", $mailbox_uid_name, $mailbox_gid_name,
 		0700
 	);
@@ -3972,6 +3969,11 @@ sub dmn_restore_data {
 ##
 ## Enable Domain
 ##
+## @author  Benedikt Heintel <benedikt.heintel@ispcp.net>
+## @version 1.1
+## @param   arrayref $data Ref to an array that contains domain data
+## @return  int 0 on success, -1 otherwise
+##
 sub dmn_enable_data {
 
 	push_el(\@main::el, 'dmn_enable_data()', 'Starting...');
@@ -3986,20 +3988,8 @@ sub dmn_enable_data {
 		return -1;
 	}
 
-	my ($rs, $cmd);
-
-	# Disable disabled htdocs skel
-	$cmd= "$main::cfg{'CMD_MV'} $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/" .
-		"htdocs $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/disabled";
-
-	$rs = sys_command($cmd);
-	return $rs if ($rs != 0);
-
-	# Enable domain htdocs
- 	$cmd = "$main::cfg{'CMD_MV'} $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/" .
- 	    "htdocs.disabled $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/htdocs";
-
-	$rs = sys_command($cmd);
+	# Calls {@see dmn_add_httpd_cfg_data}
+	my $rs = dmn_add_httpd_cfg_data($dmn_data);
 	return $rs if ($rs != 0);
 
 	push_el(\@main::el, 'dmn_enable_data()', 'Ending...');
@@ -4011,6 +4001,12 @@ sub dmn_enable_data {
 ##
 ## Disable Domain
 ##
+## @author  Benedikt Heintel <benedikt.heintel@ispcp.net>
+## @version 1.1
+## @param   arrayref $data Ref to an array that contains domain data
+## @return  int 0 on success, -1 otherwise
+##
+## @TODO wrap this in dmn_add_httpd_cfg_data
 sub dmn_disable_data {
 
 	push_el(\@main::el, 'dmn_disable_data()', 'Starting...');
@@ -4025,23 +4021,51 @@ sub dmn_disable_data {
 		return -1;
 	}
 
-	my ($rs, $cmd);
+	my ($rs, $rdata) = (undef, undef);
+	my $dmn_id = @$dmn_data[0];
+	my $dmn_name = @$dmn_data[1];
+	my $dmn_ip = @$dmn_data[21];
+	my $conf_dir = $main::cfg{'CONF_DIR'};
+	my $tpl_dir = "$conf_dir/apache/parts";
 
-	# Disable htdocs
-	$cmd= "$main::cfg{'CMD_MV'} $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/" .
-		"htdocs $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/htdocs.disabled";
+	my ($dmn_b, $dmn_entry_disabled, $dmn_e) = ('', '', '');
 
-	$rs = sys_command($cmd);
-	return $rs if ($rs != 0);
+	($rs, $dmn_b, $dmn_entry_disabled, $dmn_e) = get_tpl (
+		$tpl_dir, 'dmn_b.tpl', 'dmn_entry_disabled.tpl', 'dmn_e.tpl'
+	);
+	return ($rs, '') if ($rs != 0);
 
-	# Enable disabled htdocs skel
-	$cmd = "$main::cfg{'CMD_MV'} $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/" .
-		"disabled $main::cfg{'APACHE_WWW_DIR'}/@${dmn_data[1]}/htdocs";
+	my ($suexec_uid, $suexec_gid) = get_dmn_suexec_user($dmn_id);
+	my $suexec_user_pref = $main::cfg{'APACHE_SUEXEC_USER_PREF'};
+	my ($suexec_user, $suexec_group) = (
+		"$suexec_user_pref$suexec_uid", "$suexec_user_pref$suexec_gid"
+	);
 
-	$rs = sys_command($cmd);
-	return $rs if ($rs != 0);
+	my %tag_hash = (
+		'{DMN_NAME}' => $dmn_name,
+		'{DMN_IP}' => $dmn_ip,
+		'{SUEXEC_USER}' => $suexec_user,
+		'{SUEXEC_GROUP}' => $suexec_group,
+		'{DOMAIN_DISABELED_DIR}' => $main::cfg{'ROOT_DIR'} . '/gui/domain_disabled_page',
+		'{BASE_SERVER_VHOST}' => $main::cfg{'BASE_SERVER_VHOST'},
+		'{BASE_SERVER_VHOST_PREFIX}'  => $main::cfg{'BASE_SERVER_VHOST_PREFIX'},
+	);
 
-	push_el(\@main::el, 'dmn_disable_data()', 'Ending...');
+	($rs, $dmn_b, $dmn_entry, $dmn_e) = prep_tpl(
+		\%tag_hash, $dmn_b, $dmn_entry, $dmn_e
+	);
+	return ($rs, '') if ($rs != 0);
+
+	push_el(\@main::el, 'gen_httpd_dmn_group_entry()', "dmn_entry:\n$dmn_entry");
+
+	my $dmn_group_entry = "$dmn_b$dmn_entry$dmn_e";
+	($rs, $dg_entry) = repl_tag(
+		$dmn_b, $dmn_e, $dg_entry, $dmn_group_entry, 'gen_httpd_dmn_group_entry'
+	);
+
+	push_el(\@main::el, 'dmn_disable_data()', "\n$dg_entry");
+
+	return (0,  $dg_entry);
 
 	0;
 }
