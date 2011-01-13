@@ -47,8 +47,9 @@ install:
 
 	cp ./root_domain.conf $(ROOT_CONF)/proftpd/ispcp;
 	cp ./proftpd.conf $(ROOT_CONF)/proftpd.conf.ispcp;
+	cp ./proftpd.conf $(SYSTEM_CONF)/proftpd/proftpd.conf;
 
 uninstall:
-
+	rm -f $(SYSTEM_CONF)/proftpd/proftpd.conf
 	rm -f $(ROOT_CONF)/proftpd.conf.ispcp
 	rm -rf $(SYSTEM_CONF)/proftpd
