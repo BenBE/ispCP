@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author		Klaas Tammling <klaas.tammling@st-city.net>
@@ -22,7 +22,7 @@
  * The Original Code is "ispCP - ISP Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 

@@ -14,7 +14,7 @@
  *
  * @category	ispCP
  * @package		ispCP
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @author 		ispCP Team
  * @author 	    Thomas Wacker <thomas.wacker@ispcp.net>
  * @version 	SVN: $Id$

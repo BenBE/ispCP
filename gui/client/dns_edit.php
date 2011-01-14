@@ -2,7 +2,7 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -21,7 +21,7 @@
  * The Original Code is "ispCP - isp Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -37,7 +37,7 @@ $tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/dns_edit.tpl');
 $tpl->define_dynamic('page_message', 'page');
 $tpl->define_dynamic('logged_from', 'page');
 
-$DNS_allowed_types = array('A', 'AAAA', 'SRV', 'CNAME', 'MX');
+$DNS_allowed_types = array('A', 'AAAA', 'CNAME', 'MX', 'SRV');
 
 $add_mode = preg_match('~dns_add.php~', $_SERVER['REQUEST_URI']);
 
@@ -66,6 +66,7 @@ $tpl->assign(
 		'TR_DNS_SRV_WEIGHT'		=> tr('Relative weight for records with the same priority'),
 		'TR_DNS_SRV_HOST'		=> tr('Target host'),
 		'TR_DNS_SRV_PORT'		=> tr('Target port'),
+		'TR_DNS_TXT'			=> tr('Text'),
 		'TR_DNS_CNAME'			=> tr('Canonical name'),
 		'TR_DNS_PLAIN'			=> tr('Plain record data'),
 		'TR_MANAGE_DOMAIN_DNS'	=> tr("DNS zone's records")
@@ -197,6 +198,10 @@ function decode_zone_data($data) {
 					$srv_prio = $srv[1];
 					$srv_host = $srv[2];
 				}
+				break;
+			case 'TXT':
+				$name = '';
+				// @todo implement
 				break;
 			default:
 				$txt = $data['domain_text'];
@@ -417,7 +422,7 @@ function validate_MX($record, &$err, &$text) {
 	return true;
 }
 
-function check_CNAME_conflict($domain,&$err) {
+function check_CNAME_conflict($domain, &$err) {
 
 	$resolver = new Net_DNS_resolver();
 	$resolver->nameservers = array('localhost');
@@ -588,7 +593,10 @@ function check_fwd_data(&$tpl, $edit_id) {
 			if($rs === false) {
 				if($sql->getLastErrorCode() == 23000) {
 					$tpl->assign(
-						'MESSAGE', tr('ERROR: DNS record already exist!')
+						array(
+							'MESSAGE' => tr('DNS record already exist!'),
+							'MYG_TYPE' => 'error'
+						)
 					);
 					$tpl->parse('PAGE_MESSAGE', 'page_message');
 
