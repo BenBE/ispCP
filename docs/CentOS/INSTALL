@@ -164,7 +164,8 @@ Make sure you are logged in as root and MySQL is running (Start with "service my
 3. Install the required modules
    A list of packages required by this software is located in
    /docs/CentOS/centos-packages and can be used to easily install the packages
-   you need by running the following command:
+   you need by running the following commands:
+	# rpm --rebuilddb
     # yum install `cat ./docs/CentOS/centos-packages`
 
    NOTE: Running this command will install both x86_64 and i3/5/686 packages on
