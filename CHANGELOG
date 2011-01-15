@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2010-12-31 Christian Hernmarck
+	- ENGINE:
+		* Fixed Extension for gzip backup .gzip -> .gz (in backup-all and backup-ispcp)
+
 2011-01-13 Benedikt Heintel
 	- GUI:
 		* Fixed #2533: Single-Character SLD for .is (Thanks to Siggi)

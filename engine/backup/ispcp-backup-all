@@ -283,6 +283,8 @@ sub backup_all_engine {
 
 				if ($zip eq 'bzip2') {
 					$extension = 'bz2';
+				} elsif ($zip eq 'gzip') {
+					$extension = 'gz';
 				} else {
 					$extension = $zip;
 				}
