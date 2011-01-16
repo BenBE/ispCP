@@ -73,16 +73,14 @@ function encode($in_str, $charset = 'UTF-8') {
  * @param ispCP_pTemplate $tpl
  * @param string $menu_file
  */
-function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
+function gen_admin_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if (!$Smarty){
-		$tpl->define_dynamic('menu', $menu_file);
-		$tpl->define_dynamic('isactive_support', 'menu');
-		$tpl->define_dynamic('custom_buttons', 'menu');
-	}
+	$tpl->define_dynamic('menu', $menu_file);
+	$tpl->define_dynamic('isactive_support', 'menu');
+	$tpl->define_dynamic('custom_buttons', 'menu');
 	$tpl->assign(
 		array(
 			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
@@ -175,9 +173,7 @@ function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
 				)
 			);
 
-			if (!$Smarty){
-				$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			}
+			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -191,26 +187,20 @@ function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
 		$tpl->assign('HOSTING_PLANS', '');
 	}
 
-	if (!$Smarty){
-		$tpl->parse('MAIN_MENU', 'menu');
-	} else {
-		$tpl->assign('MAIN_MENU', str_replace('.tpl', '_smarty.tpl', $menu_file));
-	}
+	$tpl->parse('MAIN_MENU', 'menu');
 }
 
 /**
  * @param ispCP_pTemplate $tpl
  * @param string $menu_file
  */
-function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
+function gen_admin_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if (!$Smarty){
-		$tpl->define_dynamic('menu', $menu_file);
-		$tpl->define_dynamic('custom_buttons', 'menu');
-	}
+	$tpl->define_dynamic('menu', $menu_file);
+	$tpl->define_dynamic('custom_buttons', 'menu');
 	$tpl->assign(
 		array(
 			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
@@ -296,9 +286,7 @@ function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
 				)
 			);
 
-			if (!$Smarty){
-				$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			}
+			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -312,11 +300,7 @@ function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
 		$tpl->assign('HOSTING_PLANS', '');
 	}
 
-	if (!$Smarty){
-		$tpl->parse('MENU', 'menu');
-	} else {
-		$tpl->assign('MENU', str_replace('.tpl', '_smarty.tpl', $menu_file));
-	}
+	$tpl->parse('MENU', 'menu');
 }
 
 function get_sql_user_count($sql) {
