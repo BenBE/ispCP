@@ -1,13 +1,14 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-01-16 Markus Szywon
+	- GUI:
+		* Template improvements part V
+		* Some small fixes
+
 2011-01-16 Thomas Wacker
 	- ENGINE:
 		* Fixed #2538: Theme switch on ispCP Update
-
-2010-12-31 Christian Hernmarck
-	- ENGINE:
-		* Fixed Extension for gzip backup .gzip -> .gz (in backup-all and backup-ispcp)
 
 2011-01-13 Benedikt Heintel
 	- GUI:
@@ -25,6 +26,10 @@ ispCP ω 1.1.0 ChangeLog
 2011-01-03 Markus Szywon
 	- TOOLS:
 		* Updated phpMyAdmin to version 3.3.9
+
+2010-12-31 Christian Hernmarck
+	- ENGINE:
+		* Fixed Extension for gzip backup .gzip -> .gz (in backup-all and backup-ispcp)
 
 2010-12-30 Thomas Wacker
 	- GUI:
