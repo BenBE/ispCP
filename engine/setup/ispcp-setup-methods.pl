@@ -3114,6 +3114,27 @@ sub setup_gui_pma {
 }
 
 ################################################################################
+# ispCP update/correct GUI theme, if current theme setting not possible
+#
+# @return int 0 on success, other on failure
+#
+sub update_gui_theme {
+
+	push_el(\@main::el, 'update_gui_theme()', 'Starting...');
+
+	my $themesDir = $main::cfg_reg{'GUI_ROOT_DIR'} . '/themes/' . $main::cfg_reg{'USER_INITIAL_THEME'};
+
+	unless (-e $themesDir) {
+		push_el(\@main::el, 'update_gui_theme()', 'reset USER_INITIAL_THEME');
+		set_conf_val('USER_INITIAL_THEME', 'omega');
+	}
+
+	push_el(\@main::el, 'update_gui_theme()', 'Ending...');
+
+	0;
+}
+
+################################################################################
 # ispCP Gui named configuration - (Setup / Update)
 #
 # This subroutine do the following tasks:

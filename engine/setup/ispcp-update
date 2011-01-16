@@ -230,6 +230,9 @@ sub update_ispcp_cfg {
 		}
 	}
 
+	# Validate/update current theme setting
+	update_gui_theme();
+
 	# Store the updated configuration and reload it
 	$rs = store_conf();
 	return $rs if ($rs != 0);
