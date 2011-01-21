@@ -1,128 +1,169 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		function action_delete(url, dmn_name) {
-			if (!confirm(sprintf("{TR_MESSAGE_DELETE}", dmn_name)))
-				return false;
-				location = url;
-		}
-	/* ]]> */
-	</script>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="settings">{TR_MENU_SETTINGS}</h1>
-		</div>
-		<ul class="location-menu">
-			
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a href="settings.php">{TR_MENU_OVERVIEW}</a></li>
-			<li><a>{TR_TITLE_CUSTOM_MENUS}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="general"><span>{TR_TITLE_CUSTOM_MENUS}</span></h2>
-		<table>
-			<tr>
-				<td><b>{TR_MENU_NAME}</b></td>
-				<td><b>{TR_LEVEL}</b></td>
-				<td><b>{TR_ACTON}</b></td>
-			</tr>
-			<!-- BDP: button_list -->
-			<tr>
-				<td>
-					<a href="{LINK}" class="link"><strong>{MENU_NAME}</strong></a><br />
-					{LINK}
-				</td>
-				<td>{LEVEL}</td>
-				<td>
-					<a href="custom_menus.php?edit_id={BUTONN_ID}" title="{TR_EDIT}" class="icon i_edit"></a>
-					<a href="custom_menus.php?delete_id={BUTONN_ID}" onclick="return action_delete('custom_menus.php?delete_id={BUTONN_ID}', '{MENU_NAME2}')" title="{TR_DELETE}" class="icon i_delete"></a>
-				</td>
-			</tr>
-			<!-- EDP: button_list -->
-		</table>
-		<!-- BDP: add_button -->
-		<form action="custom_menus.php" method="post" id="add_new_button_frm">
-			<fieldset>
-				<legend>{TR_ADD_NEW_BUTTON}</legend>
-				<table>
-					<tr>
-						<td><label for="bname">{TR_BUTTON_NAME}</label></td>
-						<td><input type="text" name="bname" id="bname" /></td>
-					</tr>
-					<tr>
-						<td><label for="blink">{TR_BUTTON_LINK}</label></td>
-						<td><input type="text" name="blink" id="blink" /></td>
-					</tr>
-					<tr>
-						<td><label for="btarget">{TR_BUTTON_TARGET}</label></td>
-						<td><input type="text" name="btarget" id="btarget" /></td>
-					</tr>
-					<tr>
-						<td><label for="bview">{TR_VIEW_FROM}</label></td>
-						<td>
-							<select name="bview" id="bview">
-								<option value="admin">{ADMIN}</option>
-								<option value="reseller">{RESELLER}</option>
-								<option value="user">{USER}</option>
-								<option value="all">{RESSELER_AND_USER}</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-				<input type="hidden" name="uaction" value="new_button" />
-				<input type="submit" name="Submit" value="  {TR_SAVE}  " />
-			</fieldset>
-		</form>
-		<!-- EDP: add_button -->
-		<!-- BDP: edit_button -->
-		<form action="custom_menus.php" method="post" id="edit_button_frm">
-			<fieldset>
-				<legend>{TR_EDIT_BUTTON}</legend>
-				<table>
-					<tr>
-						<td><label for="bname">{TR_BUTTON_NAME}</label></td>
-						<td><input type="text" name="bname" id="bname" value="{BUTON_NAME}" /></td>
-					</tr>
-					<tr>
-						<td><label for="blink">{TR_BUTTON_LINK}</label></td>
-						<td><input type="text" name="blink" id="blink" value="{BUTON_LINK}" /></td>
-					</tr>
-					<tr>
-						<td><label for="btarget">{TR_BUTTON_TARGET}</label></td>
-						<td><input type="text" name="btarget" id="btarget" value="{BUTON_TARGET}" /></td>
-					</tr>
-					<tr>
-						<td><label for="bview">{TR_VIEW_FROM}</label></td>
-						<td>
-							<select name="bview" id="bview">
-								<option value="admin">{ADMIN}</option>
-								<option value="reseller">{RESELLER}</option>
-								<option value="user">{USER}</option>
-								<option value="all">{RESSELER_AND_USER}</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-				<input type="hidden" name="eid" value="{EID}" />
-				<input type="hidden" name="uaction" value="edit_button" />
-				<input type="submit" name="Submit" value="  {TR_SAVE}  " />
-			</fieldset>
-		</form>
-		<!-- EDP: edit_button -->
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_ADMIN_CUSTOM_MENUS_PAGE_TITLE}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+<script type="text/javascript">
+<!--
+function action_delete(url, subject) {
+	return confirm(sprintf("{TR_MESSAGE_DELETE}", subject));
+}
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {font-weight: bold}
+-->
+</style>
+</head>
+
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+				<tr style="height:95px;">
+				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+				</tr>
+				<tr>
+				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
+                          <tr>
+                            <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_flash.png" width="25" height="25" alt="" /></td>
+                            <td colspan="2" class="title">{TR_TITLE_CUSTOM_MENUS}</td>
+                          </tr>
+                      </table></td>
+                      <td width="27" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td><table width="100%" cellpadding="5" cellspacing="5">
+                          <!-- BDP: page_message -->
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td colspan="4" class="title"><span class="message">{MESSAGE}</span></td>
+                          </tr>
+                          <!-- EDP: page_message -->
+                          <!-- BDP: button_list -->
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content3"><b>{TR_MENU_NAME}</b></td>
+                            <td class="content3" align="center"><b>{TR_LEVEL}</b></td>
+                            <td colspan="2" align="center" class="content3"><b>{TR_ACTON}</b></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td class="{CONTENT}"><a href="{LINK}" class="link" target="_blank"><strong>{MENU_NAME}</strong></a><br />
+                              {LINK}</td>
+                            <td class="{CONTENT}" align="center">{LEVEL}</td>
+                            <td width="100" class="{CONTENT}" align="center"><img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="custom_menus.php?edit_id={BUTONN_ID}" class="link">{TR_EDIT}</a></td>
+                            <td width="100" class="{CONTENT}" align="center"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="custom_menus.php?delete_id={BUTONN_ID}" onClick="return action_delete('custom_menus.php?delete_id={BUTONN_ID}', '{MENU_NAME2}')" class="link">{TR_DELETE}</a></td>
+                          </tr>
+                          <!-- EDP: button_list -->
+                        </table>
+                          <br />
+                          <form name="add_new_button_frm" method="post" action="custom_menus.php">
+                            <!-- BDP: add_button -->
+                            <table width="100%" cellpadding="5" cellspacing="5">
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td colspan="2" class="content3"><b>{TR_ADD_NEW_BUTTON}</b></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_NAME}</td>
+                                <td class="content"><input name="bname" type="text" class="textinput" id="bname" style="width:210px" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_LINK}</td>
+                                <td class="content"><input name="blink" type="text" class="textinput" id="blink" style="width:210px" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_TARGET}</td>
+                                <td class="content"><input name="btarget" type="text" class="textinput" id="btarget" style="width:210px" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_VIEW_FROM}</td>
+                                <td class="content"><select name="bview" id="bview">
+                                    <option value="admin">{ADMIN}</option>
+                                    <option value="reseller">{RESELLER}</option>
+                                    <option value="user">{USER}</option>
+                                    <option value="all">{RESSELER_AND_USER}</option>
+                                </select></td>
+                              </tr>
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td colspan="2"><input name="Button" type="button" class="button" value="  {TR_SAVE}  " onClick="return sbmt(document.forms[0],'new_button');" /></td>
+                              </tr>
+                            </table>
+                            <!-- EDP: add_button -->
+                            <!-- BDP: edit_button -->
+                            <table width="100%" cellpadding="5" cellspacing="5">
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td colspan="2" class="content3"><b>{TR_EDIT_BUTTON}</b></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_NAME}</td>
+                                <td class="content"><input name="bname" type="text" class="textinput" id="bname" style="width:210px" value="{BUTON_NAME}" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_LINK}</td>
+                                <td class="content"><input name="blink" type="text" class="textinput" id="blink" style="width:210px" value="{BUTON_LINK}" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_BUTTON_TARGET}</td>
+                                <td class="content"><input name="btarget" type="text" class="textinput" id="btarget" style="width:210px" value="{BUTON_TARGET}" /></td>
+                              </tr>
+                              <tr>
+                                <td width="25">&nbsp;</td>
+                                <td width="200" class="content2">{TR_VIEW_FROM}</td>
+                                <td class="content"><select name="bview" id="bview">
+                                    <option value="admin" {ADMIN_VIEW}>{ADMIN}</option>
+                                    <option value="reseller" {RESELLER_VIEW}>{RESELLER}</option>
+                                    <option value="user" {USER_VIEW}>{USER}</option>
+                                    <option value="all" {ALL_VIEW}>{RESSELER_AND_USER}</option>
+                                </select></td>
+                              </tr>
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td colspan="2"><input name="Button" type="button" class="button" value="  {TR_SAVE}  " onClick="return sbmt(document.forms[0],'edit_button');" /></td>
+                              </tr>
+                            </table>
+                            <input type="hidden" name="eid" value="{EID}" />
+                            <!-- EDP: edit_button -->
+                            <input type="hidden" name="uaction" value="" />
+                          </form>
+                        <!-- end of content --></td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table></td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+</body>
+</html>

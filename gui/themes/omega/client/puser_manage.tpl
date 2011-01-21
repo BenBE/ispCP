@@ -1,105 +1,165 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		$(document).ready(function() {
-			$('#protected_user_add').click(function() {
-				document.location.href = 'protected_user_add.php';
-			});
-			$('#protected_group_add').click(function() {
-				document.location.href = 'protected_group_add.php';
-			});
-		}); 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_HTACCESS}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+<script type="text/javascript">
+<!--
+function action_delete(url, mailacc) {
+	if (!confirm(sprintf("{TR_MESSAGE_DELETE}", mailacc)))
+		return false;
+	location = url;
+}
+//-->
+</script>
+</head>
 
-		function action_delete(url, subject) {
-			return confirm(sprintf("{TR_MESSAGE_DELETE}", subject));
-		}
-	/* ]]> */
-	</script>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="webtools">{TR_MENU_WEBTOOLS}</h1>
-		</div>
-		<ul class="location-menu">
-			<!-- BDP: logged_from -->
-			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
-			<!-- EDP: logged_from -->
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a href="webtools.php">{TR_MENU_OVERVIEW}</a></li>
-			<li><a>{TR_HTACCESS_USER}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="users"><span>{TR_USER_MANAGE}</span></h2>
-		<!-- BDP: usr_msg -->
-		<div class="warning">{USER_MESSAGE}</div>
-		<!-- EDP: usr_msg -->
-		<table>
-			<thead>
-				<tr>
-					<th>{TR_USERNAME}</th>
-					<th>{TR_STATUS}</th>
-					<th>{TR_ACTION}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- BDP: pusres -->
-				<tr>
-					<td>{UNAME}</td>
-					<td>{USTATUS}</td>
-					<td>
-						<a href="protected_user_assign.php?uname={USER_ID}" title="{TR_GROUP}" class="icon i_users"></a>
-						<a href="{USER_EDIT_SCRIPT}" title="{USER_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="{USER_DELETE_SCRIPT}" title="{USER_DELETE}" class="icon i_delete"></a>
-					</td>
-				</tr>
-				<!-- EDP: pusres -->
-			</tbody>
-		</table>
-		<div class="buttons">
-			<input type="button" name="protected_user_add" id="protected_user_add" value="{TR_ADD_USER}" />
-		</div>
-		<h2 class="groups"><span>{TR_GROUPS}</span></h2>
-		<!-- BDP: grp_msg -->
-		<div class="warning">{GROUP_MESSAGE}</div>
-		<!-- EDP: grp_msg -->
-		<table>
-			<thead>
-				<tr>
-					<th>{TR_GROUPNAME}</th>
-					<th>{TR_GROUP_MEMBERS}</th>
-					<th>{TR_STATUS}</th>
-					<th>{TR_ACTION}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- BDP: pgroups -->
-				<tr>
-					<td>{GNAME}</td>
-					<td><!-- BDP: group_members -->{MEMBER}<!-- EDP: group_members --></td>
-					<td>{GSTATUS}</td>
-					<td>
-						<a href="#" onclick="{GROUP_DELETE_SCRIPT}" title="{GROUP_DELETE}" class="icon i_delete"></a>
-					</td>
-				</tr>
-				<!-- EDP: pgroups -->
-			</tbody>
-		</table>
-		<div class="buttons">
-			<input type="button" name="protected_group_add" id="protected_group_add" value="{TR_ADD_GROUP}" />
-		</div>
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+          <tr style="height:95px;">
+            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+          </tr>
+          <tr>
+            <td colspan="3">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_user.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{TR_USER_MANAGE}</td>
+	</tr>
+</table>
+	</td>
+    <td width="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="100%" cellpadding="5" cellspacing="5">
+      <!-- BDP: table_list -->
+      <tr>
+        <td width="25" align="center" nowrap="nowrap">&nbsp;</td>
+        <td nowrap="nowrap" class="content3" colspan="2"><b>{TR_USERNAME}</b></td>
+        <td width="80" nowrap="nowrap" align="center" class="content3"><b>{TR_STATUS}</b></td>
+        <td colspan="3" align="center" nowrap="nowrap" class="content3"><b>{TR_ACTION}</b></td>
+      </tr>
+      <!-- EDP: table_list -->
+      <!-- BDP: usr_msg -->
+      <tr>
+        <td width="25" align="center" nowrap="nowrap">&nbsp;</td>
+        <td class="title"><span class="message">{USER_MESSAGE}</span></td>
+      </tr>
+      <!-- EDP: usr_msg -->
+      <!-- BDP: pusres -->
+      <tr class="hl">
+        <td nowrap="nowrap" align="center">&nbsp;</td>
+        <td nowrap="nowrap" class="content" colspan="2">{UNAME}</td>
+        <td width="80" align="center" nowrap="nowrap" class="content">{USTATUS}</td>
+        <td width="60" class="content" nowrap="nowrap" align="center">
+        	<img src="{THEME_COLOR_PATH}/images/icons/users.png" width="16" height="16" style="vertical-align:middle" alt="" />
+        	<a href="protected_user_assign.php?uname={USER_ID}" class="link">{TR_GROUP}</a>
+        </td>
+        <td width="60" class="content" nowrap="nowrap" align="center">
+        	<img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" />
+        	<a href="{USER_EDIT_SCRIPT}" class="link">{USER_EDIT}</a>
+        </td>
+        <td width="60" align="center" nowrap="nowrap" class="content">
+        	<img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" />
+        	<a href="#" class="link" onClick="{USER_DELETE_SCRIPT}">{USER_DELETE}</a>
+        </td>
+      </tr>
+      <!-- EDP: pusres -->
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="5"><input name="Button" type="button" class="button" onClick="MM_goToURL('parent','protected_user_add.php');return document.MM_returnValue" value="{TR_ADD_USER}" />
+          &nbsp;&nbsp; </td>
+      </tr>
+    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_users2.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{TR_GROUPS}</td>
+	</tr>
+</table>
+	</td>
+    <td width="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top"><table width="100%" cellpadding="5" cellspacing="5">
+      <tr>
+        <td width="25" align="center" nowrap="nowrap">&nbsp;</td>
+        <td width="203" nowrap="nowrap" class="content3"><b>{TR_GROUPNAME}</b></td>
+        <td nowrap="nowrap" class="content3"><b>{TR_GROUP_MEMBERS}</b></td>
+        <td nowrap="nowrap" align="center" class="content3"><b>{TR_STATUS}</b></td>
+        <td width="100" colspan="2" align="center" nowrap="nowrap" class="content3"><b>{TR_ACTION}</b></td>
+      </tr>
+      <!-- BDP: grp_msg -->
+      <tr>
+        <td nowrap="nowrap">&nbsp;</td>
+        <td colspan="5" nowrap="nowrap" class="title"><span class="message">{GROUP_MESSAGE}</span></td>
+      </tr>
+      <!-- EDP: grp_msg -->
+      <!-- BDP: pgroups -->
+      <tr class="hl">
+        <td nowrap="nowrap" align="center">&nbsp;</td>
+        <td nowrap="nowrap" class="content">{GNAME}</td>
+        <td nowrap="nowrap" class="content"><!-- BDP: group_members -->
+          {MEMBER}
+          <!-- EDP: group_members -->
+        </td>
+        <td width="80" align="center" nowrap="nowrap" class="content">{GSTATUS}</td>
+        <td width="100" colspan="2" align="center" nowrap="nowrap" class="content">
+        	<img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" />
+        	<a href="#" class="link" onClick="{GROUP_DELETE_SCRIPT}">{GROUP_DELETE}</a>
+        </td>
+      </tr>
+      <!-- EDP: pgroups -->
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="3"><input name="Button2" type="button" class="button" value="{TR_ADD_GROUP}" onClick="MM_goToURL('parent','protected_group_add.php');return document.MM_returnValue" />
+          &nbsp; </td>
+      </tr>
+    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table></td>
+          </tr>
+        </table></td>
+	</tr>
+</table>
+</body>
+</html>

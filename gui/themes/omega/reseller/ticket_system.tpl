@@ -1,89 +1,121 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		$(document).ready(function() {
-			$('#ticket_delete_all').click(function() {
-				document.location.href = 'ticket_delete.php?delete=open';
-			});
-		});
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_CLIENT_QUESTION_PAGE_TITLE}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+<script type="text/javascript">
+<!--
+function action_delete(url, subject) {
+	return confirm(sprintf("{TR_MESSAGE_DELETE}", subject));
+}
+//-->
+</script>
+</head>
 
-		function action_delete(url, subject) {
-			return confirm(sprintf("{TR_MESSAGE_DELETE}", subject));
-		}
-	/* ]]> */
-	</script>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="support">{TR_SUPPORT_SYSTEM}</h1>
-		</div>
-		<ul class="location-menu">
-			<!-- BDP: logged_from -->
-			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
-			<!-- EDP: logged_from -->
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a>{TR_OPEN_TICKETS}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<!-- BDP: tickets_list -->
-		<h2 class="support"><span>{TR_OPEN_TICKETS}</span></h2>
-		<div class="buttons">
-			<input type="button" name="ticket_delete_all" id="ticket_delete_all" value="{TR_DELETE_ALL}" />
-		</div>
-		<table>
-			<thead>
-				<tr>
-					<th>{TR_STATUS}</th>
-					<th>{TR_TICKET_FROM}</th>
-					<th>{TR_SUBJECT}</th>
-					<th>{TR_URGENCY}</th>
-					<th>{TR_LAST_DATA}</th>
-					<th>{TR_ACTION}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- BDP: tickets_item -->
-				<tr>
-					<td>{NEW}</td>
-					<td>{FROM}</td>
-					<td><a href="ticket_view.php?ticket_id={ID}" class="icon i_document">{SUBJECT}</a></td>
-					<td>{URGENCY}</td>
-					<td>{LAST_DATE}</td>
-					<td>
-						<a href="ticket_view.php?ticket_id={ID}" title="{TR_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('ticket_delete.php?ticket_id={ID}', '{SUBJECT2}')" title="{TR_DELETE}" class="icon i_delete"></a></td>
-				</tr>
-				<!-- EDP: tickets_item -->
-			</tbody>
-		</table>
-		<div class="paginator">
-			<!-- BDP: scroll_next_gray -->
-			<span class="icon i_next_gray">&nbsp;</span>
-			<!-- EDP: scroll_next_gray -->
-			<!-- BDP: scroll_next -->
-			<a href="ticket_system.php?psi={NEXT_PSI}" title="next" class="icon i_next">next</a>
-			<!-- EDP: scroll_next -->
-			<!-- BDP: scroll_prev_gray -->
-			<span class="icon i_prev_gray">&nbsp;</span>
-			<!-- EDP: scroll_prev_gray -->
-			<!-- BDP: scroll_prev -->
-			<a href="ticket_system.php?psi={PREV_PSI}" title="previous" class="icon i_prev">previous</a>
-			<!-- EDP: scroll_prev -->
-		</div>
-		<!-- EDP: tickets_list -->
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+          <tr style="height:95px;">
+            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+          </tr>
+          <tr>
+            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
+                    <tr>
+                      <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_support.png" width="25" height="25" alt="" /></td>
+                      <td colspan="2" class="title">{TR_OPEN_TICKETS}</td>
+                    </tr>
+                </table></td>
+                <td width="27" align="right">&nbsp;</td>
+              </tr>
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="40">&nbsp;</td>
+                      <td valign="top"><table width="100%" cellspacing="7">
+                        <!-- BDP: page_message -->
+                        <tr>
+                          <td colspan="6" class="title"><span class="message">{MESSAGE}</span></td>
+                        </tr>
+                        <!-- EDP: page_message -->
+                        <!-- BDP: tickets_list -->
+                        <tr>
+          				  <td width="30" class="content3" align="center"><b>{TR_STATUS}</b></td>
+                          <td class="content3" align="center"><b>{TR_TICKET_FROM}</b></td>
+                          <td width="260" class="content3" align="center"><b>{TR_SUBJECT}</b></td>
+                          <td width="150" class="content3" align="center"><b>{TR_URGENCY}</b></td>
+                          <td width="100" class="content3" align="center"><b>{TR_LAST_DATA}</b></td>
+                          <td width="100" class="content3" align="center"><b>{TR_ACTION}</b></td>
+                        </tr>
+                        <!-- BDP: tickets_item -->
+                        <tr class="hl">
+                          <td width="25" nowrap="nowrap" class="{CONTENT}"><b>{NEW}</b></td>
+                          <td class="{CONTENT}" nowrap="nowrap" align="left">{FROM}</td>
+                          <td class="{CONTENT}" nowrap="nowrap"><img src="{THEME_COLOR_PATH}/images/icons/document.png" width="16" height="16" style="vertical-align:middle" alt="" />
+                              <script type="text/javascript">
+<!--
+							document.write('<a href="ticket_view.php?ticket_id={ID}&screenwidth='+screen.width+'" class="link">{SUBJECT2}</a>');
+//-->
+						</script>
+						<noscript><a href="ticket_view.php?ticket_id={ID}&amp;screenwidth=800" class="link"> {SUBJECT}</a></noscript>
+						</td>
+                          <td class="{CONTENT}" nowrap="nowrap" align="center">{URGENCY}</td>
+                          <td class="{CONTENT}" nowrap="nowrap" align="center">{LAST_DATE}</td>
+                          <td class="{CONTENT}" nowrap="nowrap" align="center"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="ticket_delete.php?ticket_id={ID}" onClick="return action_delete('ticket_delete.php?ticket_id={ID}', '{SUBJECT2}')" class="link">{TR_DELETE}</a></td>
+                        </tr>
+                        <!-- EDP: tickets_item -->
+                        <tr>
+                          <td colspan="3" nowrap="nowrap"><input name="Submit" type="submit" class="button" onClick="MM_goToURL('parent','ticket_delete.php?delete=open');return document.MM_returnValue" value="{TR_DELETE_ALL}" /></td>
+                          <td colspan="3" nowrap="nowrap"><div align="right">
+                              <!-- BDP: scroll_prev_gray -->
+                              <img src="{THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
+                              <!-- EDP: scroll_prev_gray -->
+                              <!-- BDP: scroll_prev -->
+                              <a href="ticket_system.php?psi={PREV_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
+                              <!-- EDP: scroll_prev -->
+                              <!-- BDP: scroll_next_gray -->
+                            &nbsp;<img src="{THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
+                            <!-- EDP: scroll_next_gray -->
+                            <!-- BDP: scroll_next -->
+                            &nbsp;<a href="ticket_system.php?psi={NEXT_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
+                            <!-- EDP: scroll_next -->
+                          </div></td>
+                        </tr>
+                        <!-- EDP: tickets_list -->
+                      </table></td>
+                    </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+	</tr>
+</table>
+</body>
+</html>

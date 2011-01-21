@@ -1,110 +1,258 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="general">{TR_MENU_GENERAL_INFORMATION}</h1>
-		</div>
-		<ul class="location-menu">
-			<!-- BDP: logged_from -->
-			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
-			<!-- EDP: logged_from -->
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a>{TR_MENU_OVERVIEW}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<!-- BDP: msg_entry -->
-		<div class="{NEW_MSG_TYPE}">{TR_NEW_MSGS}</div>
-		<!-- EDP: msg_entry -->
-		<h2 class="general"><span>{TR_GENERAL_INFORMATION}</span></h2>
-		<table>
-			<tr>
-				<td>{TR_ACCOUNT_NAME} / {TR_MAIN_DOMAIN}</td>
-				<td>{ACCOUNT_NAME} / {DOMAIN_IP}</td>
-			</tr>
-			<tr>
-				<td>{TR_DMN_TMP_ACCESS}</td>
-				<td><a href="{DOMAIN_ALS_URL}">{DOMAIN_ALS_URL}</a></td>
-			</tr>
-			<tr>
-				<td>{TR_DOMAIN_EXPIRE}</td>
-				<td>{DMN_EXPIRES} {DMN_EXPIRES_DATE}</td>
-			</tr>
-			<!-- BDP: t_php_support -->
-			<tr>
-				<td>{TR_PHP_SUPPORT}</td>
-				<td>{PHP_SUPPORT}</td>
-			</tr>
-			<!-- EDP: t_php_support -->
-			<!-- BDP: t_cgi_support -->
-			<tr>
-				<td>{TR_CGI_SUPPORT}</td>
-				<td>{CGI_SUPPORT}</td>
-			</tr>
-			<!-- EDP: t_cgi_support -->
-			<!-- BDP: t_sql1_support -->
-			<tr>
-				<td>{TR_MYSQL_SUPPORT}</td>
-				<td>{MYSQL_SUPPORT}</td>
-			</tr>
-			<!--EDP: t_sql1_support -->
-			<!-- BDP: t_sdm_support -->
-			<tr>
-				<td>{TR_SUBDOMAINS}</td>
-				<td>{SUBDOMAINS}</td>
-			</tr>
-			<!--EDP: t_sdm_support -->
-			<!-- BDP: t_alias_support -->
-			<tr>
-				<td>{TR_DOMAIN_ALIASES}</td>
-				<td>{DOMAIN_ALIASES}</td>
-			</tr>
-			<!--EDP: t_alias_support -->
-			<!-- BDP: t_mails_support -->
-			<tr>
-				<td>{TR_MAIL_ACCOUNTS}</td>
-				<td>{MAIL_ACCOUNTS}</td>
-			</tr>
-			<!--EDP: t_mails_support -->
-			<tr>
-				<td>{TR_FTP_ACCOUNTS}</td>
-				<td>{FTP_ACCOUNTS}</td>
-			</tr>
-			<!-- BDP: t_sdm_support -->
-			<tr>
-				<td>{TR_SQL_DATABASES}</td>
-				<td>{SQL_DATABASES}</td>
-			</tr>
-			<tr>
-				<td>{TR_SQL_USERS}</td>
-				<td>{SQL_USERS}</td>
-			</tr>
-			<!--EDP: t_sdm_support -->
-		</table>
-		<h2 class="traffic"><span>{TR_TRAFFIC_USAGE}</span></h2>
-		<!-- BDP: traff_warn -->
-		<div class="warning">{TR_TRAFFIC_WARNING}</div>
-		<!-- EDP: traff_warn -->
-		{TRAFFIC_USAGE_DATA}
-		<div class="graph"><span style="width:{TRAFFIC_PERCENT}%">&nbsp;</span></div>
-		<h2 class="diskusage"><span>{TR_DISK_USAGE}</span></h2>
-		<!-- BDP: disk_warn -->
-		<div class="warning">{TR_DISK_WARNING}</div>
-		<!-- EDP: disk_warn -->
-		{DISK_USAGE_DATA}
-		<div class="graph"><span style="width:{DISK_PERCENT}%">&nbsp;</span></div>
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_CLIENT_MAIN_INDEX_PAGE_TITLE}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+</head>
+
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/ftp_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/email_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<!-- BDP: logged_from -->
+<tr>
+ <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
+</tr>
+<!-- EDP: logged_from -->
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+          <tr style="height:95px;">
+            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+          </tr>
+          <tr>
+            <td colspan="3">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_general.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{TR_GENERAL_INFORMATION}</td>
+	</tr>
+</table>
+	</td>
+    <td width="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><!-- BDP: props_list -->
+        <table width="100%" cellspacing="7" class="hl">
+          <!-- BDP: page_message -->
+           <tr>
+             <td>&nbsp;</td>
+             <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
+           </tr>
+          <!-- EDP: page_message -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_ACCOUNT_NAME} / {TR_MAIN_DOMAIN}</td>
+            <td width="230" class="content2">{ACCOUNT_NAME}  / {DOMAIN_IP}</td>
+          </tr>
+          <tr>
+	     <td>&nbsp;</td>
+	     <td class="content">{TR_DMN_TMP_ACCESS}</td>
+	     <td class="content2"><a href="{DOMAIN_ALS_URL}" target="_blank">{DOMAIN_ALS_URL}</a></td> 
+	   </tr>
+	   <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_DOMAIN_EXPIRE}</td>
+            <td width="230" class="content2">{DMN_EXPIRES} {DMN_EXPIRES_DATE}</td>
+          </tr>
+          <!-- BDP: t_php_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_PHP_SUPPORT}</td>
+            <td width="230" class="content2">{PHP_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_php_support -->
+          <!-- BDP: t_cgi_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_CGI_SUPPORT}</td>
+            <td width="230" class="content2">{CGI_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_cgi_support -->
+          <!-- BDP: t_dns_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_DNS_SUPPORT}</td>
+            <td width="230" class="content2">{DNS_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_dns_support -->
+          <!-- BDP: t_backup_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_BACKUP_SUPPORT}</td>
+            <td width="230" class="content2">{BACKUP_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_backup_support -->
+          <!-- BDP: t_sql1_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_MYSQL_SUPPORT}</td>
+            <td width="230" class="content2">{MYSQL_SUPPORT}</td>
+          </tr>
+          <!-- EDP: t_sql1_support -->
+          <!-- BDP: t_sdm_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_SUBDOMAINS}</td>
+            <td width="230" class="content2">{SUBDOMAINS}</td>
+          </tr>
+          <!-- EDP: t_sdm_support -->
+          <!-- BDP: t_alias_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_DOMAIN_ALIASES}</td>
+            <td width="230" class="content2">{DOMAIN_ALIASES}</td>
+          </tr>
+          <!-- EDP: t_alias_support -->
+          <!-- BDP: t_mails_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_MAIL_ACCOUNTS}</td>
+            <td width="230" class="content2">{MAIL_ACCOUNTS}</td>
+          </tr>
+          <!-- EDP: t_mails_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_FTP_ACCOUNTS}</td>
+            <td width="230" class="content2">{FTP_ACCOUNTS}</td>
+          </tr>
+          <!-- BDP: t_sql2_support -->
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_SQL_DATABASES}</td>
+            <td width="230" class="content2">{SQL_DATABASES}</td>
+          </tr>
+          <tr>
+            <td width="25">&nbsp;</td>
+            <td class="content">{TR_SQL_USERS}</td>
+            <td width="230" class="content2">{SQL_USERS}</td>
+          </tr>
+          <!-- EDP: t_sql2_support -->
+          <!-- BDP: msg_entry -->
+          <tr>
+            <td>&nbsp;</td>
+            <td colspan="2" class="title"><span class="message">{TR_NEW_MSGS}</span></td>
+          </tr>
+          <!-- EDP: msg_entry -->
+        </table>
+      <!-- EDP: props_list -->
+    </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_traffic.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{TR_TRAFFIC_USAGE}</td>
+	</tr>
+</table>
+	</td>
+    <td width="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="100%" cellspacing="7">
+      <!-- BDP: traff_warn -->
+      <tr>
+        <td>&nbsp;</td>
+        <td class="title"><span class="message">{TR_TRAFFIC_WARNING}</span></td>
+      </tr>
+      <!-- EDP: traff_warn -->
+      <tr>
+        <td width="25">&nbsp;</td>
+        <td class="content">{TRAFFIC_USAGE_DATA}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="content"><table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+            <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{TRAFFIC_BARS}" height="20" alt="" /></td>
+              </tr>
+            </table></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_diskusage.png" width="25" height="25" alt="" /></td>
+		<td colspan="2" class="title">{TR_DISK_USAGE}</td>
+	</tr>
+</table>
+	</td>
+    <td width="27" align="right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="100%" cellspacing="7">
+      <!-- BDP: disk_warn -->
+      <tr>
+        <td>&nbsp;</td>
+        <td class="title"><span class="message">{TR_DISK_WARNING}</span></td>
+      </tr>
+      <!-- EDP: disk_warn -->
+      <tr>
+        <td width="25">&nbsp;</td>
+        <td class="content">{DISK_USAGE_DATA}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="content"><table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+            <td width="405" class="statsBar"><table border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{DISK_BARS}" height="20" alt="" /></td>
+              </tr>
+            </table></td>
+            <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table></td>
+          </tr>
+        </table></td>
+	</tr>
+</table>
+</body>
+</html>

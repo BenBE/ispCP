@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-01-21 Markus Szywon
+	- GUI:
+		* Remove my own XHTML theme, revert it to original omega theme and leave this team now (you can thank zool for his fucking comments and work)
+
 2011-01-17 Markus Szywon
 	- GUI:
 		* Updated jQuery UI to version 1.8.8

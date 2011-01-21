@@ -1,121 +1,178 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="manage_users">{TR_MENU_MANAGE_USERS}</h1>
-		</div>
-		<ul class="location-menu">
-			
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a href="manage_users.php">{TR_MENU_OVERVIEW}</a></li>
-			<li><a>{TR_DOMAIN_DETAILS}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="general"><span>{TR_DOMAIN_DETAILS}</span></h2>
-		<table>
-			<tr>
-				<td>{TR_DOMAIN_NAME}</td>
-				<td>{VL_DOMAIN_NAME}</td>
-			</tr>
-			<tr>
-				<td>{TR_DOMAIN_IP}</td>
-				<td>{VL_DOMAIN_IP}</td>
-			</tr>
-			<tr>
-				<td>{TR_STATUS}</td>
-				<td>{VL_STATUS}</td>
-			</tr>
-			<tr>
-				<td>{TR_PHP_SUPP}</td>
-				<td>{VL_PHP_SUPP}</td>
-			</tr>
-			<tr>
-				<td>{TR_CGI_SUPP}</td>
-				<td>{VL_CGI_SUPP}</td>
-			</tr>
-			<tr>
-				<td>{TR_BACKUP_SUPPORT}</td>
-				<td>{VL_BACKUP_SUPPORT}</td>
-			</tr>
-			<tr>
-				<td>{TR_DNS_SUPP}</td>
-				<td>{VL_DNS_SUPP}</td>
-			</tr>
-			<tr>
-				<td>{TR_MYSQL_SUPP}</td>
-				<td>{VL_MYSQL_SUPP}</td>
-			</tr>
-			<tr>
-				<td>{TR_TRAFFIC}</td>
-				<td>
-					<div class="graph"><span style="width:{VL_TRAFFIC_PERCENT}%">&nbsp;</span></div>
-					{VL_TRAFFIC_USED} / {VL_TRAFFIC_LIMIT}
-				</td>
-			</tr>
-			<tr>
-				<td>{TR_DISK}</td>
-				<td>
-					<div class="graph"><span style="width:{VL_DISK_PERCENT}%">&nbsp;</span></div>
-					{VL_DISK_USED} / {VL_DISK_LIMIT}
-				</td>
-			</tr>
-		</table>
-		<br />
-		<table>
-			<tr>
-				<th>{TR_FEATURE}</th>
-				<th>{TR_USED}</th>
-				<th>{TR_LIMIT}</th>
-			</tr>
-			<tr>
-				<td>{TR_MAIL_ACCOUNTS}</td>
-				<td>{VL_MAIL_ACCOUNTS_USED}</td>
-				<td>{VL_MAIL_ACCOUNTS_LIIT}</td>
-			</tr>
-			<tr>
-				<td>{TR_FTP_ACCOUNTS}</td>
-				<td>{VL_FTP_ACCOUNTS_USED}</td>
-				<td>{VL_FTP_ACCOUNTS_LIIT}</td>
-			</tr>
-			<tr>
-				<td>{TR_SQL_DB_ACCOUNTS}</td>
-				<td>{VL_SQL_DB_ACCOUNTS_USED}</td>
-				<td>{VL_SQL_DB_ACCOUNTS_LIIT}</td>
-			</tr>
-			<tr>
-				<td>{TR_SQL_USER_ACCOUNTS}</td>
-				<td>{VL_SQL_USER_ACCOUNTS_USED}</td>
-				<td>{VL_SQL_USER_ACCOUNTS_LIIT}</td>
-			</tr>
-			<tr>
-				<td>{TR_SUBDOM_ACCOUNTS}</td>
-				<td>{VL_SUBDOM_ACCOUNTS_USED}</td>
-				<td>{VL_SUBDOM_ACCOUNTS_LIIT}</td>
-			</tr>
-			<tr>
-				<td>{TR_DOMALIAS_ACCOUNTS}</td>
-				<td>{VL_DOMALIAS_ACCOUNTS_USED}</td>
-				<td>{VL_DOMALIAS_ACCOUNTS_LIIT}</td>
-			</tr>
-		</table>
-		<form action="manage_users.php" method="post" id="admin_manage_users">
-			<div class="buttons">
-				<input type="submit" name="Submit"  value="  {TR_BACK}  " />
-			</div>
-		</form>
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_DETAILS_DOMAIN_PAGE_TITLE}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+</head>
+
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+				<tr style="height:95px;">
+				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+				</tr>
+				<tr>
+				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
+                          <tr>
+                            <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_domains.png" width="25" height="25" alt="" /></td>
+                            <td colspan="2" class="title">{TR_DOMAIN_DETAILS}</td>
+                          </tr>
+                      </table></td>
+                      <td width="27" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td><table width="100%" cellpadding="5" cellspacing="5">
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_DOMAIN_NAME}</td>
+                            <td class="content" colspan="2">{VL_DOMAIN_NAME}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_DOMAIN_IP}</td>
+                            <td class="content" colspan="2">{VL_DOMAIN_IP}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_STATUS}</td>
+                            <td class="content" colspan="2">{VL_STATUS}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_PHP_SUPP} </td>
+                            <td class="content" colspan="2">{VL_PHP_SUPP}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_CGI_SUPP}</td>
+                            <td class="content" colspan="2">{VL_CGI_SUPP}</td>
+                          </tr>
+						  <tr>
+							<td width="25">&nbsp;</td>
+							<td class="content2" width="193">{TR_BACKUP_SUPPORT}</td>
+							<td class="content" colspan="2">{VL_BACKUP_SUPPORT}</td>
+						  </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_DNS_SUPP}</td>
+                            <td class="content" colspan="2">{VL_DNS_SUPP}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_MYSQL_SUPP}</td>
+                            <td class="content" colspan="2">{VL_MYSQL_SUPP}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_TRAFFIC}</td>
+                           <td colspan="2" class="content"><table width="252" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+                                  <td class="statsBar"><table border="0" cellspacing="0" cellpadding="0" align="left">
+                                      <tr>
+                                        <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{VL_TRAFFIC_PERCENT}" height="20" alt="" /></td>
+                                      </tr>
+                                  </table></td>
+                                  <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+                                </tr>
+                              </table>
+                                <br />
+                              {VL_TRAFFIC_USED} / {VL_TRAFFIC_LIMIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_DISK}</td>
+                            <td colspan="2" class="content"><table width="252" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_left.png" width="3" height="20" alt="" /></td>
+                                  <td class="statsBar"><table border="0" cellspacing="0" cellpadding="0" align="left">
+                                      <tr>
+                                        <td class="statsBar"><img src="{THEME_COLOR_PATH}/images/bars/stats_progress.png" width="{VL_DISK_PERCENT}" height="20" alt="" /></td>
+                                      </tr>
+                                  </table></td>
+                                  <td width="3"><img src="{THEME_COLOR_PATH}/images/bars/stats_right.png" width="3" height="20" alt="" /></td>
+                                </tr>
+                              </table>
+                                <br />
+                              {VL_DISK_USED} / {VL_DISK_LIMIT}</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td class="content3"><strong>{TR_FEATURE}</strong></td>
+                            <td width="200" class="content3"><strong>{TR_USED}</strong></td>
+                            <td class="content3"><strong>{TR_LIMIT}</strong></td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_MAIL_ACCOUNTS}</td>
+                            <td class="content">{VL_MAIL_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_MAIL_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_FTP_ACCOUNTS}</td>
+                            <td class="content">{VL_FTP_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_FTP_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_SQL_DB_ACCOUNTS}</td>
+                            <td class="content">{VL_SQL_DB_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_SQL_DB_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_SQL_USER_ACCOUNTS}</td>
+                            <td class="content">{VL_SQL_USER_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_SQL_USER_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_SUBDOM_ACCOUNTS}</td>
+                            <td class="content">{VL_SUBDOM_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_SUBDOM_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td width="25">&nbsp;</td>
+                            <td class="content2" width="193">{TR_DOMALIAS_ACCOUNTS}</td>
+                            <td class="content">{VL_DOMALIAS_ACCOUNTS_USED}</td>
+                            <td class="content">{VL_DOMALIAS_ACCOUNTS_LIIT}</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td colspan="3"><form name="buttons" method="post" action="?">
+                                <input name="Submit" type="submit" class="button" onClick="MM_goToURL('parent','manage_users.php');return document.MM_returnValue" value="  {TR_BACK}  " />
+                              &nbsp;&nbsp;&nbsp;
+                            </form></td>
+                          </tr>
+                      </table></td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table></td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+</body>
+</html>

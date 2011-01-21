@@ -1,285 +1,322 @@
-<!-- INCLUDE "header.tpl" -->
-<body>
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		$(document).ready(function(){
-			// Tooltips - begin
-			$('#tld_help').ispCPtooltips({msg:"{TR_TLD_STRICT_VALIDATION_HELP}"});
-			$('#sld_help').ispCPtooltips({msg:"{TR_SLD_STRICT_VALIDATION_HELP}"});
-			// Tooltips - end
-		});
-	/* ]]> */
-	</script>
-	<div class="header">
-		{MAIN_MENU}
-		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
-		</div>
-	</div>
-	<div class="location">
-		<div class="location-area">
-			<h1 class="settings">{TR_MENU_SETTINGS}</h1>
-		</div>
-		<ul class="location-menu">
-			
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
-		</ul>
-		<ul class="path">
-			<li><a>{TR_SETTINGS}</a></li>
-		</ul>
-	</div>
-	<div class="left_menu">{MENU}</div>
-	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="settings"><span>{TR_SETTINGS}</span></h2>
-		<form action="settings.php" method="post" id="frmsettings">
-			<fieldset>
-				<legend>{TR_CHECK_FOR_UPDATES}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="checkforupdate">{TR_CHECK_FOR_UPDATES}</label></td>
-						<td>
-							<select name="checkforupdate" id="checkforupdate">
-								<option value="0" {CHECK_FOR_UPDATES_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {CHECK_FOR_UPDATES_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_LOSTPASSWORD}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="lostpassword">{TR_LOSTPASSWORD}</label></td>
-						<td>
-							<select name="lostpassword" id="lostpassword">
-								<option value="0" {LOSTPASSWORD_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {LOSTPASSWORD_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="lostpassword_timeout">{TR_LOSTPASSWORD_TIMEOUT}</label></td>
-						<td><input type="text" name="lostpassword_timeout" id="lostpassword_timeout" value="{LOSTPASSWORD_TIMEOUT_VALUE}"/></td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_PASSWORD_SETTINGS}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="passwd_strong">{TR_PASSWD_STRONG}</label></td>
-						<td>
-							<select name="passwd_strong" id="passwd_strong">
-								<option value="0" {PASSWD_STRONG_OFF}>{TR_DISABLED}</option>
-								<option value="1" {PASSWD_STRONG_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="passwd_chars">{TR_PASSWD_CHARS}</label></td>
-						<td><input type="text" name="passwd_chars" id="passwd_chars" value="{PASSWD_CHARS}" maxlength="2" /></td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_BRUTEFORCE}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="bruteforce">{TR_BRUTEFORCE}</label></td>
-						<td>
-							<select name="bruteforce" id="bruteforce">
-								<option value="0" {BRUTEFORCE_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {BRUTEFORCE_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="bruteforce_between">{TR_BRUTEFORCE_BETWEEN}</label></td>
-						<td>
-							<select name="bruteforce_between" id="bruteforce_between">
-								<option value="0" {BRUTEFORCE_BETWEEN_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {BRUTEFORCE_BETWEEN_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="bruteforce_max_login">{TR_BRUTEFORCE_MAX_LOGIN}</label></td>
-						<td><input type="text" name="bruteforce_max_login" id="bruteforce_max_login" value="{BRUTEFORCE_MAX_LOGIN_VALUE}" maxlength="3" /></td>
-					</tr>
-					<tr>
-						<td><label for="bruteforce_block_time">{TR_BRUTEFORCE_BLOCK_TIME}</label></td>
-						<td><input name="bruteforce_block_time" type="text" id="bruteforce_block_time" value="{BRUTEFORCE_BLOCK_TIME_VALUE}" maxlength="3" /></td>
-					</tr>
-					<tr>
-						<td><label for="bruteforce_between_time">{TR_BRUTEFORCE_BETWEEN_TIME}</label></td>
-						<td><input name="bruteforce_between_time" type="text" id="bruteforce_between_time" value="{BRUTEFORCE_BETWEEN_TIME_VALUE}" maxlength="3" /></td>
-					</tr>
-					<tr>
-						<td><label for="bruteforce_max_capcha">{TR_BRUTEFORCE_MAX_CAPTCHA}</label></td>
-						<td><input name="bruteforce_max_capcha" type="text" id="bruteforce_max_capcha" value="{BRUTEFORCE_MAX_CAPTCHA}" maxlength="3" /></td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_DNAMES_VALIDATION_SETTINGS}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="tld_strict_validation">{TR_TLD_STRICT_VALIDATION} <span id="tld_help" class="icon i_help">&nbsp;</span></label></td>
-						<td>
-							<select name="tld_strict_validation" id="tld_strict_validation">
-								<option value="0" {TLD_STRICT_VALIDATION_OFF}>{TR_DISABLED}</option>
-								<option value="1" {TLD_STRICT_VALIDATION_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="sld_strict_validation">{TR_SLD_STRICT_VALIDATION} <span id="sld_help" class="icon i_help">&nbsp;</span></label></td>
-						<td>
-							<select name="sld_strict_validation" id="sld_strict_validation">
-								<option value="0" {SLD_STRICT_VALIDATION_OFF}>{TR_DISABLED}</option>
-								<option value="1" {SLD_STRICT_VALIDATION_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="max_dnames_labels">{TR_MAX_DNAMES_LABELS}</label></td>
-						<td><input name="max_dnames_labels" type="text" id="max_dnames_labels" value="{MAX_DNAMES_LABELS_VALUE}" maxlength="2" /></td>
-					</tr>
-					<tr>
-						<td><label for="max_subdnames_labels">{TR_MAX_SUBDNAMES_LABELS}</label></td>
-						<td><input name="max_subdnames_labels" type="text" id="max_subdnames_labels" value="{MAX_SUBDNAMES_LABELS_VALUE}" maxlength="2" /></td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_MAIL_SETTINGS}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="create_default_email_addresses">{TR_CREATE_DEFAULT_EMAIL_ADDRESSES}</label></td>
-						<td>
-							<select name="create_default_email_addresses" id="create_default_email_addresses">
-								<option value="0" {CREATE_DEFAULT_EMAIL_ADDRESSES_OFF}>{TR_DISABLED}</option>
-								<option value="1" {CREATE_DEFAULT_EMAIL_ADDRESSES_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="count_default_email_addresses">{TR_COUNT_DEFAULT_EMAIL_ADDRESSES}</label></td>
-						<td>
-							<select name="count_default_email_addresses" id="count_default_email_addresses">
-								<option value="0" {COUNT_DEFAULT_EMAIL_ADDRESSES_OFF}>{TR_DISABLED}</option>
-								<option value="1" {COUNT_DEFAULT_EMAIL_ADDRESSES_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="hard_mail_suspension">{TR_HARD_MAIL_SUSPENSION}</label></td>
-						<td>
-							<select name="hard_mail_suspension" id="hard_mail_suspension">
-								<option value="0" {HARD_MAIL_SUSPENSION_OFF}>{TR_DISABLED}</option>
-								<option value="1" {HARD_MAIL_SUSPENSION_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</fieldset>
-			<fieldset>
-				<legend>{TR_OTHER_SETTINGS}</legend>
-				<table>
-					<tr>
-						<td style="width: 300px;"><label for="def_language">{TR_USER_INITIAL_LANG}</label></td>
-						<td>
-							<select name="def_language" id="def_language">
-								<!-- BDP: def_language -->
-								<option value="{LANG_VALUE}" {LANG_SELECTED}>{LANG_NAME}</option>
-								<!-- EDP: def_language -->
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="support_system">{TR_SUPPORT_SYSTEM}</label></td>
-						<td>
-							<select name="support_system" id="support_system">
-								<option value="0" {SUPPORT_SYSTEM_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {SUPPORT_SYSTEM_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="show_compression_size">{TR_SHOW_COMPRESSION_SIZE}</label></td>
-						<td>
-							<select name="show_compression_size" id="show_compression_size">
-								<option value="0" {SHOW_COMPRESSION_SIZE_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {SHOW_COMPRESSION_SIZE_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="hosting_plan_level">{TR_HOSTING_PLANS_LEVEL}</label></td>
-						<td>
-							<select name="hosting_plan_level" id="hosting_plan_level">
-								<option value="admin" {HOSTING_PLANS_LEVEL_ADMIN}>{TR_ADMIN}</option>
-								<option value="reseller" {HOSTING_PLANS_LEVEL_RESELLER}>{TR_RESELLER}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="domain_rows_per_page">{TR_DOMAIN_ROWS_PER_PAGE}</label></td>
-						<td><input type="text" name="domain_rows_per_page" id="domain_rows_per_page" value="{DOMAIN_ROWS_PER_PAGE}" maxlength="3" /></td>
-					</tr>
-					<tr>
-						<td><label for="log_level">{TR_LOG_LEVEL}</label></td>
-						<td>
-							<select name="log_level" id="log_level">
-								<option value="E_USER_OFF" {LOG_LEVEL_SELECTED_OFF}>{TR_E_USER_OFF}</option>
-								<option value="E_USER_ERROR" {LOG_LEVEL_SELECTED_ERROR}>{TR_E_USER_ERROR}</option>
-								<option value="E_USER_WARNING" {LOG_LEVEL_SELECTED_WARNING}>{TR_E_USER_WARNING}</option>
-								<option value="E_USER_NOTICE" {LOG_LEVEL_SELECTED_NOTICE}>{TR_E_USER_NOTICE}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="prevent_external_login_admin">{TR_PREVENT_EXTERNAL_LOGIN_ADMIN}</label></td>
-						<td>
-							<select name="prevent_external_login_admin" id="prevent_external_login_admin">
-								<option value="0" {PREVENT_EXTERNAL_LOGIN_ADMIN_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {PREVENT_EXTERNAL_LOGIN_ADMIN_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="prevent_external_login_reseller">{TR_PREVENT_EXTERNAL_LOGIN_RESELLER}</label></td>
-						<td>
-							<select name="prevent_external_login_reseller" id="prevent_external_login_reseller">
-								<option value="0" {PREVENT_EXTERNAL_LOGIN_RESELLER_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {PREVENT_EXTERNAL_LOGIN_RESELLER_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="prevent_external_login_client">{TR_PREVENT_EXTERNAL_LOGIN_CLIENT}</label></td>
-						<td>
-							<select name="prevent_external_login_client" id="prevent_external_login_client">
-								<option value="0" {PREVENT_EXTERNAL_LOGIN_CLIENT_SELECTED_OFF}>{TR_DISABLED}</option>
-								<option value="1" {PREVENT_EXTERNAL_LOGIN_CLIENT_SELECTED_ON}>{TR_ENABLED}</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td><label for="coid">{TR_CUSTOM_ORDERPANEL_ID}</label></td>
-						<td><input type="text" name="coid" id="coid" value="{CUSTOM_ORDERPANEL_ID}" /></td>
-					</tr>
-				</table>
-			</fieldset>
-			<div class="buttons">
-				<input type="hidden" name="uaction" value="apply" />
-				<input type="submit" name="Submit" value="{TR_APPLY_CHANGES}" />
-			</div>
-		</form>
-	</div>
-<!-- INCLUDE "footer.tpl" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{TR_ADMIN_SETTINGS_PAGE_TITLE}</title>
+<meta name="robots" content="nofollow, noindex" />
+<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/jquery.ispcpTooltips.js"></script>
+<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+/*<![CDATA[*/
+	$(document).ready(function(){
+		// Tooltips - begin
+		$('#tld_help').ispCPtooltips({msg:"{TR_TLD_STRICT_VALIDATION_HELP}"});
+		$('#sld_help').ispCPtooltips({msg:"{TR_SLD_STRICT_VALIDATION_HELP}"});
+		// Tooltips - end
+	});
+/*]]>*/
+</script>
+</head>
+
+<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
+<tr>
+<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
+<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
+<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
+</tr>
+	<tr>
+		<td style="width: 195px; vertical-align: top;">{MENU}</td>
+	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
+				<tr style="height:95px;">
+				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
+					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
+				</tr>
+				<tr>
+				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
+                          <tr>
+                            <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_settings.png" width="25" height="25" alt="" /></td>
+                            <td colspan="2" class="title">{TR_SETTINGS}</td>
+                          </tr>
+                      </table></td>
+                      <td width="27" align="right">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td valign="top"><form action="settings.php" method="post" name="frmsettings" id="frmsettings">
+                          <table width="100%" cellpadding="5" cellspacing="5" class="hl">
+                            <!-- BDP: page_message -->
+                            <tr>
+                              <td width="25">&nbsp;</td>
+                              <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
+                            </tr>
+                            <!-- EDP: page_message -->
+                            <tr>
+                              <td width="25">&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_CHECK_FOR_UPDATES}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td width="200" class="content2">{TR_CHECK_FOR_UPDATES}</td>
+                              <td class="content"><select name="checkforupdate">
+                                  <option value="0" {CHECK_FOR_UPDATES_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {CHECK_FOR_UPDATES_SELECTED_ON}>{TR_ENABLED}</option>
+                              </select></td>
+                            </tr>
+                            <tr>
+                              <td width="25">&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_LOSTPASSWORD}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td width="200" class="content2">{TR_LOSTPASSWORD}</td>
+                              <td class="content"><select name="lostpassword">
+                                  <option value="0" {LOSTPASSWORD_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {LOSTPASSWORD_SELECTED_ON}>{TR_ENABLED}</option>
+                              </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_LOSTPASSWORD_TIMEOUT}</td>
+                              <td class="content"><input name="lostpassword_timeout" type="text" class="textinput" id="lostpassword_timeout" style="width:50px" value="{LOSTPASSWORD_TIMEOUT_VALUE}" maxlength="3" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_PASSWORD_SETTINGS}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_PASSWD_CHARS}</td>
+                              <td class="content"><input name="passwd_chars" type="text" class="textinput" id="passwd_chars" style="width:50px" value="{PASSWD_CHARS}" maxlength="2" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_PASSWD_STRONG}</td>
+                              <td class="content"><select name="passwd_strong" id="passwd_strong">
+                                <option value="0" {PASSWD_STRONG_OFF}>{TR_DISABLED}</option>
+                                <option value="1" {PASSWD_STRONG_ON}>{TR_ENABLED}</option>
+                              </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_BRUTEFORCE}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE}</td>
+                              <td class="content"><select name="bruteforce" id="bruteforce">
+                                  <option value="0" {BRUTEFORCE_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {BRUTEFORCE_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE_BETWEEN}</td>
+                              <td class="content">
+                                <select name="bruteforce_between" id="bruteforce_between">
+                                  <option value="0" {BRUTEFORCE_BETWEEN_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {BRUTEFORCE_BETWEEN_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE_MAX_LOGIN}</td>
+                              <td class="content">
+                                <input name="bruteforce_max_login" type="text" class="textinput" id="bruteforce_max_login" style="width:50px" value="{BRUTEFORCE_MAX_LOGIN_VALUE}" maxlength="3" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE_BLOCK_TIME}</td>
+                              <td class="content">
+                                <input name="bruteforce_block_time" type="text" class="textinput" id="bruteforce_block_time" style="width:50px" value="{BRUTEFORCE_BLOCK_TIME_VALUE}" maxlength="3" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE_BETWEEN_TIME}</td>
+                              <td class="content"><input name="bruteforce_between_time" type="text" class="textinput" id="bruteforce_between_time" style="width:50px" value="{BRUTEFORCE_BETWEEN_TIME_VALUE}" maxlength="3" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_BRUTEFORCE_MAX_CAPTCHA}</td>
+                              <td class="content"><input name="bruteforce_max_capcha" type="text" class="textinput" id="bruteforce_max_capcha" style="width:50px" value="{BRUTEFORCE_MAX_CAPTCHA}" maxlength="3" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_DNAMES_VALIDATION_SETTINGS}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_TLD_STRICT_VALIDATION} <img id="tld_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" /></td>
+                              <td class="content">
+                               <select name="tld_strict_validation" id="tld_strict_validation">
+                                <option value="0" {TLD_STRICT_VALIDATION_OFF}>{TR_DISABLED}</option>
+                                <option value="1" {TLD_STRICT_VALIDATION_ON}>{TR_ENABLED}</option>
+                               </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_SLD_STRICT_VALIDATION} <img id="sld_help" src="{THEME_COLOR_PATH}/images/icons/help.png" width="16" height="16" alt="" />
+                              </td>
+                              <td class="content">
+                               <select name="sld_strict_validation" id="sld_strict_validation">
+                                <option value="0" {SLD_STRICT_VALIDATION_OFF}>{TR_DISABLED}</option>
+                                <option value="1" {SLD_STRICT_VALIDATION_ON}>{TR_ENABLED}</option>
+                               </select>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_MAX_DNAMES_LABELS}</td>
+                              <td class="content">
+                               <input name="max_dnames_labels" type="text" class="textinput" id="max_dnames_labels" style="width:50px" value="{MAX_DNAMES_LABELS_VALUE}" maxlength="2" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_MAX_SUBDNAMES_LABELS}</td>
+                              <td class="content">
+                               <input name="max_subdnames_labels" type="text" class="textinput" id="max_subdnames_labels" style="width:50px" value="{MAX_SUBDNAMES_LABELS_VALUE}" maxlength="2" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_MAIL_SETTINGS}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_CREATE_DEFAULT_EMAIL_ADDRESSES}</td>
+                              <td class="content"><select name="create_default_email_addresses" id="create_default_email_addresses">
+                                  <option value="0" {CREATE_DEFAULT_EMAIL_ADDRESSES_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {CREATE_DEFAULT_EMAIL_ADDRESSES_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+			    <tr>
+			      <td>&nbsp;</td>
+			      <td class="content2">{TR_COUNT_DEFAULT_EMAIL_ADDRESSES}</td>
+			      <td class="content"><select name="count_default_email_addresses" id="count_default_email_addresses">
+				  <option value="0" {COUNT_DEFAULT_EMAIL_ADDRESSES_OFF}>{TR_DISABLED}</option>
+				  <option value="1" {COUNT_DEFAULT_EMAIL_ADDRESSES_ON}>{TR_ENABLED}</option>
+				</select></td>
+			    </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_HARD_MAIL_SUSPENSION}</td>
+                              <td class="content"><select name="hard_mail_suspension" id="hard_mail_suspension">
+                                  <option value="0" {HARD_MAIL_SUSPENSION_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {HARD_MAIL_SUSPENSION_ON}>{TR_ENABLED}</option>
+                                </select></td>
+			                </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2" class="content3"><strong>{TR_OTHER_SETTINGS}</strong></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_USER_INITIAL_LANG}</td>
+                              <td class="content"><select name="def_language" id="def_language">
+                                  <!-- BDP: def_language -->
+                                  <option value="{LANG_VALUE}" {LANG_SELECTED}>{LANG_NAME}</option>
+                                  <!-- EDP: def_language -->
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_SUPPORT_SYSTEM}</td>
+                              <td class="content"><select name="support_system" id="support_system">
+                                  <option value="0" {SUPPORT_SYSTEM_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {SUPPORT_SYSTEM_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_SHOW_COMPRESSION_SIZE}</td>
+                              <td class="content"><select name="show_compression_size" id="show_compression_size">
+                                  <option value="0" {SHOW_COMPRESSION_SIZE_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {SHOW_COMPRESSION_SIZE_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_HOSTING_PLANS_LEVEL}</td>
+                              <td class="content"><select name="hosting_plan_level" id="hosting_plan_level">
+                                  <option value="admin" {HOSTING_PLANS_LEVEL_ADMIN}>{TR_ADMIN}</option>
+                                  <option value="reseller" {HOSTING_PLANS_LEVEL_RESELLER}>{TR_RESELLER}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_DOMAIN_ROWS_PER_PAGE}</td>
+                              <td class="content"><input name="domain_rows_per_page" type="text" class="textinput" id="domain_rows_per_page" style="width:50px" value="{DOMAIN_ROWS_PER_PAGE}" maxlength="3" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_LOG_LEVEL}</td>
+                              <td class="content"><select name="log_level" id="log_level">
+                                  <option value="E_USER_OFF" {LOG_LEVEL_SELECTED_OFF}>{TR_E_USER_OFF}</option>
+								  <option value="E_USER_ERROR" {LOG_LEVEL_SELECTED_ERROR}>{TR_E_USER_ERROR}</option>
+                                  <option value="E_USER_WARNING" {LOG_LEVEL_SELECTED_WARNING}>{TR_E_USER_WARNING}</option>
+								  <option value="E_USER_NOTICE" {LOG_LEVEL_SELECTED_NOTICE}>{TR_E_USER_NOTICE}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_PREVENT_EXTERNAL_LOGIN_ADMIN}</td>
+                              <td class="content"><select name="prevent_external_login_admin" id="prevent_external_login_admin">
+                                  <option value="0" {PREVENT_EXTERNAL_LOGIN_ADMIN_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {PREVENT_EXTERNAL_LOGIN_ADMIN_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_PREVENT_EXTERNAL_LOGIN_RESELLER}</td>
+                              <td class="content"><select name="prevent_external_login_reseller" id="prevent_external_login_reseller">
+                                  <option value="0" {PREVENT_EXTERNAL_LOGIN_RESELLER_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {PREVENT_EXTERNAL_LOGIN_RESELLER_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_PREVENT_EXTERNAL_LOGIN_CLIENT}</td>
+                              <td class="content"><select name="prevent_external_login_client" id="prevent_external_login_client">
+                                  <option value="0" {PREVENT_EXTERNAL_LOGIN_CLIENT_SELECTED_OFF}>{TR_DISABLED}</option>
+                                  <option value="1" {PREVENT_EXTERNAL_LOGIN_CLIENT_SELECTED_ON}>{TR_ENABLED}</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td class="content2">{TR_CUSTOM_ORDERPANEL_ID}</td>
+                              <td class="content"><input name="coid" id="coid" type="text" class="textinput" maxlength="20" size="20" value="{CUSTOM_ORDERPANEL_ID}" /></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td colspan="2"><input type="hidden" name="uaction" value="apply" />
+                                  <input name="Submit" type="submit" class="button" value="{TR_APPLY_CHANGES}" /></td>
+                            </tr>
+                          </table>
+                      </form></td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                  </table></td>
+				</tr>
+			</table></td>
+	</tr>
+</table>
+</body>
+</html>
