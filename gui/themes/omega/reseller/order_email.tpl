@@ -1,121 +1,76 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_RESELLER_ORDER_EMAL}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
-<![endif]-->
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<!-- BDP: logged_from -->
-<tr>
- <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-</tr>
-<!-- EDP: logged_from -->
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-          <tr style="height:95px;">
-            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
-                    <tr>
-                      <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_email.png" width="25" height="25" alt="" /></td>
-                      <td colspan="2" class="title">{TR_MENU_ORDER_EMAIL}</td>
-                    </tr>
-                </table></td>
-                <td width="27" align="right">&nbsp;</td>
-              </tr>
-              <tr>
-                <td><form name="order_email" method="post" action="order_email.php">
-                    <table width="100%" cellpadding="5" cellspacing="5">
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td colspan="2" class="content3"><b>{TR_MESSAGE_TEMPLATE_INFO}</b></td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td width="200" class="content2">{TR_USER_DOMAIN}</td>
-                        <td class="content">{DOMAIN}</td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td class="content2">{TR_USER_REAL_NAME}</td>
-                        <td class="content">{NAME}</td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td class="content2">{TR_ACTIVATION_LINK}</td>
-                        <td class="content">{ACTIVATION_LINK}</td>
-                      </tr>
-                    </table>
-                  <br />
-                    <table width="100%" cellpadding="5" cellspacing="5">
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td colspan="2" class="content3"><b>{TR_MESSAGE_TEMPLATE}</b></td>
-                      </tr>
-                      <!-- BDP: page_message -->
-                      <tr>
-                        <td>&nbsp;</td>
-                        <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
-                      </tr>
-                      <!-- EDP: page_message -->
-                      <tr>
-                        <td>&nbsp;</td>
-                        <td class="content2" width="200">{TR_SUBJECT}</td>
-                        <td class="content"><input type="text" name="auto_subject" value="{SUBJECT_VALUE}" style="width:90%" class="textinput" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>&nbsp;</td>
-                        <td class="content2" width="200">{TR_MESSAGE}</td>
-                        <td class="content"><textarea name="auto_message" style="width:90%" class="textinput2" cols="80" rows="30">{MESSAGE_VALUE}</textarea>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td width="200" class="content2">{TR_SENDER_EMAIL}</td>
-                        <td class="content">{SENDER_EMAIL_VALUE}</td>
-                      </tr>
-                      <tr>
-                        <td width="25">&nbsp;</td>
-                        <td width="200" class="content2">{TR_SENDER_NAME}</td>
-                        <td class="content">{SENDER_NAME_VALUE}</td>
-                      </tr>
-                      <tr>
-                        <td>&nbsp;</td>
-                        <td colspan="2"><input name="Submit" type="submit" class="button" value="{TR_APPLY_CHANGES}" /></td>
-                      </tr>
-                    </table>
-                  <input type="hidden" name="uaction" value="order_email" />
-                </form></td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-	</tr>
-</table>
-</body>
-</html>
+<!-- INCLUDE "header.tpl" -->
+<body>
+	<div class="header">
+		{MAIN_MENU}
+		<div class="logo">
+			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+		</div>
+	</div>
+	<div class="location">
+		<div class="location-area">
+			<h1 class="purchasing">{TR_MENU_ORDERS}</h1>
+		</div>
+		<ul class="location-menu">
+			<!-- BDP: logged_from -->
+			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
+			<!-- EDP: logged_from -->
+			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+		</ul>
+		<ul class="path">
+			<li><a href="orders.php">{TR_MENU_OVERVIEW}</a></li>
+			<li><a>{TR_MENU_ORDER_EMAIL}</a></li>
+		</ul>
+	</div>
+	<div class="left_menu">{MENU}</div>
+	<div class="main">
+		<!-- BDP: page_message -->
+   		<div class="{MSG_TYPE}">{MESSAGE}</div>
+	   	<!-- EDP: page_message -->
+		<h2 class="email"><span>{TR_MENU_ORDER_EMAIL}</span></h2>
+		<form action="order_email.php" method="post" id="reseller_order_email">
+			<fieldset>
+				<legend>{TR_MESSAGE_TEMPLATE_INFO}</legend>
+				<table>
+					<tr>
+						<td>{TR_USER_DOMAIN}</td>
+						<td>{DOMAIN}</td>
+					</tr>
+					<tr>
+						<td>{TR_USER_REAL_NAME}</td>
+						<td>{NAME}</td>
+					</tr>
+					<tr>
+						<td>{TR_ACTIVATION_LINK}</td>
+						<td>{ACTIVATION_LINK}</td>
+					</tr>
+				</table>
+			</fieldset>
+			<fieldset>
+				<legend>{TR_MESSAGE_TEMPLATE}</legend>
+				<table>
+					<tr>
+						<td>{TR_SUBJECT}</td>
+						<td><input type="text" name="auto_subject" id="auto_subject" value="{SUBJECT_VALUE}" /></td>
+					</tr>
+					<tr>
+						<td>{TR_MESSAGE}</td>
+						<td><textarea name="auto_message" id="auto_message" cols="80" rows="30">{MESSAGE_VALUE}</textarea></td>
+					</tr>
+					<tr>
+						<td>{TR_SENDER_EMAIL}</td>
+						<td>{SENDER_EMAIL_VALUE}</td>
+					</tr>
+					<tr>
+						<td>{TR_SENDER_NAME}</td>
+						<td>{SENDER_NAME_VALUE}</td>
+					</tr>
+				</table>
+			</fieldset>
+			<div class="buttons">
+				<input type="hidden" name="uaction" value="order_email" />
+				<input type="submit" name="Submit" value="{TR_APPLY_CHANGES}" />
+			</div>
+		</form>
+	</div>
+<!-- INCLUDE "footer.tpl" -->

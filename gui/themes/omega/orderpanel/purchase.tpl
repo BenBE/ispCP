@@ -5,8 +5,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
 		<meta http-equiv="Content-Style-Type" content="text/css" />
 		<meta http-equiv="Content-Script-Type" content="text/javascript" />
-		<link href="../themes/omega_original/css/ispcp.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="../themes/omega_original/scripts/ispcp.js"></script>
+		<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{THEME_SCRIPT_PATH}/ispcp.js"></script>
 		<script type="text/javascript">
 			<!--
 			function validateForm(contact) {
@@ -27,7 +27,7 @@
 		</script>
 	</head>
 
-	<body onLoad="MM_preloadImages('../themes/omega_original/images/icons/database_a.png','../themes/omega_original/images/icons/hosting_plans_a.png','../themes/omega_original/images/icons/domains_a.png','../themes/omega_original/images/icons/general_a.png','../themes/omega_original/images/icons/manage_users_a.png','../themes/omega_original/images/icons/webtools_a.png','../themes/omega_original/images/icons/statistics_a.png','../themes/omega_original/images/icons/support_a.png')">
+	<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png','{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%">
 			<tr>
 				<td height="80" align="left" valign="top">&nbsp;</td>

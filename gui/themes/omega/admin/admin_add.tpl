@@ -1,166 +1,118 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ADMIN_ADD_USER_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
-<![endif]-->
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-				<tr style="height:95px;">
-				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-					<td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-				</tr>
-				<tr>
-				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                      <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
-                          <tr>
-                            <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_user.png" width="25" height="25" alt="" /></td>
-                            <td colspan="2" class="title">{TR_ADD_ADMIN}</td>
-                          </tr>
-                      </table></td>
-                      <td width="27" align="right">&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td valign="top"><!-- BDP: props_list -->
-                          <form name="admin_add_user" method="post" action="admin_add.php">
-                            <table width="100%" cellpadding="5" cellspacing="5">
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td colspan="2" class="content3"><b>{TR_CORE_DATA}</b></td>
-                              </tr>
-                              <!-- BDP: page_message -->
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td colspan="2" class="title"><span class="message">{MESSAGE}</span></td>
-                              </tr>
-                              <!-- EDP: page_message -->
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_USERNAME}</td>
-                                <td class="content"><input type="text" name="username" value="{USERNAME}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_PASSWORD}</td>
-                                <td class="content"><input type="password" name="pass" value="{GENPAS}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_PASSWORD_REPEAT}</td>
-                                <td class="content"><input type="password" name="pass_rep" value="{GENPAS}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_EMAIL}</td>
-                                <td class="content"><input type="text" name="email" value="{EMAIL}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td colspan="2" class="content3"><b>{TR_ADDITIONAL_DATA}</b></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_FIRST_NAME}</td>
-                                <td class="content"><input type="text" name="fname" value="{FIRST_NAME}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_LAST_NAME}</td>
-                                <td class="content"><input type="text" name="lname" value="{LAST_NAME}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_GENDER}</td>
-                                <td class="content"><select name="gender" size="1">
-                                      <option value="M" {VL_MALE}>{TR_MALE}</option>
-                                      <option value="F" {VL_FEMALE}>{TR_FEMALE}</option>
-                                      <option value="U" {VL_UNKNOWN}>{TR_UNKNOWN}</option>
-                                    </select></td>
-                               </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_COMPANY}</td>
-                                <td class="content"><input type="text" name="firm" value="{FIRM}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_STREET_1}</td>
-                                <td class="content"><input type="text" name="street1" value="{STREET_1}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_STREET_2}</td>
-                                <td class="content"><input type="text" name="street2" value="{STREET_2}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_ZIP_POSTAL_CODE}</td>
-                                <td class="content"><input type="text" name="zip" value="{ZIP}" style="width:80px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_CITY}</td>
-                                <td class="content"><input type="text" name="city" value="{CITY}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_STATE}</td>
-                                <td class="content"><input type="text" name="state" value="{STATE}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_COUNTRY}</td>
-                                <td class="content"><input type="text" name="country" value="{COUNTRY}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_PHONE}</td>
-                                <td class="content"><input type="text" name="phone" value="{PHONE}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td width="25">&nbsp;</td>
-                                <td width="200" class="content2">{TR_FAX}</td>
-                                <td class="content"><input type="text" name="fax" value="{FAX}" style="width:210px" class="textinput" /></td>
-                              </tr>
-                              <tr>
-                                <td>&nbsp;</td>
-                                <td colspan="2"><input name="Submit" type="submit" class="button" value="  {TR_ADD}  " /></td>
-                              </tr>
-                              <tr>
-                                <td colspan="3">&nbsp;</td>
-                              </tr>
-                            </table>
-                            <input type="hidden" name="uaction" value="add_user" />
-                          </form>
-                        <!-- EDP: props_list -->
-                      </td>
-                      <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                    </tr>
-                  </table></td>
-				</tr>
-			</table></td>
-	</tr>
-</table>
-</body>
-</html>
+<!-- INCLUDE "header.tpl" -->
+<body>
+	<div class="header">
+		{MAIN_MENU}
+		<div class="logo">
+			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+		</div>
+	</div>
+	<div class="location">
+		<div class="location-area">
+			<h1 class="manage_users">{TR_MENU_MANAGE_USERS}</h1>
+		</div>
+		<ul class="location-menu">
+			
+			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+		</ul>
+		<ul class="path">
+			<li><a href="manage_users.php">{TR_MENU_OVERVIEW}</a></li>
+			<li><a>{TR_MENU_ADD_ADMIN}</a></li>
+		</ul>
+	</div>
+	<div class="left_menu">{MENU}</div>
+	<div class="main">
+		<!-- BDP: page_message -->
+		<div class="{MSG_TYPE}">{MESSAGE}</div>
+		<!-- EDP: page_message -->
+		<h2 class="user"><span>{TR_ADD_ADMIN}</span></h2>
+		<form action="admin_add.php" method="post" id="admin_add_user">
+			<!-- BDP: props_list -->
+			<fieldset>
+				<legend>{TR_CORE_DATA}</legend>
+				<table>
+					<tr>
+						<td><label for="username">{TR_USERNAME}</label></td>
+						<td><input type="text" name="username" id="username" value="{USERNAME}"/></td>
+					</tr>
+					<tr>
+						<td><label for="pass">{TR_PASSWORD}</label></td>
+						<td><input type="password" name="pass" id="pass" value="{GENPAS}"/></td>
+					</tr>
+					<tr>
+						<td><label for="pass_rep">{TR_PASSWORD_REPEAT}</label></td>
+						<td><input type="password" name="pass_rep" id="pass_rep" value="{GENPAS}"/></td>
+					</tr>
+					<tr>
+						<td><label for="email">{TR_EMAIL}</label></td>
+						<td><input type="text" name="email" id="email" value="{EMAIL}"/></td>
+					</tr>
+				</table>
+			</fieldset>
+			<fieldset>
+				<legend>{TR_ADDITIONAL_DATA}</legend>
+				<table>
+					<tr>
+						<td><label for="fname">{TR_FIRST_NAME}</label></td>
+						<td><input type="text" name="fname" id="fname" value="{FIRST_NAME}"/></td>
+					</tr>
+					<tr>
+						<td><label for="lname">{TR_LAST_NAME}</label></td>
+						<td><input type="text" name="lname" id="lname" value="{LAST_NAME}"/></td>
+					</tr>
+					<tr>
+						<td><label for="gender">{TR_GENDER}</label></td>
+						<td>
+							<select name="gender" id="gender">
+								<option value="M" {VL_MALE}>{TR_MALE}</option>
+								<option value="F" {VL_FEMALE}>{TR_FEMALE}</option>
+								<option value="U" {VL_UNKNOWN}>{TR_UNKNOWN}</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="firm">{TR_COMPANY}</label></td>
+						<td><input type="text" name="firm" id="firm" value="{FIRM}"/></td>
+					</tr>
+					<tr>
+						<td><label for="street1">{TR_STREET_1}</label></td>
+						<td><input type="text" name="street1" id="street1" value="{STREET_1}"/></td>
+					</tr>
+					<tr>
+						<td><label for="street2">{TR_STREET_2}</label></td>
+						<td><input type="text" name="street2" id="street2" value="{STREET_2}"/></td>
+					</tr>
+					<tr>
+						<td><label for="zip">{TR_ZIP_POSTAL_CODE}</label></td>
+						<td><input type="text" name="zip" id="zip" value="{ZIP}"/></td>
+					</tr>
+					<tr>
+						<td><label for="city">{TR_CITY}</label></td>
+						<td><input type="text" name="city" id="city" value="{CITY}"/></td>
+					</tr>
+					<tr>
+						<td><label for="state">{TR_STATE}</label></td>
+						<td><input type="text" name="state" id="state" value="{STATE}"/></td>
+					</tr>
+					<tr>
+						<td><label for="country">{TR_COUNTRY}</label></td>
+						<td><input type="text" name="country" id="country" value="{COUNTRY}"/></td>
+					</tr>
+					<tr>
+						<td><label for="phone">{TR_PHONE}</label></td>
+						<td><input type="text" name="phone" id="phone" value="{PHONE}"/></td>
+					</tr>
+					<tr>
+						<td><label for="fax">{TR_FAX}</label></td>
+						<td><input type="text" name="fax" id="fax" value="{FAX}"/></td>
+					</tr>
+				</table>
+			</fieldset>
+			<!-- EDP: props_list -->
+			<div class="buttons">
+				<input type="hidden" name="uaction" value="add_user" />
+				<input type="submit" name="Submit" value="{TR_ADD}" />
+			</div>
+		</form>
+	</div>
+<!-- INCLUDE "footer.tpl" -->

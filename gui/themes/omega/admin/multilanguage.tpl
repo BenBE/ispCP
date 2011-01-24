@@ -1,143 +1,99 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ADMIN_I18N_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
-<![endif]-->
-
-<script type="text/javascript">
-/*<![CDATA[*/
-
-	function action_delete(url, language) {
-
-		if (!confirm(sprintf("{TR_MESSAGE_DELETE}", language)))
-			return false;
-
-		location = url;
-	}
-
-	// Overrides exportation url to enable/disable gzip compression
-	//
-	// author Laurent Declercq <laurent.declercq@ispcp.net>
-	// Since 1.0.6
-	function override_export_url(ob) {
-
-		regexp = new RegExp('[a-z_]*([0-9]+)');
-		link = document.getElementById('url_export' + regexp.exec(ob.id)[1]);
-
-		if(ob.checked) {
-			link.href = link.href + '&compress=1';
-		} else {
-			link.href = link.href. substring(0, link.href.indexOf('&compress'));
+<!-- INCLUDE "header.tpl" -->
+<body>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		function action_delete(url, language) {
+			if (!confirm(sprintf("{TR_MESSAGE_DELETE}", language)))
+				return false;
+				location = url;
 		}
-	}
-
-/*]]>*/
-</script>
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-				<tr style="height:95px;">
-				  <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-				  <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-				</tr>
-				<tr>
-				  <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                      <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
-                          <tr>
-                            <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_multilanguage.png" width="25" height="25" alt="" /></td>
-                            <td colspan="2" class="title">{TR_MULTILANGUAGE}</td>
-                          </tr>
-                      </table></td>
-                      <td width="27" align="right">&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td valign="top"><form action="multilanguage.php" method="post" enctype="multipart/form-data" name="set_layout" id="set_layout">
-                          <table width="100%" cellpadding="5" cellspacing="5">
-                            <!-- BDP: page_message -->
-                            <tr>
-                              <td width="25">&nbsp;</td>
-                              <td colspan="5" class="title"><span class="message">{MESSAGE}</span></td>
-                            </tr>
-                            <!-- EDP: page_message -->
-                            <tr>
-                              <td width="25">&nbsp;</td>
-                              <td colspan="5" class="content3"><b>{TR_INSTALLED_LANGUAGES}</b></td>
-                            </tr>
-                            <tr>
-                              <td width="25">&nbsp;</td>
-                              <td class="content2"><strong>{TR_LANGUAGE}</strong></td>
-                              <td class="content2"><strong>{TR_MESSAGES}</strong></td>
-                              <td class="content2"><strong>{TR_LANG_REV}</strong></td>
-                              <td width="100" colspan="2" align="center" class="content2"><strong>{TR_ACTION}</strong></td>
-                            </tr>
-                            <!-- BDP: lang_row -->
-                            <tr class="hl">
-                              <td width="25" nowrap="nowrap">&nbsp;</td>
-                              <td class="{LANG_CLASS}" nowrap="nowrap"><img src="{THEME_COLOR_PATH}/images/icons/locale.png" width="16" height="16" style="vertical-align:middle" alt="" /> {LANGUAGE}</td>
-                              <td class="{LANG_CLASS}" nowrap="nowrap">{MESSAGES}</td>
-                              <td class="{LANG_CLASS}" nowrap="nowrap">{LANGUAGE_REVISION}</td>
-							  <td class="{LANG_CLASS}" width="100" nowrap="nowrap" style="vertical-align:middle">
-							    <img src="{THEME_COLOR_PATH}/images/icons/details.png" width="16" height="16" border="0" style="vertical-align:middle" alt="{TR_EXPORT}" /> <a href="{URL_EXPORT}" id="url_export{INDEX}" class="link" target="_blank">{TR_EXPORT}</a>
-								<input id="gz_export{INDEX}" type="checkbox" onClick="override_export_url(this)" style="vertical-align:middle;margin-bottom:3px;" /><span style="font-size:8px;vertical-align:middle;">{TR_GZIPPED}</span>
-							  </td>
-                              <td class="{LANG_CLASS}" width="100" nowrap="nowrap"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" />
-                                <!-- BDP: lang_delete_show -->
-                                {TR_UNINSTALL}
-                                <!-- EDP: lang_delete_show -->
-                                <!-- BDP: lang_delete_link -->
-                                <a href="#" onClick="action_delete('{URL_DELETE}', '{LANGUAGE}')" class="link">{TR_UNINSTALL}</a>
-                                <!-- EDP: lang_delete_link --></td>
-                            </tr>
-                            <!-- EDP: lang_row -->
-                          </table>
-                          <br />
-                          <br />
-                          <br />
-                          <table width="100%" cellpadding="5" cellspacing="5">
-                            <tr>
-                              <td width="25">&nbsp;</td>
-                              <td colspan="2" class="content3"><b>{TR_INSTALL_NEW_LANGUAGE}</b></td>
-                            </tr>
-                            <tr>
-                              <td width="25" nowrap="nowrap">&nbsp;</td>
-                              <td width="230" class="content2" nowrap="nowrap">{TR_LANGUAGE_FILE}</td>
-                              <td nowrap="nowrap" class="content"><input type="file" name="lang_file" class="textinput" size="60" />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td width="25" nowrap="nowrap">&nbsp;</td>
-                              <td colspan="2" nowrap="nowrap"><input name="Button" type="button" class="button" value="  {TR_INSTALL}  " onClick="return sbmt(document.forms[0],'upload_language');" /></td>
-                            </tr>
-                          </table>
-                        <input type="hidden" name="uaction" value="" />
-                      </form></td>
-                      <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                    </tr>
-                  </table></td>
-				</tr>
-			</table></td>
-	</tr>
-</table>
+		// Overrides exportation url to enable/disable gzip compression
+		//
+		// author Laurent Declercq <laurent.declercq@ispcp.net>
+		// Since 1.0.6
+		function override_export_url(ob) {
+			regexp = new RegExp('[a-z_]*([0-9]+)');
+			link = document.getElementById('url_export' + regexp.exec(ob.id)[1]);
+			if(ob.checked) {
+				link.href = link.href + '&compress=1';
+			} else {
+				link.href = link.href. substring(0, link.href.indexOf('&compress'));
+			}
+		}
+	/* ]]> */
+	</script>
+	<div class="header">
+		{MAIN_MENU}
+		<div class="logo">
+			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+		</div>
+	</div>
+	<div class="location">
+		<div class="location-area">
+			<h1 class="settings">{TR_MENU_SETTINGS}</h1>
+		</div>
+		<ul class="location-menu">
+			
+			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+		</ul>
+		<ul class="path">
+			<li><a href="settings.php">{TR_MENU_OVERVIEW}</a></li>
+			<li><a>{TR_MULTILANGUAGE}</a></li>
+		</ul>
+	</div>
+	<div class="left_menu">{MENU}</div>
+	<div class="main">
+		<!-- BDP: page_message -->
+		<div class="{MSG_TYPE}">{MESSAGE}</div>
+		<!-- EDP: page_message -->
+		<h2 class="multilanguage"><span>{TR_MULTILANGUAGE}</span></h2>
+		<form action="multilanguage.php" method="post" id="admin_multilanguage" enctype="multipart/form-data">
+			<fieldset>
+				<legend>{TR_INSTALLED_LANGUAGES}</legend>
+				<table>
+					<tr>
+						<th>{TR_LANGUAGE}</th>
+						<th>{TR_MESSAGES}</th>
+						<th>{TR_LANG_REV}</th>
+						<th>{TR_ACTION}</th>
+					</tr>
+					<!-- BDP: lang_row -->
+					<tr>
+						<td><span class="icon i_locale">{LANGUAGE}</span></td>
+						<td>{MESSAGES}</td>
+						<td>{LANGUAGE_REVISION}</td>
+						<td>
+							<a href="{URL_EXPORT}" id="url_export{INDEX}" title="{TR_EXPORT}" class="icon i_details"></a>
+							<input type="checkbox" name="gz_export{INDEX}" id="gz_export{INDEX}" onclick="override_export_url(this)" /> <label for="gz_export{INDEX}">{TR_GZIPPED}</label>
+							<!-- BDP: lang_delete_show -->
+							<!-- EDP: lang_delete_show -->
+							<!-- BDP: lang_delete_link -->
+							<a href="#" onclick="action_delete('{URL_DELETE}', '{LANGUAGE}')" title="{TR_UNINSTALL}" class="icon i_delete"></a>
+							<!-- EDP: lang_delete_link -->
+						</td>
+					</tr>
+					<!-- EDP: lang_row -->
+				</table>
+			</fieldset>
+			<fieldset>
+				<legend>{TR_INSTALL_NEW_LANGUAGE}</legend>
+				<table>
+					<tr>
+						<td>{TR_LANGUAGE_FILE}</td>
+						<td><input type="file" name="lang_file" /></td>
+					</tr>
+				</table>
+			</fieldset>
+			<div class="buttons">
+				<input type="hidden" name="uaction" value="upload_language" />
+				<input type="submit" name="Submit" value="{TR_INSTALL}" />
+				
+			</div>
+		</form>
+	</div>
+	<div class="footer">
+			ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
+	</div>
 </body>
 </html>

@@ -1,140 +1,98 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>{TR_ALIAS_PAGE_TITLE}</title>
-<meta name="robots" content="nofollow, noindex" />
-<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link href="{THEME_COLOR_PATH}/css/ispcp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{THEME_COLOR_PATH}/scripts/ispcp.js"></script>
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="{THEME_COLOR_PATH}/scripts/pngfix.js"></script>
-<![endif]-->
-<script type="text/javascript">
-<!--
-function delete_account(url, name) {
-	if (!confirm(sprintf("{TR_MESSAGE_DELETE}", name)))
-		return false;
-	location = url;
-}
-//-->
-</script>
-</head>
-
-<body onLoad="MM_preloadImages('{THEME_COLOR_PATH}/images/icons/database_a.png','{THEME_COLOR_PATH}/images/icons/hosting_plans_a.png','{THEME_COLOR_PATH}/images/icons/domains_a.png','{THEME_COLOR_PATH}/images/icons/general_a.png' ,'{THEME_COLOR_PATH}/images/icons/manage_users_a.png','{THEME_COLOR_PATH}/images/icons/webtools_a.png','{THEME_COLOR_PATH}/images/icons/statistics_a.png','{THEME_COLOR_PATH}/images/icons/support_a.png')">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="height:100%;padding:0;margin:0 auto;">
-<!-- BDP: logged_from -->
-<tr>
- <td colspan="3" height="20" nowrap="nowrap" class="backButton">&nbsp;&nbsp;&nbsp;<a href="change_user_interface.php?action=go_back"><img src="{THEME_COLOR_PATH}/images/icons/close_interface.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /></a> {YOU_ARE_LOGGED_AS}</td>
-</tr>
-<!-- EDP: logged_from -->
-<tr>
-<td align="left" valign="top" style="vertical-align: top; width: 195px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_left.jpg" width="195" height="56" border="0" alt="ispCP Logogram" /></td>
-<td style="height: 56px; width:100%; background-color: #0f0f0f"><img src="{THEME_COLOR_PATH}/images/top/top_left_bg.jpg" width="582" height="56" border="0" alt="" /></td>
-<td style="width: 73px; height: 56px;"><img src="{THEME_COLOR_PATH}/images/top/top_right.jpg" width="73" height="56" border="0" alt="" /></td>
-</tr>
-	<tr>
-		<td style="width: 195px; vertical-align: top;">{MENU}</td>
-	    <td colspan="2" style="vertical-align: top;"><table style="width: 100%; padding:0;margin:0;" cellspacing="0">
-          <tr style="height:95px;">
-            <td style="padding-left:30px; width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/middle_bg.jpg);">{MAIN_MENU}</td>
-            <td style="padding:0;margin:0;text-align: right; width: 73px;vertical-align: top;"><img src="{THEME_COLOR_PATH}/images/top/middle_right.jpg" width="73" height="95" border="0" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan="3"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td align="left"><table width="100%" cellpadding="5" cellspacing="5">
-                    <tr>
-                      <td width="25"><img src="{THEME_COLOR_PATH}/images/content/table_icon_domains.png" width="25" height="25" alt="" /></td>
-                      <td colspan="2" class="title">{TR_MANAGE_ALIAS}</td>
-                    </tr>
-                </table></td>
-                <td width="27" align="right">&nbsp;</td>
-              </tr>
-              <tr>
-                <td valign="top"><table width="100%" cellpadding="5" cellspacing="5">
-                	<!-- BDP: table_header -->
-                    <tr>
-                      <td height="25" colspan="6" nowrap="nowrap"><!-- search starts here-->
-                          <form name="search_alias_frm" method="post" action="alias.php?psi={PSI}">
-                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                              <tr>
-                                <td width="40" nowrap="nowrap">&nbsp;</td>
-                                <td width="300" nowrap="nowrap" class="content"><input name="search_for" type="text" class="textinput" value="{SEARCH_FOR}" style="width:140px" />
-                                    <select name="search_common" class="textinput">
-                                      <option value="alias_name"{M_DOMAIN_NAME_SELECTED}>{M_ALIAS_NAME}</option>
-                                      <option value="account_name"{M_ACCOUN_NAME_SELECTED}>{M_ACCOUNT_NAME}</option>
-                                    </select>
-                                </td>
-                                <td nowrap="nowrap" class="content"><input name="Submit" type="submit" class="button" value="  {TR_SEARCH}  " />
-                                </td>
-                              </tr>
-                            </table>
-                            <input type="hidden" name="uaction" value="go_search" />
-                          </form>
-                        <!-- search end here -->
-					 </td>
-					</tr>
-                    <tr>
-                      <td width="25" align="center" nowrap="nowrap">&nbsp;</td>
-                      <td height="25" nowrap="nowrap" class="content3"><b>{TR_NAME}</b></td>
-                      <td height="25" nowrap="nowrap" class="content3"><strong>{TR_REAL_DOMAIN}</strong></td>
-                      <td width="80" height="25" align="center" nowrap="nowrap" class="content3"><b>{TR_FORWARD}</b></td>
-                      <td width="80" height="25" align="center" nowrap="nowrap" class="content3"><b>{TR_STATUS}</b></td>
-                      <td width="80" height="25" align="center" nowrap="nowrap" class="content3"><b>{TR_ACTION}</b></td>
-                    </tr>
-                    <!-- EDP: table_header -->
-                    <!-- BDP: page_message -->
-                    <tr>
-                      <td width="25">&nbsp;</td>
-                      <td colspan="5" class="title"><span class="message">{MESSAGE}</span></td>
-                    </tr>
-                    <!-- EDP: page_message -->
-                    <!-- BDP: table_list -->
-                    <!-- BDP: table_item -->
-                    <tr class="hl">
-                      <td width="25" align="center">&nbsp;</td>
-                      <td class="{CONTENT}" nowrap="nowrap"><a href="http://www.{NAME}/" target="_blank" class="link"><img src="{THEME_COLOR_PATH}/images/icons/domain_icon.png" width="16" height="16" border="0" style="float:left; vertical-align:middle" alt="" /> {NAME}</a><br />
-                        {ALIAS_IP}</td>
-                      <td class="{CONTENT}" nowrap="nowrap">{REAL_DOMAIN}<br />
-                        {REAL_DOMAIN_MOUNT}</td>
-                      <td align="center" nowrap="nowrap" class="{CONTENT}">{FORWARD}</td>
-                      <td class="{CONTENT}" nowrap="nowrap" align="center">{STATUS}</td>
-                      <td class="{CONTENT}" nowrap="nowrap" align="center"><img src="{THEME_COLOR_PATH}/images/icons/delete.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="#" onClick="delete_account('{DELETE_LINK}', '{NAME}')" class="link" title="{DELETE}">{DELETE}</a>  - <img src="{THEME_COLOR_PATH}/images/icons/edit.png" width="16" height="16" border="0" style="vertical-align:middle" alt="" /> <a href="{EDIT_LINK}" class="link" title="{EDIT}">{EDIT}</a></td>
-                    </tr>
-                    <!-- EDP: table_item -->
-                    <!-- EDP: table_list -->
-                  </table>
-                    <table width="100%" border="0" cellspacing="3" cellpadding="0">
-                      <tr>
-                        <td width="30">&nbsp;</td>
-                        <!-- BDP: als_add_button --><td><input name="Submit" type="submit" class="button" onClick="MM_goToURL('parent','alias_add.php');return document.MM_returnValue" value="   {TR_ADD_ALIAS}   " /></td><!-- EDP: als_add_button -->
-                        <td><div align="right">
-                            <!-- BDP: scroll_prev_gray -->
-                            <img src="{THEME_COLOR_PATH}/images/icons/flip/prev_gray.png" width="20" height="20" border="0" alt="" />
-                            <!-- EDP: scroll_prev_gray -->
-                            <!-- BDP: scroll_prev -->
-                            <a href="alias.php?psi={PREV_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/prev.png" width="20" height="20" border="0" alt="" /></a>
-                            <!-- EDP: scroll_prev -->
-                            <!-- BDP: scroll_next_gray -->
-                          &nbsp;<img src="{THEME_COLOR_PATH}/images/icons/flip/next_gray.png" width="20" height="20" border="0" alt="" />
-                          <!-- EDP: scroll_next_gray -->
-                          <!-- BDP: scroll_next -->
-                          &nbsp;<a href="alias.php?psi={NEXT_PSI}"><img src="{THEME_COLOR_PATH}/images/icons/flip/next.png" width="20" height="20" border="0" alt="" /></a>
-                          <!-- EDP: scroll_next -->
-                        </div></td>
-                      </tr>
-                  </table></td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-	</tr>
-</table>
-</body>
-</html>
+<!-- INCLUDE "header.tpl" -->
+<body>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		function delete_account(url, name) {
+				if (!confirm(sprintf("{TR_MESSAGE_DELETE}", name)))
+					return false;
+				location = url;
+			}
+	/* ]]> */
+	</script>
+	<div class="header">
+		{MAIN_MENU}
+		<div class="logo">
+			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+		</div>
+	</div>
+	<div class="location">
+		<div class="location-area">
+			<h1 class="manage_users">{TR_MENU_MANAGE_USERS}</h1>
+		</div>
+		<ul class="location-menu">
+			<!-- BDP: logged_from -->
+			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
+			<!-- EDP: logged_from -->
+			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+		</ul>
+		<ul class="path">
+			<li><a href="users.php">{TR_MENU_OVERVIEW}</a></li>
+			<li><a>{TR_MENU_DOMAIN_ALIAS}</a></li>
+		</ul>
+	</div>
+	<div class="left_menu">{MENU}</div>
+	<div class="main">
+		<!-- BDP: page_message -->
+		<div class="{MSG_TYPE}">{MESSAGE}</div>
+		<!-- EDP: page_message -->
+		<h2 class="users"><span>{TR_MANAGE_ALIAS}</span></h2>
+		<form action="alias.php?psi={PSI}" method="post" id="reseller_alias">
+			<fieldset>
+				<input type="text" name="search_for" id="search_for" value="{SEARCH_FOR}" />
+				<select name="search_common">
+					<option value="alias_name" {M_DOMAIN_NAME_SELECTED}>{M_ALIAS_NAME}</option>
+					<option value="account_name" {M_ACCOUN_NAME_SELECTED}>{M_ACCOUNT_NAME}</option>
+				</select>
+				<input type="hidden" name="uaction" value="go_search" />
+				<input type="submit" name="Submit" value="{TR_SEARCH}" />
+			</fieldset>
+		</form>
+		<!-- BDP: table_list -->
+		<table>
+			<thead>
+				<tr>
+					<th>{TR_NAME}</th>
+					<th>{TR_REAL_DOMAIN}</th>
+					<th>{TR_FORWARD}</th>
+					<th>{TR_STATUS}</th>
+					<th>{TR_ACTION}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- BDP: table_item -->
+				<tr>
+					<td><a href="http://www.{NAME}/" class="icon i_domain">{NAME}</a><br />{ALIAS_IP}</td>
+					<td>{REAL_DOMAIN}<br />{REAL_DOMAIN_MOUNT}</td>
+					<td>{FORWARD}</td>
+					<td>{STATUS}</td>
+					<td>
+						<a href="{EDIT_LINK}" title="{EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="delete_account('{DELETE_LINK}', '{NAME}')" title="{DELETE}" class="icon i_delete"></a>
+					</td>
+				</tr>
+				<!-- EDP: table_item -->
+			</tbody>
+		</table>
+		<!-- EDP: table_list -->
+		<form action="alias_add.php" method="post" id="admin_alias_add">
+			<fieldset>
+				<input type="submit" name="Submit"  value="{TR_ADD_ALIAS}" />
+			</fieldset>
+		</form>
+		<div class="paginator">
+			<!-- BDP: scroll_next_gray -->
+			<span class="icon i_next_gray">&nbsp;</span>
+			<!-- EDP: scroll_next_gray -->
+			<!-- BDP: scroll_next -->
+			<a href="manage_users.php?psi={NEXT_PSI}" title="next" class="icon i_next">next</a>
+			<!-- EDP: scroll_next -->
+			<!-- BDP: scroll_prev_gray -->
+			<span class="icon i_prev_gray">&nbsp;</span>
+			<!-- EDP: scroll_prev_gray -->
+			<!-- BDP: scroll_prev -->
+			<a href="manage_users.php?psi={PREV_PSI}" title="previous" class="icon i_prev">previous</a>
+			<!-- EDP: scroll_prev -->
+		</div>
+	</div>
+<!-- INCLUDE "footer.tpl" -->

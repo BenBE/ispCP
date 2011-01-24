@@ -1,83 +1,12 @@
-<table style="width:100%;height:100%;padding:0;margin:0;" cellspacing="0">
- <tr style="height:53px;">
-  <td style="width:100%; background-image:url({THEME_COLOR_PATH}/images/top/menu_top.jpg);padding-left:5px;vertical-align:middle;">
-   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-     <td><img src="{THEME_COLOR_PATH}/images/icons/manage_users_big.png" width="32" height="33" alt="" /></td>
-     <td><span class="titlemenu">{TR_MENU_MANAGE_USERS}</span></td>
-    </tr>
-   </table>
-  </td>
- </tr>
- <tr>
-				  <td style="width: 100%; background-image: url({THEME_COLOR_PATH}/images/top/menu_bg.jpg); vertical-align: top;">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td><a href="users.php" class="submenu">{TR_MENU_OVERVIEW}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-  <tr>
-    <td><a href="user_add1.php" class="submenu">{TR_MENU_ADD_USER}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-  <!-- BDP: alias_menu -->
-  <tr>
-    <td><a href="alias.php" class="submenu">{TR_MENU_DOMAIN_ALIAS}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-  <!-- EDP: alias_menu -->
-  <tr>
-    <td><a href="settings_welcome_mail.php" class="submenu">{TR_MENU_E_MAIL_SETUP}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-  <tr>
-    <td><a href="settings_lostpassword.php" class="submenu">{TR_MENU_LOSTPW_EMAIL}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-    <tr>
-    <td><a href="circular.php" class="submenu">{TR_MENU_CIRCULAR}</a></td>
-  </tr>
-  <tr>
-    <td height="3" width="193"><img src="{THEME_COLOR_PATH}/images/top/menu_separator.jpg" height="3" width="193" alt="" /></td>
-  </tr>
-    <tr>
-    <td>&nbsp;</td>
-  </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td class="logoutbutton"><a href="../index.php?logout"><img src="{THEME_COLOR_PATH}/images/icons/logout_interface.png" width="16" height="16" border="0" alt="" /> {TR_MENU_LOGOUT}</a></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td align="center"><img src="{ISP_LOGO}" alt="" /></td>
-    </tr>
-   </table>
-  </td>
- </tr>
- <tr style="height:53px;vertical-align: bottom;">
-  <td class="bottom" align="center">ispCP {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}</td>
- </tr>
-</table>
+<ul>
+	<li><a href="users.php">{TR_MENU_OVERVIEW}</a></li>
+	<li><a href="user_add1.php">{TR_MENU_ADD_USER}</a></li>
+	<li><a href="alias.php">{TR_MENU_DOMAIN_ALIAS}</a></li>
+	<li><a href="settings_welcome_mail.php">{TR_MENU_E_MAIL_SETUP}</a></li>
+	<li><a href="settings_lostpassword.php">{TR_MENU_LOSTPW_EMAIL}</a></li>
+	<li><a href="circular.php">{TR_MENU_CIRCULAR}</a></li>
+</ul>
+
+<div class="isp_logo">
+	<img class="isp_logo" src="{ISP_LOGO}" alt="" />
+</div>
