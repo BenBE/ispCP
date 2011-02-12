@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-02-12 Markus Szywon
+	- GUI:
+		* Updated Smarty to version 3.0.7
+
 2011-02-11 Markus Szywon
 	- TOOLS:
 		* Updated phpMyAdmin to version 3.3.9.1
