@@ -34,30 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_users.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('admin_message', 'page');
-$tpl->define_dynamic('admin_list', 'page');
-$tpl->define_dynamic('admin_item', 'admin_list');
-$tpl->define_dynamic('admin_delete_show', 'admin_item');
-$tpl->define_dynamic('admin_delete_link', 'admin_item');
-$tpl->define_dynamic('rsl_message', 'page');
-$tpl->define_dynamic('rsl_list', 'page');
-$tpl->define_dynamic('rsl_item', 'rsl_list');
-$tpl->define_dynamic('rsl_delete_show', 'rsl_item');
-$tpl->define_dynamic('rsl_delete_link', 'rsl_item');
-$tpl->define_dynamic('usr_message', 'page');
-$tpl->define_dynamic('usr_list', 'page');
-$tpl->define_dynamic('usr_item', 'usr_list');
-$tpl->define_dynamic('user_details', 'usr_list');
-$tpl->define_dynamic('usr_delete_show', 'usr_item');
-$tpl->define_dynamic('usr_delete_link', 'usr_item');
-$tpl->define_dynamic('icon', 'usr_item');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'manage_users.tpl';
 
 if (isset($_POST['details']) && !empty($_POST['details'])) {
 	$_SESSION['details'] = $_POST['details'];
@@ -101,7 +79,6 @@ if (isset($_SESSION['user_added'])) {
 }
 
 // static page messages
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Users')
@@ -113,18 +90,18 @@ if (!$cfg->exists('HOSTING_PLANS_LEVEL')
 	$tpl->assign('EDIT_OPTION', '');
 }
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
 
 get_admin_manage_users($tpl, $sql);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 
 unset_messages();
+?>

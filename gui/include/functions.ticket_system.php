@@ -576,7 +576,6 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
 				)
 			);
 
-			$tpl->parse('TICKETS_ITEM', '.tickets_item');
 			$rs->moveNext();
 			$i++;
 		}
@@ -651,7 +650,6 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
 			)
 		);
 
-		$tpl->parse('TICKETS_ITEM', 'tickets_item');
 		showTicketReplies($tpl, $ticket_id, $screenwidth);
 	}
 }
@@ -704,7 +702,6 @@ function showTicketReplies(&$tpl, $ticket_id, $screenwidth) {
 				'TICKET_CONTENT'	=> nl2br(tohtml($ticket_message))
 			)
 		);
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
 		$rs->moveNext();
 	}
 }

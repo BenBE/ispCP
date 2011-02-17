@@ -38,9 +38,8 @@ if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 	user_goto('index.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/hosting_plan_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan_add.tpl';
 
 
 // static page messages
@@ -106,8 +105,7 @@ if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -116,7 +114,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Generate empty form
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_empty_ahp_page(&$tpl) {
 
@@ -160,7 +158,7 @@ function gen_empty_ahp_page(&$tpl) {
 
 /**
  * Show last entered data for new hp
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_data_ahp_page(&$tpl) {
 
@@ -215,7 +213,7 @@ function gen_data_ahp_page(&$tpl) {
 
 /**
  * Check correction of input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function check_data_correction(&$tpl) {
 
@@ -325,7 +323,7 @@ function check_data_correction(&$tpl) {
 
 /**
  * Add new host plan to DB
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
 function save_data_to_db(&$tpl, $admin_id) {
@@ -358,7 +356,6 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
-		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
 		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 		$query = "

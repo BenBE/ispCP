@@ -34,11 +34,38 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/sessions_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('user_session', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sessions_manage.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
+		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_USERTYPE' => tr('User type'),
+		'TR_LOGIN_ON' => tr('Last access'),
+		'TR_OPTIONS' => tr('Options'),
+		'TR_DELETE' => tr('Kill session'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl', true);
+gen_admin_menu($tpl, 'menu_users_manage.tpl', true);
+
+kill_session($sql);
+
+gen_user_sessions($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function kill_session($sql) {
 
@@ -59,7 +86,7 @@ function kill_session($sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_user_sessions(&$tpl, &$sql) {
@@ -104,41 +131,8 @@ function gen_user_sessions(&$tpl, &$sql) {
 			$tpl->assign('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
 		}
 
-		$tpl->parse('USER_SESSION', '.user_session');
 
 		$rs->moveNext();
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-kill_session($sql);
-
-gen_user_sessions($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_USERTYPE' => tr('User type'),
-		'TR_LOGIN_ON' => tr('Last access'),
-		'TR_OPTIONS' => tr('Options'),
-		'TR_DELETE' => tr('Kill session'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

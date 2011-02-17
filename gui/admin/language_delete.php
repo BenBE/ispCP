@@ -81,3 +81,4 @@ write_log(sprintf("%s removed language: %s", $_SESSION['user_logged'], $delete_l
 set_page_message(tr('Language was removed!'), 'success');
 
 user_goto('multilanguage.php');
+?>

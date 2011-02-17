@@ -73,7 +73,7 @@ function get_user_gui_props(&$sql, $user_id) {
 /**
  * Parses the output of the $_SESSION variable to the template, if exists.
  *
- * @param ispCP_pTemplate $tpl the TPL object
+ * @param ispCP_TemplateEngine $tpl the TPL object
  */
 function gen_page_message(&$tpl) {
 
@@ -204,7 +204,7 @@ function get_menu_vars($menu_link) {
 
 /**
  * @todo currently not being used because there's only one layout/theme
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $user_def_layout
  */
 function gen_def_layout(&$tpl, $user_def_layout) {
@@ -222,8 +222,6 @@ function gen_def_layout(&$tpl, $user_def_layout) {
 				'LAYOUT_NAME' => $layout
 			)
 		);
-
-		$tpl->parse('DEF_LAYOUT', '.def_layout');
 	}
 }
 

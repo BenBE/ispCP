@@ -46,14 +46,8 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 	header('Location: ' . $_SERVER['PHP_SELF']);
 } else {
 
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic(
-		'page', $cfg->ADMIN_TEMPLATE_PATH . '/database_update.tpl'
-	);
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('database_update_message', 'page');
-	$tpl->define_dynamic('database_update_infos', 'page');
-	$tpl->define_dynamic('table_header', 'page');
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'database_update.tpl';
 
 	$tpl->assign(
 		array(
@@ -61,10 +55,9 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 		)
 	);
 
-	gen_admin_mainmenu(
-		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl'
-	);
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+	gen_admin_mainmenu($tpl,  'main_menu_system_tools.tpl');
+	gen_admin_menu($tpl, 'menu_system_tools.tpl');
+
 	gen_page_message($tpl);
 
 	$tpl->assign(
@@ -79,15 +72,12 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 	if($dbUpdate->checkUpdateExists()) {
 		$tpl->assign(
 			array(
-				'UPDATE_MESSAGE' => '',
-				'DATABASE_UPDATE_MESSAGE' => '',
 				'UPDATE' => tr('New Database update is now available'),
 				'INFOS' => tr('Do you want to execute the Updates now?'),
 				'TR_EXECUTE_UPDATE' => tr('Execute updates')
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_INFOS', 'database_update_infos');
 	} else {
 		$tpl->assign(
 			array(
@@ -97,13 +87,12 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	}
 
-	$tpl->parse('PAGE', 'page');
-	$tpl->prnt();
+	$tpl->display($template);
 
 	if ($cfg->DUMP_GUI_DEBUG) {
 		dump_gui_debug();
 	}
 }
+?>

@@ -34,19 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('traffic_table', 'page');
-$tpl->define_dynamic('month_list', 'traffic_table');
-$tpl->define_dynamic('year_list', 'traffic_table');
-$tpl->define_dynamic('reseller_entry', 'traffic_table');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$template = 'reseller_statistics.tpl';
 
 $year = 0;
 $month = 0;
@@ -61,8 +51,46 @@ if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = $_GET['year'];
 }
 
+$crnt_month = '';
+$crnt_year = '';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller statistics'),
+		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_RESELLER_NAME' => tr('Reseller name'),
+		'TR_TRAFF' => tr('Traffic'),
+		'TR_DISK' => tr('Disk'),
+		'TR_DOMAIN' => tr('Domain'),
+		'TR_SUBDOMAIN' => tr('Subdomain'),
+		'TR_ALIAS' => tr('Alias'),
+		'TR_MAIL' => tr('Mail'),
+		'TR_FTP' => tr('FTP'),
+		'TR_SQL_DB' => tr('SQL database'),
+		'TR_SQL_USER' => tr('SQL user'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_admin_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+generate_page ($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function generate_page(&$tpl) {
 
@@ -135,8 +163,8 @@ SQL_QUERY;
 		} else {
 			$tpl->assign(
 				array(
-					'SCROLL_PREV_GRAY' => '',
-					'PREV_PSI' => $prev_si
+					'SCROLL_PREV_GRAY'	=> '',
+					'PREV_PSI'			=> $prev_si
 				)
 			);
 		}
@@ -171,11 +199,10 @@ SQL_QUERY;
 		}
 	}
 
-	$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  * @param string $reseller_name
  * @param int $row
@@ -281,47 +308,5 @@ function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
 		)
 	);
 
-	$tpl->parse('RESELLER_ENTRY', '.reseller_entry');
 }
-
-// static page messages
-
-$crnt_month = '';
-$crnt_year = '';
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-generate_page ($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller statistics'),
-		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_RESELLER_NAME' => tr('Reseller name'),
-		'TR_TRAFF' => tr('Traffic'),
-		'TR_DISK' => tr('Disk'),
-		'TR_DOMAIN' => tr('Domain'),
-		'TR_SUBDOMAIN' => tr('Subdomain'),
-		'TR_ALIAS' => tr('Alias'),
-		'TR_MAIL' => tr('Mail'),
-		'TR_FTP' => tr('FTP'),
-		'TR_SQL_DB' => tr('SQL database'),
-		'TR_SQL_USER' => tr('SQL user'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -34,18 +34,12 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_owners.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('reseller_list', 'page');
-$tpl->define_dynamic('reseller_item', 'reseller_list');
-$tpl->define_dynamic('select_admin', 'page');
-$tpl->define_dynamic('select_admin_option', 'select_admin');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'manage_reseller_owners.tpl';
 
 /**
  * @todo check if it's useful to have the table admin two times in the same query
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_reseller_table(&$tpl, &$sql) {
@@ -79,7 +73,6 @@ function gen_reseller_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		while (!$rs->EOF) {
 
@@ -102,14 +95,12 @@ function gen_reseller_table(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RESELLER_ITEM', '.reseller_item');
 
 			$rs->moveNext();
 
 			$i++;
 		}
 
-		$tpl->parse('RESELLER_LIST', 'reseller_list');
 
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
@@ -145,14 +136,12 @@ function gen_reseller_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('SELECT_ADMIN_OPTION', '.select_admin_option');
 
 		$rs->moveNext();
 
 		$i++;
 	}
 
-	$tpl->parse('SELECT_ADMIN', 'select_admin');
 
 	$tpl->assign('PAGE_MESSAGE', '');
 }
@@ -221,8 +210,7 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

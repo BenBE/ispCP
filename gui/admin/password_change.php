@@ -34,10 +34,39 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/password_change.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'password_change.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Change Password'),
+		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
+		'TR_PASSWORD_DATA' 		=> tr('Password data'),
+		'TR_PASSWORD' 			=> tr('Password'),
+		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
+		'TR_UPDATE_PASSWORD' 	=> tr('Update password'),
+		'TR_CURR_PASSWORD' 		=> tr('Current password'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_admin_menu($tpl, 'menu_general_information.tpl');
+
+update_password();
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function update_password() {
 
@@ -120,37 +149,4 @@ function check_udata($id, $pass) {
 
 	return false;
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Change Password'),
-		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
-		'TR_PASSWORD_DATA' 		=> tr('Password data'),
-		'TR_PASSWORD' 			=> tr('Password'),
-		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
-		'TR_UPDATE_PASSWORD' 	=> tr('Update password'),
-		'TR_CURR_PASSWORD' 		=> tr('Current password'),
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
-		'DEMO_VERSION'			=> tr('Demo Version!')
-	)
-);
-
-update_password();
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

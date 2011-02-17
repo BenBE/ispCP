@@ -57,7 +57,7 @@ if (isset($_SESSION['user_theme'])) {
 	$theme_color = $cfg->USER_INITIAL_THEME;
 }
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE'		=> tr('ispCP - Virtual Hosting Control System'),
@@ -71,7 +71,7 @@ $tpl->assign(
 if (isset($_GET['key']) && !empty($_GET['key'])) {
 	check_input($_GET['key']);
 
-	$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
+	$template = 'lostpassword_message.tpl';
 
 	if (sendpassword($_GET['key'])) {
 		$tpl->assign(
@@ -92,7 +92,7 @@ if (isset($_GET['key']) && !empty($_GET['key'])) {
 } elseif (isset($_POST['uname'])) {
 	check_ipaddr(getipaddr(), 'captcha');
 
-	$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword_message.tpl');
+	$template = 'lostpassword_message.tpl';
 
 	if ((!empty($_POST['uname'])) && isset($_SESSION['image']) &&
 			isset($_POST['capcode'])) {
@@ -127,7 +127,7 @@ if (isset($_GET['key']) && !empty($_GET['key'])) {
 	unblock($cfg->BRUTEFORCE_BLOCK_TIME, 'captcha');
 	is_ipaddr_blocked(null, 'captcha', true);
 
-	$tpl->define('page', $cfg->LOGIN_TEMPLATE_PATH . '/lostpassword.tpl');
+	$template = 'lostpassword.tpl';
 	$tpl->assign(
 		array(
 			'TR_CAPCODE' => tr('Security code'),
@@ -141,8 +141,7 @@ if (isset($_GET['key']) && !empty($_GET['key'])) {
 
 }
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

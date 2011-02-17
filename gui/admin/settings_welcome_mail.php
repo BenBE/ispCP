@@ -34,10 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_welcome_mail.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_welcome_mail.tpl';
 
 $user_id = $_SESSION['user_id'];
 
@@ -66,10 +64,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'email_setup') {
 }
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Email setup'),
@@ -94,13 +88,16 @@ $tpl->assign(
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 
 unset_messages();
+?>

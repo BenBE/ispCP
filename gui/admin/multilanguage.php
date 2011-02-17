@@ -33,13 +33,69 @@ require '../include/ispcp-lib.php';
 
 
 /*******************************************************************************
+ * Main script
+ */
+
+// Check for login
+check_login(__FILE__);
+
+/**
+ * @var $cfg ispCP_Config_Handler_File
+ */
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'multilanguage.tpl';
+
+if (isset($_POST['uaction']) && $_POST['uaction'] == 'upload_language') {
+	importLanguageFile();
+}
+
+showLang($tpl);
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation'),
+		'TR_MULTILANGUAGE' => tr('Internationalisation'),
+		'TR_INSTALLED_LANGUAGES' => tr('Installed languages'),
+		'TR_LANGUAGE' => tr('Language'),
+		'TR_MESSAGES' => tr('Messages'),
+		'TR_LANG_REV' => tr('Date'),
+		'TR_DEFAULT' => tr('Panel Default'),
+		'TR_ACTION' => tr('Action'),
+		'TR_SAVE' => tr('Save'),
+		'TR_INSTALL_NEW_LANGUAGE' => tr('Install new language'),
+		'TR_LANGUAGE_FILE' => tr('Language file'),
+		'ISP_LOGO' => get_logo($_SESSION['user_id']),
+		'TR_INSTALL' => tr('Install'),
+		'TR_EXPORT' => tr('Export'),
+		'TR_MESSAGE_DELETE' =>
+			tr('Are you sure you want to delete %s?', true, '%s'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
+/*******************************************************************************
  * View functions
  */
 
 /**
  * Prepares page data to show available languages
  *
- * @param  ispCP_pTemplate $tpl An ispCP_pTemplate instance
+ * @param  ispCP_TemplateEngine $tpl An ispCP_TemplateEngine instance
  * @return void
  */
 function showLang($tpl) {
@@ -113,34 +169,31 @@ function showLang($tpl) {
 			$language_revision = tr('Unknown');
 		}
 
-		$tpl->assign('LANG_CLASS', ($row++ % 2 == 0) ? 'content2' : 'content4');
+		$tpl->append('LANG_CLASS', ($row++ % 2 == 0) ? 'content2' : 'content4');
 
 		if ($cfg->USER_INITIAL_LANG == "lang_{$dat[1]}" ||
 			$usr_def_lng[1] == $dat[1]) {
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'TR_UNINSTALL' => tr('N/A'),
-					'LANG_DELETE_LINK' => '',
+					'TR_UNINSTALL' => false,
+					'URL_DELETE' => '#',
 					'LANGUAGE' => tohtml($language_name),
 					'LANGUAGE_REVISION' => $language_revision
 				)
 			);
 
-			$tpl->parse('LANG_DELETE_SHOW', 'lang_delete_show');
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'TR_UNINSTALL' => tr('Uninstall'),
 					'URL_DELETE' =>
 						"language_delete.php?delete_lang=lang_{$dat[1]}",
-					'LANG_DELETE_SHOW' => '',
 					'LANGUAGE' => tohtml($language_name),
 					'LANGUAGE_REVISION' => $language_revision
 				)
 			);
 
-			$tpl->parse('LANG_DELETE_LINK', 'lang_delete_link');
 		}
 
 		// Retrieving number of translated messages
@@ -148,7 +201,7 @@ function showLang($tpl) {
 
 		$stmt = exec_query($sql, $query);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'MESSAGES' =>
 					tr('%d messages translated', $stmt->fields['cnt'] - 5),
@@ -159,7 +212,6 @@ function showLang($tpl) {
 			)
 		);
 
-		$tpl->parse('LANG_ROW', '.lang_row');
 	}
 } // end showLang()
 
@@ -486,68 +538,4 @@ function _decodePoFileString($s) {
 
     return $result;
 }
-
-/*******************************************************************************
- * Main script
- */
-
-// Check for login
-check_login(__FILE__);
-
-/**
- * @var $cfg ispCP_Config_Handler_File
- */
-$cfg = ispCP_Registry::get('Config');
-
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/multilanguage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('lang_row', 'page');
-$tpl->define_dynamic('lang_delete_link', 'lang_row');
-$tpl->define_dynamic('lang_delete_show', 'lang_row');
-$tpl->define_dynamic('lang_radio', 'lang_row');
-$tpl->define_dynamic('lang_def', 'lang_row');
-
-if (isset($_POST['uaction']) && $_POST['uaction'] == 'upload_language') {
-	importLanguageFile();
-}
-
-showLang($tpl);
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Internationalisation'),
-		'TR_MULTILANGUAGE' => tr('Internationalisation'),
-		'TR_INSTALLED_LANGUAGES' => tr('Installed languages'),
-		'TR_LANGUAGE' => tr('Language'),
-		'TR_MESSAGES' => tr('Messages'),
-		'TR_LANG_REV' => tr('Date'),
-		'TR_DEFAULT' => tr('Panel Default'),
-		'TR_ACTION' => tr('Action'),
-		'TR_SAVE' => tr('Save'),
-		'TR_INSTALL_NEW_LANGUAGE' => tr('Install new language'),
-		'TR_LANGUAGE_FILE' => tr('Language file'),
-		'ISP_LOGO' => get_logo($_SESSION['user_id']),
-		'TR_INSTALL' => tr('Install'),
-		'TR_EXPORT' => tr('Export'),
-		'TR_MESSAGE_DELETE' =>
-			tr('Are you sure you want to delete %s?', true, '%s'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

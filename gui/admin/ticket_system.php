@@ -34,18 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ticket_system.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ticket_system.tpl';
 
 // dynamic page data
-
 if (!hasTicketSystem()) {
 	user_goto('index.php');
 }
@@ -59,10 +51,6 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 		$cfg->DOMAIN_ROWS_PER_PAGE, 'admin', 'open');
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Client/Enable Mail Autoresponder'),
@@ -81,13 +69,15 @@ $tpl->assign(
 		'TR_DELETE'		=> tr('Delete'),
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
 		'TR_EDIT'		=> tr('Edit')
-		)
-	);
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_admin_menu($tpl, 'menu_ticket_system.tpl');
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

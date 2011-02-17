@@ -34,14 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ticket_view.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ticket_view.tpl';
 
 // dynamic page data
-
 if (!hasTicketSystem()) {
 	user_goto('index.php');
 }
@@ -93,10 +89,6 @@ if (isset($_GET['ticket_id'])) {
 }
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Client: Support System: View Ticket'),
@@ -114,13 +106,16 @@ $tpl->assign(
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_admin_menu($tpl, 'menu_ticket_system.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 
 unset_messages();
+?>

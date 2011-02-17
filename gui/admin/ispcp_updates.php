@@ -34,17 +34,40 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ispcp_updates.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('update_message', 'page');
-$tpl->define_dynamic('update_infos', 'page');
-$tpl->define_dynamic('table_header', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ispcp_updates.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
+		'TR_UPDATES_TITLE' => tr('ispCP updates'),
+		'TR_AVAILABLE_UPDATES' => tr('Available ispCP updates'),
+		'TR_MESSAGE' => tr('No new ispCP updates available'),
+		'TR_UPDATE' => tr('Update'),
+		'TR_INFOS' => tr('Update details')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_system_tools.tpl');
+gen_admin_menu($tpl, 'menu_system_tools.tpl');
+
+gen_page_message($tpl);
+
+get_update_infos($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /* BEGIN common functions */
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @return void
  */
 function get_update_infos(&$tpl) {
@@ -59,7 +82,6 @@ function get_update_infos(&$tpl) {
 				'INFOS'				=> tr('Enable update at') . ' <a href="settings.php">' . tr('Settings') . '</a>'
 			)
 		);
-		$tpl->parse('UPDATE_INFOS', 'update_infos');
 		return false;
 	}
 
@@ -72,7 +94,6 @@ function get_update_infos(&$tpl) {
 			)
 		);
 
-		$tpl->parse('UPDATE_INFOS', 'update_infos');
 	} else {
 		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
 			$tpl->assign(array('TR_MESSAGE' => ispCP_Update_Version::getInstance()->getErrorMessage()));
@@ -83,33 +104,4 @@ function get_update_infos(&$tpl) {
 	}
 }
 /* END system functions */
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'TR_UPDATES_TITLE' => tr('ispCP updates'),
-		'TR_AVAILABLE_UPDATES' => tr('Available ispCP updates'),
-		'TR_MESSAGE' => tr('No new ispCP updates available'),
-		'TR_UPDATE' => tr('Update'),
-		'TR_INFOS' => tr('Update details')
-	)
-);
-
-gen_page_message($tpl);
-
-get_update_infos($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -34,6 +34,54 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_layout.tpl';
+
+save_layout($sql);
+
+update_logo();
+
+gen_def_layout($tpl, $_SESSION['user_theme']);
+
+if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
+	$tpl->assign('LOGO_REMOVE_BUTTON', true);
+}
+
+$tpl->assign('OWN_LOGO', get_own_logo($_SESSION['user_id']));
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
+		'TR_LAYOUT_SETTINGS' => tr('Layout settings'),
+		'TR_INSTALLED_LAYOUTS' => tr('Installed layouts'),
+		'TR_LAYOUT_NAME' => tr('Layout name'),
+		'TR_DEFAULT' => tr('default'),
+		'TR_YES' => tr('yes'),
+		'TR_SAVE' => tr('Save'),
+		'TR_UPLOAD_LOGO' => tr('Upload logo'),
+		'TR_LOGO_FILE' => tr('Logo file'),
+		'TR_UPLOAD' => tr('Upload'),
+		'TR_REMOVE' => tr('Remove'),
+		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
+		'TR_LAYOUT' => tr('Layout'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
+gen_page_message($tpl);
+
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 function save_layout(&$sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
@@ -152,64 +200,4 @@ function update_user_logo($file_name, $user_id) {
 
 	exec_query($sql, $query, array($file_name, $user_id));
 }
-
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_layout.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('logo_remove_button', 'page');
-
-save_layout($sql);
-
-update_logo();
-
-gen_def_layout($tpl, $_SESSION['user_theme']);
-
-if (get_own_logo($_SESSION['user_id']) != $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
-	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
-} else {
-	$tpl->assign('LOGO_REMOVE_BUTTON', '');
-}
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Virtual Hosting Control System'),
-		'OWN_LOGO' => get_own_logo($_SESSION['user_id'])
-	)
-);
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-$tpl->assign(
-	array(
-		'TR_LAYOUT_SETTINGS' => tr('Layout settings'),
-		'TR_INSTALLED_LAYOUTS' => tr('Installed layouts'),
-		'TR_LAYOUT_NAME' => tr('Layout name'),
-		'TR_DEFAULT' => tr('default'),
-		'TR_YES' => tr('yes'),
-		'TR_SAVE' => tr('Save'),
-		'TR_UPLOAD_LOGO' => tr('Upload logo'),
-		'TR_LOGO_FILE' => tr('Logo file'),
-		'TR_UPLOAD' => tr('Upload'),
-		'TR_REMOVE' => tr('Remove'),
-		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
-		'TR_LAYOUT' => tr('Layout'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

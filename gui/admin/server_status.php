@@ -34,10 +34,35 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_status.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('service_status', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'server_status.tpl';
+
+// static page messages
+
+gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_admin_menu($tpl, 'menu_general_information.tpl');
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP Admin / System Tools / Server Status'),
+		'TR_HOST' => tr('Host'),
+		'TR_SERVICE' => tr('Service'),
+		'TR_STATUS' => tr('Status'),
+		'TR_SERVER_STATUS' => tr('Server status'),
+	)
+);
+
+get_server_status($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /*
  * Site functions
@@ -131,7 +156,7 @@ class status {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function get_server_status(&$tpl, &$sql) {
@@ -192,7 +217,7 @@ function get_server_status(&$tpl, &$sql) {
 			}
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'HOST' => $data[$i]['ip'],
 				'PORT' => $data[$i]['port'],
@@ -202,35 +227,6 @@ function get_server_status(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('SERVICE_STATUS', '.service_status');
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP Admin / System Tools / Server Status'),
-		'TR_HOST' => tr('Host'),
-		'TR_SERVICE' => tr('Service'),
-		'TR_STATUS' => tr('Status'),
-		'TR_SERVER_STATUS' => tr('Server status'),
-	)
-);
-
-get_server_status($tpl, $sql);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

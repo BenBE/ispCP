@@ -43,17 +43,13 @@ define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_reseller_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
 
 	$tpl->assign(
 		array(
@@ -121,7 +117,6 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -141,23 +136,18 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
  	}
 
-	$tpl->parse('MAIN_MENU', 'menu');
+	$tpl->assign('MAIN_MENU', $menu_file);
 } // end of gen_reseller_menu()
 
 /**
  * Function to generate the menu data for reseller
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_reseller_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('alias_menu', 'page');
 
 	$tpl->assign(
 		array(
@@ -180,8 +170,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
-			'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
-				? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
+			//'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
+			//	? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
 			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
 			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
@@ -231,7 +221,6 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -254,7 +243,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
 
-	$tpl->parse('MENU', 'menu');
+	$tpl->assign('MENU', $menu_file);
 } // end of gen_reseller_menu()
 
 /**
@@ -629,7 +618,7 @@ function get_user_props($user_id) {
 
 /**
  * Generate IP list
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function generate_ip_list(&$tpl, &$reseller_id) {
@@ -1064,7 +1053,7 @@ function gen_manage_domain_query(&$search_query, &$count_query,
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $search_for
  * @param string $search_common
  * @param string $search_status
@@ -1202,7 +1191,7 @@ function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 
 /**
  * @todo implement use of more secure dynamic table in SQL query
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param string $userdef_language
  */
@@ -1265,20 +1254,18 @@ function gen_def_language(&$tpl, &$sql, $user_def_language) {
 
 	asort($languages[0], SORT_STRING);
 	foreach ($languages as $lang) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'LANG_VALUE' => $lang[0],
 				'LANG_SELECTED' => $lang[1],
 				'LANG_NAME' => tohtml($lang[2])
 			)
 		);
-
-		$tpl->parse('DEF_LANGUAGE', '.def_language');
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $domain_id
  */

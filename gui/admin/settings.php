@@ -35,9 +35,8 @@ check_login(__FILE__);
 // Get a reference to the Config object
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings.tpl');
-$tpl->define_dynamic('def_language', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings.tpl';
 
 if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 
@@ -332,10 +331,6 @@ switch ($cfg->LOG_LEVEL) {
 } // end switch
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
@@ -403,10 +398,12 @@ $tpl->assign(
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

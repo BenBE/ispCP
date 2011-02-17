@@ -34,11 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/rootkit_log.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('service_status', 'page');
-$tpl->define_dynamic('props_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'rootkit_log.tpl';
 
 $blocksCount = 0;
 
@@ -119,7 +116,6 @@ foreach ($config_entries as $config_entry) {
 			'FILENAME'	=> tohtml($filename)
 		)
 	);
-	$tpl->parse('PROPS_LIST', '.props_list');
 }
 
 // static page messages
@@ -136,8 +132,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

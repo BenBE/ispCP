@@ -480,22 +480,13 @@ function get_domain_running_props_cnt(&$sql, $domain_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_awstats', 'menu');
-	$tpl->define_dynamic('isactive_domain', 'menu');
-	$tpl->define_dynamic('isactive_email', 'menu');
-	$tpl->define_dynamic('isactive_ftp', 'menu');
-	$tpl->define_dynamic('isactive_sql', 'menu');
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
 
 	$tpl->assign(
 		array(
@@ -581,7 +572,6 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -634,12 +624,10 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 			)
 		);
 	}
-
-	$tpl->parse('MAIN_MENU', 'menu');
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  * @return void
  */
@@ -647,13 +635,6 @@ function gen_client_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('isactive_update_hp', 'menu');
-	$tpl->define_dynamic('isactive_alias_menu', 'menu');
-	$tpl->define_dynamic('isactive_subdomain_menu', 'menu');
-	$tpl->define_dynamic('isactive_dns_menu', 'menu');
 
 	$tpl->assign(
 		array(
@@ -739,7 +720,6 @@ function gen_client_menu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -829,8 +809,6 @@ function gen_client_menu(&$tpl, $menu_file) {
 			$tpl->assign('ISACTIVE_UPDATE_HP', '');
 		}
 	}
-
-	$tpl->parse('MENU', 'menu');
 }
 
 function get_user_domain_id(&$sql, $user_id) {
@@ -979,7 +957,7 @@ function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @return void
  */
 function check_permissions(&$tpl) {

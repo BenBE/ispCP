@@ -740,6 +740,9 @@ class ispCP_pTemplate {
 					'THEME_SCRIPT_PATH'	=> '../themes/scripts'
 				)
 			);
+			if ($cfg->DUMP_GUI_DEBUG) {
+				$this->assign('DUMP_GUI_DEBUG', true);
+			}
 		} else {
 			$this->assign(
 				array(

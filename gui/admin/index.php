@@ -34,18 +34,39 @@ $cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_ADMIN);
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/index.tpl');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('no_messages', 'page');
-$tpl->define_dynamic('msg_entry', 'page');
-$tpl->define_dynamic('update_message', 'page');
-$tpl->define_dynamic('database_update_message', 'page');
-$tpl->define_dynamic('traff_warn', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'index.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Main Index')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_admin_menu($tpl, 'menu_general_information.tpl');
+
+get_admin_general_info($tpl, $sql);
+
+get_update_infos($tpl);
+
+gen_system_message($tpl, $sql);
+
+gen_server_trafic($tpl);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @return void
  */
@@ -79,16 +100,14 @@ function gen_system_message(&$tpl, &$sql) {
 				'TR_VIEW' => tr('View')
 			)
 		);
-
-		$tpl->parse('MSG_ENTRY', 'msg_entry');
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @return void
  */
-function get_update_infos(&$tpl) {
+function get_update_infos($tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -99,7 +118,6 @@ function get_update_infos(&$tpl) {
 				'DATABASE_MSG_TYPE' => 'notice'
 			)
 		);
-		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	} else {
 		$tpl->assign(array('DATABASE_UPDATE_MESSAGE' => ''));
 	}
@@ -111,7 +129,6 @@ function get_update_infos(&$tpl) {
 				'UPDATE_TYPE' => 'notice'
 			)
 		);
-		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		return false;
 	}
 
@@ -122,7 +139,6 @@ function get_update_infos(&$tpl) {
 				'UPDATE_TYPE' => 'notice'
 			)
 		);
-		$tpl->parse('UPDATE_MESSAGE', 'update_message');
 	} else {
 		if (ispCP_Update_Version::getInstance()->getErrorMessage() != "") {
 			$tpl->assign(
@@ -131,7 +147,6 @@ function get_update_infos(&$tpl) {
 					'UPDATE_TYPE' => 'error'
 				)
 			);
-			$tpl->parse('UPDATE_MESSAGE', 'update_message');
 		} else {
 			$tpl->assign(array('UPDATE_MESSAGE' => ''));
 		}
@@ -139,7 +154,7 @@ function get_update_infos(&$tpl) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @return void
  */
 function gen_server_trafic(&$tpl) {
@@ -217,34 +232,4 @@ function gen_server_trafic(&$tpl) {
 		)
 	);
 }
-
-// static page messages
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Main Index')
-	)
-);
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-get_admin_general_info($tpl, $sql);
-
-get_update_infos($tpl);
-
-gen_system_message($tpl, $sql);
-
-gen_server_trafic($tpl);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -50,41 +50,24 @@ require_once  INCLUDEPATH . '/ispCP/Exception/Writer.php';
  * @category	ispCP
  * @package		ispCP_Exception
  * @subpackage	Writer
- * @author		Laurent Declercq <laurent.declercq@ispcp.net>
+ * @author		ispCP Team
  * @since		1.0.7
- * @version		1.0.3
+ * @version		1.0.4
  * @todo		Display more information like trace on debug mode.
  */
 class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 
 	/**
-	 * pTemplate instance
+	 * ispCP_TemplateEngine instance
 	 *
-	 * @var ispCP_pTemplate
+	 * @var ispCP_TemplateEngine
 	 */
-	protected $_pTemplate = null;
-
-	/**
-	 * Template file path
-	 *
-	 * @var string
-	 */
-	protected $_templateFile = null;
+	protected $ispCP_TemplateEngine = null;
 
 	/**
 	 * Constructor
-	 *
-	 * @param string Template file path
 	 */
-	public function __construct($templateFile = '') {
-
-		if($templateFile !='') {
-			if(is_readable($templateFile = $templateFile) ||
-				is_readable($templateFile = "../$templateFile")) {
-
-				$this->_templateFile = $templateFile;
-			}
-		}
+	public function __construct() {
 	}
 
 	/**
@@ -94,9 +77,13 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 * @todo Add inline template for rescue
 	 */
 	protected function _write() {
-
-		if(!is_null($this->_pTemplate)) {
-			$this->_pTemplate->prnt();
+		if(!is_null($this->ispCP_TemplateEngine)) {
+			if (file_exists($this->ispCP_TemplateEngine->get_template_dir().'exception_message.tpl')){
+				$this->ispCP_TemplateEngine->display('exception_message.tpl');
+			} else {
+				$this->ispCP_TemplateEngine->set_template_dir($this->ispCP_TemplateEngine->get_template_dir().'../');
+				$this->ispCP_TemplateEngine->display('exception_message.tpl');
+			}
 		} else {
 			echo $this->_message;
 		}
@@ -129,9 +116,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 				: $exceptionHandler->getException()->getMessage();
 		}
 
-		if(!is_null($this->_templateFile)) {
-			$this->_prepareTemplate();
-		}
+		$this->_prepareTemplate();
 
 		// Finally, we write the output
 		$this->_write();
@@ -144,8 +129,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	protected function _prepareTemplate() {
 
-		$this->_pTemplate = new ispCP_pTemplate();
-		$this->_pTemplate->define('page', $this->_templateFile);
+		$this->ispCP_TemplateEngine = ispCP_TemplateEngine::getInstance();
 
 
 		if(ispCP_Registry::isRegistered('backButtonDestination')) {
@@ -154,9 +138,8 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 			$backButtonDest = 'javascript:history.go(-1)';
 		}
 
-		$this->_pTemplate->assign(
+		$this->ispCP_TemplateEngine->assign(
 			array(
-				'THEME_COLOR_PATH' => '/themes/' . 'omega',
 				'BACKBUTTONDESTINATION' => $backButtonDest,
 				'MESSAGE' => $this->_message,
 				'MSG_TYPE' => 'error'
@@ -165,7 +148,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 
 		// i18n support is available ?
 		if (function_exists('tr')) {
-			$this->_pTemplate->assign(
+			$this->ispCP_TemplateEngine->assign(
 				array(
 					'TR_PAGE_TITLE' => tr('ispCP Error'),
 					'THEME_CHARSET' => tr('encoding'),
@@ -175,7 +158,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 				)
 			);
 		} else {
-			$this->_pTemplate->assign(
+			$this->ispCP_TemplateEngine->assign(
 				array(
 					'TR_PAGE_TITLE' => 'ispCP Error',
 					'THEME_CHARSET' => 'UTF-8',
@@ -185,7 +168,6 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 			);
 		}
 
-		$this->_pTemplate->parse('PAGE', 'page');
 	} // end prepareTemplate()
 }
 ?>

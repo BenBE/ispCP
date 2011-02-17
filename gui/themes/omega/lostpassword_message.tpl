@@ -1,12 +1,12 @@
-<!-- INCLUDE "header.tpl" -->
+{include file='header.tpl'}
 <body>
 	<div class="main">
 		<div class="mainbox" id="mainbox">
 			<div style="color: #fff;padding-top: 185px;text-align: center;">
-				{TR_MESSAGE}<br />
+				{$TR_MESSAGE}<br />
 				<br />
-				{TR_LINK}
+				{$TR_LINK}
 			</div>
 		</div>
 		<div class="toolbox">
-<!-- INCLUDE "footer.tpl" -->
+{include file='footer.tpl'}

@@ -34,10 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic_day.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hour_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'server_statistic_day.tpl';
 
 global $month, $year, $day;
 
@@ -45,16 +43,56 @@ if (isset($_GET['month']) && isset($_GET['year']) && isset($_GET['day'])
 	&& is_numeric($_GET['month']) && is_numeric($_GET['year'])
 	&& is_numeric($_GET['day'])) {
 	$year = $_GET['year'];
-
 	$month = $_GET['month'];
-
 	$day = $_GET['day'];
 } else {
 	user_goto('server_statistic.php');
 }
 
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
+		'TR_SERVER_STATISTICS' => tr('Server statistics'),
+		'TR_SERVER_DAY_STATISTICS' => tr('Server day statistics'),
+		'TR_MONTH' => tr('Month:'),
+		'TR_YEAR' => tr('Year:'),
+		'TR_DAY' => tr('Day:'),
+		'TR_HOUR' => tr('Hour'),
+		'TR_WEB_IN' => tr('Web in'),
+		'TR_WEB_OUT' => tr('Web out'),
+		'TR_SMTP_IN' => tr('SMTP in'),
+		'TR_SMTP_OUT' => tr('SMTP out'),
+		'TR_POP_IN' => tr('POP3/IMAP in'),
+		'TR_POP_OUT' => tr('POP3/IMAP out'),
+		'TR_OTHER_IN' => tr('Other in'),
+		'TR_OTHER_OUT' => tr('Other out'),
+		'TR_ALL_IN' => tr('All in'),
+		'TR_ALL_OUT' => tr('All out'),
+		'TR_ALL' => tr('All'),
+		'TR_BACK' => tr('Back'),
+		'MONTH' => $month,
+		'YEAR' => $year,
+		'DAY' => $day
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_admin_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+generate_page ($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function generate_page(&$tpl) {
 	$sql = ispCP_Registry::get('Db');
@@ -118,13 +156,13 @@ function generate_page(&$tpl) {
 			$other_in = $rs1->fields['sbin'] - ($rs1->fields['swbin'] + $rs1->fields['smbin'] + $rs1->fields['spbin']);
 			$other_out = $rs1->fields['sbout'] - ($rs1->fields['swbout'] + $rs1->fields['smbout'] + $rs1->fields['spbout']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ITEM_CLASS' => ($row++ % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'HOUR' => $ttime,
 					'WEB_IN' => sizeit($rs1->fields['swbin']),
@@ -150,7 +188,6 @@ function generate_page(&$tpl) {
 			$all[6] = $all[6] + $rs1->fields['sbin'];
 			$all[7] = $all[7] + $rs1->fields['sbout'];
 
-			$tpl->parse('HOUR_LIST', '.hour_list');
 
 			$rs1->moveNext();
 		} // end for
@@ -175,48 +212,4 @@ function generate_page(&$tpl) {
 		)
 	);
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server day stats'),
-		'TR_SERVER_STATISTICS' => tr('Server statistics'),
-		'TR_SERVER_DAY_STATISTICS' => tr('Server day statistics'),
-		'TR_MONTH' => tr('Month:'),
-		'TR_YEAR' => tr('Year:'),
-		'TR_DAY' => tr('Day:'),
-		'TR_HOUR' => tr('Hour'),
-		'TR_WEB_IN' => tr('Web in'),
-		'TR_WEB_OUT' => tr('Web out'),
-		'TR_SMTP_IN' => tr('SMTP in'),
-		'TR_SMTP_OUT' => tr('SMTP out'),
-		'TR_POP_IN' => tr('POP3/IMAP in'),
-		'TR_POP_OUT' => tr('POP3/IMAP out'),
-		'TR_OTHER_IN' => tr('Other in'),
-		'TR_OTHER_OUT' => tr('Other out'),
-		'TR_ALL_IN' => tr('All in'),
-		'TR_ALL_OUT' => tr('All out'),
-		'TR_ALL' => tr('All'),
-		'TR_BACK' => tr('Back'),
-		'MONTH' => $month,
-		'YEAR' => $year,
-		'DAY' => $day
-	)
-);
-
-gen_page_message($tpl);
-generate_page ($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -35,6 +35,252 @@ require '../include/ispcp-lib.php';
 
 $cfg = ispCP_Registry::get('Config');
 
+check_login(__FILE__);
+
+// Error fields indicators
+$errFields = array();
+
+/**
+ * Script dispatcher - begin
+ *
+ * Dispatch the request according the state of $_GET || $_POST
+ */
+
+if (isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
+
+	// Ajax request
+	// TODO: move Header handler in future responses class
+	if (is_xhr() && isset($_POST['uaction']) && $_POST['uaction'] == 'genpass')  {
+
+			// Overwrite the default header for Ajax request
+			header('Content-Type: text/plain; charset=utf-8');
+			// HTTP/1.1
+			header('Cache-Control: no-cache, private');
+			// backward compatibility for HTTP/1.0
+			header('Pragma: no-cache');
+			header("HTTP/1.0 200 Ok");
+			echo passgen();
+			exit;
+	}
+
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'reseller_edit.tpl';
+
+	$tpl->assign(
+		array(
+			'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Edit Reseller')
+		)
+	);
+
+	gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl', true);
+	gen_admin_menu($tpl, 'menu_users_manage.tpl', true);
+
+	// First, we get needed data
+	$rdata =& get_data($tpl);
+
+	// Update action
+	if (isset($_POST['uaction']) && $_POST['uaction'] == 'update_reseller') {
+
+		// Checking for the submitted data
+		check_data($errFields);
+
+		// If no error was occured during data checking, we can continue
+		if (!isset($_SESSION['user_page_message'])) {
+
+			// Update reseller properties and additional data
+			update_reseller();
+
+			// Adds admin log entry
+			write_log(
+				"{$_SESSION['user_logged']}: changes data/password for reseller: " .
+				"{$rdata['edit_username']}!"
+			);
+
+			// Send new authentication data to reseller if needed
+			if (isset($_POST['send_data']) && !empty($_POST['pass0'])) {
+				send_add_user_auto_msg (
+					$_SESSION['user_id'], $rdata['edit_username'], $rdata['pass'],
+					$rdata['email'], $rdata['fname'], $rdata['lname'],
+					tr('Reseller'), $rdata['gender']
+				);
+			}
+
+			// Status indicator for the front page message after update request
+			$_SESSION['user_updated'] = 1;
+
+			// FIXME: Legacy from old code - Check if realy needed
+			$_SESSION['reseller_ips'] = $rdata['reseller_ips'];
+
+			// Back to the parent page after a successfull updates
+			user_goto('manage_users.php');
+
+		} else { // An error was occured during data checking
+			set_page_message(
+				'<br />' .
+				tr('One or more errors was found! Please, correct them and try again!'),
+				'error'
+			);
+		}
+
+	} else { // Default action
+
+		// Pre-check - possible inconsistency data
+		check_data($errFields);
+
+		if (isset($_SESSION['user_page_message'])) {
+			set_page_message(
+				'<br />' .
+				tr('Reseller data inconsistency!') . ' ' .
+				tr('Please, read the message(s) above and trying to correct!'),
+				'warning'
+			);
+		}
+	}
+
+} else { // Not reseller id provided or cancel action
+	// Prevent the 'update' message on the parent page after cancel action
+	if (isset($_POST['Cancel']) && isset($_SESSION['user_updated'])) {
+		unset($_SESSION['user_updated']);
+	}
+	user_goto('manage_users.php');
+}
+
+/**
+ * Script dispatcher - end
+ */
+
+/**
+ * Template preparation
+ */
+
+// Input Fields Errors Highlighting
+fields_highlighting($tpl, $errFields);
+
+if ($rdata['support_system'] == 'yes') {
+	$support_yes = $cfg->HTML_CHECKED;
+	$support_no = '';
+} else {
+	$support_no = $cfg->HTML_CHECKED;
+	$support_yes = '';
+}
+
+$tpl->assign(
+	array(
+		'TR_EDIT_RESELLER' => tr('Edit reseller'),
+		'TR_CORE_DATA' => tr('Core data'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_PASSWORD' => tr('Password'),
+		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
+		'TR_EMAIL' => tr('E-mail'),
+		'TR_UNLIMITED' => tr('unlimited'),
+		'TR_MAX_DOMAIN_COUNT' =>
+			tr('Domains limit<br><em>(0 unlimited)</em>'),
+		'TR_MAX_SUBDOMAIN_COUNT' =>
+			tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES_COUNT' =>
+			tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAIL_USERS_COUNT' =>
+			tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP_USERS_COUNT' =>
+			tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQLDB_COUNT' =>
+			tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS_COUNT' =>
+			tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC_AMOUNT' =>
+			tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_MAX_DISK_AMOUNT' =>
+			tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_YES' => tr('yes'),
+		'TR_NO' => tr('no'),
+		'TR_SUPPORT_SYSTEM' => tr('Support system'),
+		'TR_RESELLER_IPS' => tr('Reseller IPs'),
+		'TR_ADDITIONAL_DATA' => tr('Additional data'),
+		'TR_CUSTOMER_ID' => tr('Customer ID'),
+		'TR_FIRST_NAME' => tr('First name'),
+		'TR_LAST_NAME' => tr('Last name'),
+		'TR_GENDER' => tr('Gender'),
+		'TR_MALE' => tr('Male'),
+		'TR_FEMALE' => tr('Female'),
+		'TR_UNKNOWN' => tr('Unknown'),
+		'TR_COMPANY' => tr('Company'),
+		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
+		'TR_CITY' => tr('City'),
+		'TR_STATE' => tr('State/Province'),
+		'TR_COUNTRY' => tr('Country'),
+		'TR_STREET_1' => tr('Street 1'),
+		'TR_STREET_2' => tr('Street 2'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_FAX' => tr('Fax'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_UPDATE' => tr('Update'),
+		'TR_CANCEL' => tr('Cancel'),
+		'TR_SEND_DATA' => tr('Send new login data'),
+		'TR_PASSWORD_GENERATE' => tr('Generate password'),
+		'TR_RESET' => tr('Reset'),
+		'TR_GENERATED_PWD' => tr('Generated password:'),
+		'TR_CTRL+C' => tr('Type `CTRL+C` to copy the generated password in the clipboard.'),
+		'TR_EVENT_NOTICE' => html_entity_decode(htmlspecialchars_decode(tr('ispCP NOTICE:\n\nThe `Enter` key is disabled for performance reasons!\nInstead, use the %s button to update the data.', '`'.tr('Update').'`')), ENT_QUOTES, 'UTF-8'),
+
+		'USERNAME' => tohtml($rdata['admin_name']),
+		'EMAIL' => tohtml($rdata['email']),
+
+		'MAX_DOMAIN_COUNT' => $rdata['max_dmn_cnt'],
+		'MAX_SUBDOMAIN_COUNT' => $rdata['max_sub_cnt'],
+		'MAX_ALIASES_COUNT' => $rdata['max_als_cnt'],
+		'MAX_MAIL_USERS_COUNT' => $rdata['max_mail_cnt'],
+		'MAX_FTP_USERS_COUNT' => $rdata['max_ftp_cnt'],
+		'MAX_SQLDB_COUNT' => $rdata['max_sql_db_cnt'],
+		'MAX_SQL_USERS_COUNT' => $rdata['max_sql_user_cnt'],
+		'MAX_TRAFFIC_AMOUNT' => $rdata['max_traff_amnt'],
+		'MAX_DISK_AMOUNT' => $rdata['max_disk_amnt'],
+
+		'SUPPORT_YES' => $support_yes,
+		'SUPPORT_NO' => $support_no,
+
+		'CUSTOMER_ID' => tohtml($rdata['customer_id']),
+		'FIRST_NAME' => tohtml($rdata['fname']),
+		'LAST_NAME' => tohtml($rdata['lname']),
+		'VL_MALE' => (($rdata['gender'] == 'M') ? $cfg->HTML_SELECTED : ''),
+		'VL_FEMALE' => (($rdata['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
+		'VL_UNKNOWN' =>
+			(($rdata['gender'] == 'U') || (empty($rdata['gender']))
+				? $cfg->HTML_SELECTED
+				: ''),
+		'FIRM' => tohtml($rdata['firm']),
+		'ZIP' => tohtml($rdata['zip']),
+		'CITY' => tohtml($rdata['city']),
+		'STATE' => $rdata['state'] === NULL ? '' : tohtml($rdata['state']),
+		'COUNTRY' => tohtml($rdata['country']),
+		'STREET_1' => tohtml($rdata['street1']),
+		'STREET_2' => tohtml($rdata['street2']),
+		'PHONE' => tohtml($rdata['phone']),
+		'FAX' => tohtml($rdata['fax']),
+
+		'EDIT_ID' => tohtml($rdata['edit_id']),
+
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'	=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'		=> tr('Demo Version!')
+	)
+);
+
+if (isset($_POST['genpass'])) {
+	$tpl->assign('VAL_PASSWORD', passgen());
+} else {
+	$tpl->assign('VAL_PASSWORD', '');
+}
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /*******************************************************************************
  * Functions
  */
@@ -520,7 +766,7 @@ function get_reseller_prop($reseller_id) {
 /**
  * Get Server IPs
  *
- * @param ispCP_pTemplate &$tpl reference to the temmplate instance
+ * @param ispCP_TemplateEngine &$tpl reference to the temmplate instance
  * @param string reseller IP addresses list
  * @return string reseller list of assigned Ips
  */
@@ -551,7 +797,6 @@ function get_servers_ips(&$tpl, $rip_lst) {
 			)
 		);
 
-		$tpl->parse('RSL_IP_MESSAGE', 'rsl_ip_message');
 	} else {
 		$tpl->assign(
 				array(
@@ -601,13 +846,11 @@ function get_servers_ips(&$tpl, $rip_lst) {
 				)
 			);
 
-			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
 			$rs->moveNext();
 
 			$i++;
 		}
 
-		$tpl->parse('RSL_IP_LIST', 'rsl_ip_list');
 		$tpl->assign('RSL_IP_MESSAGE', '');
 	}
 
@@ -753,7 +996,7 @@ function update_reseller() {
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
  * @since r2561
- * @param ispCP_pTemplate &$tpl reference to the template instance
+ * @param ispCP_TemplateEngine &$tpl reference to the template instance
  * @return array reseller properties and additional data
  */
 function &get_data(&$tpl = false) {
@@ -812,7 +1055,7 @@ function &get_data(&$tpl = false) {
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
  * @since r2587
- * @param ispCP_pTemplate &$tpl reference to the template instance
+ * @param ispCP_TemplateEngine &$tpl reference to the template instance
  * @param array &$errFields reference to the array of error fields indicators
  * @return void
  */
@@ -829,259 +1072,4 @@ function fields_highlighting(&$tpl, &$errFields) {
 			$tpl->assign($field, (in_array($field, $errFields)) ? $l1 : '');
 	}
 }
-
-/*******************************************************************************
- * Main
- */
-
-check_login(__FILE__);
-
-// Error fields indicators
-$errFields = array();
-
-/**
- * Script dispatcher - begin
- *
- * Dispatch the request according the state of $_GET || $_POST
- */
-
-if (isset($_REQUEST['edit_id']) && !isset($_POST['Cancel'])) {
-
-	// Ajax request
-	// TODO: move Header handler in future responses class
-	if (is_xhr() && isset($_POST['uaction']) && $_POST['uaction'] == 'genpass')  {
-
-			// Overwrite the default header for Ajax request
-			header('Content-Type: text/plain; charset=utf-8');
-			// HTTP/1.1
-			header('Cache-Control: no-cache, private');
-			// backward compatibility for HTTP/1.0
-			header('Pragma: no-cache');
-			header("HTTP/1.0 200 Ok");
-			echo passgen();
-			exit;
-	}
-
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH .'/reseller_edit.tpl');
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('hosting_plans', 'page');
-	$tpl->define_dynamic('rsl_ip_message', 'page');
-	$tpl->define_dynamic('rsl_ip_list', 'page');
-	$tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
-
-	$tpl->assign(
-		array(
-			'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Edit Reseller')
-		)
-	);
-
-	gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-	// First, we get needed data
-	$rdata =& get_data($tpl);
-
-	// Update action
-	if (isset($_POST['uaction']) && $_POST['uaction'] == 'update_reseller') {
-
-		// Checking for the submitted data
-		check_data($errFields);
-
-		// If no error was occured during data checking, we can continue
-		if (!isset($_SESSION['user_page_message'])) {
-
-			// Update reseller properties and additional data
-			update_reseller();
-
-			// Adds admin log entry
-			write_log(
-				"{$_SESSION['user_logged']}: changes data/password for reseller: " .
-				"{$rdata['edit_username']}!"
-			);
-
-			// Send new authentication data to reseller if needed
-			if (isset($_POST['send_data']) && !empty($_POST['pass0'])) {
-				send_add_user_auto_msg (
-					$_SESSION['user_id'], $rdata['edit_username'], $rdata['pass'],
-					$rdata['email'], $rdata['fname'], $rdata['lname'],
-					tr('Reseller'), $rdata['gender']
-				);
-			}
-
-			// Status indicator for the front page message after update request
-			$_SESSION['user_updated'] = 1;
-
-			// FIXME: Legacy from old code - Check if realy needed
-			$_SESSION['reseller_ips'] = $rdata['reseller_ips'];
-
-			// Back to the parent page after a successfull updates
-			user_goto('manage_users.php');
-
-		} else { // An error was occured during data checking
-			set_page_message(
-				'<br />' .
-				tr('One or more errors was found! Please, correct them and try again!'),
-				'error'
-			);
-		}
-
-	} else { // Default action
-
-		// Pre-check - possible inconsistency data
-		check_data($errFields);
-
-		if (isset($_SESSION['user_page_message'])) {
-			set_page_message(
-				'<br />' . 
-				tr('Reseller data inconsistency!') . ' ' .
-				tr('Please, read the message(s) above and trying to correct!'),
-				'warning'
-			);
-		}
-	}
-
-} else { // Not reseller id provided or cancel action
-	// Prevent the 'update' message on the parent page after cancel action
-	if (isset($_POST['Cancel']) && isset($_SESSION['user_updated'])) {
-		unset($_SESSION['user_updated']);
-	}
-	user_goto('manage_users.php');
-}
-
-/**
- * Script dispatcher - end
- */
-
-/**
- * Template preparation
- */
-
-// Input Fields Errors Highlighting
-fields_highlighting($tpl, $errFields);
-
-if ($rdata['support_system'] == 'yes') {
-	$support_yes = $cfg->HTML_CHECKED;
-	$support_no = '';
-} else {
-	$support_no = $cfg->HTML_CHECKED;
-	$support_yes = '';
-}
-
-$tpl->assign(
-	array(
-		'TR_EDIT_RESELLER' => tr('Edit reseller'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_PASSWORD' => tr('Password'),
-		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
-		'TR_EMAIL' => tr('E-mail'),
-		'TR_UNLIMITED' => tr('unlimited'),
-		'TR_MAX_DOMAIN_COUNT' =>
-			tr('Domains limit<br><em>(0 unlimited)</em>'),
-		'TR_MAX_SUBDOMAIN_COUNT' =>
-			tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_ALIASES_COUNT' =>
-			tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_MAIL_USERS_COUNT' =>
-			tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_FTP_USERS_COUNT' =>
-			tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQLDB_COUNT' =>
-			tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQL_USERS_COUNT' =>
-			tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_TRAFFIC_AMOUNT' =>
-			tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_MAX_DISK_AMOUNT' =>
-			tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_YES' => tr('yes'),
-		'TR_NO' => tr('no'),
-		'TR_SUPPORT_SYSTEM' => tr('Support system'),
-		'TR_RESELLER_IPS' => tr('Reseller IPs'),
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_CUSTOMER_ID' => tr('Customer ID'),
-		'TR_FIRST_NAME' => tr('First name'),
-		'TR_LAST_NAME' => tr('Last name'),
-		'TR_GENDER' => tr('Gender'),
-		'TR_MALE' => tr('Male'),
-		'TR_FEMALE' => tr('Female'),
-		'TR_UNKNOWN' => tr('Unknown'),
-		'TR_COMPANY' => tr('Company'),
-		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
-		'TR_CITY' => tr('City'),
-		'TR_STATE' => tr('State/Province'),
-		'TR_COUNTRY' => tr('Country'),
-		'TR_STREET_1' => tr('Street 1'),
-		'TR_STREET_2' => tr('Street 2'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_FAX' => tr('Fax'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_UPDATE' => tr('Update'),
-		'TR_CANCEL' => tr('Cancel'),
-		'TR_SEND_DATA' => tr('Send new login data'),
-		'TR_PASSWORD_GENERATE' => tr('Generate password'),
-		'TR_RESET' => tr('Reset'),
-		'TR_GENERATED_PWD' => tr('Generated password:'),
-		'TR_CTRL+C' => tr('Type `CTRL+C` to copy the generated password in the clipboard.'),
-		'TR_EVENT_NOTICE' => html_entity_decode(htmlspecialchars_decode(tr('ispCP NOTICE:\n\nThe `Enter` key is disabled for performance reasons!\nInstead, use the %s button to update the data.', '`'.tr('Update').'`')), ENT_QUOTES, 'UTF-8'),
-
-		'USERNAME' => tohtml($rdata['admin_name']),
-		'EMAIL' => tohtml($rdata['email']),
-
-		'MAX_DOMAIN_COUNT' => $rdata['max_dmn_cnt'],
-		'MAX_SUBDOMAIN_COUNT' => $rdata['max_sub_cnt'],
-		'MAX_ALIASES_COUNT' => $rdata['max_als_cnt'],
-		'MAX_MAIL_USERS_COUNT' => $rdata['max_mail_cnt'],
-		'MAX_FTP_USERS_COUNT' => $rdata['max_ftp_cnt'],
-		'MAX_SQLDB_COUNT' => $rdata['max_sql_db_cnt'],
-		'MAX_SQL_USERS_COUNT' => $rdata['max_sql_user_cnt'],
-		'MAX_TRAFFIC_AMOUNT' => $rdata['max_traff_amnt'],
-		'MAX_DISK_AMOUNT' => $rdata['max_disk_amnt'],
-
-		'SUPPORT_YES' => $support_yes,
-		'SUPPORT_NO' => $support_no,
-
-		'CUSTOMER_ID' => tohtml($rdata['customer_id']),
-		'FIRST_NAME' => tohtml($rdata['fname']),
-		'LAST_NAME' => tohtml($rdata['lname']),
-		'VL_MALE' => (($rdata['gender'] == 'M') ? $cfg->HTML_SELECTED : ''),
-		'VL_FEMALE' => (($rdata['gender'] == 'F') ? $cfg->HTML_SELECTED : ''),
-		'VL_UNKNOWN' =>
-			(($rdata['gender'] == 'U') || (empty($rdata['gender']))
-				? $cfg->HTML_SELECTED
-				: ''),
-		'FIRM' => tohtml($rdata['firm']),
-		'ZIP' => tohtml($rdata['zip']),
-		'CITY' => tohtml($rdata['city']),
-		'STATE' => $rdata['state'] === NULL ? '' : tohtml($rdata['state']),
-		'COUNTRY' => tohtml($rdata['country']),
-		'STREET_1' => tohtml($rdata['street1']),
-		'STREET_2' => tohtml($rdata['street2']),
-		'PHONE' => tohtml($rdata['phone']),
-		'FAX' => tohtml($rdata['fax']),
-
-		'EDIT_ID' => tohtml($rdata['edit_id']),
-
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'	=> tr('Password change is deactivated!'),
-		'DEMO_VERSION'		=> tr('Demo Version!')
-	)
-);
-
-if (isset($_POST['genpass'])) {
-	$tpl->assign('VAL_PASSWORD', passgen());
-} else {
-	$tpl->assign('VAL_PASSWORD', '');
-}
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

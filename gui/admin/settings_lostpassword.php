@@ -34,11 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_lostpassword.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('custom_buttons', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_lostpassword.tpl';
 
 $user_id = $_SESSION['user_id'];
 
@@ -74,12 +71,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 }
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-gen_logged_from($tpl);
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Admin/Lostpw email setup'),
@@ -108,10 +99,12 @@ $tpl->assign(
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
