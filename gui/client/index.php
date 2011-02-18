@@ -180,8 +180,8 @@ $tpl->assign(
 );
 
 // static page messages.
-gen_client_mainmenu($tpl, '/main_menu_general_information.tpl');
-gen_client_menu($tpl, '/menu_general_information.tpl');
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -382,19 +382,13 @@ function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_ph
 	}
 
 	// check if PHP Support is available for this user
-	if ($dmn_php == 'no') {
-		$tpl->assign('T_PHP_SUPPORT', '');
-	} else {
+	if ($dmn_php == 'yes') {
 		$tpl->assign( array('PHP_SUPPORT' => tr('yes')));
-
 	}
 
 	// check if CGI Support is available for this user
-	if ($dmn_cgi == 'no') {
-		$tpl->assign('T_CGI_SUPPORT', '');
-	} else {
+	if ($dmn_cgi == 'yes') {
 		$tpl->assign( array('CGI_SUPPORT' => tr('yes')));
-
 	}
 
 	// Check if Backup support is available for this user

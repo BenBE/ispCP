@@ -43,25 +43,25 @@
 				<td>{$TR_DOMAIN_EXPIRE}</td>
 				<td>{$DMN_EXPIRES} {$DMN_EXPIRES_DATE}</td>
 			</tr>
-			{if isset($TR_PHP_SUPPORT)}
+			{if isset($PHP_SUPPORT)}
 			<tr>
 				<td>{$TR_PHP_SUPPORT}</td>
 				<td>{$PHP_SUPPORT}</td>
 			</tr>
 			{/if}
-			{if isset($TR_CGI_SUPPORT)}
+			{if isset($CGI_SUPPORT)}
 			<tr>
 				<td>{$TR_CGI_SUPPORT}</td>
 				<td>{$CGI_SUPPORT}</td>
 			</tr>
 			{/if}
-			{if isset($TR_MYSQL_SUPPORT)}
+			{if isset($MYSQL_SUPPORT)}
 			<tr>
 				<td>{$TR_MYSQL_SUPPORT}</td>
 				<td>{$MYSQL_SUPPORT}</td>
 			</tr>
 			{/if}
-			{if isset($TR_MYSQL_SUPPORT)}
+			{if isset($TR_SUBDOMAINS)}
 			<tr>
 				<td>{$TR_SUBDOMAINS}</td>
 				<td>{$SUBDOMAINS}</td>
@@ -83,7 +83,7 @@
 				<td>{$TR_FTP_ACCOUNTS}</td>
 				<td>{$FTP_ACCOUNTS}</td>
 			</tr>
-			{if isset($TR_MYSQL_SUPPORT)}
+			{if isset($MYSQL_SUPPORT)}
 			<tr>
 				<td>{$TR_SQL_DATABASES}</td>
 				<td>{$SQL_DATABASES}</td>

@@ -16,8 +16,10 @@
 		<li><a href="webtools.php" title="{$TR_MENU_WEBTOOLS}"><span class="webtools icon_link">&nbsp;</span></a></li>
 		<li><a href="domain_statistics.php" title="{$TR_MENU_DOMAIN_STATISTICS}"><span class="statistics icon_link">&nbsp;</span></a></li>
 		<li><a href="{$SUPPORT_SYSTEM_PATH}" title="{$TR_MENU_QUESTIONS_AND_COMMENTS}"><span class="support icon_link">&nbsp;</span></a></li>
-		<!-- BDP: custom_buttons -->
-		<li><a href="{$BUTTON_LINK}" {$BUTTON_TARGET} title="{$BUTTON_NAME}"><span class="custom_link icon_link">&nbsp;</span></a></li>
-		<!-- EDP: custom_buttons -->
+		{if isset($CUSTOM_BUTTONS)}
+			{section name=i loop=$BUTTON_NAME}
+			<li><a href="{$BUTTON_LINK[i]}" {$BUTTON_TARGET[i]} title="{$BUTTON_NAME[i]}"><span class="custom_link icon_link">&nbsp;</span></a></li>
+			{/section}
+		{/if}
 	</ul>
 </div>
