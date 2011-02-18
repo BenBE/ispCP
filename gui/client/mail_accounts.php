@@ -34,17 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page',$cfg->CLIENT_TEMPLATE_PATH . '/mail_accounts.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mail_message', 'page');
-$tpl->define_dynamic('mail_item', 'page');
-$tpl->define_dynamic('mail_auto_respond', 'mail_item');
-$tpl->define_dynamic('default_mails_form', 'page');
-$tpl->define_dynamic('mails_total', 'page');
-$tpl->define_dynamic('no_mails', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'mail_accounts.tpl';
 
 // page functions.
 
@@ -74,7 +65,7 @@ function gen_user_mail_action($mail_id, $mail_status) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl pTemplate instance
+ * @param ispCP_TemplateEngine $tpl pTemplate instance
  * @param int $mail_id
  * @param string $mail_type
  * @param string $mail_status
@@ -133,7 +124,7 @@ function gen_user_mail_auto_respond(
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to pTemplate object
  * @param ispCP_Database $sql reference to ispcp_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -242,7 +233,6 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -255,7 +245,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to the template object
+ * @param ispCP_TemplateEngine $tpl reference to the template object
  * @param ispCP_Database $sql reference to the ispcp_Database object
  * @param int $dmn_id domain name id
  * @param strinc $dmn_name domain name
@@ -371,7 +361,6 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -384,7 +373,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to the pTemplate object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -499,7 +488,6 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -511,7 +499,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to pTemplate object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id;
  * @param string $dmn_name domain name
@@ -623,7 +611,6 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -635,7 +622,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl Reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl Reference to the pTemplate object
  * @param ispCP_Database $sql Reference to the ispCP_Database object
  * @param int $user_id Customer id
  * @return void
@@ -695,7 +682,6 @@ function gen_page_lists($tpl, $sql, $user_id) {
 			)
 		);
 
-		$tpl->parse('MAIL_MESSAGE', 'mail_message');
 	}
 
 } // end gen_page_lists()
@@ -806,8 +792,7 @@ if (count_default_mails($sql, $dmn_id) > 0) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

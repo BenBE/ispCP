@@ -32,10 +32,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/dns_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'dns_edit.tpl';
 
 $DNS_allowed_types = array('A', 'AAAA', 'CNAME', 'MX', 'SRV');
 
@@ -113,8 +111,7 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 
 gen_editdns_page($tpl, $editid);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -215,7 +212,7 @@ function decode_zone_data($data) {
 
 /**
  * @todo use template loop instead of this hardcoded HTML
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  */
 function gen_editdns_page(&$tpl, $edit_id) {
@@ -452,7 +449,7 @@ function validate_NAME($domain, &$err) {
 
 /**
  * @throws ispCP_Exception_Database
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  * @return bool
  */
@@ -598,7 +595,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 							'MYG_TYPE' => 'error'
 						)
 					);
-					$tpl->parse('PAGE_MESSAGE', 'page_message');
 
 					return false;
 				} else { # Another error ? Throw exception
@@ -671,7 +667,6 @@ function check_fwd_data(&$tpl, $edit_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return false;
 	}
 } // End of check_user_data()

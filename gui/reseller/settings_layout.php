@@ -34,12 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/settings_layout.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('logo_remove_button', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_layout.tpl';
 
 save_layout();
 
@@ -48,7 +44,6 @@ update_logo();
 gen_def_layout($tpl, $cfg->USER_INITIAL_THEME);
 
 if (get_own_logo($_SESSION['user_id']) !== $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
-	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
 } else {
 	$tpl->assign('LOGO_REMOVE_BUTTON', '');
 }
@@ -191,8 +186,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

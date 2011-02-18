@@ -34,20 +34,15 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('db_list', 'page');
-$tpl->define_dynamic('db_message', 'db_list');
-$tpl->define_dynamic('user_list', 'db_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sql_manage.tpl';
 
 $count = -1;
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $db_id
  */
@@ -75,7 +70,6 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 				'USER_LIST'	=> ''
 			)
 		);
-		$tpl->parse('DB_MESSAGE', 'db_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -95,14 +89,13 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 					'USER_ID'	=> $user_id
 				)
 			);
-			$tpl->parse('USER_LIST', '.user_list');
 			$rs->moveNext();
 		}
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -138,7 +131,6 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 					'DB_NAME_JS'=> tojs($db_name)
 				)
 			);
-			$tpl->parse('DB_LIST', '.db_list');
 			$rs->moveNext();
 		}
 	}
@@ -185,8 +177,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

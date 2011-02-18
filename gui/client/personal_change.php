@@ -34,10 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/personal_change.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'personal_change.tpl';
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 	update_user_personal_data($sql, $_SESSION['user_id']);
@@ -46,7 +44,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 gen_user_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -173,8 +171,7 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -34,13 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/circular.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'circular.tpl';
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_page_data(&$tpl, &$sql) {
@@ -207,8 +205,7 @@ send_circular($tpl, $sql);
 gen_page_data ($tpl, $sql);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

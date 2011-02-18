@@ -34,11 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/password_change.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$template = 'password_change.tpl';
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 	if (empty($_POST['pass']) || empty($_POST['pass_rep']) || empty($_POST['curr_pass'])) {
@@ -138,8 +136,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

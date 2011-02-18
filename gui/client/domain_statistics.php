@@ -34,19 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_item', 'page');
-$tpl->define_dynamic('year_item', 'page');
-$tpl->define_dynamic('traff_list', 'page');
-$tpl->define_dynamic('traff_item', 'traff_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_statistics.tpl';
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $month
  * @param int $year
  */
@@ -61,7 +55,6 @@ function gen_page_date(&$tpl, $month, $year) {
 				'MONTH' => $i
 			)
 		);
-		$tpl->parse('MONTH_ITEM', '.month_item');
 	}
 
 	for ($i = $year - 1; $i <= $year + 1; $i++) {
@@ -71,7 +64,6 @@ function gen_page_date(&$tpl, $month, $year) {
 				'YEAR' => $i
 			)
 		);
-		$tpl->parse('YEAR_ITEM', '.year_item');
 	}
 }
 
@@ -122,7 +114,7 @@ function get_domain_trafic($from, $to, $domain_id) {
 
 /**
  * @todo Check the out commented code at the end of this function, can we remove it?
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $month
  * @param int $year
@@ -225,7 +217,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				'SUM_ALL' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop)
 			)
 		);
-		$tpl->parse('TRAFF_ITEM', '.traff_item');
 		$counter++;
 	}
 
@@ -282,7 +273,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				)
 			);
 
-			$tpl->parse('TRAFF_ITEM', '.traff_item');
 
 			$web_all += $rs->fields['web_traff'];
 
@@ -350,8 +340,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

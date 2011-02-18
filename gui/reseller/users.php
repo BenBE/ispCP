@@ -34,18 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/users.tpl');
-$tpl->define_dynamic('users_list', 'page');
-$tpl->define_dynamic('user_entry', 'users_list');
-$tpl->define_dynamic('user_details', 'users_list');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('edit_option', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'users.tpl';
 
 // TODO: comment!
 unset($_SESSION['dmn_name']);
@@ -112,8 +102,7 @@ generate_users_list($tpl, $_SESSION['user_id']);
 check_externel_events($tpl);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -123,7 +112,7 @@ unset_messages();
 // Begin function block
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
 function generate_users_list(&$tpl, $admin_id) {
@@ -331,12 +320,10 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$tpl->parse('USER_ENTRY', '.user_entry');
 			$i++;
 			$rs->moveNext();
 		}
 
-		$tpl->parse('USER_LIST', 'users_list');
 	}
 }
 

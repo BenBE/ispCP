@@ -34,14 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('traffic_table', 'page');
-$tpl->define_dynamic('traffic_table_item', 'traffic_table');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_statistics.tpl';
 
 if (isset($_POST['domain_id'])) {
 	$domain_id = $_POST['domain_id'];
@@ -111,7 +105,7 @@ function get_domain_trafic($from, $to, $domain_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $domain_id
  */
 function generate_page(&$tpl, $domain_id) {
@@ -187,7 +181,6 @@ function generate_page(&$tpl, $domain_id) {
 					'ALL_TRAFFIC' => sizeit($web_trf + $ftp_trf + $smtp_trf + $pop_trf)
 				)
 			);
-			$tpl->parse('TRAFFIC_TABLE_ITEM', '.traffic_table_item');
 			$counter++;
 		}
 
@@ -204,7 +197,6 @@ function generate_page(&$tpl, $domain_id) {
 			)
 		);
 
-		$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 	}
 }
 
@@ -236,8 +228,7 @@ gen_select_lists($tpl, $month, $year);
 generate_page($tpl, $domain_id);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

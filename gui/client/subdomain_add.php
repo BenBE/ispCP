@@ -38,14 +38,13 @@ $cfg = ispCP_Registry::get('Config');
 
 /**
  *
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
 function gen_page_msg(&$tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
@@ -89,7 +88,7 @@ function check_subdomain_permissions($user_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  */
 function gen_user_add_subdomain_data(&$tpl, $user_id) {
@@ -179,7 +178,7 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
 
 /**
  *
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $dmn_id
  * @param string $post_check
  */
@@ -212,7 +211,6 @@ function gen_dmn_als_list(&$tpl, $dmn_id, $post_check) {
 				'ALS_NAME' => tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('TO_ALIAS_DOMAIN', '');
 		$_SESSION['alias_count'] = "no";
 	} else {
@@ -233,7 +231,6 @@ function gen_dmn_als_list(&$tpl, $dmn_id, $post_check) {
 					'ALS_NAME' => tohtml($alias_name)
 				)
 			);
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed) {
@@ -511,11 +508,8 @@ function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
 
 // Avoid unneeded generation during Ajax request
 if (!is_xhr()) {
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_add.tpl');
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('logged_from', 'page');
-	$tpl->define_dynamic('als_list', 'page');
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'subdomain_add.tpl';
 
 	// check user sql permission
 	if (isset($_SESSION['subdomain_support']) &&
@@ -579,8 +573,7 @@ if(isset($_POST['uaction'])) {
 
 gen_page_msg($tpl, $err_txt);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

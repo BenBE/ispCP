@@ -34,22 +34,14 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('als_sub_list', 'page');
-$tpl->define_dynamic('to_alias_domain', 'page');
-$tpl->define_dynamic('to_subdomain', 'page');
-$tpl->define_dynamic('to_alias_subdomain', 'page');
+$template = 'mail_add.tpl';
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $dmn_name
  * @param string $post_check
  */
@@ -99,7 +91,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param bool $post_check
@@ -132,7 +124,6 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('TO_ALIAS_DOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -165,7 +156,6 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 					'ALS_NAME'		=> tohtml($alias_name)
 				)
 			);
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -175,7 +165,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $dmn_name
@@ -211,7 +201,6 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				'SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('SUB_LIST', 'sub_list');
 		$tpl->assign('TO_SUBDOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -246,7 +235,6 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 					'SUB_NAME'		=> tohtml($sub_name . '.' . $dmn_name)
 				)
 			);
-			$tpl->parse('SUB_LIST', '.sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -256,7 +244,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $post_check
@@ -293,7 +281,6 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_SUB_LIST', 'sub_list');
 		$tpl->assign('TO_ALIAS_SUBDOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -328,7 +315,6 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 					'ALS_SUB_NAME'		=> tohtml($als_sub_name . '.' . $als_name)
 				)
 			);
-			$tpl->parse('ALS_SUB_LIST', '.als_sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -691,8 +677,7 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

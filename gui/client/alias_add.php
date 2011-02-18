@@ -37,12 +37,8 @@ $cfg = ispCP_Registry::get('Config');
 // Avoid unneeded generation during Ajax request
 if(!is_xhr()) {
 	// static page messages
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('logged_from', 'page');
-	$tpl->define_dynamic('user_entry', 'page');
-	$tpl->define_dynamic('ip_entry', 'page');
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'alias_add.tpl';
 
 	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
 	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
@@ -106,8 +102,7 @@ gen_page_msg($tpl, $err_txt);
 
 //gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -159,7 +154,7 @@ function init_empty_data() {
  * @global string $forward
  * @global string $forward_prefix
  * @global string $mount_point
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
@@ -421,14 +416,13 @@ function add_domain_alias(&$err_al) {
 } // End of add_domain_alias();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
 function gen_page_msg(&$tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}

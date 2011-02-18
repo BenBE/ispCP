@@ -34,16 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('usr_msg', 'page');
-$tpl->define_dynamic('grp_msg', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('pusres', 'page');
-$tpl->define_dynamic('pgroups', 'page');
-$tpl->define_dynamic('group_members', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'puser_manage.tpl';
 
 function gen_user_action($id, $status) {
 
@@ -69,7 +61,7 @@ function gen_group_action($id, $status, $group) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -95,7 +87,6 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 					'TABLE_LIST'	=>	''
 				)
 			);
-		$tpl->parse('USR_MSG', 'usr_msg');
 	} else {
 		$tpl->assign('USR_MSG', '');
 		while (!$rs->EOF) {
@@ -112,7 +103,6 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 				)
 			);
 
-			$tpl->parse('PUSRES', '.pusres');
 			$rs->moveNext();
 
 		}
@@ -120,7 +110,7 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -140,7 +130,6 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign('GROUP_MESSAGE', tr('You have no groups!'));
-		$tpl->parse('GRP_MSG', 'grp_msg');
 		$tpl->assign('PGROUPS', '');
 	} else {
 		$tpl->assign('GRP_MSG', '');
@@ -180,11 +169,9 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 						$tpl->assign('MEMBER', tohtml($rs_members->fields['uname']) . ", ");
 					}
 
-					$tpl->parse('GROUP_MEMBERS', '.group_members');
 				}
 			}
 
-			$tpl->parse('PGROUPS', '.pgroups');
 			$tpl->assign('GROUP_MEMBERS', '');
 			$rs->moveNext();
 		}
@@ -229,8 +216,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -34,17 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_edit', 'page');
-$tpl->define_dynamic('alias_edit', 'page');
-$tpl->define_dynamic('mail_edit', 'page');
-$tpl->define_dynamic('ftp_edit', 'page');
-$tpl->define_dynamic('sql_db_edit', 'page');
-$tpl->define_dynamic('sql_user_edit', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_edit.tpl';
 
 if (isset($cfg->HOSTING_PLANS_LEVEL)
 	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
@@ -268,7 +259,7 @@ function load_additional_data($user_id, $domain_id) {
 
 /**
  * Show user data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_editdomain_page(&$tpl) {
 	global $domain_name, $domain_expires, $domain_new_expire, $domain_ip, $php_sup;
@@ -369,7 +360,7 @@ function gen_editdomain_page(&$tpl) {
 
 /**
  * Check input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $reseller_id
  * @param int $user_id
@@ -593,7 +584,6 @@ function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 
 		return false;
 	}
@@ -732,8 +722,7 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 	}
 } // End of calculate_user_dvals()
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

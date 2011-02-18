@@ -34,16 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_edit', 'page');
-$tpl->define_dynamic('alias_edit', 'page');
-$tpl->define_dynamic('mail_edit', 'page');
-$tpl->define_dynamic('ftp_edit', 'page');
-$tpl->define_dynamic('sql_db_edit', 'page');
-$tpl->define_dynamic('sql_user_edit', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan_edit.tpl';
 
 /**
  * static page messages.
@@ -121,8 +113,7 @@ if (isset($_POST['uaction']) && ('edit_plan' === $_POST['uaction'])) {
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -134,7 +125,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Restore form on any error
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function restore_form(&$tpl, &$sql) {
@@ -176,7 +167,7 @@ function restore_form(&$tpl, &$sql) {
 
 /**
  * Generate load data from sql for requested hosting plan
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $hpid
  * @param int $admin_id
@@ -317,7 +308,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
 
 /**
  * Check correction of input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function check_data_iscorrect(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;

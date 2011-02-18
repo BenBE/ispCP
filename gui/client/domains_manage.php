@@ -34,27 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domains_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_message', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('als_item', 'als_list');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('sub_message', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('sub_item', 'sub_list');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('isactive_dns', 'page');
-$tpl->define_dynamic('dns_message', 'page');
-$tpl->define_dynamic('dns_list', 'page');
-$tpl->define_dynamic('dns_item', 'dns_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domains_manage.tpl';
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @return void
@@ -97,7 +83,6 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 				'DNS_LIST' => ''
 			)
 		);
-		$tpl->parse('DNS_MESSAGE', 'dns_message');
 	} else {
 		$counter = 0;
 
@@ -138,12 +123,10 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 					'DNS_TYPE_RECORD'			=> tr("%s record", $rs->fields['domain_type'])
 				)
 			);
-			$tpl->parse('DNS_ITEM', '.dns_item');
 			$rs->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('DNS_LIST', 'dns_list');
 		$tpl->assign('DNS_MESSAGE', '');
 	}
 }
@@ -210,7 +193,7 @@ function gen_user_sub_forward($sub_id, $sub_status, $url_forward, $dmn_type) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -259,7 +242,6 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 
 	if (($rs->recordCount() + $rs2->recordCount()) == 0) {
 		$tpl->assign(array('SUB_MSG' => tr('Subdomain list is empty!'), 'SUB_LIST' => ''));
-		$tpl->parse('SUB_MESSAGE', 'sub_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
@@ -282,7 +264,6 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -306,12 +287,10 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs2->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('SUB_LIST', 'sub_list');
 		$tpl->assign('SUB_MESSAGE', '');
 	}
 }
@@ -351,7 +330,7 @@ function gen_user_als_forward($als_id, $als_status, $url_forward) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -380,7 +359,6 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign(array('ALS_MSG' => tr('Alias list is empty!'), 'ALS_LIST' => ''));
-		$tpl->parse('ALS_MESSAGE', 'als_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
@@ -403,12 +381,10 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 					'ALS_ACTION_SCRIPT'	=> $als_action_script
 				)
 			);
-			$tpl->parse('ALS_ITEM', '.als_item');
 			$rs->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('ALS_MESSAGE', '');
 	}
 }
@@ -457,8 +433,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

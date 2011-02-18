@@ -34,18 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_accounts.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('ftp_message', 'page');
-$tpl->define_dynamic('ftp_item', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ftp_accounts.tpl';
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $dmn_name
@@ -74,7 +69,6 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 			)
 		);
 
-		$tpl->parse('FTP_MESSAGE', 'ftp_message');
 	} else {
 		$tpl->assign('FTP_MESSAGE', '');
 
@@ -94,7 +88,6 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				)
 			);
 
-			$tpl->parse('FTP_ITEM', '.ftp_item');
 		}
 
 		$tpl->assign('TOTAL_FTP_ACCOUNTS', count($ftp_accs));
@@ -141,8 +134,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

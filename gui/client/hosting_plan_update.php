@@ -34,13 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/hosting_plan_update.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('hp_order', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan_update.tpl';
 
 /*
  *
@@ -65,7 +60,7 @@ function check_update_current_value($curr, $new) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -417,8 +412,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				)
 			);
 
-			$tpl->parse('HOSTING_PLANS', '.hosting_plans');
-			$tpl->parse('HP_ORDER', '.hp_order');
 			$i++;
 		}
 		$purchase_text = tr('Purchase');
@@ -631,9 +624,8 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

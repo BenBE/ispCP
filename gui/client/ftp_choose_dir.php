@@ -34,16 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('dir_item', 'page');
-$tpl->define_dynamic('action_link', 'page');
-$tpl->define_dynamic('list_item', 'page');
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/ftp_choose_dir.tpl');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ftp_choose_dir.tpl';
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_directories(&$tpl) {
 
@@ -75,7 +70,6 @@ function gen_directories(&$tpl) {
 			'LINK' => 'ftp_choose_dir.php?cur_dir=' . $parent,
 		)
 	);
-	$tpl->parse('DIR_ITEM', '.dir_item');
 	// Show directories only
 	foreach ($list as $entry) {
 		// Skip non-directory entries
@@ -102,7 +96,6 @@ function gen_directories(&$tpl) {
 		if ($forbidden === 1) {
 			$tpl->assign('ACTION_LINK', '');
 		} else {
-			$tpl->parse('ACTION_LINK', 'action_link');
 		}
 		// Create the directory link
 		$tpl->assign(
@@ -114,7 +107,6 @@ function gen_directories(&$tpl) {
 				'LINK' => "ftp_choose_dir.php?cur_dir=".$dr,
 			)
 		);
-		$tpl->parse('DIR_ITEM' , '.dir_item');
 	}
 }
 
@@ -134,8 +126,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -34,16 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_assign.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('already_in', 'page');
-$tpl->define_dynamic('grp_avlb', 'page');
-$tpl->define_dynamic('add_button', 'page');
-$tpl->define_dynamic('remove_button', 'page');
-$tpl->define_dynamic('in_group', 'page');
-$tpl->define_dynamic('not_in_group', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'puser_assign.tpl';
 
 /*
  * functions
@@ -71,7 +63,7 @@ function get_htuser_name(&$sql, &$uuser_id, &$dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -129,7 +121,6 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 						)
 					);
 
-					$tpl->parse('ALREADY_IN', '.already_in');
 					$grp_in = $group_id;
 					$added_in++;
 				}
@@ -141,7 +132,6 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 						'GRP_ID' => $group_id,
 					)
 				);
-				$tpl->parse('GRP_AVLB', '.grp_avlb');
 				$not_added_in++;
 			}
 
@@ -308,8 +298,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -34,16 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ticket_system.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ticket_system.tpl';
 
 // dynamic page data
 
@@ -91,8 +83,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

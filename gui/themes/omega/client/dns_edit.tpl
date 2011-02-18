@@ -1,4 +1,4 @@
-<!-- INCLUDE "header.tpl" -->
+{include file='header.tpl'}
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
@@ -83,108 +83,108 @@
 	/* ]]> */
 	</script>
 	<div class="header">
-		{MAIN_MENU}
+		{include file="$MAIN_MENU"}
 		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+			<img src="{$THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{$THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
 		</div>
 	</div>
 	<div class="location">
 		<div class="location-area">
-			<h1 class="domains">{TR_MENU_MANAGE_DOMAINS}</h1>
+			<h1 class="domains">{$TR_MENU_MANAGE_DOMAINS}</h1>
 		</div>
 		<ul class="location-menu">
-			<!-- BDP: logged_from -->
-			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
-			<!-- EDP: logged_from -->
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+			{if isset($YOU_ARE_LOGGED_AS)}
+			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{$YOU_ARE_LOGGED_AS}</a></li>
+			{/if}
+			<li><a href="../index.php?logout" class="logout">{$TR_MENU_LOGOUT}</a></li>
 		</ul>
 		<ul class="path">
-			<li><a href="domains_manage.php">{TR_MENU_OVERVIEW}</a></li>
-			<li><a>{TR_EDIT_DNS}</a></li>
+			<li><a href="domains_manage.php">{$TR_MENU_OVERVIEW}</a></li>
+			<li><a>{$TR_EDIT_DNS}</a></li>
 		</ul>
 	</div>
-	<div class="left_menu">{MENU}</div>
+	<div class="left_menu">{include file="$MENU"}</div>
 	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="domains"><span>{TR_EDIT_DNS}</span></h2>
-		<form action="{ACTION_MODE}" method="post" id="client_dns_edit">
+		{if isset($MESSAGE)}
+		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
+		{/if}
+		<h2 class="domains"><span>{$TR_EDIT_DNS}</span></h2>
+		<form action="{$ACTION_MODE}" method="post" id="client_dns_edit">
 			<table>
 				<!-- BDP: add_record -->
 				<tr>
-					<td>{TR_DOMAIN}</td>
-					<td><select name="alias_id">{SELECT_ALIAS}</select></td>
+					<td>{$TR_DOMAIN}</td>
+					<td><select name="alias_id">{$SELECT_ALIAS}</select></td>
 				</tr>
 				<!-- EDP: add_record -->
 				<tr>
-					<td>{TR_DNS_TYPE}</td>
-					<td><select name="type" id="dns_type" onchange="dns_type_changed(this.value)">{SELECT_DNS_TYPE}</select></td>
+					<td>{$TR_DNS_TYPE}</td>
+					<td><select name="type" id="dns_type" onchange="dns_type_changed(this.value)">{$SELECT_DNS_TYPE}</select></td>
 				</tr>
 				<tr>
-					<td>{TR_DNS_CLASS}</td>
-					<td><select name="class">{SELECT_DNS_CLASS}</select></td>
+					<td>{$TR_DNS_CLASS}</td>
+					<td><select name="class">{$SELECT_DNS_CLASS}</select></td>
 				</tr>
 				<tr id="tr_dns_name">
-					<td>{TR_DNS_NAME}</td>
-					<td><input type="text" name="dns_name" value="{DNS_NAME}" /></td>
+					<td>{$TR_DNS_NAME}</td>
+					<td><input type="text" name="dns_name" value="{$DNS_NAME}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_name">
-					<td>{TR_DNS_SRV_NAME}</td>
-					<td><input type="text" name="dns_srv_name" value="{DNS_SRV_NAME}" /></td>
+					<td>{$TR_DNS_SRV_NAME}</td>
+					<td><input type="text" name="dns_srv_name" value="{$DNS_SRV_NAME}" /></td>
 				</tr>
 				<tr id="tr_dns_ip_address">
-					<td>{TR_DNS_IP_ADDRESS}</td>
-					<td><input type="text" onkeypress="return filterChars(event, IPADDRESS);" name="dns_A_address" value="{DNS_ADDRESS}" /></td>
+					<td>{$TR_DNS_IP_ADDRESS}</td>
+					<td><input type="text" onkeypress="return filterChars(event, IPADDRESS);" name="dns_A_address" value="{$DNS_ADDRESS}" /></td>
 				</tr>
 				<tr id="tr_dns_ip_address_v6">
-					<td>{TR_DNS_IP_ADDRESS_V6}</td>
-					<td><input type="text" onkeypress="return filterChars(event, IPv6ADDRESS);" name="dns_AAAA_address" value="{DNS_ADDRESS_V6}" /></td>
+					<td>{$TR_DNS_IP_ADDRESS_V6}</td>
+					<td><input type="text" onkeypress="return filterChars(event, IPv6ADDRESS);" name="dns_AAAA_address" value="{$DNS_ADDRESS_V6}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_protocol">
-					<td>{TR_DNS_SRV_PROTOCOL}</td>
-					<td><select name="srv_proto" id="srv_protocol">{SELECT_DNS_SRV_PROTOCOL}</select></td>
+					<td>{$TR_DNS_SRV_PROTOCOL}</td>
+					<td><select name="srv_proto" id="srv_protocol">{$SELECT_DNS_SRV_PROTOCOL}</select></td>
 				</tr>
 				<tr id="tr_dns_srv_ttl">
-					<td>{TR_DNS_SRV_TTL}</td>
-					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_ttl" value="{DNS_SRV_TTL}" /></td>
+					<td>{$TR_DNS_SRV_TTL}</td>
+					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_ttl" value="{$DNS_SRV_TTL}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_prio">
-					<td>{TR_DNS_SRV_PRIO}</td>
-					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_prio" value="{DNS_SRV_PRIO}" /></td>
+					<td>{$TR_DNS_SRV_PRIO}</td>
+					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_prio" value="{$DNS_SRV_PRIO}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_weight">
-					<td>{TR_DNS_SRV_WEIGHT}</td>
-					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);"name="dns_srv_weight" value="{DNS_SRV_WEIGHT}" /></td>
+					<td>{$TR_DNS_SRV_WEIGHT}</td>
+					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);"name="dns_srv_weight" value="{$DNS_SRV_WEIGHT}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_host">
-					<td>{TR_DNS_SRV_HOST}</td>
-					<td><input type="text" name="dns_srv_host" value="{DNS_SRV_HOST}" /></td>
+					<td>{$TR_DNS_SRV_HOST}</td>
+					<td><input type="text" name="dns_srv_host" value="{$DNS_SRV_HOST}" /></td>
 				</tr>
 				<tr id="tr_dns_srv_port">
-					<td>{TR_DNS_SRV_PORT}</td>
-					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_port" value="{DNS_SRV_PORT}" /></td>
+					<td>{$TR_DNS_SRV_PORT}</td>
+					<td><input type="text" onkeypress="return filterChars(event, NUMBERS);" name="dns_srv_port" value="{$DNS_SRV_PORT}" /></td>
 				</tr>
 				<tr id="tr_dns_cname">
-					<td>{TR_DNS_CNAME}</td>
-					<td><input type="text" name="dns_cname" value="{DNS_CNAME}" />.</td>
+					<td>{$TR_DNS_CNAME}</td>
+					<td><input type="text" name="dns_cname" value="{$DNS_CNAME}" />.</td>
 				</tr>
 			</table>
 			<div class="buttons">
 				<!-- BDP: form_edit_mode -->
 				<input type="hidden" name="uaction" value="modify" />
-				<input type="submit" name="Submit" value="{TR_MODIFY}" />
+				<input type="submit" name="Submit" value="{$TR_MODIFY}" />
 				<!-- EDP: form_edit_mode -->
 				<!-- BDP: form_add_mode -->
 				<input type="hidden" name="uaction" value="add" />
-				<input type="submit" name="Submit" value="{TR_ADD}" />
+				<input type="submit" name="Submit" value="{$TR_ADD}" />
 				<!-- EDP: form_add_mode -->
 			</div>
 		</form>
 	</div>
 	<div class="footer">
-		ispCP Omega {VERSION}<br />build: {BUILDDATE}<br />Codename: {CODENAME}
+		ispCP Omega {$VERSION}<br />build: {$BUILDDATE}<br />Codename: {$CODENAME}
 	</div>
 	<script type="text/javascript">
 	/* <![CDATA[ */

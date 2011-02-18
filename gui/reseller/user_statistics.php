@@ -34,21 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('no_domains', 'page');
-$tpl->define_dynamic('domain_list', 'page');
-$tpl->define_dynamic('domain_entry', 'domain_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'reseller_user_statistics.tpl';
 
 $rid = $_SESSION['user_id'];
 $name = $_SESSION['user_logged'];
@@ -69,7 +56,7 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  * @param string $reseller_name
  */
@@ -179,14 +166,13 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 			$dres = exec_query ($sql, $query, $admin_id);
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
-			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
 			$rs->moveNext();
 		}
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  * @param int $row
  */
@@ -342,8 +328,7 @@ generate_page($tpl, $rid, $name);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

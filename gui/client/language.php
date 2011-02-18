@@ -34,11 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/language.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'language.tpl';
 
 /*
  *
@@ -93,9 +90,8 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
 
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

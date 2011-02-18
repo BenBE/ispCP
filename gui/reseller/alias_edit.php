@@ -34,10 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/alias_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'alias_edit.tpl';
 
 // static page messages
 $tpl->assign(
@@ -94,8 +92,7 @@ if (isset($_POST['uaction']) && ('modify' === $_POST['uaction'])) {
 
 gen_editalias_page($tpl, $editid);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -106,7 +103,7 @@ unset_messages();
 
 /**
  * Show user data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  */
 function gen_editalias_page(&$tpl, $edit_id) {
@@ -206,7 +203,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
 
 /**
  * Check input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $alias_id
  */
 function check_fwd_data(&$tpl, $alias_id) {
@@ -295,7 +292,6 @@ function check_fwd_data(&$tpl, $alias_id) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return false;
 	}
 } // End of check_user_data()

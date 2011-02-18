@@ -34,9 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_details.tpl');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_details.tpl';
 
 // static page messages
 $tpl->assign(
@@ -87,9 +86,8 @@ if (!isset($_GET['domain_id'])) {
 $editid = $_GET['domain_id'];
 gen_detaildom_page($tpl, $_SESSION['user_id'], $editid);
 
-$tpl->parse('PAGE', 'page');
 
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -99,7 +97,7 @@ unset_messages();
 // Begin function block
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  * @param int $domain_id
  */

@@ -34,16 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protected_areas.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('dir_item', 'page');
-$tpl->define_dynamic('action_link', 'page');
-$tpl->define_dynamic('protected_areas', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'protected_areas.tpl';
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -81,7 +76,6 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 					'STATUS' => translate_dmn_status($status)
 				)
 			);
-			$tpl->parse('DIR_ITEM', '.dir_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -130,8 +124,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

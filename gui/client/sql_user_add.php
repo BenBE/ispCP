@@ -34,18 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_user_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mysql_prefix_no', 'page');
-$tpl->define_dynamic('mysql_prefix_yes', 'page');
-$tpl->define_dynamic('mysql_prefix_infront', 'page');
-$tpl->define_dynamic('mysql_prefix_behind', 'page');
-$tpl->define_dynamic('mysql_prefix_all', 'page');
-$tpl->define_dynamic('sqluser_list', 'page');
-$tpl->define_dynamic('show_sqluser_list', 'page');
-$tpl->define_dynamic('create_sqluser', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sql_user_add.tpl';
 
 if (isset($_GET['id'])) {
 	$db_id = $_GET['id'];
@@ -58,7 +48,7 @@ if (isset($_GET['id'])) {
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @param int $db_id
@@ -133,7 +123,7 @@ function get_sqluser_list_of_current_db(&$sql, $db_id) {
 
 /**
  * @param ispCP_Database $sql
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  * @param int $db_id
  * @return bool
@@ -187,7 +177,6 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 					'SQLUSER_NAME' => tohtml($rs->fields['sqlu_name'])
 				)
 			);
-			$tpl->parse('SQLUSER_LIST', '.sqluser_list');
 		}
 		$rs->moveNext();
 	}
@@ -382,7 +371,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $db_id
  */
 function gen_page_post_data(&$tpl, $db_id) {
@@ -393,10 +382,8 @@ function gen_page_post_data(&$tpl, $db_id) {
 		$tpl->assign('MYSQL_PREFIX_YES', '');
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		} else {
-			$tpl->parse('MYSQL_PREFIX_INFRONT', 'mysql_prefix_infront');
 			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		}
@@ -404,7 +391,6 @@ function gen_page_post_data(&$tpl, $db_id) {
 		$tpl->assign('MYSQL_PREFIX_NO', '');
 		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {
@@ -471,8 +457,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

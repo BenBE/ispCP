@@ -35,25 +35,17 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'orders.tpl';
 // Table with orders
-$tpl->define_dynamic('orders_table', 'page');
-$tpl->define_dynamic('order', 'orders_table');
 // scrolling
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
 
 /*
  * Functions
  */
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -195,7 +187,6 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 				)
 			);
 
-			$tpl->parse('ORDER', '.order');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -237,8 +228,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

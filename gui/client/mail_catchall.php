@@ -38,12 +38,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_catchall.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('catchall_message', 'page');
-$tpl->define_dynamic('catchall_item', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'mail_catchall.tpl';
 
 
 // page functions.
@@ -77,7 +73,7 @@ function gen_user_catchall_action($mail_id, $mail_status) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $action
  * @param int $dmn_id
  * @param string $dmn_name
@@ -119,7 +115,7 @@ function gen_catchall_item(&$tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_a
 
 /**
  * @todo use db prepared statements
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $dmn_name
@@ -161,7 +157,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 			)
 		);
 
-		$tpl->parse('CATCHALL_ITEM', 'catchall_item');
 
 		$query = "
 			SELECT
@@ -212,7 +207,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				);
 			}
 
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -269,7 +263,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				);
 			}
 
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -324,7 +317,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 					$rs_als->fields['status'], 'subdom');
 			}
 
-			$tpl->parse('CATCHALL_ITEM', '.catchall_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -368,8 +360,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

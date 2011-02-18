@@ -34,10 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/subdomain_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'subdomain_edit.tpl';
 
 // static page messages
 $tpl->assign(
@@ -108,8 +106,7 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 
 gen_editsubdomain_page($tpl, $sql, $editid, $dmntype);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -120,7 +117,7 @@ unset_messages();
 
 /**
  * Show user data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $edit_id
  * @param string $dmn_type
@@ -223,7 +220,7 @@ function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
 
 /**
  * Check input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $subdomain_id
  * @param string $dmn_type
@@ -305,7 +302,6 @@ function check_fwd_data(&$tpl, &$sql, $subdomain_id, $dmn_type) {
 		return true;
 	} else {
 		$tpl->assign('MESSAGE', $ed_error);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return false;
 	}
 }

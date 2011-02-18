@@ -31,19 +31,16 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ip_usage.tpl');
-$tpl->define_dynamic('ip_row', 'page');
-$tpl->define_dynamic('domain_row', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$template = 'ip_usage.tpl';
 
 $reseller_id = $_SESSION['user_id'];
 
 /**
  * Generate List of Domains assigned to IPs
  *
- * @param ispCP_pTemplate $tpl	The TPL object
+ * @param ispCP_TemplateEngine $tpl	The TPL object
  * @param ispCP_Database $sql	The SQL object
  */
 function listIPDomains(&$tpl, &$sql) {
@@ -114,7 +111,6 @@ function listIPDomains(&$tpl, &$sql) {
 				)
 			);
 			
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
 			$rs2->moveNext();
 		}
 		
@@ -153,7 +149,6 @@ function listIPDomains(&$tpl, &$sql) {
 				)
 			);
 	
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
 			$rs3->moveNext();
 		}
 		
@@ -171,10 +166,8 @@ function listIPDomains(&$tpl, &$sql) {
 					'RESELLER_NAME'	=> ''
 				)
 			);
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
 		}
 
-		$tpl->parse('IP_ROW', '.ip_row');
 		$tpl->assign('DOMAIN_ROW', '');
 		$rs->moveNext();
 	} // end while
@@ -196,8 +189,7 @@ $tpl->assign(
 	)
 );
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

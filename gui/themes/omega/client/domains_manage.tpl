@@ -1,4 +1,4 @@
-<!-- INCLUDE "header.tpl" -->
+{include file='header.tpl'}
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
@@ -16,130 +16,130 @@
 	/* ]]> */
 	</script>
 	<div class="header">
-		{MAIN_MENU}
+		{include file="$MAIN_MENU"}
 		<div class="logo">
-			<img src="{THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
-			<img src="{THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
+			<img src="{$THEME_COLOR_PATH}/images/ispcp_logo.png" alt="ispCP Omega logo" />
+			<img src="{$THEME_COLOR_PATH}/images/ispcp_webhosting.png" alt="ispCP Omega" />
 		</div>
 	</div>
 	<div class="location">
 		<div class="location-area">
-			<h1 class="domains">{TR_MENU_MANAGE_DOMAINS}</h1>
+			<h1 class="domains">{$TR_MENU_MANAGE_DOMAINS}</h1>
 		</div>
 		<ul class="location-menu">
-			<!-- BDP: logged_from -->
-			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{YOU_ARE_LOGGED_AS}</a></li>
-			<!-- EDP: logged_from -->
-			<li><a href="../index.php?logout" class="logout">{TR_MENU_LOGOUT}</a></li>
+			{if isset($YOU_ARE_LOGGED_AS)}
+			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{$YOU_ARE_LOGGED_AS}</a></li>
+			{/if}
+			<li><a href="../index.php?logout" class="logout">{$TR_MENU_LOGOUT}</a></li>
 		</ul>
 		<ul class="path">
-			<li><a href="domains_manage.php">{TR_MENU_MANAGE_DOMAINS}</a></li>
-			<li><a href="domains_manage.php">{TR_MENU_OVERVIEW}</a></li>
+			<li><a href="domains_manage.php">{$TR_MENU_MANAGE_DOMAINS}</a></li>
+			<li><a href="domains_manage.php">{$TR_MENU_OVERVIEW}</a></li>
 		</ul>
 	</div>
-	<div class="left_menu">{MENU}</div>
+	<div class="left_menu">{include file="$MENU"}</div>
 	<div class="main">
-		<!-- BDP: page_message -->
-		<div class="{MSG_TYPE}">{MESSAGE}</div>
-		<!-- EDP: page_message -->
-		<h2 class="domains"><span>{TR_DOMAIN_ALIASES}</span></h2>
-		<!-- BDP: als_message -->
-			<div class="{MSG_TYPE}">{ALS_MSG}</div>
-		<!-- EDP: als_message -->
-		<!-- BDP: als_list -->
+		{if isset($MESSAGE)}
+		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
+		{/if}
+		<h2 class="domains"><span>{$TR_DOMAIN_ALIASES}</span></h2>
+		{if isset($ALS_MSG)}
+			<div class="{$MSG_TYPE}">{$ALS_MSG}</div>
+		{/if}
+		{if isset($ALS_NAME)}
 		<table class="tablesorter">
 			<thead>
 				<tr>
-					<th>{TR_ALS_NAME}</th>
-					<th style="width:200px">{TR_ALS_MOUNT}</th>
-					<th style="width:200px">{TR_ALS_FORWARD}</th>
-					<th style="width:100px">{TR_ALS_STATUS}</th>
-					<th style="width:200px">{TR_ALS_ACTION}</th>
+					<th>{$TR_ALS_NAME}</th>
+					<th style="width:200px">{$TR_ALS_MOUNT}</th>
+					<th style="width:200px">{$TR_ALS_FORWARD}</th>
+					<th style="width:100px">{$TR_ALS_STATUS}</th>
+					<th style="width:200px">{$TR_ALS_ACTION}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<!-- BDP: als_item -->
 				<tr>
-					<td><a href="http://{ALS_NAME}/" class="icon i_domain" title="{ALS_NAME}">{ALS_NAME}</a></td>
-					<td>{ALS_MOUNT}</td>
-					<td>{ALS_FORWARD}</td>
-					<td>{ALS_STATUS}</td>
+					<td><a href="http://{$ALS_NAME}/" class="icon i_domain" title="{$ALS_NAME}">{$ALS_NAME}</a></td>
+					<td>{$ALS_MOUNT}</td>
+					<td>{$ALS_FORWARD}</td>
+					<td>{$ALS_STATUS}</td>
 					<td>
-						<a href="{ALS_EDIT_LINK}" title="{ALS_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{ALS_ACTION_SCRIPT}', '{ALS_NAME}')" title="{ALS_ACTION}" class="icon i_delete"></a>
+						<a href="{$ALS_EDIT_LINK}" title="{$ALS_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$ALS_ACTION_SCRIPT}', '{$ALS_NAME}')" title="{$ALS_ACTION}" class="icon i_delete"></a>
 					</td>
 				</tr>
 				<!-- EDP: als_item -->
 			</tbody>
 		</table>
-		<!-- EDP: als_list -->
-		<h2 class="domains"><span>{TR_SUBDOMAINS}</span></h2>
-		<!-- BDP: sub_message -->
-		<div class="{MSG_TYPE}">{SUB_MSG}</div>
-		<!-- EDP: sub_message -->
-		<!-- BDP: sub_list -->
+		{/if}
+		<h2 class="domains"><span>{$TR_SUBDOMAINS}</span></h2>
+		{if isset($SUB_MSG)}
+		<div class="{$MSG_TYPE}">{$SUB_MSG}</div>
+		{/if}
+		{if isset($SUB_NAME)}
 		<table class="tablesorter">
 			<thead>
 				<tr>
-					<th>{TR_SUB_NAME}</th>
-					<th style="width:200px">{TR_SUB_MOUNT}</th>
-					<th style="width:200px">{TR_SUB_FORWARD}</th>
-					<th style="width:100px">{TR_SUB_STATUS}</th>
-					<th style="width:200px">{TR_SUB_ACTION}</th>
+					<th>{$TR_SUB_NAME}</th>
+					<th style="width:200px">{$TR_SUB_MOUNT}</th>
+					<th style="width:200px">{$TR_SUB_FORWARD}</th>
+					<th style="width:100px">{$TR_SUB_STATUS}</th>
+					<th style="width:200px">{$TR_SUB_ACTION}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<!-- BDP: sub_item -->
 				<tr>
-					<td><a href="http://{SUB_NAME}.{SUB_ALIAS_NAME}/" title="{SUB_NAME}.{SUB_ALIAS_NAME}" class="icon i_domain">{SUB_NAME}.{SUB_ALIAS_NAME}</a></td>
-					<td>{SUB_MOUNT}</td>
-					<td>{SUB_FORWARD}</td>
-					<td>{SUB_STATUS}</td>
+					<td><a href="http://{$SUB_NAME}.{$SUB_ALIAS_NAME}/" title="{$SUB_NAME}.{$SUB_ALIAS_NAME}" class="icon i_domain">{$SUB_NAME}.{$SUB_ALIAS_NAME}</a></td>
+					<td>{$SUB_MOUNT}</td>
+					<td>{$SUB_FORWARD}</td>
+					<td>{$SUB_STATUS}</td>
 					<td>
-						<a href="{SUB_EDIT_LINK}" title="{SUB_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{SUB_ACTION_SCRIPT}', '{SUB_NAME}')" class="icon i_delete"></a>
+						<a href="{$SUB_EDIT_LINK}" title="{$SUB_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$SUB_ACTION_SCRIPT}', '{$SUB_NAME}')" class="icon i_delete"></a>
 					</td>
 				</tr>
 				<!-- EDP: sub_item -->
 			</tbody>
 		</table>
-		<!-- EDP: sub_list -->
-		<!-- BDP: isactive_dns -->
-		<h2 class="domains"><span>{TR_DNS}</span></h2>
-		<!-- BDP: dns_message -->
-		<div class="{MSG_TYPE}">{DNS_MSG}</div>
-		<!-- EDP: dns_message -->
-		<!-- BDP: dns_list -->
+		{/if}
+		{if isset($TR_DNS)}
+		<h2 class="domains"><span>{$TR_DNS}</span></h2>
+		{if isset($DNS_MSG)}
+		<div class="{$MSG_TYPE}">{$DNS_MSG}</div>
+		{/if}
+		{if isset($DNS_DOMAIN)}
 		<table class="tablesorter">
 			<thead>
 				<tr>
-					<th>{TR_DOMAIN_NAME}</th>
-					<th>{TR_DNS_NAME}</th>
-					<th>{TR_DNS_CLASS}</th>
-					<th>{TR_DNS_TYPE}</th>
-					<th>{TR_DNS_DATA}</th>
-					<th>{TR_DNS_STATUS}</th>
-					<th style="width:200px">{TR_DNS_ACTION}</th>
+					<th>{$TR_DOMAIN_NAME}</th>
+					<th>{$TR_DNS_NAME}</th>
+					<th>{$TR_DNS_CLASS}</th>
+					<th>{$TR_DNS_TYPE}</th>
+					<th>{$TR_DNS_DATA}</th>
+					<th>{$TR_DNS_STATUS}</th>
+					<th style="width:200px">{$TR_DNS_ACTION}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<!-- BDP: dns_item -->
 				<tr>
-					<td><span class="icon i_domain_icon">{DNS_DOMAIN}</span></td>
-					<td>{DNS_NAME}</td>
-					<td>{DNS_CLASS}</td>
-					<td>{DNS_TYPE}</td>
-					<td>{DNS_DATA}</td>
-					<td>{DNS_STATUS}</td>
+					<td><span class="icon i_domain_icon">{$DNS_DOMAIN}</span></td>
+					<td>{$DNS_NAME}</td>
+					<td>{$DNS_CLASS}</td>
+					<td>{$DNS_TYPE}</td>
+					<td>{$DNS_DATA}</td>
+					<td>{$DNS_STATUS}</td>
 					<td>
-						<a href="{DNS_ACTION_SCRIPT_EDIT}" title="{DNS_ACTION_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{DNS_ACTION_SCRIPT_DELETE}', '{DNS_TYPE_RECORD}')" title="{DNS_ACTION_DELETE}" class="icon i_delete"></a>
+						<a href="{$DNS_ACTION_SCRIPT_EDIT}" title="{$DNS_ACTION_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$DNS_ACTION_SCRIPT_DELETE}', '{$DNS_TYPE_RECORD}')" title="{$DNS_ACTION_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
 				<!-- EDP: dns_item -->
 			</tbody>
 		</table>
-		<!-- EDP: dns_list -->
-		<!-- EDP: isactive_dns -->
+		{/if}
+		{/if}
 	</div>
-<!-- INCLUDE "footer.tpl" -->
+{include file='footer.tpl'}

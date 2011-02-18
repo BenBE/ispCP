@@ -34,21 +34,9 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page',  $cfg->RESELLER_TEMPLATE_PATH . '/domain_delete.tpl');
-$tpl->define_dynamic('mail_list', 'page');
-$tpl->define_dynamic('ftp_list', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('db_list', 'page');
-$tpl->define_dynamic('mail_item', 'mail_list');
-$tpl->define_dynamic('sub_item', 'sub_list');
-$tpl->define_dynamic('als_item', 'als_list');
-$tpl->define_dynamic('ftp_item', 'ftp_list');
-$tpl->define_dynamic('db_item', 'db_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_delete.tpl';
 
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
 
 $tpl->assign(
 	array(
@@ -73,8 +61,7 @@ gen_logged_from($tpl);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -136,7 +123,6 @@ function validate_domain_deletion($domain_id) {
 				)
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$res->moveNext();
 		}
 	} else {
@@ -156,7 +142,6 @@ function validate_domain_deletion($domain_id) {
 				)
 			);
 
-			$tpl->parse('FTP_ITEM', '.ftp_item');
 			$res->moveNext();
 		}
 	} else {
@@ -178,7 +163,6 @@ function validate_domain_deletion($domain_id) {
 				)
 			);
 
-			$tpl->parse('ALS_ITEM', '.als_item');
 			$res->moveNext();
 		}
 	} else {
@@ -198,7 +182,6 @@ function validate_domain_deletion($domain_id) {
 			)
 		);
 
-		$tpl->parse('SUB_ITEM', '.sub_item');
 		$res->moveNext();
 	}
 
@@ -220,7 +203,6 @@ function validate_domain_deletion($domain_id) {
 				)
 			);
 
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$res->moveNext();
 		}
 	}
@@ -249,7 +231,6 @@ function validate_domain_deletion($domain_id) {
 				)
 			);
 
-			$tpl->parse('DB_ITEM', '.db_item');
 			$res->moveNext();
 		}
 	} else {

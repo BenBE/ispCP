@@ -35,18 +35,15 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/orders_details.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('ip_entry', 'page');
-$tpl->define_dynamic('page_message', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'orders_details.tpl';
 
 /*
  * Functions
  */
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @param int $order_id
@@ -262,8 +259,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
