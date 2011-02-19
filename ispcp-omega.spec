@@ -1,4 +1,4 @@
-%define version 1.0.8.20110113
+%define version 1.1.0.20110219
 
 License: MPL LGPL
 Name: ispcp-omega
@@ -114,6 +114,8 @@ echo "include \"/etc/named-ispcp.conf\";" >> /etc/named.conf
 /sbin/chkconfig --add ispcp_daemon
 /sbin/chkconfig --add ispcp_network
 /sbin/chkconfig --add proftpd-ispcp
+/sbin/chkconfig --add postfix-ispcp
+
 echo "Recreating vu2000 virtual user and group"
 userdel -f -r vu2000
 rm -rf /home/vu2000
@@ -123,38 +125,34 @@ rm -rf /home/vu2000
 userdel -f -r vmail
 rm -rf /home/vmail
 #useradd -k /var/www/ispcp/skel -d /home/vmail -c vmail-user -g mail -u 3001 -s /bin/false -m vmail
-/sbin/chkconfig ispcp_daemon off
-/sbin/chkconfig ispcp_network off
-/sbin/chkconfig proftpd off
+/sbin/chkconfig ispcp_daemon on
+/sbin/chkconfig ispcp_network on
 /sbin/chkconfig proftpd-ispcp on
+/sbin/chkconfig proftpd off
+/sbin/chkconfig sendmail off
+/sbin/chkconfig postfix off
 /sbin/service proftpd stop
-#/sbin/chkconfig httpd on
-#/sbin/chkconfig proftpd on
-#/sbin/chkconfig spamassassin on
-#/sbin/chkconfig courier-authlib on
-#/sbin/chkconfig named on
-#/sbin/chkconfig postgrey on
-#/sbin/chkconfig mysqld on
-#/sbin/chkconfig courier-authlib on
-#/sbin/chkconfig saslauthd on
+/sbin/service postfix stop
+/sbin/service sendmail stop
+/sbin/chkconfig httpd on
+/sbin/chkconfig spamassassin on
+/sbin/chkconfig courier-authlib on
+/sbin/chkconfig named on
+/sbin/chkconfig postgrey on
+/sbin/chkconfig mysqld on
+/sbin/chkconfig saslauthd on
 chmod o+x /var/spool/authdaemon
 chmod 777 /usr/sbin/authdaemond
 
-    cp -p /etc/sasl2/smtpd.conf /etc/sasl2/smtpd.conf.orig
-    echo "pwcheck_method: authdaemond" > /etc/sasl2/smtpd.conf
-    echo "authdaemond_path:/var/spool/authdaemon/socket" >> /etc/sasl2/smtpd.conf
-    echo "mech_list: plain login" >> /etc/sasl2/smtpd.conf
+cp -p /etc/sasl2/smtpd.conf /etc/sasl2/smtpd.conf.orig
+echo "pwcheck_method: authdaemond" > /etc/sasl2/smtpd.conf
+echo "authdaemond_path:/var/spool/authdaemon/socket" >> /etc/sasl2/smtpd.conf
+echo "mech_list: plain login" >> /etc/sasl2/smtpd.conf
 
 /sbin/service   saslauthd start
 cp -p /etc/named.conf /etc/named.conf.orig
 sed 's/127.0.0.1/any/g' /etc/named.conf > /etc/named.conf
 sed 's/listen-on-v6/\/\/listen-on-v6/g' /etc/named.conf > /etc/named.conf
-#service named restart
-#service spamassassin restart
-#service postgrey restart
-#service httpd start
-#service ispcp_daemon start 
-#service ispcp_network start
 echo "Configure and run mysql server with root user and password:"
 echo "start mysql server and then run mysql_secure_installation"
 echo "after cd /var/www/ispcp/engine/setup/ and then run ./ispcp-setup with -rpm switch"
@@ -175,10 +173,15 @@ then
     /sbin/chkconfig --del proftpd-ispcp
 fi
 
+if [ -f /etc/init.d/postfix-ispcp ]
+then
+    /sbin/chkconfig --del postfix-ispcp
+fi
+
 %files
 %defattr(-,root,root)
 %config	%{_sysconfdir}/init.d/ispcp*
-%config	%{_sysconfdir}/init.d/proftpd-ispcp
+%config	%{_sysconfdir}/init.d/*
 #%config(noreplace) %{_sysconfdir}/courier/userdb
 %config	%{_sysconfdir}/httpd/conf.d/*ispcp*
 %dir	%{_sysconfdir}/httpd/vhosts/
@@ -239,6 +242,11 @@ fi
 %attr(0555,vu2000,apache)	%{_localstatedir}/www/ispcp/gui/tools/webmail/*
 
 %changelog
+* Sat Feb 19 2011 Temuri Doghonadze <temuri.doghonadze@gmail.com> 1.1.0.20110219-0.fc14
+- Postfix separation
+- SASL2 config correction
+- More enhancements
+
 * Thu Jan 13 2011 George Machitidze <giomac@gmail.com> 1.0.8.20110113-0.fc14
 - Update to trunk
 - Many enhancements and fixes
