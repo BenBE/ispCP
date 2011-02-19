@@ -42,13 +42,13 @@ install:
 	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
 	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
 
-	cp ./access $(ROOT_POSTFIX_CONF)/postfix-ispcp/access
-	cp ./canonical $(ROOT_POSTFIX_CONF)/postfix-ispcp/canonical
-	cp ./generic $(ROOT_POSTFIX_CONF)/postfix-ispcp/generic
-	cp ./header_checks $(ROOT_POSTFIX_CONF)/postfix-ispcp/header_checks
-	cp ./relocated $(ROOT_POSTFIX_CONF)/postfix-ispcp/relocated
-	cp ./transport $(ROOT_POSTFIX_CONF)/postfix-ispcp/transport
-	cp ./virtual $(ROOT_POSTFIX_CONF)/postfix-ispcp/virtual
+	cp ./access $(ROOT_POSTFIX_CONF)/access
+	cp ./canonical $(ROOT_POSTFIX_CONF)/canonical
+	cp ./generic $(ROOT_POSTFIX_CONF)/generic
+	cp ./header_checks $(ROOT_POSTFIX_CONF)/header_checks
+	cp ./relocated $(ROOT_POSTFIX_CONF)/relocated
+	cp ./transport $(ROOT_POSTFIX_CONF)/transport
+	cp ./virtual $(ROOT_POSTFIX_CONF)/virtual
 	
 	cp -R ./backup $(SYSTEM_CONF)/postfix
 	cp -R ./parts $(SYSTEM_CONF)/postfix
