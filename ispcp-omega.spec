@@ -3,7 +3,7 @@
 License: MPL LGPL
 Name: ispcp-omega
 Version: %{version}
-Release: 0%{dist}
+Release: 1%{dist}
 URL: http://isp-control.net/
 Source: ispcp-omega-%{version}.tar.gz
 Summary: IspCP omega web hosting panel
@@ -11,7 +11,7 @@ Group: System/Management
 Packager: George Machitidze <giomac@gmail.com>
 Buildroot: $RPM_BUILD_ROOT/tmp/ispcp/
 Buildrequires: glibc-headers gcc
-Requires: amavisd-new awstats bind-chroot bind-utils bzip2 caching-nameserver chkrootkit
+Requires: amavisd-new awstats bind-chroot bind-utils bzip2 chkrootkit
 Requires: clamav clamav-data clamav-lib clamav-server clamav-update courier-authlib-userdb courier-authlib-mysql 
 Requires: courier-imap cpan2rpm cyrus-sasl-gssapi cyrus-sasl-plain cyrus-sasl-md5 cyrus-sasl-ntlm 
 Requires: expect gcc httpd iptables libdbi-dbd-mysql libmcrypt libtool-ltdl mod_perl mod_ssl mod_auth_mysql 
@@ -22,12 +22,12 @@ Requires: perl-HTML-Tagset perl-MIME-tools perl-IO-stringy perl-libwww-perl perl
 Requires: perl-Net-DNS perl-Net-IP perl-Net-LibIDN perl-Net-Netmask perl-Net-Server perl-SNMP_Session
 Requires: perl-TermReadKey perl-Term-ReadPassword perl-TimeDate perl-URI perl-Unix-Syslog php php-bcmath php-dba php-gd
 Requires: php-ldap php-mbstring php-mcrypt php-mysql php-odbc php-pear php-snmp php-xml postfix proftpd-mysql
-Requires: rkhunter spamassassin system-config-bind tar unixODBC unzip wget
+Requires: rkhunter spamassassin tar unixODBC unzip wget
 Requires: mod_fcgid perl-HTML-Mason perl-Text-Aspell perl-XML-DOM perl-XML-Parser postgrey perl-File-Copy-Recursive
 Requires: cyrus-sasl-sql postgrey perl-File-MimeInfo
 Provides: perl(ispcp-db-keys.pl) perl(ispcp_common_code.pl) perl(ispcp_common_methods.pl)  perl(ispcp-setup-methods.pl) perl(ispcp-load-db-keys.pl) perl(..::ispcp-load-db-keys.pl)
 Buildarch: x86_64 i386
-
+Requires: ispcp-omega-pma ispcp-omega-webmail ispcp-omega-filemanager
 %description
 IspCP is a project founded to build a Multi Server Control and Administration Panel.
 
@@ -59,12 +59,10 @@ filemanager for ispcp-omega
 
 %setup -q
 rm -rf $RPM_BUILD_ROOT
-#mkdir `pwd`/test/
-#INST_PREF=`pwd`/test make -f Makefile.fedora install
 INST_PREF=$RPM_BUILD_ROOT make -f Makefile.fedora install
 
 %install
-#cp -a `pwd`/test/* $RPM_BUILD_ROOT/ 
+cp -a $RPM_BUILD_ROOT/var/www/ispcp/gui/tools/pma/config.sample.inc.php $RPM_BUILD_ROOT/var/www/ispcp/gui/tools/pma/config.inc.php
 find $RPM_BUILD_ROOT/var/www/ispcp/gui/ -type d -exec chmod 555 "{}" ';'
 find $RPM_BUILD_ROOT/var/www/ispcp/gui/ -type f -exec chmod 444 "{}" ';'
 chmod -R 755 $RPM_BUILD_ROOT/var/www/ispcp/gui/tools/webmail/data
@@ -76,15 +74,34 @@ mkdir -p $RPM_BUILD_ROOT/var/www/ispcp/skel
 chown 3001:mail $RPM_BUILD_ROOT/var/www/ispcp/engine/messenger/*
 mkdir -p $RPM_BUILD_ROOT/etc/httpd/vhosts/
 echo 'include vhosts/*.conf' >> $RPM_BUILD_ROOT/etc/httpd/conf.d/ispcp-vhosts-include.conf
-echo 'options=\"--inet=127.0.0.1:10023\"' > /etc/sysconfig/postgrey
+echo 'options=\"--inet=127.0.0.1:10023\"' > $RPM_BUILD_ROOT/etc/sysconfig/postgrey
 mkdir -p $RPM_BUILD_ROOT/var/www/fcgi/master
+mkdir -p $RPM_BUILD_ROOT/var/www/ispcp/backups
+rm -f $RPM_BUILD_ROOT/etc/ispcp/*/*/empty-file
 
 %pre
-echo "Creating vu2000 virtual user and group: "
-groupadd -g 2000 vu2000
-useradd -g 2000 -u 2000 -s /bin/false vu2000
-echo "Creating vmail virtual user: "
-useradd -d /home/vmail -c vmail-user -g mail -u 3001 -s /bin/false vmail
+if [ "$(/usr/bin/id -u vu2000)" = "2000" ]; then
+    echo "User vu2000 already exists with ID 2000"
+else
+    if [ "$(/usr/bin/id -u vu2000)" != "" ]; then
+	echo "User vu2000 has invalid ID!"
+    else
+        echo "Creating vu2000 virtual user and group... "
+        /usr/sbin/groupadd -g 2000 vu2000
+        /usr/sbin/useradd -g 2000 -u 2000 -s /bin/false vu2000
+    fi
+fi
+
+if [ "$(/usr/bin/id -u vmail)" = "3001" ]; then
+    echo "User vmail already exists with ID 3001"
+else
+    if [ "$(/usr/bin/id -u vmail)" != "" ]; then
+	echo "User vmail has invalid ID!"
+    else
+        echo "Creating vmail virtual user into mail group... "
+	/usr/sbin/useradd -d /home/vmail -c vmail-user -g mail -u 3001 -s /bin/false vmail
+    fi
+fi
 
 %post
 #ln -s /var/named/chroot/var/named/data /var/named/data
@@ -100,12 +117,12 @@ echo "include \"/etc/named-ispcp.conf\";" >> /etc/named.conf
 echo "Recreating vu2000 virtual user and group"
 userdel -f -r vu2000
 rm -rf /home/vu2000
-groupadd -g 2000 vu2000
-useradd -k /var/www/ispcp/skel -d /var/www/fcgi/master/ -c vu-master -g 2000 -u 2000 -s /bin/false -m vu2000
-echo "Recreating vmail virtual user"
+#groupadd -g 2000 vu2000
+#useradd -k /var/www/ispcp/skel -d /var/www/fcgi/master/ -c vu-master -g 2000 -u 2000 -s /bin/false -m vu2000
+#echo "Recreating vmail virtual user"
 userdel -f -r vmail
 rm -rf /home/vmail
-useradd -k /var/www/ispcp/skel -d /home/vmail -c vmail-user -g mail -u 3001 -s /bin/false -m vmail
+#useradd -k /var/www/ispcp/skel -d /home/vmail -c vmail-user -g mail -u 3001 -s /bin/false -m vmail
 /sbin/chkconfig ispcp_daemon off
 /sbin/chkconfig ispcp_network off
 /sbin/chkconfig proftpd off
@@ -122,20 +139,12 @@ useradd -k /var/www/ispcp/skel -d /home/vmail -c vmail-user -g mail -u 3001 -s /
 #/sbin/chkconfig saslauthd on
 chmod o+x /var/spool/authdaemon
 chmod 777 /usr/sbin/authdaemond
-if [ -f /usr/lib/sasl2/smtpd.conf ]
-then
-    cp -p /usr/lib/sasl2/smtpd.conf /usr/lib/sasl2/smtpd.conf.orig
-    echo "pwcheck_method: authdaemond" > /usr/lib/sasl2/smtpd.conf
-    echo "authdaemond_path:/var/spool/authdaemon/socket" >> /usr/lib/sasl2/smtpd.conf
-    echo "mech_list: plain login" >> /usr/lib/sasl2/smtpd.conf
-fi
-if [ -f /usr/lib64/sasl2/smtpd.conf ]
-then
-    cp -p /usr/lib64/sasl2/smtpd.conf /usr/lib64/sasl2/smtpd.conf.orig
-    echo "pwcheck_method: authdaemond" > /usr/lib64/sasl2/smtpd.conf
-    echo "authdaemond_path:/var/spool/authdaemon/socket" >> /usr/lib64/sasl2/smtpd.conf
-    echo "mech_list: plain login" >> /usr/lib64/sasl2/smtpd.conf
-fi
+
+    cp -p /etc/sasl2/smtpd.conf /etc/sasl2/smtpd.conf.orig
+    echo "pwcheck_method: authdaemond" > /etc/sasl2/smtpd.conf
+    echo "authdaemond_path:/var/spool/authdaemon/socket" >> /etc/sasl2/smtpd.conf
+    echo "mech_list: plain login" >> /etc/sasl2/smtpd.conf
+
 /sbin/service   saslauthd start
 cp -p /etc/named.conf /etc/named.conf.orig
 sed 's/127.0.0.1/any/g' /etc/named.conf > /etc/named.conf
@@ -161,6 +170,10 @@ then
     /sbin/chkconfig --del ispcp_network
 fi
 
+if [ -f /etc/init.d/ispcp_network ]
+then
+    /sbin/chkconfig --del proftpd-ispcp
+fi
 
 %files
 %defattr(-,root,root)
@@ -181,9 +194,9 @@ fi
 %config	%{_sysconfdir}/ispcp/pma
 %config	%{_sysconfdir}/ispcp/postfix
 %config	%{_sysconfdir}/ispcp/proftpd
-%config %{_sysconfdir}/ispcp/proftpd/proftpd.conf
 %config	%{_sysconfdir}/sysconfig/proftpd-ispcp
-%config(noreplace)	%{_sysconfdir}/postfix
+%config	%{_sysconfdir}/sysconfig/postgrey
+%config(noreplace)	%{_sysconfdir}/postfix-ispcp
 %config	%{_sysconfdir}/proftpd.conf.ispcp
 %config	%{_sysconfdir}/proftpd/ispcp/root_domain.conf
 	%{_sbindir}/maillogconvert.pl
@@ -194,6 +207,7 @@ fi
 %attr(-,vu2000,vu2000)	%{_localstatedir}/www/fcgi
 %dir	%{_localstatedir}/www/ispcp/
 	%{_localstatedir}/www/ispcp/daemon/
+	%{_localstatedir}/www/ispcp/backups/
 %attr(-,-,-)	%{_localstatedir}/www/ispcp/engine/
 %attr(0555,vu2000,apache)	%dir %{_localstatedir}/www/ispcp/gui/
 %attr(-,vu2000,apache)	%{_localstatedir}/www/ispcp/gui/a*
@@ -214,6 +228,7 @@ fi
 %files pma
 %attr(0555,vu2000,apache)	%dir %{_localstatedir}/www/ispcp/gui/tools/pma
 %attr(0555,vu2000,apache)	%{_localstatedir}/www/ispcp/gui/tools/pma/*
+%attr(0555,vu2000,apache)	%config %{_localstatedir}/www/ispcp/gui/tools/pma/config.inc.php
 
 %files filemanager
 %attr(0555,vu2000,apache)	%dir %{_localstatedir}/www/ispcp/gui/tools/filemanager
