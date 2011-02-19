@@ -47,7 +47,6 @@ install:
 	cp ./generic $(ROOT_POSTFIX_CONF)/generic
 	cp ./header_checks $(ROOT_POSTFIX_CONF)/header_checks
 	cp ./relocated $(ROOT_POSTFIX_CONF)/relocated
-	cp ./transport $(ROOT_POSTFIX_CONF)/transport
 	cp ./virtual $(ROOT_POSTFIX_CONF)/virtual
 	
 	cp -R ./backup $(SYSTEM_CONF)/postfix
