@@ -35,26 +35,27 @@ export
 
 install:
 
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/postfix-ispcp
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/postfix
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)/ispcp
 
-	cp ./main.cf $(SYSTEM_CONF)/postfix-ispcp/main.cf
-	cp ./master.cf $(SYSTEM_CONF)/postfix-ispcp/master.cf
-	cp ./access $(SYSTEM_CONF)/postfix-ispcp/access
-	cp ./canonical $(SYSTEM_CONF)/postfix-ispcp/canonical
-	cp ./generic $(SYSTEM_CONF)/postfix-ispcp/generic
-	cp ./header_checks $(SYSTEM_CONF)/postfix-ispcp/header_checks
-	cp ./relocated $(SYSTEM_CONF)/postfix-ispcp/relocated
-	cp ./transport $(SYSTEM_CONF)/postfix-ispcp/transport
-	cp ./virtual $(SYSTEM_CONF)/postfix-ispcp/virtual
+	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
+	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
+
+	cp ./access $(ROOT_POSTFIX_CONF)/postfix-ispcp/access
+	cp ./canonical $(ROOT_POSTFIX_CONF)/postfix-ispcp/canonical
+	cp ./generic $(ROOT_POSTFIX_CONF)/postfix-ispcp/generic
+	cp ./header_checks $(ROOT_POSTFIX_CONF)/postfix-ispcp/header_checks
+	cp ./relocated $(ROOT_POSTFIX_CONF)/postfix-ispcp/relocated
+	cp ./transport $(ROOT_POSTFIX_CONF)/postfix-ispcp/transport
+	cp ./virtual $(ROOT_POSTFIX_CONF)/postfix-ispcp/virtual
 	
-	cp -R ./backup $(SYSTEM_CONF)/postfix-ispcp
-	cp -R ./parts $(SYSTEM_CONF)/postfix-ispcp
-	cp -R ./working $(SYSTEM_CONF)/postfix-ispcp
-	cp -R ./ispcp $(SYSTEM_CONF)/postfix-ispcp
+	cp -R ./backup $(SYSTEM_CONF)/postfix
+	cp -R ./parts $(SYSTEM_CONF)/postfix
+	cp -R ./working $(SYSTEM_CONF)/postfix
+	cp -R ./ispcp $(SYSTEM_CONF)/postfix
 
 uninstall:
 
-	rm -rf $(SYSTEM_CONF)/postfix-ispcp
-	rm -rf $(ROOT_POSTFIX_CONF)/ispcp
+	rm -rf $(SYSTEM_CONF)/postfix
+	rm -rf $(ROOT_POSTFIX_CONF)/
