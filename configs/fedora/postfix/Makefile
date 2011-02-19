@@ -29,25 +29,25 @@
 #    http://isp-control.net
 #
 
-ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix
+ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix-ispcp
 
 export
 
 install:
 
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/postfix
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/postfix-ispcp
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)/ispcp
 
-	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
-	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
+	cp ./main.cf $(SYSTEM_CONF)/postfix-ispcp/main.cf
+	cp ./master.cf $(SYSTEM_CONF)/postfix-ispcp/master.cf
 
-	cp -R ./backup $(SYSTEM_CONF)/postfix
-	cp -R ./parts $(SYSTEM_CONF)/postfix
-	cp -R ./working $(SYSTEM_CONF)/postfix
-	cp -R ./ispcp $(SYSTEM_CONF)/postfix
+	cp -R ./backup $(SYSTEM_CONF)/postfix-ispcp
+	cp -R ./parts $(SYSTEM_CONF)/postfix-ispcp
+	cp -R ./working $(SYSTEM_CONF)/postfix-ispcp
+	cp -R ./ispcp $(SYSTEM_CONF)/postfix-ispcp
 
 uninstall:
 
-	rm -rf $(SYSTEM_CONF)/postfix
+	rm -rf $(SYSTEM_CONF)/postfix-ispcp
 	rm -rf $(ROOT_POSTFIX_CONF)/ispcp
