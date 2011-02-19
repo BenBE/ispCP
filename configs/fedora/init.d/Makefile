@@ -36,9 +36,10 @@ install:
 	cp ispcp_daemon $(ROOT_CONF)/init.d
 	cp ispcp_network $(ROOT_CONF)/init.d
 	cp proftpd-ispcp $(ROOT_CONF)/init.d
+	cp postfix-ispcp $(ROOT_CONF)/init.d
 
-	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp
-	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp
+	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp $(ROOT_CONF)/init.d/postfix-ispcp
+	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp $(ROOT_CONF)/init.d/postfix-ispcp
 
 	if [[ -f ispcp_daemon.default ]]; then \
 		cp -p ispcp_daemon.default $(ROOT_CONF)/default/ispcp_daemon ; \
@@ -53,5 +54,7 @@ uninstall:
 	rm -f $(ROOT_CONF)/init.d/ispcp_daemon
 	rm -f $(ROOT_CONF)/init.d/ispcp_network
 	rm -f $(ROOT_CONF)/init.d/proftpd-ispcp
+	rm -f $(ROOT_CONF)/init.d/postfix-ispcp
 	rm -f $(ROOT_CONF)/default/ispcp_daemon
 	rm -f $(ROOT_CONF)/default/ispcp_network
+
