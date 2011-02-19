@@ -43,6 +43,49 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 
 gen_user_personal_data($tpl, $sql, $_SESSION['user_id']);
 
+// static page messages
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
+
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Change Personal Data'),
+		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
+		'TR_PERSONAL_DATA'			=> tr('Personal data'),
+		'TR_FIRST_NAME'				=> tr('First name'),
+		'TR_LAST_NAME'				=> tr('Last name'),
+		'TR_COMPANY'				=> tr('Company'),
+		'TR_ZIP_POSTAL_CODE'		=> tr('Zip/Postal code'),
+		'TR_CITY'					=> tr('City'),
+		'TR_STATE'					=> tr('State/Province'),
+		'TR_COUNTRY'				=> tr('Country'),
+		'TR_STREET_1'				=> tr('Street 1'),
+		'TR_STREET_2'				=> tr('Street 2'),
+		'TR_EMAIL'					=> tr('Email'),
+		'TR_PHONE'					=> tr('Phone'),
+		'TR_FAX'					=> tr('Fax'),
+		'TR_GENDER'					=> tr('Gender'),
+		'TR_MALE'					=> tr('Male'),
+		'TR_FEMALE'					=> tr('Female'),
+		'TR_UNKNOWN'				=> tr('Unknown'),
+		'TR_UPDATE_DATA'			=> tr('Update data')
+	)
+);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
@@ -136,45 +179,4 @@ function update_user_personal_data(&$sql, $user_id) {
 	write_log($_SESSION['user_logged'] . ": update personal data");
 	set_page_message(tr('Personal data updated successfully!'), 'success');
 }
-
-// static page messages
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Change Personal Data'),
-		'TR_CHANGE_PERSONAL_DATA'	=> tr('Change personal data'),
-		'TR_PERSONAL_DATA'			=> tr('Personal data'),
-		'TR_FIRST_NAME'				=> tr('First name'),
-		'TR_LAST_NAME'				=> tr('Last name'),
-		'TR_COMPANY'				=> tr('Company'),
-		'TR_ZIP_POSTAL_CODE'		=> tr('Zip/Postal code'),
-		'TR_CITY'					=> tr('City'),
-		'TR_STATE'					=> tr('State/Province'),
-		'TR_COUNTRY'				=> tr('Country'),
-		'TR_STREET_1'				=> tr('Street 1'),
-		'TR_STREET_2'				=> tr('Street 2'),
-		'TR_EMAIL'					=> tr('Email'),
-		'TR_PHONE'					=> tr('Phone'),
-		'TR_FAX'					=> tr('Fax'),
-		'TR_GENDER'					=> tr('Gender'),
-		'TR_MALE'					=> tr('Male'),
-		'TR_FEMALE'					=> tr('Female'),
-		'TR_UNKNOWN'				=> tr('Unknown'),
-		'TR_UPDATE_DATA'			=> tr('Update data')
-	)
-);
-
-gen_page_message($tpl);
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

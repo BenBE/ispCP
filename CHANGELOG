@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-02-19 Markus Szywon
+	- GUI:
+		* Template improvements
+
 2011-02-18 Markus Szywon
 	- GUI:
 		* Replace pTemplate with Smarty part III

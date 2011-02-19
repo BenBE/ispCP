@@ -35,7 +35,6 @@ check_login(__FILE__);
 $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
-
 $template = 'password_change.tpl';
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
@@ -85,33 +84,9 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 	}
 }
 
-function check_udata($id, $pass) {
-
-	$sql = ispCP_Registry::get('Db');
-
-	$query = "
-		SELECT
-			`admin_id`, `admin_pass`
-		FROM
-			`admin`
-		WHERE
-			`admin_id` = ?
-		AND
-			`admin_pass` = ?
-	";
-
-	$rs = exec_query($sql, $query, array($id, md5($pass)));
-
-	return (($rs->recordCount()) != 1) ? false : true;
-}
-
-/*
- *
- * static page messages.
- *
- */
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
+// static page messages.
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -143,4 +118,24 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+function check_udata($id, $pass) {
+
+	$sql = ispCP_Registry::get('Db');
+
+	$query = "
+		SELECT
+			`admin_id`, `admin_pass`
+		FROM
+			`admin`
+		WHERE
+			`admin_id` = ?
+		AND
+			`admin_pass` = ?
+	";
+
+	$rs = exec_query($sql, $query, array($id, md5($pass)));
+
+	return (($rs->recordCount()) != 1) ? false : true;
+}
 ?>

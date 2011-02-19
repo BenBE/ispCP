@@ -37,12 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'language.tpl';
 
-/*
- *
- * page actions.
- *
- */
-
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
 	$user_id = $_SESSION['user_id'];
 	$user_lang = $_POST['def_language'];
@@ -72,8 +66,8 @@ if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
 gen_def_language($tpl, $sql, $user_def_lang);
 
 // static page messages
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_logged_from($tpl);
 
@@ -89,7 +83,6 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-
 
 $tpl->display($template);
 

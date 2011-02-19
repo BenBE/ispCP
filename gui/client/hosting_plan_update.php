@@ -37,11 +37,41 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan_update.tpl';
 
-/*
- *
- * page actions.
- *
- */
+if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
+	del_order($tpl, $sql, $_GET['delete_id'], $_SESSION['user_id']);
+}
+
+if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
+	add_new_order($tpl, $sql, $_GET['order_id'], $_SESSION['user_id']);
+}
+
+gen_hp($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
+
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
+		'TR_LANGUAGE'	=> tr('Language'),
+		'TR_SAVE'		=> tr('Save'),
+	)
+);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function check_update_current_value($curr, $new) {
 
@@ -594,41 +624,4 @@ function del_order(&$tpl, &$sql, $order_id, $user_id) {
 		'success'
 	);
 }
-
-// static page messages
-
-if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
-	del_order($tpl, $sql, $_GET['delete_id'], $_SESSION['user_id']);
-}
-
-if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
-	add_new_order($tpl, $sql, $_GET['order_id'], $_SESSION['user_id']);
-}
-
-gen_hp($tpl, $sql, $_SESSION['user_id']);
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
-		'TR_LANGUAGE'	=> tr('Language'),
-		'TR_SAVE'		=> tr('Save'),
-	)
-);
-
-gen_page_message($tpl);
-
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>
