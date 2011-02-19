@@ -41,7 +41,14 @@ install:
 
 	cp ./main.cf $(SYSTEM_CONF)/postfix-ispcp/main.cf
 	cp ./master.cf $(SYSTEM_CONF)/postfix-ispcp/master.cf
-
+	cp ./access $(SYSTEM_CONF)/postfix-ispcp/access
+	cp ./canonical $(SYSTEM_CONF)/postfix-ispcp/canonical
+	cp ./generic $(SYSTEM_CONF)/postfix-ispcp/generic
+	cp ./header_checks $(SYSTEM_CONF)/postfix-ispcp/header_checks
+	cp ./relocated $(SYSTEM_CONF)/postfix-ispcp/relocated
+	cp ./transport $(SYSTEM_CONF)/postfix-ispcp/transport
+	cp ./virtual $(SYSTEM_CONF)/postfix-ispcp/virtual
+	
 	cp -R ./backup $(SYSTEM_CONF)/postfix-ispcp
 	cp -R ./parts $(SYSTEM_CONF)/postfix-ispcp
 	cp -R ./working $(SYSTEM_CONF)/postfix-ispcp
