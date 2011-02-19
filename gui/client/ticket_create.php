@@ -57,13 +57,6 @@ if (isset($_POST['uaction'])) {
 	}
 }
 
-// static page messages
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
-gen_logged_from($tpl);
-
 $userdata = array(
 	'OPT_URGENCY_1' => '',
 	'OPT_URGENCY_2' => '',
@@ -96,6 +89,9 @@ $userdata['USER_MESSAGE'] = isset($_POST['user_message']) ?
 	clean_input($_POST['user_message'], true) : '';
 $tpl->assign($userdata);
 
+// static page messages
+gen_logged_from($tpl);
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Support System - New ticket'),
@@ -113,6 +109,9 @@ $tpl->assign(
 		'TR_CLOSED_TICKETS' => tr('Closed tickets')
 	)
 );
+
+gen_client_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_client_menu($tpl, 'menu_ticket_system.tpl');
 
 gen_page_message($tpl);
 

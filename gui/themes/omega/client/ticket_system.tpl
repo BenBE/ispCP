@@ -2,14 +2,13 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function() { 
-			$('#ticket_delete_all').click(function() { 
+		$(document).ready(function() {
+			$('#ticket_delete_all').click(function() {
 				document.location.href = 'ticket_delete.php?delete=open';
 			});
-
 		});
 
-		function action_delete(url, subject) { 
+		function action_delete(url, subject) {
 			return confirm(sprintf("{$TR_MESSAGE_DELETE}", subject));
 		}
 	/* ]]> */
@@ -70,16 +69,16 @@
 			</tbody>
 		</table>
 		<div class="paginator">
-			{if $SCROLL_NEXT_GRAY}
+			{if !isset($SCROLL_NEXT_GRAY)}
 			<span class="icon i_next_gray">&nbsp;</span>
 			{/if}
-			{if $SCROLL_NEXT}
+			{if !isset($SCROLL_NEXT)}
 			<a href="ticket_system.php?psi={$NEXT_PSI}" title="next" class="icon i_next">next</a>
 			{/if}
-			{if $SCROLL_PREV_GRAY}
+			{if !isset($SCROLL_PREV_GRAY)}
 			<span class="icon i_prev_gray">&nbsp;</span>
 			{/if}
-			{if $SCROLL_PREV}
+			{if !isset($SCROLL_PREV)}
 			<a href="ticket_system.php?psi={$PREV_PSI}" title="previous" class="icon i_prev">previous</a>
 			{/if}
 		</div>

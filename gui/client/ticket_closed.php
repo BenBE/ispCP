@@ -53,10 +53,6 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 		$cfg->DOMAIN_ROWS_PER_PAGE, 'client', 'closed');
 
 // static page messages
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -77,6 +73,10 @@ $tpl->assign(
 		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
+
+
+gen_client_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_client_menu($tpl, 'menu_ticket_system.tpl');
 
 gen_page_message($tpl);
 

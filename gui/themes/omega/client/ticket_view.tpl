@@ -2,8 +2,8 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
-			$('#SubmitAction').click(function() { 
+		$(document).ready(function(){
+			$('#SubmitAction').click(function() {
 				form = document.getElementById('client_ticket_view');
 				form.uaction.value = '{$ACTION}';
 				form.submit();

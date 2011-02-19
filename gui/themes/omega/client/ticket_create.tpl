@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function action_delete(url, subject) { 
+		function action_delete(url, subject) {
 			return confirm(sprintf("{$TR_MESSAGE_DELETE}", subject));
 		}
 	/* ]]> */
