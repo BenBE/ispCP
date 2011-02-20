@@ -547,9 +547,8 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -624,6 +623,8 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 			)
 		);
 	}
+
+	$tpl->assign('MAIN_MENU', $menu_file);
 }
 
 /**
@@ -696,9 +697,8 @@ function gen_client_menu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -809,6 +809,8 @@ function gen_client_menu(&$tpl, $menu_file) {
 			$tpl->assign('ISACTIVE_UPDATE_HP', '');
 		}
 	}
+
+	$tpl->assign('MENU', $menu_file);
 }
 
 function get_user_domain_id(&$sql, $user_id) {
