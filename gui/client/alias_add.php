@@ -36,13 +36,10 @@ $cfg = ispCP_Registry::get('Config');
 
 // Avoid unneeded generation during Ajax request
 if(!is_xhr()) {
-	// static page messages
 	$tpl = ispCP_TemplateEngine::getInstance();
 	$template = 'alias_add.tpl';
 
-	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
+	// static page messages
 	gen_logged_from($tpl);
 
 	check_permissions($tpl);
@@ -70,6 +67,9 @@ if(!is_xhr()) {
 			'TR_PREFIX_FTP' => 'ftp://'
 		)
 	);
+
+	gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+	gen_client_menu($tpl, 'menu_manage_domains.tpl');
 
 	check_client_domainalias_counts($sql, $_SESSION['user_id']);
 }
@@ -99,8 +99,6 @@ if(isset($_POST['uaction'])) {
 
 gen_al_page($tpl, $_SESSION['user_id']);
 gen_page_msg($tpl, $err_txt);
-
-//gen_page_message($tpl);
 
 $tpl->display($template);
 
@@ -428,5 +426,4 @@ function gen_page_msg(&$tpl, $error_txt) {
 	}
 
 } // End of gen_page_msg()
-
 ?>

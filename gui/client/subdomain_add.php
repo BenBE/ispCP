@@ -34,6 +34,80 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
+// common page data.
+
+// Avoid unneeded generation during Ajax request
+if (!is_xhr()) {
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'subdomain_add.tpl';
+
+	// check user sql permission
+	if (isset($_SESSION['subdomain_support']) &&
+		$_SESSION['subdomain_support'] == "no") {
+		header('Location: index.php');
+	}
+
+	// static page messages.
+	gen_logged_from($tpl);
+
+	check_permissions($tpl);
+
+	$tpl->assign(
+		array(
+			'TR_PAGE_TITLE'						=> tr('ispCP - Client/Add Subdomain'),
+			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
+			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
+			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),
+			'TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT'	=> tr('Directory tree mount point'),
+			'TR_FORWARD'						=> tr('Forward to URL'),
+			'TR_ADD'							=> tr('Add'),
+			'TR_DMN_HELP'						=> tr('You do not need \'www.\' ispCP will add it on its own.'),
+			'TR_ENABLE_FWD'						=> tr('Enable Forward'),
+			'TR_ENABLE'							=> tr('Enable'),
+			'TR_DISABLE'						=> tr('Disable'),
+			'TR_PREFIX_HTTP'					=> 'http://',
+			'TR_PREFIX_HTTPS'					=> 'https://',
+			'TR_PREFIX_FTP'						=> 'ftp://'
+		)
+	);
+
+	gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+	gen_client_menu($tpl, 'menu_manage_domains.tpl');
+}
+
+$err_txt = '_off_';
+
+// Dispatch Request
+if(isset($_POST['uaction'])) {
+	if($_POST['uaction'] == 'toASCII') { // Ajax request
+		header('Content-Type: text/plain; charset=utf-8');
+		header('Cache-Control: no-cache, private');
+		// backward compatibility for HTTP/1.0
+		header('Pragma: no-cache');
+		header("HTTP/1.0 200 Ok");
+
+		// Todo check return value here before echo...
+		echo "/".encode_idna(strtolower($_POST['subdomain']));
+		exit;
+	} elseif($_POST['uaction'] == 'add_subd') {
+		$dmn_name = check_subdomain_permissions($_SESSION['user_id']);
+		gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
+		check_subdomain_data($tpl, $err_txt, $_SESSION['user_id'], $dmn_name);
+	} else {
+		throw new ispCP_Exception(tr("Error: unknown action!" . " " . $_POST['uaction']));
+	}
+} else { // Default view
+	gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
+}
+
+gen_page_msg($tpl, $err_txt);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
 // page functions.
 
 /**
@@ -502,80 +576,5 @@ function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
 		set_page_message(tr('Subdomain scheduled for addition!'), 'notice');
 		user_goto('domains_manage.php');
 	}
-}
-
-// common page data.
-
-// Avoid unneeded generation during Ajax request
-if (!is_xhr()) {
-	$tpl = ispCP_TemplateEngine::getInstance();
-	$template = 'subdomain_add.tpl';
-
-	// check user sql permission
-	if (isset($_SESSION['subdomain_support']) &&
-		$_SESSION['subdomain_support'] == "no") {
-		header('Location: index.php');
-	}
-
-	// static page messages.
-
-	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
-	gen_logged_from($tpl);
-
-	check_permissions($tpl);
-
-	$tpl->assign(
-		array(
-			'TR_PAGE_TITLE'						=> tr('ispCP - Client/Add Subdomain'),
-			'TR_ADD_SUBDOMAIN'					=> tr('Add subdomain'),
-			'TR_SUBDOMAIN_DATA'					=> tr('Subdomain data'),
-			'TR_SUBDOMAIN_NAME'					=> tr('Subdomain name'),
-			'TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT'	=> tr('Directory tree mount point'),
-			'TR_FORWARD'						=> tr('Forward to URL'),
-			'TR_ADD'							=> tr('Add'),
-			'TR_DMN_HELP'						=> tr('You do not need \'www.\' ispCP will add it on its own.'),
-			'TR_ENABLE_FWD'						=> tr('Enable Forward'),
-			'TR_ENABLE'							=> tr('Enable'),
-			'TR_DISABLE'						=> tr('Disable'),
-			'TR_PREFIX_HTTP'					=> 'http://',
-			'TR_PREFIX_HTTPS'					=> 'https://',
-			'TR_PREFIX_FTP'						=> 'ftp://'
-		)
-	);
-}
-
-$err_txt = '_off_';
-
-// Dispatch Request
-if(isset($_POST['uaction'])) {
-	if($_POST['uaction'] == 'toASCII') { // Ajax request
-		header('Content-Type: text/plain; charset=utf-8');
-		header('Cache-Control: no-cache, private');
-		// backward compatibility for HTTP/1.0
-		header('Pragma: no-cache');
-		header("HTTP/1.0 200 Ok");
-
-		// Todo check return value here before echo...
-		echo "/".encode_idna(strtolower($_POST['subdomain']));
-		exit;
-	} elseif($_POST['uaction'] == 'add_subd') {
-		$dmn_name = check_subdomain_permissions($_SESSION['user_id']);
-		gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
-		check_subdomain_data($tpl, $err_txt, $_SESSION['user_id'], $dmn_name);
-	} else {
-		throw new ispCP_Exception(tr("Error: unknown action!" . " " . $_POST['uaction']));
-	}
-} else { // Default view
-	gen_user_add_subdomain_data($tpl, $_SESSION['user_id']);
-}
-
-gen_page_msg($tpl, $err_txt);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
 }
 ?>

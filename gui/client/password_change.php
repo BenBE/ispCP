@@ -85,9 +85,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 }
 
 // static page messages.
-gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_client_menu($tpl, 'menu_general_information.tpl');
-
 gen_logged_from($tpl);
 
 check_permissions($tpl);
@@ -108,6 +105,9 @@ $tpl->assign(
 		'DEMO_VERSION'			=> tr('Demo Version!')
 	)
 );
+
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_page_message($tpl);
 

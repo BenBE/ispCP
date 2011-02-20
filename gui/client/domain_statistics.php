@@ -37,6 +37,51 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_statistics.tpl';
 
+// dynamic page data.
+
+$current_month = date("m", time());
+$current_year = date("Y", time());
+
+list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
+gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
+		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
+		'DOMAIN_URL' => 'http://' . $_SESSION['user_logged'] . '/stats/',
+		'TR_AWSTATS' => tr('Web Stats'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_DATE' => tr('Date'),
+		'TR_WEB_TRAFF' => tr('WEB'),
+		'TR_FTP_TRAFF' => tr('FTP'),
+		'TR_SMTP_TRAFF' => tr('SMTP'),
+		'TR_POP_TRAFF' => tr('POP3/IMAP'),
+		'TR_SUM' => tr('Sum'),
+		'TR_ALL' => tr('Total')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_client_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
@@ -302,48 +347,4 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 */
 
 }
-
-// dynamic page data.
-
-$current_month = date("m", time());
-$current_year = date("Y", time());
-
-list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
-gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'DOMAIN_URL' => 'http://' . $_SESSION['user_logged'] . '/stats/',
-		'TR_AWSTATS' => tr('Web Stats'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_DATE' => tr('Date'),
-		'TR_WEB_TRAFF' => tr('WEB'),
-		'TR_FTP_TRAFF' => tr('FTP'),
-		'TR_SMTP_TRAFF' => tr('SMTP'),
-		'TR_POP_TRAFF' => tr('POP3/IMAP'),
-		'TR_SUM' => tr('Sum'),
-		'TR_ALL' => tr('Total')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

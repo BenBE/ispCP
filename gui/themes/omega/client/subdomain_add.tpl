@@ -1,24 +1,25 @@
-{include file='header.tpl'}+
+{include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#fwd_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
 			// Tooltips - end
 		});
 
-		function makeUser() { 
+		function makeUser() {
 			var subname  = document.getElementById('client_subdomain_add').elements['subdomain_name'].value;
 			subname = subname.toLowerCase();
 			document.getElementById('client_subdomain_add').elements['subdomain_mnt_pt'].value = "/" + subname;
 		}
 
-		function setForwardReadonly(obj){ 
-			if(obj.value == 1) { 
+		function setForwardReadonly(obj){
+			if(obj.value == 1) {
 				document.getElementById('client_subdomain_add').elements['forward'].readOnly = false;
 				document.getElementById('client_subdomain_add').elements['forward_prefix'].disabled = false;
-			} else { 
+			} else {
 				document.getElementById('client_subdomain_add').elements['forward'].readOnly = true;
 				document.getElementById('client_subdomain_add').elements['forward'].value = '';
 				document.getElementById('client_subdomain_add').elements['forward_prefix'].disabled = true;
@@ -26,6 +27,7 @@
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

@@ -1,5 +1,6 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		$(document).ready(function(){
@@ -15,6 +16,7 @@
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -105,41 +107,41 @@
 		</table>
 		{/if}
 		{if isset($TR_DNS)}
-		<h2 class="domains"><span>{$TR_DNS}</span></h2>
-		{if isset($DNS_MSG)}
-		<div class="{$MSG_TYPE}">{$DNS_MSG}</div>
-		{/if}
-		{if isset($DNS_DOMAIN)}
-		<table class="tablesorter">
-			<thead>
-				<tr>
-					<th>{$TR_DOMAIN_NAME}</th>
-					<th>{$TR_DNS_NAME}</th>
-					<th>{$TR_DNS_CLASS}</th>
-					<th>{$TR_DNS_TYPE}</th>
-					<th>{$TR_DNS_DATA}</th>
-					<th>{$TR_DNS_STATUS}</th>
-					<th style="width:200px">{$TR_DNS_ACTION}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- BDP: dns_item -->
-				<tr>
-					<td><span class="icon i_domain_icon">{$DNS_DOMAIN}</span></td>
-					<td>{$DNS_NAME}</td>
-					<td>{$DNS_CLASS}</td>
-					<td>{$DNS_TYPE}</td>
-					<td>{$DNS_DATA}</td>
-					<td>{$DNS_STATUS}</td>
-					<td>
-						<a href="{$DNS_ACTION_SCRIPT_EDIT}" title="{$DNS_ACTION_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$DNS_ACTION_SCRIPT_DELETE}', '{$DNS_TYPE_RECORD}')" title="{$DNS_ACTION_DELETE}" class="icon i_delete"></a>
-					</td>
-				</tr>
-				<!-- EDP: dns_item -->
-			</tbody>
-		</table>
-		{/if}
+			<h2 class="domains"><span>{$TR_DNS}</span></h2>
+			{if isset($DNS_MSG)}
+			<div class="{$MSG_TYPE}">{$DNS_MSG}</div>
+			{/if}
+			{if isset($DNS_DOMAIN)}
+			<table class="tablesorter">
+				<thead>
+					<tr>
+						<th>{$TR_DOMAIN_NAME}</th>
+						<th>{$TR_DNS_NAME}</th>
+						<th>{$TR_DNS_CLASS}</th>
+						<th>{$TR_DNS_TYPE}</th>
+						<th>{$TR_DNS_DATA}</th>
+						<th>{$TR_DNS_STATUS}</th>
+						<th style="width:200px">{$TR_DNS_ACTION}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BDP: dns_item -->
+					<tr>
+						<td><span class="icon i_domain_icon">{$DNS_DOMAIN}</span></td>
+						<td>{$DNS_NAME}</td>
+						<td>{$DNS_CLASS}</td>
+						<td>{$DNS_TYPE}</td>
+						<td>{$DNS_DATA}</td>
+						<td>{$DNS_STATUS}</td>
+						<td>
+							<a href="{$DNS_ACTION_SCRIPT_EDIT}" title="{$DNS_ACTION_EDIT}" class="icon i_edit"></a>
+							<a href="#" onclick="action_delete('{$DNS_ACTION_SCRIPT_DELETE}', '{$DNS_TYPE_RECORD}')" title="{$DNS_ACTION_DELETE}" class="icon i_delete"></a>
+						</td>
+					</tr>
+					<!-- EDP: dns_item -->
+				</tbody>
+			</table>
+			{/if}
 		{/if}
 	</div>
 {include file='footer.tpl'}

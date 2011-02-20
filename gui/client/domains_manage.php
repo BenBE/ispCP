@@ -37,6 +37,58 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domains_manage.tpl';
 
+// dynamic page data.
+
+gen_user_sub_list($tpl, $sql, $_SESSION['user_id']);
+gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
+gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Domains'),
+		'TR_MANAGE_DOMAINS'	=> tr('Manage domains'),
+		'TR_DOMAIN_ALIASES'	=> tr('Domain aliases'),
+		'TR_ALS_NAME'		=> tr('Name'),
+		'TR_ALS_MOUNT'		=> tr('Mount point'),
+		'TR_ALS_FORWARD'	=> tr('Forward'),
+		'TR_ALS_STATUS'		=> tr('Status'),
+		'TR_ALS_ACTION'		=> tr('Action'),
+		'TR_SUBDOMAINS'		=> tr('Subdomains'),
+		'TR_SUB_NAME'		=> tr('Name'),
+		'TR_SUB_MOUNT'		=> tr('Mount point'),
+		'TR_SUB_FORWARD'	=> tr('Forward'),
+		'TR_SUB_STATUS'		=> tr('Status'),
+		'TR_SUB_ACTION'		=> tr('Actions'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_DNS'			=> tr("DNS zone's records"),
+		'TR_DNS_NAME'		=> tr('Name'),
+		'TR_DNS_CLASS'		=> tr('Class'),
+		'TR_DNS_TYPE'		=> tr('Type'),
+		'TR_DNS_ACTION'		=> tr('Actions'),
+		'TR_DNS_DATA'		=> tr('Record data'),
+		'TR_DNS_STATUS'		=> tr('Status'),
+		'TR_DOMAIN_NAME'	=> tr('Domain')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+gen_client_menu($tpl, 'menu_manage_domains.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
@@ -388,56 +440,4 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 		$tpl->assign('ALS_MESSAGE', '');
 	}
 }
-
-// dynamic page data.
-
-gen_user_sub_list($tpl, $sql, $_SESSION['user_id']);
-gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
-gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Domains'),
-		'TR_MANAGE_DOMAINS'	=> tr('Manage domains'),
-		'TR_DOMAIN_ALIASES'	=> tr('Domain aliases'),
-		'TR_ALS_NAME'		=> tr('Name'),
-		'TR_ALS_MOUNT'		=> tr('Mount point'),
-		'TR_ALS_FORWARD'	=> tr('Forward'),
-		'TR_ALS_STATUS'		=> tr('Status'),
-		'TR_ALS_ACTION'		=> tr('Action'),
-		'TR_SUBDOMAINS'		=> tr('Subdomains'),
-		'TR_SUB_NAME'		=> tr('Name'),
-		'TR_SUB_MOUNT'		=> tr('Mount point'),
-		'TR_SUB_FORWARD'	=> tr('Forward'),
-		'TR_SUB_STATUS'		=> tr('Status'),
-		'TR_SUB_ACTION'		=> tr('Actions'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_DNS'			=> tr("DNS zone's records"),
-		'TR_DNS_NAME'		=> tr('Name'),
-		'TR_DNS_CLASS'		=> tr('Class'),
-		'TR_DNS_TYPE'		=> tr('Type'),
-		'TR_DNS_ACTION'		=> tr('Actions'),
-		'TR_DNS_DATA'		=> tr('Record data'),
-		'TR_DNS_STATUS'		=> tr('Status'),
-		'TR_DOMAIN_NAME'	=> tr('Domain')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

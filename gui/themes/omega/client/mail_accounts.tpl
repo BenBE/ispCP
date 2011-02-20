@@ -1,20 +1,22 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
 
-		function action_delete(url, subject) { 
+		function action_delete(url, subject) {
 			if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", subject)))
 				return false;
 			location = url;
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

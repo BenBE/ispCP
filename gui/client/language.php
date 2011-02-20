@@ -66,9 +66,6 @@ if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
 gen_def_language($tpl, $sql, $user_def_lang);
 
 // static page messages
-gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_client_menu($tpl, 'menu_general_information.tpl');
-
 gen_logged_from($tpl);
 
 check_permissions($tpl);
@@ -81,6 +78,9 @@ $tpl->assign(
 		'TR_SAVE'					=> tr('Save')
 	)
 );
+
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_page_message($tpl);
 

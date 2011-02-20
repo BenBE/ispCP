@@ -44,9 +44,6 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_data') {
 gen_user_personal_data($tpl, $sql, $_SESSION['user_id']);
 
 // static page messages
-gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_client_menu($tpl, 'menu_general_information.tpl');
-
 gen_logged_from($tpl);
 
 check_permissions($tpl);
@@ -75,6 +72,9 @@ $tpl->assign(
 		'TR_UPDATE_DATA'			=> tr('Update data')
 	)
 );
+
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_page_message($tpl);
 

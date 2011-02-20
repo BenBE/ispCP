@@ -37,12 +37,6 @@ check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_CLIENT);
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'index.tpl';
 
-/*
- *
- * page actions.
- *
- */
-
 $theme_color = $cfg->USER_INITIAL_THEME;
 
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
@@ -180,9 +174,6 @@ $tpl->assign(
 );
 
 // static page messages.
-gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_client_menu($tpl, 'menu_general_information.tpl');
-
 gen_logged_from($tpl);
 
 gen_system_message($tpl, $sql);
@@ -218,6 +209,9 @@ $tpl->assign(
 		'TR_DMN_TMP_ACCESS'			=> tr('Alternative URL to reach your website')
 	)
 );
+
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
 
 gen_page_message($tpl);
 
