@@ -1,21 +1,22 @@
 # ispCP Georgian Language file.
 # Copyright (C) 2011 ispCP Team
 # This file is distributed under the same license as the ispcp package.
-# George Machitidze <giomac@gmail.com>, 2011.
 #
+# George Machitidze <giomac@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ka_GE\n"
 "Report-Msgid-Bugs-To: George Machitidze <giomac@gmail.com>\n"
 "POT-Creation-Date: 2010-11-21 20:54+0100\n"
-"PO-Revision-Date: 2011-02-24 13:39+0300\n"
-"Last-Translator: Geoerge Machitidze <giomac@gmail.com>\n"
-"Language-Team: GIA <team@gia.ge>\n"
+"PO-Revision-Date: 2011-02-25 14:20+0400\n"
+"Last-Translator: George Machitidze <giomac@gmail.com>\n"
+"Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.0\n"
 
 #. Please ignore this entry
 msgid "encoding"
@@ -24,13 +25,13 @@ msgstr "კოდირება"
 #. Please fill in the language you are translating to in the following form:
 #. native language name (native country name) - english language name (english country name)
 msgid "_: Localised language"
-msgstr ""
+msgstr "Georgian"
 
 msgid "ispCP Omega a Virtual Hosting Control System"
-msgstr ""
+msgstr "ispCP Omega - ვირტუალური ჰოსტინგის მართვის სისტემა"
 
 msgid "Administrator login"
-msgstr ""
+msgstr "ადმინისტრატორით შესვლა"
 
 msgid "Login"
 msgstr "შესვლა"
@@ -42,7 +43,7 @@ msgid "Password"
 msgstr "პაროლი"
 
 msgid "Please enter your login information"
-msgstr ""
+msgstr "სისტემაში შესასვლელად გთხოვთ შეიყვანოთ თქვენი მონაცემები"
 
 msgid "Secure Connection"
 msgstr "დაცული კავშირი"
@@ -51,88 +52,88 @@ msgid "Normal Connection"
 msgstr "ჩვეულებრივი კავშირი"
 
 msgid "Lost password"
-msgstr ""
+msgstr "პაროლის აღდგენა"
 
 msgid "Retrieving lost passwords is currently not possible"
-msgstr ""
+msgstr "პაროლების აღდგენა ამ მომენტში შეუძლებელია"
 
 msgid "ispCP - Virtual Hosting Control System"
-msgstr ""
+msgstr "ispCP - ვირტუალური ჰოსტინგის მართვის სისტემა"
 
 msgid "Your new password has been sent."
-msgstr ""
+msgstr "თქვენი ახალი პაროლი გაიგზავნა."
 
 msgid "New password could not been sent."
-msgstr ""
+msgstr "ახალი პაროლის გაგზავნა ვერ მოხერხდა."
 
 #, php-format
 msgid "Your password request has been initiated. You will receive an email with instructions to complete the process. This reset request will expire in %s minutes."
 msgstr ""
 
 msgid "Back"
-msgstr ""
+msgstr "უკან"
 
 msgid "User or security code was incorrect!"
-msgstr ""
+msgstr "მომხმარებელი ან უსაფრთხოების კოდი არასწორია!"
 
 msgid "Retry"
-msgstr ""
+msgstr "კვლავ ცდა"
 
 msgid "Security code"
-msgstr ""
+msgstr "უსაფრთხოების კოდი"
 
 msgid "(To avoid abuse, we ask you to write the combination of letters on the above picture into the field \"Security code\")"
 msgstr ""
 
 msgid "Request password"
-msgstr ""
+msgstr "პაროლის მოთხოვნა"
 
 msgid "ispCP - Admin/Manage users/Add User"
-msgstr ""
+msgstr "ispCP - მომხმარებლების ადმინისტრირება/მართვა/დამატება"
 
 msgid "Administrator"
-msgstr ""
+msgstr "ადმინისტრატორი"
 
 msgid "Incorrect username length or syntax!"
-msgstr ""
+msgstr "მომხმარებლის სახელის სიგრძე ან სინტაქსი არასწორია!"
 
 #, php-format
 msgid "The password must be at least %s chars long and contain letters and numbers to be valid."
-msgstr ""
+msgstr "პაროლი უნდა შეიცავდეს ასოებს და ციფრებს და შედგებოდეს მინიმუმ %s სიმბოლოსგან."
 
 #, php-format
 msgid "Password data is shorter than %s signs or includes not permitted signs!"
 msgstr ""
 
 msgid "Entered passwords do not match!"
-msgstr ""
+msgstr "შეყვანილი პაროლები ერთმანეთს არ ემთხვევა!"
 
 msgid "Incorrect email length or syntax!"
-msgstr ""
+msgstr "ელფოსტის სიგრძე ან სინტაქსი არასწორია!"
 
 msgid "This user name already exist!"
-msgstr ""
+msgstr "ეს მომხმარებელი უკვე არსებობს!"
 
 msgid "Empty data or wrong field!"
 msgstr ""
 
 msgid "Passwords don't match!"
-msgstr ""
+msgstr "პაროლები არ ემთხვევა!"
 
 msgid "Add admin"
 msgstr "ადმინისტრატორის დამატება"
 
 msgid "Core data"
-msgstr ""
+msgstr "ძირითადი მონაცემები"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "გაიმეორეთ პაროლი"
 
 msgid "Email"
 msgstr "ელფოსტა"
 
 msgid "Additional data"
-msgstr ""
+msgstr "დამატებითი მონაცემები"
 
 msgid "First name"
 msgstr "სახელი"
@@ -213,13 +214,13 @@ msgid "Generate password"
 msgstr "პაროლის გენერირება"
 
 msgid "Password change is disabled!"
-msgstr ""
+msgstr "პაროლის შეცვლის ფუნქცია გათიშულია!"
 
 msgid "Demo Version!"
 msgstr "ეს დემო ვერსიაა!"
 
 msgid "ispCP - Admin/Admin Log"
-msgstr ""
+msgstr "ispCP - ადმინისტრირების ჟურნალი"
 
 msgid "Log is empty!"
 msgstr "ჟურნალი ცარიელია!"
@@ -252,22 +253,22 @@ msgid "Invalid time period!"
 msgstr ""
 
 msgid "Admin Log"
-msgstr ""
+msgstr "ადმინისტრირების ჟურნალი"
 
 msgid "Clear log"
-msgstr ""
+msgstr "ჟურნალის გაწმენდა"
 
 msgid "Date"
-msgstr ""
+msgstr "თარიღი"
 
 msgid "Message"
-msgstr ""
+msgstr "შეტყობინება"
 
 msgid "Delete from log:"
-msgstr ""
+msgstr "წაშალე ჟურნალიდან:"
 
 msgid "everything"
-msgstr ""
+msgstr "ყველაფერი"
 
 msgid "older than 2 weeks"
 msgstr ""
@@ -306,37 +307,37 @@ msgid "Email marketing"
 msgstr ""
 
 msgid "Send message to"
-msgstr ""
+msgstr "შეტყობინება გაეგზავნოს"
 
 msgid "All users"
-msgstr ""
+msgstr "ყველა მომხმარებელს"
 
 msgid "All resellers"
-msgstr ""
+msgstr "ყველა გადამყიდველს"
 
 msgid "All users & resellers"
-msgstr ""
+msgstr "ყველა მომხმარებელს და გადამყიდველს"
 
 msgid "Message subject"
-msgstr ""
+msgstr "შეტყობინების სათაური"
 
 msgid "Senders email"
-msgstr ""
+msgstr "გამგზავნის ელფოსტა"
 
 msgid "Senders name"
-msgstr ""
+msgstr "გამგზავნის სახელი"
 
 msgid "Send message"
-msgstr ""
+msgstr "შეტყობინების გაგაზავნა"
 
 msgid "You have no custom menus."
 msgstr ""
 
 msgid "User"
-msgstr ""
+msgstr "მომხმარებელი"
 
 msgid "All"
-msgstr ""
+msgstr "ყველა"
 
 msgid "Missing or incorrect data input!"
 msgstr ""
@@ -360,65 +361,65 @@ msgid "Manage custom menus"
 msgstr ""
 
 msgid "Add new button"
-msgstr ""
+msgstr "ახალი ღილაკის დამატება"
 
 msgid "Button name"
-msgstr ""
+msgstr "ღილაკის სახელი"
 
 msgid "Button link"
-msgstr ""
+msgstr "ღილაკის ბმული"
 
 msgid "Button target"
-msgstr ""
+msgstr "ღილაკის დანიშნულება"
 
 msgid "Show in"
-msgstr ""
+msgstr "ჩვენება"
 
 msgid "Administrator level"
-msgstr ""
+msgstr "ადმინისტრატორის დონეზე"
 
 msgid "Reseller level"
-msgstr ""
+msgstr "გადამყიდველის დონეზე"
 
 msgid "Enduser level"
-msgstr ""
+msgstr "საბოლოო მომხმარებლის დონეზე"
 
 msgid "Reseller and enduser level"
-msgstr ""
+msgstr "გადამყიდველის და საბოლოო მომხმარებლის დონეზე"
 
 msgid "Menu button"
-msgstr ""
+msgstr "მენიუს ღილაკი"
 
 msgid "Action"
-msgstr ""
+msgstr "მოქმედება"
 
 msgid "Edit"
-msgstr ""
+msgstr "რედაქტირება"
 
 msgid "Delete"
-msgstr ""
+msgstr "წაშლა "
 
 msgid "Level"
-msgstr ""
+msgstr "დონე"
 
 msgid "Save"
-msgstr ""
+msgstr "შენახვა"
 
 msgid "Edit button"
-msgstr ""
+msgstr "ღილაკის რედაქტირება"
 
 #, php-format
 msgid "Are you sure you want to delete %s?"
-msgstr ""
+msgstr "ნამდვილად გსურთ წაშალოთ %s?"
 
 msgid "Database updates"
-msgstr ""
+msgstr "მონაცემთა ბაზების განახლებები"
 
 msgid "Available database updates"
-msgstr ""
+msgstr "ხელმისაწვდომია მონაცემთა ბაზის განახლებები"
 
 msgid "Update details"
-msgstr ""
+msgstr "განახლების წვრილმანები"
 
 msgid "New Database update is now available"
 msgstr ""
@@ -427,106 +428,106 @@ msgid "Do you want to execute the Updates now?"
 msgstr ""
 
 msgid "Execute updates"
-msgstr ""
+msgstr "განახლება"
 
 msgid "No database updates available"
-msgstr ""
+msgstr "მონაცემთა ბაზის განახლებები არ არის"
 
 msgid "ispCP - Domain/Details"
-msgstr ""
+msgstr "ispCP - დომენი/დეტალები"
 
 msgid "Domain details"
-msgstr ""
+msgstr "დომენის დეტალები"
 
 msgid "Domain name"
-msgstr ""
+msgstr "დომენის სახელი"
 
 msgid "Domain IP"
-msgstr ""
+msgstr "დომენის IP"
 
 msgid "Status"
-msgstr ""
+msgstr "მდგომარეობა"
 
 msgid "PHP support"
-msgstr ""
+msgstr "PHP-ის მხარდაჭერა"
 
 msgid "CGI support"
-msgstr ""
+msgstr "CGI-ის მხარდაჭერა"
 
 msgid "Manual DNS support"
-msgstr ""
+msgstr "DNS-ის ცვლილების საშუალება"
 
 msgid "Backup support"
-msgstr ""
+msgstr "რეზერვირების მხარდაჭერა"
 
 msgid "MySQL support"
-msgstr ""
+msgstr "MySQL-ის მხარდაჭერა"
 
 msgid "Traffic in MB"
-msgstr ""
+msgstr "ტრაფიკი (MB)"
 
 msgid "Disk in MB"
-msgstr ""
+msgstr "სადისკო სივრცე (MB)"
 
 msgid "Feature"
 msgstr ""
 
 msgid "Used"
-msgstr ""
+msgstr "გამოყენებული"
 
 msgid "Limit"
-msgstr ""
+msgstr "შეზღუდვა"
 
 msgid "Mail accounts"
-msgstr ""
+msgstr "ელფოსტის ანგარიშები"
 
 msgid "FTP accounts"
-msgstr ""
+msgstr "FTP ანგარიშები"
 
 msgid "SQL databases"
-msgstr ""
+msgstr "SQL მონაცემთა ბაზები"
 
 msgid "SQL users"
-msgstr ""
+msgstr "SQL მომხმარებლები"
 
 msgid "Subdomains"
-msgstr ""
+msgstr "ქვედომენები"
 
 msgid "Domain aliases"
 msgstr ""
 
 msgid "Submit changes"
-msgstr ""
+msgstr "ცვლილებების შენახვა"
 
 msgid "Full"
-msgstr ""
+msgstr "სრული"
 
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 msgid "Domain"
-msgstr ""
+msgstr "დომენის"
 
 msgid "No"
-msgstr ""
+msgstr "გათიშვა"
 
 msgid "Enabled"
-msgstr ""
+msgstr "ჩართულია"
 
 msgid "Disabled"
-msgstr ""
+msgstr "გათიშულია"
 
 msgid "ispCP - Admin/Edit Domain"
-msgstr ""
+msgstr "ispCP - დომენის ადმინისტრირება/მართვა"
 
 msgid "Edit Domain"
-msgstr ""
+msgstr "დომენის რედაქტირება"
 
 msgid "Domain properties"
-msgstr ""
+msgstr "დომენის პარამეტრები"
 
 msgid "Domain expire"
-msgstr ""
+msgstr "დომენის ვადა"
 
 msgid "New expire date"
 msgstr ""
@@ -556,13 +557,13 @@ msgid "Disk limit [MB] <br /><em>(0 unlimited)</em>"
 msgstr ""
 
 msgid "Backup"
-msgstr ""
+msgstr "რეზერვირება"
 
 msgid "Cancel"
-msgstr ""
+msgstr "შეწყვეტა"
 
 msgid "Yes"
-msgstr ""
+msgstr "დიახ"
 
 msgid "In case 'Domain expire' is 'N/A', the expiration date will be set from today."
 msgstr ""
@@ -604,28 +605,28 @@ msgid "Incorrect disk quota limit!"
 msgstr ""
 
 msgid "Subdomain"
-msgstr ""
+msgstr "ქვედომენი"
 
 msgid "Alias"
 msgstr ""
 
 msgid "Mail"
-msgstr ""
+msgstr "ელფოსტა"
 
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 msgid "SQL Database"
-msgstr ""
+msgstr "SQL მონაცემთა ბაზა"
 
 msgid "SQL User"
-msgstr ""
+msgstr "SQL მომხმარებელი"
 
 msgid "Traffic"
-msgstr ""
+msgstr "ტრაფიკი"
 
 msgid "Disk"
-msgstr ""
+msgstr "სივრცე"
 
 msgid "Domain properties could not be updated!"
 msgstr ""
@@ -669,49 +670,49 @@ msgid "ispCP - Domain Statistics Data"
 msgstr ""
 
 msgid "Domain statistics"
-msgstr ""
+msgstr "დომენის სტატისტიკა"
 
 msgid "Month"
-msgstr ""
+msgstr "თვე"
 
 msgid "Year"
-msgstr ""
+msgstr "წელი"
 
 msgid "Show"
-msgstr ""
+msgstr "ჩვენება"
 
 msgid "Web traffic"
-msgstr ""
+msgstr "ვებ ტრაფიკი"
 
 msgid "FTP traffic"
-msgstr ""
+msgstr "FTP ტრაფიკი"
 
 msgid "SMTP traffic"
-msgstr ""
+msgstr "SMTP ტრაფიკი"
 
 msgid "POP3/IMAP traffic"
-msgstr ""
+msgstr "POP3/IMAP ტრაფიკი"
 
 msgid "All traffic"
-msgstr ""
+msgstr "ჯამური ტრაფიკი"
 
 msgid "Day"
-msgstr ""
+msgstr "დღე"
 
 msgid "ispCP - Administrator/Hosting Plan Management"
 msgstr ""
 
 msgid "Hosting plans"
-msgstr ""
+msgstr "ჰოსტინგის გეგმები"
 
 msgid "Manage hosting plans"
-msgstr ""
+msgstr "ჰოსტინგის გეგმების მართვა"
 
 msgid "Purchasing"
-msgstr ""
+msgstr "შესყიდვა"
 
 msgid "Add hosting plan"
-msgstr ""
+msgstr "ჰოსტინგის გეგმის დამატება"
 
 msgid "Add new user hosting plan"
 msgstr ""
@@ -735,22 +736,22 @@ msgid "Hosting plans not found!"
 msgstr ""
 
 msgid "No."
-msgstr ""
+msgstr "No."
 
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 msgid "Show hosting plan"
-msgstr ""
+msgstr "ჰოსტინგის გეგმის ჩვენება"
 
 msgid "ispCP - Administrator/Add hosting plan"
 msgstr ""
 
 msgid "Hosting plan properties"
-msgstr ""
+msgstr "ჰოსტინგის გეგმის თვისებები"
 
 msgid "Template name"
-msgstr ""
+msgstr "შაბლონის სახელი"
 
 msgid "Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>"
 msgstr ""
@@ -777,10 +778,10 @@ msgid "Disk limit [MB]<br><em>(0 unlimited)</em>"
 msgstr ""
 
 msgid "PHP"
-msgstr ""
+msgstr "PHP"
 
 msgid "CGI / Perl"
-msgstr ""
+msgstr "CGI / Perl"
 
 msgid "Allow adding records to DNS zone"
 msgstr ""
@@ -789,19 +790,19 @@ msgid "Apache logfiles"
 msgstr ""
 
 msgid "AwStats"
-msgstr ""
+msgstr "AwStats"
 
 msgid "yes"
-msgstr ""
+msgstr "დიახ"
 
 msgid "no"
-msgstr ""
+msgstr "არა"
 
 msgid "Billing Settings"
-msgstr ""
+msgstr "ბილინგის პარამეტრები"
 
 msgid "Price"
-msgstr ""
+msgstr "ფასი"
 
 msgid "Setup fee"
 msgstr ""
@@ -810,28 +811,28 @@ msgid "Currency"
 msgstr ""
 
 msgid "Payment period"
-msgstr ""
+msgstr "გადახდის მეთოდი"
 
 msgid "Available for purchasing"
 msgstr ""
 
 msgid "Description"
-msgstr ""
+msgstr "აღწერა"
 
 msgid "(e.g. EUR)"
 msgstr ""
 
 msgid "Term Of Service"
-msgstr ""
+msgstr "მომსახურების წესები"
 
 msgid "<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan."
 msgstr ""
 
 msgid "Text Only"
-msgstr ""
+msgstr "მხოლოდ ტექსტი"
 
 msgid "Add plan"
-msgstr ""
+msgstr "გეგმის დამატება"
 
 msgid "Incorrect template name length!"
 msgstr ""
@@ -855,10 +856,10 @@ msgid "Price Style"
 msgstr ""
 
 msgid "Text"
-msgstr ""
+msgstr "ტექსტი"
 
 msgid "Update plan"
-msgstr ""
+msgstr "გეგმის განახლება"
 
 msgid "Edit hosting plan"
 msgstr ""
@@ -945,13 +946,13 @@ msgid "Available IPs"
 msgstr ""
 
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 msgid "Network interface"
 msgstr ""
 
 msgid "Add new IP"
-msgstr ""
+msgstr "ახალი IP-ის დამატება"
 
 #, php-format
 msgid "Are you sure you want to delete this IP: %s?"
@@ -961,19 +962,19 @@ msgid "ispCP - Admin/IP Usage"
 msgstr ""
 
 msgid "Total Domains"
-msgstr ""
+msgstr "სულ დომენი"
 
 msgid "No records found"
-msgstr ""
+msgstr "ჩანაწერები ვერ მოიძებნა"
 
 msgid "IP Usage"
-msgstr ""
+msgstr "IP-ის გამოყენება"
 
 msgid "Domain Name"
-msgstr ""
+msgstr "დომენის სახელი"
 
 msgid "Reseller Name"
-msgstr ""
+msgstr "რესელერის სახელი"
 
 msgid "No domain system errors"
 msgstr ""
@@ -1016,7 +1017,7 @@ msgid "Done"
 msgstr ""
 
 msgid "Unknown Error"
-msgstr ""
+msgstr "უცნობი შეცდომა"
 
 msgid "ispCP debugger"
 msgstr ""
@@ -1056,13 +1057,13 @@ msgid "Enable update at"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "პარამეტრები"
 
 msgid "Get it at"
 msgstr ""
 
 msgid "ispCP updates"
-msgstr ""
+msgstr "ispCP-ის განახლებები"
 
 msgid "Available ispCP updates"
 msgstr ""
@@ -1104,19 +1105,19 @@ msgid "Reseller users"
 msgstr ""
 
 msgid "Mark"
-msgstr ""
+msgstr "მონიშვნა"
 
 msgid "Reseller name"
 msgstr ""
 
 msgid "Owner"
-msgstr ""
+msgstr "მფლობელი"
 
 msgid "To Admin"
 msgstr ""
 
 msgid "Move"
-msgstr ""
+msgstr "გადატანა"
 
 msgid "Reseller or user list is empty!"
 msgstr ""
@@ -1159,34 +1160,34 @@ msgid "User assignment"
 msgstr ""
 
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებლები"
 
 msgid "User name"
-msgstr ""
+msgstr "მომხმარებლის სახელი"
 
 msgid "From reseller"
-msgstr ""
+msgstr "ამ გადამყიდველისგან"
 
 msgid "To reseller"
-msgstr ""
+msgstr "ამ გადამყიდველზე"
 
 msgid "ispCP - Admin/Manage Users"
-msgstr ""
+msgstr "ispCP - მომხმარებლების მართვა/ადმინისტრირება"
 
 msgid "User added"
-msgstr ""
+msgstr "მომხმარებელი დაემატა"
 
 msgid "Reseller added"
-msgstr ""
+msgstr "რესელერი დაემატა"
 
 msgid "User updated"
-msgstr ""
+msgstr "მომხმარებელი განახლდა"
 
 msgid "User deleted"
-msgstr ""
+msgstr "მომხმარებელი წაიშალა"
 
 msgid "Email Updated"
-msgstr ""
+msgstr "ელფოსტა განახლდა"
 
 msgid "This user has a domain!<br />To delete the user first delete the domain!"
 msgstr ""
@@ -1252,13 +1253,13 @@ msgid "Install new language"
 msgstr ""
 
 msgid "Language file"
-msgstr ""
+msgstr "ენის ფაილი"
 
 msgid "Install"
-msgstr ""
+msgstr "ჩადგმა"
 
 msgid "Export"
-msgstr ""
+msgstr "ექსპორტი"
 
 msgid "Incorrect data input!"
 msgstr ""
@@ -1279,16 +1280,16 @@ msgid "User password updated successfully!"
 msgstr ""
 
 msgid "Change password"
-msgstr ""
+msgstr "პაროლის შეცვლა"
 
 msgid "Password data"
-msgstr ""
+msgstr "პაროლის მონაცემები"
 
 msgid "Update password"
-msgstr ""
+msgstr "პაროლის განახლება"
 
 msgid "Current password"
-msgstr ""
+msgstr "მიმდინარე პაროლი"
 
 msgid "Password change is deactivated!"
 msgstr ""
@@ -1303,10 +1304,10 @@ msgid "Change personal data"
 msgstr ""
 
 msgid "Personal data"
-msgstr ""
+msgstr "პირადი მონაცემები"
 
 msgid "Update data"
-msgstr ""
+msgstr "მონაცემების განახლება"
 
 msgid "ispCP - Admin/Manage users/Add reseller"
 msgstr ""
@@ -1315,13 +1316,13 @@ msgid "Reseller IP list is empty!"
 msgstr ""
 
 msgid "Assign"
-msgstr ""
+msgstr "მინიჭება"
 
 msgid "Label"
 msgstr ""
 
 msgid "Number"
-msgstr ""
+msgstr "ნომერი"
 
 #, php-format
 msgid "The password must be at least %s long and contain letters and numbers to be valid."
@@ -1343,7 +1344,7 @@ msgid "You must assign at least one IP number for a reseller!"
 msgstr ""
 
 msgid "Add reseller"
-msgstr ""
+msgstr "რესელერის დამატება"
 
 msgid "Domains limit<br><em>(0 unlimited)</em>"
 msgstr ""
@@ -1355,16 +1356,16 @@ msgid "Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>"
 msgstr ""
 
 msgid "JSP"
-msgstr ""
+msgstr "JSP"
 
 msgid "SSI"
-msgstr ""
+msgstr "SSI"
 
 msgid "Frontpage extensions"
-msgstr ""
+msgstr "Frontpage-ის გაფართოებები"
 
 msgid "Backup and restore"
-msgstr ""
+msgstr "რეზერვირება და აღდგენა"
 
 msgid "Custom error pages"
 msgstr ""
@@ -1373,40 +1374,40 @@ msgid "Protected areas"
 msgstr ""
 
 msgid "Webmail"
-msgstr ""
+msgstr "ვებფოსტა"
 
 msgid "Directory listing"
 msgstr ""
 
 msgid "Logo upload"
-msgstr ""
+msgstr "ლოგოს ატვირთვა"
 
 msgid "Support system"
-msgstr ""
+msgstr "მხარდაჭერის სისტემა"
 
 msgid "Reseller IPs"
-msgstr ""
+msgstr "გადამყიდველის IP-ები"
 
 msgid "Customer ID"
-msgstr ""
+msgstr "მომხმარებლის ID"
 
 msgid "Domains"
-msgstr ""
+msgstr "დომენები"
 
 msgid "Aliases"
 msgstr ""
 
 msgid "SQL Databases"
-msgstr ""
+msgstr "SQL მონაცემთა ბაზები"
 
 msgid "SQL Users"
-msgstr ""
+msgstr "SQL მომხმარებლები"
 
 msgid "Web Traffic"
-msgstr ""
+msgstr "ვებ ტრაფიკი"
 
 msgid "Disk storage"
-msgstr ""
+msgstr "სადისკო სივრცე"
 
 #, php-format
 msgid "This reseller's customers are using/have more/higher <strong>%s</strong> accounts/limits than the new limit you entered."
@@ -1443,19 +1444,19 @@ msgid "Please, read the message(s) above and trying to correct!"
 msgstr ""
 
 msgid "Edit reseller"
-msgstr ""
+msgstr "გადამყიდველის რედაქტირება"
 
 msgid "E-mail"
-msgstr ""
+msgstr "ელფოსტა"
 
 msgid "unlimited"
-msgstr ""
+msgstr "შეუზღუდავი"
 
 msgid "Reset"
 msgstr ""
 
 msgid "Generated password:"
-msgstr ""
+msgstr "დაგენერირებული პაროლი:"
 
 msgid "Type `CTRL+C` to copy the generated password in the clipboard."
 msgstr ""
@@ -1493,10 +1494,10 @@ msgid "Reseller statistics table"
 msgstr ""
 
 msgid "SQL database"
-msgstr ""
+msgstr "SQL მონაცემთა ბაზა"
 
 msgid "SQL user"
-msgstr ""
+msgstr "SQL მომხმარებელი"
 
 msgid "ispCP - Admin/Reseller User Statistics"
 msgstr ""
@@ -1518,10 +1519,10 @@ msgid "%d <br/>of<br/> <strong>unlimited</strong>"
 msgstr ""
 
 msgid "Reseller users table"
-msgstr ""
+msgstr "გადამყიდველის მომხმარებელთა ცხრილი"
 
 msgid "This reseller has no domains."
-msgstr ""
+msgstr "ამ გადამყიდველს არ აქვს დომენები."
 
 msgid "Traffic<br>usage"
 msgstr ""
@@ -1600,34 +1601,34 @@ msgid "Server day statistics"
 msgstr ""
 
 msgid "Month:"
-msgstr ""
+msgstr "თვე:"
 
 msgid "Year:"
-msgstr ""
+msgstr "წელი:"
 
 msgid "Day:"
-msgstr ""
+msgstr "დღე:"
 
 msgid "Hour"
-msgstr ""
+msgstr "საათი"
 
 msgid "ispCP Admin / System Tools / Server Status"
 msgstr ""
 
 msgid "UP"
-msgstr ""
+msgstr "ზევით"
 
 msgid "DOWN"
-msgstr ""
+msgstr "ქვევით"
 
 msgid "Host"
-msgstr ""
+msgstr "ჰოსტი"
 
 msgid "Service"
-msgstr ""
+msgstr "სერვისი"
 
 msgid "Server status"
-msgstr ""
+msgstr "სერვერის მდგომარეობა"
 
 msgid "ispCP - Admin/Manage Sessions"
 msgstr ""
@@ -1636,16 +1637,16 @@ msgid "Manage user sessions"
 msgstr ""
 
 msgid "User type"
-msgstr ""
+msgstr "მომხმარებლის ტიპი"
 
 msgid "Last access"
-msgstr ""
+msgstr "უკანასკნელი წვდომა"
 
 msgid "Options"
-msgstr ""
+msgstr "პარამეტრები"
 
 msgid "Kill session"
-msgstr ""
+msgstr "სესიის მოკვლა"
 
 msgid "ispCP - Admin/Settings"
 msgstr ""
@@ -1673,19 +1674,19 @@ msgid "%d configuration parameters were created!"
 msgstr ""
 
 msgid "General settings"
-msgstr ""
+msgstr "ძირითადი პარამეტრები"
 
 msgid "Activation link expire time (minutes)"
 msgstr ""
 
 msgid "Password settings"
-msgstr ""
+msgstr "პაროლის პარამეტრები"
 
 msgid "Use strong Passwords"
-msgstr ""
+msgstr "ძლიერი პაროლების გამოყენება"
 
 msgid "Password length"
-msgstr ""
+msgstr "პაროლის სიგრძე"
 
 msgid "Bruteforce detection"
 msgstr ""
@@ -1706,10 +1707,10 @@ msgid "Max number of CAPTCHA validation attempts"
 msgstr ""
 
 msgid "Other settings"
-msgstr ""
+msgstr "სხვა პარამეტრები"
 
 msgid "E-Mail settings"
-msgstr ""
+msgstr "ელფოსტის პარამეტრები"
 
 msgid "Create default E-Mail addresses"
 msgstr ""
@@ -1724,10 +1725,10 @@ msgid "Panel default language"
 msgstr ""
 
 msgid "Apply changes"
-msgstr ""
+msgstr "ცვლილებების შენახვა"
 
 msgid "Server ports"
-msgstr ""
+msgstr "სერვერის პორტები"
 
 msgid "Hosting plans available for"
 msgstr ""
@@ -1736,10 +1737,10 @@ msgid "Admin"
 msgstr ""
 
 msgid "Domains per page"
-msgstr ""
+msgstr "დომენი გვერდზე"
 
 msgid "Log Level"
-msgstr ""
+msgstr "ჟურნალირების დონე"
 
 msgid "Notices, Warnings and Errors"
 msgstr ""
@@ -1748,7 +1749,7 @@ msgid "Warnings and Errors"
 msgstr ""
 
 msgid "Errors"
-msgstr ""
+msgstr "შეცდომები"
 
 msgid "Check for update"
 msgstr ""
@@ -1802,31 +1803,31 @@ msgid "Layout settings"
 msgstr ""
 
 msgid "Installed layouts"
-msgstr ""
+msgstr "ჩადგმული განშლები"
 
 msgid "Layout name"
-msgstr ""
+msgstr "განშლა"
 
 msgid "default"
-msgstr ""
+msgstr "ნაგულისხმები"
 
 msgid "Upload logo"
-msgstr ""
+msgstr "ლოგის ატვირთვა"
 
 msgid "Logo file"
-msgstr ""
+msgstr "ლოგოს ფაილი"
 
 msgid "Upload"
-msgstr ""
+msgstr "ატვირთვა"
 
 msgid "Remove"
-msgstr ""
+msgstr "ამორება"
 
 msgid "Choose default layout"
-msgstr ""
+msgstr "აირჩიეთ ნაგულისხმები განშლა"
 
 msgid "Layout"
-msgstr ""
+msgstr "განშლა"
 
 msgid "Please specify a subject!"
 msgstr ""
@@ -1859,7 +1860,7 @@ msgid "User login (system) name"
 msgstr ""
 
 msgid "User password"
-msgstr ""
+msgstr "მომხმარებლის პაროლი"
 
 msgid "User (first and last) name"
 msgstr ""
@@ -1880,7 +1881,7 @@ msgid "ispCP - Admin/Maintenance mode"
 msgstr ""
 
 msgid "Settings saved!"
-msgstr ""
+msgstr "ცვლილებები შენახულია!"
 
 msgid "Maintenance mode"
 msgstr ""
@@ -1930,16 +1931,16 @@ msgid "You are not allowed to remove this port entry!"
 msgstr ""
 
 msgid "udp"
-msgstr ""
+msgstr "udp"
 
 msgid "tcp"
-msgstr ""
+msgstr "tcp"
 
 msgid "Port"
-msgstr ""
+msgstr "პორტი"
 
 msgid "Protocol"
-msgstr ""
+msgstr "ოქმი"
 
 #, php-format
 msgid "Are you sure you want to delete %s service port ?"
@@ -1964,7 +1965,7 @@ msgid "Server traffic settings updated successfully!"
 msgstr ""
 
 msgid "Modify"
-msgstr ""
+msgstr "შეცვლა"
 
 msgid "Server traffic settings"
 msgstr ""
@@ -2000,10 +2001,10 @@ msgid "Number of CPU Cores"
 msgstr ""
 
 msgid "CPU MHz"
-msgstr ""
+msgstr "CPU MHz"
 
 msgid "CPU model"
-msgstr ""
+msgstr "CPU-ის მოდელი"
 
 msgid "CPU system Info"
 msgstr ""
@@ -2012,10 +2013,10 @@ msgid "Filesystem system Info"
 msgstr ""
 
 msgid "Free"
-msgstr ""
+msgstr "თავისუფალი"
 
 msgid "Kernel Version"
-msgstr ""
+msgstr "ბირთვის ვერსია"
 
 msgid "Load (1 Min, 5 Min, 15 Min)"
 msgstr ""
@@ -2027,22 +2028,22 @@ msgid "Mount"
 msgstr ""
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "Partition"
-msgstr ""
+msgstr "დანაყოფი"
 
 msgid "Percent"
-msgstr ""
+msgstr "პროცენტი"
 
 msgid "Size"
-msgstr ""
+msgstr "ზომა"
 
 msgid "Swap"
-msgstr ""
+msgstr "Swap"
 
 msgid "System info"
-msgstr ""
+msgstr "სისტემური ინფორმაცია"
 
 msgid "Vital system info"
 msgstr ""
@@ -2051,10 +2052,10 @@ msgid "Total"
 msgstr ""
 
 msgid "Type"
-msgstr ""
+msgstr "ტიპი"
 
 msgid "Up time"
-msgstr ""
+msgstr "ჩართულია"
 
 msgid "ispCP - Client/Questions & Comments"
 msgstr ""
@@ -2063,13 +2064,13 @@ msgid "Support tickets"
 msgstr ""
 
 msgid "Priority"
-msgstr ""
+msgstr "პრიორიტეტი"
 
 msgid "Last reply"
 msgstr ""
 
 msgid "Delete all"
-msgstr ""
+msgstr "ყველას წაშლა"
 
 msgid "Open tickets"
 msgstr ""
@@ -2354,31 +2355,31 @@ msgid "DNS zone's records"
 msgstr ""
 
 msgid "Class"
-msgstr ""
+msgstr "კლასი"
 
 msgid "Service name"
-msgstr ""
+msgstr "სერვისის სახელი"
 
 msgid "IP address"
-msgstr ""
+msgstr "IP მისამართი"
 
 msgid "IPv6 address"
-msgstr ""
+msgstr "IPv6 მისამართი"
 
 msgid "Service protocol"
-msgstr ""
+msgstr "სერვისის ოქმი"
 
 msgid "TTL"
-msgstr ""
+msgstr "TTL"
 
 msgid "Relative weight for records with the same priority"
 msgstr ""
 
 msgid "Target host"
-msgstr ""
+msgstr "დანიშნულები ჰოსტი"
 
 msgid "Target port"
-msgstr ""
+msgstr "დანიშნულების პორტი"
 
 msgid "Canonical name"
 msgstr ""
@@ -2448,16 +2449,16 @@ msgid "ispCP - Client/Domain Statistics"
 msgstr ""
 
 msgid "Web Stats"
-msgstr ""
+msgstr "ვებ სტატისტიკა"
 
 msgid "WEB"
-msgstr ""
+msgstr "ვები"
 
 msgid "SMTP"
-msgstr ""
+msgstr "SMTP"
 
 msgid "POP3/IMAP"
-msgstr ""
+msgstr "POP3/IMAP"
 
 msgid "Sum"
 msgstr ""
@@ -2467,13 +2468,13 @@ msgstr ""
 
 #, php-format
 msgid "%s record"
-msgstr ""
+msgstr "%s ჩანაწერი"
 
 msgid "Subdomain list is empty!"
 msgstr ""
 
 msgid "Delete order"
-msgstr ""
+msgstr "შეკვეთის წაშლა"
 
 msgid "Alias list is empty!"
 msgstr ""
@@ -2485,13 +2486,13 @@ msgid "Manage domains"
 msgstr ""
 
 msgid "Mount point"
-msgstr ""
+msgstr "მონტირების წერტილი"
 
 msgid "Forward"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "მოქმედებები"
 
 msgid "Record data"
 msgstr ""
@@ -4465,3 +4466,4 @@ msgstr ""
 
 msgid "User not terminated!"
 msgstr ""
+
