@@ -111,14 +111,14 @@ function confirm_order($order_id) {
 		$replace[] = $name;
 
 		if ($from_name) {
-			$from = '"' . encode($from_name) . "\" <" . $from_email . ">";
+			$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') . "\" <" . $from_email . ">";
 		} else {
 			$from = $from_email;
 		}
 
 		// moved from reseller-functions.php:
 		// let's send mail to the reseller => new order
-		$subject = encode(tr("You have a new order"));
+		$subject = mb_encode_mimeheader(tr("You have a new order"), 'UTF-8');
 
 		$message = tr('
 

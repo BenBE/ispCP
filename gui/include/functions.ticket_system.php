@@ -770,7 +770,8 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 
 	// Format addresses
 	if ($from_fname && $from_lname) {
-		$from = '"' . encode($from_fname . ' ' . $from_lname) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_fname . ' ' . $from_lname, 'UTF-8') .
+				"\" <" . $from_email . ">";
 		$fromname = "$from_fname $from_lname";
 	} else {
 		$from = $from_email;
@@ -778,7 +779,8 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 	}
 
 	if ($to_fname && $to_lname) {
-		$to = '"' . encode($to_fname . ' ' . $to_lname) . "\" <" . $to_email . ">";
+		$to = '"' . mb_encode_mimeheader($to_fname . ' ' . $to_lname, 'UTF-8') .
+				"\" <" . $to_email . ">";
 		$toname = "$to_fname $to_lname";
 	} else {
 		$toname = $to_uname;
@@ -808,7 +810,9 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 				"charset=utf-8\nContent-Transfer-Encoding: 8bit\n" .
 				"X-Mailer: ispCP " . $cfg->Version . " Tickets Mailer";
 
-	$mail_result = mail($to, encode($subject), $message, $headers);
+	$mail_result = mail(
+			$to, mb_encode_mimeheader($subject, 'UTF-8'), $message, $headers
+		);
 	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
 
     $toname = tohtml($toname);

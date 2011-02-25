@@ -1567,14 +1567,15 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
 	$message = $data['message'];
 
 	if ($from_name) {
-		$from = '"' . encode($from_name) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') .
+				"\" <" . $from_email . ">";
 	} else {
 		$from = $from_email;
 	}
 
 	if ($ufname && $ulname) {
 		$name = "$ufname $ulname";
-		$to = '"' . encode($name) . "\" <" . $uemail . ">";
+		$to = '"' . mb_encode_mimeheader($name, 'UTF-8') . "\" <" . $uemail . ">";
 	} else {
 		if ($ufname) {
 			$name = $ufname;
@@ -1606,7 +1607,7 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
 	$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "From: ". $from . "\n";
 	$headers .= "MIME-Version: 1.0\n";
@@ -1639,12 +1640,14 @@ function send_alias_order_email($alias_name) {
 	$message = $data['message'];
 
 	// to
-	$to = ($to_name) ? '"' . encode($to_name) . "\" <" . $to_email . ">" : $to_email;
+	$to = ($to_name) ? '"' . mb_encode_mimeheader($to_name, 'UTF-8') .
+		"\" <" . $to_email . ">" : $to_email;
 
 	// from
 	if ($ufname && $ulname) {
 		$from_name = "$ufname $ulname";
-		$from = '"' . encode($from_name) . "\" <" . $uemail . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') .
+			"\" <" . $uemail . ">";
 	} else {
 		if ($ufname) {
 			$from_name = $ufname;
@@ -1672,7 +1675,7 @@ function send_alias_order_email($alias_name) {
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
 
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "From: ". $from ."\n";
 	$headers .= "MIME-Version: 1.0\n";

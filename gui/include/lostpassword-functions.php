@@ -383,7 +383,7 @@ function requestpassword($admin_name) {
 	$headers .= "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
 	$headers .= 'X-Mailer: ispCP lostpassword mailer';
 
-	$mail_result = mail($to, encode($subject), $message, $headers);
+	$mail_result = mail($to, mb_encode_mimeheader($subject, 'UTF-8'), $message, $headers);
 
 	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
 

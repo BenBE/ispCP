@@ -153,9 +153,12 @@ function send_reseller_users_message(&$sql, $admin_id) {
 	$rs = exec_query($sql, $query, $admin_id);
 
 	while (!$rs->EOF) {
-		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
+		$to = "\"" . mb_encode_mimeheader($rs->fields['fname'] . " " . $rs->fields['lname'], 'UTF-8') .
+			"\" <" . $rs->fields['email'] . ">";
 
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
+		send_circular_email(
+			$to, "\"" . mb_encode_mimeheader($sender_name, 'UTF-8') .
+			"\" <" . $sender_email . ">", $msg_subject, $msg_text);
 
 		$rs->moveNext();
 	}
@@ -167,7 +170,7 @@ function send_reseller_users_message(&$sql, $admin_id) {
 }
 
 function send_circular_email($to, $from, $subject, $message) {
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
 	$headers .= "From: " . $from . "\n";

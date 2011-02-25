@@ -29,47 +29,6 @@
  */
 
 /**
- * encode string to be valid as mail header
- *
- * @source php.net/manual/en/function.mail.php
- *
- * @param string $in_str string to be encoded [should be in the $charset charset]
- * @param string $charset charset in that string will be encoded
- * @return string encoded string
- *
- * @todo need to check emails with ? and space in subject - some probs can occur
- */
-function encode($in_str, $charset = 'UTF-8') {
-
-	$out_str = $in_str;
-
-	if($out_str && $charset) {
-		// define start delimimter, end delimiter and spacer
-		$end = '?=';
-		$start = '=?' . $charset . '?B?';
-		$spacer = $end . "\r\n " . $start;
-
-	    // determine length of encoded text within chunks
-		// and ensure length is even
-		$length = 75 - strlen($start) - strlen($end);
-		$length = floor($length / 4) * 4;
-
-		// encode the string and split it into chunks
-		// with spacers after each chunk
-		$out_str = base64_encode($out_str);
-		$out_str = chunk_split($out_str, $length, $spacer);
-
-		// remove trailing spacer and
-		// add start and end delimiters
-		$spacer = preg_quote($spacer);
-		$out_str = preg_replace('/' . $spacer . '$/', '', $out_str);
-		$out_str = $start . $out_str . $end;
-	}
-
-	return $out_str;
-}
-
-/**
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
@@ -1699,13 +1658,13 @@ function send_add_user_auto_msg($admin_id, $uname, $upass, $uemail, $ufname,
 	$base_vhost = $cfg->BASE_SERVER_VHOST;
 
 	if($from_name) {
-		$from = '"' . encode($from_name) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') . "\" <" . $from_email . ">";
 	} else {
 		$from = $from_email;
 	}
 
 	if($ufname && $ulname) {
-		$to = '"' . encode($ufname . ' ' . $ulname) . "\" <" . $uemail . ">";
+		$to = '"' . mb_encode_mimeheader($ufname . ' ' . $ulname, 'UTF-8') . "\" <" . $uemail . ">";
 		$name = "$ufname $ulname";
 	} else {
 		$name = $uname;
@@ -1731,7 +1690,7 @@ function send_add_user_auto_msg($admin_id, $uname, $upass, $uemail, $ufname,
 	$replace[] = $cfg->BASE_SERVER_VHOST_PREFIX;
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 	$headers = "From: " . $from . "\n";
 	$headers .= "MIME-Version: 1.0\nContent-Type: text/plain; " .
 		"charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
