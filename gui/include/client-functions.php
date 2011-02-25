@@ -927,34 +927,30 @@ function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
-	$db_name = quoteIdentifier($rs->fields['sqld_name']);
+	$db_name = quoteIdentifier(
+			preg_replace("/([_%\?\*])/", '\\\$1', $rs->fields['sqld_name'])
+		);
 	$db_user_name = $rs->fields['sqlu_name'];
 
 	if (count_sql_user_by_name($sql, $rs->fields['sqlu_name']) == 0) {
 
 		// revoke grants on global level, if any;
-		$query = "REVOKE ALL ON *.* FROM ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "REVOKE ALL ON *.* FROM ?@localhost;";
-		exec_query($sql, $query, $db_user_name);
+		$query = "REVOKE ALL ON *.* FROM ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 
 		// delete user record from mysql.user table;
-		$query = "DROP USER ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "DROP USER ?@'localhost';";
-		exec_query($sql, $query, $db_user_name);
+		$query = "DROP USER ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 
 		// flush privileges.
 		$query = "FLUSH PRIVILEGES;";
 		exec_query($sql, $query);
 	} else {
-		$query = "REVOKE ALL ON $db_name.* FROM ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "REVOKE ALL ON $db_name.* FROM ?@localhost;";
-		exec_query($sql, $query, $db_user_name);
+		$query = "REVOKE ALL ON $db_name.* FROM ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 	}
 }
 
