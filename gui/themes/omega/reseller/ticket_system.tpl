@@ -1,18 +1,20 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function() { 
-			$('#ticket_delete_all').click(function() { 
+		$(document).ready(function() {
+			$('#ticket_delete_all').click(function() {
 				document.location.href = 'ticket_delete.php?delete=open';
 			});
 		});
 
-		function action_delete(url, subject) { 
+		function action_delete(url, subject) {
 			return confirm(sprintf("{$TR_MESSAGE_DELETE}", subject));
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

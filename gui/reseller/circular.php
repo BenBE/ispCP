@@ -37,6 +37,42 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'circular.tpl';
 
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Circular'),
+		'TR_CIRCULAR' => tr('Circular'),
+		'TR_CORE_DATA' => tr('Core data'),
+		'TR_SEND_TO' => tr('Send message to'),
+		'TR_ALL_USERS' => tr('All users'),
+		'TR_ALL_RESELLERS' => tr('All resellers'),
+		'TR_ALL_USERS_AND_RESELLERS' => tr('All users & resellers'),
+		'TR_MESSAGE_SUBJECT' => tr('Message subject'),
+		'TR_MESSAGE_TEXT' => tr('Message'),
+		'TR_ADDITIONAL_DATA' => tr('Additional data'),
+		'TR_SENDER_EMAIL' => tr('Senders email'),
+		'TR_SENDER_NAME' => tr('Senders name'),
+		'TR_SEND_MESSAGE' => tr('Send message'),
+		'TR_SENDER_NAME' => tr('Senders name'),
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
+
+send_circular($tpl, $sql);
+gen_page_data ($tpl, $sql);
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
@@ -178,40 +214,4 @@ function send_circular_email($to, $from, $subject, $message) {
 
 	mail($to, $subject, $message, $headers);
 }
-
-// static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Circular'),
-		'TR_CIRCULAR' => tr('Circular'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_SEND_TO' => tr('Send message to'),
-		'TR_ALL_USERS' => tr('All users'),
-		'TR_ALL_RESELLERS' => tr('All resellers'),
-		'TR_ALL_USERS_AND_RESELLERS' => tr('All users & resellers'),
-		'TR_MESSAGE_SUBJECT' => tr('Message subject'),
-		'TR_MESSAGE_TEXT' => tr('Message'),
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_SENDER_EMAIL' => tr('Senders email'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-		'TR_SEND_MESSAGE' => tr('Send message'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-	)
-);
-
-send_circular($tpl, $sql);
-gen_page_data ($tpl, $sql);
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

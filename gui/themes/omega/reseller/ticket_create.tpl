@@ -1,12 +1,14 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function action_delete(url, subject) { 
+		function action_delete(url, subject) {
 			return confirm(sprintf("{$TR_MESSAGE_DELETE}", subject));
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

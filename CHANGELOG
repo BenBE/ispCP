@@ -1,6 +1,11 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-03-02 Markus Szywon
+	- GUI:
+		* Replace pTemplate with Smarty part IV
+		* Template improvements
+
 2011-02-26 Markus Szywon
 	- GUI:
 		* Updated jQuery to version 1.5.1

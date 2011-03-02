@@ -1,14 +1,16 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#hp_tos_help').ispCPtooltips({ msg:"{$TR_TOS_NOTE}"});
 			// Tooltips - end
 		});
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

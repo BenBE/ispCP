@@ -43,10 +43,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan_add.tpl';
 
 // static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -91,6 +87,9 @@ $tpl->assign(
 		'TR_ADD_PLAN'				=> tr('Add plan')
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'menu_hosting_plan.tpl');
 
 if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	// Process data

@@ -38,10 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'user_add1.tpl';
 
 // static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -80,6 +76,9 @@ $tpl->assign(
 		'VL_DATE_FORMAT'			=> jQueryDatepickerDateFormat($cfg->DATE_FORMAT)
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 if (isset($_POST['uaction'])) {
 	if (!check_user_data()) {

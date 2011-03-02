@@ -37,6 +37,50 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'puser_manage.tpl';
 
+// static page messages
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
+
+gen_pusres($tpl, $sql, $dmn_id);
+
+gen_pgroups($tpl, $sql, $dmn_id);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
+		'TR_HTACCESS'			=> tr('Protected areas'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_USER_MANAGE'		=> tr('Manage user'),
+		'TR_USERS'				=> tr('User'),
+		'TR_USERNAME'			=> tr('Username'),
+		'TR_ADD_USER'			=> tr('Add user'),
+		'TR_GROUPNAME'			=> tr('Group name'),
+		'TR_GROUP_MEMBERS'		=> tr('Group members'),
+		'TR_ADD_GROUP'			=> tr('Add group'),
+		'TR_GROUP'				=> tr('Group'),
+		'TR_GROUPS'				=> tr('Groups'),
+		'TR_PASSWORD'			=> tr('Password'),
+		'TR_STATUS'				=> tr('Status'),
+		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
+		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 function gen_user_action($id, $status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -177,49 +221,4 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 		}
 	}
 }
-
-// static page messages
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
-
-gen_pusres($tpl, $sql, $dmn_id);
-
-gen_pgroups($tpl, $sql, $dmn_id);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
-		'TR_HTACCESS'			=> tr('Protected areas'),
-		'TR_ACTION'				=> tr('Action'),
-		'TR_USER_MANAGE'		=> tr('Manage user'),
-		'TR_USERS'				=> tr('User'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_ADD_USER'			=> tr('Add user'),
-		'TR_GROUPNAME'			=> tr('Group name'),
-		'TR_GROUP_MEMBERS'		=> tr('Group members'),
-		'TR_ADD_GROUP'			=> tr('Add group'),
-		'TR_GROUP'				=> tr('Group'),
-		'TR_GROUPS'				=> tr('Groups'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_STATUS'				=> tr('Status'),
-		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
-		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

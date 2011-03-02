@@ -38,6 +38,51 @@ $tpl = ispCP_TemplateEngine::getInstance();
 
 $template = 'mail_add.tpl';
 
+// common page data.
+
+if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
+	header("Location: index.php");
+}
+
+// dynamic page data.
+
+gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
+		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
+		'TR_USERNAME'			=> tr('Username'),
+		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
+		'TR_TO_DMN_ALIAS'		=> tr('To domain alias'),
+		'TR_TO_SUBDOMAIN'		=> tr('To subdomain'),
+		'TR_TO_ALS_SUBDOMAIN'	=> tr('To alias subdomain'),
+		'TR_NORMAL_MAIL'		=> tr('Normal mail'),
+		'TR_PASSWORD'			=> tr('Password'),
+		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
+		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
+		'TR_FORWARD_TO'			=> tr('Forward to'),
+		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
+		'TR_ADD'				=> tr('Add'),
+		'TR_EMPTY_DATA'			=> tr('You did not fill all required fields')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
 // page functions.
 
 /**
@@ -637,50 +682,4 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		}
 	}
 }
-
-// common page data.
-
-if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
-	header("Location: index.php");
-}
-
-// dynamic page data.
-
-gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
-		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
-		'TR_TO_DMN_ALIAS'		=> tr('To domain alias'),
-		'TR_TO_SUBDOMAIN'		=> tr('To subdomain'),
-		'TR_TO_ALS_SUBDOMAIN'	=> tr('To alias subdomain'),
-		'TR_NORMAL_MAIL'		=> tr('Normal mail'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
-		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
-		'TR_FORWARD_TO'			=> tr('Forward to'),
-		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
-		'TR_ADD'				=> tr('Add'),
-		'TR_EMPTY_DATA'			=> tr('You did not fill all required fields')
-	)
-);
-
-gen_page_message($tpl);
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
 ?>

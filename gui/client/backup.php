@@ -37,42 +37,12 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'backup.tpl';
 
-// page functions.
-
-function send_backup_restore_request(&$sql, $user_id) {
-	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
-
-		$query = "
-			UPDATE
-				`domain`
-			SET
-				`domain_status` = 'restore'
-			WHERE
-				`domain_admin_id` = ?
-		";
-
-		exec_query($sql, $query, $user_id);
-
-		send_request();
-		write_log($_SESSION['user_logged'] . ": restore backup files.");
-		set_page_message(
-			tr('Backup archive scheduled for restoring!'),
-			'success'
-		);
-	}
-}
-
 // dynamic page data.
 
 send_backup_restore_request($sql, $_SESSION['user_id']);
 
 // static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
 gen_logged_from($tpl);
-
 check_permissions($tpl);
 
 if ($cfg->ZIP == "gzip") {
@@ -100,6 +70,9 @@ $tpl->assign(
 	)
 );
 
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
 gen_page_message($tpl);
 
 $tpl->display($template);
@@ -109,3 +82,29 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+// page functions.
+
+function send_backup_restore_request(&$sql, $user_id) {
+	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
+
+		$query = "
+			UPDATE
+				`domain`
+			SET
+				`domain_status` = 'restore'
+			WHERE
+				`domain_admin_id` = ?
+		";
+
+		exec_query($sql, $query, $user_id);
+
+		send_request();
+		write_log($_SESSION['user_logged'] . ": restore backup files.");
+		set_page_message(
+			tr('Backup archive scheduled for restoring!'),
+			'success'
+		);
+	}
+}
+?>

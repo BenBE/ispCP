@@ -39,14 +39,12 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan.tpl';
 // Table with hosting plans
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
+// static page messages
 gen_logged_from($tpl);
 
 gen_hp_table($tpl, $_SESSION['user_id']);
 
-// static page messages
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
@@ -60,6 +58,9 @@ $tpl->assign(
 		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'menu_hosting_plan.tpl');
 
 gen_hp_message($tpl);
 gen_page_message($tpl);

@@ -2,23 +2,23 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#dmn_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
 			// Tooltips - end
 		});
 
-		function makeUser() { 
+		function makeUser() {
 			var dname = document.getElementById('reseller_alias_add').elements['ndomain_name'].value;
 			dname = dname.toLowerCase();
 			document.getElementById('reseller_alias_add').elements['ndomain_mpoint'].value = "/" + dname;
 		}
 
-		function setForwardReadonly(obj){ 
-			if(obj.value == 1) { 
+		function setForwardReadonly(obj){
+			if(obj.value == 1) {
 				document.forms[0].elements['forward'].readOnly = false;
 				document.forms[0].elements['forward_prefix'].disabled = false;
-			} else { 
+			} else {
 				document.forms[0].elements['forward'].readOnly = true;
 				document.forms[0].elements['forward'].value = '';
 				document.forms[0].elements['forward_prefix'].disabled = true;

@@ -1,14 +1,16 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function delete_account(url, name) { 
+		function delete_account(url, name) {
 				if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", name)))
 					return false;
 				location = url;
 			}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

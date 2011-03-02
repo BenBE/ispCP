@@ -37,7 +37,43 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'sql_database_add.tpl';
 
-// page functions.
+// dynamic page data.
+
+check_sql_permissions($sql, $_SESSION['user_id']);
+
+gen_page_post_data($tpl);
+
+add_sql_database($sql, $_SESSION['user_id']);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
+		'TR_ADD_DATABASE' => tr('Add SQL database'),
+		'TR_DB_NAME' => tr('Database name'),
+		'TR_USE_DMN_ID' => tr('Use numeric ID'),
+		'TR_START_ID_POS' => tr('Before the name'),
+		'TR_END_ID_POS' => tr('After the name'),
+		'TR_ADD' => tr('Add')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+// page functions
 
 /**
  * @param ispCP_TemplateEngine $tpl
@@ -194,38 +230,4 @@ function check_sql_permissions($sql, $user_id) {
 		user_goto('sql_manage.php');
 	}
 }
-
-// dynamic page data.
-
-check_sql_permissions($sql, $_SESSION['user_id']);
-
-gen_page_post_data($tpl);
-
-add_sql_database($sql, $_SESSION['user_id']);
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
-		'TR_ADD_DATABASE' => tr('Add SQL database'),
-		'TR_DB_NAME' => tr('Database name'),
-		'TR_USE_DMN_ID' => tr('Use numeric ID'),
-		'TR_START_ID_POS' => tr('Before the name'),
-		'TR_END_ID_POS' => tr('After the name'),
-		'TR_ADD' => tr('Add')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
+?>

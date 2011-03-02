@@ -2,10 +2,10 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function action_delete(url, mailacc) { 
-			if (url.indexOf("delete")==-1) { 
+		function action_delete(url, mailacc) {
+			if (url.indexOf("delete")==-1) {
 				location = url;
-			} else { 
+			} else {
 				if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", mailacc)))
 					return false;
 				location = url;
@@ -60,7 +60,7 @@
 					<td>{$CATCHALL_ACC}</td>
 					<td>{$CATCHALL_STATUS}</td>
 					<td>
-						<a href="#" class="icon i_users<!-- BDP: del_icon --> i_delete<!-- EDP: del_icon -->" onclick="action_delete('{$CATCHALL_ACTION_SCRIPT}', '{$CATCHALL_ACC}')">{$CATCHALL_ACTION}</a>
+						<a href="#" class="icon i_users" onclick="action_delete('{$CATCHALL_ACTION_SCRIPT}', '{$CATCHALL_ACC}')">{$CATCHALL_ACTION}</a>
 					</td>
 				</tr>
 				<!-- EDP: catchall_item -->

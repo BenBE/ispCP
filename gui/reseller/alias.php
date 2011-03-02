@@ -39,9 +39,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_alias.tpl';
 
 // static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $err_txt = "_off_";
@@ -63,6 +60,9 @@ $tpl->assign(
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 
 $tpl->display($template);

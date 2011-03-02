@@ -1,47 +1,48 @@
 {include file='header.tpl'}
 <body onload="begin_js();">
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#fwd_help').ispCPtooltips({ msg:"{$TR_FWD_HELP}"});
 			// Tooltips - end
 		});
 
-		function changeType() { 
-			if (document.forms[0].elements['mail_type_normal'].checked == true) { 
+		function changeType() {
+			if (document.forms[0].elements['mail_type_normal'].checked == true) {
 				document.forms[0].pass.disabled = false;
 				document.forms[0].pass_rep.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].pass.disabled = true;
 				document.forms[0].pass_rep.disabled = true;
 			}
-			if (document.forms[0].elements['mail_type_forward'].checked == true) { 
+			if (document.forms[0].elements['mail_type_forward'].checked == true) {
 				document.forms[0].forward_list.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].forward_list.disabled = true;
 			}
 		}
 
-	function begin_js() { 
-		if (document.getElementsByName('als_id').length !== 0) { 
-			if (document.getElementById('dmn_type2').checked) { 
+	function begin_js() {
+		if (document.getElementsByName('als_id').length !== 0) {
+			if (document.getElementById('dmn_type2').checked) {
 				document.forms[0].als_id.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].als_id.disabled = true;
 			}
 		}
-		if (document.getElementsByName('sub_id').length !== 0) { 
-			if (document.getElementById('dmn_type3').checked) { 
+		if (document.getElementsByName('sub_id').length !== 0) {
+			if (document.getElementById('dmn_type3').checked) {
 				document.forms[0].sub_id.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].sub_id.disabled = true;
 			}
 		}
-		if (document.getElementsByName('als_sub_id').length !== 0) { 
-			if (document.getElementById('dmn_type4').checked) { 
+		if (document.getElementsByName('als_sub_id').length !== 0) {
+			if (document.getElementById('dmn_type4').checked) {
 				document.forms[0].als_sub_id.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].als_sub_id.disabled = true;
 			}
 		}
@@ -52,31 +53,32 @@
 		document.forms[0].username.focus();
 	}
 
-	function changeDom(what) { 
-		if (document.getElementsByName('als_id').length !== 0) { 
-			if (what == "alias") { 
+	function changeDom(what) {
+		if (document.getElementsByName('als_id').length !== 0) {
+			if (what == "alias") {
 				document.forms[0].als_id.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].als_id.disabled = true;
 			}
 		}
-		if (document.getElementsByName('sub_id').length !== 0) { 
-			if (what == "subdom") { 
+		if (document.getElementsByName('sub_id').length !== 0) {
+			if (what == "subdom") {
 				document.forms[0].sub_id.disabled = false;
-			} else  { 
+			} else  {
 				document.forms[0].sub_id.disabled = true;
 			}
 		}
-		if (document.getElementsByName('als_sub_id').length !== 0) { 
-			if (what == "als_subdom") { 
+		if (document.getElementsByName('als_sub_id').length !== 0) {
+			if (what == "als_subdom") {
 				document.forms[0].als_sub_id.disabled = false;
-			} else { 
+			} else {
 				document.forms[0].als_sub_id.disabled = true;
 			}
 		}
 	}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

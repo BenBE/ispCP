@@ -85,6 +85,36 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_pass') {
 	}
 }
 
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Reseller/Change Password'),
+		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
+		'TR_PASSWORD_DATA' 		=> tr('Password data'),
+		'TR_PASSWORD' 			=> tr('Password'),
+		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
+		'TR_UPDATE_PASSWORD' 	=> tr('Update password'),
+		'TR_CURR_PASSWORD' 		=> tr('Current password'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_reseller_menu($tpl, 'menu_general_information.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 function check_udata($id, $pass) {
 	$sql = ispCP_Registry::get('Db');
 
@@ -103,39 +133,4 @@ function check_udata($id, $pass) {
 
 	return (($rs->recordCount()) != 1) ? false : true;
 }
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Reseller/Change Password'),
-		'TR_CHANGE_PASSWORD' 	=> tr('Change password'),
-		'TR_PASSWORD_DATA' 		=> tr('Password data'),
-		'TR_PASSWORD' 			=> tr('Password'),
-		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
-		'TR_UPDATE_PASSWORD' 	=> tr('Update password'),
-		'TR_CURR_PASSWORD' 		=> tr('Current password'),
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
-		'DEMO_VERSION'			=> tr('Demo Version!')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

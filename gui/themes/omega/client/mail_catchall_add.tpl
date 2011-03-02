@@ -2,11 +2,11 @@
 <body onload="changeType('{$DEFAULT}');">
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function changeType(type) { 
-			if (type == "normal") { 
+		function changeType(type) {
+			if (type == "normal") {
 				document.forms[0].mail_id.disabled = false;
 				document.forms[0].forward_list.disabled = true;
-			} else { 
+			} else {
 				document.forms[0].mail_id.disabled = true;
 				document.forms[0].forward_list.disabled = false;
 			}

@@ -1,30 +1,32 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Target - begin
 			$('a.i_goto').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
 
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
 
-		function change_status(dom_id, dmn_name) { 
+		function change_status(dom_id, dmn_name) {
 			if (!confirm(sprintf("Are you sure you want to change the status of %s?", dmn_name)))
 				return false;
 				location = ("domain_status_change.php?domain_id=" + dom_id);
 		}
 
-		function action_delete(url, dmn_name) { 
+		function action_delete(url, dmn_name) {
 			if (!confirm(sprintf("{$TR_MESSAGE_DELETE_ACCOUNT}", dmn_name)))
 				return false;
 			location = url;
 		}
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

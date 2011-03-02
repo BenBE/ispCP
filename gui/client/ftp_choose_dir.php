@@ -37,6 +37,29 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ftp_choose_dir.tpl';
 
+gen_directories($tpl);
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
+		'CHOOSE'			=> tr('Choose'),
+		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
+		'TR_DIRS'			=> tr('Directories'),
+		'TR__ACTION'		=> tr('Action')
+	)
+);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  */
@@ -109,29 +132,4 @@ function gen_directories(&$tpl) {
 		);
 	}
 }
-
-// functions end
-
-gen_directories($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
-		'CHOOSE'			=> tr('Choose'),
-		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
-		'TR_DIRS'			=> tr('Directories'),
-		'TR__ACTION'		=> tr('Action')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
-
 ?>

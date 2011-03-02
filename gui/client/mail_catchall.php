@@ -42,8 +42,43 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'mail_catchall.tpl';
 
 
-// page functions.
+// dynamic page data.
+if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
+	$tpl->assign('NO_MAILS', '');
+}
 
+gen_page_lists($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Manage Users'),
+		'TR_STATUS'					=> tr('Status'),
+		'TR_ACTION'					=> tr('Action'),
+		'TR_CATCHALL_MAIL_USERS'	=> tr('Catch all account'),
+		'TR_DOMAIN'					=> tr('Domain'),
+		'TR_CATCHALL'				=> tr('Catch all'),
+		'TR_MESSAGE_DELETE'			=> tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
+// page functions.
 function gen_user_mail_action($mail_id, $mail_status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -157,7 +192,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 			)
 		);
 
-
 		$query = "
 			SELECT
 				`alias_id`, `alias_name`
@@ -206,7 +240,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 					$rs_als->fields['status'], 'alias'
 				);
 			}
-
 
 			$rs->moveNext();
 			$counter++;
@@ -263,7 +296,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 				);
 			}
 
-
 			$rs->moveNext();
 			$counter++;
 		}
@@ -317,7 +349,6 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 					$rs_als->fields['status'], 'subdom');
 			}
 
-
 			$rs->moveNext();
 			$counter++;
 		}
@@ -329,42 +360,4 @@ function gen_page_lists(&$tpl, &$sql, $user_id)
 
 	gen_page_catchall_list($tpl, $sql, $dmn_id, $dmn_name);
 }
-
-// dynamic page data.
-
-if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
-	$tpl->assign('NO_MAILS', '');
-}
-
-gen_page_lists($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Client/Manage Users'),
-		'TR_STATUS'					=> tr('Status'),
-		'TR_ACTION'					=> tr('Action'),
-		'TR_CATCHALL_MAIL_USERS'	=> tr('Catch all account'),
-		'TR_DOMAIN'					=> tr('Domain'),
-		'TR_CATCHALL'				=> tr('Catch all'),
-		'TR_MESSAGE_DELETE'			=> tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

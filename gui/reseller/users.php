@@ -51,15 +51,7 @@ unset($GLOBALS['user_add3_added']);
 unset($GLOBALS['dmn_ip']);
 unset($GLOBALS['dmn_id']);
 
-/*
- *
- * static page messages.
- *
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
+// static page messages
 gen_logged_from($tpl);
 
 $crnt_month = date("m");
@@ -92,6 +84,9 @@ $tpl->assign(
 		'TR_DISK_USAGE' => tr('Disk')
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 if (isset($cfg->HOSTING_PLANS_LEVEL)
 	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {

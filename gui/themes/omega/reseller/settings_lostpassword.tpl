@@ -41,33 +41,33 @@
 					<tbody>
 						<tr>
 							<td>{$TR_USER_LOGIN_NAME}</td>
-							<td>{$USERNAME}</td>
+							<td>{literal}{USERNAME}{/literal}</td>
 							<td>{$TR_USER_LOGIN_NAME}</td>
-							<td>{$USERNAME}</td>
+							<td>{literal}{USERNAME}{/literal}</td>
 						</tr>
 						<tr>
 							<td>{$TR_LOSTPW_LINK}</td>
-							<td>{$LINK}</td>
+							<td>{literal}{LINK}{/literal}</td>
 							<td>{$TR_USER_PASSWORD}</td>
-							<td>{$PASSWORD}</td>
+							<td>{literal}{PASSWORD}{/literal}</td>
 						</tr>
 						<tr>
 							<td>{$TR_USER_REAL_NAME}</td>
-							<td>{$NAME}</td>
+							<td>{literal}{NAME}{/literal}</td>
 							<td>{$TR_USER_REAL_NAME}</td>
-							<td>{$NAME}</td>
+							<td>{literal}{NAME}{/literal}</td>
 						</tr>
 						<tr>
 							<td>{$TR_BASE_SERVER_VHOST}</td>
-							<td>{$BASE_SERVER_VHOST}</td>
+							<td>{literal}{BASE_SERVER_VHOST}{/literal}</td>
 							<td>{$TR_BASE_SERVER_VHOST}</td>
-							<td>{$BASE_SERVER_VHOST}</td>
+							<td>{literal}{BASE_SERVER_VHOST}{/literal}</td>
 						</tr>
 						<tr>
 							<td>{$TR_BASE_SERVER_VHOST_PREFIX}</td>
-							<td>{$BASE_SERVER_VHOST_PREFIX}</td>
+							<td>{literal}{BASE_SERVER_VHOST_PREFIX}{/literal}</td>
 							<td>{$TR_BASE_SERVER_VHOST_PREFIX}</td>
-							<td>{$BASE_SERVER_VHOST_PREFIX}</td>
+							<td>{literal}{BASE_SERVER_VHOST_PREFIX}{/literal}</td>
 						</tr>
 					</tbody>
 				</table>

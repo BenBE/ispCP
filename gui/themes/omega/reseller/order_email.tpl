@@ -34,15 +34,15 @@
 				<table>
 					<tr>
 						<td>{$TR_USER_DOMAIN}</td>
-						<td>{$DOMAIN}</td>
+						<td>{literal}{DOMAIN}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_USER_REAL_NAME}</td>
-						<td>{$NAME}</td>
+						<td>{literal}{NAME}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_ACTIVATION_LINK}</td>
-						<td>{$ACTIVATION_LINK}</td>
+						<td>{literal}{ACTIVATION_LINK}{/literal}</td>
 					</tr>
 				</table>
 			</fieldset>

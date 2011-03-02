@@ -1,9 +1,10 @@
 {include file='header.tpl'}
 <body>
+	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
-			$('#SubmitAction').click(function() { 
+		$(document).ready(function(){
+			$('#SubmitAction').click(function() {
 				form = document.getElementById('reseller_ticket_view');
 				form.uaction.value = '{$ACTION}';
 				form.submit();
@@ -11,6 +12,7 @@
 		});
 	/* ]]> */
 	</script>
+	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

@@ -54,10 +54,6 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 		$cfg->DOMAIN_ROWS_PER_PAGE, 'reseller', 'closed');
 
 // static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -80,6 +76,9 @@ $tpl->assign(
 	)
 );
 
+gen_reseller_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_reseller_menu($tpl, 'menu_ticket_system.tpl');
+
 gen_page_message($tpl);
 
 $tpl->display($template);
@@ -89,3 +88,4 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+?>

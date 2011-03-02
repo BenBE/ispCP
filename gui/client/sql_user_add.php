@@ -45,7 +45,55 @@ if (isset($_GET['id'])) {
 	user_goto('sql_manage.php');
 }
 
-// page functions.
+// common page data.
+
+if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
+	user_goto('index.php');
+}
+
+// dynamic page data.
+
+$sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
+check_sql_permissions($tpl, $sql, $_SESSION['user_id'], $db_id, $sqluser_available);
+gen_page_post_data($tpl, $db_id);
+add_sql_user($sql, $_SESSION['user_id'], $db_id);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
+		'TR_ADD_SQL_USER' => tr('Add SQL user'),
+		'TR_USER_NAME' => tr('SQL user name'),
+		'TR_USE_DMN_ID' => tr('Use numeric ID'),
+		'TR_START_ID_POS' => tr('In front the name'),
+		'TR_END_ID_POS' => tr('Behind the name'),
+		'TR_ADD' => tr('Add'),
+		'TR_CANCEL' => tr('Cancel'),
+		'TR_ADD_EXIST' => tr('Add existing user'),
+		'TR_PASS' => tr('Password'),
+		'TR_PASS_REP' => tr('Repeat password'),
+		'TR_SQL_USER_NAME' => tr('Existing SQL users')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
+// page functions
 
 /**
  * @param ispCP_TemplateEngine $tpl
@@ -415,53 +463,4 @@ function gen_page_post_data(&$tpl, $db_id) {
 
 	$tpl->assign('ID', $db_id);
 }
-
-// common page data.
-
-if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
-	user_goto('index.php');
-}
-
-// dynamic page data.
-
-$sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
-check_sql_permissions($tpl, $sql, $_SESSION['user_id'], $db_id, $sqluser_available);
-gen_page_post_data($tpl, $db_id);
-add_sql_user($sql, $_SESSION['user_id'], $db_id);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
-		'TR_ADD_SQL_USER' => tr('Add SQL user'),
-		'TR_USER_NAME' => tr('SQL user name'),
-		'TR_USE_DMN_ID' => tr('Use numeric ID'),
-		'TR_START_ID_POS' => tr('In front the name'),
-		'TR_END_ID_POS' => tr('Behind the name'),
-		'TR_ADD' => tr('Add'),
-		'TR_CANCEL' => tr('Cancel'),
-		'TR_ADD_EXIST' => tr('Add existing user'),
-		'TR_PASS' => tr('Password'),
-		'TR_PASS_REP' => tr('Repeat password'),
-		'TR_SQL_USER_NAME' => tr('Existing SQL users')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -37,6 +37,47 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ftp_accounts.tpl';
 
+// dynamic page data.
+
+
+gen_page_lists($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage Users'),
+		'TR_MANAGE_USERS' => tr('Manage users'),
+		'TR_TYPE' => tr('Type'),
+		'TR_STATUS' => tr('Status'),
+		'TR_ACTION' => tr('Action'),
+		'TR_TOTAL_FTP_ACCOUNTS' => tr('FTPs total'),
+		'TR_DOMAIN' => tr('Domain'),
+		'TR_FTP_USERS' => tr('FTP users'),
+		'TR_FTP_ACCOUNT' => tr('FTP account'),
+		'TR_FTP_ACTION' => tr('Action'),
+		'TR_EDIT' => tr('Edit'),
+		'TR_DELETE' => tr('Delete'),
+		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, 'menu_ftp_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
@@ -100,44 +141,4 @@ function gen_page_lists(&$tpl, &$sql, $user_id) {
 
 	gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name);
 }
-
-// dynamic page data.
-
-
-gen_page_lists($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage Users'),
-		'TR_MANAGE_USERS' => tr('Manage users'),
-		'TR_TYPE' => tr('Type'),
-		'TR_STATUS' => tr('Status'),
-		'TR_ACTION' => tr('Action'),
-		'TR_TOTAL_FTP_ACCOUNTS' => tr('FTPs total'),
-		'TR_DOMAIN' => tr('Domain'),
-		'TR_FTP_USERS' => tr('FTP users'),
-		'TR_FTP_ACCOUNT' => tr('FTP account'),
-		'TR_FTP_ACTION' => tr('Action'),
-		'TR_EDIT' => tr('Edit'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

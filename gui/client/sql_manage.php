@@ -39,6 +39,54 @@ $template = 'sql_manage.tpl';
 
 $count = -1;
 
+// common page data.
+
+// check User sql permission
+if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
+	user_goto('index.php');
+}
+
+
+// dynamic page data.
+
+gen_db_list($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
+		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
+		'TR_DELETE'				=> tr('Delete'),
+		'TR_DATABASE'			=> tr('Database Name and Users'),
+		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_PHP_MYADMIN'		=> tr('phpMyAdmin'),
+		'TR_DATABASE_USERS'		=> tr('Database users'),
+		'TR_ADD_USER'			=> tr('Add SQL user'),
+		'TR_EXECUTE_QUERY'		=> tr('Execute query'),
+		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
+		'TR_LOGIN_PMA'			=> tr('Login phpMyAdmin'),
+		'TR_MESSAGE_DELETE'		=> tr('This database will be permanently deleted. This process cannot be recovered. All users linked to this database will also be deleted if not linked to another database. Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
@@ -135,52 +183,4 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 		}
 	}
 }
-
-// common page data.
-
-// check User sql permission
-if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
-	user_goto('index.php');
-}
-
-
-// dynamic page data.
-
-gen_db_list($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
-		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
-		'TR_DELETE'				=> tr('Delete'),
-		'TR_DATABASE'			=> tr('Database Name and Users'),
-		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
-		'TR_ACTION'				=> tr('Action'),
-		'TR_PHP_MYADMIN'		=> tr('phpMyAdmin'),
-		'TR_DATABASE_USERS'		=> tr('Database users'),
-		'TR_ADD_USER'			=> tr('Add SQL user'),
-		'TR_EXECUTE_QUERY'		=> tr('Execute query'),
-		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
-		'TR_LOGIN_PMA'			=> tr('Login phpMyAdmin'),
-		'TR_MESSAGE_DELETE'		=> tr('This database will be permanently deleted. This process cannot be recovered. All users linked to this database will also be deleted if not linked to another database. Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

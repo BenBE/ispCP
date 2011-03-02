@@ -48,6 +48,39 @@ if (get_own_logo($_SESSION['user_id']) !== $cfg->IPS_LOGO_PATH . '/isp_logo.gif'
 	$tpl->assign('LOGO_REMOVE_BUTTON', '');
 }
 
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
+		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
+		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
+		'TR_LAYOUT_NAME'			=> tr('Layout name'),
+		'TR_LAYOUT'					=> tr('Layout'),
+		'TR_DEFAULT'				=> tr('default'),
+		'TR_YES'					=> tr('yes'),
+		'TR_SAVE'					=> tr('Save'),
+		'TR_UPLOAD_LOGO'			=> tr('Upload logo'),
+		'TR_LOGO_FILE'				=> tr('Logo file'),
+		'TR_UPLOAD'					=> tr('Upload'),
+		'TR_REMOVE'					=> tr('Remove'),
+		'TR_CHOOSE_DEFAULT_LAYOUT'	=> tr('Choose default layout'),
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_reseller_menu($tpl, 'menu_general_information.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 function save_layout() {
 	global $theme_color;
 
@@ -154,41 +187,4 @@ function update_user_gui_props($file_name, $user_id) {
 
 	exec_query($sql, $query, array($file_name, $user_id));
 }
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
-		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
-		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
-		'TR_LAYOUT_NAME'			=> tr('Layout name'),
-		'TR_LAYOUT'					=> tr('Layout'),
-		'TR_DEFAULT'				=> tr('default'),
-		'TR_YES'					=> tr('yes'),
-		'TR_SAVE'					=> tr('Save'),
-		'TR_UPLOAD_LOGO'			=> tr('Upload logo'),
-		'TR_LOGO_FILE'				=> tr('Logo file'),
-		'TR_UPLOAD'					=> tr('Upload'),
-		'TR_REMOVE'					=> tr('Remove'),
-		'TR_CHOOSE_DEFAULT_LAYOUT'	=> tr('Choose default layout'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

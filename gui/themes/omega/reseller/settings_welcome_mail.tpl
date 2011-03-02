@@ -34,27 +34,27 @@
 				<table>
 					<tr>
 						<td>{$TR_USER_LOGIN_NAME}</td>
-						<td>{$USERNAME}</td>
+						<td>{literal}{USERNAME}{/literal}</td>
 					</tr>
 					<tr>                        
 						<td>{$TR_USER_PASSWORD}</td>
-						<td>{$PASSWORD}</td>
+						<td>{literal}{PASSWORD}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_USER_REAL_NAME}</td>
-						<td>{$NAME}</td>
+						<td>{literal}{NAME}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_USERTYPE}</td>
-						<td>{$USERTYPE}</td>
+						<td>{literal}{USERTYPE}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_BASE_SERVER_VHOST}</td>
-						<td>{$BASE_SERVER_VHOST}</td>
+						<td>{literal}{BASE_SERVER_VHOST}{/literal}</td>
 					</tr>
 					<tr>
 						<td>{$TR_BASE_SERVER_VHOST_PREFIX}</td>
-						<td>{$BASE_SERVER_VHOST_PREFIX}</td>
+						<td>{literal}{BASE_SERVER_VHOST_PREFIX}{/literal}</td>
 					</tr>
 				</table>
 			</fieldset>

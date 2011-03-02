@@ -37,8 +37,41 @@ $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'orders.tpl';
-// Table with orders
-// scrolling
+
+// static page messages
+gen_logged_from($tpl);
+
+gen_order_page($tpl, $sql, $_SESSION['user_id']);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order management'),
+		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
+		'TR_ID'						=> tr('ID'),
+		'TR_DOMAIN'					=> tr('Domain'),
+		'TR_USER'					=> tr('Customer data'),
+		'TR_ACTION'					=> tr('Action'),
+		'TR_STATUS'					=> tr('Order'),
+		'TR_EDIT'					=> tr('Edit'),
+		'TR_DELETE'					=> tr('Delete'),
+		'TR_DETAILS'				=> tr('Details'),
+		'TR_HP'						=> tr('Hosting plan'),
+		'TR_MESSAGE_DELETE_ACCOUNT'	=> tr('Are you sure you want to delete this order?', true),
+		'TR_ADD'					=> tr('Add/Details')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_orders.tpl');
+gen_reseller_menu($tpl, 'menu_orders.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 /*
  * Functions
@@ -192,46 +225,4 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 		}
 	}
 }
-
-// end of functions
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_order_page($tpl, $sql, $_SESSION['user_id']);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order management'),
-		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
-		'TR_ID'						=> tr('ID'),
-		'TR_DOMAIN'					=> tr('Domain'),
-		'TR_USER'					=> tr('Customer data'),
-		'TR_ACTION'					=> tr('Action'),
-		'TR_STATUS'					=> tr('Order'),
-		'TR_EDIT'					=> tr('Edit'),
-		'TR_DELETE'					=> tr('Delete'),
-		'TR_DETAILS'				=> tr('Details'),
-		'TR_HP'						=> tr('Hosting plan'),
-		'TR_MESSAGE_DELETE_ACCOUNT'	=> tr('Are you sure you want to delete this order?', true),
-		'TR_ADD'					=> tr('Add/Details')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

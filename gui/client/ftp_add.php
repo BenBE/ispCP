@@ -35,9 +35,44 @@ check_login(__FILE__);
 $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
-
 $template = 'ftp_add.tpl';
-// JavaScript
+
+// dynamic page data.
+
+gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
+		'TR_ADD_FTP_USER' => tr('Add FTP user'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_TO_MAIN_DOMAIN' => tr('To main domain'),
+		'TR_TO_DOMAIN_ALIAS' => tr('To domain alias'),
+		'TR_TO_SUBDOMAIN' => tr('To subdomain'),
+		'TR_PASSWORD' => tr('Password'),
+		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
+		'TR_USE_OTHER_DIR' => tr('Use other dir'),
+		'TR_ADD' => tr('Add'),
+		'CHOOSE_DIR' => tr('Choose dir'),
+		'FTP_SEPARATOR' => $cfg->FTP_USERNAME_SEPARATOR
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, 'menu_ftp_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
 
 // page functions.
 
@@ -538,41 +573,4 @@ function gen_page_js(&$tpl) {
 	unset($_SESSION['subdomain_count']);
 	unset($_SESSION['alias_count']);
 }
-
-// dynamic page data.
-
-gen_page_ftp_acc_props($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Add FTP User'),
-		'TR_ADD_FTP_USER' => tr('Add FTP user'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_TO_MAIN_DOMAIN' => tr('To main domain'),
-		'TR_TO_DOMAIN_ALIAS' => tr('To domain alias'),
-		'TR_TO_SUBDOMAIN' => tr('To subdomain'),
-		'TR_PASSWORD' => tr('Password'),
-		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
-		'TR_USE_OTHER_DIR' => tr('Use other dir'),
-		'TR_ADD' => tr('Add'),
-		'CHOOSE_DIR' => tr('Choose dir'),
-		'FTP_SEPARATOR' => $cfg->FTP_USERNAME_SEPARATOR
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
+?>
