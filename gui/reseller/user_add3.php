@@ -80,7 +80,7 @@ $tpl->assign(
 if (!init_in_values()) {
 	set_page_message(
 		tr("Domain data has been altered. Please enter again."),
-		'notice'
+		'warning'
 	);
 	unset_messages();
 	user_goto('user_add1.php');

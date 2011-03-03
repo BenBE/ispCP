@@ -86,7 +86,7 @@ $tpl->assign(
 if (!get_pageone_param()) {
 	set_page_message(
 		tr("Domain data has been altered. Please enter again."),
-		'notice'
+		'warning'
 	);
 	unset_messages();
 	user_goto('user_add1.php');
