@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,8 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_maintenance_mode.tpl');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_maintenance_mode.tpl';
 
 $selected_on = '';
 $selected_off = '';
@@ -65,10 +65,6 @@ if ($cfg->MAINTENANCEMODE) {
 }
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Admin/Maintenance mode'),
@@ -81,17 +77,16 @@ $tpl->assign(
 		'SELECTED_OFF' => $selected_off,
 		'TR_ENABLED' => tr('Enabled'),
 		'TR_DISABLED' => tr('Disabled'),
-		'TR_APPLY_CHANGES' => tr('Apply changes'),
-        // The entries below are for Demo versions only
-        'SELECT_DISABLED' => tr('Maintenancemode change is deactivated!'),
-        'DEMO_VERSION' => tr('Demo Version!')
+		'TR_APPLY_CHANGES' => tr('Apply changes')
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_system_tools.tpl');
+gen_admin_menu($tpl, 'menu_system_tools.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -576,7 +576,6 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
 				)
 			);
 
-			$tpl->parse('TICKETS_ITEM', '.tickets_item');
 			$rs->moveNext();
 			$i++;
 		}
@@ -651,7 +650,6 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
 			)
 		);
 
-		$tpl->parse('TICKETS_ITEM', 'tickets_item');
 		showTicketReplies($tpl, $ticket_id, $screenwidth);
 	}
 }
@@ -704,7 +702,6 @@ function showTicketReplies(&$tpl, $ticket_id, $screenwidth) {
 				'TICKET_CONTENT'	=> nl2br(tohtml($ticket_message))
 			)
 		);
-		$tpl->parse('TICKETS_ITEM', '.tickets_item');
 		$rs->moveNext();
 	}
 }
@@ -773,7 +770,8 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 
 	// Format addresses
 	if ($from_fname && $from_lname) {
-		$from = '"' . encode($from_fname . ' ' . $from_lname) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_fname . ' ' . $from_lname, 'UTF-8') .
+				"\" <" . $from_email . ">";
 		$fromname = "$from_fname $from_lname";
 	} else {
 		$from = $from_email;
@@ -781,7 +779,8 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 	}
 
 	if ($to_fname && $to_lname) {
-		$to = '"' . encode($to_fname . ' ' . $to_lname) . "\" <" . $to_email . ">";
+		$to = '"' . mb_encode_mimeheader($to_fname . ' ' . $to_lname, 'UTF-8') .
+				"\" <" . $to_email . ">";
 		$toname = "$to_fname $to_lname";
 	} else {
 		$toname = $to_uname;
@@ -811,7 +810,9 @@ function sendTicketNotification($to_id, $from_id, $ticket_subject,
 				"charset=utf-8\nContent-Transfer-Encoding: 8bit\n" .
 				"X-Mailer: ispCP " . $cfg->Version . " Tickets Mailer";
 
-	$mail_result = mail($to, encode($subject), $message, $headers);
+	$mail_result = mail(
+			$to, mb_encode_mimeheader($subject, 'UTF-8'), $message, $headers
+		);
 	$mail_status = ($mail_result) ? 'OK' : 'NOT OK';
 
     $toname = tohtml($toname);

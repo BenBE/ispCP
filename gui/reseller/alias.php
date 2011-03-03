@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,23 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/domain_alias.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('table_list', 'page');
-$tpl->define_dynamic('table_header', 'page');
-$tpl->define_dynamic('table_item', 'table_list');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('als_add_button', 'page');
+$template = 'domain_alias.tpl';
 
 // static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $err_txt = "_off_";
@@ -73,9 +61,11 @@ $tpl->assign(
 	)
 );
 
-$tpl->parse('PAGE', 'page');
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
-$tpl->prnt();
+
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -88,7 +78,7 @@ unset_messages();
  * Generate domain alias list
  *
  * @todo Use prepared statements (min. with placeholders like ":search_for")
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  * @param string $als_err
  */
@@ -392,13 +382,12 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		);
 
 		$i++;
-		$tpl->parse('TABLE_ITEM', '.table_item');
 		$rs->moveNext();
 	}
 } // End of generate_als_list()
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $als_err
  */
 function generate_als_messages(&$tpl, $als_err) {
@@ -406,7 +395,6 @@ function generate_als_messages(&$tpl, $als_err) {
 		$tpl->assign(
 			array('MESSAGE' => $als_err)
 		);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 		return;
 	} else if (isset($_SESSION["dahavemail"])) {
 		$tpl->assign('MESSAGE', tr('Domain alias you are trying to remove has email accounts !<br>First remove them!'));

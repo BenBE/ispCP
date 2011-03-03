@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,19 +34,44 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/hosting_plan_update.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('hp_order', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan_update.tpl';
 
-/*
- *
- * page actions.
- *
- */
+if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
+	del_order($tpl, $sql, $_GET['delete_id'], $_SESSION['user_id']);
+}
+
+if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
+	add_new_order($tpl, $sql, $_GET['order_id'], $_SESSION['user_id']);
+}
+
+gen_hp($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
+		'TR_LANGUAGE'	=> tr('Language'),
+		'TR_SAVE'		=> tr('Save'),
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function check_update_current_value($curr, $new) {
 
@@ -65,7 +90,7 @@ function check_update_current_value($curr, $new) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -417,8 +442,6 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				)
 			);
 
-			$tpl->parse('HOSTING_PLANS', '.hosting_plans');
-			$tpl->parse('HP_ORDER', '.hp_order');
 			$i++;
 		}
 		$purchase_text = tr('Purchase');
@@ -601,42 +624,4 @@ function del_order(&$tpl, &$sql, $order_id, $user_id) {
 		'success'
 	);
 }
-
-// static page messages
-
-if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
-	del_order($tpl, $sql, $_GET['delete_id'], $_SESSION['user_id']);
-}
-
-if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
-	add_new_order($tpl, $sql, $_GET['order_id'], $_SESSION['user_id']);
-}
-
-gen_hp($tpl, $sql, $_SESSION['user_id']);
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'	=> tr('ispCP - Update hosting plan'),
-		'TR_LANGUAGE'	=> tr('Language'),
-		'TR_SAVE'		=> tr('Save'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

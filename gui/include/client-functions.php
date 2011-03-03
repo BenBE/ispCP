@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -480,22 +480,13 @@ function get_domain_running_props_cnt(&$sql, $domain_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_awstats', 'menu');
-	$tpl->define_dynamic('isactive_domain', 'menu');
-	$tpl->define_dynamic('isactive_email', 'menu');
-	$tpl->define_dynamic('isactive_ftp', 'menu');
-	$tpl->define_dynamic('isactive_sql', 'menu');
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
 
 	$tpl->assign(
 		array(
@@ -556,9 +547,8 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -581,7 +571,6 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -635,11 +624,11 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 		);
 	}
 
-	$tpl->parse('MAIN_MENU', 'menu');
+	$tpl->assign('MAIN_MENU', $menu_file);
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  * @return void
  */
@@ -647,13 +636,6 @@ function gen_client_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('isactive_update_hp', 'menu');
-	$tpl->define_dynamic('isactive_alias_menu', 'menu');
-	$tpl->define_dynamic('isactive_subdomain_menu', 'menu');
-	$tpl->define_dynamic('isactive_dns_menu', 'menu');
 
 	$tpl->assign(
 		array(
@@ -715,9 +697,8 @@ function gen_client_menu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -739,7 +720,6 @@ function gen_client_menu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -830,7 +810,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 		}
 	}
 
-	$tpl->parse('MENU', 'menu');
+	$tpl->assign('MENU', $menu_file);
 }
 
 function get_user_domain_id(&$sql, $user_id) {
@@ -947,39 +927,35 @@ function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
 
 	update_reseller_c_props(get_reseller_id($dmn_id));
 
-	$db_name = quoteIdentifier($rs->fields['sqld_name']);
+	$db_name = quoteIdentifier(
+			preg_replace("/([_%\?\*])/", '\\\$1', $rs->fields['sqld_name'])
+		);
 	$db_user_name = $rs->fields['sqlu_name'];
 
 	if (count_sql_user_by_name($sql, $rs->fields['sqlu_name']) == 0) {
 
 		// revoke grants on global level, if any;
-		$query = "REVOKE ALL ON *.* FROM ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "REVOKE ALL ON *.* FROM ?@localhost;";
-		exec_query($sql, $query, $db_user_name);
+		$query = "REVOKE ALL ON *.* FROM ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 
 		// delete user record from mysql.user table;
-		$query = "DROP USER ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "DROP USER ?@'localhost';";
-		exec_query($sql, $query, $db_user_name);
+		$query = "DROP USER ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 
 		// flush privileges.
 		$query = "FLUSH PRIVILEGES;";
 		exec_query($sql, $query);
 	} else {
-		$query = "REVOKE ALL ON $db_name.* FROM ?@'%';";
-		exec_query($sql, $query, $db_user_name);
-
-		$query = "REVOKE ALL ON $db_name.* FROM ?@localhost;";
-		exec_query($sql, $query, $db_user_name);
+		$query = "REVOKE ALL ON $db_name.* FROM ?@?;";
+		exec_query($sql, $query, array($db_user_name, '%'));
+		exec_query($sql, $query, array($db_user_name, 'localhost'));
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @return void
  */
 function check_permissions(&$tpl) {

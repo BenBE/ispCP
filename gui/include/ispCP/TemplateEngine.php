@@ -140,6 +140,9 @@ class ispCP_TemplateEngine {
 					'THEME_SCRIPT_PATH'	=> '../themes/scripts'
 				)
 			);
+			if ($cfg->DEBUG) {
+				$this->assign('DEBUG', true);
+			}
 		} else {
 			$this->template_engine->template_dir = $cfg->LOGIN_TEMPLATE_PATH;
 			$this->template_engine->compile_dir  = $this->template_engine->template_dir . '/templates_c/';

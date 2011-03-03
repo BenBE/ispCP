@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,13 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/circular.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'circular.tpl';
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @return void
  */
@@ -150,9 +148,12 @@ function send_reseller_message(&$sql) {
 
 	while (!$rs->EOF) {
 		if ($_POST['rcpt_to'] == 'rslrs' || $_POST['rcpt_to'] == 'usrs_rslrs') {
-			$to = encode($rs->fields['fname'] . " " . $rs->fields['lname']) . " <" . $rs->fields['email'] . ">";
-			send_circular_email($to, encode($sender_name) . " <$sender_email>", $msg_subject,
-				$msg_text);
+			$to = mb_encode_mimeheader(
+				$rs->fields['fname'] . " " . $rs->fields['lname'], 'UTF-8') .
+				" <" . $rs->fields['email'] . ">";
+			send_circular_email(
+				$to, mb_encode_mimeheader($sender_name, 'UTF-8') . " <$sender_email>",
+				$msg_subject, $msg_text);
 		}
 
 		if ($_POST['rcpt_to'] == 'usrs' || $_POST['rcpt_to'] == 'usrs_rslrs') {
@@ -200,14 +201,17 @@ function send_reseller_users_message(&$sql, $admin_id) {
 	$rs = exec_query($sql, $query, $admin_id);
 
 	while (!$rs->EOF) {
-		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
+		$to = "\"" . mb_encode_mimeheader($rs->fields['fname'] . " " . $rs->fields['lname'], 'UTF-8') .
+			"\" <" . $rs->fields['email'] . ">";
+		send_circular_email(
+			$to, "\"" . mb_encode_mimeheader($sender_name, 'UTF-8') .
+			"\" <" . $sender_email . ">", $msg_subject, $msg_text);
 		$rs->moveNext();
 	}
 }
 
 function send_circular_email($to, $from, $subject, $message) {
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
 	$headers .= "From: " . $from . "\n";
@@ -246,8 +250,7 @@ gen_page_data($tpl, $sql);
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

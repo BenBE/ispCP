@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,14 +34,48 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/order_settings.tpl');
-$tpl->define_dynamic('logged_from', 'page');
-// Table with orders
-$tpl->define_dynamic('purchase_header', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'order_settings.tpl';
 
-$tpl->define_dynamic('purchase_footer', 'page');
-$tpl->define_dynamic('page_message', 'page');
+if (isset($_POST['header']) && $_POST['header'] !== ''
+	&& isset ($_POST['footer']) && $_POST['footer'] !== '') {
+	save_haf($tpl, $sql);
+}
+gen_purchase_haf($tpl, $sql, $_SESSION['user_id'], true);
+
+// static page messages
+gen_logged_from($tpl);
+
+$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
+
+$url = $cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST . '/orderpanel/index.php?';
+$url .= 'coid='.$coid;
+$url .= '&amp;user_id=' . $_SESSION['user_id'];
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
+		'TR_MANAGE_ORDERS' => tr('Manage Orders'),
+		'TR_APPLY_CHANGES' => tr('Apply changes'),
+		'TR_HEADER' => tr('Header'),
+		'TR_PREVIEW' => tr('Preview'),
+		'TR_IMPLEMENT_INFO' => tr('Implementation URL'),
+		'TR_IMPLEMENT_URL' => $url,
+		'TR_FOOTER' => tr('Footer')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_orders.tpl');
+gen_reseller_menu($tpl, 'menu_orders.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 /*
  * Functions
@@ -87,50 +121,4 @@ function save_haf(&$tpl, &$sql) {
 		exec_query($sql, $query, array($user_id, $header, $footer));
 	}
 }
-
-// end of functions
-
-/*
- *
- * static page messages.
- *
- */
-if (isset($_POST['header']) && $_POST['header'] !== ''
-	&& isset ($_POST['footer']) && $_POST['footer'] !== '') {
-	save_haf($tpl, $sql);
-}
-gen_purchase_haf($tpl, $sql, $_SESSION['user_id'], true);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
-
-gen_logged_from($tpl);
-
-$coid = isset($cfg->CUSTOM_ORDERPANEL_ID) ? $cfg->CUSTOM_ORDERPANEL_ID : '';
-
-$url = $cfg->BASE_SERVER_VHOST_PREFIX . $cfg->BASE_SERVER_VHOST . '/orderpanel/index.php?';
-$url .= 'coid='.$coid;
-$url .= '&amp;user_id=' . $_SESSION['user_id'];
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Order settings'),
-		'TR_MANAGE_ORDERS' => tr('Manage Orders'),
-		'TR_APPLY_CHANGES' => tr('Apply changes'),
-		'TR_HEADER' => tr('Header'),
-		'TR_PREVIEW' => tr('Preview'),
-		'TR_IMPLEMENT_INFO' => tr('Implementation URL'),
-		'TR_IMPLEMENT_URL' => $url,
-		'TR_FOOTER' => tr('Footer')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

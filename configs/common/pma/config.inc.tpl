@@ -10,7 +10,7 @@
  *
  * @version     $Id$
  * @package     phpMyAdmin
- * @copyright   2006-2010 by ispCP | http://isp-control.net
+ * @copyright   2006-2011 by ispCP | http://isp-control.net
  * @link        http://isp-control.net
  * @author      ispCP Team
  */

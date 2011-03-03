@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,337 +34,8 @@ $cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_CLIENT);
 
-$tpl = new ispCP_pTemplate();
-
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/index.tpl');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('no_messages', 'page');
-$tpl->define_dynamic('msg_entry', 'page');
-$tpl->define_dynamic('sql_support', 'page');
-$tpl->define_dynamic('t_sql1_support', 'page');
-$tpl->define_dynamic('t_sql2_support', 'page');
-$tpl->define_dynamic('t_php_support', 'page');
-$tpl->define_dynamic('t_cgi_support', 'page');
-$tpl->define_dynamic('t_dns_support', 'page');
-$tpl->define_dynamic('t_backup_support', 'page');
-$tpl->define_dynamic('t_sdm_support', 'page');
-$tpl->define_dynamic('t_alias_support', 'page');
-$tpl->define_dynamic('t_mails_support', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('traff_warn', 'page');
-$tpl->define_dynamic('disk_warn', 'page');
-$tpl->define_dynamic('dmn_mngmnt', 'page');
-
-
-function gen_num_limit_msg($num, $limit) {
-	if ($limit == -1) {
-		return tr('disabled');
-	}
-	if ($limit == 0) {
-		return $num . '&nbsp;/&nbsp;' . tr('unlimited');
-	}
-	return $num . '&nbsp;/&nbsp;' . $limit;
-}
-
-/**
- * @param ispCP_pTemplate $tpl
- * @param ispCP_Database $sql
- */
-function gen_system_message(&$tpl, &$sql) {
-	$user_id = $_SESSION['user_id'];
-
-	$query = "
-		SELECT
-			COUNT(`ticket_id`) AS cnum
-		FROM
-			`tickets`
-		WHERE
-			(`ticket_to` = ? OR `ticket_from` = ?)
-		AND
-			`ticket_status` IN ('2')
-		AND
-			`ticket_reply` = 0
-	";
-
-	$rs = exec_query($sql, $query, array($user_id, $user_id));
-
-	$num_question = $rs->fields('cnum');
-
-	if ($num_question == 0) {
-		$tpl->assign(array('MSG_ENTRY' => ''));
-	} else {
-		$tpl->assign(
-			array(
-				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new answer to your support questions', $num_question),
-				'NEW_MSG_TYPE' => 'info',
-				'TR_VIEW' => tr('View')
-			)
-		);
-
-		$tpl->parse('MSG_ENTRY', 'msg_entry');
-	}
-}
-
-/**
- * @param ispCP_pTemplate $tpl
- * @param float $usage
- * @param float $max_usage
- * @param float $bars_max
- */
-function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
-	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
-	if ($max_usage != 0) {
-		$traffic_usage_data = tr('%1$d%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
-	} else {
-		$traffic_usage_data = tr('%1$d%% [%2$s of unlimited]', $percent, sizeit($usage));
-	}
-
-	$tpl->assign(
-		array(
-			'TRAFFIC_USAGE_DATA' => $traffic_usage_data,
-			'TRAFFIC_BARS'	   => $bars,
-			'TRAFFIC_PERCENT'	=> $percent,
-		)
-	);
-
-	if ($max_usage != 0 && $usage > $max_usage) {
-		$tpl->assign('TR_TRAFFIC_WARNING', tr('You are exceeding your traffic limit!'));
-	} else {
-		$tpl->assign('TRAFF_WARN', '');
-	}
-}
-
-/**
- * @param ispCP_pTemplate $tpl
- * @param float $usage
- * @param float $max_usage
- * @param float $bars_max
- */
-function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
-	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
-
-	if ($max_usage != 0) {
-		$traffic_usage_data = tr('%1$s%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
-	} else {
-		$traffic_usage_data = tr('%1$s%% [%2$s of unlimited]', $percent, sizeit($usage));
-	}
-
-	$tpl->assign(
-		array(
-			'DISK_USAGE_DATA' => $traffic_usage_data,
-			'DISK_BARS'	   => $bars,
-			'DISK_PERCENT'	=> $percent,
-		)
-	);
-	if ($max_usage != 0 && $usage > $max_usage) {
-		$tpl->assign('TR_DISK_WARNING', tr('You are exceeding your disk limit!'));
-	} else {
-		$tpl->assign('DISK_WARN', '');
-	}
-}
-
-/**
- * @param ispCP_pTemplate $tpl
- * @param int $dmn_sqld_limit
- * @param int $dmn_sqlu_limit
- * @param string $dmn_php
- * @param string $dmn_cgi
- * @param string $backup
- * @param string $dns
- * @param int $dmn_subd_limit
- * @param int $als_cnt
- * @param int $dmn_mailacc_limit
- */
-function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
-	$dmn_cgi,$backup, $dns, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
-
-	// check if mail accouts available are available for this user
-	if ($dmn_mailacc_limit == -1) {
-		$_SESSION['email_support'] = "no";
-		$tpl->assign('T_MAILS_SUPPORT', '');
-	} else {
-		$tpl->parse('T_MAILS_SUPPORT', '.t_mails_support');
-	}
-
-	// check if alias are available for this user
-	if ($als_cnt == -1) {
-		$_SESSION['alias_support'] = "no";
-		$tpl->assign('T_ALIAS_SUPPORT', '');
-	} else {
-		$tpl->parse('T_ALIAS_SUPPORT', '.t_alias_support');
-	}
-
-	// check if subdomains are available for this user
-	if ($dmn_subd_limit == -1) {
-		$_SESSION['subdomain_support'] = "no";
-		$tpl->assign('T_SDM_SUPPORT', '');
-	} else {
-		$tpl->parse('T_SDM_SUPPORT', '.t_sdm_support');
-	}
-
-	// check if SQL Support is available for this user
-	if ($dmn_sqld_limit == -1 || $dmn_sqlu_limit == -1) {
-		$_SESSION['sql_support'] = "no";
-		$tpl->assign('SQL_SUPPORT', '');
-		$tpl->assign('T_SQL1_SUPPORT', '');
-		$tpl->assign('T_SQL2_SUPPORT', '');
-	} else {
-		$tpl->parse('T_SQL1_SUPPORT', '.t_sql1_support');
-		$tpl->parse('T_SQL2_SUPPORT', '.t_sql2_support');
-	}
-
-	// check if PHP Support is available for this user
-	if ($dmn_php == 'no') {
-		$tpl->assign('T_PHP_SUPPORT', '');
-	} else {
-		$tpl->assign( array('PHP_SUPPORT' => tr('yes')));
-		$tpl->parse('T_PHP_SUPPORT', '.t_php_support');
-	}
-
-	// check if CGI Support is available for this user
-	if ($dmn_cgi == 'no') {
-		$tpl->assign('T_CGI_SUPPORT', '');
-	} else {
-		$tpl->assign( array('CGI_SUPPORT' => tr('yes')));
-		$tpl->parse('T_CGI_SUPPORT', '.t_cgi_support');
-	}
-
-	// Check if Backup support is available for this user
-	switch($backup){
-	case "full":
-		$tpl->assign( array('BACKUP_SUPPORT' => tr('Full')));
-		break;
-	case "sql":
-		$tpl->assign( array('BACKUP_SUPPORT' => tr('SQL')));
-		break;
-	case "domain":
-		$tpl->assign( array('BACKUP_SUPPORT' => tr('Domain')));
-		break;
-	default:
-		$tpl->assign('T_BACKUP_SUPPORT', '');
-	}
-	if ($tpl->is_namespace('BACKUP_SUPPORT')) {
-		$tpl->parse('T_BACKUP_SUPPORT', '.t_backup_support');
-	}
-
-	// Check if Manual DNS support is available for this user
-	if ($dns == 'no') {
-		$tpl->assign('T_DNS_SUPPORT', '');
-	} else {
-		$tpl->assign(
-		array('DNS_SUPPORT' => tr('yes')));
-		$tpl->parse('T_DNS_SUPPORT', '.t_dns_support');
-	}
-
-} // end check_user_permissions()
-
-/**
- * Calculate the usage traffic
- * @param int $domain_id
- * @return array percent, value
- */
-function make_traff_usage($domain_id) {
-	$sql = ispCP_Registry::get('Db');
-
-	$res = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_admin_id` = ?", $domain_id);
-	$dom_id = $res->fetchRow();
-	$domain_id = $dom_id['domain_id'];
-
-	$res = exec_query($sql, "SELECT `domain_traffic_limit` FROM `domain` WHERE `domain_id` = ?", $domain_id);
-	$dat = $res->fetchRow();
-
-	$fdofmnth = mktime(0, 0, 0, date("m"), 1, date("Y"));
-	$ldofmnth = mktime(1, 0, 0, date("m") + 1, 0, date("Y"));
-	$res = exec_query($sql,
-		"SELECT IFNULL(SUM(`dtraff_web`) + SUM(`dtraff_ftp`) + SUM(`dtraff_mail`) + SUM(`dtraff_pop`), 0) "
-		. "AS traffic FROM `domain_traffic` " . "WHERE `domain_id` = ? AND `dtraff_time` > ? AND `dtraff_time` < ?",
-		array($domain_id, $fdofmnth, $ldofmnth));
-	$data = $res->fetchRow();
-	$traff = ($data['traffic'] / 1024) / 1024;
-
-	if ($dat['domain_traffic_limit'] == 0) {
-		$pr = 0;
-	} else {
-		$pr = ($traff / $dat['domain_traffic_limit']) * 100;
-		$pr = sprintf("%.2f", $pr);
-	}
-
-	return array($pr, $traff);
-
-} // End of make_traff_usage()
-
-/**
- * @param ispCP_pTemplate $tpl
- * @param ispCP_Database $sql
- * @param int $user_id
- */
-function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
-	$query = "
-		SELECT
-			COUNT(`ticket_id`) AS cnum
-		FROM
-			`tickets`
-		WHERE
-			`ticket_from` = ?
-		AND
-			`ticket_status` = '2'
-	";
-
-	$rs = exec_query($sql, $query, $user_id);
-	$num_question = $rs->fields('cnum');
-
-	if ($num_question == 0) {
-		$tpl->assign(
-			array(
-				'TR_NO_NEW_MESSAGES' => tr('You have no new support questions!'),
-				'MSG_ENTRY' => ''
-			)
-		);
-	} else {
-		$tpl->assign(
-			array(
-				'NO_MESSAGES' => '',
-				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new support questions', $num_question),
-				'TR_VIEW' => tr('View')
-			)
-		);
-		$tpl->parse('MSG_ENTRY', '.msg_entry');
-	}
-}
-
-function gen_remain_time($dbtime){
-
-        // needed for calculation
-        $mi	= 60;
-        $h	= $mi * $mi;
-        $d	= $h * 24;
-        $mo = $d * 30;
-        $y	= $d * 365;
-
-        // calculation of: years, month, days, hours, minutes, seconds
-        $difftime = $dbtime - time();
-        $years = floor($difftime / $y);
-        $difftime = $difftime % $y;
-        $month = floor($difftime / $mo);
-        $difftime = $difftime % $mo;
-        $days = floor($difftime / $d);
-        $difftime = $difftime % $d;
-        $hours = floor($difftime / $h);
-        $difftime = $difftime % $h;
-        $minutes = floor($difftime / $mi);
-		 $difftime = $difftime % $mi;
-        $seconds = $difftime;
-
-        // put into array and return
-        return array($years, $month, $days, $hours, $minutes, $seconds);
-}
-
-/*
- *
- * page actions.
- *
- */
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'index.tpl';
 
 $theme_color = $cfg->USER_INITIAL_THEME;
 
@@ -502,15 +173,7 @@ $tpl->assign(
 	)
 );
 
-/*
- *
- * static page messages.
- *
- */
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_general_information.tpl');
-
+// static page messages.
 gen_logged_from($tpl);
 
 gen_system_message($tpl, $sql);
@@ -547,12 +210,309 @@ $tpl->assign(
 	)
 );
 
+gen_client_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_client_menu($tpl, 'menu_general_information.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
+}
+
+function gen_num_limit_msg($num, $limit) {
+	if ($limit == -1) {
+		return tr('disabled');
+	}
+	if ($limit == 0) {
+		return $num . '&nbsp;/&nbsp;' . tr('unlimited');
+	}
+	return $num . '&nbsp;/&nbsp;' . $limit;
+}
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param ispCP_Database $sql
+ */
+function gen_system_message(&$tpl, &$sql) {
+	$user_id = $_SESSION['user_id'];
+
+	$query = "
+		SELECT
+			COUNT(`ticket_id`) AS cnum
+		FROM
+			`tickets`
+		WHERE
+			(`ticket_to` = ? OR `ticket_from` = ?)
+		AND
+			`ticket_status` IN ('2')
+		AND
+			`ticket_reply` = 0
+	";
+
+	$rs = exec_query($sql, $query, array($user_id, $user_id));
+
+	$num_question = $rs->fields('cnum');
+
+	if ($num_question == 0) {
+		$tpl->assign(array('MSG_ENTRY' => ''));
+	} else {
+		$tpl->assign(
+			array(
+				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new answer to your support questions', $num_question),
+				'NEW_MSG_TYPE' => 'info',
+				'TR_VIEW' => tr('View')
+			)
+		);
+	}
+}
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
+function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
+	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
+	if ($max_usage != 0) {
+		$traffic_usage_data = tr('%1$d%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
+	} else {
+		$traffic_usage_data = tr('%1$d%% [%2$s of unlimited]', $percent, sizeit($usage));
+	}
+
+	$tpl->assign(
+		array(
+			'TRAFFIC_USAGE_DATA' => $traffic_usage_data,
+			'TRAFFIC_BARS'	   => $bars,
+			'TRAFFIC_PERCENT'	=> $percent,
+		)
+	);
+
+	if ($max_usage != 0 && $usage > $max_usage) {
+		$tpl->assign('TR_TRAFFIC_WARNING', tr('You are exceeding your traffic limit!'));
+	} else {
+		$tpl->assign('TRAFF_WARN', '');
+	}
+}
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param float $usage
+ * @param float $max_usage
+ * @param float $bars_max
+ */
+function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
+	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
+
+	if ($max_usage != 0) {
+		$traffic_usage_data = tr('%1$s%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
+	} else {
+		$traffic_usage_data = tr('%1$s%% [%2$s of unlimited]', $percent, sizeit($usage));
+	}
+
+	$tpl->assign(
+		array(
+			'DISK_USAGE_DATA' => $traffic_usage_data,
+			'DISK_BARS'	   => $bars,
+			'DISK_PERCENT'	=> $percent,
+		)
+	);
+	if ($max_usage != 0 && $usage > $max_usage) {
+		$tpl->assign('TR_DISK_WARNING', tr('You are exceeding your disk limit!'));
+	} else {
+		$tpl->assign('DISK_WARN', '');
+	}
+}
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param int $dmn_sqld_limit
+ * @param int $dmn_sqlu_limit
+ * @param string $dmn_php
+ * @param string $dmn_cgi
+ * @param string $backup
+ * @param string $dns
+ * @param int $dmn_subd_limit
+ * @param int $als_cnt
+ * @param int $dmn_mailacc_limit
+ */
+function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
+	$dmn_cgi,$backup, $dns, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
+
+	// check if mail accouts available are available for this user
+	if ($dmn_mailacc_limit == -1) {
+		$_SESSION['email_support'] = "no";
+		$tpl->assign('T_MAILS_SUPPORT', '');
+	} else {
+
+	}
+
+	// check if alias are available for this user
+	if ($als_cnt == -1) {
+		$_SESSION['alias_support'] = "no";
+		$tpl->assign('T_ALIAS_SUPPORT', '');
+	} else {
+
+	}
+
+	// check if subdomains are available for this user
+	if ($dmn_subd_limit == -1) {
+		$_SESSION['subdomain_support'] = "no";
+		$tpl->assign('T_SDM_SUPPORT', '');
+	} else {
+
+	}
+
+	// check if SQL Support is available for this user
+	if ($dmn_sqld_limit == -1 || $dmn_sqlu_limit == -1) {
+		$_SESSION['sql_support'] = "no";
+		$tpl->assign('SQL_SUPPORT', '');
+		$tpl->assign('T_SQL1_SUPPORT', '');
+		$tpl->assign('T_SQL2_SUPPORT', '');
+	} else {
+
+	}
+
+	// check if PHP Support is available for this user
+	if ($dmn_php == 'yes') {
+		$tpl->assign( array('PHP_SUPPORT' => tr('yes')));
+	}
+
+	// check if CGI Support is available for this user
+	if ($dmn_cgi == 'yes') {
+		$tpl->assign( array('CGI_SUPPORT' => tr('yes')));
+	}
+
+	// Check if Backup support is available for this user
+	switch($backup){
+	case "full":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('Full')));
+		break;
+	case "sql":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('SQL')));
+		break;
+	case "domain":
+		$tpl->assign( array('BACKUP_SUPPORT' => tr('Domain')));
+		break;
+	default:
+		$tpl->assign('T_BACKUP_SUPPORT', '');
+	}
+	/*
+	if ($tpl->is_namespace('BACKUP_SUPPORT')) {
+
+	}
+	*/
+
+	// Check if Manual DNS support is available for this user
+	if ($dns == 'no') {
+		$tpl->assign('T_DNS_SUPPORT', '');
+	} else {
+		$tpl->assign(
+		array('DNS_SUPPORT' => tr('yes')));
+
+	}
+
+} // end check_user_permissions()
+
+/**
+ * Calculate the usage traffic
+ * @param int $domain_id
+ * @return array percent, value
+ */
+function make_traff_usage($domain_id) {
+	$sql = ispCP_Registry::get('Db');
+
+	$res = exec_query($sql, "SELECT `domain_id` FROM `domain` WHERE `domain_admin_id` = ?", $domain_id);
+	$dom_id = $res->fetchRow();
+	$domain_id = $dom_id['domain_id'];
+
+	$res = exec_query($sql, "SELECT `domain_traffic_limit` FROM `domain` WHERE `domain_id` = ?", $domain_id);
+	$dat = $res->fetchRow();
+
+	$fdofmnth = mktime(0, 0, 0, date("m"), 1, date("Y"));
+	$ldofmnth = mktime(1, 0, 0, date("m") + 1, 0, date("Y"));
+	$res = exec_query($sql,
+		"SELECT IFNULL(SUM(`dtraff_web`) + SUM(`dtraff_ftp`) + SUM(`dtraff_mail`) + SUM(`dtraff_pop`), 0) "
+		. "AS traffic FROM `domain_traffic` " . "WHERE `domain_id` = ? AND `dtraff_time` > ? AND `dtraff_time` < ?",
+		array($domain_id, $fdofmnth, $ldofmnth));
+	$data = $res->fetchRow();
+	$traff = ($data['traffic'] / 1024) / 1024;
+
+	if ($dat['domain_traffic_limit'] == 0) {
+		$pr = 0;
+	} else {
+		$pr = ($traff / $dat['domain_traffic_limit']) * 100;
+		$pr = sprintf("%.2f", $pr);
+	}
+
+	return array($pr, $traff);
+
+} // End of make_traff_usage()
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ */
+function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
+	$query = "
+		SELECT
+			COUNT(`ticket_id`) AS cnum
+		FROM
+			`tickets`
+		WHERE
+			`ticket_from` = ?
+		AND
+			`ticket_status` = '2'
+	";
+
+	$rs = exec_query($sql, $query, $user_id);
+	$num_question = $rs->fields('cnum');
+
+	if ($num_question == 0) {
+		$tpl->assign(
+			array(
+				'TR_NO_NEW_MESSAGES' => tr('You have no new support questions!'),
+				'MSG_ENTRY' => ''
+			)
+		);
+	} else {
+		$tpl->assign(
+			array(
+				'NO_MESSAGES' => '',
+				'TR_NEW_MSGS' => tr('You have <strong>%d</strong> new support questions', $num_question),
+				'TR_VIEW' => tr('View')
+			)
+		);
+	}
+}
+
+function gen_remain_time($dbtime){
+
+        // needed for calculation
+        $mi	= 60;
+        $h	= $mi * $mi;
+        $d	= $h * 24;
+        $mo = $d * 30;
+        $y	= $d * 365;
+
+        // calculation of: years, month, days, hours, minutes, seconds
+        $difftime = $dbtime - time();
+        $years = floor($difftime / $y);
+        $difftime = $difftime % $y;
+        $month = floor($difftime / $mo);
+        $difftime = $difftime % $mo;
+        $days = floor($difftime / $d);
+        $difftime = $difftime % $d;
+        $hours = floor($difftime / $h);
+        $difftime = $difftime % $h;
+        $minutes = floor($difftime / $mi);
+		 $difftime = $difftime % $mi;
+        $seconds = $difftime;
+
+        // put into array and return
+        return array($years, $month, $days, $hours, $minutes, $seconds);
 }
 ?>

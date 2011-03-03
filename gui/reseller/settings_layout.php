@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,12 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/settings_layout.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('logo_remove_button', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_layout.tpl';
 
 save_layout();
 
@@ -48,10 +44,42 @@ update_logo();
 gen_def_layout($tpl, $cfg->USER_INITIAL_THEME);
 
 if (get_own_logo($_SESSION['user_id']) !== $cfg->IPS_LOGO_PATH . '/isp_logo.gif') {
-	$tpl->parse('LOGO_REMOVE_BUTTON', '.logo_remove_button');
 } else {
 	$tpl->assign('LOGO_REMOVE_BUTTON', '');
 }
+
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
+		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
+		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
+		'TR_LAYOUT_NAME'			=> tr('Layout name'),
+		'TR_LAYOUT'					=> tr('Layout'),
+		'TR_DEFAULT'				=> tr('default'),
+		'TR_YES'					=> tr('yes'),
+		'TR_SAVE'					=> tr('Save'),
+		'TR_UPLOAD_LOGO'			=> tr('Upload logo'),
+		'TR_LOGO_FILE'				=> tr('Logo file'),
+		'TR_UPLOAD'					=> tr('Upload'),
+		'TR_REMOVE'					=> tr('Remove'),
+		'TR_CHOOSE_DEFAULT_LAYOUT'	=> tr('Choose default layout'),
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_reseller_menu($tpl, 'menu_general_information.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 function save_layout() {
 	global $theme_color;
@@ -159,42 +187,4 @@ function update_user_gui_props($file_name, $user_id) {
 
 	exec_query($sql, $query, array($file_name, $user_id));
 }
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Change Personal Data'),
-		'TR_LAYOUT_SETTINGS'		=> tr('Layout settings'),
-		'TR_INSTALLED_LAYOUTS'		=> tr('Installed layouts'),
-		'TR_LAYOUT_NAME'			=> tr('Layout name'),
-		'TR_LAYOUT'					=> tr('Layout'),
-		'TR_DEFAULT'				=> tr('default'),
-		'TR_YES'					=> tr('yes'),
-		'TR_SAVE'					=> tr('Save'),
-		'TR_UPLOAD_LOGO'			=> tr('Upload logo'),
-		'TR_LOGO_FILE'				=> tr('Logo file'),
-		'TR_UPLOAD'					=> tr('Upload'),
-		'TR_REMOVE'					=> tr('Remove'),
-		'TR_CHOOSE_DEFAULT_LAYOUT'	=> tr('Choose default layout'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

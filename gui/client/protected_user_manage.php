@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,16 +34,52 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('usr_msg', 'page');
-$tpl->define_dynamic('grp_msg', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('pusres', 'page');
-$tpl->define_dynamic('pgroups', 'page');
-$tpl->define_dynamic('group_members', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'puser_manage.tpl';
+
+// static page messages
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
+
+gen_pusres($tpl, $sql, $dmn_id);
+
+gen_pgroups($tpl, $sql, $dmn_id);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
+		'TR_HTACCESS'			=> tr('Protected areas'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_USER_MANAGE'		=> tr('Manage user'),
+		'TR_USERS'				=> tr('User'),
+		'TR_USERNAME'			=> tr('Username'),
+		'TR_ADD_USER'			=> tr('Add user'),
+		'TR_GROUPNAME'			=> tr('Group name'),
+		'TR_GROUP_MEMBERS'		=> tr('Group members'),
+		'TR_ADD_GROUP'			=> tr('Add group'),
+		'TR_GROUP'				=> tr('Group'),
+		'TR_GROUPS'				=> tr('Groups'),
+		'TR_PASSWORD'			=> tr('Password'),
+		'TR_STATUS'				=> tr('Status'),
+		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
+		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function gen_user_action($id, $status) {
 
@@ -69,7 +105,7 @@ function gen_group_action($id, $status, $group) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -95,7 +131,6 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 					'TABLE_LIST'	=>	''
 				)
 			);
-		$tpl->parse('USR_MSG', 'usr_msg');
 	} else {
 		$tpl->assign('USR_MSG', '');
 		while (!$rs->EOF) {
@@ -112,7 +147,6 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 				)
 			);
 
-			$tpl->parse('PUSRES', '.pusres');
 			$rs->moveNext();
 
 		}
@@ -120,7 +154,7 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -140,7 +174,6 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign('GROUP_MESSAGE', tr('You have no groups!'));
-		$tpl->parse('GRP_MSG', 'grp_msg');
 		$tpl->assign('PGROUPS', '');
 	} else {
 		$tpl->assign('GRP_MSG', '');
@@ -180,60 +213,12 @@ function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
 						$tpl->assign('MEMBER', tohtml($rs_members->fields['uname']) . ", ");
 					}
 
-					$tpl->parse('GROUP_MEMBERS', '.group_members');
 				}
 			}
 
-			$tpl->parse('PGROUPS', '.pgroups');
 			$tpl->assign('GROUP_MEMBERS', '');
 			$rs->moveNext();
 		}
 	}
 }
-
-// static page messages
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
-
-gen_pusres($tpl, $sql, $dmn_id);
-
-gen_pgroups($tpl, $sql, $dmn_id);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'	=> tr('ispCP - Client/Webtools'),
-		'TR_HTACCESS'			=> tr('Protected areas'),
-		'TR_ACTION'				=> tr('Action'),
-		'TR_USER_MANAGE'		=> tr('Manage user'),
-		'TR_USERS'				=> tr('User'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_ADD_USER'			=> tr('Add user'),
-		'TR_GROUPNAME'			=> tr('Group name'),
-		'TR_GROUP_MEMBERS'		=> tr('Group members'),
-		'TR_ADD_GROUP'			=> tr('Add group'),
-		'TR_GROUP'				=> tr('Group'),
-		'TR_GROUPS'				=> tr('Groups'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_STATUS'				=> tr('Status'),
-		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
-		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

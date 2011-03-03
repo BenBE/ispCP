@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,17 +34,73 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page',$cfg->CLIENT_TEMPLATE_PATH . '/mail_accounts.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mail_message', 'page');
-$tpl->define_dynamic('mail_item', 'page');
-$tpl->define_dynamic('mail_auto_respond', 'mail_item');
-$tpl->define_dynamic('default_mails_form', 'page');
-$tpl->define_dynamic('mails_total', 'page');
-$tpl->define_dynamic('no_mails', 'page');
-$tpl->define_dynamic('table_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'mail_accounts.tpl';
+
+// dynamic page data.
+
+if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == 'no') {
+	$tpl->assign('NO_MAILS', '');
+}
+
+gen_page_lists($tpl, $sql, $_SESSION['user_id']);
+
+// Displays the "show/hide" button for default emails
+// only if default mail address exists
+if (count_default_mails($sql, $dmn_id) > 0) {
+
+	$tpl->assign(
+		array(
+			'TR_DEFAULT_EMAILS_BUTTON' =>
+			(!isset($_POST['uaction']) || $_POST['uaction'] != 'show') ?
+				tr('Show default E-Mail addresses') :
+				tr('Hide default E-Mail Addresses'),
+
+			'VL_DEFAULT_EMAILS_BUTTON' =>
+			(isset($_POST['uaction']) && $_POST['uaction'] == 'show') ?
+				'hide' :'show'
+		)
+	);
+
+} else {
+	$tpl->assign(array('DEFAULT_MAILS_FORM' => ''));
+}
+
+// static page messages.
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Users'),
+		'TR_MANAGE_USERS'	=> tr('Manage users'),
+		'TR_MAIL_USERS'		=> tr('Mail users'),
+		'TR_MAIL'			=> tr('Mail'),
+		'TR_TYPE'			=> tr('Type'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_ACTION'			=> tr('Action'),
+		'TR_AUTORESPOND'	=> tr('Auto respond'),
+		'TR_DMN_MAILS'		=> tr('Domain mails'),
+		'TR_SUB_MAILS'		=> tr('Subdomain mails'),
+		'TR_ALS_MAILS'		=> tr('Alias mails'),
+		'TR_TOTAL_MAIL_ACCOUNTS' => tr('Mails total'),
+		'TR_DELETE'			=> tr('Delete'),
+		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // page functions.
 
@@ -74,7 +130,7 @@ function gen_user_mail_action($mail_id, $mail_status) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl pTemplate instance
+ * @param ispCP_TemplateEngine $tpl pTemplate instance
  * @param int $mail_id
  * @param string $mail_type
  * @param string $mail_status
@@ -133,7 +189,7 @@ function gen_user_mail_auto_respond(
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to pTemplate object
  * @param ispCP_Database $sql reference to ispcp_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -242,7 +298,6 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -255,7 +310,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to the template object
+ * @param ispCP_TemplateEngine $tpl reference to the template object
  * @param ispCP_Database $sql reference to the ispcp_Database object
  * @param int $dmn_id domain name id
  * @param strinc $dmn_name domain name
@@ -371,7 +426,6 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 
 			$rs->moveNext();
 			$counter++;
@@ -384,7 +438,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to the pTemplate object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -499,7 +553,6 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -511,7 +564,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to pTemplate object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id;
  * @param string $dmn_name domain name
@@ -623,7 +676,6 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$rs->fields['status'], $rs->fields['mail_auto_respond']
 			);
 
-			$tpl->parse('MAIL_ITEM', '.mail_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -635,7 +687,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_pTemplate $tpl Reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl Reference to the pTemplate object
  * @param ispCP_Database $sql Reference to the ispCP_Database object
  * @param int $user_id Customer id
  * @return void
@@ -695,7 +747,6 @@ function gen_page_lists($tpl, $sql, $user_id) {
 			)
 		);
 
-		$tpl->parse('MAIL_MESSAGE', 'mail_message');
 	}
 
 } // end gen_page_lists()
@@ -746,72 +797,4 @@ function count_default_mails($sql, $dmn_id) {
 
 	return $count_default_mails;
 }
-
-// dynamic page data.
-
-if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == 'no') {
-	$tpl->assign('NO_MAILS', '');
-}
-
-gen_page_lists($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu(
-	$tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl'
-);
-
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-gen_logged_from($tpl);
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Users'),
-		'TR_MANAGE_USERS'	=> tr('Manage users'),
-		'TR_MAIL_USERS'		=> tr('Mail users'),
-		'TR_MAIL'			=> tr('Mail'),
-		'TR_TYPE'			=> tr('Type'),
-		'TR_STATUS'			=> tr('Status'),
-		'TR_ACTION'			=> tr('Action'),
-		'TR_AUTORESPOND'	=> tr('Auto respond'),
-		'TR_DMN_MAILS'		=> tr('Domain mails'),
-		'TR_SUB_MAILS'		=> tr('Subdomain mails'),
-		'TR_ALS_MAILS'		=> tr('Alias mails'),
-		'TR_TOTAL_MAIL_ACCOUNTS' => tr('Mails total'),
-		'TR_DELETE'			=> tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-// Displays the "show/hide" button for default emails
-// only if default mail address exists
-if (count_default_mails($sql, $dmn_id) > 0) {
-
-	$tpl->assign(
-		array(
-			'TR_DEFAULT_EMAILS_BUTTON' =>
-			(!isset($_POST['uaction']) || $_POST['uaction'] != 'show') ?
-				tr('Show default E-Mail addresses') :
-				tr('Hide default E-Mail Addresses'),
-
-			'VL_DEFAULT_EMAILS_BUTTON' =>
-			(isset($_POST['uaction']) && $_POST['uaction'] == 'show') ?
-				'hide' :'show'
-		)
-	);
-
-} else {
-	$tpl->assign(array('DEFAULT_MAILS_FORM' => ''));
-}
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

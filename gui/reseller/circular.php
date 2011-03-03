@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,13 +34,47 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/circular.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'circular.tpl';
+
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Circular'),
+		'TR_CIRCULAR' => tr('Circular'),
+		'TR_CORE_DATA' => tr('Core data'),
+		'TR_SEND_TO' => tr('Send message to'),
+		'TR_ALL_USERS' => tr('All users'),
+		'TR_ALL_RESELLERS' => tr('All resellers'),
+		'TR_ALL_USERS_AND_RESELLERS' => tr('All users & resellers'),
+		'TR_MESSAGE_SUBJECT' => tr('Message subject'),
+		'TR_MESSAGE_TEXT' => tr('Message'),
+		'TR_ADDITIONAL_DATA' => tr('Additional data'),
+		'TR_SENDER_EMAIL' => tr('Senders email'),
+		'TR_SENDER_NAME' => tr('Senders name'),
+		'TR_SEND_MESSAGE' => tr('Send message'),
+		'TR_SENDER_NAME' => tr('Senders name'),
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
+
+send_circular($tpl, $sql);
+gen_page_data ($tpl, $sql);
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_page_data(&$tpl, &$sql) {
@@ -155,9 +189,12 @@ function send_reseller_users_message(&$sql, $admin_id) {
 	$rs = exec_query($sql, $query, $admin_id);
 
 	while (!$rs->EOF) {
-		$to = "\"" . encode($rs->fields['fname'] . " " . $rs->fields['lname']) . "\" <" . $rs->fields['email'] . ">";
+		$to = "\"" . mb_encode_mimeheader($rs->fields['fname'] . " " . $rs->fields['lname'], 'UTF-8') .
+			"\" <" . $rs->fields['email'] . ">";
 
-		send_circular_email($to, "\"" . encode($sender_name) . "\" <" . $sender_email . ">", $msg_subject, $msg_text);
+		send_circular_email(
+			$to, "\"" . mb_encode_mimeheader($sender_name, 'UTF-8') .
+			"\" <" . $sender_email . ">", $msg_subject, $msg_text);
 
 		$rs->moveNext();
 	}
@@ -169,7 +206,7 @@ function send_reseller_users_message(&$sql, $admin_id) {
 }
 
 function send_circular_email($to, $from, $subject, $message) {
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "MIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
 	$headers .= "From: " . $from . "\n";
@@ -177,41 +214,4 @@ function send_circular_email($to, $from, $subject, $message) {
 
 	mail($to, $subject, $message, $headers);
 }
-
-// static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Circular'),
-		'TR_CIRCULAR' => tr('Circular'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_SEND_TO' => tr('Send message to'),
-		'TR_ALL_USERS' => tr('All users'),
-		'TR_ALL_RESELLERS' => tr('All resellers'),
-		'TR_ALL_USERS_AND_RESELLERS' => tr('All users & resellers'),
-		'TR_MESSAGE_SUBJECT' => tr('Message subject'),
-		'TR_MESSAGE_TEXT' => tr('Message'),
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_SENDER_EMAIL' => tr('Senders email'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-		'TR_SEND_MESSAGE' => tr('Send message'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-	)
-);
-
-send_circular($tpl, $sql);
-gen_page_data ($tpl, $sql);
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

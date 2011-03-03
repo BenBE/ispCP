@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,18 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/reseller_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('rsl_ip_message', 'page');
-$tpl->define_dynamic('rsl_ip_list', 'page');
-$tpl->define_dynamic('rsl_ip_item', 'rsl_ip_list');
+$template = 'reseller_add.tpl';
 
 /**
  * Get Server IPs
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function get_server_ip(&$tpl, &$sql) {
@@ -75,7 +70,6 @@ function get_server_ip(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('RSL_IP_MESSAGE', 'rsl_ip_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -115,14 +109,12 @@ function get_server_ip(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RSL_IP_ITEM', '.rsl_ip_item');
 
 			$rs->moveNext();
 
 			$i++;
 		}
 
-		$tpl->parse('RSL_IP_LIST', 'rsl_ip_list');
 
 		$tpl->assign('RSL_IP_MESSAGE', '');
 	}
@@ -131,7 +123,7 @@ function get_server_ip(&$tpl, &$sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function add_reseller(&$tpl, &$sql) {
@@ -577,8 +569,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

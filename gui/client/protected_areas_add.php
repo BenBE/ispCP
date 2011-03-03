@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,13 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protect_it.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('group_item', 'page');
-$tpl->define_dynamic('user_item', 'page');
-$tpl->define_dynamic('unprotect_it', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'protect_it.tpl';
 
 /**
  * @todo use db prepared statements
@@ -208,7 +203,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -233,7 +228,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 		$ht_id = $_GET['id'];
 
 		$tpl->assign('CDIR', $ht_id);
-		$tpl->parse('UNPROTECT_IT', 'unprotect_it');
 
 		$query = "
 			SELECT
@@ -326,7 +320,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				'USER_SELECTED' => ''
 			)
 		);
-		$tpl->parse('USER_ITEM', 'user_item');
 	} else {
 		while (!$rs->EOF) {
 			$usr_id = explode(',', $user_id);
@@ -347,7 +340,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				)
 			);
 
-			$tpl->parse('USER_ITEM', '.user_item');
 
 			$rs->moveNext();
 		}
@@ -372,7 +364,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 				'GROUP_SELECTED' => ''
 			)
 		);
-		$tpl->parse('GROUP_ITEM', 'group_item');
 	} else {
 		while (!$rs->EOF) {
 			$grp_id = explode(',', $group_id);
@@ -392,7 +383,6 @@ function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
 					'GROUP_SELECTED' => $grp_selected,
 				)
 			);
-			$tpl->parse('GROUP_ITEM', '.group_item');
 			$rs->moveNext();
 		}
 	}
@@ -435,8 +425,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

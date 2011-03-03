@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,18 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/ticket_closed.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('tickets_list', 'page');
-$tpl->define_dynamic('tickets_item', 'tickets_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ticket_closed.tpl';
 
 // dynamic page data
-
 if (!hasTicketSystem()) {
 	user_goto('index.php');
 }
@@ -59,35 +51,33 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 		$cfg->DOMAIN_ROWS_PER_PAGE, 'admin', 'closed');
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_ticket_system.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_ticket_system.tpl');
-
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Questions & Comments'),
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Questions & Comments'),
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'=> tr('Support tickets'),
-		'TR_STATUS'		=> tr('Status'),
-		'TR_NEW'		=> ' ',
-		'TR_ACTION'		=> tr('Action'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_NEW'			=> ' ',
+		'TR_ACTION'			=> tr('Action'),
 		'TR_URGENCY'		=> tr('Priority'),
 		'TR_SUBJECT'		=> tr('Subject'),
 		'TR_LAST_DATA'		=> tr('Last reply'),
 		'TR_DELETE_ALL'		=> tr('Delete all'),
 		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
 		'TR_CLOSED_TICKETS'	=> tr('Closed tickets'),
-		'TR_DELETE'		=> tr('Delete'),
+		'TR_DELETE'			=> tr('Delete'),
 		'TR_TICKET_FROM'	=> tr('From'),
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_EDIT' 		=> tr('Edit')
+		'TR_EDIT'			=> tr('Edit')
 	)
 );
 
+gen_admin_mainmenu($tpl, 'main_menu_ticket_system.tpl');
+gen_admin_menu($tpl, 'menu_ticket_system.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,16 +34,55 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protected_areas.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('dir_item', 'page');
-$tpl->define_dynamic('action_link', 'page');
-$tpl->define_dynamic('protected_areas', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'protected_areas.tpl';
+
+// static page messages
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
+
+gen_htaccess_entries($tpl, $sql, $dmn_id);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
+		'TR_HTACCESS'		=> tr('Protected areas'),
+		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
+		'TR_DIRS'			=> tr('Name'),
+		'TR__ACTION'		=> tr('Action'),
+		'TR_MANAGE_USRES'	=> tr('Manage users and groups'),
+		'TR_USERS'			=> tr('User'),
+		'TR_USERNAME'		=> tr('Username'),
+		'TR_ADD_USER'		=> tr('Add user'),
+		'TR_GROUPNAME'		=> tr('Group name'),
+		'TR_GROUP_MEMBERS'	=> tr('Group members'),
+		'TR_ADD_GROUP'		=> tr('Add group'),
+		'TR_EDIT'			=> tr('Edit'),
+		'TR_GROUP'			=> tr('Group'),
+		'TR_DELETE'			=> tr('Delete'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_STATUS'			=> tr('Status'),
+		'TR_ADD_AREA'		=> tr('Add new protected area')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -81,61 +120,9 @@ function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
 					'STATUS' => translate_dmn_status($status)
 				)
 			);
-			$tpl->parse('DIR_ITEM', '.dir_item');
 			$rs->moveNext();
 			$counter++;
 		}
 	}
 }
-
-/*
- *
- * static page messages.
- *
- */
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$dmn_id = get_user_domain_id($sql, $_SESSION['user_id']);
-
-gen_htaccess_entries($tpl, $sql, $dmn_id);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Webtools'),
-		'TR_HTACCESS'		=> tr('Protected areas'),
-		'TR_DIRECTORY_TREE'	=> tr('Directory tree'),
-		'TR_DIRS'			=> tr('Name'),
-		'TR__ACTION'		=> tr('Action'),
-		'TR_MANAGE_USRES'	=> tr('Manage users and groups'),
-		'TR_USERS'			=> tr('User'),
-		'TR_USERNAME'		=> tr('Username'),
-		'TR_ADD_USER'		=> tr('Add user'),
-		'TR_GROUPNAME'		=> tr('Group name'),
-		'TR_GROUP_MEMBERS'	=> tr('Group members'),
-		'TR_ADD_GROUP'		=> tr('Add group'),
-		'TR_EDIT'			=> tr('Edit'),
-		'TR_GROUP'			=> tr('Group'),
-		'TR_DELETE'			=> tr('Delete'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_STATUS'			=> tr('Status'),
-		'TR_ADD_AREA'		=> tr('Add new protected area')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

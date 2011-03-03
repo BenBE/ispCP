@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,11 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_catchall_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mail_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'mail_catchall_add.tpl';
 
 if (isset($_GET['id'])) {
 	$item_id = $_GET['id'];
@@ -48,10 +45,45 @@ if (isset($_GET['id'])) {
 	user_goto('mail_catchall.php');
 }
 
+// dynamic page data.
+
+gen_dynamic_page_data($tpl, $sql, $item_id);
+create_catchall_mail_account($sql, $item_id);
+$tpl->assign('ID', $item_id);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'						=> tr('ispCP - Client/Create CatchAll Mail Account'),
+		'TR_CREATE_CATCHALL_MAIL_ACCOUNT'	=> tr('Create catch all mail account'),
+		'TR_MAIL_LIST'						=> tr('Mail accounts list'),
+		'TR_CREATE_CATCHALL'				=> tr('Create catch all'),
+		'TR_FORWARD_MAIL'					=> tr('Forward mail'),
+		'TR_FORWARD_TO'						=> tr('Forward to')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $id
  */
@@ -115,7 +147,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -158,7 +189,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -204,7 +234,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -250,7 +279,6 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 						)
 					);
 
-					$tpl->parse('MAIL_LIST', '.mail_list');
 					$rs->moveNext();
 				}
 			}
@@ -434,40 +462,4 @@ function create_catchall_mail_account(&$sql, $id) {
 		}
 	}
 }
-
-// dynamic page data.
-
-gen_dynamic_page_data($tpl, $sql, $item_id);
-create_catchall_mail_account($sql, $item_id);
-$tpl->assign('ID', $item_id);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'						=> tr('ispCP - Client/Create CatchAll Mail Account'),
-		'TR_CREATE_CATCHALL_MAIL_ACCOUNT'	=> tr('Create catch all mail account'),
-		'TR_MAIL_LIST'						=> tr('Mail accounts list'),
-		'TR_CREATE_CATCHALL'				=> tr('Create catch all'),
-		'TR_FORWARD_MAIL'					=> tr('Forward mail'),
-		'TR_FORWARD_TO'						=> tr('Forward to')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

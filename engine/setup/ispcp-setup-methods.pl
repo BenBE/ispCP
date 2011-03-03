@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2011 by ispCP | http://ispcp.net
 #
 # Version: $Id$
 #
@@ -18,7 +18,7 @@
 # The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
 #
 # The Initial Developer of the Original Code is ispCP Team.
-# Portions created by Initial Developer are Copyright (C) 2006-2010 by
+# Portions created by Initial Developer are Copyright (C) 2006-2011 by
 # isp Control Panel. All Rights Reserved.
 
 # Note to developers:
@@ -3109,6 +3109,27 @@ sub setup_gui_pma {
 	}
 
 	push_el(\@main::el, 'setup_gui_pma()', 'Ending...');
+
+	0;
+}
+
+################################################################################
+# ispCP update/correct GUI theme, if current theme setting not possible
+#
+# @return int 0 on success, other on failure
+#
+sub update_gui_theme {
+
+	push_el(\@main::el, 'update_gui_theme()', 'Starting...');
+
+	my $themesDir = $main::cfg_reg{'GUI_ROOT_DIR'} . '/themes/' . $main::cfg_reg{'USER_INITIAL_THEME'};
+
+	unless (-e $themesDir) {
+		push_el(\@main::el, 'update_gui_theme()', 'reset USER_INITIAL_THEME');
+		set_conf_val('USER_INITIAL_THEME', 'omega');
+	}
+
+	push_el(\@main::el, 'update_gui_theme()', 'Ending...');
 
 	0;
 }

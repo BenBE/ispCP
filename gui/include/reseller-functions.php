@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -43,17 +43,13 @@ define('MT_ALIAS_CATCHALL', 'alias_catchall');
 define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_reseller_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-	$tpl->define_dynamic('isactive_support', 'menu');
-	$tpl->define_dynamic('custom_buttons', 'menu');
 
 	$tpl->assign(
 		array(
@@ -121,7 +117,6 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -141,23 +136,18 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 		$tpl->assign('ISACTIVE_SUPPORT', '');
  	}
 
-	$tpl->parse('MAIN_MENU', 'menu');
+	$tpl->assign('MAIN_MENU', $menu_file);
 } // end of gen_reseller_menu()
 
 /**
  * Function to generate the menu data for reseller
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
 function gen_reseller_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
-
-	$tpl->define_dynamic('menu', $menu_file);
-
-	$tpl->define_dynamic('custom_buttons', 'menu');
-	$tpl->define_dynamic('alias_menu', 'page');
 
 	$tpl->assign(
 		array(
@@ -180,8 +170,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			'TR_MENU_LOGOUT' => tr('Logout'),
 			'TR_MENU_OVERVIEW' => tr('Overview'),
 			'TR_MENU_LANGUAGE' => tr('Language'),
-			'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
-				? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
+			//'ALIAS_MENU' => (!check_reseller_permissions($_SESSION['user_id'], 'alias'))
+			//	? '' : $tpl->parse('ALIAS_MENU', '.alias_menu'),
 			'SUPPORT_SYSTEM_PATH' => $cfg->ISPCP_SUPPORT_SYSTEM_PATH,
 			'SUPPORT_SYSTEM_TARGET' => $cfg->ISPCP_SUPPORT_SYSTEM_TARGET,
 			'TR_MENU_ORDERS' => tr('Manage Orders'),
@@ -231,7 +221,6 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 				)
 			);
 
-			$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -254,7 +243,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 		$tpl->assign('HP_MENU_ADD', '');
 	}
 
-	$tpl->parse('MENU', 'menu');
+	$tpl->assign('MENU', $menu_file);
 } // end of gen_reseller_menu()
 
 /**
@@ -629,7 +618,7 @@ function get_user_props($user_id) {
 
 /**
  * Generate IP list
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function generate_ip_list(&$tpl, &$reseller_id) {
@@ -1064,7 +1053,7 @@ function gen_manage_domain_query(&$search_query, &$count_query,
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $search_for
  * @param string $search_common
  * @param string $search_status
@@ -1202,7 +1191,7 @@ function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
 
 /**
  * @todo implement use of more secure dynamic table in SQL query
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param string $userdef_language
  */
@@ -1265,20 +1254,18 @@ function gen_def_language(&$tpl, &$sql, $user_def_language) {
 
 	asort($languages[0], SORT_STRING);
 	foreach ($languages as $lang) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'LANG_VALUE' => $lang[0],
 				'LANG_SELECTED' => $lang[1],
 				'LANG_NAME' => tohtml($lang[2])
 			)
 		);
-
-		$tpl->parse('DEF_LANGUAGE', '.def_language');
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $domain_id
  */
@@ -1580,14 +1567,15 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
 	$message = $data['message'];
 
 	if ($from_name) {
-		$from = '"' . encode($from_name) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') .
+				"\" <" . $from_email . ">";
 	} else {
 		$from = $from_email;
 	}
 
 	if ($ufname && $ulname) {
 		$name = "$ufname $ulname";
-		$to = '"' . encode($name) . "\" <" . $uemail . ">";
+		$to = '"' . mb_encode_mimeheader($name, 'UTF-8') . "\" <" . $uemail . ">";
 	} else {
 		if ($ufname) {
 			$name = $ufname;
@@ -1619,7 +1607,7 @@ function send_order_emails($admin_id, $domain_name, $ufname, $ulname, $uemail,
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
 	$message = html_entity_decode($message, ENT_QUOTES, 'UTF-8');
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "From: ". $from . "\n";
 	$headers .= "MIME-Version: 1.0\n";
@@ -1652,12 +1640,14 @@ function send_alias_order_email($alias_name) {
 	$message = $data['message'];
 
 	// to
-	$to = ($to_name) ? '"' . encode($to_name) . "\" <" . $to_email . ">" : $to_email;
+	$to = ($to_name) ? '"' . mb_encode_mimeheader($to_name, 'UTF-8') .
+		"\" <" . $to_email . ">" : $to_email;
 
 	// from
 	if ($ufname && $ulname) {
 		$from_name = "$ufname $ulname";
-		$from = '"' . encode($from_name) . "\" <" . $uemail . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') .
+			"\" <" . $uemail . ">";
 	} else {
 		if ($ufname) {
 			$from_name = $ufname;
@@ -1685,7 +1675,7 @@ function send_alias_order_email($alias_name) {
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
 
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 
 	$headers = "From: ". $from ."\n";
 	$headers .= "MIME-Version: 1.0\n";

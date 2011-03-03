@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,22 +34,59 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
+$tpl = ispCP_TemplateEngine::getInstance();
 
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('als_sub_list', 'page');
-$tpl->define_dynamic('to_alias_domain', 'page');
-$tpl->define_dynamic('to_subdomain', 'page');
-$tpl->define_dynamic('to_alias_subdomain', 'page');
+$template = 'mail_add.tpl';
+
+// common page data.
+
+if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
+	header("Location: index.php");
+}
+
+// dynamic page data.
+
+gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
+		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
+		'TR_USERNAME'			=> tr('Username'),
+		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
+		'TR_TO_DMN_ALIAS'		=> tr('To domain alias'),
+		'TR_TO_SUBDOMAIN'		=> tr('To subdomain'),
+		'TR_TO_ALS_SUBDOMAIN'	=> tr('To alias subdomain'),
+		'TR_NORMAL_MAIL'		=> tr('Normal mail'),
+		'TR_PASSWORD'			=> tr('Password'),
+		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
+		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
+		'TR_FORWARD_TO'			=> tr('Forward to'),
+		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
+		'TR_ADD'				=> tr('Add'),
+		'TR_EMPTY_DATA'			=> tr('You did not fill all required fields')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $dmn_name
  * @param string $post_check
  */
@@ -99,7 +136,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param bool $post_check
@@ -132,7 +169,6 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('TO_ALIAS_DOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -165,7 +201,6 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 					'ALS_NAME'		=> tohtml($alias_name)
 				)
 			);
-			$tpl->parse('ALS_LIST', '.als_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -175,7 +210,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $dmn_name
@@ -211,7 +246,6 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 				'SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('SUB_LIST', 'sub_list');
 		$tpl->assign('TO_SUBDOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -246,7 +280,6 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 					'SUB_NAME'		=> tohtml($sub_name . '.' . $dmn_name)
 				)
 			);
-			$tpl->parse('SUB_LIST', '.sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -256,7 +289,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  * @param string $post_check
@@ -293,7 +326,6 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 				'ALS_SUB_NAME'		=> tr('Empty list')
 			)
 		);
-		$tpl->parse('ALS_SUB_LIST', 'sub_list');
 		$tpl->assign('TO_ALIAS_SUBDOMAIN', '');
 	} else {
 		$first_passed = false;
@@ -328,7 +360,6 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 					'ALS_SUB_NAME'		=> tohtml($als_sub_name . '.' . $als_name)
 				)
 			);
-			$tpl->parse('ALS_SUB_LIST', '.als_sub_list');
 			$rs->moveNext();
 
 			if (!$first_passed)
@@ -651,51 +682,4 @@ function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
 		}
 	}
 }
-
-// common page data.
-
-if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
-	header("Location: index.php");
-}
-
-// dynamic page data.
-
-gen_page_mail_acc_props($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Add Mail User'),
-		'TR_ADD_MAIL_USER'		=> tr('Add mail users'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_TO_MAIN_DOMAIN'		=> tr('To main domain'),
-		'TR_TO_DMN_ALIAS'		=> tr('To domain alias'),
-		'TR_TO_SUBDOMAIN'		=> tr('To subdomain'),
-		'TR_TO_ALS_SUBDOMAIN'	=> tr('To alias subdomain'),
-		'TR_NORMAL_MAIL'		=> tr('Normal mail'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
-		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
-		'TR_FORWARD_TO'			=> tr('Forward to'),
-		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
-		'TR_ADD'				=> tr('Add'),
-		'TR_EMPTY_DATA'			=> tr('You did not fill all required fields')
-	)
-);
-
-gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
 ?>

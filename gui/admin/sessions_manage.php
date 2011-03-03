@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,11 +34,38 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/sessions_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('user_session', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sessions_manage.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
+		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_USERTYPE' => tr('User type'),
+		'TR_LOGIN_ON' => tr('Last access'),
+		'TR_OPTIONS' => tr('Options'),
+		'TR_DELETE' => tr('Kill session'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl', true);
+gen_admin_menu($tpl, 'menu_users_manage.tpl', true);
+
+kill_session($sql);
+
+gen_user_sessions($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function kill_session($sql) {
 
@@ -59,7 +86,7 @@ function kill_session($sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_user_sessions(&$tpl, &$sql) {
@@ -104,41 +131,8 @@ function gen_user_sessions(&$tpl, &$sql) {
 			$tpl->assign('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
 		}
 
-		$tpl->parse('USER_SESSION', '.user_session');
 
 		$rs->moveNext();
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-kill_session($sql);
-
-gen_user_sessions($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_USERTYPE' => tr('User type'),
-		'TR_LOGIN_ON' => tr('Last access'),
-		'TR_OPTIONS' => tr('Options'),
-		'TR_DELETE' => tr('Kill session'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

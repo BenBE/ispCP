@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,21 +34,63 @@ $cfg = ispCP_Registry::get('Config');
 
 check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_RESELLER);
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/index.tpl');
-$tpl->define_dynamic('def_language', 'page');
-$tpl->define_dynamic('def_layout', 'page');
-$tpl->define_dynamic('no_messages', 'page');
-$tpl->define_dynamic('msg_entry', 'page');
-$tpl->define_dynamic('traff_warn', 'page');
-$tpl->define_dynamic('layout', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('traff_warn', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'index.tpl';
+
+// static page messages.
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
+		'TR_SAVE' => tr('Save'),
+		'TR_MESSAGES' => tr('Messages'),
+		'TR_LANGUAGE' => tr('Language'),
+		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
+		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
+		'TR_LAYOUT' => tr('Layout'),
+		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
+		'TR_DISK_USAGE' => tr ('Disk usage')
+	)
+);
+
+// dynamic page data.
+
+generate_page_data($tpl, $_SESSION['user_id'], $_SESSION['user_logged']);
+
+// Makes sure that the language selected is the reseller's language
+if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
+	list($user_def_lang, $user_def_layout) = get_user_gui_props($sql, $_SESSION['user_id']);
+} else {
+	$user_def_layout = $_SESSION['user_theme'];
+	$user_def_lang = $_SESSION['user_def_lang'];
+}
+
+gen_messages_table($tpl, $_SESSION['user_id']);
+
+gen_logged_from($tpl);
+
+gen_def_language($tpl, $sql, $user_def_lang);
+
+gen_def_layout($tpl, $user_def_layout);
+
+gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_reseller_menu($tpl, 'menu_general_information.tpl');
+
+gen_system_message($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->assign('LAYOUT', '');
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_system_message(&$tpl, &$sql) {
@@ -87,12 +129,11 @@ function gen_system_message(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('MSG_ENTRY', 'msg_entry');
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param float $usage
  * @param float $max_usage
  * @param float $bars_max
@@ -117,7 +158,7 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param float $usage
  * @param float $max_usage
  * @param float $bars_max
@@ -142,7 +183,7 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  * @param string $reseller_name
  */
@@ -276,7 +317,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
 function gen_messages_table(&$tpl, $admin_id) {
@@ -314,60 +355,6 @@ function gen_messages_table(&$tpl, $admin_id) {
 			)
 		);
 
-		$tpl->parse('MSG_ENTRY', '.msg_entry');
 	}
 }
-// common page data.
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
-		'TR_SAVE' => tr('Save'),
-		'TR_MESSAGES' => tr('Messages'),
-		'TR_LANGUAGE' => tr('Language'),
-		'TR_CHOOSE_DEFAULT_LANGUAGE' => tr('Choose default language'),
-		'TR_CHOOSE_DEFAULT_LAYOUT' => tr('Choose default layout'),
-		'TR_LAYOUT' => tr('Layout'),
-		'TR_TRAFFIC_USAGE' => tr('Traffic usage'),
-		'TR_DISK_USAGE' => tr ('Disk usage')
-	)
-);
-
-// dynamic page data.
-
-generate_page_data($tpl, $_SESSION['user_id'], $_SESSION['user_logged']);
-
-// Makes sure that the language selected is the reseller's language
-if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
-	list($user_def_lang, $user_def_layout) = get_user_gui_props($sql, $_SESSION['user_id']);
-} else {
-	$user_def_layout = $_SESSION['user_theme'];
-	$user_def_lang = $_SESSION['user_def_lang'];
-}
-
-gen_messages_table($tpl, $_SESSION['user_id']);
-
-gen_logged_from($tpl);
-
-gen_def_language($tpl, $sql, $user_def_lang);
-
-gen_def_layout($tpl, $user_def_layout);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-gen_system_message($tpl, $sql);
-
-// static page messages.
-
-gen_page_message($tpl);
-
-$tpl->assign('LAYOUT', '');
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

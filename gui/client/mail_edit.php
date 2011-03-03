@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,17 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/mail_edit.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('normal_mail', 'page');
-$tpl->define_dynamic('forward_mail', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'mail_edit.tpl';
 
 // page functions
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function edit_mail_account(&$tpl, &$sql) {
@@ -171,7 +167,6 @@ function edit_mail_account(&$tpl, &$sql) {
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
-			$tpl->parse('NORMAL_MAIL', '.normal_mail');
 		} else if ($mail_forward === '_no_') {
 			$tpl->assign(
 				array(
@@ -182,7 +177,6 @@ function edit_mail_account(&$tpl, &$sql) {
 					'FORWARD_LIST_DISABLED'	=> 'true'
 				)
 			);
-			$tpl->parse('NORMAL_MAIL', '.normal_mail');
 		} else {
 			$tpl->assign(
 				array(
@@ -191,7 +185,6 @@ function edit_mail_account(&$tpl, &$sql) {
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
-			$tpl->parse('FORWARD_MAIL', '.forward_mail');
 		}
 	}
 }
@@ -355,8 +348,7 @@ $tpl->assign(
 );
 
 gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

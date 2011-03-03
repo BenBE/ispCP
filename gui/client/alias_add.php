@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -36,17 +36,10 @@ $cfg = ispCP_Registry::get('Config');
 
 // Avoid unneeded generation during Ajax request
 if(!is_xhr()) {
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'alias_add.tpl';
+
 	// static page messages
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/alias_add.tpl');
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('logged_from', 'page');
-	$tpl->define_dynamic('user_entry', 'page');
-	$tpl->define_dynamic('ip_entry', 'page');
-
-	gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-	gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
 	gen_logged_from($tpl);
 
 	check_permissions($tpl);
@@ -74,6 +67,9 @@ if(!is_xhr()) {
 			'TR_PREFIX_FTP' => 'ftp://'
 		)
 	);
+
+	gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+	gen_client_menu($tpl, 'menu_manage_domains.tpl');
 
 	check_client_domainalias_counts($sql, $_SESSION['user_id']);
 }
@@ -104,10 +100,7 @@ if(isset($_POST['uaction'])) {
 gen_al_page($tpl, $_SESSION['user_id']);
 gen_page_msg($tpl, $err_txt);
 
-//gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -159,7 +152,7 @@ function init_empty_data() {
  * @global string $forward
  * @global string $forward_prefix
  * @global string $mount_point
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function gen_al_page(&$tpl, $reseller_id) {
@@ -421,18 +414,16 @@ function add_domain_alias(&$err_al) {
 } // End of add_domain_alias();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
 function gen_page_msg(&$tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
-		$tpl->parse('PAGE_MESSAGE', 'page_message');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
 
 } // End of gen_page_msg()
-
 ?>

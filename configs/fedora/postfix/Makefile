@@ -2,7 +2,7 @@
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
-# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2011 by ispCP | http://ispcp.net
 #
 # Version: $Id$
 #
@@ -21,7 +21,7 @@
 # The Initial Developer of the Original Code is moleSoftware GmbH.
 # Portions created by Initial Developer are Copyright (C) 2001-2006
 # by moleSoftware GmbH. All Rights Reserved.
-# Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+# Portions created by the ispCP Team are Copyright (C) 2006-2011 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -29,7 +29,7 @@
 #    http://isp-control.net
 #
 
-ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix
+ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix-ispcp
 
 export
 
@@ -42,6 +42,13 @@ install:
 	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
 	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
 
+	cp ./access $(ROOT_POSTFIX_CONF)/access
+	cp ./canonical $(ROOT_POSTFIX_CONF)/canonical
+	cp ./generic $(ROOT_POSTFIX_CONF)/generic
+	cp ./header_checks $(ROOT_POSTFIX_CONF)/header_checks
+	cp ./relocated $(ROOT_POSTFIX_CONF)/relocated
+	cp ./virtual $(ROOT_POSTFIX_CONF)/virtual
+	
 	cp -R ./backup $(SYSTEM_CONF)/postfix
 	cp -R ./parts $(SYSTEM_CONF)/postfix
 	cp -R ./working $(SYSTEM_CONF)/postfix
@@ -50,4 +57,4 @@ install:
 uninstall:
 
 	rm -rf $(SYSTEM_CONF)/postfix
-	rm -rf $(ROOT_POSTFIX_CONF)/ispcp
+	rm -rf $(ROOT_POSTFIX_CONF)/

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -33,6 +33,75 @@ require '../include/ispcp-lib.php';
 
 // Check for login
 check_login(__FILE__);
+
+/*******************************************************************************
+ * Main program
+ */
+
+/**
+ * Dispatches the request
+ */
+
+// Adds a service port or updates one or more services ports
+if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
+
+	add_update_services(($_POST['uaction']) == 'add' ? true : false);
+	user_goto('settings_ports.php');
+
+// Deletes a service port
+} elseif(isset($_GET['delete'])) {
+
+	delete_service(clean_input($_GET['delete']));
+	user_goto('settings_ports.php');
+
+// Show and Error pages
+} else {
+	$cfg = ispCP_Registry::get('Config');
+
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'settings_ports.tpl';
+
+	show_services($tpl);
+
+	$tpl->assign(
+		array(
+			'TR_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
+			'TR_ACTION' => tr('Action'),
+			'TR_UDP' => tr('udp'),
+			'TR_TCP' => tr('tcp'),
+			'TR_ENABLED' => tr('Yes'),
+			'TR_DISABLED' => tr('No'),
+			'TR_APPLY_CHANGES' => tr('Apply changes'),
+			'TR_SERVERPORTS' => tr('Server ports'),
+			'TR_SERVICE' => tr('Service'),
+			'TR_IP' => tr('IP'),
+			'TR_PORT' => tr('Port'),
+			'TR_PROTOCOL' => tr('Protocol'),
+			'TR_SHOW' => tr('Show'),
+			'TR_ACTION' => tr('Action'),
+			'TR_DELETE' => tr('Delete'),
+			'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s service port ?', true, '%s'),
+			'TR_SHOW_UPDATE_SERVICE_PORT' => tr('View / Update service(s) port'),
+			'TR_ADD_NEW_SERVICE_PORT' => tr('Add new service port'),
+			'VAL_FOR_SUBMIT_ON_UPDATE' => tr('Update'),
+			'VAL_FOR_SUBMIT_ON_ADD' => tr('Add'),
+			'VAL_FOR_SUBMIT_ON_RESET' => tr('Reset')
+		)
+	);
+
+	gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+	gen_admin_menu($tpl, 'menu_settings.tpl');
+
+	gen_page_message($tpl);
+
+	$tpl->display($template);
+}
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /*******************************************************************************
  * Functions
@@ -250,7 +319,7 @@ function add_update_services($mode) {
  *
  * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
- * @param ispCP_pTemplate &$tpl Reference to a pTemplate instance
+ * @param ispCP_TemplateEngine &$tpl Reference to a pTemplate instance
  * @return void;
  */
 function show_services(&$tpl) {
@@ -292,7 +361,7 @@ function show_services(&$tpl) {
 
 		foreach($services as $index => $service) {
 
-			$tpl->assign('CLASS', ($index % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('CLASS', ($index % 2 == 0) ? 'content' : 'content2');
 
 			$v = (count(explode(';', $values->$service)) < 6)
 				? $values->$service . ';' : $values->$service;
@@ -306,7 +375,7 @@ function show_services(&$tpl) {
 			$selected_off = $status == '1' ? '' : $cfg->HTML_SELECTED;
 
 			if ($custom == 0) {
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'SERVICE' => tohtml($name) .
 							'<input name="name[]" type="hidden" id="name' .
@@ -314,16 +383,14 @@ function show_services(&$tpl) {
 
 						'PORT_READONLY' => $cfg->HTML_READONLY,
 						'PROTOCOL_READONLY' => $cfg->HTML_DISABLED,
-						'TR_DELETE' => '-',
-						'PORT_DELETE_LINK' => '',
+						'URL_DELETE' => false,
 						'NUM' => $index
 					)
 				);
 
-				$tpl->parse('PORT_DELETE_SHOW', '');
 			} else {
 
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'SERVICE' =>
 							'<input name="name[]" type="text" id="name' .
@@ -333,17 +400,14 @@ function show_services(&$tpl) {
 						'NAME' => tohtml($name),
 						'PORT_READONLY' => '',
 						'PROTOCOL_READONLY' => '',
-						'TR_DELETE' => tr('Delete'),
 						'URL_DELETE' => "?delete=$service",
-						'PORT_DELETE_SHOW' => '',
 						'NUM' => $index
 					)
 				);
 
-				$tpl->parse('PORT_DELETE_LINK', 'port_delete_link');
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CUSTOM' => tohtml($custom),
 					'VAR_NAME' => tohtml($service),
@@ -358,7 +422,6 @@ function show_services(&$tpl) {
 				)
 			);
 
-			$tpl->parse('SERVICE_PORTS', '.service_ports');
 		}
 
 		// Add fields
@@ -423,81 +486,4 @@ function delete_service($port_name) {
 		);
 	}
 }
-
-/*******************************************************************************
- * Main program
- */
-
-/**
- * Dispatches the request
- */
-
-// Adds a service port or updates one or more services ports
-if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
-
-	add_update_services(($_POST['uaction']) == 'add' ? true : false);
-	user_goto('settings_ports.php');
-
-// Deletes a service port
-} elseif(isset($_GET['delete'])) {
-
-	delete_service(clean_input($_GET['delete']));
-	user_goto('settings_ports.php');
-
-// Show and Error pages
-} else {
-	$cfg = ispCP_Registry::get('Config');
-
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic(
-		'page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_ports.tpl'
-	);
-	$tpl->define_dynamic('service_ports', 'page');
-	$tpl->define_dynamic('port_delete_link', 'service_ports');
-	$tpl->define_dynamic('port_delete_show', 'service_ports');
-
-	gen_admin_mainmenu(
-		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl'
-	);
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-	show_services($tpl);
-
-	$tpl->assign(
-		array(
-			'TR_PAGE_TITLE' => tr('ispCP - Admin/Settings'),
-			'TR_ACTION' => tr('Action'),
-			'TR_UDP' => tr('udp'),
-			'TR_TCP' => tr('tcp'),
-			'TR_ENABLED' => tr('Yes'),
-			'TR_DISABLED' => tr('No'),
-			'TR_APPLY_CHANGES' => tr('Apply changes'),
-			'TR_SERVERPORTS' => tr('Server ports'),
-			'TR_SERVICE' => tr('Service'),
-			'TR_IP' => tr('IP'),
-			'TR_PORT' => tr('Port'),
-			'TR_PROTOCOL' => tr('Protocol'),
-			'TR_SHOW' => tr('Show'),
-			'TR_ACTION' => tr('Action'),
-			'TR_DELETE' => tr('Delete'),
-			'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s service port ?', true, '%s'),
-			'TR_SHOW_UPDATE_SERVICE_PORT' => tr('View / Update service(s) port'),
-			'TR_ADD_NEW_SERVICE_PORT' => tr('Add new service port'),
-			'VAL_FOR_SUBMIT_ON_UPDATE' => tr('Update'),
-			'VAL_FOR_SUBMIT_ON_ADD' => tr('Add'),
-			'VAL_FOR_SUBMIT_ON_RESET' => tr('Reset')
-		)
-	);
-
-	gen_page_message($tpl);
-
-	$tpl->parse('PAGE', 'page');
-	$tpl->prnt();
-}
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,19 +34,11 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/manage_reseller_users.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('reseller_list', 'page');
-$tpl->define_dynamic('reseller_item', 'reseller_list');
-$tpl->define_dynamic('src_reseller', 'page');
-$tpl->define_dynamic('src_reseller_option', 'src_reseller');
-$tpl->define_dynamic('dst_reseller', 'page');
-$tpl->define_dynamic('dst_reseller_option', 'dst_reseller');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'manage_reseller_users.tpl';
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_user_table(&$tpl, &$sql) {
@@ -106,8 +98,6 @@ function gen_user_table(&$tpl, &$sql) {
 			)
 		);
 
-		$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
-		$tpl->parse('DST_RESELLER_OPTION', '.dst_reseller_option');
 		$rs->moveNext();
 	}
 
@@ -125,7 +115,6 @@ function gen_user_table(&$tpl, &$sql) {
 			'SRC_RSL_SELECTED'	=> $selected,
 		)
 	);
-	$tpl->parse('SRC_RESELLER_OPTION', '.src_reseller_option');
 
 	if ($reseller_id === 0) {
 		$query = "
@@ -186,12 +175,10 @@ function gen_user_table(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RESELLER_ITEM', '.reseller_item');
 			$rs->moveNext();
 
 			$i++;
 		}
-		$tpl->parse('RESELLER_LIST', 'reseller_list');
 	}
 }
 
@@ -519,8 +506,7 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();

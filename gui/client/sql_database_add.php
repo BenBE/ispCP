@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,20 +34,49 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_database_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mysql_prefix_no', 'page');
-$tpl->define_dynamic('mysql_prefix_yes', 'page');
-$tpl->define_dynamic('mysql_prefix_infront', 'page');
-$tpl->define_dynamic('mysql_prefix_behind', 'page');
-$tpl->define_dynamic('mysql_prefix_all', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sql_database_add.tpl';
 
-// page functions.
+// dynamic page data.
+
+check_sql_permissions($sql, $_SESSION['user_id']);
+
+gen_page_post_data($tpl);
+
+add_sql_database($sql, $_SESSION['user_id']);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
+		'TR_ADD_DATABASE' => tr('Add SQL database'),
+		'TR_DB_NAME' => tr('Database name'),
+		'TR_USE_DMN_ID' => tr('Use numeric ID'),
+		'TR_START_ID_POS' => tr('Before the name'),
+		'TR_END_ID_POS' => tr('After the name'),
+		'TR_ADD' => tr('Add')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+// page functions
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_page_post_data(&$tpl) {
 
@@ -58,10 +87,8 @@ function gen_page_post_data(&$tpl) {
 
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		} else {
-			$tpl->parse('MYSQL_PREFIX_INFRONT', 'mysql_prefix_infront');
 			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		}
@@ -69,7 +96,6 @@ function gen_page_post_data(&$tpl) {
 		$tpl->assign('MYSQL_PREFIX_NO', '');
 		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_db') {
@@ -204,39 +230,4 @@ function check_sql_permissions($sql, $user_id) {
 		user_goto('sql_manage.php');
 	}
 }
-
-// dynamic page data.
-
-check_sql_permissions($sql, $_SESSION['user_id']);
-
-gen_page_post_data($tpl);
-
-add_sql_database($sql, $_SESSION['user_id']);
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL Database'),
-		'TR_ADD_DATABASE' => tr('Add SQL database'),
-		'TR_DB_NAME' => tr('Database name'),
-		'TR_USE_DMN_ID' => tr('Use numeric ID'),
-		'TR_START_ID_POS' => tr('Before the name'),
-		'TR_END_ID_POS' => tr('After the name'),
-		'TR_ADD' => tr('Add')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
+?>

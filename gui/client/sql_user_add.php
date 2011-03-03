@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,18 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_user_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('mysql_prefix_no', 'page');
-$tpl->define_dynamic('mysql_prefix_yes', 'page');
-$tpl->define_dynamic('mysql_prefix_infront', 'page');
-$tpl->define_dynamic('mysql_prefix_behind', 'page');
-$tpl->define_dynamic('mysql_prefix_all', 'page');
-$tpl->define_dynamic('sqluser_list', 'page');
-$tpl->define_dynamic('show_sqluser_list', 'page');
-$tpl->define_dynamic('create_sqluser', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sql_user_add.tpl';
 
 if (isset($_GET['id'])) {
 	$db_id = $_GET['id'];
@@ -55,10 +45,58 @@ if (isset($_GET['id'])) {
 	user_goto('sql_manage.php');
 }
 
-// page functions.
+// common page data.
+
+if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
+	user_goto('index.php');
+}
+
+// dynamic page data.
+
+$sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
+check_sql_permissions($tpl, $sql, $_SESSION['user_id'], $db_id, $sqluser_available);
+gen_page_post_data($tpl, $db_id);
+add_sql_user($sql, $_SESSION['user_id'], $db_id);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
+		'TR_ADD_SQL_USER' => tr('Add SQL user'),
+		'TR_USER_NAME' => tr('SQL user name'),
+		'TR_USE_DMN_ID' => tr('Use numeric ID'),
+		'TR_START_ID_POS' => tr('In front the name'),
+		'TR_END_ID_POS' => tr('Behind the name'),
+		'TR_ADD' => tr('Add'),
+		'TR_CANCEL' => tr('Cancel'),
+		'TR_ADD_EXIST' => tr('Add existing user'),
+		'TR_PASS' => tr('Password'),
+		'TR_PASS_REP' => tr('Repeat password'),
+		'TR_SQL_USER_NAME' => tr('Existing SQL users')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
+// page functions
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @param int $db_id
@@ -133,7 +171,7 @@ function get_sqluser_list_of_current_db(&$sql, $db_id) {
 
 /**
  * @param ispCP_Database $sql
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  * @param int $db_id
  * @return bool
@@ -187,7 +225,6 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 					'SQLUSER_NAME' => tohtml($rs->fields['sqlu_name'])
 				)
 			);
-			$tpl->parse('SQLUSER_LIST', '.sqluser_list');
 		}
 		$rs->moveNext();
 	}
@@ -382,7 +419,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $db_id
  */
 function gen_page_post_data(&$tpl, $db_id) {
@@ -393,10 +430,8 @@ function gen_page_post_data(&$tpl, $db_id) {
 		$tpl->assign('MYSQL_PREFIX_YES', '');
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
 			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->parse('MYSQL_PREFIX_BEHIND', 'mysql_prefix_behind');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		} else {
-			$tpl->parse('MYSQL_PREFIX_INFRONT', 'mysql_prefix_infront');
 			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
 			$tpl->assign('MYSQL_PREFIX_ALL', '');
 		}
@@ -404,7 +439,6 @@ function gen_page_post_data(&$tpl, $db_id) {
 		$tpl->assign('MYSQL_PREFIX_NO', '');
 		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
 		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-		$tpl->parse('MYSQL_PREFIX_ALL', 'mysql_prefix_all');
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {
@@ -429,54 +463,4 @@ function gen_page_post_data(&$tpl, $db_id) {
 
 	$tpl->assign('ID', $db_id);
 }
-
-// common page data.
-
-if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
-	user_goto('index.php');
-}
-
-// dynamic page data.
-
-$sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
-check_sql_permissions($tpl, $sql, $_SESSION['user_id'], $db_id, $sqluser_available);
-gen_page_post_data($tpl, $db_id);
-add_sql_user($sql, $_SESSION['user_id'], $db_id);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Add SQL User'),
-		'TR_ADD_SQL_USER' => tr('Add SQL user'),
-		'TR_USER_NAME' => tr('SQL user name'),
-		'TR_USE_DMN_ID' => tr('Use numeric ID'),
-		'TR_START_ID_POS' => tr('In front the name'),
-		'TR_END_ID_POS' => tr('Behind the name'),
-		'TR_ADD' => tr('Add'),
-		'TR_CANCEL' => tr('Cancel'),
-		'TR_ADD_EXIST' => tr('Add existing user'),
-		'TR_PASS' => tr('Password'),
-		'TR_PASS_REP' => tr('Repeat password'),
-		'TR_SQL_USER_NAME' => tr('Existing SQL users')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

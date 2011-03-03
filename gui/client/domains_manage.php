@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,27 +34,65 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domains_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('als_message', 'page');
-$tpl->define_dynamic('als_list', 'page');
-$tpl->define_dynamic('als_item', 'als_list');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('sub_message', 'page');
-$tpl->define_dynamic('sub_list', 'page');
-$tpl->define_dynamic('sub_item', 'sub_list');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('isactive_dns', 'page');
-$tpl->define_dynamic('dns_message', 'page');
-$tpl->define_dynamic('dns_list', 'page');
-$tpl->define_dynamic('dns_item', 'dns_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domains_manage.tpl';
+
+// dynamic page data.
+
+gen_user_sub_list($tpl, $sql, $_SESSION['user_id']);
+gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
+gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Domains'),
+		'TR_MANAGE_DOMAINS'	=> tr('Manage domains'),
+		'TR_DOMAIN_ALIASES'	=> tr('Domain aliases'),
+		'TR_ALS_NAME'		=> tr('Name'),
+		'TR_ALS_MOUNT'		=> tr('Mount point'),
+		'TR_ALS_FORWARD'	=> tr('Forward'),
+		'TR_ALS_STATUS'		=> tr('Status'),
+		'TR_ALS_ACTION'		=> tr('Action'),
+		'TR_SUBDOMAINS'		=> tr('Subdomains'),
+		'TR_SUB_NAME'		=> tr('Name'),
+		'TR_SUB_MOUNT'		=> tr('Mount point'),
+		'TR_SUB_FORWARD'	=> tr('Forward'),
+		'TR_SUB_STATUS'		=> tr('Status'),
+		'TR_SUB_ACTION'		=> tr('Actions'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_DNS'			=> tr("DNS zone's records"),
+		'TR_DNS_NAME'		=> tr('Name'),
+		'TR_DNS_CLASS'		=> tr('Class'),
+		'TR_DNS_TYPE'		=> tr('Type'),
+		'TR_DNS_ACTION'		=> tr('Actions'),
+		'TR_DNS_DATA'		=> tr('Record data'),
+		'TR_DNS_STATUS'		=> tr('Status'),
+		'TR_DOMAIN_NAME'	=> tr('Domain')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+gen_client_menu($tpl, 'menu_manage_domains.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @return void
@@ -97,7 +135,6 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 				'DNS_LIST' => ''
 			)
 		);
-		$tpl->parse('DNS_MESSAGE', 'dns_message');
 	} else {
 		$counter = 0;
 
@@ -138,12 +175,10 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 					'DNS_TYPE_RECORD'			=> tr("%s record", $rs->fields['domain_type'])
 				)
 			);
-			$tpl->parse('DNS_ITEM', '.dns_item');
 			$rs->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('DNS_LIST', 'dns_list');
 		$tpl->assign('DNS_MESSAGE', '');
 	}
 }
@@ -210,7 +245,7 @@ function gen_user_sub_forward($sub_id, $sub_status, $url_forward, $dmn_type) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -259,7 +294,6 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 
 	if (($rs->recordCount() + $rs2->recordCount()) == 0) {
 		$tpl->assign(array('SUB_MSG' => tr('Subdomain list is empty!'), 'SUB_LIST' => ''));
-		$tpl->parse('SUB_MESSAGE', 'sub_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
@@ -282,7 +316,6 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs->moveNext();
 			$counter++;
 		}
@@ -306,12 +339,10 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 					'SUB_ACTION_SCRIPT'	=> $sub_action_script
 				)
 			);
-			$tpl->parse('SUB_ITEM', '.sub_item');
 			$rs2->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('SUB_LIST', 'sub_list');
 		$tpl->assign('SUB_MESSAGE', '');
 	}
 }
@@ -351,7 +382,7 @@ function gen_user_als_forward($als_id, $als_status, $url_forward) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -380,7 +411,6 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 
 	if ($rs->recordCount() == 0) {
 		$tpl->assign(array('ALS_MSG' => tr('Alias list is empty!'), 'ALS_LIST' => ''));
-		$tpl->parse('ALS_MESSAGE', 'als_message');
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
@@ -403,66 +433,11 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 					'ALS_ACTION_SCRIPT'	=> $als_action_script
 				)
 			);
-			$tpl->parse('ALS_ITEM', '.als_item');
 			$rs->moveNext();
 			$counter++;
 		}
 
-		$tpl->parse('ALS_LIST', 'als_list');
 		$tpl->assign('ALS_MESSAGE', '');
 	}
 }
-
-// dynamic page data.
-
-gen_user_sub_list($tpl, $sql, $_SESSION['user_id']);
-gen_user_als_list($tpl, $sql, $_SESSION['user_id']);
-gen_user_dns_list($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Domains'),
-		'TR_MANAGE_DOMAINS'	=> tr('Manage domains'),
-		'TR_DOMAIN_ALIASES'	=> tr('Domain aliases'),
-		'TR_ALS_NAME'		=> tr('Name'),
-		'TR_ALS_MOUNT'		=> tr('Mount point'),
-		'TR_ALS_FORWARD'	=> tr('Forward'),
-		'TR_ALS_STATUS'		=> tr('Status'),
-		'TR_ALS_ACTION'		=> tr('Action'),
-		'TR_SUBDOMAINS'		=> tr('Subdomains'),
-		'TR_SUB_NAME'		=> tr('Name'),
-		'TR_SUB_MOUNT'		=> tr('Mount point'),
-		'TR_SUB_FORWARD'	=> tr('Forward'),
-		'TR_SUB_STATUS'		=> tr('Status'),
-		'TR_SUB_ACTION'		=> tr('Actions'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_DNS'			=> tr("DNS zone's records"),
-		'TR_DNS_NAME'		=> tr('Name'),
-		'TR_DNS_CLASS'		=> tr('Class'),
-		'TR_DNS_TYPE'		=> tr('Type'),
-		'TR_DNS_ACTION'		=> tr('Actions'),
-		'TR_DNS_DATA'		=> tr('Record data'),
-		'TR_DNS_STATUS'		=> tr('Status'),
-		'TR_DOMAIN_NAME'	=> tr('Domain')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

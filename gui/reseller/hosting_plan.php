@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -35,24 +35,16 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan.tpl';
 // Table with hosting plans
-$tpl->define_dynamic('hp_table', 'page');
-$tpl->define_dynamic('hp_entry', 'hp_table');
-$tpl->define_dynamic('hp_delete', 'page');
-$tpl->define_dynamic('hp_menu_add', 'page');
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
+// static page messages
 gen_logged_from($tpl);
 
 gen_hp_table($tpl, $_SESSION['user_id']);
 
-// static page messages
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
@@ -67,11 +59,13 @@ $tpl->assign(
 	)
 );
 
+gen_reseller_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'menu_hosting_plan.tpl');
+
 gen_hp_message($tpl);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 // BEGIN FUNCTION DECLARE PATH
 
@@ -111,7 +105,7 @@ function gen_hp_message(&$tpl) {
 
 /**
  * Extract and show data for hosting plans
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function gen_hp_table(&$tpl, $reseller_id) {
@@ -200,10 +194,8 @@ function gen_hp_table(&$tpl, $reseller_id) {
 				)
 			);
 
-			$tpl->parse('HP_ENTRY', '.hp_entry');
 		}
 
-		$tpl->parse('HP_TABLE', 'hp_table');
 	}
 
 }

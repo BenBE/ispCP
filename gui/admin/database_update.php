@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -46,14 +46,8 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 	header('Location: ' . $_SERVER['PHP_SELF']);
 } else {
 
-	$tpl = new ispCP_pTemplate();
-	$tpl->define_dynamic(
-		'page', $cfg->ADMIN_TEMPLATE_PATH . '/database_update.tpl'
-	);
-	$tpl->define_dynamic('page_message', 'page');
-	$tpl->define_dynamic('database_update_message', 'page');
-	$tpl->define_dynamic('database_update_infos', 'page');
-	$tpl->define_dynamic('table_header', 'page');
+	$tpl = ispCP_TemplateEngine::getInstance();
+	$template = 'database_update.tpl';
 
 	$tpl->assign(
 		array(
@@ -61,10 +55,9 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 		)
 	);
 
-	gen_admin_mainmenu(
-		$tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_system_tools.tpl'
-	);
-	gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_system_tools.tpl');
+	gen_admin_mainmenu($tpl,  'main_menu_system_tools.tpl');
+	gen_admin_menu($tpl, 'menu_system_tools.tpl');
+
 	gen_page_message($tpl);
 
 	$tpl->assign(
@@ -79,15 +72,12 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 	if($dbUpdate->checkUpdateExists()) {
 		$tpl->assign(
 			array(
-				'UPDATE_MESSAGE' => '',
-				'DATABASE_UPDATE_MESSAGE' => '',
 				'UPDATE' => tr('New Database update is now available'),
 				'INFOS' => tr('Do you want to execute the Updates now?'),
 				'TR_EXECUTE_UPDATE' => tr('Execute updates')
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_INFOS', 'database_update_infos');
 	} else {
 		$tpl->assign(
 			array(
@@ -97,13 +87,12 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 			)
 		);
 
-		$tpl->parse('DATABASE_UPDATE_MESSAGE', 'database_update_message');
 	}
 
-	$tpl->parse('PAGE', 'page');
-	$tpl->prnt();
+	$tpl->display($template);
 
 	if ($cfg->DUMP_GUI_DEBUG) {
 		dump_gui_debug();
 	}
 }
+?>

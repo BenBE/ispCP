@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,21 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/reseller_user_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('no_domains', 'page');
-$tpl->define_dynamic('domain_list', 'page');
-$tpl->define_dynamic('domain_entry', 'domain_list');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'reseller_user_statistics.tpl';
 
 $rid = $_SESSION['user_id'];
 $name = $_SESSION['user_logged'];
@@ -68,8 +55,53 @@ if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('./reseller_statistics.php');
 }
 
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
+		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_NO_DOMAINS' => tr('This reseller has no domains yet.'),
+		'TR_DOMAIN_NAME' => tr('Domain'),
+		'TR_TRAFF' => tr('Traffic<br>usage'),
+		'TR_DISK' => tr('Disk<br>usage'),
+		'TR_WEB' => tr('Web<br>traffic'),
+		'TR_FTP_TRAFF' => tr('FTP<br>traffic'),
+		'TR_SMTP' => tr('SMTP<br>traffic'),
+		'TR_POP3' => tr('POP3/IMAP<br>traffic'),
+		'TR_SUBDOMAIN' => tr('Subdomain'),
+		'TR_ALIAS' => tr('Alias'),
+		'TR_MAIL' => tr('Mail'),
+		'TR_FTP' => tr('FTP'),
+		'TR_SQL_DB' => tr('SQL<br>database'),
+		'TR_SQL_USER' => tr('SQL<br>user'),
+		'VALUE_NAME' => $name,
+		'VALUE_RID' => $rid
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_reseller_menu($tpl, 'menu_statistics.tpl');
+
+gen_select_lists($tpl, $month, $year);
+
+generate_page($tpl, $rid, $name);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  * @param string $reseller_name
  */
@@ -179,14 +211,13 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
 
 			$dres = exec_query ($sql, $query, $admin_id);
 			generate_domain_entry($tpl, $dres->fields['domain_id'], $row++);
-			$tpl->parse('DOMAIN_ENTRY', '.domain_entry');
 			$rs->moveNext();
 		}
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  * @param int $row
  */
@@ -300,52 +331,4 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 		)
 	);
 }
-
-/*
- * static page messages
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Reseller User Statistics'),
-		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_NO_DOMAINS' => tr('This reseller has no domains yet.'),
-		'TR_DOMAIN_NAME' => tr('Domain'),
-		'TR_TRAFF' => tr('Traffic<br>usage'),
-		'TR_DISK' => tr('Disk<br>usage'),
-		'TR_WEB' => tr('Web<br>traffic'),
-		'TR_FTP_TRAFF' => tr('FTP<br>traffic'),
-		'TR_SMTP' => tr('SMTP<br>traffic'),
-		'TR_POP3' => tr('POP3/IMAP<br>traffic'),
-		'TR_SUBDOMAIN' => tr('Subdomain'),
-		'TR_ALIAS' => tr('Alias'),
-		'TR_MAIL' => tr('Mail'),
-		'TR_FTP' => tr('FTP'),
-		'TR_SQL_DB' => tr('SQL<br>database'),
-		'TR_SQL_USER' => tr('SQL<br>user'),
-		'VALUE_NAME' => $name,
-		'VALUE_RID' => $rid
-	)
-);
-
-gen_select_lists($tpl, $month, $year);
-
-generate_page($tpl, $rid, $name);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

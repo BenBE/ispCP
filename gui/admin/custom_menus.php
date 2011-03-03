@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,14 +24,79 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
-// site functions
+require '../include/ispcp-lib.php';
+
+check_login(__FILE__);
+
+$cfg = ispCP_Registry::get('Config');
+
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'custom_menus.tpl';
+
+add_new_button($sql);
+
+if (isset($_GET['delete_id'])) {
+	delete_button($sql);
+}
+
+if (isset($_GET['edit_id'])) {
+	edit_button($tpl, $sql);
+}
+
+update_button($sql);
+
+gen_button_list($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
+		'TR_TITLE_CUSTOM_MENUS' => tr('Manage custom menus'),
+		'TR_ADD_NEW_BUTTON' => tr('Add new button'),
+		'TR_BUTTON_NAME' => tr('Button name'),
+		'TR_BUTTON_LINK' => tr('Button link'),
+		'TR_BUTTON_TARGET' => tr('Button target'),
+		'TR_VIEW_FROM' => tr('Show in'),
+		'ADMIN' => tr('Administrator level'),
+		'RESELLER' => tr('Reseller level'),
+		'USER' => tr('Enduser level'),
+		'RESSELER_AND_USER' => tr('Reseller and enduser level'),
+		'TR_ADD' => tr('Add'),
+		'TR_MENU_NAME' => tr('Menu button'),
+		'TR_ACTON' => tr('Action'),
+		'TR_EDIT' => tr('Edit'),
+		'TR_DELETE' => tr('Delete'),
+		'TR_LEVEL' => tr('Level'),
+		'TR_SAVE' => tr('Save'),
+		'TR_EDIT_BUTTON' => tr('Edit button'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
+gen_page_message($tpl);
+
+if (isset($_GET['edit_id'])) {
+	$tpl->assign('EDIT_BUTTON', true);
+} else {
+	$tpl->assign('ADD_BUTTON', true);
+}
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @return void
  */
@@ -70,7 +135,7 @@ function gen_button_list(&$tpl, &$sql) {
 				$menu_level = tr('All');
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'BUTTON_LINK'		=> tohtml($menu_link),
 					'BUTONN_ID'			=> $menu_id,
@@ -82,7 +147,6 @@ function gen_button_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('BUTTON_LIST', '.button_list');
 			$rs->moveNext();
 			$i++;
 		} // end while
@@ -177,7 +241,7 @@ function delete_button(&$sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function edit_button(&$tpl, &$sql) {
@@ -208,10 +272,10 @@ function edit_button(&$tpl, &$sql) {
 				tr('Missing or incorrect data input!'),
 				'warning'
 			);
-			$tpl->assign('EDIT_BUTTON', '');
+			$tpl->assign('ADD_BUTTON', true);
 			return;
 		} else {
-			$tpl->assign('ADD_BUTTON', '');
+			$tpl->assign('EDIT_BUTTON', true);
 
 			$button_name = $rs->fields['menu_name'];
 			$button_link = $rs->fields['menu_link'];
@@ -253,7 +317,6 @@ function edit_button(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('EDIT_BUTTON', '.edit_button');
 		}
 	}
 }
@@ -324,79 +387,4 @@ function update_button(&$sql) {
 		return;
 	}
 }
-// end site functions
-require '../include/ispcp-lib.php';
-
-check_login(__FILE__);
-
-$cfg = ispCP_Registry::get('Config');
-
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/custom_menus.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('button_list', 'page');
-$tpl->define_dynamic('button_list', 'page');
-$tpl->define_dynamic('add_button', 'page');
-$tpl->define_dynamic('edit_button', 'page');
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-add_new_button($sql);
-
-if (isset($_GET['delete_id'])) {
-	delete_button($sql);
-}
-
-if (isset($_GET['edit_id'])) {
-	edit_button($tpl, $sql);
-}
-
-update_button($sql);
-
-gen_button_list($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin - Manage custom menus'),
-		'TR_TITLE_CUSTOM_MENUS' => tr('Manage custom menus'),
-		'TR_ADD_NEW_BUTTON' => tr('Add new button'),
-		'TR_BUTTON_NAME' => tr('Button name'),
-		'TR_BUTTON_LINK' => tr('Button link'),
-		'TR_BUTTON_TARGET' => tr('Button target'),
-		'TR_VIEW_FROM' => tr('Show in'),
-		'ADMIN' => tr('Administrator level'),
-		'RESELLER' => tr('Reseller level'),
-		'USER' => tr('Enduser level'),
-		'RESSELER_AND_USER' => tr('Reseller and enduser level'),
-		'TR_ADD' => tr('Add'),
-		'TR_MENU_NAME' => tr('Menu button'),
-		'TR_ACTON' => tr('Action'),
-		'TR_EDIT' => tr('Edit'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_LEVEL' => tr('Level'),
-		'TR_SAVE' => tr('Save'),
-		'TR_EDIT_BUTTON' => tr('Edit button'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-if (isset($_GET['edit_id'])) {
-	$tpl->assign('ADD_BUTTON', '');
-} else {
-	$tpl->assign('EDIT_BUTTON', '');
-}
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

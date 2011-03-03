@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,19 +34,10 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add1.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('add_user', 'page');
-$tpl->define_dynamic('hp_entry', 'page');
-$tpl->define_dynamic('personalize', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'user_add1.tpl';
 
 // static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -86,6 +77,9 @@ $tpl->assign(
 	)
 );
 
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
+
 if (isset($_POST['uaction'])) {
 	if (!check_user_data()) {
 		get_data_au1_page($tpl);
@@ -97,8 +91,7 @@ if (isset($_POST['uaction'])) {
 get_hp_data_list($tpl, $_SESSION['user_id']);
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -196,7 +189,7 @@ function check_user_data() {
 
 /**
  * Show empty page
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function get_empty_au1_page(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
@@ -214,7 +207,7 @@ function get_empty_au1_page(&$tpl) {
 
 /**
  * Show first page of add user with data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function get_data_au1_page(&$tpl) {
 	global $dmn_name; // Domain name
@@ -238,7 +231,7 @@ function get_data_au1_page(&$tpl) {
 
 /**
  * Get list with hosting plan for selection
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
 function get_hp_data_list(&$tpl, $reseller_id) {
@@ -312,7 +305,6 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 					)
 			);
 
-			$tpl->parse('HP_ENTRY', '.hp_entry');
 		}
 
 	} else {

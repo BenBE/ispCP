@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,20 +34,63 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/sql_manage.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('db_list', 'page');
-$tpl->define_dynamic('db_message', 'db_list');
-$tpl->define_dynamic('user_list', 'db_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'sql_manage.tpl';
 
 $count = -1;
+
+// common page data.
+
+// check User sql permission
+if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
+	user_goto('index.php');
+}
+
+
+// dynamic page data.
+
+gen_db_list($tpl, $sql, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
+		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
+		'TR_DELETE'				=> tr('Delete'),
+		'TR_DATABASE'			=> tr('Database Name and Users'),
+		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_PHP_MYADMIN'		=> tr('phpMyAdmin'),
+		'TR_DATABASE_USERS'		=> tr('Database users'),
+		'TR_ADD_USER'			=> tr('Add SQL user'),
+		'TR_EXECUTE_QUERY'		=> tr('Execute query'),
+		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
+		'TR_LOGIN_PMA'			=> tr('Login phpMyAdmin'),
+		'TR_MESSAGE_DELETE'		=> tr('This database will be permanently deleted. This process cannot be recovered. All users linked to this database will also be deleted if not linked to another database. Are you sure you want to delete %s?', true, '%s')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $db_id
  */
@@ -75,7 +118,6 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 				'USER_LIST'	=> ''
 			)
 		);
-		$tpl->parse('DB_MESSAGE', 'db_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -95,14 +137,13 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 					'USER_ID'	=> $user_id
 				)
 			);
-			$tpl->parse('USER_LIST', '.user_list');
 			$rs->moveNext();
 		}
 	}
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  */
@@ -138,58 +179,8 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 					'DB_NAME_JS'=> tojs($db_name)
 				)
 			);
-			$tpl->parse('DB_LIST', '.db_list');
 			$rs->moveNext();
 		}
 	}
 }
-
-// common page data.
-
-// check User sql permission
-if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
-	user_goto('index.php');
-}
-
-
-// dynamic page data.
-
-gen_db_list($tpl, $sql, $_SESSION['user_id']);
-
-// static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
-		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
-		'TR_DELETE'				=> tr('Delete'),
-		'TR_DATABASE'			=> tr('Database Name and Users'),
-		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
-		'TR_ACTION'				=> tr('Action'),
-		'TR_PHP_MYADMIN'		=> tr('phpMyAdmin'),
-		'TR_DATABASE_USERS'		=> tr('Database users'),
-		'TR_ADD_USER'			=> tr('Add SQL user'),
-		'TR_EXECUTE_QUERY'		=> tr('Execute query'),
-		'TR_CHANGE_PASSWORD'	=> tr('Change password'),
-		'TR_LOGIN_PMA'			=> tr('Login phpMyAdmin'),
-		'TR_MESSAGE_DELETE'		=> tr('This database will be permanently deleted. This process cannot be recovered. All users linked to this database will also be deleted if not linked to another database. Are you sure you want to delete %s?', true, '%s')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

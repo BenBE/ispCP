@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author		Klaas Tammling <klaas.tammling@st-city.net>
@@ -22,7 +22,7 @@
  * The Original Code is "ispCP - ISP Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -31,25 +31,49 @@ require '../include/ispcp-lib.php';
 check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
-$tpl = new ispCP_pTemplate();
 
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/ip_usage.tpl');
-$tpl->define_dynamic('ip_row', 'page');
-$tpl->define_dynamic('domain_row', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'ip_usage.tpl';
 
 $reseller_id = $_SESSION['user_id'];
+
+// static page messages
+gen_logged_from($tpl);
+
+listIPDomains($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Reseller/IP Usage'),
+		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
+		'IP_USAGE'		=> tr('IP Usage'),
+		'TR_DOMAIN_NAME'	=> tr('Domain Name')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_reseller_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
  * Generate List of Domains assigned to IPs
  *
- * @param ispCP_pTemplate $tpl	The TPL object
+ * @param ispCP_TemplateEngine $tpl	The TPL object
  * @param ispCP_Database $sql	The SQL object
  */
 function listIPDomains(&$tpl, &$sql) {
-	
+
 	global $reseller_id;
-	
+
 	$query = "
 		SELECT
 			`reseller_ips`
@@ -64,7 +88,7 @@ function listIPDomains(&$tpl, &$sql) {
 	$data = $res->fetchRow();
 
 	$reseller_ips =  explode(";", substr($data['reseller_ips'], 0, -1));
-	
+
 	$query = "
 		SELECT
 			`ip_id`, `ip_number`
@@ -75,14 +99,14 @@ function listIPDomains(&$tpl, &$sql) {
 		IN
 			(".implode(',', $reseller_ips).");
 	";
-	
+
 	$rs = exec_query($sql, $query);
-	
+
 	while (!$rs->EOF) {
-		
+
 		$no_domains = false;
 		$no_alias_domains = false;
-		
+
 		$query = "
 			SELECT
 				`d`.`domain_name`, `a`.`admin_name`
@@ -99,10 +123,10 @@ function listIPDomains(&$tpl, &$sql) {
 			ORDER BY
 				`d`.`domain_name`;
 		";
-		
+
 		$rs2 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$domain_count = $rs2->recordCount();
-			
+
 		if ($rs2->recordCount() == 0) {
 			$no_domains = true;
 		}
@@ -113,11 +137,10 @@ function listIPDomains(&$tpl, &$sql) {
 					'DOMAIN_NAME'	=>	$rs2->fields['domain_name']
 				)
 			);
-			
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
+
 			$rs2->moveNext();
 		}
-		
+
 		$query = "
 			SELECT
 				`da`.`alias_name`, `a`.`admin_name`
@@ -138,32 +161,31 @@ function listIPDomains(&$tpl, &$sql) {
 			ORDER BY
 				`da`.`alias_name`;
 		";
-		
+
 		$rs3 = exec_query($sql, $query, array($rs->fields['ip_id'], $reseller_id));
 		$alias_count = $rs3->recordCount();
 
 		if ($rs3->recordCount() == 0) {
 			$no_alias_domains = true;
 		}
-		
-		while(!$rs3->EOF) {		
+
+		while(!$rs3->EOF) {
 			$tpl->assign(
 				array(
 					'DOMAIN_NAME'	=> $rs3->fields['alias_name']
 				)
 			);
-	
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
+
 			$rs3->moveNext();
 		}
-		
+
 		$tpl->assign(
 			array(
 				'IP'			=> $rs->fields['ip_number'],
 				'RECORD_COUNT'	=> tr('Total Domains') . " : " .($domain_count+$alias_count)
 			)
 		);
-		
+
 		if ($no_domains && $no_alias_domains) {
 			$tpl->assign(
 				array(
@@ -171,37 +193,10 @@ function listIPDomains(&$tpl, &$sql) {
 					'RESELLER_NAME'	=> ''
 				)
 			);
-			$tpl->parse('DOMAIN_ROW', '.domain_row');
 		}
 
-		$tpl->parse('IP_ROW', '.ip_row');
 		$tpl->assign('DOMAIN_ROW', '');
 		$rs->moveNext();
 	} // end while
 }
-
-// static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
-gen_logged_from($tpl);
-
-listIPDomains($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Reseller/IP Usage'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'IP_USAGE'		=> tr('IP Usage'),
-		'TR_DOMAIN_NAME'	=> tr('Domain Name')
-	)
-);
-gen_page_message($tpl);
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

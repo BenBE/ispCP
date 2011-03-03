@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -39,22 +39,10 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 		user_goto('hosting_plan.php');
 }
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/hosting_plan_add.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('mail_add', 'page');
-$tpl->define_dynamic('ftp_add', 'page');
-$tpl->define_dynamic('sql_db_add', 'page');
-$tpl->define_dynamic('sql_user_add', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'hosting_plan_add.tpl';
 
 // static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -100,6 +88,9 @@ $tpl->assign(
 	)
 );
 
+gen_reseller_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'menu_hosting_plan.tpl');
+
 if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
 	// Process data
 	if (check_data_correction($tpl)) {
@@ -129,8 +120,7 @@ if ($rftp_max == "-1") $tpl->assign('FTP_ADD', '');
 if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', '');
 if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', '');
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -140,7 +130,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 /**
  * Generate empty form
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_empty_ahp_page(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
@@ -182,7 +172,7 @@ function gen_empty_ahp_page(&$tpl) {
 
 /**
  * Show last entered data for new hp
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_data_ahp_page(&$tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
@@ -236,7 +226,7 @@ function gen_data_ahp_page(&$tpl) {
 
 /**
  * Check correction of input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function check_data_correction(&$tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
@@ -372,7 +362,7 @@ function check_data_correction(&$tpl) {
 
 /**
  * Add new host plan to DB
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
 function save_data_to_db(&$tpl, $admin_id) {
@@ -392,7 +382,6 @@ function save_data_to_db(&$tpl, $admin_id) {
 
 	if ($res->rowCount() == 1) {
 		$tpl->assign('MESSAGE', tr('Hosting plan with entered name already exists!'));
-		// $tpl->parse('AHP_MESSAGE', 'ahp_message');
 	} else {
 		$hp_props = "$hp_php;$hp_cgi;$hp_sub;$hp_als;$hp_mail;$hp_ftp;$hp_sql_db;$hp_sql_user;$hp_traff;$hp_disk;$hp_backup;$hp_dns";
 		// this id is just for fake and is not used in reseller_limits_check.

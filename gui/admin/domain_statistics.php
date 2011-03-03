@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,14 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('traffic_table', 'page');
-$tpl->define_dynamic('traffic_table_item', 'traffic_table');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_statistics.tpl';
 
 if (isset($_POST['domain_id'])) {
 	$domain_id = $_POST['domain_id'];
@@ -65,6 +59,44 @@ if (isset($_POST['month']) && isset($_POST['year'])) {
 if (!is_numeric($domain_id) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
+		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
+		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
+		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_WEB_TRAFFIC' => tr('Web traffic'),
+		'TR_FTP_TRAFFIC' => tr('FTP traffic'),
+		'TR_SMTP_TRAFFIC' => tr('SMTP traffic'),
+		'TR_POP3_TRAFFIC' => tr('POP3/IMAP traffic'),
+		'TR_ALL_TRAFFIC' => tr('All traffic'),
+		'TR_ALL' => tr('All'),
+		'TR_DAY' => tr('Day'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_admin_menu($tpl, 'menu_statistics.tpl');
+
+gen_select_lists($tpl, $month, $year);
+
+generate_page($tpl, $domain_id);
+
+gen_page_message($tpl);
+
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function get_domain_trafic($from, $to, $domain_id) {
 	$sql = ispCP_Registry::get('Db');
@@ -95,7 +127,7 @@ function get_domain_trafic($from, $to, $domain_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $domain_id
  */
 function generate_page(&$tpl, $domain_id) {
@@ -178,7 +210,6 @@ function generate_page(&$tpl, $domain_id) {
 					'ALL_TRAFFIC' => sizeit($web_trf + $ftp_trf + $smtp_trf + $pop_trf),
 				)
 			);
-			$tpl->parse('TRAFFIC_TABLE_ITEM', '.traffic_table_item');
 
 			$counter++;
 		}
@@ -196,47 +227,6 @@ function generate_page(&$tpl, $domain_id) {
 			)
 		);
 
-		$tpl->parse('TRAFFIC_TABLE', 'traffic_table');
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Domain Statistics Data'),
-		'TR_RESELLER_STATISTICS' => tr('Reseller statistics table'),
-		'TR_RESELLER_USER_STATISTICS' => tr('Reseller users table'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_WEB_TRAFFIC' => tr('Web traffic'),
-		'TR_FTP_TRAFFIC' => tr('FTP traffic'),
-		'TR_SMTP_TRAFFIC' => tr('SMTP traffic'),
-		'TR_POP3_TRAFFIC' => tr('POP3/IMAP traffic'),
-		'TR_ALL_TRAFFIC' => tr('All traffic'),
-		'TR_ALL' => tr('All'),
-		'TR_DAY' => tr('Day'),
-	)
-);
-
-gen_select_lists($tpl, $month, $year);
-
-generate_page($tpl, $domain_id);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

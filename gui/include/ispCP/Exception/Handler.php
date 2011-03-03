@@ -15,13 +15,13 @@
  * The Original Code is "ispCP - ISP Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  *
  * @category	ispCP
  * @package		ispCP_Exception
  * @subpackage	Handler
- * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @copyright	2006-2011 by ispCP | http://isp-control.net
  * @author		Laurent Declercq <laurent.declercq@ispcp.net>
  * @version		SVN: $Id$
  * @link		http://isp-control.net ispCP Home Site

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,10 +34,37 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/settings_server_traffic.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'settings_server_traffic.tpl';
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server Traffic Settings'),
+		'TR_MODIFY' => tr('Modify'),
+		'TR_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
+		'TR_SET_SERVER_TRAFFIC_SETTINGS' => tr('Set server traffic (0 for unlimited)'),
+		'TR_MAX_TRAFFIC' => tr('Max traffic [MB]'),
+		'TR_WARNING' => tr('Warning traffic [MB]'),
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_settings.tpl');
+gen_admin_menu($tpl, 'menu_settings.tpl');
+
+update_server_settings($sql);
+
+generate_server_data($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
  * @todo What's about the outcommented code?
@@ -90,7 +117,7 @@ function update_server_settings(&$sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function generate_server_data(&$tpl, &$sql) {
@@ -112,34 +139,4 @@ function generate_server_data(&$tpl, &$sql) {
 		)
 	);
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_settings.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_settings.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server Traffic Settings'),
-		'TR_MODIFY' => tr('Modify'),
-		'TR_SERVER_TRAFFIC_SETTINGS' => tr('Server traffic settings'),
-		'TR_SET_SERVER_TRAFFIC_SETTINGS' => tr('Set server traffic (0 for unlimited)'),
-		'TR_MAX_TRAFFIC' => tr('Max traffic [MB]'),
-		'TR_WARNING' => tr('Warning traffic [MB]'),
-	)
-);
-
-update_server_settings($sql);
-
-generate_server_data($tpl, $sql);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

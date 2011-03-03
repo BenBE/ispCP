@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,18 +34,46 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/admin_log.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('log_row', 'page');
-$tpl->define_dynamic('scroll_prev_gray', 'page');
-$tpl->define_dynamic('scroll_prev', 'page');
-$tpl->define_dynamic('scroll_next_gray', 'page');
-$tpl->define_dynamic('scroll_next', 'page');
-$tpl->define_dynamic('clear_log', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'admin_log.tpl';
+
+// static page messages
+
+gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_admin_menu($tpl, 'menu_general_information.tpl');
+
+clear_log();
+
+generate_page ($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Admin/Admin Log'),
+		'TR_ADMIN_LOG'				=> tr('Admin Log'),
+		'TR_CLEAR_LOG'				=> tr('Clear log'),
+		'TR_DATE'					=> tr('Date'),
+		'TR_MESSAGE'				=> tr('Message'),
+		'TR_CLEAR_LOG_MESSAGE'		=> tr('Delete from log:'),
+		'TR_CLEAR_LOG_EVERYTHING'	=> tr('everything'),
+		'TR_CLEAR_LOG_LAST2'		=> tr('older than 2 weeks'),
+		'TR_CLEAR_LOG_LAST4'		=> tr('older than 1 month'),
+		'TR_CLEAR_LOG_LAST12'		=> tr('older than 3 months'),
+		'TR_CLEAR_LOG_LAST26'		=> tr('older than 6 months'),
+		'TR_CLEAR_LOG_LAST52'		=> tr('older than 12 months'),
+	)
+);
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function generate_page(&$tpl) {
 
@@ -130,7 +158,7 @@ function generate_page(&$tpl) {
 		$row = 1;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ROW_CLASS' => ($row++ % 2 == 0) ? 'content' : 'content2',
 				)
@@ -157,14 +185,13 @@ function generate_page(&$tpl) {
 			}
 
 			$date_formt = $cfg->DATE_FORMAT . ' H:i';
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MESSAGE'	=> $log_message,
+					'ADM_MESSAGE'	=> $log_message,
 					'DATE'		=> date($date_formt, strtotime($rs->fields['dat'])),
 				)
 			);
 
-			$tpl->parse('LOG_ROW', '.log_row');
 
 			$rs->moveNext();
 		} // end while
@@ -243,40 +270,4 @@ function clear_log() {
 		write_log($msg);
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_general_information.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_general_information.tpl');
-
-clear_log();
-
-generate_page ($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Admin/Admin Log'),
-		'TR_ADMIN_LOG'				=> tr('Admin Log'),
-		'TR_CLEAR_LOG'				=> tr('Clear log'),
-		'TR_DATE'					=> tr('Date'),
-		'TR_MESSAGE'				=> tr('Message'),
-		'TR_CLEAR_LOG_MESSAGE'		=> tr('Delete from log:'),
-		'TR_CLEAR_LOG_EVERYTHING'	=> tr('everything'),
-		'TR_CLEAR_LOG_LAST2'		=> tr('older than 2 weeks'),
-		'TR_CLEAR_LOG_LAST4'		=> tr('older than 1 month'),
-		'TR_CLEAR_LOG_LAST12'		=> tr('older than 3 months'),
-		'TR_CLEAR_LOG_LAST26'		=> tr('older than 6 months'),
-		'TR_CLEAR_LOG_LAST52'		=> tr('older than 12 months'),
-	)
-);
-// gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

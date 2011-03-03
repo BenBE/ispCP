@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 # ispCP ω (OMEGA) a Virtual Hosting Control Panel
-# Copyright (C) 2006-2010 by isp Control Panel - http://ispcp.net
+# Copyright (C) 2006-2011 by ispCP | http://ispcp.net
 #
 # Version: $Id$
 #
@@ -18,7 +18,7 @@
 # The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
 #
 # The Initial Developer of the Original Code is ispCP Team.
-# Portions created by Initial Developer are Copyright (C) 2006-2010 by
+# Portions created by Initial Developer are Copyright (C) 2006-2011 by
 # isp Control Panel. All Rights Reserved.
 #
 # The ispCP ω Home Page is:
@@ -35,9 +35,11 @@ install:
 
 	cp ispcp_daemon $(ROOT_CONF)/init.d
 	cp ispcp_network $(ROOT_CONF)/init.d
+	cp proftpd-ispcp $(ROOT_CONF)/init.d
+	cp postfix-ispcp $(ROOT_CONF)/init.d
 
-	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon
-	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon
+	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp $(ROOT_CONF)/init.d/postfix-ispcp
+	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon $(ROOT_CONF)/init.d/proftpd-ispcp $(ROOT_CONF)/init.d/postfix-ispcp
 
 	if [[ -f ispcp_daemon.default ]]; then \
 		cp -p ispcp_daemon.default $(ROOT_CONF)/default/ispcp_daemon ; \
@@ -51,5 +53,8 @@ uninstall:
 
 	rm -f $(ROOT_CONF)/init.d/ispcp_daemon
 	rm -f $(ROOT_CONF)/init.d/ispcp_network
+	rm -f $(ROOT_CONF)/init.d/proftpd-ispcp
+	rm -f $(ROOT_CONF)/init.d/postfix-ispcp
 	rm -f $(ROOT_CONF)/default/ispcp_daemon
 	rm -f $(ROOT_CONF)/default/ispcp_network
+

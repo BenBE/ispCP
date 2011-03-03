@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,10 +34,49 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/error_pages.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'error_pages.tpl';
+
+// common page data.
+
+$domain = $_SESSION['user_logged'];
+$domain = "http://www." . $domain;
+
+// dynamic page data.
+
+update_error_page($sql);
+
+// static page messages.
+gen_logged_from($tpl);
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Error Custom Pages'),
+		'DOMAIN'			=> $domain,
+		'TR_ERROR_401'		=> tr('Error 401 (unauthorised)'),
+		'TR_ERROR_403'		=> tr('Error 403 (forbidden)'),
+		'TR_ERROR_404'		=> tr('Error 404 (not found)'),
+		'TR_ERROR_500'		=> tr('Error 500 (internal server error)'),
+		'TR_ERROR_503'		=> tr('Error 503 (service unavailable)'),
+		'TR_ERROR_PAGES'	=> tr('Error pages'),
+		'TR_EDIT'			=> tr('Edit'),
+		'TR_VIEW'			=> tr('View')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // page functions.
 
@@ -66,49 +105,4 @@ function update_error_page(&$sql) {
 		}
 	}
 }
-
-
-
-// common page data.
-
-$domain = $_SESSION['user_logged'];
-$domain = "http://www." . $domain;
-
-// dynamic page data.
-
-update_error_page($sql);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Manage Error Custom Pages'),
-		'DOMAIN'			=> $domain,
-		'TR_ERROR_401'		=> tr('Error 401 (unauthorised)'),
-		'TR_ERROR_403'		=> tr('Error 403 (forbidden)'),
-		'TR_ERROR_404'		=> tr('Error 404 (not found)'),
-		'TR_ERROR_500'		=> tr('Error 500 (internal server error)'),
-		'TR_ERROR_503'		=> tr('Error 503 (service unavailable)'),
-		'TR_ERROR_PAGES'	=> tr('Error pages'),
-		'TR_EDIT'			=> tr('Edit'),
-		'TR_VIEW'			=> tr('View')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

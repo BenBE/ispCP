@@ -1847,7 +1847,7 @@ msgid "Auto email template data updated!"
 msgstr "E-Mail-Vorlage für automatische Nachrichten hochgeladen!"
 
 msgid "ispCP - Admin/Lostpw email setup"
-msgstr "ispCP - Admin/\"Kennwort vergessen\"-E-Mail-Einstellungen'"
+msgstr "ispCP - Admin/\"Kennwort vergessen\"-E-Mail-Einstellungen"
 
 msgid "Lost password e-mail"
 msgstr "\"Passwort vergessen\"-E-Mail"

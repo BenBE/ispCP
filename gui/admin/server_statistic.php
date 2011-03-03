@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,13 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->ADMIN_TEMPLATE_PATH . '/server_statistic.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('hosting_plans', 'page');
-$tpl->define_dynamic('month_list', 'page');
-$tpl->define_dynamic('year_list', 'page');
-$tpl->define_dynamic('day_list', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'server_statistic.tpl';
 
 global $month, $year;
 
@@ -51,9 +46,47 @@ if (isset($_GET['month']) && isset($_GET['year'])) {
 	$year = intval($_POST['year']);
 	$month = intval($_POST['month']);
 } else {
-	$month = date("m");
-	$year = date("Y");
+	$month = date('m');
+	$year = date('Y');
 }
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
+		'TR_SERVER_STATISTICS' => tr('Server statistics'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_DAY' => tr('Day'),
+		'TR_WEB_IN' => tr('Web in'),
+		'TR_WEB_OUT' => tr('Web out'),
+		'TR_SMTP_IN' => tr('SMTP in'),
+		'TR_SMTP_OUT' => tr('SMTP out'),
+		'TR_POP_IN' => tr('POP3/IMAP in'),
+		'TR_POP_OUT' => tr('POP3/IMAP out'),
+		'TR_OTHER_IN' => tr('Other in'),
+		'TR_OTHER_OUT' => tr('Other out'),
+		'TR_ALL_IN' => tr('All in'),
+		'TR_ALL_OUT' => tr('All out'),
+		'TR_ALL' => tr('All')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_admin_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+gen_select_lists($tpl, $month, $year);
+generate_page($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function get_server_trafic($from, $to) {
 	$sql = ispCP_Registry::get('Db');
@@ -89,7 +122,7 @@ function get_server_trafic($from, $to) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function generate_page(&$tpl) {
 
@@ -143,9 +176,9 @@ function generate_page(&$tpl) {
 
 			$has_data = true;
 
-			$tpl->assign('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($i % 2 == 0) ? 'content' : 'content2');
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DAY' => $i,
 					'YEAR' => $year,
@@ -172,7 +205,6 @@ function generate_page(&$tpl) {
 			$all[6] = $all[6] + $all_in;
 			$all[7] = $all[7] + $all_out;
 
-			$tpl->parse('DAY_LIST', '.day_list');
 		} // if count
 	} // end for
 	if (!$has_data) {
@@ -198,45 +230,4 @@ function generate_page(&$tpl) {
 		)
 	);
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-gen_select_lists($tpl, $month, $year);
-
-generate_page($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Server statistics'),
-		'TR_SERVER_STATISTICS' => tr('Server statistics'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_DAY' => tr('Day'),
-		'TR_WEB_IN' => tr('Web in'),
-		'TR_WEB_OUT' => tr('Web out'),
-		'TR_SMTP_IN' => tr('SMTP in'),
-		'TR_SMTP_OUT' => tr('SMTP out'),
-		'TR_POP_IN' => tr('POP3/IMAP in'),
-		'TR_POP_OUT' => tr('POP3/IMAP out'),
-		'TR_OTHER_IN' => tr('Other in'),
-		'TR_OTHER_OUT' => tr('Other out'),
-		'TR_ALL_IN' => tr('All in'),
-		'TR_ALL_OUT' => tr('All out'),
-		'TR_ALL' => tr('All')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

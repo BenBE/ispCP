@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,47 +34,15 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/backup.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-
-// page functions.
-
-function send_backup_restore_request(&$sql, $user_id) {
-	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
-
-		$query = "
-			UPDATE
-				`domain`
-			SET
-				`domain_status` = 'restore'
-			WHERE
-				`domain_admin_id` = ?
-		";
-
-		exec_query($sql, $query, $user_id);
-
-		send_request();
-		write_log($_SESSION['user_logged'] . ": restore backup files.");
-		set_page_message(
-			tr('Backup archive scheduled for restoring!'),
-			'success'
-		);
-	}
-}
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'backup.tpl';
 
 // dynamic page data.
 
 send_backup_restore_request($sql, $_SESSION['user_id']);
 
 // static page messages.
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
 gen_logged_from($tpl);
-
 check_permissions($tpl);
 
 if ($cfg->ZIP == "gzip") {
@@ -102,13 +70,41 @@ $tpl->assign(
 	)
 );
 
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
 gen_page_message($tpl);
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
 
 unset_messages();
+
+// page functions.
+
+function send_backup_restore_request(&$sql, $user_id) {
+	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
+
+		$query = "
+			UPDATE
+				`domain`
+			SET
+				`domain_status` = 'restore'
+			WHERE
+				`domain_admin_id` = ?
+		";
+
+		exec_query($sql, $query, $user_id);
+
+		send_request();
+		write_log($_SESSION['user_logged'] . ": restore backup files.");
+		set_page_message(
+			tr('Backup archive scheduled for restoring!'),
+			'success'
+		);
+	}
+}
+?>

@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright	2001-2006 by moleSoftware GmbH
- * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @copyright	2006-2011 by ispCP | http://isp-control.net
  * @version		SVN: $Id$
  * @link		http://isp-control.net
  * @author		ispCP Team
@@ -24,65 +24,19 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
 /**
- * encode string to be valid as mail header
- *
- * @source php.net/manual/en/function.mail.php
- *
- * @param string $in_str string to be encoded [should be in the $charset charset]
- * @param string $charset charset in that string will be encoded
- * @return string encoded string
- *
- * @todo need to check emails with ? and space in subject - some probs can occur
- */
-function encode($in_str, $charset = 'UTF-8') {
-
-	$out_str = $in_str;
-
-	if($out_str && $charset) {
-		// define start delimimter, end delimiter and spacer
-		$end = '?=';
-		$start = '=?' . $charset . '?B?';
-		$spacer = $end . "\r\n " . $start;
-
-	    // determine length of encoded text within chunks
-		// and ensure length is even
-		$length = 75 - strlen($start) - strlen($end);
-		$length = floor($length / 4) * 4;
-
-		// encode the string and split it into chunks
-		// with spacers after each chunk
-		$out_str = base64_encode($out_str);
-		$out_str = chunk_split($out_str, $length, $spacer);
-
-		// remove trailing spacer and
-		// add start and end delimiters
-		$spacer = preg_quote($spacer);
-		$out_str = preg_replace('/' . $spacer . '$/', '', $out_str);
-		$out_str = $start . $out_str . $end;
-	}
-
-	return $out_str;
-}
-
-/**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
+function gen_admin_mainmenu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if (!$Smarty){
-		$tpl->define_dynamic('menu', $menu_file);
-		$tpl->define_dynamic('isactive_support', 'menu');
-		$tpl->define_dynamic('custom_buttons', 'menu');
-	}
 	$tpl->assign(
 		array(
 			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
@@ -151,9 +105,8 @@ function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
 
 	$rs = exec_query($sql, $query);
 
-	if($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -166,7 +119,7 @@ function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
 				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'BUTTON_LINK' => tohtml($menu_link),
 					'BUTTON_NAME' => tohtml($menu_name),
@@ -175,42 +128,31 @@ function gen_admin_mainmenu(&$tpl, $menu_file, $Smarty = false) {
 				)
 			);
 
-			if (!$Smarty){
-				$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			}
 			$rs->moveNext();
 			$i++;
 		} // end while
-	} // end else
-
-	if(!$cfg->ISPCP_SUPPORT_SYSTEM) {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
 	}
 
-	if(strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
-		$tpl->assign('HOSTING_PLANS', '');
+	if($cfg->ISPCP_SUPPORT_SYSTEM) {
+		$tpl->assign('SUPPORT_SYSTEM', true);
 	}
 
-	if (!$Smarty){
-		$tpl->parse('MAIN_MENU', 'menu');
-	} else {
-		$tpl->assign('MAIN_MENU', str_replace('.tpl', '_smarty.tpl', $menu_file));
+	if(strtolower($cfg->HOSTING_PLANS_LEVEL) == 'admin') {
+		$tpl->assign('HOSTING_PLANS', true);
 	}
+
+	$tpl->assign('MAIN_MENU', $menu_file);
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
+function gen_admin_menu(&$tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
-	if (!$Smarty){
-		$tpl->define_dynamic('menu', $menu_file);
-		$tpl->define_dynamic('custom_buttons', 'menu');
-	}
 	$tpl->assign(
 		array(
 			'TR_MENU_GENERAL_INFORMATION' => tr('General information'),
@@ -272,9 +214,8 @@ function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
 
 	$rs = exec_query($sql, $query);
 
-	if($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -287,7 +228,7 @@ function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
 				$menu_target = 'target="' . tohtml($menu_target) . '"';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'BUTTON_LINK' => tohtml($menu_link),
 					'BUTTON_NAME' => tohtml($menu_name),
@@ -296,27 +237,20 @@ function gen_admin_menu(&$tpl, $menu_file, $Smarty = false) {
 				)
 			);
 
-			if (!$Smarty){
-				$tpl->parse('CUSTOM_BUTTONS', '.custom_buttons');
-			}
 			$rs->moveNext();
 			$i++;
 		} // end while
-	} // end else
-
-	if(!$cfg->ISPCP_SUPPORT_SYSTEM) {
-		$tpl->assign('SUPPORT_SYSTEM', '');
 	}
 
-	if(strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
-		$tpl->assign('HOSTING_PLANS', '');
+	if($cfg->ISPCP_SUPPORT_SYSTEM) {
+		$tpl->assign('SUPPORT_SYSTEM', true);
 	}
 
-	if (!$Smarty){
-		$tpl->parse('MENU', 'menu');
-	} else {
-		$tpl->assign('MENU', str_replace('.tpl', '_smarty.tpl', $menu_file));
+	if(strtolower($cfg->HOSTING_PLANS_LEVEL) == 'admin') {
+		$tpl->assign('HOSTING_PLANS', true);
 	}
+
+	$tpl->assign('MENU', $menu_file);
 }
 
 function get_sql_user_count($sql) {
@@ -337,7 +271,7 @@ function get_sql_user_count($sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function get_admin_general_info(&$tpl, &$sql) {
@@ -478,10 +412,12 @@ function gen_admin_list(&$tpl, &$sql) {
 				$rs->fields['admin_id'] == $_SESSION['user_id']) {
 
 				$tpl->assign(
-					array('ADMIN_DELETE_LINK' => '')
+					array(
+						'ADMIN_DELETE_LINK' => '',
+						'URL_DELETE_ADMIN' => ''
+					)
 				);
 
-				$tpl->parse('ADMIN_DELETE_SHOW', 'admin_delete_show');
 			} else {
 				$tpl->assign(
 					array(
@@ -496,7 +432,6 @@ function gen_admin_list(&$tpl, &$sql) {
 					)
 				);
 
-				$tpl->parse('ADMIN_DELETE_LINK', 'admin_delete_link');
 			}
 
 			$tpl->assign(
@@ -510,13 +445,9 @@ function gen_admin_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('ADMIN_ITEM', '.admin_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('ADMIN_LIST', 'admin_list');
-		$tpl->assign('ADMIN_MESSAGE', '');
 	}
 }
 
@@ -598,8 +529,6 @@ function gen_reseller_list(&$tpl, &$sql) {
 								$rs->fields['admin_id']
 					)
 				);
-
-				$tpl->parse('RSL_DELETE_LINK', 'rsl_delete_link');
 			}
 
 			$reseller_created = $rs->fields['domain_created'];
@@ -621,13 +550,9 @@ function gen_reseller_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('RSL_ITEM', '.rsl_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('RSL_LIST', 'rsl_list');
-		$tpl->assign('RSL_MESSAGE', '');
 	}
 }
 
@@ -820,8 +745,6 @@ function gen_user_list(&$tpl, &$sql) {
 				)
 			);
 
-			$tpl->parse('USR_DELETE_LINK', 'usr_delete_link');
-
 			if($rs->fields['domain_status'] == $cfg->ITEM_OK_STATUS) {
 				$status_icon = 'ok';
 				$status_url = 'domain_status_change.php?domain_id=' .
@@ -889,13 +812,9 @@ function gen_user_list(&$tpl, &$sql) {
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$tpl->parse('USR_ITEM', '.usr_item');
 			$rs->moveNext();
 			$i++;
 		}
-
-		$tpl->parse('USR_LIST', 'usr_list');
-		$tpl->assign('USR_MESSAGE', '');
 	}
 }
 
@@ -1501,7 +1420,7 @@ function sub_records_rlike_count($field, $table, $where, $value, $subfield,
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $user_month
  * @param int $user_year
  */
@@ -1510,7 +1429,7 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 	global $crnt_month, $crnt_year;
 	$cfg = ispCP_Registry::get('Config');
 
-	if(!$user_month == '' || !$user_year == '') {
+	if($user_month != '' || $user_year != '') {
 		$crnt_month = $user_month;
 		$crnt_year = $user_year;
 	} else {
@@ -1520,26 +1439,24 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 
 	for($i = 1 ; $i <= 12 ; $i++) {
 		$selected = ($i == $crnt_month) ? $cfg->HTML_SELECTED : '';
-		$tpl->assign(
+		$tpl->append(
 			array(
-				'OPTION_SELECTED' => $selected,
+				'MONTH_SELECTED' => $selected,
 				'MONTH_VALUE' => $i
 			)
 		);
 
-		$tpl->parse('MONTH_LIST', '.month_list');
 	}
 
 	for($i = $crnt_year - 1 ; $i <= $crnt_year + 1 ; $i++) {
 		$selected = ($i == $crnt_year) ? $cfg->HTML_SELECTED : '';
-		$tpl->assign(
+		$tpl->append(
 			array(
-				'OPTION_SELECTED' => $selected,
+				'YEAR_SELECTED' => $selected,
 				'YEAR_VALUE' => $i
 			)
 		);
 
-		$tpl->parse('YEAR_LIST', '.year_list');
 	}
 }
 
@@ -1741,13 +1658,13 @@ function send_add_user_auto_msg($admin_id, $uname, $upass, $uemail, $ufname,
 	$base_vhost = $cfg->BASE_SERVER_VHOST;
 
 	if($from_name) {
-		$from = '"' . encode($from_name) . "\" <" . $from_email . ">";
+		$from = '"' . mb_encode_mimeheader($from_name, 'UTF-8') . "\" <" . $from_email . ">";
 	} else {
 		$from = $from_email;
 	}
 
 	if($ufname && $ulname) {
-		$to = '"' . encode($ufname . ' ' . $ulname) . "\" <" . $uemail . ">";
+		$to = '"' . mb_encode_mimeheader($ufname . ' ' . $ulname, 'UTF-8') . "\" <" . $uemail . ">";
 		$name = "$ufname $ulname";
 	} else {
 		$name = $uname;
@@ -1773,7 +1690,7 @@ function send_add_user_auto_msg($admin_id, $uname, $upass, $uemail, $ufname,
 	$replace[] = $cfg->BASE_SERVER_VHOST_PREFIX;
 	$subject = str_replace($search, $replace, $subject);
 	$message = str_replace($search, $replace, $message);
-	$subject = encode($subject);
+	$subject = mb_encode_mimeheader($subject, 'UTF-8');
 	$headers = "From: " . $from . "\n";
 	$headers .= "MIME-Version: 1.0\nContent-Type: text/plain; " .
 		"charset=utf-8\nContent-Transfer-Encoding: 8bit\n";
@@ -1845,7 +1762,7 @@ function update_reseller_props($reseller_id, $props) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function gen_logged_from(&$tpl) {
 
@@ -1861,7 +1778,6 @@ function gen_logged_from(&$tpl) {
 			)
 		);
 
-		$tpl->parse('LOGGED_FROM', '.logged_from');
 	} else {
 		$tpl->assign('LOGGED_FROM', '');
 	}
@@ -2131,7 +2047,7 @@ function gen_admin_domain_query(&$search_query, &$count_query, $start_index,
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $search_for
  * @param string $search_common
  * @param string $search_status
@@ -2592,7 +2508,7 @@ function gen_purchase_haf(&$tpl, &$sql, $user_id, $encode = false) {
 		<title>{$title}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset={THEME_CHARSET}" />
 		<meta http-equiv="Content-Style-Type" content="text/css" />
-		<link href="../themes/{$theme}/css/ispcp_orderpanel.css" rel="stylesheet" type="text/css" />
+		<link href="../themes/{$theme}/css/ispcp.orderpanel.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div align="center">

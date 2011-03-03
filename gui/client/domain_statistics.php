@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,19 +34,58 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/domain_statistics.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('month_item', 'page');
-$tpl->define_dynamic('year_item', 'page');
-$tpl->define_dynamic('traff_list', 'page');
-$tpl->define_dynamic('traff_item', 'traff_list');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'domain_statistics.tpl';
+
+// dynamic page data.
+
+$current_month = date("m", time());
+$current_year = date("Y", time());
+
+list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
+gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
+		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
+		'DOMAIN_URL' => 'http://' . $_SESSION['user_logged'] . '/stats/',
+		'TR_AWSTATS' => tr('Web Stats'),
+		'TR_MONTH' => tr('Month'),
+		'TR_YEAR' => tr('Year'),
+		'TR_SHOW' => tr('Show'),
+		'TR_DATE' => tr('Date'),
+		'TR_WEB_TRAFF' => tr('WEB'),
+		'TR_FTP_TRAFF' => tr('FTP'),
+		'TR_SMTP_TRAFF' => tr('SMTP'),
+		'TR_POP_TRAFF' => tr('POP3/IMAP'),
+		'TR_SUM' => tr('Sum'),
+		'TR_ALL' => tr('Total')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_client_menu($tpl, 'menu_statistics.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // page functions.
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param int $month
  * @param int $year
  */
@@ -61,7 +100,6 @@ function gen_page_date(&$tpl, $month, $year) {
 				'MONTH' => $i
 			)
 		);
-		$tpl->parse('MONTH_ITEM', '.month_item');
 	}
 
 	for ($i = $year - 1; $i <= $year + 1; $i++) {
@@ -71,7 +109,6 @@ function gen_page_date(&$tpl, $month, $year) {
 				'YEAR' => $i
 			)
 		);
-		$tpl->parse('YEAR_ITEM', '.year_item');
 	}
 }
 
@@ -122,7 +159,7 @@ function get_domain_trafic($from, $to, $domain_id) {
 
 /**
  * @todo Check the out commented code at the end of this function, can we remove it?
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $month
  * @param int $year
@@ -225,7 +262,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				'SUM_ALL' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop)
 			)
 		);
-		$tpl->parse('TRAFF_ITEM', '.traff_item');
 		$counter++;
 	}
 
@@ -282,7 +318,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 				)
 			);
 
-			$tpl->parse('TRAFF_ITEM', '.traff_item');
 
 			$web_all += $rs->fields['web_traff'];
 
@@ -312,49 +347,4 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 */
 
 }
-
-// dynamic page data.
-
-$current_month = date("m", time());
-$current_year = date("Y", time());
-
-list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
-gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Domain Statistics'),
-		'TR_DOMAIN_STATISTICS' => tr('Domain statistics'),
-		'DOMAIN_URL' => 'http://' . $_SESSION['user_logged'] . '/stats/',
-		'TR_AWSTATS' => tr('Web Stats'),
-		'TR_MONTH' => tr('Month'),
-		'TR_YEAR' => tr('Year'),
-		'TR_SHOW' => tr('Show'),
-		'TR_DATE' => tr('Date'),
-		'TR_WEB_TRAFF' => tr('WEB'),
-		'TR_FTP_TRAFF' => tr('FTP'),
-		'TR_SMTP_TRAFF' => tr('SMTP'),
-		'TR_POP_TRAFF' => tr('POP3/IMAP'),
-		'TR_SUM' => tr('Sum'),
-		'TR_ALL' => tr('Total')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

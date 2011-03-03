@@ -15,14 +15,14 @@
  * The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
  *
  * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
+ * Portions created by Initial Developer are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  *
  * @category	ispCP
  * @package		ispCP
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @author 		ispCP Team
  * @author 	    Laurent Declercq <laurent.declercq@ispcp.net>
  * @version 	SVN: $Id$
@@ -78,10 +78,7 @@ ispCP_Registry::setAlias(
  * initialization process.
  */
 ispCP_Registry::get('exceptionHandler')->attach(
-	new ispCP_Exception_Writer_Browser(
-		// hardcoded here but will be improved later
-		'system-message.tpl'
-	)
+	new ispCP_Exception_Writer_Browser()
 );
 
 /**

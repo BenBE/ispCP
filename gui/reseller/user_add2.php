@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -34,16 +34,8 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = new ispCP_pTemplate();
-$tpl->define_dynamic('page', $cfg->RESELLER_TEMPLATE_PATH . '/user_add2.tpl');
-$tpl->define_dynamic('page_message', 'page');
-$tpl->define_dynamic('logged_from', 'page');
-$tpl->define_dynamic('subdomain_add', 'page');
-$tpl->define_dynamic('alias_add', 'page');
-$tpl->define_dynamic('mail_add', 'page');
-$tpl->define_dynamic('ftp_add', 'page');
-$tpl->define_dynamic('sql_db_add', 'page');
-$tpl->define_dynamic('sql_user_add', 'page');
+$tpl = ispCP_TemplateEngine::getInstance();
+$template = 'user_add2.tpl';
 
 // check if we have only hosting plans for admins - reseller should not edit them
 if (isset($cfg->HOSTING_PLANS_LEVEL)
@@ -137,8 +129,7 @@ if ($rftp_max == "-1") $tpl->assign('FTP_ADD', '');
 if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', '');
 if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', '');
 
-$tpl->parse('PAGE', 'page');
-$tpl->prnt();
+$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
@@ -169,7 +160,7 @@ function get_pageone_param() {
 
 /**
  * Show page with initial data fields
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function get_init_au2_page(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
@@ -249,7 +240,7 @@ function get_hp_data($hpid, $admin_id) {
 
 /**
  * Check validity of input data
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  */
 function check_user_data(&$tpl) {
 	global $hp_name, $hp_php, $hp_cgi;

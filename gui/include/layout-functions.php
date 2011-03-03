@@ -3,7 +3,7 @@
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
  * @copyright 	2001-2006 by moleSoftware GmbH
- * @copyright 	2006-2010 by ispCP | http://isp-control.net
+ * @copyright 	2006-2011 by ispCP | http://isp-control.net
  * @version 	SVN: $Id$
  * @link 		http://isp-control.net
  * @author 		ispCP Team
@@ -24,7 +24,7 @@
  * The Initial Developer of the Original Code is moleSoftware GmbH.
  * Portions created by Initial Developer are Copyright (C) 2001-2006
  * by moleSoftware GmbH. All Rights Reserved.
- * Portions created by the ispCP Team are Copyright (C) 2006-2010 by
+ * Portions created by the ispCP Team are Copyright (C) 2006-2011 by
  * isp Control Panel. All Rights Reserved.
  */
 
@@ -73,7 +73,7 @@ function get_user_gui_props(&$sql, $user_id) {
 /**
  * Parses the output of the $_SESSION variable to the template, if exists.
  *
- * @param ispCP_pTemplate $tpl the TPL object
+ * @param ispCP_TemplateEngine $tpl the TPL object
  */
 function gen_page_message(&$tpl) {
 
@@ -204,7 +204,7 @@ function get_menu_vars($menu_link) {
 
 /**
  * @todo currently not being used because there's only one layout/theme
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param string $user_def_layout
  */
 function gen_def_layout(&$tpl, $user_def_layout) {
@@ -222,8 +222,6 @@ function gen_def_layout(&$tpl, $user_def_layout) {
 				'LAYOUT_NAME' => $layout
 			)
 		);
-
-		$tpl->parse('DEF_LAYOUT', '.def_layout');
 	}
 }
 
