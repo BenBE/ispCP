@@ -1,7 +1,7 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2006-2010 by ispCP | http://isp-control.net
+ * @copyright	2006-2011 by ispCP | http://isp-control.net
  * @version		SVN: $Id$
  * @link		http://isp-control.net
  * @author 		ispCP Team
@@ -16,20 +16,14 @@
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- *
- * The Original Code is "ispCP - ISP Control Panel".
- *
- * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
- * isp Control Panel. All Rights Reserved.
  */
  
 @CHARSET "UTF-8";
 
 * {
 	font-family: Arial, sans-serif;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 a img {
@@ -181,30 +175,30 @@ table .icon {
 	float: right;
 	height: 20px;
 	overflow: hidden;
-	width: 0px;
+	width: 0;
 }
 
 .notice, .warning, .error, .success, .info {
-    margin: 2em 1em 1em;
-    border: 1px solid;
-    padding: 15px 10px 15px 50px;
-    text-align: left;
-    background-repeat: no-repeat;
-    background-position: 10px center;
+	background-position: 10px center;
+	background-repeat: no-repeat;
+	border: 1px solid;
+	margin: 2em 1em 1em;
+	padding: 15px 10px 15px 50px;
+	text-align: left;
 }
 
 .notice {
-    color: #0f3d87;
-    border-color: #0f3d87;
-    background-color: #b0def5;
-    background-image: url(../images/messages/info.png);
+	background-color: #b0def5;
+	background-image: url(../images/messages/info.png);
+	border-color: #0f3d87;
+	color: #0f3d87;
 }
 
 .warning {
-    color: #954a00;
-    border-color: #954a00;
-    background-color: #ffec9c;
-    background-image: url(../images/messages/warning.png);
+	background-color: #ffec9c;
+	background-image: url(../images/messages/warning.png);
+	border-color: #954a00;
+	color: #954a00;
 }
 
 .success {
@@ -215,17 +209,17 @@ table .icon {
 }
 
 .error {
-    color: #ca1d11;
-    border-color: #ca1d11;
-    background-color: #fdbfad;
-    background-image: url(../images/messages/error.png);
+	background-color: #fdbfad;
+	background-image: url(../images/messages/error.png);
+	border-color: #ca1d11;
+	color: #ca1d11;
 }
 
 .info {
-    color: #0f3d87;
-    border-color: #0f3d87;
-    background-color: #b0def5;
-    background-image: url(../images/messages/info.png);
+	background-color: #b0def5;
+	background-image: url(../images/messages/info.png);
+	border-color: #0f3d87;
+	color: #0f3d87;
 }
 
 .up {
@@ -237,22 +231,22 @@ table .icon {
 }
 
 .graph{
-	height : 20px;
 	background-image : url('../images/background/graph_empty.png');
 	background-position : right top;
 	background-repeat : no-repeat;
-	width : 100%;
+	height : 20px;
 	max-width : 1994px;
 	position : relative;
+	width : 100%;
 }
 .graph span{
-	display : block;
-	min-width : 3px;
-	height : 20px;
 	background-image : url('../images/background/graph_full.png');
-	background-repeat : no-repeat;
-	width : 0;
 	background-position : left top;
+	background-repeat : no-repeat;
+	display : block;
+	height : 20px;
+	min-width : 3px;
+	width : 0;
 }
 .graph strong{
 	display : block;
@@ -331,10 +325,10 @@ form table tbody td textarea{
     font-size: 11px;
 }
 .path a:first-child {
-    padding-left: 0px;
+    padding-left: 0;
 }
 .path a:hover {
-    color: rgb(92,186,218);
+    color: #5cbada;
 }
 
 .path li {
@@ -390,11 +384,12 @@ form table tbody td textarea{
  * LEFT MENU STYLE
  ***********************************************************************************/
 .left_menu {
-    color: #fff;
-    width: 197px;
-    float: left;
-    padding-bottom: 60px;
-    background: transparent url(../images/background/left_top_bg.jpg) no-repeat top;
+	background: transparent url(../images/background/left_top_bg.jpg) no-repeat top;
+	color: #fff;
+	float: left;
+	font-size: 0.8em;
+	padding-bottom: 60px;
+	width: 197px;
 }
 .left_menu ul {
 	list-style: none;
@@ -442,7 +437,7 @@ form table tbody td textarea{
     border-collapse: collapse;
 }
 .main tr {
-    border: 1px solid rgb(223,223,223);
+    border: 1px solid #dfdfdf;
     background: #fff;
 }
 .main tr.line_top{
@@ -486,8 +481,8 @@ form table tbody td textarea{
 .main td {
     padding: 5px;
     white-space: nowrap;
-    border-top: 1px solid rgb(223,223,223);
-    border-bottom: 1px solid rgb(223,223,223);
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
 }
 .main fieldset {
 	border: none;

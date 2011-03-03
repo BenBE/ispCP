@@ -1,8 +1,8 @@
 /**
  * ispCP ω (OMEGA) a Virtual Hosting Control System
  *
- * @copyright	2006-2010 by ispCP | http://isp-control.net
- * @version		SVN: $Id$
+ * @copyright	2006-2011 by ispCP | http://isp-control.net
+ * @version		SVN: $Id: ispcp.ftp.css 3762 2011-01-14 08:43:43Z benedikt $
  * @link		http://isp-control.net
  * @author 		ispCP Team
  *
@@ -16,12 +16,6 @@
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
  * License for the specific language governing rights and limitations
  * under the License.
- *
- * The Original Code is "ispCP - ISP Control Panel".
- *
- * The Initial Developer of the Original Code is ispCP Team.
- * Portions created by Initial Developer are Copyright (C) 2006-2010 by
- * isp Control Panel. All Rights Reserved.
  */
  
 @CHARSET "UTF-8";
@@ -29,8 +23,8 @@
 * {
 	color: #000;
 	font-family: Arial, sans-serif;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 h2 {
@@ -62,8 +56,8 @@ th:last-child {
 }
 
 td {
-    border-bottom: 1px solid rgb(223,223,223);
-	border-top: 1px solid rgb(223,223,223);
+    border-bottom: 1px solid #dfdfdf;
+	border-top: 1px solid #dfdfdf;
 	padding: 5px;
 	white-space: nowrap;
 }
