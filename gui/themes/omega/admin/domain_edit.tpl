@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#dmn_exp_help').ispCPtooltips({ msg:"{$TR_DMN_EXP_HELP}"});
 			// Tooltips - end

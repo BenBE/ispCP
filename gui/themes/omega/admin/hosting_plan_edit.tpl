@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#hp_tos_help').ispCPtooltips({ msg:"{$TR_TOS_NOTE}"});
 			// Tooltips - end
