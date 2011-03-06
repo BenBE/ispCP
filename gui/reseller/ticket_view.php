@@ -38,7 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ticket_view.tpl';
 
 // dynamic page data
-
 $admin_id = $_SESSION['user_created_by'];
 
 if (!hasTicketSystem($admin_id)) {
@@ -90,7 +89,6 @@ if (isset($_GET['ticket_id'])) {
 	showTicketContent($tpl, $ticket_id, $user_id, $screenwidth);
 } else {
 	set_page_message(tr('Ticket not found!'), 'error');
-
 	user_goto('ticket_system.php');
 }
 

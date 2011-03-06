@@ -38,7 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ticket_closed.tpl';
 
 // dynamic page data
-
 $admin_id = $_SESSION['user_created_by'];
 
 if (!hasTicketSystem($admin_id)) {
@@ -73,6 +72,7 @@ $tpl->assign(
 		'TR_DELETE'			=> tr('Delete'),
 		'TR_TICKET_FROM'	=> tr('From'),
 		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_EDIT'			=> tr('Edit')
 	)
 );
 

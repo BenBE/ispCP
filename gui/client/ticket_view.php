@@ -38,7 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ticket_view.tpl';
 
 // dynamic page data
-
 $reseller_id = $_SESSION['user_created_by'];
 
 if (!hasTicketSystem($reseller_id)) {

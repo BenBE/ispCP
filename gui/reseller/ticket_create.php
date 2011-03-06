@@ -51,14 +51,10 @@ if (isset($_POST['uaction'])) {
 	} else if (empty($_POST['user_message'])) {
 		set_page_message(tr('Please type your message!'), 'warning');
 	} else {
-		createTicket($_SESSION['user_id'], $_SESSION['user_created_by'],
-				$_POST['urgency'], $_POST['subj'], $_POST['user_message'], 2);
+		createTicket($_SESSION['user_id'], $_SESSION['user_created_by'], $_POST['urgency'], $_POST['subj'], $_POST['user_message'], 2);
 		user_goto('ticket_system.php');
 	}
 }
-
-// static page messages
-gen_logged_from($tpl);
 
 $userdata = array(
 	'OPT_URGENCY_1' => '',
@@ -88,9 +84,11 @@ switch ($userdata['URGENCY']) {
 }
 
 $userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj'], true) : '';
-$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ?
-    clean_input($_POST['user_message'], true) : '';
+$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? clean_input($_POST['user_message'], true) : '';
 $tpl->assign($userdata);
+
+// static page messages
+gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
@@ -106,7 +104,7 @@ $tpl->assign(
 		'TR_YOUR_MESSAGE'	=> tr('Your message'),
 		'TR_SEND_MESSAGE'	=> tr('Send message'),
 		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
-		'TR_CLOSED_TICKETS'	=> tr('Closed tickets'),
+		'TR_CLOSED_TICKETS'	=> tr('Closed tickets')
 	)
 );
 
