@@ -690,12 +690,21 @@ function gen_user_list(&$tpl, &$sql) {
 				'TR_USR_CREATED_BY' => tr('Created by'),
 				'TR_USR_OPTIONS' => tr('Options'),
 				'TR_USER_STATUS' => tr('Status'),
-				'TR_DETAILS' => tr('Details')
+				'TR_DETAILS' => tr('Details'),
+				'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
+				'TR_EDIT_DOMAIN' => tr('Edit domain'),
+				'TR_EDIT_USR' => tr('Edit user'),
+				'TR_DELETE' => tr('Delete'),
+				'GO_TO_USER_INTERFACE' => tr('Switch'),
+				'TR_MESSAGE_CHANGE_STATUS' =>
+						tr('Are you sure you want to change the status of domain account?', true),
+				'TR_MESSAGE_DELETE' =>
+						tr('Are you sure you want to delete %s?', true, '%s')
 			)
 		);
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -728,20 +737,14 @@ function gen_user_list(&$tpl, &$sql) {
 			// Get disk usage by user
 			// NXW Reported as unused by IDE profiler so...
 			// $traffic = get_user_traffic($rs->fields['domain_id']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_DELETE_SHOW' => '',
 					'DOMAIN_ID' => $rs->fields['domain_id'],
-					'TR_DELETE' => tr('Delete'),
 					'URL_DELETE_USR' => 'user_delete.php?domain_id=' .
 							$rs->fields['domain_id'],
-					'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
-					'GO_TO_USER_INTERFACE' => tr('Switch'),
 					'URL_CHANGE_INTERFACE' => 'change_user_interface.php?to_id=' .
-							$rs->fields['domain_admin_id'],
-					'USR_USERNAME' => tohtml($rs->fields['domain_name']),
-					'TR_EDIT_DOMAIN' => tr('Edit domain'),
-					'TR_EDIT_USR' => tr('Edit user')
+							$rs->fields['domain_admin_id']
 				)
 			);
 
@@ -768,7 +771,7 @@ function gen_user_list(&$tpl, &$sql) {
 					$rs->fields['domain_id'];
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -795,7 +798,7 @@ function gen_user_list(&$tpl, &$sql) {
 				$domain_expires = date($date_formt, $domain_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_USERNAME' => tohtml($admin_name),
 					'USER_CREATED_ON' => tohtml($domain_created),
@@ -803,11 +806,7 @@ function gen_user_list(&$tpl, &$sql) {
 					'USR_CREATED_BY' => tohtml($created_by_name),
 					'USR_OPTIONS' => '',
 					'URL_EDIT_USR' => 'admin_edit.php?edit_id=' .
-						$rs->fields['domain_admin_id'],
-					'TR_MESSAGE_CHANGE_STATUS' =>
-						tr('Are you sure you want to change the status of domain account?', true),
-					'TR_MESSAGE_DELETE' =>
-						tr('Are you sure you want to delete %s?', true, '%s'),
+						$rs->fields['domain_admin_id']
 				)
 			);
 

@@ -159,7 +159,7 @@ function check_user_data() {
 	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
 		// send through the session the data
 		$_SESSION['dmn_name']	= $dmn_name;
-		$_SESSION['dmn_expire']	= $dmn_expire;
+		$_SESSION['dmn_expire_date']	= $dmn_expire;
 		$_SESSION['dmn_tpl']	= $dmn_chp;
 		$_SESSION['chtpl']		= $dmn_pt;
 		$_SESSION['step_one']	= "_yes_";
@@ -171,7 +171,7 @@ function check_user_data() {
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], $dmn_chp)) {
 			// send through the session the data
 			$_SESSION['dmn_name']	= $dmn_name;
-			$_SESSION['dmn_expire']	= $dmn_expire;
+			$_SESSION['dmn_expire_date']	= $dmn_expire;
 			$_SESSION['dmn_tpl']	= $dmn_chp;
 			$_SESSION['chtpl']		= $dmn_pt;
 			$_SESSION['step_one']	= "_yes_";

@@ -95,10 +95,10 @@
 					<tr>
 						<td>{$TR_BACKUP}</td>
 						<td>
-							<input type="radio" name="backup_dmn" id="backup_dmn" value="_dmn_" {$VL_BACKUPD} />&nbsp;{$TR_BACKUP_DOMAIN}
-							<input type="radio" name="backup_sql" id="backup_sql" value="_sql_" {$VL_BACKUPS} />&nbsp;{$TR_BACKUP_SQL}
-							<input type="radio" name="backup_full" id="backup_full" value="_full_" {$VL_BACKUPF} />&nbsp;{$TR_BACKUP_FULL}
-							<input type="radio" name="backup_no" id="backup_no" value="_no_" {$VL_BACKUPN} />&nbsp;{$TR_BACKUP_NO}
+							<input type="radio" name="backup" id="backup_dmn" value="_dmn_" {$VL_BACKUPD} />&nbsp;{$TR_BACKUP_DOMAIN}
+							<input type="radio" name="backup" id="backup_sql" value="_sql_" {$VL_BACKUPS} />&nbsp;{$TR_BACKUP_SQL}
+							<input type="radio" name="backup" id="backup_full" value="_full_" {$VL_BACKUPF} />&nbsp;{$TR_BACKUP_FULL}
+							<input type="radio" name="backup" id="backup_no" value="_no_" {$VL_BACKUPN} />&nbsp;{$TR_BACKUP_NO}
 						</td>
 					</tr>
 				</table>

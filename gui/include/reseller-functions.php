@@ -660,8 +660,6 @@ function generate_ip_list(&$tpl, &$reseller_id) {
 					'IP_SELECTED' => $selected
 				)
 			);
-
-			$tpl->parse('IP_ENTRY', '.ip_entry');
 		}
 	} // end loop
 } // end of generate_ip_list()

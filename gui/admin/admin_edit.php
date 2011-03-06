@@ -45,6 +45,116 @@ if (isset($_GET['edit_id'])) {
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'admin_edit.tpl';
 
+if ($edit_id == $_SESSION['user_id']) {
+	user_goto('personal_change.php');
+}
+
+$query = "
+	SELECT
+		`admin_name`,
+		`admin_type`,
+		`fname`,
+		`lname`,
+		`firm`,
+		`zip`,
+		`city`,
+		`state`,
+		`country`,
+		`phone`,
+		`fax`,
+		`street1`,
+		`street2`,
+		`email`,
+		`gender`
+	FROM
+		`admin`
+	WHERE
+		`admin_id` = ?
+";
+
+$rs = exec_query($sql, $query, $edit_id);
+
+if ($rs->recordCount() <= 0) {
+	user_goto('manage_users.php');
+}
+
+update_data($sql);
+
+$admin_name = tohtml(decode_idna($rs->fields['admin_name']));
+
+if (isset($_POST['genpass'])) {
+	$tpl->assign('VAL_PASSWORD', passgen());
+} else {
+	$tpl->assign('VAL_PASSWORD', '');
+}
+
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'					=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
+		'TR_EMPTY_OR_WORNG_DATA'		=> tr('Empty data or wrong field!'),
+		'TR_PASSWORD_NOT_MATCH'			=> tr("Passwords don't match!"),
+		'TR_EDIT_ADMIN'					=> ($rs->fields['admin_type'] == 'admin' ? tr('Edit admin') : tr('Edit user')),
+		'TR_CORE_DATA'					=> tr('Core data'),
+		'TR_USERNAME'					=> tr('Username'),
+		'TR_PASSWORD'					=> tr('Password'),
+		'TR_PASSWORD_REPEAT'			=> tr('Repeat password'),
+		'TR_EMAIL'						=> tr('Email'),
+		'TR_ADDITIONAL_DATA'			=> tr('Additional data'),
+		'TR_FIRST_NAME'					=> tr('First name'),
+		'TR_LAST_NAME'					=> tr('Last name'),
+		'TR_COMPANY'					=> tr('Company'),
+		'TR_ZIP_POSTAL_CODE'			=> tr('Zip/Postal code'),
+		'TR_CITY'						=> tr('City'),
+		'TR_STATE_PROVINCE'				=> tr('State/Province'),
+		'TR_COUNTRY'					=> tr('Country'),
+		'TR_STREET_1'					=> tr('Street 1'),
+		'TR_STREET_2'					=> tr('Street 2'),
+		'TR_PHONE'						=> tr('Phone'),
+		'TR_FAX'						=> tr('Fax'),
+		'TR_PHONE'						=> tr('Phone'),
+		'TR_GENDER'						=> tr('Gender'),
+		'TR_MALE'						=> tr('Male'),
+		'TR_FEMALE'						=> tr('Female'),
+		'TR_UNKNOWN'					=> tr('Unknown'),
+		'TR_UPDATE'						=> tr('Update'),
+		'TR_SEND_DATA'					=> tr('Send new login data'),
+		'TR_PASSWORD_GENERATE'			=> tr('Generate password'),
+		'FIRST_NAME'					=> empty($rs->fields['fname']) ? '' : tohtml($rs->fields['fname']),
+		'LAST_NAME'						=> empty($rs->fields['lname']) ? '' : tohtml($rs->fields['lname']),
+		'FIRM'							=> empty($rs->fields['firm']) ? '' : tohtml($rs->fields['firm']),
+		'ZIP'							=> empty($rs->fields['zip']) ? '' : tohtml($rs->fields['zip']),
+		'CITY'							=> empty($rs->fields['city']) ? '' : tohtml($rs->fields['city']),
+		'STATE_PROVINCE'				=> empty($rs->fields['state']) ? '' : tohtml($rs->fields['state']),
+		'COUNTRY'						=> empty($rs->fields['country']) ? '' : tohtml($rs->fields['country']),
+		'STREET_1'						=> empty($rs->fields['street1']) ? '' : tohtml($rs->fields['street1']),
+		'STREET_2'						=> empty($rs->fields['street2']) ? '' : tohtml($rs->fields['street2']),
+		'PHONE'							=> empty($rs->fields['phone']) ? '' : tohtml($rs->fields['phone']),
+		'FAX'							=> empty($rs->fields['fax']) ? '' : tohtml($rs->fields['fax']),
+		'USERNAME'						=> tohtml($admin_name),
+		'EMAIL'							=> tohtml($rs->fields['email']),
+		'VL_MALE'						=> (($rs->fields['gender'] === 'M') ? $cfg->HTML_SELECTED : ''),
+		'VL_FEMALE'						=> (($rs->fields['gender'] === 'F') ? $cfg->HTML_SELECTED : ''),
+		'VL_UNKNOWN'					=> ((($rs->fields['gender'] === 'U') || (empty($rs->fields['gender']))) ? $cfg->HTML_SELECTED : ''),
+		'EDIT_ID'						=> $edit_id,
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'				=> tr('Password change is disabled!'),
+		'DEMO_VERSION'					=> tr('Demo Version!')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 function update_data(&$sql) {
 
 	global $edit_id;
@@ -237,114 +347,4 @@ function check_user_data() {
 
 	return true;
 }
-
-if ($edit_id == $_SESSION['user_id']) {
-	user_goto('personal_change.php');
-}
-
-// static page messages
-
-$query = "
-	SELECT
-		`admin_name`,
-		`admin_type`,
-		`fname`,
-		`lname`,
-		`firm`,
-		`zip`,
-		`city`,
-		`state`,
-		`country`,
-		`phone`,
-		`fax`,
-		`street1`,
-		`street2`,
-		`email`,
-		`gender`
-	FROM
-		`admin`
-	WHERE
-		`admin_id` = ?
-";
-
-$rs = exec_query($sql, $query, $edit_id);
-
-if ($rs->recordCount() <= 0) {
-	user_goto('manage_users.php');
-}
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-update_data($sql);
-
-$admin_name = tohtml(decode_idna($rs->fields['admin_name']));
-
-if (isset($_POST['genpass'])) {
-	$tpl->assign('VAL_PASSWORD', passgen());
-} else {
-	$tpl->assign('VAL_PASSWORD', '');
-}
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'					=> ($rs->fields['admin_type'] == 'admin' ? tr('ispCP - Admin/Manage users/Edit Administrator') : tr('ispCP - Admin/Manage users/Edit User')),
-		'TR_EMPTY_OR_WORNG_DATA'		=> tr('Empty data or wrong field!'),
-		'TR_PASSWORD_NOT_MATCH'			=> tr("Passwords don't match!"),
-		'TR_EDIT_ADMIN'					=> ($rs->fields['admin_type'] == 'admin' ? tr('Edit admin') : tr('Edit user')),
-		'TR_CORE_DATA'					=> tr('Core data'),
-		'TR_USERNAME'					=> tr('Username'),
-		'TR_PASSWORD'					=> tr('Password'),
-		'TR_PASSWORD_REPEAT'			=> tr('Repeat password'),
-		'TR_EMAIL'						=> tr('Email'),
-		'TR_ADDITIONAL_DATA'			=> tr('Additional data'),
-		'TR_FIRST_NAME'					=> tr('First name'),
-		'TR_LAST_NAME'					=> tr('Last name'),
-		'TR_COMPANY'					=> tr('Company'),
-		'TR_ZIP_POSTAL_CODE'			=> tr('Zip/Postal code'),
-		'TR_CITY'						=> tr('City'),
-		'TR_STATE_PROVINCE'				=> tr('State/Province'),
-		'TR_COUNTRY'					=> tr('Country'),
-		'TR_STREET_1'					=> tr('Street 1'),
-		'TR_STREET_2'					=> tr('Street 2'),
-		'TR_PHONE'						=> tr('Phone'),
-		'TR_FAX'						=> tr('Fax'),
-		'TR_PHONE'						=> tr('Phone'),
-		'TR_GENDER'						=> tr('Gender'),
-		'TR_MALE'						=> tr('Male'),
-		'TR_FEMALE'						=> tr('Female'),
-		'TR_UNKNOWN'					=> tr('Unknown'),
-		'TR_UPDATE'						=> tr('Update'),
-		'TR_SEND_DATA'					=> tr('Send new login data'),
-		'TR_PASSWORD_GENERATE'			=> tr('Generate password'),
-		'FIRST_NAME'					=> empty($rs->fields['fname']) ? '' : tohtml($rs->fields['fname']),
-		'LAST_NAME'						=> empty($rs->fields['lname']) ? '' : tohtml($rs->fields['lname']),
-		'FIRM'							=> empty($rs->fields['firm']) ? '' : tohtml($rs->fields['firm']),
-		'ZIP'							=> empty($rs->fields['zip']) ? '' : tohtml($rs->fields['zip']),
-		'CITY'							=> empty($rs->fields['city']) ? '' : tohtml($rs->fields['city']),
-		'STATE_PROVINCE'				=> empty($rs->fields['state']) ? '' : tohtml($rs->fields['state']),
-		'COUNTRY'						=> empty($rs->fields['country']) ? '' : tohtml($rs->fields['country']),
-		'STREET_1'						=> empty($rs->fields['street1']) ? '' : tohtml($rs->fields['street1']),
-		'STREET_2'						=> empty($rs->fields['street2']) ? '' : tohtml($rs->fields['street2']),
-		'PHONE'							=> empty($rs->fields['phone']) ? '' : tohtml($rs->fields['phone']),
-		'FAX'							=> empty($rs->fields['fax']) ? '' : tohtml($rs->fields['fax']),
-		'USERNAME'						=> tohtml($admin_name),
-		'EMAIL'							=> tohtml($rs->fields['email']),
-		'VL_MALE'						=> (($rs->fields['gender'] === 'M') ? $cfg->HTML_SELECTED : ''),
-		'VL_FEMALE'						=> (($rs->fields['gender'] === 'F') ? $cfg->HTML_SELECTED : ''),
-		'VL_UNKNOWN'					=> ((($rs->fields['gender'] === 'U') || (empty($rs->fields['gender']))) ? $cfg->HTML_SELECTED : ''),
-		'EDIT_ID'						=> $edit_id,
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'				=> tr('Password change is disabled!'),
-		'DEMO_VERSION'					=> tr('Demo Version!')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

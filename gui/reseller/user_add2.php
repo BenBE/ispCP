@@ -43,13 +43,7 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 	user_goto('users.php?psi=last');
 }
 
-/*
- * static page messages.
- */
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
+// static page messages.
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -82,6 +76,9 @@ $tpl->assign(
 			'TR_AWSTATS'					=> tr('Awstats')
 		)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 if (!get_pageone_param()) {
 	set_page_message(
@@ -392,5 +389,4 @@ function check_hosting_plan_name($admin_id) {
 
 	return true;
 } // End of check_hosting_plan_name()
-
 ?>

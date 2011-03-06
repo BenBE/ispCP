@@ -160,23 +160,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: usr_item -->
+				{section name=i loop=$USR_USERNAME}
 				<tr>
-					<td><a href="#" onclick="action_status('{$URL_CHANGE_STATUS}', '{$USR_USERNAME}')" title="{$STATUS_ICON}" class="icon i_{$STATUS_ICON}"></a></td>
-					<td><a href="http://www.{$USR_USERNAME}/" title="{$USR_USERNAME}" class="icon i_goto">{$USR_USERNAME}</a></td>
-					<td>{$USER_CREATED_ON}</td>
-					<td>{$USR_CREATED_BY}</td>
+					<td><a href="#" onclick="action_status('{$URL_CHANGE_STATUS[i]}', '{$USR_USERNAME[i]}')" title="{$STATUS_ICON[i]}" class="icon i_{$STATUS_ICON[i]}"></a></td>
+					<td><a href="http://www.{$USR_USERNAME[i]}/" title="{$USR_USERNAME[i]}" class="icon i_goto">{$USR_USERNAME[i]}</a></td>
+					<td>{$USER_CREATED_ON[i]}</td>
+					<td>{$USR_CREATED_BY[i]}</td>
 					<td>
-						<a href="domain_details.php?domain_id={$DOMAIN_ID}" title="{$TR_DETAILS}" class="icon i_identity"></a>
-						<a href="{$URL_CHANGE_INTERFACE}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
-						<a href="{$URL_EDIT_USR}" title="{$TR_EDIT_USR}" class="icon i_edit"></a>
-						{if !isset($EDIT_OPTION)}
-						<a href="domain_edit.php?edit_id={$DOMAIN_ID}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain"></a>
+						<a href="domain_details.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DETAILS}" class="icon i_identity"></a>
+						<a href="{$URL_CHANGE_INTERFACE[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
+						<a href="{$URL_EDIT_USR[i]}" title="{$TR_EDIT_USR}" class="icon i_edit"></a>
+						{if !isset($EDIT_OPTION[i])}
+						<a href="domain_edit.php?edit_id={$DOMAIN_ID[i]}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain"></a>
 						{/if}
 						<!-- BDP: usr_delete_show -->
 						<!-- EDP: usr_delete_show -->
 						<!-- BDP: usr_delete_link -->
-						<a href="#" onclick="action_delete('{$URL_DELETE_USR}', '{$USR_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="#" onclick="action_delete('{$URL_DELETE_USR[i]}', '{$USR_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 						<!-- EDP: usr_delete_link -->
 					</td>
 				</tr>
@@ -186,7 +186,7 @@
 					<td colspan="4"><a href="http://www.{$ALIAS_DOMAIN}/" title="{$ALIAS_DOMAIN}" class="icon i_goto">{$ALIAS_DOMAIN}</a></td>
 				</tr>
 				{/if}
-				<!-- EDP: usr_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: usr_list -->

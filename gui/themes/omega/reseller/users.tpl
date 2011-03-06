@@ -89,24 +89,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: user_entry -->
+				{section name=i loop=$NAME}
 				<tr>
-					<td><a href="#" onclick="change_status('{$URL_CHANGE_STATUS}', '{$NAME}')" title="{$STATUS_ICON}" class="icon i_{$STATUS_ICON}"></a></td>
-					<td><a href="http://{$NAME}/" class="icon i_goto">{$NAME}</a></td>
-					<td>{$CREATION_DATE}</td>
-					<td>{$DISK_USAGE}</td>
+					<td><a href="#" onclick="change_status('{$URL_CHANGE_STATUS[i]}', '{$NAME[i]}')" title="{$STATUS_ICON[i]}" class="icon i_{$STATUS_ICON[i]}"></a></td>
+					<td><a href="http://{$NAME[i]}/" class="icon i_goto">{$NAME[i]}</a></td>
+					<td>{$CREATION_DATE[i]}</td>
+					<td>{$DISK_USAGE[i]}</td>
 					<td>
-						<a href="domain_details.php?domain_id={$DOMAIN_ID}" title="{$TR_DETAILS}" class="icon i_identity"></a>
+						<a href="domain_details.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DETAILS[i]}" class="icon i_identity"></a>
 						{if !isset($EDIT_OPTION)}
-						<a href="domain_edit.php?edit_id={$DOMAIN_ID}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain" ></a>
-						<a href="user_edit.php?edit_id={$USER_ID}" title="{$TR_EDIT_USER}" class="icon i_edit"></a>
+						<a href="domain_edit.php?edit_id={$DOMAIN_ID[i]}" title="{$TR_EDIT_DOMAIN[i]}" class="icon i_domain" ></a>
+						<a href="user_edit.php?edit_id={$USER_ID[i]}" title="{$TR_EDIT_USER[i]}" class="icon i_edit"></a>
 						{/if}
-						<a href="domain_statistics.php?month={$VL_MONTH}&amp;year={$VL_YEAR}&amp;domain_id={$DOMAIN_ID}" title="{$TR_STAT}" class="icon i_stats"></a>
-						<a href="change_user_interface.php?to_id={$USER_ID}" title="{$CHANGE_INTERFACE}" class="icon i_details"></a>
+						<a href="domain_statistics.php?month={$VL_MONTH[i]}&amp;year={$VL_YEAR[i]}&amp;domain_id={$DOMAIN_ID[i]}" title="{$TR_STAT[i]}" class="icon i_stats"></a>
+						<a href="change_user_interface.php?to_id={$USER_ID[i]}" title="{$CHANGE_INTERFACE[i]}" class="icon i_details"></a>
 						<!-- BDP: usr_delete_show -->
 						<!-- EDP: usr_delete_show -->
 						<!-- BDP: usr_delete_link -->
-						<a href="domain_delete.php?domain_id={$DOMAIN_ID}" title="{$ACTION}" class="icon i_delete"></a>
+						<a href="domain_delete.php?domain_id={$DOMAIN_ID[i]}" title="{$ACTION[i]}" class="icon i_delete"></a>
 						<!-- EDP: usr_delete_link -->
 					</td>
 				</tr>
@@ -116,7 +116,7 @@
 					<td colspan="4"><a href="http://www.{$ALIAS_DOMAIN}/" class="icon i_goto">{$ALIAS_DOMAIN}</a></td>
 				</tr>
 				{/if}
-				<!-- EDP: user_entry -->
+				{/section}
 			</tbody>
 		</table>
 		{/if}

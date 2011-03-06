@@ -38,9 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'user_add3.tpl';
 
 // static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -76,6 +73,9 @@ $tpl->assign(
 		'VL_USR_PASS'			=> passgen()
 	)
 );
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 if (!init_in_values()) {
 	set_page_message(
@@ -460,5 +460,4 @@ function add_user_data($reseller_id) {
 		user_goto('users.php?psi=last');
 	}
 } // End of add_user_data()
-
 ?>
