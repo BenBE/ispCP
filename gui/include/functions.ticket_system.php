@@ -550,21 +550,21 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
 			$ticket_status = $rs->fields['ticket_status'];
 			$ticket_level = $rs->fields['ticket_level'];
 			if ($ticket_status == 1) {
-				$tpl->assign(array('NEW' => tr("[New]")));
+				$tpl->append(array('NEW' => tr("[New]")));
 			} elseif ($ticket_status == 2 && (($ticket_level == 1 &&
 					$userLevel == "client") || ($ticket_level == 2 &&
 					$userLevel == "reseller"))) {
-				$tpl->assign(array('NEW' => tr("[Re]")));
+				$tpl->append(array('NEW' => tr("[Re]")));
 			} elseif ($ticket_status == 4 && (($ticket_level == 1 &&
 					$userLevel == "reseller") || ($ticket_level == 2 &&
 					$userLevel == "admin"))) {
-				$tpl->assign(array('NEW' => tr("[Re]")));
+				$tpl->append(array('NEW' => tr("[Re]")));
 			} else {
-				$tpl->assign(array('NEW' => " "));
+				$tpl->append(array('NEW' => " "));
 			}
 
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'URGENCY'	=> getTicketUrgency($rs->fields['ticket_urgency']),
 					'FROM'		=> tohtml(getTicketSender($rs->fields['ticket_id'])),
@@ -640,17 +640,22 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
 			array(
 				'TR_ACTION'			=> $tr_action,
 				'ACTION'			=> $action,
-				'DATE'				=> date($cfg->DATE_FORMAT, $rs->fields['ticket_date']),
 				'SUBJECT'			=> tohtml($ticket_subject),
-				'TICKET_CONTENT'	=> nl2br(tohtml($ticket_content)),
 				'ID'				=> $rs->fields['ticket_id'],
 				'URGENCY'			=> getTicketUrgency($ticket_urgency),
-				'URGENCY_ID'		=> $ticket_urgency,
-				'FROM'		        => tohtml($from)
+				'URGENCY_ID'		=> $ticket_urgency
 			)
 		);
 
 		showTicketReplies($tpl, $ticket_id, $screenwidth);
+
+		$tpl->append(
+			array(
+				'DATE'				=> date($cfg->DATE_FORMAT, $rs->fields['ticket_date']),
+				'TICKET_CONTENT'	=> nl2br(tohtml($ticket_content)),
+				'FROM'		        => tohtml($from)
+			)
+		);
 	}
 }
 
