@@ -41,15 +41,15 @@
 				<input name="Submit" type="submit" class="button" value=" {$TR_UPLOAD} " />
 			</fieldset>
 		</form>
-		<!-- BDP: logo_remove_button -->
+		{if isset($LOGO_REMOVE_BUTTON)}
 		<img src="{$OWN_LOGO}" alt="reseller logo" />
 		<form action="settings_layout.php" method="post">
 			<fieldset>
 				<input type="hidden" name="uaction" value="delete_logo" />
-				<input name="Submit" type="submit" class="button" value=" Entfernen " />
+				<input name="Submit" type="submit" class="button" value=" {$TR_REMOVE} " />
 			</fieldset>
 		</form>
-		<!-- EDP: logo_remove_button -->
+		{/if}
 	</div>
 	<div class="footer">
 			ispCP Omega {$VERSION}<br />build: {$BUILDDATE}<br />Codename: {$CODENAME}
