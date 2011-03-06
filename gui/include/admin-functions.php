@@ -393,7 +393,7 @@ function gen_admin_list(&$tpl, &$sql) {
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -410,38 +410,29 @@ function gen_admin_list(&$tpl, &$sql) {
 
 			if($rs->fields['created_by'] == '' ||
 				$rs->fields['admin_id'] == $_SESSION['user_id']) {
-
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'ADMIN_DELETE_LINK' => '',
-						'URL_DELETE_ADMIN' => ''
+						'ADMIN_DELETE_SHOW' => false,
+						'URL_DELETE_ADMIN'	=> ''
 					)
 				);
-
 			} else {
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'ADMIN_DELETE_SHOW' => '',
-						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_ADMIN' =>
-							'user_delete.php?delete_id=' .
-							$rs->fields['admin_id'] .
-							'&amp;delete_username=' .
-							$rs->fields['admin_name'],
-						'ADMIN_USERNAME' => tohtml($rs->fields['admin_name'])
+						'ADMIN_DELETE_SHOW'	=> true,
+						'TR_DELETE'			=> tr('Delete'),
+						'URL_DELETE_ADMIN'	=> 'user_delete.php?delete_id=' . $rs->fields['admin_id'] . '&amp;delete_username=' . $rs->fields['admin_name']
 					)
 				);
 
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'ADMIN_USERNAME' => tohtml($rs->fields['admin_name']),
-					'ADMIN_CREATED_ON' => tohtml($admin_created),
-					'ADMIN_CREATED_BY' => (!is_null($rs->fields['created_by']))
-						? tohtml($rs->fields['created_by']) : tr("System"),
-					'URL_EDIT_ADMIN' => 'admin_edit.php?edit_id=' .
-						$rs->fields['admin_id']
+					'ADMIN_USERNAME'	=> tohtml($rs->fields['admin_name']),
+					'ADMIN_CREATED_ON'	=> tohtml($admin_created),
+					'ADMIN_CREATED_BY'	=> (!is_null($rs->fields['created_by'])) ? tohtml($rs->fields['created_by']) : tr("System"),
+					'URL_EDIT_ADMIN'	=> 'admin_edit.php?edit_id=' . $rs->fields['admin_id']
 				)
 			);
 

@@ -37,6 +37,54 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'admin_add.tpl';
 
+// static page messages
+add_user($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User'),
+		'TR_EMPTY_OR_WORNG_DATA' => tr('Empty data or wrong field!'),
+		'TR_PASSWORD_NOT_MATCH' => tr("Passwords don't match!"),
+		'TR_ADD_ADMIN' => tr('Add admin'),
+		'TR_CORE_DATA' => tr('Core data'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_PASSWORD' => tr('Password'),
+		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
+		'TR_EMAIL' => tr('Email'),
+		'TR_ADDITIONAL_DATA' => tr('Additional data'),
+		'TR_FIRST_NAME' => tr('First name'),
+		'TR_LAST_NAME' => tr('Last name'),
+		'TR_GENDER' => tr('Gender'),
+		'TR_MALE' => tr('Male'),
+		'TR_FEMALE' => tr('Female'),
+		'TR_UNKNOWN' => tr('Unknown'),
+		'TR_COMPANY' => tr('Company'),
+		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
+		'TR_CITY' => tr('City'),
+		'TR_STATE' => tr('State/Province'),
+		'TR_COUNTRY' => tr('Country'),
+		'TR_STREET_1' => tr('Street 1'),
+		'TR_STREET_2' => tr('Street 2'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_FAX' => tr('Fax'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_ADD' => tr('Add'),
+		'GENPAS' => passgen()
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
@@ -276,52 +324,4 @@ function check_user_data() {
 
 	return true;
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-add_user($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add User'),
-		'TR_EMPTY_OR_WORNG_DATA' => tr('Empty data or wrong field!'),
-		'TR_PASSWORD_NOT_MATCH' => tr("Passwords don't match!"),
-		'TR_ADD_ADMIN' => tr('Add admin'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_PASSWORD' => tr('Password'),
-		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
-		'TR_EMAIL' => tr('Email'),
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_FIRST_NAME' => tr('First name'),
-		'TR_LAST_NAME' => tr('Last name'),
-		'TR_GENDER' => tr('Gender'),
-		'TR_MALE' => tr('Male'),
-		'TR_FEMALE' => tr('Female'),
-		'TR_UNKNOWN' => tr('Unknown'),
-		'TR_COMPANY' => tr('Company'),
-		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
-		'TR_CITY' => tr('City'),
-		'TR_STATE' => tr('State/Province'),
-		'TR_COUNTRY' => tr('Country'),
-		'TR_STREET_1' => tr('Street 1'),
-		'TR_STREET_2' => tr('Street 2'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_FAX' => tr('Fax'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_ADD' => tr('Add'),
-		'GENPAS' => passgen()
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

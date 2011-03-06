@@ -71,22 +71,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: admin_item -->
+				{section name=i loop=$ADMIN_USERNAME}
 				<tr>
 					<td>&nbsp;</td>
-					<td>{$ADMIN_USERNAME}</td>
-					<td>{$ADMIN_CREATED_ON}</td>
-					<td>{$ADMIN_CREATED_BY}</td>
+					<td>{$ADMIN_USERNAME[i]}</td>
+					<td>{$ADMIN_CREATED_ON[i]}</td>
+					<td>{$ADMIN_CREATED_BY[i]}</td>
 					<td>
-						<a href="{$URL_EDIT_ADMIN}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<!-- BDP: admin_delete_show -->
-						<!-- EDP: admin_delete_show -->
-						<!-- BDP: admin_delete_link -->
-						<a href="#" onclick="action_delete('{$URL_DELETE_ADMIN}', '{$ADMIN_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
-						<!-- EDP: admin_delete_link -->
+						<a href="{$URL_EDIT_ADMIN[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						{if $ADMIN_DELETE_SHOW[i]}
+						<a href="#" onclick="action_delete('{$URL_DELETE_ADMIN[i]}', '{$ADMIN_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						{/if}
 					</td>
 				</tr>
-				<!-- EDP: admin_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: admin_list -->
