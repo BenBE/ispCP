@@ -37,15 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'user_delete.tpl';
 
-
-
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain')
-	)
-);
-
 if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
 	if (validate_user_deletion(intval($_GET['delete_id']))) {
 		delete_user(intval($_GET['delete_id']));
@@ -66,8 +57,15 @@ if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
 	user_goto('manage_users.php');
 }
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
 
 gen_page_message($tpl);
 
@@ -336,3 +334,4 @@ function validate_domain_deletion($domain_id) {
 		$tpl->assign('DB_LIST', '');
 	}
 }
+?>

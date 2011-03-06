@@ -268,7 +268,7 @@ function generate_users_list(&$tpl, $admin_id) {
 			}
 			$status_url = $rs->fields['domain_id'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -277,7 +277,7 @@ function generate_users_list(&$tpl, $admin_id) {
 
 			$admin_name = decode_idna($rs->fields['domain_name']);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -299,7 +299,7 @@ function generate_users_list(&$tpl, $admin_id) {
 				$dom_expires = date($cfg->DATE_FORMAT, $dom_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CREATION_DATE' => $dom_created,
 					'EXPIRE_DATE' => $dom_expires,
