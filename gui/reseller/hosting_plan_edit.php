@@ -37,58 +37,7 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan_edit.tpl';
 
-/**
- * static page messages.
- */
-
 global $hpid;
-
-// Show main menu
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'	=> tr('ispCP - Reseller/Edit hosting plan'),
-		'TR_HOSTING PLAN PROPS' => tr('Hosting plan properties'),
-		'TR_TEMPLATE_NAME' => tr('Template name'),
-		'TR_MAX_SUBDOMAINS' => tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_ALIASES' => tr('Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_MAILACCOUNTS' => tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_FTP' => tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQL' => tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQL_USERS' => tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_TRAFFIC' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_DISK_LIMIT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_PHP' => tr('PHP'),
-		'TR_CGI' => tr('CGI / Perl'),
-		'TR_DNS' => tr('Allow adding records to DNS zone'),
-		'TR_BACKUP' => tr('Backup'),
-		'TR_BACKUP_DOMAIN' => tr('Domain'),
-		'TR_BACKUP_SQL' => tr('SQL'),
-		'TR_BACKUP_FULL' => tr('Full'),
-		'TR_BACKUP_NO' => tr('No'),
-		'TR_APACHE_LOGS' => tr('Apache logfiles'),
-		'TR_AWSTATS' => tr('AwStats'),
-		'TR_YES' => tr('yes'),
-		'TR_NO' => tr('no'),
-		'TR_BILLING_PROPS' => tr('Billing Settings'),
-		'TR_PRICE' => tr('Price'),
-		'TR_SETUP_FEE' => tr('Setup fee'),
-		'TR_VALUE' => tr('Currency'),
-		'TR_PAYMENT' => tr('Payment period'),
-		'TR_STATUS' => tr('Available for purchasing'),
-		'TR_TEMPLATE_DESCRIPTON' => tr('Description'),
-		'TR_EXAMPLE' => tr('(e.g. EUR)'),
-		'TR_TOS_PROPS' => tr('Term Of Service'),
-		'TR_TOS_NOTE' => tr('<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan.'),
-		'TR_TOS_DESCRIPTION' => tr('Text'),
-		'TR_EDIT_HOSTING_PLAN' => tr('Update plan'),
-		'TR_UPDATE_PLAN' => tr('Update plan')
-	)
-);
 
 /**
  * Dynamic page process
@@ -110,6 +59,53 @@ if (isset($_POST['uaction']) && ('edit_plan' === $_POST['uaction'])) {
 	gen_load_ehp_page($tpl, $sql, $hpid, $_SESSION['user_id']);
 	$tpl->assign('MESSAGE', "");
 }
+
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Reseller/Edit hosting plan'),
+		'TR_HOSTING PLAN PROPS'	=> tr('Hosting plan properties'),
+		'TR_TEMPLATE_NAME'		=> tr('Template name'),
+		'TR_MAX_SUBDOMAINS'		=> tr('Max subdomains<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES'		=> tr('Max aliases<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAILACCOUNTS'	=> tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP'			=> tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL'			=> tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS'		=> tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC'		=> tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_DISK_LIMIT'			=> tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_PHP'				=> tr('PHP'),
+		'TR_CGI'				=> tr('CGI / Perl'),
+		'TR_DNS'				=> tr('Allow adding records to DNS zone'),
+		'TR_BACKUP'				=> tr('Backup'),
+		'TR_BACKUP_DOMAIN'		=> tr('Domain'),
+		'TR_BACKUP_SQL'			=> tr('SQL'),
+		'TR_BACKUP_FULL'		=> tr('Full'),
+		'TR_BACKUP_NO'			=> tr('No'),
+		'TR_APACHE_LOGS'		=> tr('Apache logfiles'),
+		'TR_AWSTATS'			=> tr('AwStats'),
+		'TR_YES'				=> tr('yes'),
+		'TR_NO'					=> tr('no'),
+		'TR_BILLING_PROPS'		=> tr('Billing Settings'),
+		'TR_PRICE'				=> tr('Price'),
+		'TR_SETUP_FEE'			=> tr('Setup fee'),
+		'TR_VALUE'				=> tr('Currency'),
+		'TR_PAYMENT'			=> tr('Payment period'),
+		'TR_STATUS'				=> tr('Available for purchasing'),
+		'TR_TEMPLATE_DESCRIPTON'=> tr('Description'),
+		'TR_EXAMPLE'			=> tr('(e.g. EUR)'),
+		'TR_TOS_PROPS'			=> tr('Term Of Service'),
+		'TR_TOS_NOTE'			=> tr('<strong>Optional:</strong> Leave this field empty if you do not want term of service for this hosting plan.'),
+		'TR_TOS_DESCRIPTION'	=> tr('Text'),
+		'TR_EDIT_HOSTING_PLAN'	=> tr('Update plan'),
+		'TR_UPDATE_PLAN'		=> tr('Update plan')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_reseller_menu($tpl, 'menu_hosting_plan.tpl');
 
 gen_page_message($tpl);
 
@@ -507,6 +503,4 @@ function save_data_to_db() {
 		return false;
 	}
 } // end of save_data_to_db()
-
-die();
 ?>

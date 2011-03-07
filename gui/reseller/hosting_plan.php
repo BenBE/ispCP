@@ -37,25 +37,23 @@ $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan.tpl';
-// Table with hosting plans
 
 // static page messages
 gen_logged_from($tpl);
 
 gen_hp_table($tpl, $_SESSION['user_id']);
 
-
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
-		'TR_HOSTING_PLANS' => tr('Hosting plans'),
-		'TR_PAGE_MENU' => tr('Manage hosting plans'),
-		'TR_PURCHASING' => tr('Purchasing'),
-		'TR_ADD_HOSTING_PLAN' => tr('Add hosting plan'),
-		'TR_TITLE_ADD_HOSTING_PLAN' => tr('Add new user hosting plan'),
-		'TR_BACK' => tr('Back'),
-		'TR_TITLE_BACK' => tr('Return to previous menu'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Main Index'),
+		'TR_HOSTING_PLANS'			=> tr('Hosting plans'),
+		'TR_PAGE_MENU'				=> tr('Manage hosting plans'),
+		'TR_PURCHASING'				=> tr('Purchasing'),
+		'TR_ADD_HOSTING_PLAN'		=> tr('Add hosting plan'),
+		'TR_TITLE_ADD_HOSTING_PLAN'	=> tr('Add new user hosting plan'),
+		'TR_BACK'					=> tr('Back'),
+		'TR_TITLE_BACK'				=> tr('Return to previous menu'),
+		'TR_MESSAGE_DELETE'			=> tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
 
@@ -67,8 +65,12 @@ gen_page_message($tpl);
 
 $tpl->display($template);
 
-// BEGIN FUNCTION DECLARE PATH
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
+// BEGIN FUNCTION DECLARE PATH
 function gen_hp_message(&$tpl) {
 	// global $externel_event, $hp_added, $hp_deleted, $hp_updated;
 	global $external_event;
@@ -148,7 +150,6 @@ function gen_hp_table(&$tpl, $reseller_id) {
 				`name`
 		";
 		$rs = exec_query($sql, $query, $reseller_id);
-		$tr_edit = tr('Edit');
 	}
 
 	if ($rs->rowCount() == 0) {
@@ -163,7 +164,9 @@ function gen_hp_table(&$tpl, $reseller_id) {
 			array(
 				'TR_HOSTING_PLANS' 	=> tr('Hosting plans'),
 				'TR_NOM' 			=> tr('No.'),
-				'TR_EDIT' 			=> $tr_edit,
+				'TR_EDIT' 			=> tr('Edit'),
+				'TR_DELETE'			=> tr('Delete'),
+				'PLAN_SHOW'			=> tr('Show hosting plan'),
 				'TR_PLAN_NAME' 		=> tr('Name'),
 				'TR_ACTION' 		=> tr('Actions')
 			)
@@ -176,21 +179,19 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		$i = 1;
 		while ($data = $rs->fetchRow()) {
 
-			$tpl->assign(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
+			$tpl->append(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
 
 			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'PLAN_NOM' => $i++,
-					'PLAN_NAME' => tohtml($data['name']),
-					'PLAN_NAME2' => addslashes(clean_html($data['name'])),
-					'PLAN_ACTION' => tr('Delete'),
-					'PLAN_SHOW' => tr('Show hosting plan'),
-					'PURCHASING' => $status,
-					'CUSTOM_ORDERPANEL_ID' => $coid,
-					'HP_ID' => $data['id'],
-					'RESELLER_ID' => $_SESSION['user_id']
+					'PLAN_NOM'				=> $i++,
+					'PLAN_NAME'				=> tohtml($data['name']),
+					'PLAN_NAME2'			=> addslashes(clean_html($data['name'])),
+					'PURCHASING'			=> $status,
+					'CUSTOM_ORDERPANEL_ID'	=> $coid,
+					'HP_ID'					=> $data['id'],
+					'RESELLER_ID'			=> $_SESSION['user_id']
 				)
 			);
 
@@ -199,8 +200,4 @@ function gen_hp_table(&$tpl, $reseller_id) {
 	}
 
 }
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
+?>

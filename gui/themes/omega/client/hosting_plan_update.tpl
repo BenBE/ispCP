@@ -27,22 +27,24 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
+		{if isset($HP_NAME)}
 		<h2 class="purchasing"><span>{$TR_MENU_UPDATE_HP}</span></h2>
 		<table>
-			<!-- BDP: hosting_plans -->
+			{section name=i loop=$HP_NAME}
 			<tr>
 			  <td>
-				<strong>{$HP_NAME}</strong><br />
-				{$HP_DESCRIPTION}<br />
+				<strong>{$HP_NAME[i]}</strong><br />
+				{$HP_DESCRIPTION[i]}<br />
 				<br />
-				{$HP_DETAILS}<br />
+				{$HP_DETAILS[i]}<br />
 				<br />
-				<strong>{$HP_COSTS}</strong></td>
+				<strong>{$HP_COSTS[i]}</strong></td>
 			</tr>
 			<tr>
-			  <td><a href="hosting_plan_update.php?{$LINK}={$ID}" class="icon i_details">{$TR_PURCHASE}</a></td>
+			  <td><a href="hosting_plan_update.php?{$LINK[i]}={$ID[i]}" class="icon i_details">{$TR_PURCHASE}</a></td>
 			</tr>
-			<!-- EDP: hosting_plans -->
+			{/section}
 		</table>
+		{/if}
 	</div>
 {include file='footer.tpl'}

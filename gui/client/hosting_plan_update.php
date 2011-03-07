@@ -427,16 +427,14 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 				$link_purchase .= '{TR_PURCHASE}</a>';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'HP_NAME'			=> tohtml($rs->fields['name']),
 					'HP_DESCRIPTION'	=> tohtml($rs->fields['description']),
 					'HP_DETAILS'		=> $details.$warning_text,
 					'HP_COSTS'			=> tohtml($price),
 					'ID'				=> $rs->fields['id'],
-					'TR_PURCHASE'		=> $purchase_text,
 					'LINK'				=> $purchase_link,
-					'TR_HOSTING_PLANS'	=> $hp_title,
 					'ITHEM'				=> ($i % 2 == 0) ? 'content' : 'content2',
 					'LINK_PURCHASE'		=> $link_purchase
 				)
@@ -463,6 +461,13 @@ function gen_hp(&$tpl, &$sql, $user_id) {
 			'notice'
 		);
 	}
+
+	$tpl->assign(
+		array(
+			'TR_HOSTING_PLANS'	=> $hp_title,
+			'TR_PURCHASE'		=> $purchase_text
+		)
+	);
 }
 
 /**
