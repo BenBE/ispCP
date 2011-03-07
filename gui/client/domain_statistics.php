@@ -38,9 +38,8 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_statistics.tpl';
 
 // dynamic page data.
-
-$current_month = date("m", time());
-$current_year = date("Y", time());
+$current_month = date('m');
+$current_year = date('Y');
 
 list($current_month, $current_year) = gen_page_post_data($tpl, $current_month, $current_year);
 gen_dmn_traff_list($tpl, $sql, $current_month, $current_year, $_SESSION['user_id']);
@@ -94,7 +93,7 @@ function gen_page_date(&$tpl, $month, $year) {
 	$cfg = ispCP_Registry::get('Config');
 
 	for ($i = 1; $i <= 12; $i++) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'MONTH_SELECTED' => ($i == $month) ? $cfg->HTML_SELECTED : '',
 				'MONTH' => $i
@@ -103,7 +102,7 @@ function gen_page_date(&$tpl, $month, $year) {
 	}
 
 	for ($i = $year - 1; $i <= $year + 1; $i++) {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'YEAR_SELECTED' => ($i == $year) ? $cfg->HTML_SELECTED : '',
 				'YEAR' => $i
@@ -225,7 +224,7 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 			$pop_trf,
 			$smtp_trf) = get_domain_trafic($ftm, $ltm, $domain_id);
 
-		$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+		$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 		$sum_web += $web_trf;
 		$sum_ftp += $ftp_trf;
@@ -234,7 +233,7 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 
 		$date_formt = $cfg->DATE_FORMAT;
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'DATE' => date($date_formt, strtotime($year . "-" . $month . "-" . $i)),
 				'WEB_TRAFFIC' => sizeit($web_trf),
@@ -252,8 +251,6 @@ function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
 		);
 		$tpl->assign(
 			array(
-				'MONTH' => $month,
-				'YEAR' => $year,
 				'DOMAIN_ID' => $domain_id,
 				'WEB_ALL' => sizeit($sum_web),
 				'FTP_ALL' => sizeit($sum_ftp),

@@ -31,15 +31,15 @@
 			<fieldset>
 				<label for="month">{$TR_MONTH}</label>
 				<select name="month" id="month">
-					<!-- BDP: month_item -->
-					<option {$MONTH_SELECTED}>{$MONTH}</option>
-					<!-- EDP: month_item -->
+					{section name=i loop=$MONTH}
+					<option {$MONTH_SELECTED[i]}>{$MONTH[i]}</option>
+					{/section}
 				</select>
 				<label for="year">{$TR_YEAR}</label>
 				<select name="year" id="year">
-					<!-- BDP: year_item -->
-					<option {$YEAR_SELECTED}>{$YEAR}</option>
-					<!-- EDP: year_item -->
+					{section name=i loop=$YEAR}
+					<option {$YEAR_SELECTED[i]}>{$YEAR[i]}</option>
+					{/section}
 				</select>
 				<input type="hidden" name="uaction" value="show_traff" />
 				<input type="submit" name="Submit" value="{$TR_SHOW}" />
@@ -68,16 +68,16 @@
 					</tr>
 				</tfoot>
 				<tbody>
-					<!-- BDP: traff_item -->
+					{section name=i loop=$DATE}
 						<tr>
-							<td>{$DATE}</td>
-							<td>{$WEB_TRAFF}</td>
-							<td>{$FTP_TRAFF}</td>
-							<td>{$SMTP_TRAFF}</td>
-							<td>{$POP_TRAFF}</td>
-							<td>{$SUM_TRAFF}</td>
+							<td>{$DATE[i]}</td>
+							<td>{$WEB_TRAFF[i]}</td>
+							<td>{$FTP_TRAFF[i]}</td>
+							<td>{$SMTP_TRAFF[i]}</td>
+							<td>{$POP_TRAFF[i]}</td>
+							<td>{$SUM_TRAFF[i]}</td>
 						</tr>
-					<!-- EDP: traff_item -->
+					{/section}
 				</tbody>
 			{/if}
 		</table>

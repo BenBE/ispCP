@@ -1428,10 +1428,9 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 	}
 
 	for($i = 1 ; $i <= 12 ; $i++) {
-		$selected = ($i == $crnt_month) ? $cfg->HTML_SELECTED : '';
 		$tpl->append(
 			array(
-				'MONTH_SELECTED' => $selected,
+				'MONTH_SELECTED' => ($i == $crnt_month) ? $cfg->HTML_SELECTED : '',
 				'MONTH_VALUE' => $i
 			)
 		);
@@ -1439,10 +1438,9 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 	}
 
 	for($i = $crnt_year - 1 ; $i <= $crnt_year + 1 ; $i++) {
-		$selected = ($i == $crnt_year) ? $cfg->HTML_SELECTED : '';
 		$tpl->append(
 			array(
-				'YEAR_SELECTED' => $selected,
+				'YEAR_SELECTED' => ($i == $crnt_year) ? $cfg->HTML_SELECTED : '',
 				'YEAR_VALUE' => $i
 			)
 		);
