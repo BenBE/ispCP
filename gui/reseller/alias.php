@@ -36,7 +36,7 @@ $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
 
-$template = 'domain_alias.tpl';
+$template = 'alias.tpl';
 
 // static page messages
 gen_logged_from($tpl);
@@ -362,7 +362,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 			$account_name_selected = '';
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'NAME'						=> tohtml($als_name),
 				'ALIAS_IP'					=> tohtml("$als_ip ($als_ip_name)"),

@@ -42,34 +42,34 @@ if (!is_xhr()) {
 	$reseller_id = $_SESSION['user_id'];
 
 	// static page messages
-	gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-	gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 	gen_logged_from($tpl);
 
 	$tpl->assign(
 		array(
-			'TR_PAGE_TITLE' => tr('ispCP Reseller: Add Alias'),
-			'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
-			'TR_ADD_ALIAS' => tr('Add domain alias'),
-			'TR_DOMAIN_NAME' => tr('Domain name'),
-			'TR_DOMAIN_ACCOUNT' => tr('User account'),
-			'TR_MOUNT_POINT' => tr('Directory mount point'),
-			'TR_DOMAIN_IP' => tr('Domain IP'),
-			'TR_FORWARD' => tr('Forward to URL'),
-			'TR_ADD' => tr('Add alias'),
-			'TR_DMN_HELP' => tr("You do not need 'www.' ispCP will add it on its own."),
-			'TR_JS_EMPTYDATA' => tr("Empty data or wrong field!"),
-			'TR_JS_WDNAME' => tr("Wrong domain name!"),
-			'TR_JS_MPOINTERROR' => tr("Please write mount point!"),
-			'TR_ENABLE_FWD' => tr("Enable Forward"),
-			'TR_ENABLE' => tr("Enable"),
-			'TR_DISABLE' => tr("Disable"),
-			'TR_PREFIX_HTTP' => 'http://',
-			'TR_PREFIX_HTTPS' => 'https://',
-			'TR_PREFIX_FTP' => 'ftp://'
+			'TR_PAGE_TITLE'			=> tr('ispCP Reseller: Add Alias'),
+			'TR_MANAGE_DOMAIN_ALIAS'=> tr('Manage domain alias'),
+			'TR_ADD_ALIAS'			=> tr('Add domain alias'),
+			'TR_DOMAIN_NAME'		=> tr('Domain name'),
+			'TR_DOMAIN_ACCOUNT'		=> tr('User account'),
+			'TR_MOUNT_POINT'		=> tr('Directory mount point'),
+			'TR_DOMAIN_IP'			=> tr('Domain IP'),
+			'TR_FORWARD'			=> tr('Forward to URL'),
+			'TR_ADD'				=> tr('Add alias'),
+			'TR_DMN_HELP'			=> tr("You do not need 'www.' ispCP will add it on its own."),
+			'TR_JS_EMPTYDATA'		=> tr("Empty data or wrong field!"),
+			'TR_JS_WDNAME'			=> tr("Wrong domain name!"),
+			'TR_JS_MPOINTERROR'		=> tr("Please write mount point!"),
+			'TR_ENABLE_FWD'			=> tr("Enable Forward"),
+			'TR_ENABLE'				=> tr("Enable"),
+			'TR_DISABLE'			=> tr("Disable"),
+			'TR_PREFIX_HTTP'		=> 'http://',
+			'TR_PREFIX_HTTPS'		=> 'https://',
+			'TR_PREFIX_FTP'			=> 'ftp://'
 		)
 	);
+
+	gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+	gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 	list(
 		$rdmn_current, $rdmn_max, $rsub_current, $rsub_max, $rals_current,
@@ -527,5 +527,4 @@ function gen_page_msg(&$tpl, $error_txt) {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
 } // End of gen_page_msg()
-
 ?>

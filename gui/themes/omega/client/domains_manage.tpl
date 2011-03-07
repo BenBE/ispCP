@@ -1,22 +1,22 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
+		{literal}
 		$(document).ready(function(){
 			// TableSorter - begin
 			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
+		{/literal}
 
 		function action_delete(url, subject) {
-			if (!confirm(sprintf("{TR_MESSAGE_DELETE}", subject)))
+			if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", subject)))
 				return false;
 			location = url;
 		}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -60,18 +60,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: als_item -->
+				{section name=i loop=$ALS_NAME}
 				<tr>
-					<td><a href="http://{$ALS_NAME}/" class="icon i_domain" title="{$ALS_NAME}">{$ALS_NAME}</a></td>
-					<td>{$ALS_MOUNT}</td>
-					<td>{$ALS_FORWARD}</td>
-					<td>{$ALS_STATUS}</td>
+					<td><a href="http://{$ALS_NAME[i]}/" class="icon i_domain" title="{$ALS_NAME[i]}">{$ALS_NAME[i]}</a></td>
+					<td>{$ALS_MOUNT[i]}</td>
+					<td>{$ALS_FORWARD[i]}</td>
+					<td>{$ALS_STATUS[i]}</td>
 					<td>
-						<a href="{$ALS_EDIT_LINK}" title="{$ALS_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$ALS_ACTION_SCRIPT}', '{$ALS_NAME}')" title="{$ALS_ACTION}" class="icon i_delete"></a>
+						<a href="{$ALS_EDIT_LINK[i]}" title="{$ALS_EDIT[i]}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$ALS_ACTION_SCRIPT[i]}', '{$ALS_NAME[i]}')" title="{$ALS_ACTION[i]}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: als_item -->
+				{/section}
 			</tbody>
 		</table>
 		{/if}

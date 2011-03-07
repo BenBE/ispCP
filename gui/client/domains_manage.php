@@ -140,9 +140,9 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 
 		while (!$rs->EOF) {
 			if ($counter % 2 == 0) {
-				$tpl->assign('ITEM_CLASS', 'content');
+				$tpl->append('ITEM_CLASS', 'content');
 			} else {
-				$tpl->assign('ITEM_CLASS', 'content2');
+				$tpl->append('ITEM_CLASS', 'content2');
 			}
 
 			list($dns_action_delete, $dns_action_script_delete) = gen_user_dns_action(
@@ -159,7 +159,7 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 			$sbd_name = $rs->fields['domain_dns'];
 			$sbd_data = $rs->fields['domain_text'];
 			$sbd_status = $rs->fields['domain_status'];
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DNS_DOMAIN'				=> tohtml($domain_name),
 					'DNS_NAME'					=> tohtml($sbd_name),
@@ -297,13 +297,13 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($sub_action, $sub_action_script) = gen_user_sub_action($rs->fields['subdomain_id'], $rs->fields['subdomain_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs->fields['subdomain_id'], $rs->fields['subdomain_status'], $rs->fields['subdomain_url_forward'], 'dmn');
 			$sbd_name = decode_idna($rs->fields['subdomain_name']);
 			$sub_forward = decode_idna($sub_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME'			=> tohtml($sbd_name),
 					'SUB_ALIAS_NAME'	=> tohtml($rs->fields['domain_name']),
@@ -320,13 +320,13 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 			$counter++;
 		}
 		while (!$rs2->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($sub_action, $sub_action_script) = gen_user_alssub_action($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status'], $rs2->fields['subdomain_alias_url_forward'], 'als');
 			$sbd_name = decode_idna($rs2->fields['subdomain_alias_name']);
 			$sub_forward = decode_idna($sub_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME'			=> tohtml($sbd_name),
 					'SUB_ALIAS_NAME'	=> tohtml($rs2->fields['alias_name']),
@@ -414,14 +414,14 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 	} else {
 		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
+			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($als_action, $als_action_script) = gen_user_als_action($rs->fields['alias_id'], $rs->fields['alias_status']);
 			list($als_forward, $alias_edit_link, $als_edit) = gen_user_als_forward($rs->fields['alias_id'], $rs->fields['alias_status'], $rs->fields['url_forward']);
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
 			$als_forward = decode_idna($als_forward);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_NAME'			=> tohtml($alias_name),
 					'ALS_MOUNT'			=> tohtml($rs->fields['alias_mount']),
