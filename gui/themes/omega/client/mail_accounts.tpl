@@ -1,11 +1,10 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
+			jQuery('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
 
@@ -16,7 +15,6 @@
 		}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -43,10 +41,11 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
-		<h2 class="email"><span>{$TR_MAIL_USERS}</span></h2>
 		{if isset($MAIL_MSG)}
 		<div class="{$MSG_TYPE}">{$MAIL_MSG}</div>
 		{/if}
+		{if isset($MAIL_ACC)}
+		<h2 class="email"><span>{$TR_MAIL_USERS}</span></h2>
 		<table class="tablesorter">
 			<thead>
 				<tr>
@@ -85,6 +84,7 @@
 				<!-- EDP: mail_item -->
 			</tbody>
 		</table>
+		{/if}
 		<form action="mail_accounts.php" method="post" id="showdefault">
 			<div class="buttons">
 				<input type="hidden" name="uaction" value="{$VL_DEFAULT_EMAILS_BUTTON}" />

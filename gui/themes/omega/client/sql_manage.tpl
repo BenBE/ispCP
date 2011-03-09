@@ -1,11 +1,10 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		$(document).ready(function(){
 			// Target - begin
-			$('#phpMyAdmin').attr('rel', 'external').attr('target', '_blank');
+			jQuery('#phpMyAdmin').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
 		});
 
@@ -16,7 +15,6 @@
 		}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

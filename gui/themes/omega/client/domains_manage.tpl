@@ -3,7 +3,7 @@
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		jQuery(document).ready(function(){
-			jQuery('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
+			jQuery('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
 		});
 
 		function action_delete(url, subject) {
