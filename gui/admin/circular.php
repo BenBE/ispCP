@@ -37,6 +37,43 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'circular.tpl';
 
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Admin - Email Marketing'),
+		'TR_CIRCULAR'				=> tr('Email marketing'),
+		'TR_CORE_DATA'				=> tr('Core data'),
+		'TR_SEND_TO'				=> tr('Send message to'),
+		'TR_ALL_USERS'				=> tr('All users'),
+		'TR_ALL_RESELLERS'			=> tr('All resellers'),
+		'TR_ALL_USERS_AND_RESELLERS'=> tr('All users & resellers'),
+		'TR_MESSAGE_SUBJECT'		=> tr('Message subject'),
+		'TR_MESSAGE_TEXT'			=> tr('Message'),
+		'TR_ADDITIONAL_DATA'		=> tr('Additional data'),
+		'TR_SENDER_EMAIL'			=> tr('Senders email'),
+		'TR_SENDER_NAME'			=> tr('Senders name'),
+		'TR_SEND_MESSAGE'			=> tr('Send message'),
+		'TR_SENDER_NAME'			=> tr('Senders name')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+send_circular($tpl, $sql);
+
+gen_page_data($tpl, $sql);
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
@@ -47,10 +84,10 @@ function gen_page_data(&$tpl, &$sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
 		$tpl->assign(
 			array(
-				'MESSAGE_SUBJECT' => clean_input($_POST['msg_subject'], true),
-				'MESSAGE_TEXT' => clean_input($_POST['msg_text'], true),
-				'SENDER_EMAIL' => clean_input($_POST['sender_email'], true),
-				'SENDER_NAME' => clean_input($_POST['sender_name'], true)
+				'MESSAGE_SUBJECT'	=> clean_input($_POST['msg_subject'], true),
+				'MESSAGE_TEXT'		=> clean_input($_POST['msg_text'], true),
+				'SENDER_EMAIL'		=> clean_input($_POST['sender_email'], true),
+				'SENDER_NAME'		=> clean_input($_POST['sender_name'], true)
 			)
 		);
 	} else {
@@ -81,10 +118,10 @@ function gen_page_data(&$tpl, &$sql) {
 
 		$tpl->assign(
 			array(
-				'MESSAGE_SUBJECT' => '',
-				'MESSAGE_TEXT' => '',
-				'SENDER_EMAIL' => tohtml($rs->fields['email']),
-				'SENDER_NAME' => tohtml($sender_name)
+				'MESSAGE_SUBJECT'	=> '',
+				'MESSAGE_TEXT'		=> '',
+				'SENDER_EMAIL'		=> tohtml($rs->fields['email']),
+				'SENDER_NAME'		=> tohtml($sender_name)
 			)
 		);
 	}
@@ -219,42 +256,4 @@ function send_circular_email($to, $from, $subject, $message) {
 
 	mail($to, $subject, $message, $headers);
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin - Email Marketing'),
-		'TR_CIRCULAR' => tr('Email marketing'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_SEND_TO' => tr('Send message to'),
-		'TR_ALL_USERS' => tr('All users'),
-		'TR_ALL_RESELLERS' => tr('All resellers'),
-		'TR_ALL_USERS_AND_RESELLERS' => tr('All users & resellers'),
-		'TR_MESSAGE_SUBJECT' => tr('Message subject'),
-		'TR_MESSAGE_TEXT' => tr('Message'),
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_SENDER_EMAIL' => tr('Senders email'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-		'TR_SEND_MESSAGE' => tr('Send message'),
-		'TR_SENDER_NAME' => tr('Senders name'),
-	)
-);
-
-send_circular($tpl, $sql);
-
-gen_page_data($tpl, $sql);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

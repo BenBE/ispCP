@@ -1307,7 +1307,6 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 				$alias_name = $alias_rs->fields['alias_name'];
 
 				$tpl->assign('ALIAS_DOMAIN', tohtml(decode_idna($alias_name)));
-				$tpl->parse('USER_DETAILS', '.user_details');
 
 				$alias_rs->moveNext();
 			}

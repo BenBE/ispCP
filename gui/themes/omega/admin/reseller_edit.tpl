@@ -1,4 +1,4 @@
-{include file='header_smarty.tpl'}
+{include file='header.tpl'}
 <body>
 	<script type="text/javascript">
 	/*<![CDATA[*/
@@ -9,27 +9,26 @@
 	gpwd=false;
 
 	$(document).ready(function(){
-		$(':password').each(
+		jQuery(':password').each(
 			function(i) {
 				// We ensure's the passwords fields are empty after on load because several
 				// browsers fill them with the cached password (eg. Gecko's based browsers)
-				$(this).val('').
+				jQuery(this).val('').
 				// Create text input field to display generated password on mouseover
 				mouseover(
 					function(){
 						if(gpwd){
 							// First, hide the password field
-							$(this).hide();
+							jQuery(this).hide();
 							// Now create the text input field
-							$('<input />').attr({ type:'text',name:'ipwd'+i }).
+							jQuery('<input />').attr({ type:'text',name:'ipwd'+i }).
 							css({ float:'left' }).
-							val($(this).val()).
+							val(jQuery(this).val()).
 							insertAfter('input[name=pass'+i+']').select().
 							// Create tooltip linked to the create text input field
 							ispCPtooltips({ msg:'{$TR_CTRL+C}'}).
 							// Restore input password field on mouseout
-							mouseout(function(){ $(this).remove();$(':password').show(); }
-							);
+							mouseout(function(){ jQuery(this).remove();jQuery(':password').show(); });
 						}
 					}
 				);
@@ -37,26 +36,29 @@
 		);
 
 		// Configure the request for password generation
-		$.ajaxSetup({
-			url: $(location).attr('pathname'),
+		jQuery.ajaxSetup({
+			url: jQuery(location).attr('pathname'),
 			type:'POST',
 			data:'edit_id={$EDIT_ID}&uaction=genpass',
 			datatype:'text',
 			beforeSend:function(xhr){ xhr.setRequestHeader('Accept','text/plain'); },
-			success:function(r){ $(':password').val(r).attr('readonly',true);gpwd=true; },
+			success:function(r){ jQuery(':password').val(r).attr('readonly',true);gpwd=true; },
 			error:ispCPajxError
 		});
 
 		// Adds event handler for the password generation button
-		$('input[name=genpass]').click(function(){ $.ajax(); }).attr('disabled',false);
+		jQuery('input[name=genpass]').click(function(){ jQuery.ajax(); }).attr('disabled',false);
 
 		// Adds event handler for the reset button
-		$('input[name=pwdreset]').click(
-			function(){gpwd=false;$(':password').val('').attr('readonly',false);}
+		jQuery('input[name=pwdreset]').click(
+			function(){
+				gpwd=false;
+				jQuery(':password').val('').attr('readonly',false);
+			}
 		);
 
 		// Disable the 'Enter' key to prevent multiples validation/updates process
-		$(':input').live('keypress',function(e){
+		jQuery(':input').live('keypress',function(e){
 			if(e.keyCode==13){ e.preventDefault();alert('{$TR_EVENT_NOTICE}');}
 		});
 	});
@@ -254,4 +256,4 @@
 			</div>
 		</form>
 	</div>
-{include file='footer_smarty.tpl'}
+{include file='footer.tpl'}

@@ -1,4 +1,4 @@
-{include file='header_smarty.tpl'}
+{include file='header.tpl'}
 <body>
 	<div class="header">
 		{include file="$MAIN_MENU"}
@@ -41,4 +41,4 @@
 			<!-- EDP: user_session -->
 		</table>
 	</div>
-{include file='footer_smarty.tpl'}
+{include file='footer.tpl'}

@@ -4,11 +4,11 @@
 	/* <![CDATA[ */
 		$(document).ready(function(){
 			// Target - begin
-			$('a.i_goto').attr('rel', 'external').attr('target', '_blank');
+			jQuery('a.i_goto').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
 
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({ 
+			jQuery('.tablesorter').tablesorter({
 				cssHeader: 'tablesorter',
 				sortList: [[1,2]],
 				headers: { 
@@ -104,19 +104,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: rsl_item -->
+				{section name=i loop=$RSL_USERNAME}
 				<tr>
 					<td>&nbsp;</td>
-					<td>{$RSL_USERNAME}</td>
-					<td>{$RESELLER_CREATED_ON}</td>
-					<td>{$RSL_CREATED_BY}</td>
+					<td>{$RSL_USERNAME[i]}</td>
+					<td>{$RESELLER_CREATED_ON[i]}</td>
+					<td>{$RSL_CREATED_BY[i]}</td>
 					<td>
-						<a href="{$URL_CHANGE_INTERFACE}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
-						<a href="{$URL_EDIT_RSL}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$URL_DELETE_RSL}', '{$RSL_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="{$URL_CHANGE_INTERFACE_RSL[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
+						<a href="{$URL_EDIT_RSL[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$URL_DELETE_RSL[i]}', '{$RSL_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: rsl_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: rsl_list -->

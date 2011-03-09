@@ -378,8 +378,6 @@ function gen_admin_list(&$tpl, &$sql) {
 				'ADMIN_LIST' => ''
 			)
 		);
-
-		$tpl->parse('ADMIN_MESSAGE', 'admin_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -420,7 +418,6 @@ function gen_admin_list(&$tpl, &$sql) {
 				$tpl->append(
 					array(
 						'ADMIN_DELETE_SHOW'	=> true,
-						'TR_DELETE'			=> tr('Delete'),
 						'URL_DELETE_ADMIN'	=> 'user_delete.php?delete_id=' . $rs->fields['admin_id'] . '&amp;delete_username=' . $rs->fields['admin_name']
 					)
 				);
@@ -475,49 +472,37 @@ function gen_reseller_list(&$tpl, &$sql) {
 				'RSL_LIST' => ''
 			)
 		);
-
-		$tpl->parse('RSL_MESSAGE', 'rsl_message');
 	} else {
 		$tpl->assign(
 			array(
 				'TR_RSL_USERNAME' => tr('Username'),
 				'TR_RSL_CREATED_BY' => tr('Created by'),
-				'TR_RSL_OPTIONS' => tr('Options')
+				'TR_RSL_OPTIONS' => tr('Options'),
+				'GO_TO_USER_INTERFACE' => tr('Switch')
 			)
 		);
 
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
 			if($rs->fields['created_by'] == '') {
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'TR_DELETE' => tr('Delete'),
 						'RSL_DELETE_LINK' => '',
 					)
 				);
-
-				$tpl->parse('RSL_DELETE_SHOW', 'rsl_delete_show');
 			} else {
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'RSL_DELETE_SHOW' => '',
-						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_RSL' => 'user_delete.php?delete_id=' .
-							$rs->fields['admin_id'] . '&amp;delete_username=' .
-								$rs->fields['admin_name'],
-						'TR_CHANGE_USER_INTERFACE' =>
-							tr('Switch to user interface'),
-								'GO_TO_USER_INTERFACE' => tr('Switch'),
-						'URL_CHANGE_INTERFACE' =>
-							'change_user_interface.php?to_id=' .
-								$rs->fields['admin_id']
+						'URL_DELETE_RSL' => 'user_delete.php?delete_id=' . $rs->fields['admin_id'] . '&amp;delete_username=' . $rs->fields['admin_name'],
+						'URL_CHANGE_INTERFACE_RSL' => 'change_user_interface.php?to_id=' . $rs->fields['admin_id']
 					)
 				);
 			}
@@ -531,13 +516,12 @@ function gen_reseller_list(&$tpl, &$sql) {
 				$reseller_created = date($date_formt, $reseller_created);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_USERNAME' => tohtml($rs->fields['admin_name']),
 					'RESELLER_CREATED_ON' => tohtml($reseller_created),
 					'RSL_CREATED_BY' => tohtml($rs->fields['created_by']),
-					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' .
-						$rs->fields['admin_id']
+					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' . $rs->fields['admin_id']
 				)
 			);
 
@@ -646,8 +630,6 @@ function gen_user_list(&$tpl, &$sql) {
 				)
 			);
 		}
-
-		$tpl->parse('USR_MESSAGE', 'usr_message');
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
@@ -682,10 +664,8 @@ function gen_user_list(&$tpl, &$sql) {
 				'TR_USR_OPTIONS' => tr('Options'),
 				'TR_USER_STATUS' => tr('Status'),
 				'TR_DETAILS' => tr('Details'),
-				'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
 				'TR_EDIT_DOMAIN' => tr('Edit domain'),
 				'TR_EDIT_USR' => tr('Edit user'),
-				'TR_DELETE' => tr('Delete'),
 				'GO_TO_USER_INTERFACE' => tr('Switch'),
 				'TR_MESSAGE_CHANGE_STATUS' =>
 						tr('Are you sure you want to change the status of domain account?', true),
@@ -816,16 +796,17 @@ function get_admin_manage_users(&$tpl, &$sql) {
 
 	$tpl->assign(
 		array(
-			'TR_MANAGE_USERS' => tr('Manage users'),
+			'TR_MANAGE_USERS'	=> tr('Manage users'),
 			'TR_ADMINISTRATORS' => tr('Administrators'),
-			'TR_RESELLERS' => tr('Resellers'),
-			'TR_USERS' => tr('Users'),
-			'TR_SEARCH' => tr('Search'),
-			'TR_CREATED_ON' => tr('Creation date'),
-			'TR_EXPIRES_ON' => tr('Expire date'),
-			'TR_MESSAGE_DELETE' =>
-				tr('Are you sure you want to delete %s?', true, '%s'),
-			'TR_EDIT' => tr("Edit")
+			'TR_RESELLERS'		=> tr('Resellers'),
+			'TR_USERS'			=> tr('Users'),
+			'TR_SEARCH'			=> tr('Search'),
+			'TR_CREATED_ON'		=> tr('Creation date'),
+			'TR_EXPIRES_ON'		=> tr('Expire date'),
+			'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+			'TR_EDIT'			=> tr('Edit'),
+			'TR_DELETE'			=> tr('Delete'),
+			'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface')
 		)
 	);
 
