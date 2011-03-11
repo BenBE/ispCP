@@ -87,18 +87,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: sub_item -->
+				{section name=i loop=$SUB_NAME}
 				<tr>
-					<td><a href="http://{$SUB_NAME}.{$SUB_ALIAS_NAME}/" title="{$SUB_NAME}.{$SUB_ALIAS_NAME}" class="icon i_domain">{$SUB_NAME}.{$SUB_ALIAS_NAME}</a></td>
-					<td>{$SUB_MOUNT}</td>
-					<td>{$SUB_FORWARD}</td>
-					<td>{$SUB_STATUS}</td>
+					<td><a href="http://{$SUB_NAME[i]}.{$SUB_ALIAS_NAME[i]}/" title="{$SUB_NAME[i]}.{$SUB_ALIAS_NAME[i]}" class="icon i_domain">{$SUB_NAME[i]}.{$SUB_ALIAS_NAME[i]}</a></td>
+					<td>{$SUB_MOUNT[i]}</td>
+					<td>{$SUB_FORWARD[i]}</td>
+					<td>{$SUB_STATUS[i]}</td>
 					<td>
-						<a href="{$SUB_EDIT_LINK}" title="{$SUB_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$SUB_ACTION_SCRIPT}', '{$SUB_NAME}')" class="icon i_delete"></a>
+						<a href="{$SUB_EDIT_LINK[i]}" title="{$SUB_EDIT[i]}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$SUB_ACTION_SCRIPT[i]}', '{$SUB_NAME[i]}')" title="{$SUB_ACTION[i]}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: sub_item -->
+				{/section}
 			</tbody>
 		</table>
 		{/if}

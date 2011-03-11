@@ -37,6 +37,54 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'error_edit.tpl';
 
+// dynamic page data.
+
+if (!isset($_GET['eid'])) {
+	set_page_message(tr('Server error - please choose error page'), 'error');
+	user_goto('error_pages.php');
+} else {
+	$eid = intval($_GET['eid']);
+}
+
+if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
+	gen_error_page_data($tpl, $sql, $_GET['eid']);
+} else {
+	$tpl->assign(
+		array(
+			'ERROR' => tr('Server error - please choose error page'),
+			'EID' => '0'
+		)
+	);
+}
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage Error Custom Pages'),
+		'TR_ERROR_EDIT_PAGE'	=> tr('Edit error page'),
+		'TR_SAVE'				=> tr('Save'),
+		'TR_CANCEL'				=> tr('Cancel'),
+		'EID'					=> $eid
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
@@ -59,52 +107,4 @@ function gen_error_page_data(&$tpl, &$sql, $eid) {
 	// No error page
 	$tpl->assign(array('ERROR' => ''));
 }
-
-// dynamic page data.
-
-if (!isset($_GET['eid'])) {
-	set_page_message(tr('Server error - please choose error page'), 'error');
-	user_goto('error_pages.php');
-} else {
-	$eid = intval($_GET['eid']);
-}
-
-if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
-	gen_error_page_data($tpl, $sql, $_GET['eid']);
-} else {
-	$tpl->assign(
-		array(
-			'ERROR' => tr('Server error - please choose error page'),
-			'EID' => '0'
-		)
-	);
-}
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage Error Custom Pages'),
-		'TR_ERROR_EDIT_PAGE'	=> tr('Edit error page'),
-		'TR_SAVE'				=> tr('Save'),
-		'TR_CANCEL'				=> tr('Cancel'),
-		'EID'					=> $eid
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

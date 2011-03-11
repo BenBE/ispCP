@@ -1,11 +1,10 @@
 {include file='header.tpl'}
 <body onload="begin_js();">
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Tooltips - begin
-			$('#fwd_help').ispCPtooltips({ msg:"{$TR_FWD_HELP}"});
+			jQuery('#fwd_help').ispCPtooltips({ msg:"{$TR_FWD_HELP}"});
 			// Tooltips - end
 		});
 
@@ -78,7 +77,6 @@
 	}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">

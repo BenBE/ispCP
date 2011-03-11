@@ -37,30 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'subdomain_edit.tpl';
 
-// static page messages
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Subdomain/Edit Subdomain'),
-		'TR_MANAGE_SUBDOMAIN'	=> tr('Manage subdomain'),
-		'TR_EDIT_SUBDOMAIN'		=> tr('Edit subdomain'),
-		'TR_SUBDOMAIN_NAME'		=> tr('Subdomain name'),
-		'TR_FORWARD'			=> tr('Forward to URL'),
-		'TR_MOUNT_POINT'		=> tr('Mount Point'),
-		'TR_MODIFY'				=> tr('Modify'),
-		'TR_CANCEL'				=> tr('Cancel'),
-		'TR_ENABLE_FWD'			=> tr('Enable Forward'),
-		'TR_ENABLE'				=> tr('Enable'),
-		'TR_DISABLE'			=> tr('Disable'),
-		'TR_PREFIX_HTTP'		=> 'http://',
-		'TR_PREFIX_HTTPS'		=> 'https://',
-		'TR_PREFIX_FTP'			=> 'ftp://'
-	)
-);
-
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
-
-gen_logged_from($tpl);
 // "Modify" button has been pressed
 if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 	if (isset($_GET['edit_id'])) {
@@ -103,6 +79,30 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 	$_SESSION['edit_ID'] = $editid;
 	$tpl->assign('PAGE_MESSAGE', '');
 }
+
+// static page messages
+gen_logged_from($tpl);
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Subdomain/Edit Subdomain'),
+		'TR_MANAGE_SUBDOMAIN'	=> tr('Manage subdomain'),
+		'TR_EDIT_SUBDOMAIN'		=> tr('Edit subdomain'),
+		'TR_SUBDOMAIN_NAME'		=> tr('Subdomain name'),
+		'TR_FORWARD'			=> tr('Forward to URL'),
+		'TR_MOUNT_POINT'		=> tr('Mount Point'),
+		'TR_MODIFY'				=> tr('Modify'),
+		'TR_CANCEL'				=> tr('Cancel'),
+		'TR_ENABLE_FWD'			=> tr('Enable Forward'),
+		'TR_ENABLE'				=> tr('Enable'),
+		'TR_DISABLE'			=> tr('Disable'),
+		'TR_PREFIX_HTTP'		=> 'http://',
+		'TR_PREFIX_HTTPS'		=> 'https://',
+		'TR_PREFIX_FTP'			=> 'ftp://'
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+gen_client_menu($tpl, 'menu_manage_domains.tpl');
 
 gen_editsubdomain_page($tpl, $sql, $editid, $dmntype);
 

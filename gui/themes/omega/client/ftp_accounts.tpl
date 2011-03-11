@@ -1,22 +1,20 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		$(document).ready(function(){
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
 
 		function action_delete(url, subject) {
-			if (!confirm(sprintf("{TR_MESSAGE_DELETE}", subject)))
+			if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", subject)))
 				return false;
 			location = url;
 		}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -46,6 +44,7 @@
 		{if isset($FTP_MSG)}
 		<div class="{$MSG_TYPE}">{$FTP_MSG}</div>
 		{/if}
+		{if isset($FTP_ACCOUNT)}
 		<h2 class="ftp"><span>{$TR_FTP_USERS}</span></h2>
 		<table class="tablesorter">
 			<thead>
@@ -62,16 +61,17 @@
 			</tfoot>
 			{/if}
 			<tbody>
-				<!-- BDP: ftp_item -->
+				{section name=i loop=$FTP_ACCOUNT}
 				<tr>
-					<td>{$FTP_ACCOUNT}</td>
+					<td>{$FTP_ACCOUNT[i]}</td>
 					<td>
-						<a href="ftp_edit.php?id={$UID}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('ftp_delete.php?id={$UID}', '{$FTP_ACCOUNT}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="ftp_edit.php?id={$UID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('ftp_delete.php?id={$UID[i]}', '{$FTP_ACCOUNT[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: ftp_item -->
+				{/section}
 			</tbody>
 		</table>
+		{/if}
 	</div>
 {include file='footer.tpl'}

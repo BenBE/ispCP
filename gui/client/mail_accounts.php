@@ -144,7 +144,7 @@ function gen_user_mail_auto_respond(
 
 	if ($mail_status === $cfg->ITEM_OK_STATUS) {
 		if ($mail_auto_respond == false) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Enable'),
 
@@ -157,7 +157,7 @@ function gen_user_mail_auto_respond(
 				)
 			);
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Disable'),
 
@@ -174,7 +174,7 @@ function gen_user_mail_auto_respond(
 			);
 		}
 	} else {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'AUTO_RESPOND_DISABLE' => tr('Please wait for update'),
 				'AUTO_RESPOND_DISABLE_SCRIPT' => '',
@@ -247,7 +247,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 
 		while (!$rs->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -281,7 +281,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_dmn_name),
 					'MAIL_TYPE' => $mail_type,
@@ -373,7 +373,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -407,7 +407,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' =>
 						tohtml($mail_acc.'@'.$show_sub_name.'.'.$show_dmn_name),
@@ -507,7 +507,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -536,7 +536,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_alssub_name),
 					'MAIL_TYPE' => $mail_type,
@@ -627,7 +627,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 		global $counter;
 
 		while (!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				'ITEM_CLASS',
 				($counter % 2 == 0) ? 'content' : 'content2'
 			);
@@ -659,7 +659,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_als_name),
 					'MAIL_TYPE' => $mail_type,

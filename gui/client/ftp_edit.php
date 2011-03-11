@@ -45,6 +45,59 @@ if (isset($_GET['id'])) {
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'ftp_edit.tpl';
 
+// dynamic page data.
+
+$query = "
+	SELECT
+		`domain_name`
+	FROM
+		`domain`
+	WHERE
+		`domain_admin_id` = ?
+";
+
+$rs = exec_query($sql, $query, $_SESSION['user_id']);
+
+$dmn_name = $rs->fields['domain_name'];
+
+check_ftp_perms($sql, $ftp_acc);
+gen_page_dynamic_data($tpl, $sql, $ftp_acc);
+update_ftp_account($sql, $ftp_acc, $dmn_name);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Edit FTP Account'),
+		'TR_EDIT_FTP_USER' 		=> tr('Edit FTP user'),
+		'TR_FTP_ACCOUNT' 		=> tr('FTP account'),
+		'TR_PASSWORD' 			=> tr('Password'),
+		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
+		'TR_USE_OTHER_DIR' 		=> tr('Use other dir'),
+		'TR_EDIT' 				=> tr('Save changes'),
+		'CHOOSE_DIR' 			=> tr('Choose dir'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'			=> tr('Demo Version!')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_ftp_accounts.tpl');
+gen_client_menu($tpl, 'menu_ftp_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
 /**
@@ -221,57 +274,4 @@ function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
 		}
 	}
 }
-
-// dynamic page data.
-
-
-$query = "
-	SELECT
-		`domain_name`
-	FROM
-		`domain`
-	WHERE
-		`domain_admin_id` = ?
-";
-
-$rs = exec_query($sql, $query, $_SESSION['user_id']);
-
-$dmn_name = $rs->fields['domain_name'];
-
-check_ftp_perms($sql, $ftp_acc);
-gen_page_dynamic_data($tpl, $sql, $ftp_acc);
-update_ftp_account($sql, $ftp_acc, $dmn_name);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_ftp_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_ftp_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Edit FTP Account'),
-		'TR_EDIT_FTP_USER' 		=> tr('Edit FTP user'),
-		'TR_FTP_ACCOUNT' 		=> tr('FTP account'),
-		'TR_PASSWORD' 			=> tr('Password'),
-		'TR_PASSWORD_REPEAT' 	=> tr('Repeat password'),
-		'TR_USE_OTHER_DIR' 		=> tr('Use other dir'),
-		'TR_EDIT' 				=> tr('Save changes'),
-		'CHOOSE_DIR' 			=> tr('Choose dir'),
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
-		'DEMO_VERSION'			=> tr('Demo Version!')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>
