@@ -43,6 +43,8 @@ if (isset($cfg->HOSTING_PLANS_LEVEL)
 }
 
 // static page messages
+gen_logged_from($tpl);
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE'			=> tr('ispCP - Domain/Edit'),
@@ -96,10 +98,8 @@ $tpl->assign(
 	)
 );
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 gen_page_message($tpl);
 
@@ -133,6 +133,13 @@ if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
 }
 
 gen_editdomain_page($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
 
 // Begin function block
 
@@ -721,12 +728,4 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 		}
 	}
 } // End of calculate_user_dvals()
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
-
 ?>

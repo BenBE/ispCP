@@ -43,14 +43,11 @@ if (isset($_GET['edit_id'])) {
 }
 
 $tpl = ispCP_TemplateEngine::getInstance();
-
 $template = 'user_edit.tpl';
 
-/*
- *
- * static page messages.
- *
- */
+// static page messages
+gen_logged_from($tpl);
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE'			=> tr('ispCP - Users/Edit'),
@@ -81,6 +78,15 @@ $tpl->assign(
 		'TR_UNKNOWN'			=> tr('Unknown'),
 		'EDIT_ID'				=> $edit_id,
 		'TR_BTN_ADD_USER'		=> tr('Submit changes'),
+		'TR_MANAGE_USERS'		=> tr('Manage users'),
+		'TR_USERS'				=> tr('Users'),
+		'TR_NO'					=> tr('No.'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_BACK'				=> tr('Back'),
+		'TR_TITLE_BACK'			=> tr('Return to previous menu'),
+		'TR_TABLE_NAME'			=> tr('Users list'),
+		'TR_SEND_DATA'			=> tr('Send new login data'),
+		'TR_PASSWORD_GENERATE'	=> tr('Generate password'),
 
 		// The entries below are for Demo versions only
 		'PASSWORD_DISABLED'		=> tr('Password change is deactivated!'),
@@ -88,25 +94,8 @@ $tpl->assign(
 	)
 );
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_MANAGE_USERS'		=> tr('Manage users'),
-		'TR_USERS'				=> tr('Users'),
-		'TR_NO'					=> tr('No.'),
-		'TR_USERNAME'			=> tr('Username'),
-		'TR_ACTION'				=> tr('Action'),
-		'TR_BACK'				=> tr('Back'),
-		'TR_TITLE_BACK'			=> tr('Return to previous menu'),
-		'TR_TABLE_NAME'			=> tr('Users list'),
-		'TR_SEND_DATA'			=> tr('Send new login data'),
-		'TR_PASSWORD_GENERATE'	=> tr('Generate password')
-	)
-);
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 if (isset($_POST['genpass'])) {
 	$tpl->assign('VAL_PASSWORD', passgen());

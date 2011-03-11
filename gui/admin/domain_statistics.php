@@ -43,16 +43,14 @@ if (isset($_POST['domain_id'])) {
 	$domain_id = $_GET['domain_id'];
 }
 
-$year = 0;
-$month = 0;
+$month = date('m');
+$year = date('Y');
 
 if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = $_POST['year'];
-
 	$month = $_POST['month'];
 } else if (isset($_GET['month']) && isset($_GET['year'])) {
 	$month = $_GET['month'];
-
 	$year = $_GET['year'];
 }
 

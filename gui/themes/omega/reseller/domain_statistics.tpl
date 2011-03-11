@@ -33,22 +33,21 @@
 			<fieldset>
 				<label for="month">{$TR_MONTH}</label>
 				<select name="month" id="month">
-					<!-- BDP: month_list -->
-					 <option {$OPTION_SELECTED}>{$MONTH_VALUE}</option>
-					<!-- EDP: month_list -->
+					{section name=i loop=$MONTH_VALUE}
+					<option {$MONTH_SELECTED[i]}>{$MONTH_VALUE[i]}</option>
+					{/section}
 				</select>
 				<label for="year">{$TR_YEAR}</label>
 				<select name="year" id="year">
-					<!-- BDP: year_list -->
-					 <option {$OPTION_SELECTED}>{$YEAR_VALUE}</option>
-					<!-- EDP: year_list -->
+					{section name=i loop=$YEAR_VALUE}
+					<option {$YEAR_SELECTED[i]}>{$YEAR_VALUE[i]}</option>
+					{/section}
 				</select>
 				<input type="hidden" name="domain_id" value="{$DOMAIN_ID}" />
 				<input type="hidden" name="uaction" value="show_traff" />
 				<input type="submit" name="Submit" value="{$TR_SHOW}" />
 			</fieldset>
 		</form>
-		<!--  BDP: traffic_table  -->
 		<table>
 			<thead>
 				<tr>
@@ -71,18 +70,17 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<!-- BDP: traffic_table_item -->
+				{section name=i loop=$DATE}
 				<tr>
-					<td>{$DATE}</td>
-					<td>{$WEB_TRAFFIC}</td>
-					<td>{$FTP_TRAFFIC}</td>
-					<td>{$SMTP_TRAFFIC}</td>
-					<td>{$POP3_TRAFFIC}</td>
-					<td>{$ALL_TRAFFIC}</td>
+					<td>{$DATE[i]}</td>
+					<td>{$WEB_TRAFFIC[i]}</td>
+					<td>{$FTP_TRAFFIC[i]}</td>
+					<td>{$SMTP_TRAFFIC[i]}</td>
+					<td>{$POP3_TRAFFIC[i]}</td>
+					<td>{$ALL_TRAFFIC[i]}</td>
 				</tr>
-				<!-- EDP: traffic_table_item -->
+				{/section}
 			</tbody>
 		</table>
-		<!--  EDP: traffic_table  -->
 	</div>
 {include file='footer.tpl'}

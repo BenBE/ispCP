@@ -37,7 +37,13 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_details.tpl';
 
+if (isset($cfg->HOSTING_PLANS_LEVEL) && $cfg->HOSTING_PLANS_LEVEL === 'admin') {
+	$tpl->assign('EDIT_OPTION', '');
+}
+
 // static page messages
+gen_logged_from($tpl);
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE'			=> tr('ispCP - Domain/Details'),
@@ -63,19 +69,12 @@ $tpl->assign(
 		'TR_DOMALIAS_ACCOUNTS'	=> tr('Domain aliases'),
 		'TR_UPDATE_DATA'		=> tr('Submit changes'),
 		'TR_BACK'				=> tr('Back'),
-		'TR_EDIT'				=> tr('Edit'),
+		'TR_EDIT'				=> tr('Edit')
 	)
 );
 
-if (isset($cfg->HOSTING_PLANS_LEVEL)
-	&& $cfg->HOSTING_PLANS_LEVEL === 'admin') {
-	$tpl->assign('EDIT_OPTION', '');
-}
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 gen_page_message($tpl);
 // Get user id that comes for manage domain
