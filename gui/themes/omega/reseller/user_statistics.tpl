@@ -26,20 +26,21 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
+		{if isset($DOMAIN_NAME)}
 		<h2 class="stats"><span>{$TR_RESELLER_USER_STATISTICS}</span></h2>
 		<form action="user_statistics.php?psi={$POST_PREV_PSI}" method="post" id="reseller_user_statistics">
 			<fieldset>
 				<label for="month">{$TR_MONTH}</label>
 				<select name="month" id="month">
-					<!-- BDP: month_list -->
-					<option {$OPTION_SELECTED}>{$MONTH_VALUE}</option>
-					<!-- EDP: month_list -->
+					{section name=i loop=$MONTH_VALUE}
+					<option {$MONTH_SELECTED[i]}>{$MONTH_VALUE[i]}</option>
+					{/section}
 				</select>
 				<label for="year">{$TR_YEAR}</label>
 				<select name="year" id="year">
-					<!-- BDP: year_list -->
-					<option {$OPTION_SELECTED}>{$YEAR_VALUE}</option>
-					<!-- EDP: year_list -->
+					{section name=i loop=$YEAR_VALUE}
+					<option {$YEAR_SELECTED[i]}>{$YEAR_VALUE[i]}</option>
+					{/section}
 				</select>
 				<input type="hidden" name="name" value="{$VALUE_NAME}" />
 				<input type="hidden" name="rid" value="{$VALUE_RID}" />
@@ -47,9 +48,6 @@
 				<input type="submit" name="Submit" value="{$TR_SHOW}" />
 			</fieldset>
 		</form>
-		<!-- BDP: no_domains -->
-		<div class="{$MSG_TYPE}">{$TR_NO_DOMAINS}</div>
-		<!-- EDP: no_domains -->
 		{if isset($TRAFF_PERCENT)}
 		<table>
 			<thead>
@@ -70,23 +68,23 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: domain_entry -->
+				{section name=i loop=$DOMAIN_NAME}
 				<tr>
-					<td><a href="domain_statistics.php?month={$MONTH}&amp;year={$YEAR}&amp;domain_id={$DOMAIN_ID}" class="icon i_domain">{$DOMAIN_NAME}</a></td>
-					<td><div class="graph"><span style="width: {$TRAFF_PERCENT}%">&nbsp;</span><strong>{$TRAFF_SHOW_PERCENT}&nbsp;%</strong></div>{$TRAFF_MSG}</td>
-					<td><div class="graph"><span style="width: {$DISK_PERCENT}%">&nbsp;</span><strong>{$DISK_SHOW_PERCENT}&nbsp;%</strong></div>{$DISK_MSG}</td>
-					<td>{$WEB}</td>
-					<td>{$FTP}</td>
-					<td>{$SMTP}</td>
-					<td>{$POP3}</td>
-					<td>{$SUB_MSG}</td>
-					<td>{$ALS_MSG}</td>
-					<td>{$MAIL_MSG}</td>
-					<td>{$FTP_MSG}</td>
-					<td>{$SQL_DB_MSG}</td>
-					<td>{$SQL_USER_MSG}</td>
+					<td><a href="domain_statistics.php?month={$MONTH[i]}&amp;year={$YEAR[i]}&amp;domain_id={$DOMAIN_ID[i]}" class="icon i_domain">{$DOMAIN_NAME[i]}</a></td>
+					<td><div class="graph"><span style="width: {$TRAFF_PERCENT[i]}%">&nbsp;</span><strong>{$TRAFF_SHOW_PERCENT[i]}&nbsp;%</strong></div>{$TRAFF_MSG[i]}</td>
+					<td><div class="graph"><span style="width: {$DISK_PERCENT[i]}%">&nbsp;</span><strong>{$DISK_SHOW_PERCENT[i]}&nbsp;%</strong></div>{$DISK_MSG[i]}</td>
+					<td>{$WEB[i]}</td>
+					<td>{$FTP[i]}</td>
+					<td>{$SMTP[i]}</td>
+					<td>{$POP3[i]}</td>
+					<td>{$SUB_MSG[i]}</td>
+					<td>{$ALS_MSG[i]}</td>
+					<td>{$MAIL_MSG[i]}</td>
+					<td>{$FTP_MSG[i]}</td>
+					<td>{$SQL_DB_MSG[i]}</td>
+					<td>{$SQL_USER_MSG[i]}</td>
 				</tr>
-				<!-- EDP: domain_entry -->
+				{/section}
 			</tbody>
 		</table>
 		<div class="paginator">
@@ -103,6 +101,9 @@
 			<a href="user_statistics.php?psi={$PREV_PSI}&amp;month={$MONTH}&amp;year={$YEAR}" title="previous" class="icon i_prev">previous</a>
 			{/if}
 		</div>
+		{/if}
+		{else}
+		<div class="{$MSG_TYPE}">{$TR_NO_DOMAINS}</div>
 		{/if}
 	</div>
 {include file='footer.tpl'}

@@ -35,10 +35,13 @@ check_login(__FILE__);
 $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
-$template = 'reseller_user_statistics.tpl';
+$template = 'user_statistics.tpl';
 
 $rid = $_SESSION['user_id'];
 $name = $_SESSION['user_logged'];
+
+$month = date('m');
+$year = date('Y');
 
 if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = intval($_POST['year']);
@@ -46,9 +49,6 @@ if (isset($_POST['month']) && isset($_POST['year'])) {
 } else if (isset($_GET['month']) && isset($_GET['year'])) {
 	$month = intval($_GET['month']);
 	$year = intval($_GET['year']);
-} else {
-	$month = date("m");
-	$year = date("Y");
 }
 
 if (!is_numeric($rid) || !is_numeric($month) || !is_numeric($year)) {
@@ -262,11 +262,9 @@ function generate_domain_entry(&$tpl, $user_id, $row) {
 		$disk_percent = 0;
 	}
 
-	$tpl->assign(array('ITEM_CLASS' => ($row % 2 == 0) ? 'content' : 'content2'));
-
 	$domain_name = decode_idna($domain_name);
 
-	$tpl->assign(
+	$tpl->append(
 		array(
 			'DOMAIN_NAME' => tohtml($domain_name),
 			'MONTH' => $crnt_month,
