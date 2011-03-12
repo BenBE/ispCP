@@ -31,43 +31,43 @@
 		<h2 class="domains"><span>{$TR_DELETE_DOMAIN} - {$DOMAIN_NAME}</span></h2>
 		<fieldset>
 		<legend>{$TR_DOMAIN_SUMMARY}</legend>
-			<!-- BDP: mail_list -->
+			{if isset($MAIL_ADDR)}
 			<table>
 				<tr>
 					<th colspan="2">{$TR_DOMAIN_EMAILS}</th>
 				</tr>
-				<!-- BDP: mail_item -->
+				{section name=i loop=$MAIL_ADDR}
 				<tr>
-					<td style="width: 350px;">{$MAIL_ADDR}</td>
-					<td>{$MAIL_TYPE}</td>
+					<td style="width: 350px;">{$MAIL_ADDR[i]}</td>
+					<td>{$MAIL_TYPE[i]}</td>
 				</tr>
-				<!-- EDP: mail_item -->
+				{/section}
 			</table>
-			<!-- EDP: mail_list -->
-			<!-- BDP: ftp_list -->
+			{/if}
+			{if isset($FTP_USER)}
 			<table>
 				<tr>
 					<th colspan="2">{$TR_DOMAIN_FTPS}</th>
 				</tr>
-				<!-- BDP: ftp_item -->
+				{section name=i loop=$FTP_USER}
 				<tr>
-					<td style="width: 350px;">{$FTP_USER}</td>
-					<td>{$FTP_HOME}</td>
+					<td style="width: 350px;">{$FTP_USER[i]}</td>
+					<td>{$FTP_HOME[i]}</td>
 				</tr>
-				<!-- EDP: ftp_item -->
+				{/section}
 			</table>
-			<!-- EDP: ftp_list -->
+			{/if}
 			{if isset($ALS_NAME)}
 			<table>
 				<tr>
 					<th colspan="2">{$TR_DOMAIN_ALIASES}</th>
 				</tr>
-				<!-- BDP: als_item -->
+				{section name=i loop=$ALS_NAME}
 				<tr>
-					<td style="width: 350px;">{$ALS_NAME}</td>
-					<td>{$ALS_MNT}</td>
+					<td style="width: 350px;">{$ALS_NAME[i]}</td>
+					<td>{$ALS_MNT[i]}</td>
 				</tr>
-				<!-- EDP: als_item -->
+				{/section}
 			</table>
 			{/if}
 			{if isset($SUB_NAME)}
@@ -75,27 +75,27 @@
 				<tr>
 					<th colspan="2">{$TR_DOMAIN_SUBS}</th>
 				</tr>
-				<!-- BDP: sub_item -->
+				{section name=i loop=$SUB_NAME}
 				<tr>
 					<td style="width: 350px;">{$SUB_NAME}</td>
 					<td>{$SUB_MNT}</td>
 				</tr>
-				<!-- EDP: sub_item -->
+				{/section}
 			</table>
 			{/if}
-			<!-- BDP: db_list -->
+			{if isset($DB_NAME)}
 			<table>
 				<tr>
 					<th colspan="2">{$TR_DOMAIN_DBS}</th>
 				</tr>
-				<!-- BDP: db_item -->
+				{section name=i loop=$DB_NAME}
 				<tr>
 					<td style="width: 350px;">{$DB_NAME}</td>
 					<td>{$DB_USERS}</td>
 				</tr>
-				<!-- EDP: db_item -->
+				{/section}
 			</table>
-			<!-- EDP: db_list -->
+			{/if}
 			<form action="domain_delete.php" method="post" id="reseller_delete_domain">
 				<div class="buttons">
 					<input type="hidden" name="domain_id" value="{$DOMAIN_ID}" />
