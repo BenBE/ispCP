@@ -175,6 +175,7 @@ function gen_hp_table(&$tpl, $reseller_id) {
 		$coid = isset($cfg->CUSTOM_ORDERPANEL_ID)
 			? $cfg->CUSTOM_ORDERPANEL_ID
 			: '';
+		$i = 1;
 
 		while ($data = $rs->fetchRow()) {
 			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');

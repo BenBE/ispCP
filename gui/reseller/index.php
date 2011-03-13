@@ -37,7 +37,21 @@ check_login(__FILE__, $cfg->PREVENT_EXTERNAL_LOGIN_RESELLER);
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'index.tpl';
 
-// static page messages.
+// dynamic page data
+
+generate_page_data($tpl, $_SESSION['user_id'], $_SESSION['user_logged']);
+
+// Makes sure that the language selected is the reseller's language
+if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
+	list($user_def_lang, $user_def_layout) = get_user_gui_props($sql, $_SESSION['user_id']);
+} else {
+	$user_def_layout = $_SESSION['user_theme'];
+	$user_def_lang = $_SESSION['user_def_lang'];
+}
+
+// static page messages
+gen_logged_from($tpl);
+
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE' => tr('ispCP - Reseller/Main Index'),
@@ -52,28 +66,14 @@ $tpl->assign(
 	)
 );
 
-// dynamic page data.
-
-generate_page_data($tpl, $_SESSION['user_id'], $_SESSION['user_logged']);
-
-// Makes sure that the language selected is the reseller's language
-if (!isset($_SESSION['logged_from']) && !isset($_SESSION['logged_from_id'])) {
-	list($user_def_lang, $user_def_layout) = get_user_gui_props($sql, $_SESSION['user_id']);
-} else {
-	$user_def_layout = $_SESSION['user_theme'];
-	$user_def_lang = $_SESSION['user_def_lang'];
-}
+gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_reseller_menu($tpl, 'menu_general_information.tpl');
 
 gen_messages_table($tpl, $_SESSION['user_id']);
-
-gen_logged_from($tpl);
 
 gen_def_language($tpl, $sql, $user_def_lang);
 
 gen_def_layout($tpl, $user_def_layout);
-
-gen_reseller_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_reseller_menu($tpl, 'menu_general_information.tpl');
 
 gen_system_message($tpl, $sql);
 
@@ -87,7 +87,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 unset_messages();
 
-// page functions.
+// page functions
 
 /**
  * @param ispCP_TemplateEngine $tpl

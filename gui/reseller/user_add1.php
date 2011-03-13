@@ -297,11 +297,11 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 	if (0 !== $rs->rowCount()) { // There are data
 		while (($data = $rs->fetchRow())) {
 			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
-			$tpl->assign(
+			$tpl->append(
 					array(
-						'HP_NAME'			=> tohtml($data['name']),
-						'CHN'				=> $data['id'],
-						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
+						'HP_NAME'	=> tohtml($data['name']),
+						'CHN'		=> $data['id'],
+						'CH_SEL'	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
 					)
 			);
 

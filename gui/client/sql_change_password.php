@@ -45,7 +45,49 @@ if (isset($_GET['id'])) {
 	user_goto('sql_manage.php');
 }
 
-// page functions.
+// common page data
+
+if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
+	user_goto('index.php');
+}
+
+// dynamic page data
+$db_user_name = gen_page_data($tpl, $sql, $db_user_id);
+check_usr_sql_perms($sql, $db_user_id);
+change_sql_user_pass($sql, $db_user_id, $db_user_name);
+
+// static page messages
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Change SQL User Password'),
+		'TR_CHANGE_SQL_USER_PASSWORD' 	=> tr('Change SQL user password'),
+		'TR_USER_NAME' 					=> tr('User name'),
+		'TR_PASS' 						=> tr('Password'),
+		'TR_PASS_REP' 					=> tr('Repeat password'),
+		'TR_CHANGE' 					=> tr('Change'),
+		// The entries below are for Demo versions only
+		'PASSWORD_DISABLED'				=> tr('Password change is deactivated!'),
+		'DEMO_VERSION'					=> tr('Demo Version!')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_manage_sql.tpl');
+gen_client_menu($tpl, 'menu_manage_sql.tpl');
+
+gen_page_message($tpl);
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
+// page functions
 function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -152,46 +194,4 @@ function gen_page_data(&$tpl, &$sql, $db_user_id) {
 	);
 	return $rs->fields['sqlu_name'];
 }
-
-// common page data.
-
-if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
-	user_goto('index.php');
-}
-
-
-// dynamic page data.
-$db_user_name = gen_page_data($tpl, $sql, $db_user_id);
-check_usr_sql_perms($sql, $db_user_id);
-change_sql_user_pass($sql, $db_user_id, $db_user_name);
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_sql.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_sql.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Change SQL User Password'),
-		'TR_CHANGE_SQL_USER_PASSWORD' 	=> tr('Change SQL user password'),
-		'TR_USER_NAME' 					=> tr('User name'),
-		'TR_PASS' 						=> tr('Password'),
-		'TR_PASS_REP' 					=> tr('Repeat password'),
-		'TR_CHANGE' 					=> tr('Change'),
-		// The entries below are for Demo versions only
-		'PASSWORD_DISABLED'				=> tr('Password change is deactivated!'),
-		'DEMO_VERSION'					=> tr('Demo Version!')
-	)
-);
-
-gen_page_message($tpl);
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

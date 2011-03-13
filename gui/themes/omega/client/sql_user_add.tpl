@@ -29,7 +29,7 @@
 		{/if}
 		<h2 class="sql"><span>{$TR_ADD_SQL_USER}</span></h2>
 		<form action="sql_user_add.php" method="post" id="client_sql_user_add">
-			<!-- BDP: show_sqluser_list -->
+			{if isset($SHOW_SQLUSER_LIST)}
 			<fieldset>
 				<legend>{$TR_ADD_EXIST}</legend>
 				<table>
@@ -37,19 +37,21 @@
 						<td>{$TR_SQL_USER_NAME}</td>
 						<td>
 							<select name="sqluser_id" id="sqluser_id">
-								<!-- BDP: sqluser_list -->
-								<option value="{$SQLUSER_ID}" {$SQLUSER_SELECTED}>{$SQLUSER_NAME}</option>
-								<!-- EDP: sqluser_list -->
+								{section name=i loop=$SQLUSER_ID}
+								<option value="{$SQLUSER_ID[i]}" {$SQLUSER_SELECTED[i]}>{$SQLUSER_NAME[i]}</option>
+								{/section}
 							</select>
 						</td>
 					</tr>
 				</table>
 				<div class="buttons">
+					<input type="hidden" name="id" value="{$ID}" />
+					<input type="hidden" name="uaction" value="add_user" />
 					<input name="Add_Exist" type="submit" id="Add_Exist" value="{$TR_ADD_EXIST}" />
 				</div>
 			</fieldset>
-			<!-- EDP: show_sqluser_list -->
-			<!-- BDP: create_sqluser -->
+			{/if}
+			{if isset($CREATE_SQLUSER)}
 			<fieldset>
 				<legend>{$TR_ADD_SQL_USER}</legend>
 				<table>
@@ -59,25 +61,25 @@
 					</tr>
 					<tr>
 						<td>
-							<!-- BDP: mysql_prefix_yes -->
+							{if isset($MYSQL_PREFIX_YES)}
 							<input type="checkbox" name="use_dmn_id" {$USE_DMN_ID} />
-							<!-- EDP: mysql_prefix_yes -->
-							<!-- BDP: mysql_prefix_no -->
+							{/if}
+							{if isset($MYSQL_PREFIX_NO)}
 							<input type="hidden" name="use_dmn_id" value="on" />
-							<!-- EDP: mysql_prefix_no -->
+							{/if}
 							{$TR_USE_DMN_ID}
 						</td>
 						<td>
-							<!-- BDP: mysql_prefix_all -->
+							{if isset($MYSQL_PREFIX_ALL)}
 							<input type="radio" name="id_pos" value="start" {$START_ID_POS_CHECKED} />&nbsp;{$TR_START_ID_POS}<br />
 							<input type="radio" name="id_pos" value="end" {$END_ID_POS_CHECKED} />&nbsp;{$TR_END_ID_POS}
-							<!-- EDP: mysql_prefix_all -->
-							<!-- BDP: mysql_prefix_infront -->
+							{/if}
+							{if isset($MYSQL_PREFIX_INFRONT)}
 							<input type="hidden" name="id_pos" value="start" checked="checked" />&nbsp;{$TR_START_ID_POS}
-							<!-- EDP: mysql_prefix_infront -->
-							<!-- BDP: mysql_prefix_behind -->
+							{/if}
+							{if isset($MYSQL_PREFIX_BEHIND)}
 							<input type="hidden" name="id_pos" value="end" checked="checked" />&nbsp;{$TR_END_ID_POS}
-							<!-- EDP: mysql_prefix_behind -->
+							{/if}
 						</td>
 					</tr>
 					<tr>
@@ -95,7 +97,7 @@
 					<input type="submit" name="Submit" value="{$TR_ADD}" />
 				</div>
 			</fieldset>
-			<!-- EDP: create_sqluser -->
+			{/if}
 		</form>
 	</div>
 {include file='footer.tpl'}

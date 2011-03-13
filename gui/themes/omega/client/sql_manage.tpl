@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Target - begin
 			jQuery('#phpMyAdmin').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
@@ -41,36 +41,38 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
+		{if isset($DB_NAME)}
 		<h2 class="sql"><span>{$TR_MANAGE_SQL}</span></h2>
 		<table>
 			<tr>
 				<th>{$TR_DATABASE}</th>
 				<th>{$TR_ACTION}</th>
 			</tr>
-			<!-- BDP: db_list -->
+			{section name=i loop=$DB_NAME}
 			<tr>
-				<td><span class="icon i_database_small">&nbsp;</span> {$DB_NAME}</td>
+				<td><span class="icon i_database_small">&nbsp;</span> {$DB_NAME[i]}</td>
 				<td>
-					<a href="sql_user_add.php?id={$DB_ID}" title="{$TR_ADD_USER}" class="icon i_add_user"></a>
-					<a href="#" onclick="action_delete('sql_database_delete.php?id={$DB_ID}', '{$DB_NAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+					<a href="sql_user_add.php?id={$DB_ID[i]}" title="{$TR_ADD_USER}" class="icon i_add_user"></a>
+					<a href="#" onclick="action_delete('sql_database_delete.php?id={$DB_ID[i]}', '{$DB_NAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 				</td>
 			</tr>
-			{if isset($DB_MSG)}
+			{if $DB_MSG[i]}
 			<tr>
-				<td colspan="2">{$DB_MSG}</td>
+				<td colspan="2">{$DB_MSG[i]}</td>
 			</tr>
 			{/if}
-			<!-- BDP: user_list -->
+			{section name=user loop=$DB_USERLIST[i]}
 			<tr>
-				<td><span class="icon i_users">&nbsp;</span> {$DB_USER}</td>
+				<td><span class="icon i_users">&nbsp;</span> {$DB_USERLIST[i][user].DB_USER}</td>
 				<td>
-					<a href="pma_auth.php?id={$USER_ID}" id="phpMyAdmin" title="{$TR_PHP_MYADMIN}" class="icon i_pma"></a>
-					<a href="sql_change_password.php?id={$USER_ID}" title="{$TR_CHANGE_PASSWORD}" class="icon i_change_password"></a>
-					<a href="#" onclick="action_delete('sql_delete_user.php?id={$USER_ID}', '{$DB_USER}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+					<a href="pma_auth.php?id={$DB_USERLIST[i][user].USER_ID}" id="phpMyAdmin" title="{$TR_PHP_MYADMIN}" class="icon i_pma"></a>
+					<a href="sql_change_password.php?id={$DB_USERLIST[i][user].USER_ID}" title="{$TR_CHANGE_PASSWORD}" class="icon i_change_password"></a>
+					<a href="#" onclick="action_delete('sql_delete_user.php?id={$DB_USERLIST[i][user].USER_ID}', '{$DB_USERLIST[i][user].DB_USER}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 				</td>
 			</tr>
-			<!-- EDP: user_list -->
-			<!-- EDP: db_list -->
+			{/section}
+			{/section}
 		</table>
+		{/if}
 	</div>
 {include file='footer.tpl'}

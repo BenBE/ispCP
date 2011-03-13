@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Target - begin
 			jQuery('a.i_goto').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
@@ -168,11 +168,9 @@
 						<a href="domain_details.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DETAILS}" class="icon i_identity"></a>
 						<a href="{$URL_CHANGE_INTERFACE[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
 						<a href="{$URL_EDIT_USR[i]}" title="{$TR_EDIT_USR}" class="icon i_edit"></a>
-						{if !isset($EDIT_OPTION[i])}
+						{if isset($EDIT_OPTION)}
 						<a href="domain_edit.php?edit_id={$DOMAIN_ID[i]}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain"></a>
 						{/if}
-						<!-- BDP: usr_delete_show -->
-						<!-- EDP: usr_delete_show -->
 						<!-- BDP: usr_delete_link -->
 						<a href="#" onclick="action_delete('{$URL_DELETE_USR[i]}', '{$USR_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 						<!-- EDP: usr_delete_link -->

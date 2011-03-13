@@ -45,14 +45,12 @@ if (isset($_GET['id'])) {
 	user_goto('sql_manage.php');
 }
 
-// common page data.
-
+// common page data
 if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 	user_goto('index.php');
 }
 
-// dynamic page data.
-
+// dynamic page data
 $sqluser_available = gen_sql_user_list($sql, $tpl, $_SESSION['user_id'], $db_id);
 check_sql_permissions($tpl, $sql, $_SESSION['user_id'], $db_id, $sqluser_available);
 gen_page_post_data($tpl, $db_id);
@@ -114,9 +112,9 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
 		if (!$sqluser_available) {
 			set_page_message(tr('SQL users limit reached!'), 'warning');
 			user_goto('sql_manage.php');
-		} else {
-			$tpl->assign('CREATE_SQLUSER', '');
 		}
+	} else {
+		$tpl->assign('CREATE_SQLUSER', true);
 	}
 
 	$dmn_name = $_SESSION['user_logged'];
@@ -218,7 +216,7 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 		if ($oldrs_name != $rs->fields['sqlu_name'] && @!in_array($rs->fields['sqlu_name'], $userlist)) {
 			$user_found = true;
 			$oldrs_name = $rs->fields['sqlu_name'];
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SQLUSER_ID' => $rs->fields['sqlu_id'],
 					'SQLUSER_SELECTED' => $select,
@@ -228,12 +226,12 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 		}
 		$rs->moveNext();
 	}
-	// let's hide the combobox in case there are no other sqlusers
-	if (!$user_found) {
-		$tpl->assign('SHOW_SQLUSER_LIST', '');
-		return false;
-	} else {
+	// Show the combobox in case there are other sqlusers
+	if ($user_found) {
+		$tpl->assign('SHOW_SQLUSER_LIST', true);
 		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -427,18 +425,16 @@ function gen_page_post_data(&$tpl, $db_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	if ($cfg->MYSQL_PREFIX === 'yes') {
-		$tpl->assign('MYSQL_PREFIX_YES', '');
+		$tpl->assign('MYSQL_PREFIX_NO', true);
+
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
-			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_BEHIND', true);
 		} else {
-			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_INFRONT', true);
 		}
 	} else {
-		$tpl->assign('MYSQL_PREFIX_NO', '');
-		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
+		$tpl->assign('MYSQL_PREFIX_YES', true);
+		$tpl->assign('MYSQL_PREFIX_ALL', true);
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_user') {

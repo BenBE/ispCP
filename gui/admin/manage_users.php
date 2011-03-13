@@ -86,8 +86,8 @@ $tpl->assign(
 );
 
 if (!$cfg->exists('HOSTING_PLANS_LEVEL')
-	|| strtolower($cfg->HOSTING_PLANS_LEVEL) !== 'admin') {
-	$tpl->assign('EDIT_OPTION', '');
+	|| strtolower($cfg->HOSTING_PLANS_LEVEL) === 'admin') {
+	$tpl->assign('EDIT_OPTION', true);
 }
 
 gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');

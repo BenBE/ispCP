@@ -37,7 +37,7 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'sql_database_add.tpl';
 
-// dynamic page data.
+// dynamic page data
 
 check_sql_permissions($sql, $_SESSION['user_id']);
 
@@ -83,19 +83,16 @@ function gen_page_post_data(&$tpl) {
 	$cfg = ispCP_Registry::get('Config');
 
 	if ($cfg->MYSQL_PREFIX === 'yes') {
-		$tpl->assign('MYSQL_PREFIX_YES', '');
+		$tpl->assign('MYSQL_PREFIX_NO', true);
 
 		if ($cfg->MYSQL_PREFIX_TYPE === 'behind') {
-			$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_BEHIND', true);
 		} else {
-			$tpl->assign('MYSQL_PREFIX_BEHIND', '');
-			$tpl->assign('MYSQL_PREFIX_ALL', '');
+			$tpl->assign('MYSQL_PREFIX_INFRONT', true);
 		}
 	} else {
-		$tpl->assign('MYSQL_PREFIX_NO', '');
-		$tpl->assign('MYSQL_PREFIX_INFRONT', '');
-		$tpl->assign('MYSQL_PREFIX_BEHIND', '');
+		$tpl->assign('MYSQL_PREFIX_YES', true);
+		$tpl->assign('MYSQL_PREFIX_ALL', true);
 	}
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'add_db') {
@@ -208,8 +205,6 @@ function add_sql_database(&$sql, $user_id) {
 	set_page_message(tr('SQL database created successfully!'), 'notice');
 	user_goto('sql_manage.php');
 }
-
-// common page data.
 
 /**
  * check user sql permission
