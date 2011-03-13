@@ -176,13 +176,8 @@ function gen_hp_table(&$tpl, $reseller_id) {
 			? $cfg->CUSTOM_ORDERPANEL_ID
 			: '';
 
-		$i = 1;
 		while ($data = $rs->fetchRow()) {
-
-			$tpl->append(array('CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2'));
-
 			$status = ($data['status']) ? tr('Enabled') : tr('Disabled');
-
 			$tpl->append(
 				array(
 					'PLAN_NOM'				=> $i++,
@@ -194,10 +189,7 @@ function gen_hp_table(&$tpl, $reseller_id) {
 					'RESELLER_ID'			=> $_SESSION['user_id']
 				)
 			);
-
 		}
-
 	}
-
 }
 ?>

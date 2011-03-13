@@ -250,7 +250,6 @@ function generate_users_list(&$tpl, $admin_id) {
 				)
 			);
 		}
-		$i = 1;
 
 		while (!$rs->EOF) {
 			if ($rs->fields['domain_status'] == $cfg->ITEM_OK_STATUS) {
@@ -277,12 +276,6 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			$admin_name = decode_idna($rs->fields['domain_name']);
-
-			$tpl->append(
-				array(
-					'CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2',
-				)
-			);
 
 			$dom_created = $rs->fields['domain_created'];
 
@@ -314,7 +307,6 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$i++;
 			$rs->moveNext();
 		}
 

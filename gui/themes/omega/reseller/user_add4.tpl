@@ -2,26 +2,26 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		jQuery(document).ready(function(){
 			// Tooltips - begin
-			$('#dmn_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
+			jQuery('#dmn_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
 			// Tooltips - end
-			$('#users_done').click(function() { 
+			jQuery('#users_done').click(function() {
 				document.location.href = 'users.php';
 			});
 		});
 
-		function makeUser() { 
+		function makeUser() {
 			var dname = document.getElementById('reseller_user_add4').elements['ndomain_name'].value;
 			dname = dname.toLowerCase();
 			document.getElementById('reseller_user_add4').elements['ndomain_mpoint'].value = "/" + dname;
 		}
 
-		function setForwardReadonly(obj){ 
-			if(obj.value == 1) { 
+		function setForwardReadonly(obj){
+			if(obj.value == 1) {
 				document.forms[0].elements['forward'].readOnly = false;
 				document.forms[0].elements['forward_prefix'].disabled = false;
-			} else { 
+			} else {
 				document.forms[0].elements['forward'].readOnly = true;
 				document.forms[0].elements['forward'].value = '';
 				document.forms[0].elements['forward_prefix'].disabled = true;
