@@ -2,9 +2,9 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Tooltips - begin
-			$('#hp_tos_help').ispCPtooltips({ msg:"{$TR_TOS_NOTE}"});
+			jQuery('#hp_tos_help').ispCPtooltips({ msg:"{$TR_TOS_NOTE}"});
 			// Tooltips - end
 		});
 	/* ]]> */

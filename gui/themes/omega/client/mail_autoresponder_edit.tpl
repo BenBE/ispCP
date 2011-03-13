@@ -31,7 +31,7 @@
 		<form action="" method="post" id="client_mail_autoresponder_edit">
 			<fieldset>
 				<legend>{$TR_ARSP_MESSAGE}</legend>
-				<textarea name="arsp_message" cols="50" rows="15"></textarea>
+				<textarea name="arsp_message" cols="50" rows="15">{$ARSP_MESSAGE}</textarea>
 			</fieldset>
 			<div class="buttons">
 				<input type="hidden" name="id" value="{$ID}" />				

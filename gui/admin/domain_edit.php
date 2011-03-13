@@ -41,46 +41,6 @@ if ($cfg->HOSTING_PLANS_LEVEL && $cfg->HOSTING_PLANS_LEVEL !== 'admin') {
 	user_goto('manage_users.php');
 }
 
-// static page messages
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Edit Domain'),
-		'TR_EDIT_DOMAIN'		=> tr('Edit Domain'),
-		'TR_DOMAIN_PROPERTIES'	=> tr('Domain properties'),
-		'TR_DOMAIN_NAME'		=> tr('Domain name'),
-		'TR_DOMAIN_IP'			=> tr('Domain IP'),
-		'TR_DOMAIN_EXPIRE'		=> tr('Domain expire'),
-		'TR_DOMAIN_NEW_EXPIRE'	=> tr('New expire date'),
-		'TR_PHP_SUPP'			=> tr('PHP support'),
-		'TR_CGI_SUPP'			=> tr('CGI support'),
-		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
-		'TR_SUBDOMAINS'			=> tr('Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_ALIAS'				=> tr('Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAIL_ACCOUNT'		=> tr('Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_FTP_ACCOUNTS'		=> tr('FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_SQL_DB'				=> tr('SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_SQL_USERS'			=> tr('SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_TRAFFIC'			=> tr('Traffic limit [MB] <br /><em>(0 unlimited)</em>'),
-		'TR_DISK'				=> tr('Disk limit [MB] <br /><em>(0 unlimited)</em>'),
-		'TR_USER_NAME'			=> tr('Username'),
-		'TR_BACKUP'				=> tr('Backup'),
-		'TR_BACKUP_DOMAIN'		=> tr('Domain'),
-		'TR_BACKUP_SQL'			=> tr('SQL'),
-		'TR_BACKUP_FULL'		=> tr('Full'),
-		'TR_BACKUP_NO'			=> tr('No'),
-		'TR_UPDATE_DATA'		=> tr('Submit changes'),
-		'TR_CANCEL'				=> tr('Cancel'),
-		'TR_YES'				=> tr('Yes'),
-		'TR_NO'					=> tr('No'),
-		'TR_DMN_EXP_HELP' 		=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
-	)
-);
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-gen_page_message($tpl);
-
 if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
 	// Process data
 	if (isset($_SESSION['edit_id'])) {
@@ -125,7 +85,55 @@ if (isset($_POST['uaction']) && ('sub_data' === $_POST['uaction'])) {
 	$tpl->assign('MESSAGE', "");
 }
 
+// static page messages
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Edit Domain'),
+		'TR_EDIT_DOMAIN'		=> tr('Edit Domain'),
+		'TR_DOMAIN_PROPERTIES'	=> tr('Domain properties'),
+		'TR_DOMAIN_NAME'		=> tr('Domain name'),
+		'TR_DOMAIN_IP'			=> tr('Domain IP'),
+		'TR_DOMAIN_EXPIRE'		=> tr('Domain expire'),
+		'TR_DOMAIN_NEW_EXPIRE'	=> tr('New expire date'),
+		'TR_PHP_SUPP'			=> tr('PHP support'),
+		'TR_CGI_SUPP'			=> tr('CGI support'),
+		'TR_DNS_SUPP'			=> tr('Manual DNS support'),
+		'TR_SUBDOMAINS'			=> tr('Max subdomains<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_ALIAS'				=> tr('Max aliases<br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAIL_ACCOUNT'		=> tr('Mail accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_FTP_ACCOUNTS'		=> tr('FTP accounts limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_DB'				=> tr('SQL databases limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_SQL_USERS'			=> tr('SQL users limit <br /><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_TRAFFIC'			=> tr('Traffic limit [MB] <br /><em>(0 unlimited)</em>'),
+		'TR_DISK'				=> tr('Disk limit [MB] <br /><em>(0 unlimited)</em>'),
+		'TR_USER_NAME'			=> tr('Username'),
+		'TR_BACKUP'				=> tr('Backup'),
+		'TR_BACKUP_DOMAIN'		=> tr('Domain'),
+		'TR_BACKUP_SQL'			=> tr('SQL'),
+		'TR_BACKUP_FULL'		=> tr('Full'),
+		'TR_BACKUP_NO'			=> tr('No'),
+		'TR_UPDATE_DATA'		=> tr('Submit changes'),
+		'TR_CANCEL'				=> tr('Cancel'),
+		'TR_YES'				=> tr('Yes'),
+		'TR_NO'					=> tr('No'),
+		'TR_DMN_EXP_HELP' 		=> tr("In case 'Domain expire' is 'N/A', the expiration date will be set from today.")
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
 gen_editdomain_page($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 // Begin function block
 
@@ -671,12 +679,4 @@ function calculate_user_dvals($data, $u, &$umax, &$r, $rmax, &$err, $obj) {
 		}
 	}
 } // End of calculate_user_dvals()
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

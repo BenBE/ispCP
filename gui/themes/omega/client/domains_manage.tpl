@@ -40,11 +40,11 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
-		<h2 class="domains"><span>{$TR_DOMAIN_ALIASES}</span></h2>
 		{if isset($ALS_MSG)}
-			<div class="{$MSG_TYPE}">{$ALS_MSG}</div>
+			<div class="{$ALS_MSG_TYPE}">{$ALS_MSG}</div>
 		{/if}
 		{if isset($ALS_NAME)}
+		<h2 class="domains"><span>{$TR_DOMAIN_ALIASES}</span></h2>
 		<table class="tablesorter">
 			<thead>
 				<tr>
@@ -71,11 +71,11 @@
 			</tbody>
 		</table>
 		{/if}
-		<h2 class="domains"><span>{$TR_SUBDOMAINS}</span></h2>
 		{if isset($SUB_MSG)}
-		<div class="{$MSG_TYPE}">{$SUB_MSG}</div>
+		<div class="{$SUB_MSG_TYPE}">{$SUB_MSG}</div>
 		{/if}
 		{if isset($SUB_NAME)}
+		<h2 class="domains"><span>{$TR_SUBDOMAINS}</span></h2>
 		<table class="tablesorter">
 			<thead>
 				<tr>
@@ -102,42 +102,40 @@
 			</tbody>
 		</table>
 		{/if}
-		{if isset($TR_DNS)}
-			<h2 class="domains"><span>{$TR_DNS}</span></h2>
-			{if isset($DNS_MSG)}
-			<div class="{$MSG_TYPE}">{$DNS_MSG}</div>
-			{/if}
-			{if isset($DNS_DOMAIN)}
-			<table class="tablesorter">
-				<thead>
-					<tr>
-						<th>{$TR_DOMAIN_NAME}</th>
-						<th>{$TR_DNS_NAME}</th>
-						<th>{$TR_DNS_CLASS}</th>
-						<th>{$TR_DNS_TYPE}</th>
-						<th>{$TR_DNS_DATA}</th>
-						<th>{$TR_DNS_STATUS}</th>
-						<th style="width:200px">{$TR_DNS_ACTION}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- BDP: dns_item -->
-					<tr>
-						<td><span class="icon i_domain_icon">{$DNS_DOMAIN}</span></td>
-						<td>{$DNS_NAME}</td>
-						<td>{$DNS_CLASS}</td>
-						<td>{$DNS_TYPE}</td>
-						<td>{$DNS_DATA}</td>
-						<td>{$DNS_STATUS}</td>
-						<td>
-							<a href="{$DNS_ACTION_SCRIPT_EDIT}" title="{$DNS_ACTION_EDIT}" class="icon i_edit"></a>
-							<a href="#" onclick="action_delete('{$DNS_ACTION_SCRIPT_DELETE}', '{$DNS_TYPE_RECORD}')" title="{$DNS_ACTION_DELETE}" class="icon i_delete"></a>
-						</td>
-					</tr>
-					<!-- EDP: dns_item -->
-				</tbody>
-			</table>
-			{/if}
+		{if isset($DNS_MSG)}
+		<div class="{$DNS_MSG_TYPE}">{$DNS_MSG}</div>
+		{/if}
+		{if isset($DNS_DOMAIN)}
+		<h2 class="domains"><span>{$TR_DNS}</span></h2>
+		<table class="tablesorter">
+			<thead>
+				<tr>
+					<th>{$TR_DOMAIN_NAME}</th>
+					<th>{$TR_DNS_NAME}</th>
+					<th>{$TR_DNS_CLASS}</th>
+					<th>{$TR_DNS_TYPE}</th>
+					<th>{$TR_DNS_DATA}</th>
+					<th>{$TR_DNS_STATUS}</th>
+					<th style="width:200px">{$TR_DNS_ACTION}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{section name=i loop=$DNS_DOMAIN}
+				<tr>
+					<td><span class="icon i_domain_icon">{$DNS_DOMAIN[i]}</span></td>
+					<td>{$DNS_NAME[i]}</td>
+					<td>{$DNS_CLASS[i]}</td>
+					<td>{$DNS_TYPE[i]}</td>
+					<td>{$DNS_DATA[i]}</td>
+					<td>{$DNS_STATUS[i]}</td>
+					<td>
+						<a href="{$DNS_ACTION_SCRIPT_EDIT[i]}" title="{$DNS_ACTION_EDIT[i]}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$DNS_ACTION_SCRIPT_DELETE[i]}', '{$DNS_TYPE_RECORD[i]}')" title="{$DNS_ACTION_DELETE[i]}" class="icon i_delete"></a>
+					</td>
+				</tr>
+				{/section}
+			</tbody>
+		</table>
 		{/if}
 	</div>
 {include file='footer.tpl'}

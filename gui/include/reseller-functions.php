@@ -93,9 +93,8 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 	";
 
 	$rs = exec_query($sql, $query);
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if ($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -120,7 +119,7 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 			$rs->moveNext();
 			$i++;
 		} // end while
-	} // end else
+	}
 	$query = "
 	SELECT
 		`support_system`
@@ -132,9 +131,13 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query, $_SESSION['user_id']);
 
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
- 	}
+	if($cfg->ISPCP_SUPPORT_SYSTEM) {
+		$tpl->assign('SUPPORT_SYSTEM', true);
+	}
+
+	if(strtolower($cfg->HOSTING_PLANS_LEVEL) == 'reseller') {
+		$tpl->assign('HOSTING_PLANS', true);
+	}
 
 	$tpl->assign('MAIN_MENU', $menu_file);
 } // end of gen_reseller_menu()
@@ -197,9 +200,8 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 	";
 
 	$rs = exec_query($sql, $query);
-	if ($rs->recordCount() == 0) {
-		$tpl->assign('CUSTOM_BUTTONS', '');
-	} else {
+	if ($rs->recordCount() != 0) {
+		$tpl->assign('CUSTOM_BUTTONS', true);
 		global $i;
 		$i = 100;
 
@@ -224,7 +226,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 			$rs->moveNext();
 			$i++;
 		} // end while
-	} // end else
+	}
 	$query = "
 	SELECT
 		`support_system`
@@ -236,11 +238,12 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 
 	$rs = exec_query($sql, $query, $_SESSION['user_id']);
 
-	if (!$cfg->ISPCP_SUPPORT_SYSTEM || $rs->fields['support_system'] == 'no') {
-		$tpl->assign('ISACTIVE_SUPPORT', '');
+	if($cfg->ISPCP_SUPPORT_SYSTEM) {
+		$tpl->assign('SUPPORT_SYSTEM', true);
 	}
-	if (isset($cfg->HOSTING_PLANS_LEVEL) && strtolower($cfg->HOSTING_PLANS_LEVEL) === 'admin') {
-		$tpl->assign('HP_MENU_ADD', '');
+
+	if(strtolower($cfg->HOSTING_PLANS_LEVEL) == 'reseller') {
+		$tpl->assign('HOSTING_PLANS', true);
 	}
 
 	$tpl->assign('MENU', $menu_file);

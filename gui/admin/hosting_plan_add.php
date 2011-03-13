@@ -41,12 +41,17 @@ if (strtolower($cfg->HOSTING_PLANS_LEVEL) != 'admin') {
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'hosting_plan_add.tpl';
 
+if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
+	// Process data
+	if (check_data_correction($tpl))
+		save_data_to_db($tpl, $_SESSION['user_id']);
+
+	gen_data_ahp_page($tpl);
+} else {
+	gen_empty_ahp_page($tpl);
+}
 
 // static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_hosting_plan.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_hosting_plan.tpl');
-
 $tpl->assign(
 		array(
 				'TR_PAGE_TITLE'				=> tr('ispCP - Administrator/Add hosting plan'),
@@ -93,15 +98,8 @@ $tpl->assign(
 		)
 );
 
-if (isset($_POST['uaction']) && ('add_plan' === $_POST['uaction'])) {
-	// Process data
-	if (check_data_correction($tpl))
-		save_data_to_db($tpl, $_SESSION['user_id']);
-
-	gen_data_ahp_page($tpl);
-} else {
-	gen_empty_ahp_page($tpl);
-}
+gen_admin_mainmenu($tpl, 'main_menu_hosting_plan.tpl');
+gen_admin_menu($tpl, 'menu_hosting_plan.tpl');
 
 gen_page_message($tpl);
 
@@ -110,6 +108,7 @@ $tpl->display($template);
 if ($cfg->DUMP_GUI_DEBUG) {
 	dump_gui_debug();
 }
+
 // Function definitions
 
 /**

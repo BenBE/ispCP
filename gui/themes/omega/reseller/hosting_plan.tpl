@@ -51,7 +51,9 @@
 				<td>{$PURCHASING[i]}</td>
 				<td>
 					<a href="hosting_plan_edit.php?hpid={$HP_ID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+					<!-- BDP: hp_delete -->
 					<a href="#" onclick="return action_delete('hosting_plan_delete.php?hpid={$HP_ID[i]}', '{$PLAN_NAME2[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+					<!-- EDP: hp_delete -->
 				</td>
 			</tr>
 			{/section}

@@ -1,34 +1,32 @@
 {include file='header.tpl'}
-<body>
+<body onload="begin_js();">
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Tooltips - begin
 			$('#fwd_help').ispCPtooltips({ msg:"{$TR_FWD_HELP}"});
 			// Tooltips - end
 		});
 
-		function begin_js() { 
-			if (typeof(document.getElementById('client_mail_edit').elements['mail_forward']) != 'undefined') { 
-				if (document.getElementById('client_mail_edit').elements['mail_forward'].checked == false) { 
+		function begin_js() {
+			if (typeof(document.getElementById('client_mail_edit').elements['mail_forward']) != 'undefined') {
+				if (document.getElementById('client_mail_edit').elements['mail_forward'].checked == false) {
 					document.getElementById('client_mail_edit').elements['forward_list'].disabled = true;
 				}
 			}
 		}
 
-		function changeType(what) { 
-			if (what == "forward") { 
-				if (document.getElementById('client_mail_edit').elements['forward_list'].disabled == true) { 
+		function changeType(what) {
+			if (what == "forward") {
+				if (document.getElementById('client_mail_edit').elements['forward_list'].disabled == true) {
 				 	document.getElementById('client_mail_edit').elements['forward_list'].disabled = false;
-				} else { 
+				} else {
 					document.getElementById('client_mail_edit').elements['forward_list'].disabled = true;
 				}
 			}
 		}
 	/* ]]> */
 	</script>
-</head>
-<body onload="begin_js();">
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -60,7 +58,7 @@
 		<form action="mail_edit.php?id={$MAIL_ID}" method="post" id="client_mail_edit">
 			<fieldset>
 				<legend>{$EMAIL_ACCOUNT}</legend>
-				<!-- BDP: normal_mail -->
+				{if isset($NORMAL_MAIL)}
 				<table>
 					<tr>
 						<td>{$TR_PASSWORD}</td>
@@ -70,6 +68,10 @@
 						<td>{$TR_PASSWORD_REPEAT}</td>
 						<td><input type="password" name="pass_rep" id="pass_rep" value="" /></td>
 					</tr>
+				</table>
+				{/if}
+				{if isset($FORWARD_MAIL)}
+				<table>
 					<tr>
 						<td colspan="2"><input type="checkbox" name="mail_forward" id="mail_forward" value="1" onclick="changeType('forward');" {$FORWARD_MAIL_CHECKED} />&nbsp;{$TR_FORWARD_MAIL}</td>
 					</tr>
@@ -78,15 +80,7 @@
 						<td><textarea name="forward_list" id="forward_list" cols="35" rows="5">{$FORWARD_LIST}</textarea></td>
 					</tr>
 				</table>
-				<!-- EDP: normal_mail -->
-				<!-- BDP: forward_mail -->
-				<table>
-					<tr>
-						<td>{$TR_FORWARD_TO} <span id="fwd_help" class="icon i_help">&nbsp;</span></td>
-	   					<td><textarea name="forward_list" cols="35" rows="5">{$FORWARD_LIST}</textarea></td>
-	   				</tr>
-				</table>
-				<!-- EDP: forward_mail -->
+				{/if}
 			</fieldset>
 			<div class="buttons">
 				<input type="hidden" name="id" value="{$MAIL_ID}" />

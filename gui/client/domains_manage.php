@@ -131,20 +131,14 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 	if ($rs->recordCount() == 0) {
 		$tpl->assign(
 			array(
-				'DNS_MSG' => tr("Manual zone's records list is empty!"),
-				'DNS_LIST' => ''
+				'DNS_MSG'		=> tr("Manual zone's records list is empty!"),
+				'DNS_MSG_TYPE'	=> 'info',
+				'DNS_LIST'		=> ''
 			)
 		);
 	} else {
-		$counter = 0;
 
 		while (!$rs->EOF) {
-			if ($counter % 2 == 0) {
-				$tpl->append('ITEM_CLASS', 'content');
-			} else {
-				$tpl->append('ITEM_CLASS', 'content2');
-			}
-
 			list($dns_action_delete, $dns_action_script_delete) = gen_user_dns_action(
 				'Delete', $rs->fields['domain_dns_id'],
 				($rs->fields['protected'] == 'no') ? $rs->fields['domain_status'] : $cfg->ITEM_PROTECTED_STATUS
@@ -176,7 +170,6 @@ function gen_user_dns_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$rs->moveNext();
-			$counter++;
 		}
 
 		$tpl->assign('DNS_MESSAGE', '');
@@ -293,11 +286,13 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 	$rs2 = exec_query($sql, $query2, $domain_id);
 
 	if (($rs->recordCount() + $rs2->recordCount()) == 0) {
-		$tpl->assign(array('SUB_MSG' => tr('Subdomain list is empty!'), 'SUB_LIST' => ''));
+		$tpl->assign(array(
+			'SUB_MSG'		=> tr('Subdomain list is empty!'),
+			'SUB_MSG_TYPE'	=> 'info',
+			'SUB_LIST'		=> '')
+		);
 	} else {
-		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($sub_action, $sub_action_script) = gen_user_sub_action($rs->fields['subdomain_id'], $rs->fields['subdomain_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs->fields['subdomain_id'], $rs->fields['subdomain_status'], $rs->fields['subdomain_url_forward'], 'dmn');
@@ -317,11 +312,8 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$rs->moveNext();
-			$counter++;
 		}
 		while (!$rs2->EOF) {
-			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
-
 			list($sub_action, $sub_action_script) = gen_user_alssub_action($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status']);
 			list($sub_forward, $sub_edit_link, $sub_edit) = gen_user_sub_forward($rs2->fields['subdomain_alias_id'], $rs2->fields['subdomain_alias_status'], $rs2->fields['subdomain_alias_url_forward'], 'als');
 			$sbd_name = decode_idna($rs2->fields['subdomain_alias_name']);
@@ -340,7 +332,6 @@ function gen_user_sub_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$rs2->moveNext();
-			$counter++;
 		}
 
 		$tpl->assign('SUB_MESSAGE', '');
@@ -410,11 +401,13 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 	$rs = exec_query($sql, $query, $domain_id);
 
 	if ($rs->recordCount() == 0) {
-		$tpl->assign(array('ALS_MSG' => tr('Alias list is empty!'), 'ALS_LIST' => ''));
+		$tpl->assign(array(
+			'ALS_MSG'		=> tr('Alias list is empty!'),
+			'ALS_MSG_TYPE'	=> 'info',
+			'ALS_LIST'		=> '')
+		);
 	} else {
-		$counter = 0;
 		while (!$rs->EOF) {
-			$tpl->append('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			list($als_action, $als_action_script) = gen_user_als_action($rs->fields['alias_id'], $rs->fields['alias_status']);
 			list($als_forward, $alias_edit_link, $als_edit) = gen_user_als_forward($rs->fields['alias_id'], $rs->fields['alias_status'], $rs->fields['url_forward']);
@@ -434,7 +427,6 @@ function gen_user_als_list(&$tpl, &$sql, $user_id) {
 				)
 			);
 			$rs->moveNext();
-			$counter++;
 		}
 
 		$tpl->assign('ALS_MESSAGE', '');

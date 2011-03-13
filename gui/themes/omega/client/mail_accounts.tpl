@@ -42,7 +42,7 @@
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
 		{if isset($MAIL_MSG)}
-		<div class="{$MSG_TYPE}">{$MAIL_MSG}</div>
+		<div class="{$MAIL_MSG_TYPE}">{$MAIL_MSG}</div>
 		{/if}
 		{if isset($MAIL_ACC)}
 		<h2 class="email"><span>{$TR_MAIL_USERS}</span></h2>
@@ -77,19 +77,21 @@
 					<td>{$MAIL_TYPE[i]}</td>
 					<td>{$MAIL_STATUS[i]}</td>
 					<td>
-						<a href="{$MAIL_EDIT_SCRIPT[i]}" title="{$MAIL_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$MAIL_DELETE_SCRIPT[i]}', '{$MAIL_ACC[i]}')" title="{$MAIL_DELETE}" class="icon i_delete"></a>
+						<a href="{$MAIL_EDIT_URL[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$MAIL_DELETE_URL[i]}', '{$MAIL_ACC[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
 				{/section}
 			</tbody>
 		</table>
 		{/if}
+		{if isset($TR_DEFAULT_EMAILS_BUTTON)}
 		<form action="mail_accounts.php" method="post" id="showdefault">
 			<div class="buttons">
 				<input type="hidden" name="uaction" value="{$VL_DEFAULT_EMAILS_BUTTON}" />
 			  	<input type="submit" name="Submit" value="{$TR_DEFAULT_EMAILS_BUTTON}" />
 			</div>
 		</form>
+		{/if}
 	</div>
 {include file='footer.tpl'}
