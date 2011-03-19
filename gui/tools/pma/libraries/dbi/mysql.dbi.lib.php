@@ -155,7 +155,7 @@ function PMA_DBI_select_db($dbname, $link = null)
  * @param integer $options
  * @return mixed
  */
-function PMA_DBI_try_query($query, $link = null, $options = 0)
+function PMA_DBI_try_query($query, $link = null, $options = 0, $cache_affected_rows = true)
 {
     if (empty($link)) {
         if (isset($GLOBALS['userlink'])) {
@@ -174,6 +174,10 @@ function PMA_DBI_try_query($query, $link = null, $options = 0)
         $r = mysql_unbuffered_query($query, $link);
     } else {
         $r = mysql_query($query, $link);
+    }
+
+    if ($cache_affected_rows) { 
+       $GLOBALS['cached_affected_rows'] = PMA_DBI_affected_rows($link, $get_from_cache = false); 
     }
 
     if ($GLOBALS['cfg']['DBG']['sql']) {
@@ -392,17 +396,24 @@ function PMA_DBI_insert_id($link = null)
             return false;
         }
     }
-    //$insert_id = mysql_insert_id($link);
-    // if the primary key is BIGINT we get an incorrect result
+    // If the primary key is BIGINT we get an incorrect result
     // (sometimes negative, sometimes positive)
     // and in the present function we don't know if the PK is BIGINT
     // so better play safe and use LAST_INSERT_ID()
     //
-    // by the way, no problem with mysqli_insert_id()
     return PMA_DBI_fetch_value('SELECT LAST_INSERT_ID();', 0, 0, $link);
 }
 
-function PMA_DBI_affected_rows($link = null)
+/**
+ * returns the number of rows affected by last query
+ *
+ * @uses    $GLOBALS['userlink']
+ * @uses    mysql_affected_rows()
+ * @param   object mysql   $link   the mysql object
+ * @param   boolean        $get_from_cache 
+ * @return  string integer
+ */
+function PMA_DBI_affected_rows($link = null, $get_from_cache = true)
 {
     if (empty($link)) {
         if (isset($GLOBALS['userlink'])) {
@@ -411,7 +422,12 @@ function PMA_DBI_affected_rows($link = null)
             return false;
         }
     }
-    return mysql_affected_rows($link);
+
+    if ($get_from_cache) {
+        return $GLOBALS['cached_affected_rows'];
+    } else {
+        return mysql_affected_rows($link);
+    }
 }
 
 /**

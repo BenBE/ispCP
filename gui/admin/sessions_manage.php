@@ -99,23 +99,16 @@ function gen_user_sessions(&$tpl, &$sql) {
 
 	$rs = exec_query($sql, $query);
 
-	$row = 1;
 	while (!$rs->EOF) {
-		$tpl->assign(
-			array(
-				'ADMIN_CLASS' => ($row++ % 2 == 0) ? 'content2' : 'content',
-			)
-		);
-
 		if ($rs->fields['user_name'] === NULL) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_USERNAME' => tr('Unknown'),
 					'LOGIN_TIME' => date("G:i:s", $rs->fields['lastaccess'])
 				)
 			);
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_USERNAME' => $rs->fields['user_name'],
 					'LOGIN_TIME' => date("G:i:s", $rs->fields['lastaccess'])
@@ -126,9 +119,9 @@ function gen_user_sessions(&$tpl, &$sql) {
 		$sess_id = session_id();
 
 		if ($sess_id === $rs->fields['session_id']) {
-			$tpl->assign('KILL_LINK', 'sessions_manage.php');
+			$tpl->append('KILL_LINK', 'sessions_manage.php');
 		} else {
-			$tpl->assign('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
+			$tpl->append('KILL_LINK', 'sessions_manage.php?kill=' . $rs->fields['session_id']);
 		}
 
 

@@ -175,9 +175,10 @@ function PMA_DBI_select_db($dbname, $link = null)
  * @param   string          $query      query to execute
  * @param   object mysqli   $link       mysqli object
  * @param   integer         $options
+ * @param   boolean         $cache_affected_rows
  * @return  mixed           true, false or result object
  */
-function PMA_DBI_try_query($query, $link = null, $options = 0)
+function PMA_DBI_try_query($query, $link = null, $options = 0, $cache_affected_rows = true)
 {
     if ($options == ($options | PMA_DBI_QUERY_STORE)) {
         $method = MYSQLI_STORE_RESULT;
@@ -199,6 +200,11 @@ function PMA_DBI_try_query($query, $link = null, $options = 0)
         $time = microtime(true);
     }
     $r = mysqli_query($link, $query, $method);
+
+    if ($cache_affected_rows) { 
+       $GLOBALS['cached_affected_rows'] = PMA_DBI_affected_rows($link, $get_from_cache = false); 
+    }
+
     if ($GLOBALS['cfg']['DBG']['sql']) {
         $time = microtime(true) - $time;
 
@@ -451,7 +457,13 @@ function PMA_DBI_insert_id($link = '')
             return false;
         }
     }
-    return mysqli_insert_id($link);
+    // When no controluser is defined, using mysqli_insert_id($link) 
+    // does not always return the last insert id due to a mixup with
+    // the tracking mechanism, but this works: 
+    return PMA_DBI_fetch_value('SELECT LAST_INSERT_ID();', 0, 0, $link);
+    // Curiously, this problem does not happen with the mysql extension but
+    // there is another problem with BIGINT primary keys so PMA_DBI_insert_id()
+    // in the mysql extension also uses this logic.
 }
 
 /**
@@ -460,9 +472,10 @@ function PMA_DBI_insert_id($link = '')
  * @uses    $GLOBALS['userlink']
  * @uses    mysqli_affected_rows()
  * @param   object mysqli   $link   the mysqli object
+ * @param   boolean         $get_from_cache 
  * @return  string integer
  */
-function PMA_DBI_affected_rows($link = null)
+function PMA_DBI_affected_rows($link = null, $get_from_cache = true)
 {
     if (empty($link)) {
         if (isset($GLOBALS['userlink'])) {
@@ -471,7 +484,11 @@ function PMA_DBI_affected_rows($link = null)
             return false;
         }
     }
-    return mysqli_affected_rows($link);
+    if ($get_from_cache) {
+        return $GLOBALS['cached_affected_rows'];
+    } else {
+        return mysqli_affected_rows($link);
+    }
 }
 
 /**

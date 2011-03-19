@@ -1,6 +1,12 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-02-19 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.3.10
+	- GUI:
+		* Template improvements
+
 2011-03-13 Markus Szywon
 	- GUI:
 		* Replace pTemplate with Smarty part V

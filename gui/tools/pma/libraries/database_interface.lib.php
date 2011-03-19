@@ -79,8 +79,8 @@ require_once './libraries/dbi/' . $GLOBALS['cfg']['Server']['extension'] . '.dbi
 /**
  * Common Functions
  */
-function PMA_DBI_query($query, $link = null, $options = 0) {
-    $res = PMA_DBI_try_query($query, $link, $options)
+function PMA_DBI_query($query, $link = null, $options = 0, $cache_affected_rows = true) {
+    $res = PMA_DBI_try_query($query, $link, $options, $cache_affected_rows)
         or PMA_mysqlDie(PMA_DBI_getError($link), $query);
     return $res;
 }
@@ -367,8 +367,16 @@ function PMA_DBI_get_tables_full($database, $table = false, $tbl_is_group = fals
             } else {
                 // Prepare to sort by creating array of the selected sort
                 // value to pass to array_multisort
-                foreach ($each_tables as $table_name => $table_data) {
-                    ${$sort_by}[$table_name] = strtolower($table_data[$sort_by]);
+
+                // Size = Data_length + Index_length
+                if ($sort_by == 'Data_length') {
+                    foreach ($each_tables as $table_name => $table_data) {
+                        ${$sort_by}[$table_name] = strtolower($table_data['Data_length'] + $table_data['Index_length']);
+                    }
+                } else {
+                    foreach ($each_tables as $table_name => $table_data) {
+                        ${$sort_by}[$table_name] = strtolower($table_data[$sort_by]);
+                    }
                 }
 
                 if ($sort_order == 'DESC') {

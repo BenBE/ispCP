@@ -37,6 +37,38 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'manage_reseller_owners.tpl';
 
+// static page messages
+update_reseller_owner($sql);
+
+gen_reseller_table($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Admin/Manage users/Reseller assignment'),
+		'TR_RESELLER_ASSIGNMENT' => tr('Reseller assignment'),
+		'TR_RESELLER_USERS'		=> tr('Reseller users'),
+		'TR_NUMBER'				=> tr('No.'),
+		'TR_MARK'				=> tr('Mark'),
+		'TR_RESELLER_NAME'		=> tr('Reseller name'),
+		'TR_OWNER'				=> tr('Owner'),
+		'TR_TO_ADMIN'			=> tr('To Admin'),
+		'TR_MOVE'				=> tr('Move')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @todo check if it's useful to have the table admin two times in the same query
  * @param ispCP_TemplateEngine $tpl
@@ -75,12 +107,6 @@ function gen_reseller_table(&$tpl, &$sql) {
 
 	} else {
 		while (!$rs->EOF) {
-
-			$tpl->assign(
-				array(
-					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
-				)
-			);
 
 			$admin_id = $rs->fields['admin_id'];
 
@@ -138,8 +164,6 @@ function gen_reseller_table(&$tpl, &$sql) {
 
 
 		$rs->moveNext();
-
-		$i++;
 	}
 
 
@@ -186,34 +210,4 @@ function update_reseller_owner($sql) {
 		}
 	}
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-update_reseller_owner($sql);
-
-gen_reseller_table($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Reseller assignment'),
-		'TR_RESELLER_ASSIGNMENT' => tr('Reseller assignment'),
-		'TR_RESELLER_USERS' => tr('Reseller users'),
-		'TR_NUMBER' => tr('No.'),
-		'TR_MARK' => tr('Mark'),
-		'TR_RESELLER_NAME' => tr('Reseller name'),
-		'TR_OWNER' => tr('Owner'),
-		'TR_TO_ADMIN' => tr('To Admin'),
-		'TR_MOVE' => tr('Move'),
-	)
-);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>
