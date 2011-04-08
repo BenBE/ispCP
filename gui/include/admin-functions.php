@@ -263,8 +263,6 @@ function get_sql_user_count($sql) {
 		;
 	";
 
-	// NXW hu ? fase here ? I don't think...
-	// $rs = exec_query($sql, $query, false);
 	$rs = exec_query($sql, $query);
 
 	return $rs->recordCount();
@@ -706,8 +704,6 @@ function gen_user_list(&$tpl, &$sql) {
 			}
 
 			// Get disk usage by user
-			// NXW Reported as unused by IDE profiler so...
-			// $traffic = get_user_traffic($rs->fields['domain_id']);
 			$tpl->append(
 				array(
 					'USR_DELETE_SHOW' => '',
