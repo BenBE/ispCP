@@ -1,9 +1,15 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-04-17 Benedikt Heintel
+	- LANGUAGES:
+		* Updated Catalan (#2558)
+
 2011-04-08 Benedikt Heintel
     - ENGINE:
         * Fixed: Dollar-sign not accepted in mail password
+	- GUI:
+		* Fixed #2541: Failed delete mail user info on sasl database on FreeBSD
 
 2011-04-03 Markus Szywon
 	- GUI:
