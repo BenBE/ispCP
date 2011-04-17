@@ -553,7 +553,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		} else if ($pass !== $pass_rep) {
 			set_page_message(tr('Entered passwords differ!'), 'warning');
 			return false;
-		} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^$]/i")) {
+		} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^]/i")) {
 			// Not permitted chars
 			if ($cfg->PASSWD_STRONG) {
 				set_page_message(
