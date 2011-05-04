@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-05-04 Markus Szywon
+	- GUI:
+		* Updated jQuery UI to version 1.8.12
+
 2011-04-17 Benedikt Heintel
 	- GUI:
 		* Fixed: Dollar-sign not accepted in mail password
