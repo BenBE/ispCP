@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-05-09 Markus Szywon
+	- GUI:
+		* Updated jQuery to version 1.6
+
 2011-05-04 Markus Szywon
 	- GUI:
 		* Updated jQuery UI to version 1.8.12
