@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-11-16 Markus Szywon
+	- GUI:
+		* Updated idna_convert to version 0.8.0
+
 2011-05-15 Markus Szywon
 	- GUI:
 		* Updated jQuery to version 1.6.1
