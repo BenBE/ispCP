@@ -2,7 +2,7 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			jQuery('#dmn_tmp_access').attr('rel', 'external').attr('target', '_blank');
 		});
 	/* ]]> */

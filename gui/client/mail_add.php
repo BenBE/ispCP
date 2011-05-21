@@ -161,16 +161,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ALS_ID'		=> '0',
-				'ALS_SELECTED'	=> $cfg->HTML_SELECTED,
-				'ALS_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
@@ -194,7 +185,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			}
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_ID'		=> $rs->fields['alias_id'],
 					'ALS_SELECTED'	=> $als_selected,
@@ -238,16 +229,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'SUB_ID'		=> '0',
-				'SUB_SELECTED'	=> $cfg->HTML_SELECTED,
-				'SUB_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_SUBDOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 
 		while (!$rs->EOF) {
@@ -273,7 +255,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 			$sub_name = decode_idna($rs->fields['sub_name']);
 			$dmn_name = decode_idna($dmn_name);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_ID'		=> $rs->fields['sub_id'],
 					'SUB_SELECTED'	=> $sub_selected,
@@ -318,16 +300,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ALS_SUB_ID'		=> '0',
-				'ALS_SUB_SELECTED'	=> $cfg->HTML_SELECTED,
-				'ALS_SUB_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_ALIAS_SUBDOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 
 		while (!$rs->EOF) {
@@ -353,7 +326,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 			$als_sub_name = decode_idna($rs->fields['als_sub_name']);
 			$als_name = decode_idna($rs->fields['als_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_SUB_ID'		=> $rs->fields['als_sub_id'],
 					'ALS_SUB_SELECTED'	=> $als_sub_selected,

@@ -1,6 +1,14 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-05-21 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.1
+	- GUI:
+		* Updated jQuery UI to version 1.8.13
+		* Template improvements
+		* Some small fixes
+
 2011-11-16 Markus Szywon
 	- GUI:
 		* Updated idna_convert to version 0.8.0

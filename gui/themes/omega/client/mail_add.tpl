@@ -115,42 +115,42 @@
 					<td><input type="radio" name="dmn_type" id="dmn_type1" value="dmn" onclick="changeDom('real');" {$MAIL_DMN_CHECKED} />&nbsp;{$TR_TO_MAIN_DOMAIN}</td>
 			  		<td>{$DOMAIN_NAME}</td>
 				</tr>
-				<!-- BDP: to_alias_domain -->
+				{if isset($ALS_NAME)}
 				<tr>
 					<td><input type="radio" name="dmn_type" id="dmn_type2" value="als" onclick="changeDom('alias');" {$MAIL_ALS_CHECKED} />&nbsp;{$TR_TO_DMN_ALIAS}</td>
 					<td>
 						<select name="als_id">
-							{if isset($ALS_NAME)}
-							<option value="{$ALS_ID}" {$ALS_SELECTED}>@{$ALS_NAME}</option>
-							{/if}
+							{section name=i loop=$ALS_NAME}
+							<option value="{$ALS_ID[i]}" {$ALS_SELECTED[i]}>@{$ALS_NAME[i]}</option>
+							{/section}
 						</select>
 					</td>
 				</tr>
-				<!-- EDP: to_alias_domain -->
-				<!-- BDP: to_subdomain -->
+				{/if}
+				{if isset($SUB_NAME)}
 				<tr>
 					<td><input type="radio" name="dmn_type" id="dmn_type3" value="sub" onclick="changeDom('subdom');" {$MAIL_SUB_CHECKED} />&nbsp;{$TR_TO_SUBDOMAIN}</td>
 					<td>
 						<select name="sub_id">
-							{if isset($SUB_NAME)}
-							<option value="{$SUB_ID}" {$SUB_SELECTED}>@{$SUB_NAME}</option>
-							{/if}
+							{section name=i loop=$SUB_NAME}
+							<option value="{$SUB_ID[i]}" {$SUB_SELECTED[i]}>@{$SUB_NAME[i]}</option>
+							{/section}
 						</select>
 					</td>
 				</tr>
-				<!-- EDP: to_subdomain -->
-				<!-- BDP: to_alias_subdomain -->
+				{/if}
+				{if isset($ALS_SUB_NAME)}
 				<tr>
 					<td><input type="radio" name="dmn_type" id="dmn_type4" value="als_sub" onclick="changeDom('als_subdom');" {$MAIL_ALS_SUB_CHECKED} />&nbsp;{$TR_TO_ALS_SUBDOMAIN}</td>
 					<td>
 						<select name="als_sub_id">
-							<!-- BDP: als_sub_list -->
-							<option value="{$ALS_SUB_ID}" {$ALS_SUB_SELECTED}>@{$ALS_SUB_NAME}</option>
-							<!-- EDP: als_sub_list -->
+							{section name=i loop=$ALS_SUB_NAME}
+							<option value="{$ALS_SUB_ID[i]}" {$ALS_SUB_SELECTED[i]}>@{$ALS_SUB_NAME[i]}</option>
+							{/section}
 						</select>
 					</td>
 				</tr>
-				<!-- EDP: to_alias_subdomain -->
+				{/if}
 				<tr>
 					<td colspan="2"><input type="checkbox" name="mail_type_normal" value="1" onclick="changeType();" {$NORMAL_MAIL_CHECKED} />&nbsp;{$TR_NORMAL_MAIL}</td>
 				</tr>
