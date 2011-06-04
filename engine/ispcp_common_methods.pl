@@ -304,7 +304,7 @@ sub doHashSQL {
 	}
 
 	if (!defined $main::db || !ref $main::db) {
-		$main::db = DBI -> connect(@main::db_connect, {PrintError => 0});
+		$main::db = DBI->connect(@main::db_connect, {PrintError => 0});
 
 		if (!defined $main::db) {
 
@@ -314,13 +314,13 @@ sub doHashSQL {
 
 		return (-1, '');
 
-		} elsif ($main::cfg{'DATABASE_UTF8'} eq 'yes' ) { # DB: use always UTF8
-			$qr = $main::db -> do("SET NAMES 'utf8';");
+		} elsif ($main::cfg{'DATABASE_UTF8'} eq 'yes' ) { # DB: use always UTF-8
+			$qr = $main::db->do("SET NAMES 'utf8';");
 		}
 	}
 
 	if (defined $kField && $kField ne '' && $sql =~ /^[\s]*?(select|show)/i) {
-		$qr = $main::db ->selectall_hashref($sql, $kField);
+		$qr = $main::db->selectall_hashref($sql, $kField);
 	} else {
 		$qr = $main::db->do($sql);
 	}
@@ -333,7 +333,7 @@ sub doHashSQL {
 	} else {
 		push_el(
 			\@main::el, 'doHashSQL()',
-			'[ERROR] Incorrect SQL Query -> '.$main::db -> errstr
+			'[ERROR] Incorrect SQL Query: '.$main::db->errstr
 		);
 
 		return (-1, '');
@@ -511,7 +511,7 @@ sub get_file {
 # the group is not defined, he will be get from the /etc/passwd file.
 #
 # @author		VHCS/ispCP Team
-# @copyright 	2006-2009 by ispCP | http://isp-control.net
+# @copyright 	2006-2011 by ispCP | http://isp-control.net
 # @version		1.1
 #
 # @access	public
@@ -567,7 +567,7 @@ sub store_file {
 # This subroutine don't set any user/group and permissions on the file.
 #
 # @author		VHCS/ispCP Team
-# @copyright 	2006-2009 by ispCP | http://isp-control.net
+# @copyright 	2006-2011 by ispCP | http://isp-control.net
 # @version		1.1
 #
 # @access	public
@@ -831,6 +831,10 @@ sub getCmdExitValue() {
 # If you want gets the real exit value from the external command, you must use
 # the sys_command_rs() subroutine.
 #
+# @author		VHCS/ispCP Team
+# @copyright 	2006-2011 by ispCP | http://isp-control.net
+# @version		1.1
+#
 # @param string $cmd External command to be executed
 # @return int 0 on success, -1 otherwise
 #
@@ -840,7 +844,8 @@ sub sys_command {
 
 	my ($cmd) = @_;
 
-	system($cmd);
+	# Escape command before send it
+	system(quotemeta($cmd));
 
 	my $exit_value = getCmdExitValue();
 
@@ -870,7 +875,8 @@ sub sys_command_rs {
 
 	push_el(\@main::el, 'sys_command_rs()', 'Starting...');
 
-	system($cmd);
+	# Escape command before send it
+	system(quotemeta($cmd));
 
 	push_el(\@main::el, 'sys_command_rs()', 'Ending...');
 
@@ -1038,8 +1044,8 @@ sub gen_sys_rand_num {
 		);
 	}
 
-	# DON'T change this back to /dev/random - the pw is reversible encrypted -
-	# more randomness is just totally foolish since we already provide the key
+	# DON'T change this to /dev/random - the pw is reversible encrypted - more
+	# randomness is just totally foolish since we already provide the key
 	# together with the tresor.
 
 	my $rs = open(F, '<', '/dev/urandom');
