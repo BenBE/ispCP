@@ -31,13 +31,13 @@
 
 use strict;
 use warnings;
-no warnings 'once';
+no warnings qw(once);
 
 use PerlLib::Dialog::Query;
 
 use DateTime;
 use DateTime::TimeZone;
-use feature 'state';
+use feature qw(state);
 use File::MimeInfo::Magic;
 use Socket;
 use Term::ReadKey;

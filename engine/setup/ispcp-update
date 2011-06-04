@@ -31,8 +31,8 @@
 
 use strict;
 use warnings;
-no warnings qw/once/;
-use feature qw/state/;
+no warnings qw(once);
+use feature qw(state);
 use FindBin;
 use lib "$FindBin::Bin/..";
 use PerlVendor::Capture::Tiny qw/capture_merged/;

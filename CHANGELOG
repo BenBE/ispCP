@@ -3,7 +3,6 @@ ispCP ω 1.1.0 ChangeLog
 
 2011-06-04 Benedikt Heintel
 	- ENGINE:
-		* Escape of system() calls
 		* Code Cleanup
 
 2011-06-04 Markus Szywon

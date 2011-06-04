@@ -32,7 +32,7 @@ create database `{AMAVIS_DATABASE}` CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 use `{AMAVIS_DATABASE}`;
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id         int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- unique id
   priority   integer      NOT NULL DEFAULT '7',  -- sort field, 0 is low prior.
   policy_id  integer unsigned NOT NULL DEFAULT '1',  -- JOINs with policy.id
@@ -41,21 +41,21 @@ CREATE TABLE users (
   local      char(1)      -- Y/N  (optional field, see note further down)
 );
 
-CREATE TABLE mailaddr (
+CREATE TABLE IF NOT EXISTS mailaddr (
   id         int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   priority   integer      NOT NULL DEFAULT '7',  -- 0 is low priority
   email      varbinary(255) NOT NULL UNIQUE,
   owner	     varchar(64) DEFAULT NULL
 );
 
-CREATE TABLE wblist (
+CREATE TABLE IF NOT EXISTS wblist (
   rid        integer unsigned NOT NULL,  -- recipient: users.id
   sid        integer unsigned NOT NULL,  -- sender: mailaddr.id
   wb         varchar(10)  NOT NULL,  -- W or Y / B or N / space=neutral / score
   PRIMARY KEY (rid,sid)
 );
 
-CREATE TABLE policy (
+CREATE TABLE IF NOT EXISTS policy (
   id  int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
                                     -- 'id' this is the _only_ required field
   policy_name      varchar(255),     -- not used by amavisd-new, a comment
@@ -109,7 +109,7 @@ CREATE TABLE policy (
 );
 
 
-CREATE TABLE maddr (
+CREATE TABLE IF NOT EXISTS maddr (
   partition_tag integer   DEFAULT 0,   -- see $sql_partition_tag
   id         bigint unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   email      varbinary(255) NOT NULL,    -- full mail address
@@ -118,7 +118,7 @@ CREATE TABLE maddr (
   CONSTRAINT part_email UNIQUE (partition_tag,email)
 ) ENGINE=InnoDB;
 
-CREATE TABLE msgs (
+CREATE TABLE IF NOT EXISTS msgs (
   partition_tag integer  NOT NULL DEFAULT 0,   -- see $sql_partition_tag
   mail_id    varbinary(12)   NOT NULL,  -- long-term unique mail id
   secret_id  varbinary(12)   DEFAULT '',  -- authorizes release of mail_id
@@ -149,7 +149,7 @@ CREATE TABLE msgs (
   KEY msgs_idx_time_iso (time_iso)
 ) ENGINE=InnoDB;
 
-CREATE TABLE msgrcpt (
+CREATE TABLE IF NOT EXISTS msgrcpt (
   partition_tag integer    DEFAULT 0,    -- see $sql_partition_tag
   mail_id    varbinary(12)   NOT NULL,     -- (must allow duplicates)
   rseqnum    integer       DEFAULT 0,    -- recipient count within one message
@@ -166,7 +166,7 @@ CREATE TABLE msgrcpt (
   KEY msgrcpt_idx_rid (rid)
 ) ENGINE=InnoDB;
 
-CREATE TABLE quarantine (
+CREATE TABLE IF NOT EXISTS quarantine (
   partition_tag integer    DEFAULT 0,    -- see $sql_partition_tag
   mail_id    varbinary(12)   NOT NULL,    -- long-term unique mail id
   chunk_ind  integer unsigned NOT NULL, -- chunk number, starting with 1
