@@ -71,8 +71,8 @@ $tpl->assign(
 	)
 );
 
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_manage_domains.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_manage_domains.tpl');
+gen_client_mainmenu($tpl, 'main_menu_manage_domains.tpl');
+gen_client_menu($tpl, 'menu_manage_domains.tpl');
 
 gen_logged_from($tpl);
 $tpl->assign(($add_mode) ? 'FORM_EDIT_MODE' : 'FORM_ADD_MODE', '');
@@ -121,7 +121,7 @@ unset_messages();
 
 // Begin function block
 
-function mysql_get_enum(&$sql, $object, &$default = null) {
+function mysql_get_enum($sql, $object, &$default = null) {
 
 	list($table, $col) = explode(".", $object);
 
@@ -215,7 +215,7 @@ function decode_zone_data($data) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  */
-function gen_editdns_page(&$tpl, $edit_id) {
+function gen_editdns_page($tpl, $edit_id) {
 
 	global $sql, $DNS_allowed_types;
 	$cfg = ispCP_Registry::get('Config');
@@ -453,7 +453,7 @@ function validate_NAME($domain, &$err) {
  * @param int $edit_id
  * @return bool
  */
-function check_fwd_data(&$tpl, $edit_id) {
+function check_fwd_data($tpl, $edit_id) {
 
 	global $sql;
 	$cfg = ispCP_Registry::get('Config');
@@ -670,3 +670,4 @@ function check_fwd_data(&$tpl, $edit_id) {
 		return false;
 	}
 } // End of check_user_data()
+?>

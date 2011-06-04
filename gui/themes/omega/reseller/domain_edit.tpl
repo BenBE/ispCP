@@ -2,19 +2,19 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){ 
+		$(document).ready(function(){
 			// Datepicker - begin		
-			$('#dmn_exp_never').change(function() { 
-				if ($(this).is(':checked')) { 
+			$('#dmn_exp_never').change(function() {
+				if ($(this).is(':checked')) {
 					$('#dmn_exp_date').attr('disabled', 'disabled');
-				} else { 
+				} else {
 					$('#dmn_exp_date').removeAttr('disabled');
 				}
 			});
 			// Datepicker - end
 
 			// jQuery UI Datepicker
-			$('#dmn_exp_date').datepicker({ 
+			$('#dmn_exp_date').datepicker({
 				dateFormat: '{$VL_DATE_FORMAT}',
 				dayNamesMin: ['{$TR_SU}', '{$TR_MO}', '{$TR_TU}', '{$TR_WE}', '{$TR_TH}', '{$TR_FR}', '{$TR_SA}'],
 				monthNames: ['{$TR_JANUARY}', '{$TR_FEBRUARY}', '{$TR_MARCH}', '{$TR_APRIL}', '{$TR_MAY}', '{$TR_JUNE}', '{$TR_JULY}', '{$TR_AUGUST}', '{$TR_SEPTEMBER}', '{$TR_OCTOBER}', '{$TR_NOVEMBER}', '{$TR_DECEMBER}'],

@@ -90,7 +90,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * @param string $dmn_name
  * @param string $post_check
  */
-function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
+function gen_page_form_data($tpl, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -141,7 +141,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
  * @param int $dmn_id
  * @param bool $post_check
  */
-function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
+function gen_dmn_als_list($tpl, $sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -161,16 +161,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ALS_ID'		=> '0',
-				'ALS_SELECTED'	=> $cfg->HTML_SELECTED,
-				'ALS_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
@@ -194,7 +185,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
 			}
 
 			$alias_name = decode_idna($rs->fields['alias_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_ID'		=> $rs->fields['alias_id'],
 					'ALS_SELECTED'	=> $als_selected,
@@ -217,7 +208,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
  * @param string $post_check
  * @return void
  */
-function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
+function gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -238,16 +229,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'SUB_ID'		=> '0',
-				'SUB_SELECTED'	=> $cfg->HTML_SELECTED,
-				'SUB_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_SUBDOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 
 		while (!$rs->EOF) {
@@ -273,7 +255,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 
 			$sub_name = decode_idna($rs->fields['sub_name']);
 			$dmn_name = decode_idna($dmn_name);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_ID'		=> $rs->fields['sub_id'],
 					'SUB_SELECTED'	=> $sub_selected,
@@ -294,7 +276,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
  * @param int $dmn_id
  * @param string $post_check
  */
-function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
+function gen_dmn_als_sub_list($tpl, $sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -318,16 +300,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ALS_SUB_ID'		=> '0',
-				'ALS_SUB_SELECTED'	=> $cfg->HTML_SELECTED,
-				'ALS_SUB_NAME'		=> tr('Empty list')
-			)
-		);
-		$tpl->assign('TO_ALIAS_SUBDOMAIN', '');
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 
 		while (!$rs->EOF) {
@@ -353,7 +326,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 
 			$als_sub_name = decode_idna($rs->fields['als_sub_name']);
 			$als_name = decode_idna($rs->fields['als_name']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_SUB_ID'		=> $rs->fields['als_sub_id'],
 					'ALS_SUB_SELECTED'	=> $als_sub_selected,
@@ -368,7 +341,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	}
 }
 
-function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
+function schedule_mail_account($sql, $domain_id, $dmn_name, $mail_acc) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -518,7 +491,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 	user_goto('mail_accounts.php');
 }
 
-function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
+function check_mail_acc_data($sql, $dmn_id, $dmn_name) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -553,7 +526,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 		} else if ($pass !== $pass_rep) {
 			set_page_message(tr('Entered passwords differ!'), 'warning');
 			return false;
-		} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^$]/i")) {
+		} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^]/i")) {
 			// Not permitted chars
 			if ($cfg->PASSWD_STRONG) {
 				set_page_message(
@@ -660,7 +633,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 	schedule_mail_account($sql, $dmn_id, $dmn_name, $mail_acc);
 }
 
-function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
+function gen_page_mail_acc_props($tpl, $sql, $user_id) {
 	list($dmn_id,
 		$dmn_name,,,,,,,
 		$dmn_mailacc_limit,,,,,,,,,,,,,,

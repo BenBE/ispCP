@@ -84,7 +84,6 @@ if (isset($_GET['ticket_id'])) {
 	showTicketContent($tpl, $ticket_id, $user_id, $screenwidth);
 } else {
 	set_page_message(tr('Ticket not found!'), 'error');
-
 	user_goto('ticket_system.php');
 }
 
@@ -102,7 +101,7 @@ $tpl->assign(
 		'TR_REPLY' => tr('Send reply'),
 		'TR_TICKET_FROM' => tr('From'),
 		'TR_OPEN_TICKETS' => tr('Open tickets'),
-		'TR_CLOSED_TICKETS' => tr('Closed tickets'),
+		'TR_CLOSED_TICKETS' => tr('Closed tickets')
 	)
 );
 

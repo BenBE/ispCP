@@ -38,9 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'user_add3.tpl';
 
 // static page messages
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 gen_logged_from($tpl);
 
 $tpl->assign(
@@ -77,10 +74,13 @@ $tpl->assign(
 	)
 );
 
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
+
 if (!init_in_values()) {
 	set_page_message(
 		tr("Domain data has been altered. Please enter again."),
-		'notice'
+		'warning'
 	);
 	unset_messages();
 	user_goto('user_add1.php');
@@ -159,7 +159,7 @@ function init_in_values() {
  * generate page add user 3
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_user_add3_page(&$tpl) {
+function gen_user_add3_page($tpl) {
 	global $dmn_name, $hpid, $dmn_user_name, $user_email, $customer_id,
 		$first_name, $last_name, $gender, $firm, $zip, $city, $state, $country,
 		$street_one, $street_two, $mail, $phone, $fax;
@@ -460,5 +460,4 @@ function add_user_data($reseller_id) {
 		user_goto('users.php?psi=last');
 	}
 } // End of add_user_data()
-
 ?>

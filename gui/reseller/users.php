@@ -59,29 +59,30 @@ $crnt_year = date("Y");
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Users'),
-		'TR_MANAGE_USERS' => tr('Manage users'),
-		'TR_USERS' => tr('Users'),
-		'TR_USER_STATUS' => tr('Status'),
-		'TR_DETAILS' => tr('Details'),
-		'TR_SEARCH' => tr('Search'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_ACTION' => tr('Actions'),
-		'TR_CREATION_DATE' => tr('Creation date'),
-		'TR_EXPIRE_DATE' => tr('Expire date'),
-		'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
-		'TR_BACK' => tr('Back'),
-		'TR_TITLE_BACK' => tr('Return to previous menu'),
-		'TR_TABLE_NAME' => tr('Users list'),
-		'TR_MESSAGE_CHANGE_STATUS' => tr('Are you sure you want to change the status of %s?', true, '%s'),
-		'TR_MESSAGE_DELETE_ACCOUNT' => tr('Are you sure you want to delete %s?', true, '%s'),
-		'TR_STAT' => tr('Stats'),
-		'VL_MONTH' => $crnt_month,
-		'VL_YEAR' => $crnt_year,
-		'TR_EDIT_DOMAIN' => tr('Edit Domain'),
-		'TR_EDIT_USER' => tr('Edit User'),
-		'TR_BW_USAGE' => tr('Bandwidth'),
-		'TR_DISK_USAGE' => tr('Disk')
+		'TR_PAGE_TITLE'				=> tr('ispCP - Users'),
+		'TR_MANAGE_USERS'			=> tr('Manage users'),
+		'TR_USERS'					=> tr('Users'),
+		'TR_USER_STATUS'			=> tr('Status'),
+		'TR_DETAILS'				=> tr('Details'),
+		'TR_SEARCH'					=> tr('Search'),
+		'TR_USERNAME'				=> tr('Username'),
+		'TR_ACTION'					=> tr('Actions'),
+		'TR_CREATION_DATE'			=> tr('Creation date'),
+		'TR_EXPIRE_DATE'			=> tr('Expire date'),
+		'TR_CHANGE_USER_INTERFACE'	=> tr('Switch to user interface'),
+		'TR_BACK'					=> tr('Back'),
+		'TR_TITLE_BACK'				=> tr('Return to previous menu'),
+		'TR_TABLE_NAME'				=> tr('Users list'),
+		'TR_MESSAGE_CHANGE_STATUS'	=> tr('Are you sure you want to change the status of %s?', true, '%s'),
+		'TR_MESSAGE_DELETE_ACCOUNT'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_STAT'					=> tr('Stats'),
+		'VL_MONTH'					=> $crnt_month,
+		'VL_YEAR'					=> $crnt_year,
+		'TR_EDIT_DOMAIN'			=> tr('Edit Domain'),
+		'TR_EDIT_USER'				=> tr('Edit User'),
+		'TR_BW_USAGE'				=> tr('Bandwidth'),
+		'TR_DISK_USAGE'				=> tr('Disk'),
+		'TR_DELETE'					=> tr('Delete')
 	)
 );
 
@@ -110,7 +111,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
-function generate_users_list(&$tpl, $admin_id) {
+function generate_users_list($tpl, $admin_id) {
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -249,7 +250,6 @@ function generate_users_list(&$tpl, $admin_id) {
 				)
 			);
 		}
-		$i = 1;
 
 		while (!$rs->EOF) {
 			if ($rs->fields['domain_status'] == $cfg->ITEM_OK_STATUS) {
@@ -268,7 +268,7 @@ function generate_users_list(&$tpl, $admin_id) {
 			}
 			$status_url = $rs->fields['domain_id'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -276,12 +276,6 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			$admin_name = decode_idna($rs->fields['domain_name']);
-
-			$tpl->assign(
-				array(
-					'CLASS_TYPE_ROW' => ($i % 2 == 0) ? 'content' : 'content2',
-				)
-			);
 
 			$dom_created = $rs->fields['domain_created'];
 
@@ -299,15 +293,13 @@ function generate_users_list(&$tpl, $admin_id) {
 				$dom_expires = date($cfg->DATE_FORMAT, $dom_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'CREATION_DATE' => $dom_created,
 					'EXPIRE_DATE' => $dom_expires,
 					'DOMAIN_ID' => $rs->fields['domain_id'],
 					'NAME' => tohtml($admin_name),
-					'ACTION' => tr('Delete'),
 					'USER_ID' => $rs->fields['domain_admin_id'],
-					'CHANGE_INTERFACE' => tr('Switch'),
 					'DISK_USAGE' => ($rs->fields['domain_disk_limit'])
 						? tr('%1$s of %2$s MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1), $rs->fields['domain_disk_limit'])
 						: tr('%1$s of <strong>unlimited</strong> MB', round($rs->fields['domain_disk_usage'] / 1024 / 1024,1))
@@ -315,14 +307,13 @@ function generate_users_list(&$tpl, $admin_id) {
 			);
 
 			gen_domain_details($tpl, $sql, $rs->fields['domain_id']);
-			$i++;
 			$rs->moveNext();
 		}
 
 	}
 }
 
-function check_externel_events(&$tpl) {
+function check_externel_events($tpl) {
 
 	global $externel_event;
 

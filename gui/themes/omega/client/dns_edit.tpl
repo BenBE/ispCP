@@ -3,11 +3,12 @@
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		function action_delete(url, subject) {
-			if (!confirm(sprintf("{TR_MESSAGE_DELETE}", subject)))
+			if (!confirm(sprintf("{$TR_MESSAGE_DELETE}", subject)))
 				return false;
 			location = url;
 		}
 
+		{literal}
 		function in_array(needle, haystack) {
 			var n = haystack.length;
 			for (var i = 0; i < n; i++) {
@@ -80,6 +81,7 @@
 		}
 
 		dns_type_changed(document.getElementById('dns_type').value);
+		{/literal}
 	/* ]]> */
 	</script>
 	<div class="header">

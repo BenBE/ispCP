@@ -53,7 +53,7 @@ generateTicketList($tpl, $_SESSION['user_id'], $start,
 // static page messages
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Enable Mail Autoresponder'),
+		'TR_PAGE_TITLE'		=> tr('ispCP - Client/Enable Mail Autoresponder'),
 		'TR_SUPPORT_SYSTEM'	=> tr('Support system'),
 		'TR_SUPPORT_TICKETS'	=> tr('Support tickets'),
 		'TR_TICKET_FROM'	=> tr('From'),

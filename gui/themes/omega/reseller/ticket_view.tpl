@@ -1,10 +1,9 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
-			$('#SubmitAction').click(function() {
+		jQuery(document).ready(function(){
+			jQuery('#SubmitAction').click(function() {
 				form = document.getElementById('reseller_ticket_view');
 				form.uaction.value = '{$ACTION}';
 				form.submit();
@@ -12,7 +11,6 @@
 		});
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -51,19 +49,19 @@
 				<td>{$TR_TICKET_SUBJECT}:</td>
 				<td>{$SUBJECT}</td>
 			</tr>
-			<!-- BDP: tickets_item -->
+			{section name=i loop=$FROM}
 			<tr>
 				<td>{$TR_TICKET_FROM}:</td>
-				<td>{$FROM}</td>
+				<td>{$FROM[i]}</td>
 			</tr>
 			<tr>
 				<td>{$TR_TICKET_DATE}:</td>
-				<td>{$DATE}</td>
+				<td>{$DATE[i]}</td>
 			</tr>
 			<tr>
-				<td colspan="2">{$TICKET_CONTENT}</td>
+				<td colspan="2">{$TICKET_CONTENT[i]}</td>
 			</tr>
-			<!-- EDP: tickets_item -->
+			{/section}
 		</table>
 		{/if}
 		<h2 class="doc">{$TR_NEW_TICKET_REPLY}</h2>

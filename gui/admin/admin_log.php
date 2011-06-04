@@ -38,10 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'admin_log.tpl';
 
 // static page messages
-
-gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
-gen_admin_menu($tpl, 'menu_general_information.tpl');
-
 clear_log();
 
 generate_page ($tpl);
@@ -62,6 +58,10 @@ $tpl->assign(
 		'TR_CLEAR_LOG_LAST52'		=> tr('older than 12 months'),
 	)
 );
+
+gen_admin_mainmenu($tpl, 'main_menu_general_information.tpl');
+gen_admin_menu($tpl, 'menu_general_information.tpl');
+
 gen_page_message($tpl);
 
 $tpl->display($template);
@@ -75,7 +75,7 @@ unset_messages();
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function generate_page(&$tpl) {
+function generate_page($tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -155,15 +155,8 @@ function generate_page(&$tpl) {
 			)
 		);
 
-		$row = 1;
 
 		while (!$rs->EOF) {
-			$tpl->append(
-				array(
-					'ROW_CLASS' => ($row++ % 2 == 0) ? 'content' : 'content2',
-				)
-			);
-
 			$log_message = $rs->fields['log_message'];
 
 			$replaces = array(

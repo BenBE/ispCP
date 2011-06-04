@@ -37,11 +37,43 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'manage_reseller_users.tpl';
 
+// static page messages
+update_reseller_user();
+
+gen_user_table($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'		=> tr('ispCP - Admin/Manage users/User assignment'),
+		'TR_USER_ASSIGNMENT' => tr('User assignment'),
+		'TR_RESELLER_USERS'	=> tr('Users'),
+		'TR_NUMBER'			=> tr('No.'),
+		'TR_MARK'			=> tr('Mark'),
+		'TR_USER_NAME'		=> tr('User name'),
+		'TR_FROM_RESELLER'	=> tr('From reseller'),
+		'TR_TO_RESELLER'	=> tr('To reseller'),
+		'TR_MOVE'			=> tr('Move')
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_user_table(&$tpl, &$sql) {
+function gen_user_table($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -480,36 +512,4 @@ function check_ip_sets($dest, $users, &$err) {
 
 	return true;
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-update_reseller_user();
-
-gen_user_table($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/User assignment'),
-		'TR_USER_ASSIGNMENT' => tr('User assignment'),
-		'TR_RESELLER_USERS' => tr('Users'),
-		'TR_NUMBER' => tr('No.'),
-		'TR_MARK' => tr('Mark'),
-		'TR_USER_NAME' => tr('User name'),
-		'TR_FROM_RESELLER' => tr('From reseller'),
-		'TR_TO_RESELLER' => tr('To reseller'),
-		'TR_MOVE' => tr('Move'),
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

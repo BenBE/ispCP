@@ -68,16 +68,16 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<!-- BDP: traffic_table_item -->
+				{section name=i loop=$DATE}
 				<tr>
-					<td>{$DATE}</td>
-					<td>{$WEB_TRAFFIC}</td>
-					<td>{$FTP_TRAFFIC}</td>
-					<td>{$SMTP_TRAFFIC}</td>
-					<td>{$POP3_TRAFFIC}</td>
-					<td>{$ALL_TRAFFIC}</td>
+					<td>{$DATE[i]}</td>
+					<td>{$WEB_TRAFFIC[i]}</td>
+					<td>{$FTP_TRAFFIC[i]}</td>
+					<td>{$SMTP_TRAFFIC[i]}</td>
+					<td>{$POP3_TRAFFIC[i]}</td>
+					<td>{$ALL_TRAFFIC[i]}</td>
 				</tr>
-				<!-- EDP: traffic_table_item -->
+				{/section}
 			</tbody>
 		</table>
 	</div>

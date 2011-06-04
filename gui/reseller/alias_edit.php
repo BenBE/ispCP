@@ -37,32 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'alias_edit.tpl';
 
-// static page messages
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
-		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
-		'TR_EDIT_ALIAS' => tr('Edit domain alias'),
-		'TR_ALIAS_NAME' => tr('Alias name'),
-		'TR_DOMAIN_IP' => tr('Domain IP'),
-		'TR_FORWARD' => tr('Forward to URL'),
-		'TR_MODIFY' => tr('Modify'),
-		'TR_CANCEL' => tr('Cancel'),
-		'TR_ENABLE_FWD' => tr("Enable Forward"),
-		'TR_ENABLE' => tr("Enable"),
-		'TR_DISABLE' => tr("Disable"),
-		'TR_DISABLE' => tr("Disable"),
-		'TR_PREFIX_HTTP' => 'http://',
-		'TR_PREFIX_HTTPS' => 'https://',
-		'TR_PREFIX_FTP' => 'ftp://'
-	)
-);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-gen_logged_from($tpl);
-
 // "Modify" button has been pressed
 if (isset($_POST['uaction']) && ('modify' === $_POST['uaction'])) {
 	if (isset($_SESSION['edit_ID'])) {
@@ -90,7 +64,33 @@ if (isset($_POST['uaction']) && ('modify' === $_POST['uaction'])) {
 	$tpl->assign('PAGE_MESSAGE', "");
 }
 
+// static page messages
+gen_logged_from($tpl);
+
 gen_editalias_page($tpl, $editid);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Manage Domain Alias/Edit Alias'),
+		'TR_MANAGE_DOMAIN_ALIAS' => tr('Manage domain alias'),
+		'TR_EDIT_ALIAS' => tr('Edit domain alias'),
+		'TR_ALIAS_NAME' => tr('Alias name'),
+		'TR_DOMAIN_IP' => tr('Domain IP'),
+		'TR_FORWARD' => tr('Forward to URL'),
+		'TR_MODIFY' => tr('Modify'),
+		'TR_CANCEL' => tr('Cancel'),
+		'TR_ENABLE_FWD' => tr("Enable Forward"),
+		'TR_ENABLE' => tr("Enable"),
+		'TR_DISABLE' => tr("Disable"),
+		'TR_DISABLE' => tr("Disable"),
+		'TR_PREFIX_HTTP' => 'http://',
+		'TR_PREFIX_HTTPS' => 'https://',
+		'TR_PREFIX_FTP' => 'ftp://'
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 $tpl->display($template);
 
@@ -106,7 +106,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  */
-function gen_editalias_page(&$tpl, $edit_id) {
+function gen_editalias_page($tpl, $edit_id) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
@@ -206,7 +206,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $alias_id
  */
-function check_fwd_data(&$tpl, $alias_id) {
+function check_fwd_data($tpl, $alias_id) {
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -295,3 +295,4 @@ function check_fwd_data(&$tpl, $alias_id) {
 		return false;
 	}
 } // End of check_user_data()
+?>

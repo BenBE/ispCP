@@ -37,9 +37,55 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'mail_autoresponder_enable.tpl';
 
+// common page data
+if (isset($_GET['id'])) {
+	$mail_id = $_GET['id'];
+} else if (isset($_POST['id'])) {
+	$mail_id = $_POST['id'];
+} else {
+	user_goto('mail_accounts.php');
+}
+
+if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
+	header("Location: index.php");
+}
+
+// dynamic page data
+check_email_user($sql);
+gen_page_dynamic_data($tpl, $sql, $mail_id);
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Enable Mail Auto Responder'),
+		'TR_ENABLE_MAIL_AUTORESPONDER'	=> tr('Edit mail auto responder'),
+		'TR_ARSP_MESSAGE'				=> tr('Your message'),
+		'TR_ENABLE'						=> tr('Save'),
+		'TR_CANCEL'						=> tr('Cancel'),
+		'ID'							=> $mail_id
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions.
 
-function check_email_user(&$sql) {
+function check_email_user($sql) {
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];
 
@@ -76,12 +122,12 @@ function check_email_user(&$sql) {
  * @param int $mail_id
  * @param bool $read_from_db
  */
-function gen_page_dynamic_data(&$tpl, &$sql, $mail_id, $read_from_db) {
+function gen_page_dynamic_data($tpl, $sql, $mail_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
 	// Get Message
-	if ($read_from_db) {
+	if (!isset($_POST['uaction'])){
 		$query = "
 			SELECT
 				`mail_auto_respond_text`, `mail_acc`
@@ -155,51 +201,4 @@ function gen_page_dynamic_data(&$tpl, &$sql, $mail_id, $read_from_db) {
 		$tpl->assign('ARSP_MESSAGE', '');
 	}
 }
-
-// common page data.
-
-if (isset($_GET['id'])) {
-	$mail_id = $_GET['id'];
-} else if (isset($_POST['id'])) {
-	$mail_id = $_POST['id'];
-} else {
-	user_goto('mail_accounts.php');
-}
-
-if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == "no") {
-	header("Location: index.php");
-}
-
-// dynamic page data.
-
-check_email_user($sql);
-gen_page_dynamic_data($tpl, $sql, $mail_id, !isset($_POST['uaction']));
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'					=> tr('ispCP - Client/Enable Mail Auto Responder'),
-		'TR_ENABLE_MAIL_AUTORESPONDER'	=> tr('Edit mail auto responder'),
-		'TR_ARSP_MESSAGE'				=> tr('Your message'),
-		'TR_ENABLE'						=> tr('Save'),
-		'TR_CANCEL'						=> tr('Cancel'),
-		'ID'							=> $mail_id
-	)
-);
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

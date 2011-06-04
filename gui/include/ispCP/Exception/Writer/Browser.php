@@ -78,7 +78,7 @@ class ispCP_Exception_Writer_Browser extends ispCP_Exception_Writer {
 	 */
 	protected function _write() {
 		if(!is_null($this->ispCP_TemplateEngine)) {
-			if (file_exists($this->ispCP_TemplateEngine->get_template_dir().'exception_message.tpl')){
+			if (file_exists($this->ispCP_TemplateEngine->get_template_dir().'/exception_message.tpl')){
 				$this->ispCP_TemplateEngine->display('exception_message.tpl');
 			} else {
 				$this->ispCP_TemplateEngine->set_template_dir($this->ispCP_TemplateEngine->get_template_dir().'../');

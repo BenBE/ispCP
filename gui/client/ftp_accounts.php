@@ -49,19 +49,19 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage Users'),
-		'TR_MANAGE_USERS' => tr('Manage users'),
-		'TR_TYPE' => tr('Type'),
-		'TR_STATUS' => tr('Status'),
-		'TR_ACTION' => tr('Action'),
-		'TR_TOTAL_FTP_ACCOUNTS' => tr('FTPs total'),
-		'TR_DOMAIN' => tr('Domain'),
-		'TR_FTP_USERS' => tr('FTP users'),
-		'TR_FTP_ACCOUNT' => tr('FTP account'),
-		'TR_FTP_ACTION' => tr('Action'),
-		'TR_EDIT' => tr('Edit'),
-		'TR_DELETE' => tr('Delete'),
-		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage Users'),
+		'TR_MANAGE_USERS'		=> tr('Manage users'),
+		'TR_TYPE'				=> tr('Type'),
+		'TR_STATUS'				=> tr('Status'),
+		'TR_ACTION'				=> tr('Action'),
+		'TR_TOTAL_FTP_ACCOUNTS'	=> tr('FTPs total'),
+		'TR_DOMAIN'				=> tr('Domain'),
+		'TR_FTP_USERS'			=> tr('FTP users'),
+		'TR_FTP_ACCOUNT'		=> tr('FTP account'),
+		'TR_FTP_ACTION'			=> tr('Action'),
+		'TR_EDIT'				=> tr('Edit'),
+		'TR_DELETE'				=> tr('Delete'),
+		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
 	)
 );
 
@@ -86,7 +86,7 @@ unset_messages();
  * @param int $dmn_id
  * @param string $dmn_name
  */
-function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
+function gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name) {
 	$query = "
 		SELECT
 			`gid`,
@@ -122,7 +122,7 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 
 			$ftp_accs_encode[$i] = decode_idna($ftp_accs[$i]);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'FTP_ACCOUNT' => tohtml($ftp_accs_encode[$i]),
 					'UID' => urlencode($ftp_accs[$i])
@@ -135,7 +135,7 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	}
 }
 
-function gen_page_lists(&$tpl, &$sql, $user_id) {
+function gen_page_lists($tpl, $sql, $user_id) {
 
 	list($dmn_id,$dmn_name) = get_domain_default_props($sql, $user_id);
 

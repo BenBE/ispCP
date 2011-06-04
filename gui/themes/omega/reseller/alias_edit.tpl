@@ -2,11 +2,11 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		function setForwardReadonly(obj){ 
-			if(obj.value == 1) { 
+		function setForwardReadonly(obj){
+			if(obj.value == 1) {
 				document.getElementById('reseller_alias_edit').elements['forward'].readOnly = false;
 				document.getElementById('reseller_alias_edit').elements['forward_prefix'].disabled = false;
-			} else { 
+			} else {
 				document.getElementById('reseller_alias_edit').elements['forward'].readOnly = true;
 				document.getElementById('reseller_alias_edit').elements['forward'].value = '';
 				document.getElementById('reseller_alias_edit').elements['forward_prefix'].disabled = true;

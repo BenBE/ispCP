@@ -1,5 +1,12 @@
 {include file='header.tpl'}
 <body>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery(document).ready(function(){
+			jQuery('#dmn_tmp_access').attr('rel', 'external').attr('target', '_blank');
+		});
+	/* ]]> */
+	</script>
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -37,7 +44,7 @@
 			</tr>
 			<tr>
 				<td>{$TR_DMN_TMP_ACCESS}</td>
-				<td><a href="{$DOMAIN_ALS_URL}">{$DOMAIN_ALS_URL}</a></td>
+				<td><a id="dmn_tmp_access" href="{$DOMAIN_ALS_URL}">{$DOMAIN_ALS_URL}</a></td>
 			</tr>
 			<tr>
 				<td>{$TR_DOMAIN_EXPIRE}</td>

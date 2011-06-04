@@ -77,7 +77,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_page_data(&$tpl, &$sql) {
+function gen_page_data($tpl, $sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
 		$tpl->assign(
 			array(
@@ -124,7 +124,7 @@ function gen_page_data(&$tpl, &$sql) {
 	}
 }
 
-function check_user_data(&$tpl) {
+function check_user_data($tpl) {
 	global $msg_subject, $msg_text, $sender_email, $sender_name;
 
 	$err_message = '';
@@ -158,7 +158,7 @@ function check_user_data(&$tpl) {
 	}
 }
 
-function send_circular(&$tpl, &$sql) {
+function send_circular($tpl, $sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
 		if (check_user_data($tpl)) {
 			send_reseller_users_message ($sql, $_SESSION['user_id']);
@@ -168,7 +168,7 @@ function send_circular(&$tpl, &$sql) {
 	}
 }
 
-function send_reseller_users_message(&$sql, $admin_id) {
+function send_reseller_users_message($sql, $admin_id) {
 
 	$msg_subject = clean_input($_POST['msg_subject'], false);
 	$msg_text = clean_input($_POST['msg_text'], false);

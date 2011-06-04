@@ -37,8 +37,8 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
-		<h2 class="billing"><span>{$TR_MANAGE_ORDERS}</span></h2>
 		{if isset($ID)}
+		<h2 class="billing"><span>{$TR_MANAGE_ORDERS}</span></h2>
 		<table>
 			<tr>
 				<th>{$TR_ID}</th>

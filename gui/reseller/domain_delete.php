@@ -37,13 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_delete.tpl';
 
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain')
-	)
-);
-
 if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	validate_domain_deletion(intval($_GET['domain_id']));
 } else if (isset($_POST['domain_id']) && is_numeric($_POST['domain_id'])
@@ -54,10 +47,17 @@ if (isset($_GET['domain_id']) && is_numeric($_GET['domain_id'])) {
 	user_goto('users.php?psi=last');
 }
 
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
+// static page messages
 gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Delete Domain')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 gen_page_message($tpl);
 
@@ -116,7 +116,7 @@ function validate_domain_deletion($domain_id) {
 			}
 			$mdisplay_txt = implode(', ', $mdisplay_a);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'MAIL_ADDR' => tohtml($res->fields['mail_addr']),
 					'MAIL_TYPE' => $mdisplay_txt
@@ -135,7 +135,7 @@ function validate_domain_deletion($domain_id) {
 	if (!$res->EOF) {
 		while (!$res->EOF) {
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'FTP_USER' => tohtml($res->fields['userid']),
 					'FTP_HOME' => tohtml($res->fields['homedir'])
@@ -156,7 +156,7 @@ function validate_domain_deletion($domain_id) {
 		while (!$res->EOF) {
 			$alias_a[] = $res->fields['alias_id'];
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ALS_NAME' => tohtml($res->fields['alias_name']),
 					'ALS_MNT' => tohtml($res->fields['alias_mount'])
@@ -175,7 +175,7 @@ function validate_domain_deletion($domain_id) {
 	$res = exec_query($sql, $query, $domain_id);
 	while (!$res->EOF) {
 		$any_sub_found = true;
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'SUB_NAME' => tohtml($res->fields['subdomain_name']),
 				'SUB_MNT' => tohtml($res->fields['subdomain_mount'])
@@ -196,7 +196,7 @@ function validate_domain_deletion($domain_id) {
 		$query .= ")";
 		$res = exec_query($sql, $query);
 		while (!$res->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'SUB_NAME' => tohtml($res->fields['subdomain_alias_name']),
 					'SUB_MNT' => tohtml($res->fields['subdomain_alias_mount'])
@@ -224,7 +224,7 @@ function validate_domain_deletion($domain_id) {
 			}
 			$users_txt = implode(', ', $users_a);
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DB_NAME' => tohtml($res->fields['sqld_name']),
 					'DB_USERS' => tohtml($users_txt)
@@ -238,3 +238,4 @@ function validate_domain_deletion($domain_id) {
 	}
 
 }
+?>

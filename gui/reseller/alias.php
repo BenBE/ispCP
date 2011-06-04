@@ -36,7 +36,7 @@ $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
 
-$template = 'domain_alias.tpl';
+$template = 'alias.tpl';
 
 // static page messages
 gen_logged_from($tpl);
@@ -82,7 +82,7 @@ unset_messages();
  * @param int $reseller_id
  * @param string $als_err
  */
-function generate_als_list(&$tpl, $reseller_id, &$als_err) {
+function generate_als_list($tpl, $reseller_id, &$als_err) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
@@ -308,8 +308,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 		}
 	}
 
-	$i = 1;
-
 	while (!$rs->EOF) {
 		$als_id = $rs->fields['alias_id'];
 		$als_name = $rs->fields['alias_name'];
@@ -330,8 +328,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 
 		$als_ip = $alsip_d['ip_number'];
 		$als_ip_name = $alsip_d['ip_domain'];
-
-		$page_cont = ($i % 2 == 0) ? 'content' : 'content2';
 
 		if ($als_status === $cfg->ITEM_OK_STATUS) {
 			$delete_link = "alias_delete.php?del_id=" . $als_id;
@@ -362,7 +358,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 			$account_name_selected = '';
 		}
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'NAME'						=> tohtml($als_name),
 				'ALIAS_IP'					=> tohtml("$als_ip ($als_ip_name)"),
@@ -372,7 +368,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 				'STATUS'					=> $als_status,
 				'ID'						=> $als_id,
 				'DELETE'					=> $action_text,
-				'CONTENT'					=> $page_cont,
 				'DELETE_LINK'				=> $delete_link,
 				'EDIT_LINK'					=> $edit_link,
 				'EDIT'						=> $edit_text,
@@ -381,7 +376,6 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
 			)
 		);
 
-		$i++;
 		$rs->moveNext();
 	}
 } // End of generate_als_list()
@@ -390,7 +384,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $als_err
  */
-function generate_als_messages(&$tpl, $als_err) {
+function generate_als_messages($tpl, $als_err) {
 	if ($als_err != '_off_') {
 		$tpl->assign(
 			array('MESSAGE' => $als_err)

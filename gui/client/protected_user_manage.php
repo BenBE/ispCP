@@ -109,7 +109,7 @@ function gen_group_action($id, $status, $group) {
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
-function gen_pusres(&$tpl, &$sql, &$dmn_id) {
+function gen_pusres($tpl, $sql, $dmn_id) {
 	$query = "
 		SELECT
 			*
@@ -158,7 +158,7 @@ function gen_pusres(&$tpl, &$sql, &$dmn_id) {
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
-function gen_pgroups(&$tpl, &$sql, &$dmn_id) {
+function gen_pgroups($tpl, $sql, $dmn_id) {
 	$query = "
 		SELECT
 			*

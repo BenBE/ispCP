@@ -28,7 +28,7 @@
  * isp Control Panel. All Rights Reserved.
  */
 
-function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false) {
+function get_domain_default_props($sql, $domain_admin_id, $returnWKeys = false) {
 
 	// /!\ Note to dev:
 	// Please, when you adds new field here, you must
@@ -99,7 +99,7 @@ function get_domain_default_props(&$sql, $domain_admin_id, $returnWKeys = false)
 	}
 }
 
-function get_domain_running_sub_cnt(&$sql, $domain_id) {
+function get_domain_running_sub_cnt($sql, $domain_id) {
 
 	$query = "
 		SELECT
@@ -132,7 +132,7 @@ function get_domain_running_sub_cnt(&$sql, $domain_id) {
 	return $sub_count+$alssub_count;
 }
 
-function get_domain_running_als_cnt(&$sql, $domain_id) {
+function get_domain_running_als_cnt($sql, $domain_id) {
 
 	$query = "
 		SELECT
@@ -151,7 +151,7 @@ function get_domain_running_als_cnt(&$sql, $domain_id) {
 	return $als_count;
 }
 
-function get_domain_running_mail_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_mail_acc_cnt($sql, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -270,7 +270,7 @@ function get_domain_running_mail_acc_cnt(&$sql, $domain_id) {
 	);
 }
 
-function get_domain_running_dmn_ftp_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_dmn_ftp_acc_cnt($sql, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$ftp_separator = $cfg->FTP_USERNAME_SEPARATOR;
@@ -305,7 +305,7 @@ function get_domain_running_dmn_ftp_acc_cnt(&$sql, $domain_id) {
 	return $rs->fields['cnt'];
 }
 
-function get_domain_running_sub_ftp_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_sub_ftp_acc_cnt($sql, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$ftp_separator = $cfg->FTP_USERNAME_SEPARATOR;
@@ -360,7 +360,7 @@ function get_domain_running_sub_ftp_acc_cnt(&$sql, $domain_id) {
 	return $sub_ftp_acc_cnt;
 }
 
-function get_domain_running_als_ftp_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_als_ftp_acc_cnt($sql, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -405,7 +405,7 @@ function get_domain_running_als_ftp_acc_cnt(&$sql, $domain_id) {
 	return $als_ftp_acc_cnt;
 }
 
-function get_domain_running_ftp_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_ftp_acc_cnt($sql, $domain_id) {
 
 	$dmn_ftp_acc_cnt = get_domain_running_dmn_ftp_acc_cnt($sql, $domain_id);
 	$sub_ftp_acc_cnt = get_domain_running_sub_ftp_acc_cnt($sql, $domain_id);
@@ -419,7 +419,7 @@ function get_domain_running_ftp_acc_cnt(&$sql, $domain_id) {
 	);
 }
 
-function get_domain_running_sqld_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_sqld_acc_cnt($sql, $domain_id) {
 
 	$query = "
 		SELECT
@@ -438,7 +438,7 @@ function get_domain_running_sqld_acc_cnt(&$sql, $domain_id) {
 	return $sqld_acc_cnt;
 }
 
-function get_domain_running_sqlu_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_sqlu_acc_cnt($sql, $domain_id) {
 
 	$query = "
 		SELECT DISTINCT
@@ -459,7 +459,7 @@ function get_domain_running_sqlu_acc_cnt(&$sql, $domain_id) {
 	return $sqlu_acc_cnt;
 }
 
-function get_domain_running_sql_acc_cnt(&$sql, $domain_id) {
+function get_domain_running_sql_acc_cnt($sql, $domain_id) {
 
 	$sqld_acc_cnt = get_domain_running_sqld_acc_cnt($sql, $domain_id);
 	$sqlu_acc_cnt = get_domain_running_sqlu_acc_cnt($sql, $domain_id);
@@ -467,7 +467,7 @@ function get_domain_running_sql_acc_cnt(&$sql, $domain_id) {
 	return array($sqld_acc_cnt, $sqlu_acc_cnt);
 }
 
-function get_domain_running_props_cnt(&$sql, $domain_id) {
+function get_domain_running_props_cnt($sql, $domain_id) {
 
 	$sub_cnt = get_domain_running_sub_cnt($sql, $domain_id);
 	$als_cnt = get_domain_running_als_cnt($sql, $domain_id);
@@ -483,7 +483,7 @@ function get_domain_running_props_cnt(&$sql, $domain_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_client_mainmenu(&$tpl, $menu_file) {
+function gen_client_mainmenu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -585,17 +585,21 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
 		$domain_dns
 	) = get_domain_default_props($sql, $_SESSION['user_id']);
 
-	if ($dmn_mailacc_limit == -1)
-		$tpl->assign('ISACTIVE_EMAIL', '');
+	if ($dmn_mailacc_limit != -1){
+		$tpl->assign('ISACTIVE_EMAIL', true);
+	}
 
-	if ($dmn_als_limit == -1 && $dmn_subd_limit == -1 && $domain_dns != 'yes')
-		$tpl->assign('ISACTIVE_DOMAIN', '');
+	if ($dmn_als_limit != -1 || $dmn_subd_limit != -1 || $domain_dns == 'yes'){
+		$tpl->assign('ISACTIVE_DOMAIN', true);
+	}
 
-	if ($dmn_ftpacc_limit == -1)
-		$tpl->assign('ISACTIVE_FTP', '');
+	if ($dmn_ftpacc_limit != -1){
+		$tpl->assign('ISACTIVE_FTP', true);
+	}
 
-	if ($dmn_sqld_limit == -1)
-		$tpl->assign('ISACTIVE_SQL', '');
+	if ($dmn_sqld_limit != -1){
+		$tpl->assign('ISACTIVE_SQL', true);
+	}
 
 	$query = "
 		SELECT
@@ -632,7 +636,7 @@ function gen_client_mainmenu(&$tpl, $menu_file) {
  * @param string $menu_file
  * @return void
  */
-function gen_client_menu(&$tpl, $menu_file) {
+function gen_client_menu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -813,7 +817,7 @@ function gen_client_menu(&$tpl, $menu_file) {
 	$tpl->assign('MENU', $menu_file);
 }
 
-function get_user_domain_id(&$sql, $user_id) {
+function get_user_domain_id($sql, $user_id) {
 
 	$query = "
 		SELECT
@@ -872,7 +876,7 @@ function user_goto($dest) {
 	);
 }
 
-function count_sql_user_by_name(&$sql, $sqlu_name) {
+function count_sql_user_by_name($sql, $sqlu_name) {
 
 	$query = "
 		SELECT
@@ -892,7 +896,7 @@ function count_sql_user_by_name(&$sql, $sqlu_name) {
 /**
  * @todo see dirty hack
  */
-function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
+function sql_delete_user($sql, $dmn_id, $db_user_id) {
 
 	// let's get sql user common data;
 	$query = "
@@ -958,7 +962,7 @@ function sql_delete_user(&$sql, $dmn_id, $db_user_id) {
  * @param ispCP_TemplateEngine $tpl
  * @return void
  */
-function check_permissions(&$tpl) {
+function check_permissions($tpl) {
 
 	if (isset($_SESSION['sql_support']) && $_SESSION['sql_support'] == "no") {
 		$tpl->assign('SQL_SUPPORT', '');
@@ -984,7 +988,7 @@ function check_permissions(&$tpl) {
 	}
 }
 
-function check_usr_sql_perms(&$sql, $db_user_id) {
+function check_usr_sql_perms($sql, $db_user_id) {
 
 	if (who_owns_this($db_user_id, 'sqlu_id') != $_SESSION['user_id']) {
 		set_page_message(
@@ -995,7 +999,7 @@ function check_usr_sql_perms(&$sql, $db_user_id) {
 	}
 }
 
-function check_db_sql_perms(&$sql, $db_id) {
+function check_db_sql_perms($sql, $db_id) {
 
 	if (who_owns_this($db_id, 'sqld_id') != $_SESSION['user_id']) {
 		set_page_message(
@@ -1017,7 +1021,7 @@ function check_ftp_perms($sql, $ftp_acc) {
 	}
 }
 
-function delete_sql_database(&$sql, $dmn_id, $db_id) {
+function delete_sql_database($sql, $dmn_id, $db_id) {
 
 	$query = "
 		SELECT
@@ -1149,7 +1153,7 @@ function mount_point_exists($dmn_id, $mnt_point) {
 	return false;
 }
 
-function get_user_domain_ip(&$sql, $dmn_ip_id) {
+function get_user_domain_ip($sql, $dmn_ip_id) {
 
 	$query = "
 		SELECT

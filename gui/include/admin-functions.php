@@ -32,7 +32,7 @@
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_admin_mainmenu(&$tpl, $menu_file) {
+function gen_admin_mainmenu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -148,7 +148,7 @@ function gen_admin_mainmenu(&$tpl, $menu_file) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_admin_menu(&$tpl, $menu_file) {
+function gen_admin_menu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -263,8 +263,6 @@ function get_sql_user_count($sql) {
 		;
 	";
 
-	// NXW hu ? fase here ? I don't think...
-	// $rs = exec_query($sql, $query, false);
 	$rs = exec_query($sql, $query);
 
 	return $rs->recordCount();
@@ -274,7 +272,7 @@ function get_sql_user_count($sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function get_admin_general_info(&$tpl, &$sql) {
+function get_admin_general_info($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -347,7 +345,7 @@ function get_admin_general_info(&$tpl, &$sql) {
  * @param ispCP_Database $sql
  * @return void
  */
-function gen_admin_list(&$tpl, &$sql) {
+function gen_admin_list($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -378,8 +376,6 @@ function gen_admin_list(&$tpl, &$sql) {
 				'ADMIN_LIST' => ''
 			)
 		);
-
-		$tpl->parse('ADMIN_MESSAGE', 'admin_message');
 	} else {
 		$tpl->assign(
 			array(
@@ -393,7 +389,7 @@ function gen_admin_list(&$tpl, &$sql) {
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'ADMIN_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -410,38 +406,28 @@ function gen_admin_list(&$tpl, &$sql) {
 
 			if($rs->fields['created_by'] == '' ||
 				$rs->fields['admin_id'] == $_SESSION['user_id']) {
-
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'ADMIN_DELETE_LINK' => '',
-						'URL_DELETE_ADMIN' => ''
+						'ADMIN_DELETE_SHOW' => false,
+						'URL_DELETE_ADMIN'	=> ''
 					)
 				);
-
 			} else {
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'ADMIN_DELETE_SHOW' => '',
-						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_ADMIN' =>
-							'user_delete.php?delete_id=' .
-							$rs->fields['admin_id'] .
-							'&amp;delete_username=' .
-							$rs->fields['admin_name'],
-						'ADMIN_USERNAME' => tohtml($rs->fields['admin_name'])
+						'ADMIN_DELETE_SHOW'	=> true,
+						'URL_DELETE_ADMIN'	=> 'user_delete.php?delete_id=' . $rs->fields['admin_id'] . '&amp;delete_username=' . $rs->fields['admin_name']
 					)
 				);
 
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'ADMIN_USERNAME' => tohtml($rs->fields['admin_name']),
-					'ADMIN_CREATED_ON' => tohtml($admin_created),
-					'ADMIN_CREATED_BY' => (!is_null($rs->fields['created_by']))
-						? tohtml($rs->fields['created_by']) : tr("System"),
-					'URL_EDIT_ADMIN' => 'admin_edit.php?edit_id=' .
-						$rs->fields['admin_id']
+					'ADMIN_USERNAME'	=> tohtml($rs->fields['admin_name']),
+					'ADMIN_CREATED_ON'	=> tohtml($admin_created),
+					'ADMIN_CREATED_BY'	=> (!is_null($rs->fields['created_by'])) ? tohtml($rs->fields['created_by']) : tr("System"),
+					'URL_EDIT_ADMIN'	=> 'admin_edit.php?edit_id=' . $rs->fields['admin_id']
 				)
 			);
 
@@ -455,7 +441,7 @@ function gen_admin_list(&$tpl, &$sql) {
  * @param ispCP_pTemplate $tpl
  * @param ispCP_Database $sql
  */
-function gen_reseller_list(&$tpl, &$sql) {
+function gen_reseller_list($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -484,49 +470,37 @@ function gen_reseller_list(&$tpl, &$sql) {
 				'RSL_LIST' => ''
 			)
 		);
-
-		$tpl->parse('RSL_MESSAGE', 'rsl_message');
 	} else {
 		$tpl->assign(
 			array(
 				'TR_RSL_USERNAME' => tr('Username'),
 				'TR_RSL_CREATED_BY' => tr('Created by'),
-				'TR_RSL_OPTIONS' => tr('Options')
+				'TR_RSL_OPTIONS' => tr('Options'),
+				'GO_TO_USER_INTERFACE' => tr('Switch')
 			)
 		);
 
 		$i = 0;
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
 			);
 
 			if($rs->fields['created_by'] == '') {
-				$tpl->assign(
+				$tpl->append(
 					array(
-						'TR_DELETE' => tr('Delete'),
 						'RSL_DELETE_LINK' => '',
 					)
 				);
-
-				$tpl->parse('RSL_DELETE_SHOW', 'rsl_delete_show');
 			} else {
-				$tpl->assign(
+				$tpl->append(
 					array(
 						'RSL_DELETE_SHOW' => '',
-						'TR_DELETE' => tr('Delete'),
-						'URL_DELETE_RSL' => 'user_delete.php?delete_id=' .
-							$rs->fields['admin_id'] . '&amp;delete_username=' .
-								$rs->fields['admin_name'],
-						'TR_CHANGE_USER_INTERFACE' =>
-							tr('Switch to user interface'),
-								'GO_TO_USER_INTERFACE' => tr('Switch'),
-						'URL_CHANGE_INTERFACE' =>
-							'change_user_interface.php?to_id=' .
-								$rs->fields['admin_id']
+						'URL_DELETE_RSL' => 'user_delete.php?delete_id=' . $rs->fields['admin_id'] . '&amp;delete_username=' . $rs->fields['admin_name'],
+						'URL_CHANGE_INTERFACE_RSL' => 'change_user_interface.php?to_id=' . $rs->fields['admin_id']
 					)
 				);
 			}
@@ -540,13 +514,12 @@ function gen_reseller_list(&$tpl, &$sql) {
 				$reseller_created = date($date_formt, $reseller_created);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'RSL_USERNAME' => tohtml($rs->fields['admin_name']),
 					'RESELLER_CREATED_ON' => tohtml($reseller_created),
 					'RSL_CREATED_BY' => tohtml($rs->fields['created_by']),
-					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' .
-						$rs->fields['admin_id']
+					'URL_EDIT_RSL' => 'reseller_edit.php?edit_id=' . $rs->fields['admin_id']
 				)
 			);
 
@@ -560,7 +533,7 @@ function gen_reseller_list(&$tpl, &$sql) {
  * @param ispCP_pTemplate $tpl
  * @param ispCP_Database $sql
  */
-function gen_user_list(&$tpl, &$sql) {
+function gen_user_list($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -655,8 +628,6 @@ function gen_user_list(&$tpl, &$sql) {
 				)
 			);
 		}
-
-		$tpl->parse('USR_MESSAGE', 'usr_message');
 	} else {
 		$prev_si = $start_index - $rows_per_page;
 
@@ -690,12 +661,19 @@ function gen_user_list(&$tpl, &$sql) {
 				'TR_USR_CREATED_BY' => tr('Created by'),
 				'TR_USR_OPTIONS' => tr('Options'),
 				'TR_USER_STATUS' => tr('Status'),
-				'TR_DETAILS' => tr('Details')
+				'TR_DETAILS' => tr('Details'),
+				'TR_EDIT_DOMAIN' => tr('Edit domain'),
+				'TR_EDIT_USR' => tr('Edit user'),
+				'GO_TO_USER_INTERFACE' => tr('Switch'),
+				'TR_MESSAGE_CHANGE_STATUS' =>
+						tr('Are you sure you want to change the status of domain account?', true),
+				'TR_MESSAGE_DELETE' =>
+						tr('Are you sure you want to delete %s?', true, '%s')
 			)
 		);
 
 		while(!$rs->EOF) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_CLASS' => ($i % 2 == 0) ? 'content' : 'content2',
 				)
@@ -726,22 +704,14 @@ function gen_user_list(&$tpl, &$sql) {
 			}
 
 			// Get disk usage by user
-			// NXW Reported as unused by IDE profiler so...
-			// $traffic = get_user_traffic($rs->fields['domain_id']);
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_DELETE_SHOW' => '',
 					'DOMAIN_ID' => $rs->fields['domain_id'],
-					'TR_DELETE' => tr('Delete'),
 					'URL_DELETE_USR' => 'user_delete.php?domain_id=' .
 							$rs->fields['domain_id'],
-					'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface'),
-					'GO_TO_USER_INTERFACE' => tr('Switch'),
 					'URL_CHANGE_INTERFACE' => 'change_user_interface.php?to_id=' .
-							$rs->fields['domain_admin_id'],
-					'USR_USERNAME' => tohtml($rs->fields['domain_name']),
-					'TR_EDIT_DOMAIN' => tr('Edit domain'),
-					'TR_EDIT_USR' => tr('Edit user')
+							$rs->fields['domain_admin_id']
 				)
 			);
 
@@ -768,7 +738,7 @@ function gen_user_list(&$tpl, &$sql) {
 					$rs->fields['domain_id'];
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'STATUS_ICON' => $status_icon,
 					'URL_CHANGE_STATUS' => $status_url,
@@ -795,7 +765,7 @@ function gen_user_list(&$tpl, &$sql) {
 				$domain_expires = date($date_formt, $domain_expires);
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'USR_USERNAME' => tohtml($admin_name),
 					'USER_CREATED_ON' => tohtml($domain_created),
@@ -803,11 +773,7 @@ function gen_user_list(&$tpl, &$sql) {
 					'USR_CREATED_BY' => tohtml($created_by_name),
 					'USR_OPTIONS' => '',
 					'URL_EDIT_USR' => 'admin_edit.php?edit_id=' .
-						$rs->fields['domain_admin_id'],
-					'TR_MESSAGE_CHANGE_STATUS' =>
-						tr('Are you sure you want to change the status of domain account?', true),
-					'TR_MESSAGE_DELETE' =>
-						tr('Are you sure you want to delete %s?', true, '%s'),
+						$rs->fields['domain_admin_id']
 				)
 			);
 
@@ -822,20 +788,21 @@ function gen_user_list(&$tpl, &$sql) {
  * @param ispCP_pTemplate $tpl
  * @param ispCP_Database $sql
  */
-function get_admin_manage_users(&$tpl, &$sql) {
+function get_admin_manage_users($tpl, $sql) {
 
 	$tpl->assign(
 		array(
-			'TR_MANAGE_USERS' => tr('Manage users'),
+			'TR_MANAGE_USERS'	=> tr('Manage users'),
 			'TR_ADMINISTRATORS' => tr('Administrators'),
-			'TR_RESELLERS' => tr('Resellers'),
-			'TR_USERS' => tr('Users'),
-			'TR_SEARCH' => tr('Search'),
-			'TR_CREATED_ON' => tr('Creation date'),
-			'TR_EXPIRES_ON' => tr('Expire date'),
-			'TR_MESSAGE_DELETE' =>
-				tr('Are you sure you want to delete %s?', true, '%s'),
-			'TR_EDIT' => tr("Edit")
+			'TR_RESELLERS'		=> tr('Resellers'),
+			'TR_USERS'			=> tr('Users'),
+			'TR_SEARCH'			=> tr('Search'),
+			'TR_CREATED_ON'		=> tr('Creation date'),
+			'TR_EXPIRES_ON'		=> tr('Expire date'),
+			'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+			'TR_EDIT'			=> tr('Edit'),
+			'TR_DELETE'			=> tr('Delete'),
+			'TR_CHANGE_USER_INTERFACE' => tr('Switch to user interface')
 		)
 	);
 
@@ -1424,7 +1391,7 @@ function sub_records_rlike_count($field, $table, $where, $value, $subfield,
  * @param int $user_month
  * @param int $user_year
  */
-function gen_select_lists(&$tpl, $user_month, $user_year) {
+function gen_select_lists($tpl, $user_month, $user_year) {
 
 	global $crnt_month, $crnt_year;
 	$cfg = ispCP_Registry::get('Config');
@@ -1438,10 +1405,9 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 	}
 
 	for($i = 1 ; $i <= 12 ; $i++) {
-		$selected = ($i == $crnt_month) ? $cfg->HTML_SELECTED : '';
 		$tpl->append(
 			array(
-				'MONTH_SELECTED' => $selected,
+				'MONTH_SELECTED' => ($i == $crnt_month) ? $cfg->HTML_SELECTED : '',
 				'MONTH_VALUE' => $i
 			)
 		);
@@ -1449,10 +1415,9 @@ function gen_select_lists(&$tpl, $user_month, $user_year) {
 	}
 
 	for($i = $crnt_year - 1 ; $i <= $crnt_year + 1 ; $i++) {
-		$selected = ($i == $crnt_year) ? $cfg->HTML_SELECTED : '';
 		$tpl->append(
 			array(
-				'YEAR_SELECTED' => $selected,
+				'YEAR_SELECTED' => ($i == $crnt_year) ? $cfg->HTML_SELECTED : '',
 				'YEAR_VALUE' => $i
 			)
 		);
@@ -1764,7 +1729,7 @@ function update_reseller_props($reseller_id, $props) {
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_logged_from(&$tpl) {
+function gen_logged_from($tpl) {
 
 	if(isset($_SESSION['logged_from']) && isset($_SESSION['logged_from_id'])) {
 		$tpl->assign(
@@ -1783,7 +1748,7 @@ function gen_logged_from(&$tpl) {
 	}
 }
 
-function change_domain_status(&$sql, $domain_id, $domain_name, $action,
+function change_domain_status($sql, $domain_id, $domain_name, $action,
 	$location) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -2052,7 +2017,7 @@ function gen_admin_domain_query(&$search_query, &$count_query, $start_index,
  * @param string $search_common
  * @param string $search_status
  */
-function gen_admin_domain_search_options(&$tpl, $search_for, $search_common,
+function gen_admin_domain_search_options($tpl, $search_for, $search_common,
 	$search_status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -2475,7 +2440,7 @@ function delete_domain($domain_id, $goto, $breseller = false) {
  * @param int $user_id
  * @param bool encode
  */
-function gen_purchase_haf(&$tpl, &$sql, $user_id, $encode = false) {
+function gen_purchase_haf($tpl, $sql, $user_id, $encode = false) {
 
 	$cfg = ispCP_Registry::get('Config');
 

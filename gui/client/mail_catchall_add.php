@@ -87,7 +87,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $id
  */
-function gen_dynamic_page_data(&$tpl, &$sql, $id) {
+function gen_dynamic_page_data($tpl, $sql, $id) {
 
 	global $domain_id;
 	$cfg = ispCP_Registry::get('Config');
@@ -288,7 +288,7 @@ function gen_dynamic_page_data(&$tpl, &$sql, $id) {
 	}
 }
 
-function create_catchall_mail_account(&$sql, $id) {
+function create_catchall_mail_account($sql, $id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

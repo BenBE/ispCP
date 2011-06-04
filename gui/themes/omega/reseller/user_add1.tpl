@@ -1,25 +1,24 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Tooltips - begin
-			$('#dmn_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
+			jQuery('#dmn_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}" });
 			// Tooltips - end
 
 			// Datepicker - begin		
-			$('#dmn_exp_never').change(function() {
-				if ($(this).is(':checked')) {
-					$('#dmn_exp_date').attr('disabled', 'disabled');
+			jQuery('#dmn_exp_never').change(function() {
+				if (jQuery(this).is(':checked')) {
+					jQuery('#dmn_exp_date').attr('disabled', 'disabled');
 				} else {
-					$('#dmn_exp_date').removeAttr('disabled');
+					jQuery('#dmn_exp_date').removeAttr('disabled');
 				}
 			});
 			// Datepicker - end
 
 			// jQuery UI Datepicker
-			$('#dmn_exp_date').datepicker({
+			jQuery('#dmn_exp_date').datepicker({
 				dateFormat: '{$VL_DATE_FORMAT}',
 				dayNamesMin: ['{$TR_SU}', '{$TR_MO}', '{$TR_TU}', '{$TR_WE}', '{$TR_TH}', '{$TR_FR}', '{$TR_SA}'],
 				monthNames: ['{$TR_JANUARY}', '{$TR_FEBRUARY}', '{$TR_MARCH}', '{$TR_APRIL}', '{$TR_MAY}', '{$TR_JUNE}', '{$TR_JULY}', '{$TR_AUGUST}', '{$TR_SEPTEMBER}', '{$TR_OCTOBER}', '{$TR_NOVEMBER}', '{$TR_DECEMBER}'],
@@ -31,7 +30,6 @@
 		});
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -44,7 +42,6 @@
 			<h1 class="manage_users">{$TR_MENU_MANAGE_USERS}</h1>
 		</div>
 		<ul class="location-menu">
-			<!-- <li><a class="help" href="#">Help</a></li> -->
 			{if isset($YOU_ARE_LOGGED_AS)}
 			<li><a href="change_user_interface.php?action=go_back" class="backadmin">{$YOU_ARE_LOGGED_AS}</a></li>
 			{/if}
@@ -82,9 +79,9 @@
 						<td>{$TR_CHOOSE_HOSTING_PLAN}</td>
 						<td>
 							<select id="dmn_tpl" name="dmn_tpl">
-								<!-- BDP: hp_entry -->
-								<option value="{$CHN}"{$CH{$CHN}}>{$HP_NAME}</option>
-								<!-- EDP: hp_entry -->
+								{section name=i loop=$HP_NAME}
+								<option value="{$CHN[i]}" {$CH_SEL[i]}>{$HP_NAME[i]}</option>
+								{/section}
 							</select>
 						</td>
 					</tr>

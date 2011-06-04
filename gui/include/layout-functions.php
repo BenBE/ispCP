@@ -39,7 +39,7 @@ if (isset($_SESSION['user_id'])
 
 // THEME_COLOR management stuff.
 
-function get_user_gui_props(&$sql, $user_id) {
+function get_user_gui_props($sql, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -75,7 +75,7 @@ function get_user_gui_props(&$sql, $user_id) {
  *
  * @param ispCP_TemplateEngine $tpl the TPL object
  */
-function gen_page_message(&$tpl) {
+function gen_page_message($tpl) {
 
 	if (!isset($_SESSION['user_page_message'])) {
 		$tpl->assign('PAGE_MESSAGE', '');
@@ -207,7 +207,7 @@ function get_menu_vars($menu_link) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $user_def_layout
  */
-function gen_def_layout(&$tpl, $user_def_layout) {
+function gen_def_layout($tpl, $user_def_layout) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$layouts = array('blue', 'green', 'red', 'yellow');

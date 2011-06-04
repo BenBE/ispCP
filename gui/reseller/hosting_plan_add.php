@@ -132,7 +132,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * Generate empty form
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_empty_ahp_page(&$tpl) {
+function gen_empty_ahp_page($tpl) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
@@ -174,7 +174,7 @@ function gen_empty_ahp_page(&$tpl) {
  * Show last entered data for new hp
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_data_ahp_page(&$tpl) {
+function gen_data_ahp_page($tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
@@ -228,7 +228,7 @@ function gen_data_ahp_page(&$tpl) {
  * Check correction of input data
  * @param ispCP_TemplateEngine $tpl
  */
-function check_data_correction(&$tpl) {
+function check_data_correction($tpl) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
@@ -365,7 +365,7 @@ function check_data_correction(&$tpl) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
-function save_data_to_db(&$tpl, $admin_id) {
+function save_data_to_db($tpl, $admin_id) {
 	global $hp_name, $description, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;

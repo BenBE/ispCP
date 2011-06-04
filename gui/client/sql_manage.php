@@ -58,7 +58,7 @@ check_permissions($tpl);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Client/Manage SQL'),
+		'TR_PAGE_TITLE'			=> tr('ispCP - Client/Manage SQL'),
 		'TR_MANAGE_SQL'			=> tr('Manage SQL'),
 		'TR_DELETE'				=> tr('Delete'),
 		'TR_DATABASE'			=> tr('Database Name and Users'),
@@ -94,7 +94,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $db_id
  */
-function gen_db_user_list(&$tpl, &$sql, $db_id) {
+function gen_db_user_list($tpl, $sql, $db_id) {
 
 	global $count;
 
@@ -111,35 +111,23 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
 
 	$rs = exec_query($sql, $query, $db_id);
 
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'DB_MSG'	=> tr('Database user list is empty!'),
-				'USER_LIST'	=> ''
-			)
-		);
-	} else {
-		$tpl->assign(
-			array(
-				'USER_LIST'		=> '',
-				'DB_MESSAGE'	=> ''
-			)
-		);
-
+	$users = array();
+	if ($rs->recordCount() > 0) {
 		while (!$rs->EOF) {
 			$count++;
 			$user_id = $rs->fields['sqlu_id'];
 			$user_mysql = $rs->fields['sqlu_name'];
-			$tpl->assign(
+			$users[] =
 				array(
 					'DB_USER'	=> tohtml($user_mysql),
 					'DB_USER_JS'=> tojs($user_mysql),
 					'USER_ID'	=> $user_id
-				)
-			);
+				);
 			$rs->moveNext();
 		}
 	}
+	$tpl->append( 'DB_USERLIST', $users );
+	return count($users);
 }
 
 /**
@@ -147,7 +135,7 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_db_list(&$tpl, &$sql, $user_id) {
+function gen_db_list($tpl, $sql, $user_id) {
 
 	$dmn_id = get_user_domain_id($sql, $user_id);
 
@@ -171,12 +159,13 @@ function gen_db_list(&$tpl, &$sql, $user_id) {
 		while (!$rs->EOF) {
 			$db_id = $rs->fields['sqld_id'];
 			$db_name = $rs->fields['sqld_name'];
-			gen_db_user_list($tpl, $sql, $db_id);
-			$tpl->assign(
+			$num = gen_db_user_list($tpl, $sql, $db_id);
+			$tpl->append(
 				array(
-					'DB_ID'		=> $db_id,
-					'DB_NAME'	=> tohtml($db_name),
-					'DB_NAME_JS'=> tojs($db_name)
+					'DB_ID'			=> $db_id,
+					'DB_NAME'		=> tohtml($db_name),
+					'DB_NAME_JS'	=> tojs($db_name),
+					'DB_MSG'		=> $num ? '' : tr('Database user list is empty!')
 				)
 			);
 			$rs->moveNext();

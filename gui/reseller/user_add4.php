@@ -40,9 +40,6 @@ if (!is_xhr()) {
 	$template = 'user_add4.tpl';
 
 	// static page messages
-	gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-	gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
 	gen_logged_from($tpl);
 
 	$tpl->assign(
@@ -69,6 +66,9 @@ if (!is_xhr()) {
 			'TR_PREFIX_FTP' => 'ftp://'
 		)
 	);
+
+	gen_reseller_mainmenu($tpl, 'main_menu_users_manage.tpl');
+	gen_reseller_menu($tpl, 'menu_users_manage.tpl');
 
 	if (isset($_SESSION['dmn_id']) && $_SESSION['dmn_id'] !== '') {
 		$domain_id = $_SESSION['dmn_id'];
@@ -242,7 +242,7 @@ function init_empty_data() {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function gen_al_page(&$tpl, $reseller_id) {
+function gen_al_page($tpl, $reseller_id) {
 	global $alias_name, $forward, $forward_prefix, $mount_point;
 
 	$sql = ispCP_Registry::get('Db');
@@ -266,24 +266,19 @@ function gen_al_page(&$tpl, $reseller_id) {
 	if ($rs->recordCount() == 0) {
 		$tpl->assign('ALIAS_LIST', '');
 	} else {
-		$i = 0;
 		while (!$rs->EOF) {
 			$alias_name = decode_idna($rs->fields['alias_name']);
 			$alias_status = translate_dmn_status($rs->fields['alias_status']);
 			$show_als_fwd = ($rs->fields['url_forward'] == 'no') ? "-" : $rs->fields['url_forward'];
 
-			$page_cont = ($i % 2 == 0) ? 'content' : 'content2';
-
 			$tpl->assign(
 				array(
 					'DOMAIN_ALIAS' => tohtml($alias_name),
 					'STATUS' => $alias_status,
-					'CLASS' => $page_cont,
 					'FORWARD_URL' => $show_als_fwd
 				)
 			);
 
-			$i++;
 			$rs->moveNext();
 		}
 	}
@@ -437,7 +432,7 @@ function add_domain_alias(&$err_al) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
-function gen_page_msg(&$tpl, $error_txt) {
+function gen_page_msg($tpl, $error_txt) {
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
 	} else {

@@ -35,15 +35,93 @@ check_login(__FILE__);
 $cfg = ispCP_Registry::get('Config');
 
 $tpl = ispCP_TemplateEngine::getInstance();
-
 $template = 'reseller_add.tpl';
+
+// static page messages
+$reseller_ips = get_server_ip($tpl, $sql);
+
+add_reseller($tpl, $sql);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
+		'TR_ADD_RESELLER' => tr('Add reseller'),
+		'TR_CORE_DATA' => tr('Core data'),
+		'TR_USERNAME' => tr('Username'),
+		'TR_PASSWORD' => tr('Password'),
+		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
+		'TR_EMAIL' => tr('Email'),
+		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><em>(0 unlimited)</em>'),
+		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
+		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
+		'TR_PHP' => tr('PHP'),
+		'TR_PERL_CGI' => tr('CGI / Perl'),
+		'TR_JSP' => tr('JSP'),
+		'TR_SSI' => tr('SSI'),
+		'TR_FRONTPAGE_EXT' => tr('Frontpage extensions'),
+		'TR_BACKUP_RESTORE' => tr('Backup and restore'),
+		'TR_CUSTOM_ERROR_PAGES' => tr('Custom error pages'),
+		'TR_PROTECTED_AREAS' => tr('Protected areas'),
+		'TR_WEBMAIL' => tr('Webmail'),
+		'TR_DIR_LIST' => tr('Directory listing'),
+		'TR_APACHE_LOGFILES' => tr('Apache logfiles'),
+		'TR_AWSTATS' => tr('AwStats'),
+		'TR_LOGO_UPLOAD' => tr('Logo upload'),
+		'TR_YES' => tr('yes'),
+		'TR_NO' => tr('no'),
+		'TR_SUPPORT_SYSTEM' => tr('Support system'),
+
+		'TR_RESELLER_IPS' => tr('Reseller IPs'),
+
+		'TR_ADDITIONAL_DATA' => tr('Additional data'),
+		'TR_CUSTOMER_ID' => tr('Customer ID'),
+		'TR_FIRST_NAME' => tr('First name'),
+		'TR_LAST_NAME' => tr('Last name'),
+		'TR_LAST_NAME' => tr('Last name'),
+		'TR_GENDER' => tr('Gender'),
+		'TR_MALE' => tr('Male'),
+		'TR_FEMALE' => tr('Female'),
+		'TR_UNKNOWN' => tr('Unknown'),
+		'TR_COMPANY' => tr('Company'),
+		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
+		'TR_CITY' => tr('City'),
+		'TR_STATE' => tr('State/Province'),
+		'TR_COUNTRY' => tr('Country'),
+		'TR_STREET_1' => tr('Street 1'),
+		'TR_STREET_2' => tr('Street 2'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_FAX' => tr('Fax'),
+		'TR_PHONE' => tr('Phone'),
+		'TR_ADD' => tr('Add'),
+		'GENPAS' => passgen()
+	)
+);
+
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 /**
  * Get Server IPs
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function get_server_ip(&$tpl, &$sql) {
+function get_server_ip($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -126,7 +204,7 @@ function get_server_ip(&$tpl, &$sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function add_reseller(&$tpl, &$sql) {
+function add_reseller($tpl, $sql) {
 
 	global $reseller_ips;
 	$cfg = ispCP_Registry::get('Config');
@@ -496,83 +574,4 @@ function check_user_data() {
 	}
 	return true;
 }
-
-// static page messages
-
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
-
-$reseller_ips = get_server_ip($tpl, $sql);
-
-add_reseller($tpl, $sql);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage users/Add reseller'),
-		'TR_ADD_RESELLER' => tr('Add reseller'),
-		'TR_CORE_DATA' => tr('Core data'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_PASSWORD' => tr('Password'),
-		'TR_PASSWORD_REPEAT' => tr('Repeat password'),
-		'TR_EMAIL' => tr('Email'),
-		'TR_MAX_DOMAIN_COUNT' => tr('Domains limit<br><em>(0 unlimited)</em>'),
-		'TR_MAX_SUBDOMAIN_COUNT' => tr('Subdomains limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_ALIASES_COUNT' => tr('Aliases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_MAIL_USERS_COUNT' => tr('Mail accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_FTP_USERS_COUNT' => tr('FTP accounts limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQLDB_COUNT' => tr('SQL databases limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_SQL_USERS_COUNT' => tr('SQL users limit<br><em>(-1 disabled, 0 unlimited)</em>'),
-		'TR_MAX_TRAFFIC_AMOUNT' => tr('Traffic limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_MAX_DISK_AMOUNT' => tr('Disk limit [MB]<br><em>(0 unlimited)</em>'),
-		'TR_PHP' => tr('PHP'),
-		'TR_PERL_CGI' => tr('CGI / Perl'),
-		'TR_JSP' => tr('JSP'),
-		'TR_SSI' => tr('SSI'),
-		'TR_FRONTPAGE_EXT' => tr('Frontpage extensions'),
-		'TR_BACKUP_RESTORE' => tr('Backup and restore'),
-		'TR_CUSTOM_ERROR_PAGES' => tr('Custom error pages'),
-		'TR_PROTECTED_AREAS' => tr('Protected areas'),
-		'TR_WEBMAIL' => tr('Webmail'),
-		'TR_DIR_LIST' => tr('Directory listing'),
-		'TR_APACHE_LOGFILES' => tr('Apache logfiles'),
-		'TR_AWSTATS' => tr('AwStats'),
-		'TR_LOGO_UPLOAD' => tr('Logo upload'),
-		'TR_YES' => tr('yes'),
-		'TR_NO' => tr('no'),
-		'TR_SUPPORT_SYSTEM' => tr('Support system'),
-
-		'TR_RESELLER_IPS' => tr('Reseller IPs'),
-
-		'TR_ADDITIONAL_DATA' => tr('Additional data'),
-		'TR_CUSTOMER_ID' => tr('Customer ID'),
-		'TR_FIRST_NAME' => tr('First name'),
-		'TR_LAST_NAME' => tr('Last name'),
-		'TR_LAST_NAME' => tr('Last name'),
-		'TR_GENDER' => tr('Gender'),
-		'TR_MALE' => tr('Male'),
-		'TR_FEMALE' => tr('Female'),
-		'TR_UNKNOWN' => tr('Unknown'),
-		'TR_COMPANY' => tr('Company'),
-		'TR_ZIP_POSTAL_CODE' => tr('Zip/Postal code'),
-		'TR_CITY' => tr('City'),
-		'TR_STATE' => tr('State/Province'),
-		'TR_COUNTRY' => tr('Country'),
-		'TR_STREET_1' => tr('Street 1'),
-		'TR_STREET_2' => tr('Street 2'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_FAX' => tr('Fax'),
-		'TR_PHONE' => tr('Phone'),
-		'TR_ADD' => tr('Add'),
-		'GENPAS' => passgen()
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

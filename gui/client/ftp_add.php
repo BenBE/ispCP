@@ -76,7 +76,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 // page functions.
 
-function get_alias_mount_point(&$sql, $alias_name) {
+function get_alias_mount_point($sql, $alias_name) {
 	$query = "
 		SELECT
 			`alias_mount`
@@ -95,7 +95,7 @@ function get_alias_mount_point(&$sql, $alias_name) {
  * @param string $dmn_name
  * @param string $post_check
  */
-function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
+function gen_page_form_data($tpl, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -134,7 +134,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
  * @param int $dmn_id
  * @param string $post_check
  */
-function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
+function gen_dmn_als_list($tpl, $sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -200,7 +200,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
  * @param string $dmn_name
  * @param string $post_check
  */
-function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
+function gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -258,7 +258,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
 	}
 }
 
-function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
+function get_ftp_user_gid($sql, $dmn_name, $ftp_user) {
 
 	global $last_gid, $max_gid;
 
@@ -330,7 +330,7 @@ function get_ftp_user_gid(&$sql, $dmn_name, $ftp_user) {
 	}
 }
 
-function get_ftp_user_uid(&$sql, $dmn_name, $ftp_user, $ftp_user_gid) {
+function get_ftp_user_uid($sql, $dmn_name, $ftp_user, $ftp_user_gid) {
 
 	global $max_uid;
 
@@ -356,7 +356,7 @@ function get_ftp_user_uid(&$sql, $dmn_name, $ftp_user, $ftp_user_gid) {
 	return $temp_dmn_uid;
 }
 
-function add_ftp_user(&$sql, $dmn_name) {
+function add_ftp_user($sql, $dmn_name) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -446,7 +446,7 @@ function add_ftp_user(&$sql, $dmn_name) {
 	user_goto('ftp_accounts.php');
 }
 
-function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
+function check_ftp_acc_data($tpl, $sql, $dmn_id, $dmn_name) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -516,7 +516,7 @@ function check_ftp_acc_data(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	add_ftp_user($sql, $dmn_name);
 }
 
-function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
+function gen_page_ftp_acc_props($tpl, $sql, $user_id) {
 	list($dmn_id,
 		$dmn_name,,,,,,,,
 		$dmn_ftpacc_limit
@@ -545,7 +545,7 @@ function gen_page_ftp_acc_props(&$tpl, &$sql, $user_id) {
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_page_js(&$tpl) {
+function gen_page_js($tpl) {
 
 	if (isset($_SESSION['subdomain_count'])
 		&& isset($_SESSION['alias_count'])) { // no subdomains and no alias

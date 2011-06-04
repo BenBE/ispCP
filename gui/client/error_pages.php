@@ -80,7 +80,7 @@ unset_messages();
 
 // page functions.
 
-function write_error_page(&$sql, $eid) {
+function write_error_page($sql, $eid) {
 
 	$error = $_POST['error'];
 	$file = '/errors/' . $eid . '.html';
@@ -89,7 +89,7 @@ function write_error_page(&$sql, $eid) {
 	return $vfs->put($file, $error);
 }
 
-function update_error_page(&$sql) {
+function update_error_page($sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'updt_error') {
 		$eid = intval($_POST['eid']);

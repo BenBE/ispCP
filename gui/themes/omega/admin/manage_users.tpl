@@ -2,13 +2,13 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// Target - begin
-			$('a.i_goto').attr('rel', 'external').attr('target', '_blank');
+			jQuery('a.i_goto').attr('rel', 'external').attr('target', '_blank');
 			// Target - end
 
 			// TableSorter - begin
-			$('.tablesorter').tablesorter({ 
+			jQuery('.tablesorter').tablesorter({
 				cssHeader: 'tablesorter',
 				sortList: [[1,2]],
 				headers: { 
@@ -71,22 +71,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: admin_item -->
+				{section name=i loop=$ADMIN_USERNAME}
 				<tr>
 					<td>&nbsp;</td>
-					<td>{$ADMIN_USERNAME}</td>
-					<td>{$ADMIN_CREATED_ON}</td>
-					<td>{$ADMIN_CREATED_BY}</td>
+					<td>{$ADMIN_USERNAME[i]}</td>
+					<td>{$ADMIN_CREATED_ON[i]}</td>
+					<td>{$ADMIN_CREATED_BY[i]}</td>
 					<td>
-						<a href="{$URL_EDIT_ADMIN}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<!-- BDP: admin_delete_show -->
-						<!-- EDP: admin_delete_show -->
-						<!-- BDP: admin_delete_link -->
-						<a href="#" onclick="action_delete('{$URL_DELETE_ADMIN}', '{$ADMIN_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
-						<!-- EDP: admin_delete_link -->
+						<a href="{$URL_EDIT_ADMIN[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						{if $ADMIN_DELETE_SHOW[i]}
+						<a href="#" onclick="action_delete('{$URL_DELETE_ADMIN[i]}', '{$ADMIN_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						{/if}
 					</td>
 				</tr>
-				<!-- EDP: admin_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: admin_list -->
@@ -106,19 +104,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: rsl_item -->
+				{section name=i loop=$RSL_USERNAME}
 				<tr>
 					<td>&nbsp;</td>
-					<td>{$RSL_USERNAME}</td>
-					<td>{$RESELLER_CREATED_ON}</td>
-					<td>{$RSL_CREATED_BY}</td>
+					<td>{$RSL_USERNAME[i]}</td>
+					<td>{$RESELLER_CREATED_ON[i]}</td>
+					<td>{$RSL_CREATED_BY[i]}</td>
 					<td>
-						<a href="{$URL_CHANGE_INTERFACE}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
-						<a href="{$URL_EDIT_RSL}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('{$URL_DELETE_RSL}', '{$RSL_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="{$URL_CHANGE_INTERFACE_RSL[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
+						<a href="{$URL_EDIT_RSL[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('{$URL_DELETE_RSL[i]}', '{$RSL_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: rsl_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: rsl_list -->
@@ -160,23 +158,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: usr_item -->
+				{section name=i loop=$USR_USERNAME}
 				<tr>
-					<td><a href="#" onclick="action_status('{$URL_CHANGE_STATUS}', '{$USR_USERNAME}')" title="{$STATUS_ICON}" class="icon i_{$STATUS_ICON}"></a></td>
-					<td><a href="http://www.{$USR_USERNAME}/" title="{$USR_USERNAME}" class="icon i_goto">{$USR_USERNAME}</a></td>
-					<td>{$USER_CREATED_ON}</td>
-					<td>{$USR_CREATED_BY}</td>
+					<td><a href="#" onclick="action_status('{$URL_CHANGE_STATUS[i]}', '{$USR_USERNAME[i]}')" title="{$STATUS_ICON[i]}" class="icon i_{$STATUS_ICON[i]}"></a></td>
+					<td><a href="http://www.{$USR_USERNAME[i]}/" title="{$USR_USERNAME[i]}" class="icon i_goto">{$USR_USERNAME[i]}</a></td>
+					<td>{$USER_CREATED_ON[i]}</td>
+					<td>{$USR_CREATED_BY[i]}</td>
 					<td>
-						<a href="domain_details.php?domain_id={$DOMAIN_ID}" title="{$TR_DETAILS}" class="icon i_identity"></a>
-						<a href="{$URL_CHANGE_INTERFACE}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
-						<a href="{$URL_EDIT_USR}" title="{$TR_EDIT_USR}" class="icon i_edit"></a>
-						{if !isset($EDIT_OPTION)}
-						<a href="domain_edit.php?edit_id={$DOMAIN_ID}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain"></a>
+						<a href="domain_details.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DETAILS}" class="icon i_identity"></a>
+						<a href="{$URL_CHANGE_INTERFACE[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
+						<a href="{$URL_EDIT_USR[i]}" title="{$TR_EDIT_USR}" class="icon i_edit"></a>
+						{if isset($EDIT_OPTION)}
+						<a href="domain_edit.php?edit_id={$DOMAIN_ID[i]}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain"></a>
 						{/if}
-						<!-- BDP: usr_delete_show -->
-						<!-- EDP: usr_delete_show -->
 						<!-- BDP: usr_delete_link -->
-						<a href="#" onclick="action_delete('{$URL_DELETE_USR}', '{$USR_USERNAME}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="#" onclick="action_delete('{$URL_DELETE_USR[i]}', '{$USR_USERNAME[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 						<!-- EDP: usr_delete_link -->
 					</td>
 				</tr>
@@ -186,7 +182,7 @@
 					<td colspan="4"><a href="http://www.{$ALIAS_DOMAIN}/" title="{$ALIAS_DOMAIN}" class="icon i_goto">{$ALIAS_DOMAIN}</a></td>
 				</tr>
 				{/if}
-				<!-- EDP: usr_item -->
+				{/section}
 			</tbody>
 		</table>
 		<!-- EDP: usr_list -->

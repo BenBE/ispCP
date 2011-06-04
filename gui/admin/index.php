@@ -70,7 +70,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @return void
  */
-function gen_system_message(&$tpl, &$sql) {
+function gen_system_message($tpl, $sql) {
 	$user_id = $_SESSION['user_id'];
 
 	$query = "
@@ -157,7 +157,7 @@ function get_update_infos($tpl) {
  * @param ispCP_TemplateEngine $tpl
  * @return void
  */
-function gen_server_trafic(&$tpl) {
+function gen_server_trafic($tpl) {
 	$sql = ispCP_Registry::get('Db');
 
 	$query = "

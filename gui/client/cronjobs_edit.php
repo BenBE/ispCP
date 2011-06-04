@@ -37,22 +37,7 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'cronjobs_edit.tpl';
 
-/**
- * @todo Implement this function
- */
-function update_cron_job(&$tpl, &$sql, $cron_id) {
-} // End of update_cron_job()
-
-/**
- * @todo Implement this function
- */
-function gen_cron_job(&$tpl, &$sql, $user_id) {
-} // End of gen_cron_job()
-
 // static page messages
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
 gen_logged_from($tpl);
 
 check_permissions($tpl);
@@ -84,6 +69,9 @@ $tpl->assign(
 	)
 );
 
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
 gen_page_message($tpl);
 
 $tpl->display($template);
@@ -93,3 +81,16 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+/**
+ * @todo Implement this function
+ */
+function update_cron_job($tpl, $sql, $cron_id) {
+} // End of update_cron_job()
+
+/**
+ * @todo Implement this function
+ */
+function gen_cron_job($tpl, $sql, $user_id) {
+} // End of gen_cron_job()
+?>

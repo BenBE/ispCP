@@ -50,7 +50,7 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_packages_list(&$tpl, &$sql, $user_id) {
+function gen_packages_list($tpl, $sql, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

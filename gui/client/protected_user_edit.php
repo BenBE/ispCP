@@ -41,7 +41,7 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'puser_edit.tpl';
 
-function pedit_user(&$tpl, &$sql, &$dmn_id, &$uuser_id) {
+function pedit_user($tpl, $sql, $dmn_id, $uuser_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

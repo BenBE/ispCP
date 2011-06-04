@@ -38,6 +38,76 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'orders_details.tpl';
 
+if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
+	$order_id = $_GET['order_id'];
+} else {
+	set_page_message(tr('Wrong order ID!'), 'error');
+	user_goto('orders.php');
+}
+
+if (isset($_POST['uaction'])) {
+	update_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
+
+	if ($_POST['uaction'] === 'update_data') {
+		set_page_message(tr('Order data updated successfully!'), 'success');
+	} else if ($_POST['uaction'] === 'add_user') {
+		$_SESSION['domain_ip'] = @$_POST['domain_ip'];
+		user_goto('orders_add.php?order_id=' . $order_id);
+	}
+}
+
+gen_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
+
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order details'),
+		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
+		'TR_DATE'					=> tr('Order date'),
+		'TR_HP'						=> tr('Hosting plan'),
+		'TR_HOSTING_INFO'			=> tr('Hosting details'),
+		'TR_DOMAIN'					=> tr('Domain'),
+		'TR_FIRST_NAME'				=> tr('First name'),
+		'TR_LAST_NAME'				=> tr('Last name'),
+		'TR_GENDER'					=> tr('Gender'),
+		'TR_MALE'					=> tr('Male'),
+		'TR_FEMALE'					=> tr('Female'),
+		'TR_UNKNOWN'				=> tr('Unknown'),
+		'TR_COMPANY'				=> tr('Company'),
+		'TR_ZIP_POSTAL_CODE'		=> tr('Zip/Postal code'),
+		'TR_CITY'					=> tr('City'),
+		'TR_STATE'					=> tr('State/Province'),
+		'TR_COUNTRY'				=> tr('Country'),
+		'TR_STREET_1'				=> tr('Street 1'),
+		'TR_STREET_2'				=> tr('Street 2'),
+		'TR_EMAIL'					=> tr('Email'),
+		'TR_PHONE'					=> tr('Phone'),
+		'TR_FAX'					=> tr('Fax'),
+		'TR_UPDATE_DATA'			=> tr('Update data'),
+		'TR_ORDER_DETAILS'			=> tr('Order details'),
+		'TR_CUSTOMER_DATA'			=> tr('Customer data'),
+		'TR_DELETE_ORDER'			=> tr('Delete order'),
+		'TR_DMN_IP'					=> tr('Domain IP'),
+		'TR_CUSTOMER_ID'			=> tr('Customer ID'),
+		'TR_MESSAGE_DELETE_ACCOUNT'	=> tr('Are you sure you want to delete this order?', true),
+		'TR_ADD'					=> tr('Add to the system')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_orders.tpl');
+gen_reseller_menu($tpl, 'menu_orders.tpl');
+
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+unset_messages();
+
 /*
  * Functions
  */
@@ -48,7 +118,7 @@ $template = 'orders_details.tpl';
  * @param int $user_id
  * @param int $order_id
  */
-function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
+function gen_order_details($tpl, $sql, $user_id, $order_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
@@ -144,7 +214,7 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	);
 }
 
-function update_order_details(&$tpl, &$sql, $user_id, $order_id) {
+function update_order_details($tpl, $sql, $user_id, $order_id) {
 	$domain			= strtolower($_POST['domain']);
 	$domain			= encode_idna($domain);
 	$customer_id	= $_POST['customer_id'];
@@ -188,81 +258,4 @@ function update_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	";
 	exec_query($sql, $query, array($domain, $customer_id, $fname, $lname, $gender, $firm, $zip, $city, $state, $country, $email, $phone, $fax, $street1, $street2, $order_id, $user_id));
 }
-
-// end of functions
-
-/*
- *
- * static page messages.
- *
- */
-
-if (isset($_GET['order_id']) && is_numeric($_GET['order_id'])) {
-	$order_id = $_GET['order_id'];
-} else {
-	set_page_message(tr('Wrong order ID!'), 'error');
-	user_goto('orders.php');
-}
-
-if (isset($_POST['uaction'])) {
-	update_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
-
-	if ($_POST['uaction'] === 'update_data') {
-		set_page_message(tr('Order data updated successfully!'), 'success');
-	} else if ($_POST['uaction'] === 'add_user') {
-		$_SESSION['domain_ip'] = @$_POST['domain_ip'];
-		user_goto('orders_add.php?order_id=' . $order_id);
-	}
-}
-
-gen_order_details($tpl, $sql, $_SESSION['user_id'], $order_id);
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_orders.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_orders.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'				=> tr('ispCP - Reseller/Order details'),
-		'TR_MANAGE_ORDERS'			=> tr('Manage Orders'),
-		'TR_DATE'					=> tr('Order date'),
-		'TR_HP'						=> tr('Hosting plan'),
-		'TR_HOSTING_INFO'			=> tr('Hosting details'),
-		'TR_DOMAIN'					=> tr('Domain'),
-		'TR_FIRST_NAME'				=> tr('First name'),
-		'TR_LAST_NAME'				=> tr('Last name'),
-		'TR_GENDER'					=> tr('Gender'),
-		'TR_MALE'					=> tr('Male'),
-		'TR_FEMALE'					=> tr('Female'),
-		'TR_UNKNOWN'				=> tr('Unknown'),
-		'TR_COMPANY'				=> tr('Company'),
-		'TR_ZIP_POSTAL_CODE'		=> tr('Zip/Postal code'),
-		'TR_CITY'					=> tr('City'),
-		'TR_STATE'					=> tr('State/Province'),
-		'TR_COUNTRY'				=> tr('Country'),
-		'TR_STREET_1'				=> tr('Street 1'),
-		'TR_STREET_2'				=> tr('Street 2'),
-		'TR_EMAIL'					=> tr('Email'),
-		'TR_PHONE'					=> tr('Phone'),
-		'TR_FAX'					=> tr('Fax'),
-		'TR_UPDATE_DATA'			=> tr('Update data'),
-		'TR_ORDER_DETAILS'			=> tr('Order details'),
-		'TR_CUSTOMER_DATA'			=> tr('Customer data'),
-		'TR_DELETE_ORDER'			=> tr('Delete order'),
-		'TR_DMN_IP'					=> tr('Domain IP'),
-		'TR_CUSTOMER_ID'			=> tr('Customer ID'),
-		'TR_MESSAGE_DELETE_ACCOUNT'	=> tr('Are you sure you want to delete this order?', true),
-		'TR_ADD'					=> tr('Add to the system')
-	)
-);
-
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-unset_messages();
 ?>

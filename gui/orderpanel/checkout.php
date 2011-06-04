@@ -50,7 +50,7 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * @param int $plan_id
  * @return void
  */
-function gen_checkout(&$tpl, &$sql, $user_id, $plan_id) {
+function gen_checkout($tpl, $sql, $user_id, $plan_id) {
 	$date = time();
 	$domain_name = $_SESSION['domainname'];
 	$fname = $_SESSION['fname'];

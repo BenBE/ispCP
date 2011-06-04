@@ -1,8 +1,8 @@
 {include file='header.tpl'}
 <body>
-	{literal}
 	<script type="text/javascript">
 	/* <![CDATA[ */
+		{literal}
 		$(document).ready(function(){
 			// Target - begin
 			$('a.i_goto').attr('rel', 'external').attr('target', '_blank');
@@ -12,7 +12,7 @@
 			$('.tablesorter').tablesorter({cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
-
+		{/literal}
 		function change_status(dom_id, dmn_name) {
 			if (!confirm(sprintf("Are you sure you want to change the status of %s?", dmn_name)))
 				return false;
@@ -26,7 +26,6 @@
 		}
 	/* ]]> */
 	</script>
-	{/literal}
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -89,24 +88,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: user_entry -->
+				{section name=i loop=$NAME}
 				<tr>
-					<td><a href="#" onclick="change_status('{$URL_CHANGE_STATUS}', '{$NAME}')" title="{$STATUS_ICON}" class="icon i_{$STATUS_ICON}"></a></td>
-					<td><a href="http://{$NAME}/" class="icon i_goto">{$NAME}</a></td>
-					<td>{$CREATION_DATE}</td>
-					<td>{$DISK_USAGE}</td>
+					<td><a href="#" onclick="change_status('{$URL_CHANGE_STATUS[i]}', '{$NAME[i]}')" title="{$STATUS_ICON[i]}" class="icon i_{$STATUS_ICON[i]}"></a></td>
+					<td><a href="http://{$NAME[i]}/" class="icon i_goto">{$NAME[i]}</a></td>
+					<td>{$CREATION_DATE[i]}</td>
+					<td>{$DISK_USAGE[i]}</td>
 					<td>
-						<a href="domain_details.php?domain_id={$DOMAIN_ID}" title="{$TR_DETAILS}" class="icon i_identity"></a>
+						<a href="domain_details.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DETAILS}" class="icon i_identity"></a>
 						{if !isset($EDIT_OPTION)}
-						<a href="domain_edit.php?edit_id={$DOMAIN_ID}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain" ></a>
-						<a href="user_edit.php?edit_id={$USER_ID}" title="{$TR_EDIT_USER}" class="icon i_edit"></a>
+						<a href="domain_edit.php?edit_id={$DOMAIN_ID[i]}" title="{$TR_EDIT_DOMAIN}" class="icon i_domain" ></a>
+						<a href="user_edit.php?edit_id={$USER_ID[i]}" title="{$TR_EDIT_USER}" class="icon i_edit"></a>
 						{/if}
-						<a href="domain_statistics.php?month={$VL_MONTH}&amp;year={$VL_YEAR}&amp;domain_id={$DOMAIN_ID}" title="{$TR_STAT}" class="icon i_stats"></a>
-						<a href="change_user_interface.php?to_id={$USER_ID}" title="{$CHANGE_INTERFACE}" class="icon i_details"></a>
+						<a href="domain_statistics.php?month={$VL_MONTH}&amp;year={$VL_YEAR}&amp;domain_id={$DOMAIN_ID[i]}" title="{$TR_STAT}" class="icon i_stats"></a>
+						<a href="change_user_interface.php?to_id={$USER_ID[i]}" title="{$TR_CHANGE_USER_INTERFACE}" class="icon i_details"></a>
 						<!-- BDP: usr_delete_show -->
 						<!-- EDP: usr_delete_show -->
 						<!-- BDP: usr_delete_link -->
-						<a href="domain_delete.php?domain_id={$DOMAIN_ID}" title="{$ACTION}" class="icon i_delete"></a>
+						<a href="domain_delete.php?domain_id={$DOMAIN_ID[i]}" title="{$TR_DELETE}" class="icon i_delete"></a>
 						<!-- EDP: usr_delete_link -->
 					</td>
 				</tr>
@@ -116,7 +115,7 @@
 					<td colspan="4"><a href="http://www.{$ALIAS_DOMAIN}/" class="icon i_goto">{$ALIAS_DOMAIN}</a></td>
 				</tr>
 				{/if}
-				<!-- EDP: user_entry -->
+				{/section}
 			</tbody>
 		</table>
 		{/if}

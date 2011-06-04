@@ -565,11 +565,11 @@ class Smarty extends Smarty_Internal_Data {
     } 
 
     /**
-    * Loads cache resource.
-    * 
-    * @param string $type cache resource type
-    * @return object of cache resource
-    */
+     * Loads cache resource.
+     *
+     * @param string $type cache resource type
+     * @return object of cache resource
+     */
     public function loadCacheResource($type = null) {
         if (!isset($type)) {
             $type = $this->caching_type;

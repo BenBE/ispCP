@@ -43,16 +43,14 @@ if (isset($_POST['domain_id'])) {
 	$domain_id = $_GET['domain_id'];
 }
 
-$year = 0;
-$month = 0;
+$month = date('m');
+$year = date('Y');
 
 if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = $_POST['year'];
-
 	$month = $_POST['month'];
 } else if (isset($_GET['month']) && isset($_GET['year'])) {
 	$month = $_GET['month'];
-
 	$year = $_GET['year'];
 }
 
@@ -130,7 +128,7 @@ function get_domain_trafic($from, $to, $domain_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $domain_id
  */
-function generate_page(&$tpl, $domain_id) {
+function generate_page($tpl, $domain_id) {
 
 
 	global $month, $year, $web_trf, $ftp_trf, $smtp_trf, $pop_trf,
@@ -155,7 +153,6 @@ function generate_page(&$tpl, $domain_id) {
 	$all[6] = 0;
 	$all[7] = 0;
 
-	$counter = 0;
 	for ($i = 1; $i <= $curday; $i++) {
 		$ftm = mktime(0, 0, 0, $month, $i, $year);
 
@@ -193,8 +190,6 @@ function generate_page(&$tpl, $domain_id) {
 				)
 			);
 		} else {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
-
 			$sum_web += $web_trf;
 			$sum_ftp += $ftp_trf;
 			$sum_mail += $smtp_trf;
@@ -210,8 +205,6 @@ function generate_page(&$tpl, $domain_id) {
 					'ALL_TRAFFIC' => sizeit($web_trf + $ftp_trf + $smtp_trf + $pop_trf),
 				)
 			);
-
-			$counter++;
 		}
 
 		$tpl->assign(
@@ -226,7 +219,6 @@ function generate_page(&$tpl, $domain_id) {
 				'ALL_ALL_TRAFFIC' => sizeit($sum_web + $sum_ftp + $sum_mail + $sum_pop),
 			)
 		);
-
 	}
 }
 ?>

@@ -1,6 +1,92 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-04 Benedikt Heintel
+	- ENGINE:
+		* Escape of system() calls
+		* Code Cleanup
+
+2011-06-04 Markus Szywon
+	- GUI:
+		* Some small changes
+
+2011-05-29 Benedikt Heintel
+    - CONFIG:
+        * Added Ticket #2570: Change logrotate defaults for log retention policies
+
+2011-05-21 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.1
+	- GUI:
+		* Updated jQuery UI to version 1.8.13
+		* Template improvements
+		* Some small fixes
+
+2011-11-16 Markus Szywon
+	- GUI:
+		* Updated idna_convert to version 0.8.0
+
+2011-05-15 Markus Szywon
+	- GUI:
+		* Updated jQuery to version 1.6.1
+
+2011-05-14 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.0
+
+2011-05-09 Markus Szywon
+	- GUI:
+		* Updated jQuery to version 1.6
+
+2011-05-04 Markus Szywon
+	- GUI:
+		* Updated jQuery UI to version 1.8.12
+
+2011-04-17 Benedikt Heintel
+	- GUI:
+		* Fixed: Dollar-sign not accepted in mail password
+	- LANGUAGES:
+		* Updated Catalan (#2558)
+
+2011-04-08 Benedikt Heintel
+    - ENGINE:
+        * Fixed: Dollar-sign not accepted in mail password
+	- GUI:
+		* Fixed #2541: Failed delete mail user info on sasl database on FreeBSD
+
+2011-04-03 Markus Szywon
+	- GUI:
+		* Updated jQuery to version 1.5.2
+
+2011-03-20 Markus Szywon
+	- GUI:
+		* Updated jQuery UI to version 1.8.11
+
+2011-02-19 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.3.10
+	- GUI:
+		* Template improvements
+
+2011-03-13 Markus Szywon
+	- GUI:
+		* Replace pTemplate with Smarty part V
+		* Template improvements
+
+2011-03-09 Markus Szywon
+	- LANGUAGES:
+		* Updated German
+	- GUI:
+		* Template improvements
+
+2011-03-06 Markus Szywon
+	- GUI:
+		* Template improvements
+
+2011-03-04 Markus Szywon
+	- GUI:
+		* Template improvements
+
 2011-03-02 Markus Szywon
 	- GUI:
 		* Replace pTemplate with Smarty part IV

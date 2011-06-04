@@ -58,19 +58,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: tickets_item -->
+				{section name=i loop=$NEW}
 				<tr>
-					<td>{$NEW}</td>
-					<td>{$FROM}</td>
-					<td><a href="ticket_view.php?ticket_id={$ID}" class="icon i_document">{$SUBJECT}</a></td>
-					<td>{$URGENCY}</td>
-					<td>{$LAST_DATE}</td>
+					<td>{$NEW[i]}</td>
+					<td>{$FROM[i]}</td>
+					<td><a href="ticket_view.php?ticket_id={$ID[i]}" class="icon i_document">{$SUBJECT[i]}</a></td>
+					<td>{$URGENCY[i]}</td>
+					<td>{$LAST_DATE[i]}</td>
 					<td>
-						<a href="ticket_view.php?ticket_id={$ID}" title="{$TR_EDIT}" class="icon i_edit"></a>
-						<a href="#" onclick="action_delete('ticket_delete.php?ticket_id={$ID}', '{$SUBJECT2}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						<a href="ticket_view.php?ticket_id={$ID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
+						<a href="#" onclick="action_delete('ticket_delete.php?ticket_id={$ID[i]}', '{$SUBJECT2[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 					</td>
 				</tr>
-				<!-- EDP: tickets_item -->
+				{/section}
 			</tbody>
 		</table>
 		<div class="paginator">

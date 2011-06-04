@@ -37,29 +37,6 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'error_edit.tpl';
 
-/**
- * @param ispCP_TemplateEngine $tpl
- * @param ispCP_Database $sql
- * @param int $user_id
- * @param string $eid
- */
-function gen_error_page_data(&$tpl, &$sql, $eid) {
-
-	$domain = $_SESSION['user_logged'];
-
-	// Check if we already have an error page
-	$vfs = new ispCP_VirtualFileSystem($domain, $sql);
-	$error = $vfs->get('/errors/' . $eid . '.html');
-
-	if (false !== $error) {
-		// We already have an error page, return it
-		$tpl->assign(array('ERROR' => tohtml($error)));
-		return;
-	}
-	// No error page
-	$tpl->assign(array('ERROR' => ''));
-}
-
 // dynamic page data.
 
 if (!isset($_GET['eid'])) {
@@ -81,9 +58,6 @@ if ($eid == 401 || $eid == 403 || $eid == 404 || $eid == 500 || $eid == 503) {
 }
 
 // static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_webtools.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_webtools.tpl');
-
 gen_logged_from($tpl);
 
 check_permissions($tpl);
@@ -98,6 +72,9 @@ $tpl->assign(
 	)
 );
 
+gen_client_mainmenu($tpl, 'main_menu_webtools.tpl');
+gen_client_menu($tpl, 'menu_webtools.tpl');
+
 gen_page_message($tpl);
 
 $tpl->display($template);
@@ -107,4 +84,27 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 
 unset_messages();
+
+/**
+ * @param ispCP_TemplateEngine $tpl
+ * @param ispCP_Database $sql
+ * @param int $user_id
+ * @param string $eid
+ */
+function gen_error_page_data($tpl, $sql, $eid) {
+
+	$domain = $_SESSION['user_logged'];
+
+	// Check if we already have an error page
+	$vfs = new ispCP_VirtualFileSystem($domain, $sql);
+	$error = $vfs->get('/errors/' . $eid . '.html');
+
+	if (false !== $error) {
+		// We already have an error page, return it
+		$tpl->assign(array('ERROR' => tohtml($error)));
+		return;
+	}
+	// No error page
+	$tpl->assign(array('ERROR' => ''));
+}
 ?>

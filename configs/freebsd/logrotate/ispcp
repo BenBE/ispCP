@@ -30,9 +30,10 @@
 # Rotation for user logs for ispCP traffic count
 #
 /usr/local/www/logs/users/*.log {
-  weekly
+  daily
   missingok
-  rotate 52
+  rotate 185
+  dateext
   compress
   delaycompress
   notifempty
@@ -98,8 +99,9 @@
 #
 /var/log/proftpd/xferlog {
   daily
-  rotate 7
   missingok
+  rotate 185
+  dateext
   compress
   delaycompress
   postrotate

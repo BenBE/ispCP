@@ -51,8 +51,7 @@ if (isset($_POST['uaction'])) {
 	} else if (empty($_POST['user_message'])) {
 		set_page_message(tr('Please type your message!'), 'warning');
 	} else {
-		createTicket($_SESSION['user_id'], $_SESSION['user_created_by'],
-				$_POST['urgency'], $_POST['subj'], $_POST['user_message'], 1);
+		createTicket($_SESSION['user_id'], $_SESSION['user_created_by'], $_POST['urgency'], $_POST['subj'], $_POST['user_message'], 1);
 		user_goto('ticket_system.php');
 	}
 }
@@ -85,8 +84,7 @@ switch ($userdata['URGENCY']) {
 }
 
 $userdata['SUBJECT'] = isset($_POST['subj']) ? clean_input($_POST['subj'], true) : '';
-$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? 
-	clean_input($_POST['user_message'], true) : '';
+$userdata['USER_MESSAGE'] = isset($_POST['user_message']) ? clean_input($_POST['user_message'], true) : '';
 $tpl->assign($userdata);
 
 // static page messages
@@ -94,19 +92,19 @@ gen_logged_from($tpl);
 
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Support System - New ticket'),
-		'TR_NEW_TICKET' => tr('New ticket'),
-		'TR_LOW' => tr('Low'),
-		'TR_MEDIUM' => tr('Medium'),
-		'TR_HIGH' => tr('High'),
-		'TR_VERI_HIGH' => tr('Very high'),
-		'TR_URGENCY' => tr('Priority'),
-		'TR_EMAIL' => tr('Email'),
-		'TR_SUBJECT' => tr('Subject'),
-		'TR_YOUR_MESSAGE' => tr('Your message'),
-		'TR_SEND_MESSAGE' => tr('Send message'),
-		'TR_OPEN_TICKETS' => tr('Open tickets'),
-		'TR_CLOSED_TICKETS' => tr('Closed tickets')
+		'TR_PAGE_TITLE'		=> tr('ispCP - Support system - New ticket'),
+		'TR_NEW_TICKET'		=> tr('New ticket'),
+		'TR_LOW'			=> tr('Low'),
+		'TR_MEDIUM'			=> tr('Medium'),
+		'TR_HIGH'			=> tr('High'),
+		'TR_VERI_HIGH'		=> tr('Very high'),
+		'TR_URGENCY'		=> tr('Priority'),
+		'TR_EMAIL'			=> tr('Email'),
+		'TR_SUBJECT'		=> tr('Subject'),
+		'TR_YOUR_MESSAGE'	=> tr('Your message'),
+		'TR_SEND_MESSAGE'	=> tr('Send message'),
+		'TR_OPEN_TICKETS'	=> tr('Open tickets'),
+		'TR_CLOSED_TICKETS'	=> tr('Closed tickets')
 	)
 );
 

@@ -69,7 +69,7 @@ unset_messages();
 /**
  * @todo What's about the outcommented code?
  */
-function update_server_settings(&$sql) {
+function update_server_settings($sql) {
 
 	if (!isset($_POST['uaction']) && !isset($_POST['uaction'])) {
 		return;
@@ -120,7 +120,7 @@ function update_server_settings(&$sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function generate_server_data(&$tpl, &$sql) {
+function generate_server_data($tpl, $sql) {
 
 	$query = "
 		SELECT

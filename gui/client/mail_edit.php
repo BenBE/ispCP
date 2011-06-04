@@ -37,13 +37,53 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'mail_edit.tpl';
 
+// dynamic page data.
+edit_mail_account($tpl, $sql);
+
+if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
+	set_page_message(tr("Mail were updated successfully!"), 'success');
+	send_request();
+	user_goto('mail_accounts.php');
+}
+
+// static page messages.
+gen_logged_from($tpl);
+
+check_permissions($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
+		'TR_EDIT_EMAIL_ACCOUNT'	=> tr('Edit email account'),
+		'TR_SAVE'				=> tr('Save'),
+		'TR_PASSWORD'			=> tr('Password'),
+		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
+		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
+		'TR_FORWARD_TO'			=> tr('Forward to'),
+		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
+		'TR_EDIT'				=> tr('Edit')
+	)
+);
+
+gen_client_mainmenu($tpl, 'main_menu_email_accounts.tpl');
+gen_client_menu($tpl, 'menu_email_accounts.tpl');
+
+gen_page_message($tpl);
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
+
 // page functions
 
 /**
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function edit_mail_account(&$tpl, &$sql) {
+function edit_mail_account($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -162,7 +202,7 @@ function edit_mail_account(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_pass,update_forward',
-					'FORWARD_MAIL'			=> '',
+					'FORWARD_MAIL'			=> true,
 					'FORWARD_MAIL_CHECKED'	=> $cfg->HTML_CHECKED,
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
@@ -171,17 +211,15 @@ function edit_mail_account(&$tpl, &$sql) {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_pass',
-					'FORWARD_MAIL'			=> '',
-					'FORWARD_MAIL_CHECKED'	=> '',
-					'FORWARD_LIST'			=> '',
-					'FORWARD_LIST_DISABLED'	=> 'true'
+					'NORMAL_MAIL'			=> true
 				)
 			);
 		} else {
 			$tpl->assign(
 				array(
 					'ACTION'				=> 'update_forward',
-					'NORMAL_MAIL'			=> '',
+					'FORWARD_MAIL'			=> true,
+					'FORWARD_MAIL_CHECKED'	=> $cfg->HTML_CHECKED,
 					'FORWARD_LIST_DISABLED'	=> 'false'
 				)
 			);
@@ -217,7 +255,7 @@ function update_email_pass($sql) {
 	} else if ($pass !== $pass_rep) {
 		set_page_message(tr('Entered passwords differ!'), 'warning');
 		return false;
-	} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^$]/i")) { // Not permitted chars
+	} else if (!chk_password($pass, 50, "/[`\xb4'\"\\\\\x01-\x1f\015\012|<>^]/i")) { // Not permitted chars
 		if ($cfg->PASSWD_STRONG) {
 			set_page_message(
 				sprintf(
@@ -246,7 +284,7 @@ function update_email_pass($sql) {
 	}
 }
 
-function update_email_forward(&$tpl, &$sql) {
+function update_email_forward($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -311,48 +349,4 @@ function update_email_forward(&$tpl, &$sql) {
 	write_log($_SESSION['user_logged'] . ": change mail forward: $mail_account");
 	return true;
 }
-
-// end page functions.
-
-
-// dynamic page data.
-
-edit_mail_account($tpl, $sql);
-
-if (update_email_pass($sql) && update_email_forward($tpl, $sql)) {
-	set_page_message(tr("Mail were updated successfully!"), 'success');
-	send_request();
-	user_goto('mail_accounts.php');
-}
-
-// static page messages.
-gen_client_mainmenu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/main_menu_email_accounts.tpl');
-gen_client_menu($tpl, $cfg->CLIENT_TEMPLATE_PATH . '/menu_email_accounts.tpl');
-
-gen_logged_from($tpl);
-
-check_permissions($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Manage Mail and FTP / Edit mail account'),
-		'TR_EDIT_EMAIL_ACCOUNT'	=> tr('Edit email account'),
-		'TR_SAVE'				=> tr('Save'),
-		'TR_PASSWORD'			=> tr('Password'),
-		'TR_PASSWORD_REPEAT'	=> tr('Repeat password'),
-		'TR_FORWARD_MAIL'		=> tr('Forward mail'),
-		'TR_FORWARD_TO'			=> tr('Forward to'),
-		'TR_FWD_HELP'			=> tr("Separate multiple email addresses with a line-break."),
-		'TR_EDIT'				=> tr('Edit')
-	)
-);
-
-gen_page_message($tpl);
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
 ?>

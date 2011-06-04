@@ -48,7 +48,7 @@ $tpl->define_dynamic('purchase_footer', 'page');
  * @param int $user_id
  * @param int $plan_id
  */
-function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
+function gen_address($tpl, $sql, $user_id, $plan_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -177,7 +177,7 @@ function gen_address(&$tpl, &$sql, $user_id, $plan_id) {
 	);
 }
 
-function check_address_data(&$tpl) {
+function check_address_data($tpl) {
 
 	unset($_GET['edit']); // @todo why unset GET['edit']?
 	if ((isset($_POST['fname']) && $_POST['fname'] != '')

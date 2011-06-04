@@ -82,7 +82,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 
 unset_messages();
 
-function save_layout(&$sql) {
+function save_layout($sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_layout') {
 		$user_id = $_SESSION['user_id'];

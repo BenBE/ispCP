@@ -43,20 +43,55 @@ if (isset($_POST['domain_id'])) {
 	$domain_id = $_GET['domain_id'];
 }
 
+$month = date('m');
+$year = date('Y');
+
 if (isset($_POST['month']) && isset($_POST['year'])) {
 	$year = intval($_POST['year']);
 	$month = intval($_POST['month']);
 } else if (isset($_GET['month']) && isset($_GET['year'])) {
 	$month = intval($_GET['month']);
 	$year = intval($_GET['year']);
-} else {
-	$month = date("m");
-	$year = date("Y");
 }
 
 if (!is_numeric($domain_id) || !is_numeric($month) || !is_numeric($year)) {
 	user_goto('reseller_statistics.php');
 }
+
+// static page messages
+gen_logged_from($tpl);
+
+$tpl->assign(
+	array(
+		'TR_PAGE_TITLE'			=> tr('ispCP - Domain Statistics Data'),
+		'TR_DOMAIN_STATISTICS'	=> tr('Domain statistics'),
+		'TR_MONTH'				=> tr('Month'),
+		'TR_YEAR'				=> tr('Year'),
+		'TR_SHOW'				=> tr('Show'),
+		'TR_WEB_TRAFFIC'		=> tr('Web traffic'),
+		'TR_FTP_TRAFFIC'		=> tr('FTP traffic'),
+		'TR_SMTP_TRAFFIC'		=> tr('SMTP traffic'),
+		'TR_POP3_TRAFFIC'		=> tr('POP3/IMAP traffic'),
+		'TR_ALL_TRAFFIC'		=> tr('All traffic'),
+		'TR_ALL'				=> tr('All'),
+		'TR_DAY'				=> tr('Day')
+	)
+);
+
+gen_reseller_mainmenu($tpl, 'main_menu_statistics.tpl');
+gen_reseller_menu($tpl, 'menu_statistics.tpl');
+
+gen_select_lists($tpl, $month, $year);
+generate_page($tpl, $domain_id);
+gen_page_message($tpl);
+
+$tpl->display($template);
+
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug();
+}
+
+unset_messages();
 
 function get_domain_trafic($from, $to, $domain_id) {
 	$sql = ispCP_Registry::get('Db');
@@ -108,7 +143,7 @@ function get_domain_trafic($from, $to, $domain_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $domain_id
  */
-function generate_page(&$tpl, $domain_id) {
+function generate_page($tpl, $domain_id) {
 	global $month, $year;
 	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf;
 	global $sum_web, $sum_ftp, $sum_mail, $sum_pop;
@@ -132,7 +167,6 @@ function generate_page(&$tpl, $domain_id) {
 	$all[6] = 0;
 	$all[7] = 0;
 
-	$counter = 0;
 	for ($i = 1; $i <= $curday; $i++) {
 		$ftm = mktime(0, 0, 0, $month, $i, $year);
 		$ltm = mktime(23, 59, 59, $month, $i, $year);
@@ -150,11 +184,8 @@ function generate_page(&$tpl, $domain_id) {
 		list($web_trf, $ftp_trf, $pop_trf, $smtp_trf) = get_domain_trafic($ftm, $ltm, $domain_id);
 
 		if ($web_trf == 0 && $ftp_trf == 0 && $smtp_trf == 0 && $pop_trf == 0) {
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MONTH' => $month,
-					'YEAR' => $year,
-					'DOMAIN_ID' => $domain_id,
 					'DATE' => date($cfg->DATE_FORMAT, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => 0,
 					'FTP_TRAFFIC' => 0,
@@ -164,14 +195,12 @@ function generate_page(&$tpl, $domain_id) {
 				)
 			);
 		} else {
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
-
 			$sum_web += $web_trf;
 			$sum_ftp += $ftp_trf;
 			$sum_mail += $smtp_trf;
 			$sum_pop += $pop_trf;
 
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'DATE' => date($cfg->DATE_FORMAT, strtotime($year . "-" . $month . "-" . $i)),
 					'WEB_TRAFFIC' => sizeit($web_trf),
@@ -181,7 +210,6 @@ function generate_page(&$tpl, $domain_id) {
 					'ALL_TRAFFIC' => sizeit($web_trf + $ftp_trf + $smtp_trf + $pop_trf)
 				)
 			);
-			$counter++;
 		}
 
 		$tpl->assign(
@@ -199,39 +227,4 @@ function generate_page(&$tpl, $domain_id) {
 
 	}
 }
-
-// static page messages
-
-gen_reseller_mainmenu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/main_menu_statistics.tpl');
-gen_reseller_menu($tpl, $cfg->RESELLER_TEMPLATE_PATH . '/menu_statistics.tpl');
-
-gen_logged_from($tpl);
-
-$tpl->assign(
-	array(
-		'TR_PAGE_TITLE'			=> tr('ispCP - Domain Statistics Data'),
-		'TR_DOMAIN_STATISTICS'	=> tr('Domain statistics'),
-		'TR_MONTH'				=> tr('Month'),
-		'TR_YEAR'				=> tr('Year'),
-		'TR_SHOW'				=> tr('Show'),
-		'TR_WEB_TRAFFIC'		=> tr('Web traffic'),
-		'TR_FTP_TRAFFIC'		=> tr('FTP traffic'),
-		'TR_SMTP_TRAFFIC'		=> tr('SMTP traffic'),
-		'TR_POP3_TRAFFIC'		=> tr('POP3/IMAP traffic'),
-		'TR_ALL_TRAFFIC'		=> tr('All traffic'),
-		'TR_ALL'				=> tr('All'),
-		'TR_DAY'				=> tr('Day')
-	)
-);
-
-gen_select_lists($tpl, $month, $year);
-generate_page($tpl, $domain_id);
-gen_page_message($tpl);
-
-$tpl->display($template);
-
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
-
-unset_messages();
+?>

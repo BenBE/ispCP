@@ -93,3 +93,4 @@ if (isset($_GET['ticket_id']) && $_GET['ticket_id'] != '') {
 }
 
 user_goto($back_url);
+?>

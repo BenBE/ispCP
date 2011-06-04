@@ -36,25 +36,25 @@
 				</tr>
 				<tr>
 					<td>
-						<!-- BDP: mysql_prefix_yes -->
+						{if isset($MYSQL_PREFIX_YES)}
 						<input type="checkbox" name="use_dmn_id" {$USE_DMN_ID} />
-						<!-- EDP: mysql_prefix_yes -->
-						<!-- BDP: mysql_prefix_no -->
+						{/if}
+						{if isset($MYSQL_PREFIX_NO)}
 						<input type="hidden" name="use_dmn_id" value="on" />
-						<!-- EDP: mysql_prefix_no -->
+						{/if}
 						{$TR_USE_DMN_ID}
 					</td>
 					<td>
-						<!-- BDP: mysql_prefix_all -->
+						{if isset($MYSQL_PREFIX_ALL)}
 						<input type="radio" name="id_pos" value="start" {$START_ID_POS_CHECKED} />&nbsp;{$TR_START_ID_POS}<br />
 					   	<input type="radio" name="id_pos" value="end" {$END_ID_POS_CHECKED} />&nbsp;{$TR_END_ID_POS}
-						<!-- EDP: mysql_prefix_all -->
-						<!-- BDP: mysql_prefix_infront -->
+						{/if}
+						{if isset($MYSQL_PREFIX_INFRONT)}
 						<input type="hidden" name="id_pos" value="start" checked="checked" />{$TR_START_ID_POS}
-						<!-- EDP: mysql_prefix_infront -->
-						<!-- BDP: mysql_prefix_behind -->
+						{/if}
+						{if isset($MYSQL_PREFIX_BEHIND)}
 						<input type="hidden" name="id_pos" value="end" checked="checked" />{$TR_END_ID_POS}
-						<!-- EDP: mysql_prefix_behind -->
+						{/if}
 					</td>
 				</tr>
 			</table>

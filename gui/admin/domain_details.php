@@ -38,7 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'domain_details.tpl';
 
 // static page messages
-
 $tpl->assign(
 	array(
 		'TR_PAGE_TITLE'	=> tr('ispCP - Domain/Details'),
@@ -67,8 +66,8 @@ $tpl->assign(
 	)
 );
 
-gen_admin_mainmenu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/main_menu_users_manage.tpl');
-gen_admin_menu($tpl, $cfg->ADMIN_TEMPLATE_PATH . '/menu_users_manage.tpl');
+gen_admin_mainmenu($tpl, 'main_menu_users_manage.tpl');
+gen_admin_menu($tpl, 'menu_users_manage.tpl');
 
 gen_page_message($tpl);
 
@@ -96,7 +95,7 @@ unset_messages();
  * @param int $user_id
  * @param ispCP_Database $sql
  */
-function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
+function gen_detaildom_page($tpl, $user_id, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');

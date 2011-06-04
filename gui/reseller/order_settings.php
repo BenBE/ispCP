@@ -81,7 +81,7 @@ unset_messages();
  * Functions
  */
 
-function save_haf(&$tpl, &$sql) {
+function save_haf($tpl, $sql) {
 	$user_id = $_SESSION['user_id'];
 	$header = $_POST['header'];
 	$footer = $_POST['footer'];

@@ -159,7 +159,7 @@ function check_user_data() {
 	} else if ($dmn_pt == '_yes_' || !isset($_POST['dmn_tpl'])) {
 		// send through the session the data
 		$_SESSION['dmn_name']	= $dmn_name;
-		$_SESSION['dmn_expire']	= $dmn_expire;
+		$_SESSION['dmn_expire_date']	= $dmn_expire;
 		$_SESSION['dmn_tpl']	= $dmn_chp;
 		$_SESSION['chtpl']		= $dmn_pt;
 		$_SESSION['step_one']	= "_yes_";
@@ -171,7 +171,7 @@ function check_user_data() {
 		if (reseller_limits_check($sql, $ehp_error, $_SESSION['user_id'], $dmn_chp)) {
 			// send through the session the data
 			$_SESSION['dmn_name']	= $dmn_name;
-			$_SESSION['dmn_expire']	= $dmn_expire;
+			$_SESSION['dmn_expire_date']	= $dmn_expire;
 			$_SESSION['dmn_tpl']	= $dmn_chp;
 			$_SESSION['chtpl']		= $dmn_pt;
 			$_SESSION['step_one']	= "_yes_";
@@ -191,7 +191,7 @@ function check_user_data() {
  * Show empty page
  * @param ispCP_TemplateEngine $tpl
  */
-function get_empty_au1_page(&$tpl) {
+function get_empty_au1_page($tpl) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
@@ -209,7 +209,7 @@ function get_empty_au1_page(&$tpl) {
  * Show first page of add user with data
  * @param ispCP_TemplateEngine $tpl
  */
-function get_data_au1_page(&$tpl) {
+function get_data_au1_page($tpl) {
 	global $dmn_name; // Domain name
 	global $dmn_expire; // Domain expire date
 	//global $dmn_chp; // choosed hosting plan;
@@ -234,7 +234,7 @@ function get_data_au1_page(&$tpl) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function get_hp_data_list(&$tpl, $reseller_id) {
+function get_hp_data_list($tpl, $reseller_id) {
 	global $dmn_chp;
 
 	$sql = ispCP_Registry::get('Db');
@@ -297,11 +297,11 @@ function get_hp_data_list(&$tpl, $reseller_id) {
 	if (0 !== $rs->rowCount()) { // There are data
 		while (($data = $rs->fetchRow())) {
 			$dmn_chp = isset($dmn_chp) ? $dmn_chp : $data['id'];
-			$tpl->assign(
+			$tpl->append(
 					array(
-						'HP_NAME'			=> tohtml($data['name']),
-						'CHN'				=> $data['id'],
-						'CH'.$data['id']	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
+						'HP_NAME'	=> tohtml($data['name']),
+						'CHN'		=> $data['id'],
+						'CH_SEL'	=> ($data['id'] == $dmn_chp) ? $cfg->HTML_SELECTED : ''
 					)
 			);
 

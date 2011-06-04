@@ -82,7 +82,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_order_page(&$tpl, &$sql, $user_id) {
+function gen_order_page($tpl, $sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$start_index = 0;
@@ -159,7 +159,6 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 		$tpl->assign('SCROLL_NEXT_GRAY', '');
 		$tpl->assign('SCROLL_PREV_GRAY', '');
 	} else {
-		$counter = 0;
 		while (!$rs->EOF) {
 			$plan_id = $rs->fields['plan_id'];
 			$order_status = tr('New order');
@@ -174,8 +173,6 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 			";
 			$rs_planname = exec_query($sql, $planname_query, $plan_id);
 			$plan_name = $rs_planname->fields['name'];
-
-			$tpl->assign('ITEM_CLASS', ($counter % 2 == 0) ? 'content' : 'content2');
 
 			$status = $rs->fields['status'];
 			if ($status === 'update') {
@@ -221,7 +218,6 @@ function gen_order_page(&$tpl, &$sql, $user_id) {
 			);
 
 			$rs->moveNext();
-			$counter++;
 		}
 	}
 }

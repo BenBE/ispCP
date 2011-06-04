@@ -38,7 +38,6 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'mail_accounts.tpl';
 
 // dynamic page data.
-
 if (isset($_SESSION['email_support']) && $_SESSION['email_support'] == 'no') {
 	$tpl->assign('NO_MAILS', '');
 }
@@ -62,8 +61,6 @@ if (count_default_mails($sql, $dmn_id) > 0) {
 		)
 	);
 
-} else {
-	$tpl->assign(array('DEFAULT_MAILS_FORM' => ''));
 }
 
 // static page messages.
@@ -84,6 +81,7 @@ $tpl->assign(
 		'TR_SUB_MAILS'		=> tr('Subdomain mails'),
 		'TR_ALS_MAILS'		=> tr('Alias mails'),
 		'TR_TOTAL_MAIL_ACCOUNTS' => tr('Mails total'),
+		'TR_EDIT'			=> tr('Edit'),
 		'TR_DELETE'			=> tr('Delete'),
 		'TR_MESSAGE_DELETE' => tr('Are you sure you want to delete %s?', true, '%s')
 	)
@@ -107,29 +105,6 @@ unset_messages();
 /**
  * Must be documented
  *
- * @param int $mail_id mail id
- * @param string $mail_status mail status
- * @return array
- */
-function gen_user_mail_action($mail_id, $mail_status) {
-
-	$cfg = ispCP_Registry::get('Config');
-
-	if ($mail_status === $cfg->ITEM_OK_STATUS) {
-		return array(
-			tr('Delete'),
-			"mail_delete.php?id=$mail_id",
-			tr('Edit'),
-			"mail_edit.php?id=$mail_id"
-		);
-	} else {
-		return array(tr('N/A'), '#', tr('N/A'), '#');
-	}
-}
-
-/**
- * Must be documented
- *
  * @param ispCP_TemplateEngine $tpl pTemplate instance
  * @param int $mail_id
  * @param string $mail_type
@@ -144,7 +119,7 @@ function gen_user_mail_auto_respond(
 
 	if ($mail_status === $cfg->ITEM_OK_STATUS) {
 		if ($mail_auto_respond == false) {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Enable'),
 
@@ -157,7 +132,7 @@ function gen_user_mail_auto_respond(
 				)
 			);
 		} else {
-			$tpl->assign(
+			$tpl->append(
 				array(
 					'AUTO_RESPOND_DISABLE' => tr('Disable'),
 
@@ -174,7 +149,7 @@ function gen_user_mail_auto_respond(
 			);
 		}
 	} else {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'AUTO_RESPOND_DISABLE' => tr('Please wait for update'),
 				'AUTO_RESPOND_DISABLE_SCRIPT' => '',
@@ -243,23 +218,7 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 	if ($rs->recordCount() == 0) {
 		return 0;
 	} else {
-		global $counter;
-
 		while (!$rs->EOF) {
-
-			$tpl->assign(
-				'ITEM_CLASS',
-				($counter % 2 == 0) ? 'content' : 'content2'
-			);
-
-			list(
-				$mail_delete,
-				$mail_delete_script,
-				$mail_edit,
-				$mail_edit_script
-			) = gen_user_mail_action(
-				$rs->fields['mail_id'], $rs->fields['status']
-			);
 
 			$mail_acc = decode_idna($rs->fields['mail_acc']);
 			$show_dmn_name = decode_idna($dmn_name);
@@ -281,15 +240,13 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_dmn_name),
-					'MAIL_TYPE' => $mail_type,
-					'MAIL_STATUS' => translate_dmn_status($rs->fields['status']),
-					'MAIL_DELETE' => $mail_delete,
-					'MAIL_DELETE_SCRIPT' => $mail_delete_script,
-					'MAIL_EDIT' => $mail_edit,
-					'MAIL_EDIT_SCRIPT' => $mail_edit_script
+					'MAIL_ACC'			=> tohtml($mail_acc . '@' . $show_dmn_name),
+					'MAIL_TYPE'			=> $mail_type,
+					'MAIL_STATUS'		=> translate_dmn_status($rs->fields['status']),
+					'MAIL_EDIT_URL'		=> 'mail_edit.php?id=' . $rs->fields['mail_id'],
+					'MAIL_DELETE_URL'	=> 'mail_delete.php?id=' . $rs->fields['mail_id']
 				)
 			);
 
@@ -300,7 +257,6 @@ function gen_page_dmn_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 
 
 			$rs->moveNext();
-			$counter++;
 		}
 
 		return $rs->recordCount();
@@ -370,21 +326,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 	if ($rs->recordCount() == 0) {
 		return 0;
 	} else {
-		global $counter;
-
 		while (!$rs->EOF) {
-			$tpl->assign(
-				'ITEM_CLASS',
-				($counter % 2 == 0) ? 'content' : 'content2'
-			);
-
-			list(
-				$mail_delete, $mail_delete_script,
-				$mail_edit, $mail_edit_script
-			) = gen_user_mail_action(
-				$rs->fields['mail_id'], $rs->fields['status']
-			);
-
 			$mail_acc = decode_idna($rs->fields['mail_acc']);
 
 			$show_sub_name = decode_idna($rs->fields['sub_name']);
@@ -407,17 +349,13 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MAIL_ACC' =>
-						tohtml($mail_acc.'@'.$show_sub_name.'.'.$show_dmn_name),
-
-					'MAIL_TYPE' => $mail_type,
-					'MAIL_STATUS' => translate_dmn_status($rs->fields['status']),
-					'MAIL_DELETE' => $mail_delete,
-					'MAIL_DELETE_SCRIPT' => $mail_delete_script,
-					'MAIL_EDIT' => $mail_edit,
-					'MAIL_EDIT_SCRIPT' => $mail_edit_script
+					'MAIL_ACC'			=> tohtml($mail_acc.'@'.$show_sub_name.'.'.$show_dmn_name),
+					'MAIL_TYPE'			=> $mail_type,
+					'MAIL_STATUS'		=> translate_dmn_status($rs->fields['status']),
+					'MAIL_EDIT_URL'		=> 'mail_edit.php?id=' . $rs->fields['mail_id'],
+					'MAIL_DELETE_URL'	=> 'mail_delete.php?id=' . $rs->fields['mail_id']
 				)
 			);
 
@@ -428,7 +366,6 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 
 
 			$rs->moveNext();
-			$counter++;
 		}
 
 		return $rs->recordCount();
@@ -504,20 +441,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 	if ($rs->recordCount() == 0) {
 		return 0;
 	} else {
-		global $counter;
-
 		while (!$rs->EOF) {
-			$tpl->assign(
-				'ITEM_CLASS',
-				($counter % 2 == 0) ? 'content' : 'content2'
-			);
-
-			list(
-				$mail_delete, $mail_delete_script, $mail_edit, $mail_edit_script
-			) = gen_user_mail_action(
-				$rs->fields['mail_id'], $rs->fields['status']
-			);
-
 			$mail_acc = decode_idna($rs->fields['mail_acc']);
 			$show_alssub_name = decode_idna($rs->fields['alssub_name']);
 			$mail_types = explode(',', $rs->fields['mail_type']);
@@ -536,15 +460,13 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_alssub_name),
-					'MAIL_TYPE' => $mail_type,
-					'MAIL_STATUS' => translate_dmn_status($rs->fields['status']),
-					'MAIL_DELETE' => $mail_delete,
-					'MAIL_DELETE_SCRIPT' => $mail_delete_script,
-					'MAIL_EDIT' => $mail_edit,
-					'MAIL_EDIT_SCRIPT' => $mail_edit_script
+					'MAIL_ACC'			=> tohtml($mail_acc . '@' . $show_alssub_name),
+					'MAIL_TYPE'			=> $mail_type,
+					'MAIL_STATUS'		=> translate_dmn_status($rs->fields['status']),
+					'MAIL_EDIT_URL'		=> 'mail_edit.php?id=' . $rs->fields['mail_id'],
+					'MAIL_DELETE_URL'	=> 'mail_delete.php?id=' . $rs->fields['mail_id']
 				)
 			);
 
@@ -554,7 +476,6 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 			);
 
 			$rs->moveNext();
-			$counter++;
 		}
 
 		return $rs->recordCount();
@@ -624,20 +545,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 	if ($rs->recordCount() == 0) {
 		return 0;
 	} else {
-		global $counter;
-
 		while (!$rs->EOF) {
-			$tpl->assign(
-				'ITEM_CLASS',
-				($counter % 2 == 0) ? 'content' : 'content2'
-			);
-
-			list(
-				$mail_delete, $mail_delete_script, $mail_edit, $mail_edit_script
-			) = gen_user_mail_action(
-				$rs->fields['mail_id'], $rs->fields['status']
-			);
-
 			$mail_acc = decode_idna($rs->fields['mail_acc']);
 			// Unused variable
 			// $show_dmn_name = decode_idna($dmn_name);
@@ -659,15 +567,13 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 				$mail_type .= '<br />';
 			}
 
-			$tpl->assign(
+			$tpl->append(
 				array(
-					'MAIL_ACC' => tohtml($mail_acc . '@' . $show_als_name),
-					'MAIL_TYPE' => $mail_type,
-					'MAIL_STATUS' => translate_dmn_status($rs->fields['status']),
-					'MAIL_DELETE' => $mail_delete,
-					'MAIL_DELETE_SCRIPT' => $mail_delete_script,
-					'MAIL_EDIT' => $mail_edit,
-					'MAIL_EDIT_SCRIPT' => $mail_edit_script
+					'MAIL_ACC'			=> tohtml($mail_acc . '@' . $show_als_name),
+					'MAIL_TYPE'			=> $mail_type,
+					'MAIL_STATUS'		=> translate_dmn_status($rs->fields['status']),
+					'MAIL_EDIT_URL'		=> 'mail_edit.php?id=' . $rs->fields['mail_id'],
+					'MAIL_DELETE_URL'	=> 'mail_delete.php?id=' . $rs->fields['mail_id']
 				)
 			);
 
@@ -677,7 +583,6 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 			);
 
 			$rs->moveNext();
-			$counter++;
 		}
 
 		return $rs->recordCount();
@@ -742,8 +647,9 @@ function gen_page_lists($tpl, $sql, $user_id) {
 
 		$tpl->assign(
 			array(
-				'MAIL_MSG' => tr('Mail accounts list is empty!'),
-				'MAIL_ITEM' => '', 'MAILS_TOTAL' => ''
+				'MAIL_MSG'		=> tr('Mail accounts list is empty!'),
+				'MAIL_MSG_TYPE'	=> 'info',
+				'MAIL_ITEM'		=> '', 'MAILS_TOTAL' => ''
 			)
 		);
 

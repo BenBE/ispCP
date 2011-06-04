@@ -67,7 +67,7 @@ function translate_sse($value) {
  * @param int $user_id
  * @param int $plan_id
  */
-function gen_plan_details(&$tpl, &$sql, $user_id, $plan_id) {
+function gen_plan_details($tpl, $sql, $user_id, $plan_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

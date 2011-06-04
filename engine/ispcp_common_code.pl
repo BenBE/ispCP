@@ -189,6 +189,11 @@ $main::ispcp_vrl_traff_stdout = "$main::log_dir/ispcp-vrl-traff.stdout";
 $main::ispcp_vrl_traff_stderr = "$main::log_dir/ispcp-vrl-traff.stderr";
 
 ################################################################################
+# ispcp_svr_traff variables
+#
+$main::ispcp_srv_traff_el = "$main::log_dir/ispcp-srv-traff.el";
+
+################################################################################
 # ispcp_httpd_logs variables
 #
 $main::ispcp_httpd_logs_mngr_el = "$main::log_dir/ispcp-httpd-logs-mngr.el";
@@ -196,14 +201,13 @@ $main::ispcp_httpd_logs_mngr_stdout = "$main::log_dir/ispcp-httpd-logs-mngr.stdo
 $main::ispcp_httpd_logs_mngr_stderr = "$main::log_dir/ispcp-httpd-logs-mngr.stderr";
 
 ################################################################################
-# ispcp_ftp_acc_mngr variables
-# hu ???
-$main::ispcp_ftp_acc_mngr_el = "$main::log_dir/ispcp-ftp-acc-mngr.el";
-$main::ispcp_ftp_acc_mngr_stdout = "$main::log_dir/ispcp-ftp-acc-mngr.stdout";
-$main::ispcp_ftp_acc_mngr_stderr = "$main::log_dir/ispcp-ftp-acc-mngr.stderr";
-
+# ispcp_bk variables
+#
 $main::ispcp_bk_task_el = "$main::log_dir/ispcp-bk-task.el";
-$main::ispcp_srv_traff_el = "$main::log_dir/ispcp-srv-traff.el";
+
+################################################################################
+# ispcp_dsk_quota variables
+#
 $main::ispcp_dsk_quota_el = "$main::log_dir/ispcp-dsk-quota.el";
 
 1;
