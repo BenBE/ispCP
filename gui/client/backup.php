@@ -85,7 +85,7 @@ unset_messages();
 
 // page functions.
 
-function send_backup_restore_request(&$sql, $user_id) {
+function send_backup_restore_request($sql, $user_id) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'bk_restore') {
 
 		$query = "

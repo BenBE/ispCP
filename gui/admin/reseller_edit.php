@@ -766,11 +766,11 @@ function get_reseller_prop($reseller_id) {
 /**
  * Get Server IPs
  *
- * @param ispCP_TemplateEngine &$tpl reference to the temmplate instance
+ * @param ispCP_TemplateEngine $tpl reference to the temmplate instance
  * @param string reseller IP addresses list
  * @return string reseller list of assigned Ips
  */
-function get_servers_ips(&$tpl, $rip_lst) {
+function get_servers_ips($tpl, $rip_lst) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -996,10 +996,10 @@ function update_reseller() {
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
  * @since r2561
- * @param ispCP_TemplateEngine &$tpl reference to the template instance
+ * @param ispCP_TemplateEngine $tpl reference to the template instance
  * @return array reseller properties and additional data
  */
-function &get_data(&$tpl = false) {
+function &get_data($tpl = false) {
 
 	static $rdata = array();
 
@@ -1055,11 +1055,11 @@ function &get_data(&$tpl = false) {
  *
  * @author Laurent Declercq (Nuxwin) <laurent.declercq@ispcp.net>
  * @since r2587
- * @param ispCP_TemplateEngine &$tpl reference to the template instance
+ * @param ispCP_TemplateEngine $tpl reference to the template instance
  * @param array &$errFields reference to the array of error fields indicators
  * @return void
  */
-function fields_highlighting(&$tpl, &$errFields) {
+function fields_highlighting($tpl, &$errFields) {
 
 	$fields = array(
 		'PWD_ERR', 'PWDR_ERR', 'EMAIL_ERR', 'DMN_ERR', 'SUB_ERR', 'ALS_ERR',

@@ -268,7 +268,7 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_editdomain_page(&$tpl) {
+function gen_editdomain_page($tpl) {
 	global $domain_name, $domain_expires, $domain_new_expire, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
 	global $mail, $ftp, $sql_db;
@@ -372,7 +372,7 @@ function gen_editdomain_page(&$tpl) {
  * @param int $reseller_id
  * @param int $user_id
  */
-function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
+function check_user_data($tpl, $sql, $reseller_id, $user_id) {
 
 	global $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk, $sql,
 		$domain_php, $domain_cgi, $allowbackup, $domain_dns, $domain_expires;

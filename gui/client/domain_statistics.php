@@ -88,7 +88,7 @@ unset_messages();
  * @param int $month
  * @param int $year
  */
-function gen_page_date(&$tpl, $month, $year) {
+function gen_page_date($tpl, $month, $year) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -111,7 +111,7 @@ function gen_page_date(&$tpl, $month, $year) {
 	}
 }
 
-function gen_page_post_data(&$tpl, $current_month, $current_year) {
+function gen_page_post_data($tpl, $current_month, $current_year) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'show_traff') {
 		$current_month = $_POST['month'];
@@ -164,7 +164,7 @@ function get_domain_trafic($from, $to, $domain_id) {
  * @param int $year
  * @param int $user_id
  */
-function gen_dmn_traff_list(&$tpl, &$sql, $month, $year, $user_id) {
+function gen_dmn_traff_list($tpl, $sql, $month, $year, $user_id) {
 
 	global $web_trf, $ftp_trf, $smtp_trf, $pop_trf,
 	$sum_web, $sum_ftp, $sum_mail, $sum_pop;

@@ -159,7 +159,7 @@ class status {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function get_server_status(&$tpl, &$sql) {
+function get_server_status($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 

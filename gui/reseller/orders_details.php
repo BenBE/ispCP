@@ -118,7 +118,7 @@ unset_messages();
  * @param int $user_id
  * @param int $order_id
  */
-function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
+function gen_order_details($tpl, $sql, $user_id, $order_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
@@ -214,7 +214,7 @@ function gen_order_details(&$tpl, &$sql, $user_id, $order_id) {
 	);
 }
 
-function update_order_details(&$tpl, &$sql, $user_id, $order_id) {
+function update_order_details($tpl, $sql, $user_id, $order_id) {
 	$domain			= strtolower($_POST['domain']);
 	$domain			= encode_idna($domain);
 	$customer_id	= $_POST['customer_id'];

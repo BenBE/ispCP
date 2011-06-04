@@ -70,7 +70,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl	The TPL object
  * @param ispCP_Database $sql	The SQL object
  */
-function listIPDomains(&$tpl, &$sql) {
+function listIPDomains($tpl, $sql) {
 
 	global $reseller_id;
 

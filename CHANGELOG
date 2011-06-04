@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-04 Markus Szywon
+	- GUI:
+		* Some small changes
+
 2011-05-29 Benedikt Heintel
     - CONFIG:
         * Added Ticket #2570: Change logrotate defaults for log retention policies

@@ -128,7 +128,7 @@ function get_domain_trafic($from, $to, $domain_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $domain_id
  */
-function generate_page(&$tpl, $domain_id) {
+function generate_page($tpl, $domain_id) {
 
 
 	global $month, $year, $web_trf, $ftp_trf, $smtp_trf, $pop_trf,

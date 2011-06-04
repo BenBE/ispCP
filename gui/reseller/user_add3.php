@@ -159,7 +159,7 @@ function init_in_values() {
  * generate page add user 3
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_user_add3_page(&$tpl) {
+function gen_user_add3_page($tpl) {
 	global $dmn_name, $hpid, $dmn_user_name, $user_email, $customer_id,
 		$first_name, $last_name, $gender, $firm, $zip, $city, $state, $country,
 		$street_one, $street_two, $mail, $phone, $fax;

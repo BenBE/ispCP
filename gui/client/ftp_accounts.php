@@ -86,7 +86,7 @@ unset_messages();
  * @param int $dmn_id
  * @param string $dmn_name
  */
-function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
+function gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name) {
 	$query = "
 		SELECT
 			`gid`,
@@ -135,7 +135,7 @@ function gen_page_ftp_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 	}
 }
 
-function gen_page_lists(&$tpl, &$sql, $user_id) {
+function gen_page_lists($tpl, $sql, $user_id) {
 
 	list($dmn_id,$dmn_name) = get_domain_default_props($sql, $user_id);
 

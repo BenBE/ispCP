@@ -105,7 +105,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param string $ftp_acc
  */
-function gen_page_dynamic_data(&$tpl, &$sql, $ftp_acc) {
+function gen_page_dynamic_data($tpl, $sql, $ftp_acc) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -142,7 +142,7 @@ function gen_page_dynamic_data(&$tpl, &$sql, $ftp_acc) {
 	);
 }
 
-function update_ftp_account(&$sql, $ftp_acc, $dmn_name) {
+function update_ftp_account($sql, $ftp_acc, $dmn_name) {
 
 	global $other_dir;
 	$cfg = ispCP_Registry::get('Config');

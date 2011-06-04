@@ -70,7 +70,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @return void
  */
-function get_update_infos(&$tpl) {
+function get_update_infos($tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
 

@@ -83,6 +83,6 @@ unset_messages();
 /**
  * @todo Implement this function
  */
-function add_cron_job(&$tpl, &$sql, $user_id) {
+function add_cron_job($tpl, $sql, $user_id) {
 } // End of add_cron_job()
 ?>

@@ -34,7 +34,7 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-function check_email_user(&$sql) {
+function check_email_user($sql) {
 
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];

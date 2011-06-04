@@ -242,7 +242,7 @@ function init_empty_data() {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function gen_al_page(&$tpl, $reseller_id) {
+function gen_al_page($tpl, $reseller_id) {
 	global $alias_name, $forward, $forward_prefix, $mount_point;
 
 	$sql = ispCP_Registry::get('Db');
@@ -432,7 +432,7 @@ function add_domain_alias(&$err_al) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
-function gen_page_msg(&$tpl, $error_txt) {
+function gen_page_msg($tpl, $error_txt) {
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
 	} else {

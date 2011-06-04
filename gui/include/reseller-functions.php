@@ -46,7 +46,7 @@ define('MT_ALSSUB_CATCHALL', 'alssub_catchall');
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_reseller_mainmenu(&$tpl, $menu_file) {
+function gen_reseller_mainmenu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -147,7 +147,7 @@ function gen_reseller_mainmenu(&$tpl, $menu_file) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $menu_file
  */
-function gen_reseller_menu(&$tpl, $menu_file) {
+function gen_reseller_menu($tpl, $menu_file) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -252,7 +252,7 @@ function gen_reseller_menu(&$tpl, $menu_file) {
 /**
  * Get data for page of reseller
  */
-function get_reseller_default_props(&$sql, $reseller_id) {
+function get_reseller_default_props($sql, $reseller_id) {
 	// Make sql query
 	$query = "
 		SELECT
@@ -624,7 +624,7 @@ function get_user_props($user_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function generate_ip_list(&$tpl, &$reseller_id) {
+function generate_ip_list($tpl, &$reseller_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -672,7 +672,7 @@ function generate_ip_list(&$tpl, &$reseller_id) {
  *
  * @todo check if we can remove out commented code block
  */
-function check_ruser_data(&$tpl, $noPass) {
+function check_ruser_data($tpl, $noPass) {
 	global $dmn_name, $hpid , $dmn_user_name;
 	global $user_email, $customer_id, $first_name;
 	global $last_name, $firm, $zip, $gender;
@@ -1059,7 +1059,7 @@ function gen_manage_domain_query(&$search_query, &$count_query,
  * @param string $search_common
  * @param string $search_status
  */
-function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
+function gen_manage_domain_search_options($tpl, $search_for, $search_common,
 	$search_status) {
 
 	$cfg = ispCP_Registry::get('Config');
@@ -1196,7 +1196,7 @@ function gen_manage_domain_search_options(&$tpl, $search_for, $search_common,
  * @param ispCP_Database $sql
  * @param string $userdef_language
  */
-function gen_def_language(&$tpl, &$sql, $user_def_language) {
+function gen_def_language($tpl, $sql, $user_def_language) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$languages = array();
@@ -1270,7 +1270,7 @@ function gen_def_language(&$tpl, &$sql, $user_def_language) {
  * @param ispCP_Database $sql
  * @param int $domain_id
  */
-function gen_domain_details(&$tpl, &$sql, $domain_id) {
+function gen_domain_details($tpl, $sql, $domain_id) {
 
 	$tpl->assign('USER_DETAILS', '');
 
@@ -1326,7 +1326,7 @@ function gen_domain_details(&$tpl, &$sql, $domain_id) {
 	}
 }
 
-function reseller_limits_check(&$sql, &$err_msg, $reseller_id, $hpid, $newprops = "") {
+function reseller_limits_check($sql, &$err_msg, $reseller_id, $hpid, $newprops = "") {
 	$error = false;
 
 	if (empty($newprops)) {

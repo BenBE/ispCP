@@ -270,7 +270,7 @@ function load_additional_data($user_id, $domain_id) {
  * Show user data
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_editdomain_page(&$tpl) {
+function gen_editdomain_page($tpl) {
 
 	global $domain_name, $domain_expires, $domain_ip, $php_sup;
 	global $cgi_supp , $sub, $als;
@@ -355,7 +355,7 @@ function gen_editdomain_page(&$tpl) {
  * Check input data
  * @param ispCP_TemplateEngine $tpl
  */
-function check_user_data(&$tpl, &$sql, $reseller_id, $user_id) {
+function check_user_data($tpl, $sql, $reseller_id, $user_id) {
 
 	global $domain_expires, $sub, $als, $mail, $ftp;
 	global $sql_db, $sql_user, $traff;

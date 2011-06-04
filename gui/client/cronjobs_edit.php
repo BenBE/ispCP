@@ -85,12 +85,12 @@ unset_messages();
 /**
  * @todo Implement this function
  */
-function update_cron_job(&$tpl, &$sql, $cron_id) {
+function update_cron_job($tpl, $sql, $cron_id) {
 } // End of update_cron_job()
 
 /**
  * @todo Implement this function
  */
-function gen_cron_job(&$tpl, &$sql, $user_id) {
+function gen_cron_job($tpl, $sql, $user_id) {
 } // End of gen_cron_job()
 ?>

@@ -40,7 +40,7 @@ $template = 'protect_it.tpl';
 /**
  * @todo use db prepared statements
  */
-function protect_area(&$tpl, &$sql, $dmn_id) {
+function protect_area($tpl, $sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -207,7 +207,7 @@ function protect_area(&$tpl, &$sql, $dmn_id) {
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
-function gen_protect_it(&$tpl, &$sql, &$dmn_id) {
+function gen_protect_it($tpl, $sql, &$dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

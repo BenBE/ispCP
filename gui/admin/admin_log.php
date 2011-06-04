@@ -75,7 +75,7 @@ unset_messages();
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function generate_page(&$tpl) {
+function generate_page($tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');

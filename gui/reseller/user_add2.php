@@ -159,7 +159,7 @@ function get_pageone_param() {
  * Show page with initial data fields
  * @param ispCP_TemplateEngine $tpl
  */
-function get_init_au2_page(&$tpl) {
+function get_init_au2_page($tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;
@@ -239,7 +239,7 @@ function get_hp_data($hpid, $admin_id) {
  * Check validity of input data
  * @param ispCP_TemplateEngine $tpl
  */
-function check_user_data(&$tpl) {
+function check_user_data($tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;

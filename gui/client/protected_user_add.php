@@ -37,7 +37,7 @@ $cfg = ispCP_Registry::get('Config');
 $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'puser_uadd.tpl';
 
-function padd_user(&$tpl, &$sql, $dmn_id) {
+function padd_user($tpl, $sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

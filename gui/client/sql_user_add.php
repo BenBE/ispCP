@@ -101,7 +101,7 @@ unset_messages();
  * @param bool $sqluser_available
  * @return void
  */
-function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available) {
+function check_sql_permissions($tpl, $sql, $user_id, $db_id, $sqluser_available) {
 	list($dmn_id,,,,,,,,,,,,
 		$dmn_sqlu_limit
 	) = get_domain_default_props($sql, $user_id);
@@ -150,7 +150,7 @@ function check_sql_permissions(&$tpl, $sql, $user_id, $db_id, $sqluser_available
  * @param int $db_id
  * @return array|bool
  */
-function get_sqluser_list_of_current_db(&$sql, $db_id) {
+function get_sqluser_list_of_current_db($sql, $db_id) {
 	$query = "SELECT `sqlu_name` FROM `sql_user` WHERE `sqld_id` = ?";
 
 	$rs = exec_query($sql, $query, $db_id);
@@ -174,7 +174,7 @@ function get_sqluser_list_of_current_db(&$sql, $db_id) {
  * @param int $db_id
  * @return bool
  */
-function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
+function gen_sql_user_list($sql, $tpl, $user_id, $db_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -235,7 +235,7 @@ function gen_sql_user_list(&$sql, &$tpl, $user_id, $db_id) {
 	}
 }
 
-function check_db_user(&$sql, $db_user) {
+function check_db_user($sql, $db_user) {
 	$query = "SELECT COUNT(`User`) AS cnt FROM mysql.`user` WHERE `User` = ?";
 
 	$rs = exec_query($sql, $query, $db_user);
@@ -248,7 +248,7 @@ function check_db_user(&$sql, $db_user) {
  *  * If creation of database user fails in MySQL-Table, database user is already
  * 		in loclal ispcp table -> Error handling
  */
-function add_sql_user(&$sql, $user_id, $db_id) {
+function add_sql_user($sql, $user_id, $db_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -420,7 +420,7 @@ function add_sql_user(&$sql, $user_id, $db_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $db_id
  */
-function gen_page_post_data(&$tpl, $db_id) {
+function gen_page_post_data($tpl, $db_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

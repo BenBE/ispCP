@@ -115,7 +115,7 @@ function gen_hp_message() {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function gen_hp_table(&$tpl, $reseller_id) {
+function gen_hp_table($tpl, $reseller_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');

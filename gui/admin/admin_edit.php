@@ -155,7 +155,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 }
 unset_messages();
 
-function update_data(&$sql) {
+function update_data($sql) {
 
 	global $edit_id;
 	$cfg = ispCP_Registry::get('Config');

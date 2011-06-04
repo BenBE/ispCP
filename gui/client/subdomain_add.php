@@ -115,7 +115,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $error_txt
  */
-function gen_page_msg(&$tpl, $error_txt) {
+function gen_page_msg($tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
@@ -165,7 +165,7 @@ function check_subdomain_permissions($user_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $user_id
  */
-function gen_user_add_subdomain_data(&$tpl, $user_id) {
+function gen_user_add_subdomain_data($tpl, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -256,7 +256,7 @@ function gen_user_add_subdomain_data(&$tpl, $user_id) {
  * @param int $dmn_id
  * @param string $post_check
  */
-function gen_dmn_als_list(&$tpl, $dmn_id, $post_check) {
+function gen_dmn_als_list($tpl, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
@@ -453,7 +453,7 @@ function subdomain_schedule($user_id, $domain_id, $sub_name, $sub_mnt_pt, $forwa
  * @param <type> $dmn_name
  * @return <type>
  */
-function check_subdomain_data(&$tpl, &$err_sub, $user_id, $dmn_name) {
+function check_subdomain_data($tpl, &$err_sub, $user_id, $dmn_name) {
 	global $validation_err_msg;
 
 	$sql = ispCP_Registry::get('Db');

@@ -235,7 +235,7 @@ function gen_num_limit_msg($num, $limit) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_system_message(&$tpl, &$sql) {
+function gen_system_message($tpl, $sql) {
 	$user_id = $_SESSION['user_id'];
 
 	$query = "
@@ -274,7 +274,7 @@ function gen_system_message(&$tpl, &$sql) {
  * @param float $max_usage
  * @param float $bars_max
  */
-function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
+function gen_traff_usage($tpl, $usage, $max_usage, $bars_max) {
 	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 	if ($max_usage != 0) {
 		$traffic_usage_data = tr('%1$d%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
@@ -303,7 +303,7 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
  * @param float $max_usage
  * @param float $bars_max
  */
-function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
+function gen_disk_usage($tpl, $usage, $max_usage, $bars_max) {
 	list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 
 	if ($max_usage != 0) {
@@ -338,7 +338,7 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
  * @param int $als_cnt
  * @param int $dmn_mailacc_limit
  */
-function check_user_permissions(&$tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
+function check_user_permissions($tpl, $dmn_sqld_limit, $dmn_sqlu_limit, $dmn_php,
 	$dmn_cgi,$backup, $dns, $dmn_subd_limit, $als_cnt, $dmn_mailacc_limit) {
 
 	// check if mail accouts available are available for this user
@@ -456,7 +456,7 @@ function make_traff_usage($domain_id) {
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_user_messages_label(&$tpl, &$sql, &$user_id) {
+function gen_user_messages_label($tpl, $sql, $user_id) {
 	$query = "
 		SELECT
 			COUNT(`ticket_id`) AS cnum

@@ -457,7 +457,7 @@ function ticketGetLastDate($ticket_id) {
  * @param string $userLevel		the user level
  * @param string $status		status of the tickets: 'open' and 'closed' allowed
  */
-function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status) {
+function generateTicketList($tpl, $user_id, $start, $count, $userLevel, $status) {
 	$sql = ispCP_Registry::get('Db');
 
 	$count_query = "
@@ -594,7 +594,7 @@ function generateTicketList(&$tpl, $user_id, $start, $count, $userLevel, $status
  * @param int $user_id			the ID of the user
  * @param int $screenwidth		the width of the display
  */
-function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
+function showTicketContent($tpl, $ticket_id, $user_id, $screenwidth) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 
@@ -670,7 +670,7 @@ function showTicketContent(&$tpl, $ticket_id, $user_id, $screenwidth) {
  * @param int $ticket_id		the ID of the ticket to display
  * @param int $screenwidth		the width of the display
  */
-function showTicketReplies(&$tpl, $ticket_id, $screenwidth) {
+function showTicketReplies($tpl, $ticket_id, $screenwidth) {
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');
 

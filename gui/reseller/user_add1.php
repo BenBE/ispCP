@@ -191,7 +191,7 @@ function check_user_data() {
  * Show empty page
  * @param ispCP_TemplateEngine $tpl
  */
-function get_empty_au1_page(&$tpl) {
+function get_empty_au1_page($tpl) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
@@ -209,7 +209,7 @@ function get_empty_au1_page(&$tpl) {
  * Show first page of add user with data
  * @param ispCP_TemplateEngine $tpl
  */
-function get_data_au1_page(&$tpl) {
+function get_data_au1_page($tpl) {
 	global $dmn_name; // Domain name
 	global $dmn_expire; // Domain expire date
 	//global $dmn_chp; // choosed hosting plan;
@@ -234,7 +234,7 @@ function get_data_au1_page(&$tpl) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function get_hp_data_list(&$tpl, $reseller_id) {
+function get_hp_data_list($tpl, $reseller_id) {
 	global $dmn_chp;
 
 	$sql = ispCP_Registry::get('Db');

@@ -88,7 +88,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 unset_messages();
 
 // page functions
-function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
+function change_sql_user_pass($sql, $db_user_id, $db_user_name) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -175,7 +175,7 @@ function change_sql_user_pass(&$sql, $db_user_id, $db_user_name) {
  * @param int $db_user_id
  * @return mixed
  */
-function gen_page_data(&$tpl, &$sql, $db_user_id) {
+function gen_page_data($tpl, $sql, $db_user_id) {
 	$query = "
 		SELECT
 			`sqlu_name`

@@ -71,7 +71,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 unset_messages();
 
 // BEGIN FUNCTION DECLARE PATH
-function gen_hp_message(&$tpl) {
+function gen_hp_message($tpl) {
 	// global $externel_event, $hp_added, $hp_deleted, $hp_updated;
 	global $external_event;
 
@@ -110,7 +110,7 @@ function gen_hp_message(&$tpl) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $reseller_id
  */
-function gen_hp_table(&$tpl, $reseller_id) {
+function gen_hp_table($tpl, $reseller_id) {
 	global $external_event;
 
 	$sql = ispCP_Registry::get('Db');

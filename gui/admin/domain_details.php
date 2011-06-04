@@ -95,7 +95,7 @@ unset_messages();
  * @param int $user_id
  * @param ispCP_Database $sql
  */
-function gen_detaildom_page(&$tpl, $user_id, $domain_id) {
+function gen_detaildom_page($tpl, $user_id, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 	$sql = ispCP_Registry::get('Db');

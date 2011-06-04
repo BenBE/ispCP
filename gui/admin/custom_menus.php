@@ -100,7 +100,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @return void
  */
-function gen_button_list(&$tpl, &$sql) {
+function gen_button_list($tpl, $sql) {
 	$query = "
 		SELECT
 			*
@@ -153,7 +153,7 @@ function gen_button_list(&$tpl, &$sql) {
 	} // end else
 }
 
-function add_new_button(&$sql) {
+function add_new_button($sql) {
 	if (!isset($_POST['uaction'])) {
 		return;
 	} else if ($_POST['uaction'] != 'new_button') {
@@ -213,7 +213,7 @@ function add_new_button(&$sql) {
 	}
 }
 
-function delete_button(&$sql) {
+function delete_button($sql) {
 	if ($_GET['delete_id'] === '' || !is_numeric($_GET['delete_id'])) {
 		set_page_message(
 			tr('Missing or incorrect data input!'),
@@ -244,7 +244,7 @@ function delete_button(&$sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function edit_button(&$tpl, &$sql) {
+function edit_button($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -321,7 +321,7 @@ function edit_button(&$tpl, &$sql) {
 	}
 }
 
-function update_button(&$sql) {
+function update_button($sql) {
 
 	if (!isset($_POST['uaction'])) {
 		return;

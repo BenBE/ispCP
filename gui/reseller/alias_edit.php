@@ -106,7 +106,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param int $edit_id
  */
-function gen_editalias_page(&$tpl, $edit_id) {
+function gen_editalias_page($tpl, $edit_id) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
@@ -206,7 +206,7 @@ function gen_editalias_page(&$tpl, $edit_id) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $alias_id
  */
-function check_fwd_data(&$tpl, $alias_id) {
+function check_fwd_data($tpl, $alias_id) {
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');

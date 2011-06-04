@@ -117,7 +117,7 @@ function gen_user_catchall_action($mail_id, $mail_status) {
  * @param string $mail_status
  * @param string $ca_type
  */
-function gen_catchall_item(&$tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_acc, $mail_status, $ca_type) {
+function gen_catchall_item($tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_acc, $mail_status, $ca_type) {
 	$show_dmn_name = decode_idna($dmn_name);
 
 	if ($action === 'create') {
@@ -155,7 +155,7 @@ function gen_catchall_item(&$tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_a
  * @param int $dmn_id
  * @param string $dmn_name
  */
-function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
+function gen_page_catchall_list($tpl, $sql, $dmn_id, $dmn_name) {
 	global $counter;
 
 	$tpl->assign('CATCHALL_MESSAGE', '');
@@ -354,7 +354,7 @@ function gen_page_catchall_list(&$tpl, &$sql, $dmn_id, $dmn_name) {
 		}
 }
 
-function gen_page_lists(&$tpl, &$sql, $user_id)
+function gen_page_lists($tpl, $sql, $user_id)
 {
 	list($dmn_id,$dmn_name) = get_domain_default_props($sql, $user_id);
 

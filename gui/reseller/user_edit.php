@@ -212,7 +212,7 @@ function load_user_data_page($user_id) {
  * Show user data
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_edituser_page(&$tpl) {
+function gen_edituser_page($tpl) {
 	global $dmn_user_name, $user_email, $customer_id, $first_name, $last_name,
 		$firm, $zip, $gender, $city, $state, $country, $street_one, $street_two,
 		$phone, $fax;

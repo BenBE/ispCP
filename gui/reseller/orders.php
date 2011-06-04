@@ -82,7 +82,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_order_page(&$tpl, &$sql, $user_id) {
+function gen_order_page($tpl, $sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$start_index = 0;

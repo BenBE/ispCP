@@ -124,7 +124,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function restore_form(&$tpl, &$sql) {
+function restore_form($tpl, $sql) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$tpl->assign(
@@ -168,7 +168,7 @@ function restore_form(&$tpl, &$sql) {
  * @param int $hpid
  * @param int $admin_id
  */
-function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
+function gen_load_ehp_page($tpl, $sql, $hpid, $admin_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$_SESSION['hpid'] = $hpid;
@@ -306,7 +306,7 @@ function gen_load_ehp_page(&$tpl, &$sql, $hpid, $admin_id) {
  * Check correction of input data
  * @param ispCP_TemplateEngine $tpl
  */
-function check_data_iscorrect(&$tpl) {
+function check_data_iscorrect($tpl) {
 	global $hp_name, $hp_php, $hp_cgi;
 	global $hp_sub, $hp_als, $hp_mail;
 	global $hp_ftp, $hp_sql_db, $hp_sql_user;

@@ -62,7 +62,7 @@ function addon_domain($dmn_name) {
 	user_goto('address.php');
 }
 
-function is_plan_available(&$sql, $plan_id, $user_id) {
+function is_plan_available($sql, $plan_id, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

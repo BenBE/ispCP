@@ -91,7 +91,7 @@ function gen_ip_action($ip_id, $status) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function show_IPs(&$tpl, &$sql) {
+function show_IPs($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -145,7 +145,7 @@ function show_IPs(&$tpl, &$sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function add_ip(&$tpl, &$sql) {
+function add_ip($tpl, $sql) {
 
 	global $ip_number, $domain, $alias, $ip_card;
 	$cfg = ispCP_Registry::get('Config');
@@ -261,7 +261,7 @@ function IP_exists() {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_NetworkCard $interfaces
  */
-function show_Network_Cards(&$tpl, &$interfaces) {
+function show_Network_Cards($tpl, $interfaces) {
 
 	if ($interfaces->getErrors() != '') {
 		set_page_message($interfaces->getErrors(), 'error');

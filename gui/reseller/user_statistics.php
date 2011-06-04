@@ -105,7 +105,7 @@ unset_messages();
  * @param int $reseller_id
  * @param string $reseller_name
  */
-function generate_page(&$tpl, $reseller_id, $reseller_name) {
+function generate_page($tpl, $reseller_id, $reseller_name) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
@@ -221,7 +221,7 @@ function generate_page(&$tpl, $reseller_id, $reseller_name) {
  * @param int $user_id
  * @param int $row
  */
-function generate_domain_entry(&$tpl, $user_id, $row) {
+function generate_domain_entry($tpl, $user_id, $row) {
 
 	global $crnt_month, $crnt_year;
 

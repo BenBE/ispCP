@@ -93,7 +93,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_system_message(&$tpl, &$sql) {
+function gen_system_message($tpl, $sql) {
 	$user_id = $_SESSION['user_id'];
 
 	$query = "
@@ -138,7 +138,7 @@ function gen_system_message(&$tpl, &$sql) {
  * @param float $max_usage
  * @param float $bars_max
  */
-function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
+function gen_traff_usage($tpl, $usage, $max_usage, $bars_max) {
 	if (0 !== $max_usage) {
 		list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 		$traffic_usage_data = tr('%1$s%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
@@ -163,7 +163,7 @@ function gen_traff_usage(&$tpl, $usage, $max_usage, $bars_max) {
  * @param float $max_usage
  * @param float $bars_max
  */
-function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
+function gen_disk_usage($tpl, $usage, $max_usage, $bars_max) {
 	if (0 !== $max_usage) {
 		list($percent, $bars) = calc_bars($usage, $max_usage, $bars_max);
 		$traffic_usage_data = tr('%1$s%% [%2$s of %3$s]', $percent, sizeit($usage), sizeit($max_usage));
@@ -187,7 +187,7 @@ function gen_disk_usage(&$tpl, $usage, $max_usage, $bars_max) {
  * @param int $reseller_id
  * @param string $reseller_name
  */
-function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
+function generate_page_data($tpl, $reseller_id, $reseller_name) {
 	global $crnt_month, $crnt_year;
 
 	$sql = ispCP_Registry::get('Db');
@@ -320,7 +320,7 @@ function generate_page_data(&$tpl, $reseller_id, $reseller_name) {
  * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
-function gen_messages_table(&$tpl, $admin_id) {
+function gen_messages_table($tpl, $admin_id) {
 	$sql = ispCP_Registry::get('Db');
 
 	$query = "

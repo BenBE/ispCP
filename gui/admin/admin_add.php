@@ -89,7 +89,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function add_user(&$tpl, &$sql) {
+function add_user($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 

@@ -90,7 +90,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
  * @param string $dmn_name
  * @param string $post_check
  */
-function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
+function gen_page_form_data($tpl, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -141,7 +141,7 @@ function gen_page_form_data(&$tpl, $dmn_name, $post_check) {
  * @param int $dmn_id
  * @param bool $post_check
  */
-function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
+function gen_dmn_als_list($tpl, $sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -208,7 +208,7 @@ function gen_dmn_als_list(&$tpl, &$sql, $dmn_id, $post_check) {
  * @param string $post_check
  * @return void
  */
-function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
+function gen_dmn_sub_list($tpl, $sql, $dmn_id, $dmn_name, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -276,7 +276,7 @@ function gen_dmn_sub_list(&$tpl, &$sql, $dmn_id, $dmn_name, $post_check) {
  * @param int $dmn_id
  * @param string $post_check
  */
-function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
+function gen_dmn_als_sub_list($tpl, $sql, $dmn_id, $post_check) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -341,7 +341,7 @@ function gen_dmn_als_sub_list(&$tpl, &$sql, $dmn_id, $post_check) {
 	}
 }
 
-function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
+function schedule_mail_account($sql, $domain_id, $dmn_name, $mail_acc) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -491,7 +491,7 @@ function schedule_mail_account(&$sql, $domain_id, $dmn_name, $mail_acc) {
 	user_goto('mail_accounts.php');
 }
 
-function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
+function check_mail_acc_data($sql, $dmn_id, $dmn_name) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -633,7 +633,7 @@ function check_mail_acc_data(&$sql, $dmn_id, $dmn_name) {
 	schedule_mail_account($sql, $dmn_id, $dmn_name, $mail_acc);
 }
 
-function gen_page_mail_acc_props(&$tpl, &$sql, $user_id) {
+function gen_page_mail_acc_props($tpl, $sql, $user_id) {
 	list($dmn_id,
 		$dmn_name,,,,,,,
 		$dmn_mailacc_limit,,,,,,,,,,,,,,

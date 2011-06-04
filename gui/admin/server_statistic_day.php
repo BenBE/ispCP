@@ -94,7 +94,7 @@ unset_messages();
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function generate_page(&$tpl) {
+function generate_page($tpl) {
 	$sql = ispCP_Registry::get('Db');
 	global $month, $year, $day;
 

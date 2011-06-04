@@ -89,7 +89,7 @@ function kill_session($sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_user_sessions(&$tpl, &$sql) {
+function gen_user_sessions($tpl, $sql) {
 	$query = "
 		SELECT
 			*

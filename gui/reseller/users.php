@@ -111,7 +111,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param int $admin_id
  */
-function generate_users_list(&$tpl, $admin_id) {
+function generate_users_list($tpl, $admin_id) {
 
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
@@ -313,7 +313,7 @@ function generate_users_list(&$tpl, $admin_id) {
 	}
 }
 
-function check_externel_events(&$tpl) {
+function check_externel_events($tpl) {
 
 	global $externel_event;
 

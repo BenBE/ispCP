@@ -89,7 +89,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
+function gen_reseller_personal_data($tpl, $sql, $user_id) {
 	$cfg = ispCP_Registry::get('Config');
 
 	$query = "
@@ -136,7 +136,7 @@ function gen_reseller_personal_data(&$tpl, &$sql, $user_id) {
 	);
 }
 
-function update_reseller_personal_data(&$sql, $user_id) {
+function update_reseller_personal_data($sql, $user_id) {
 	$fname		= clean_input($_POST['fname']);
 	$lname		= clean_input($_POST['lname']);
 	$gender		= $_POST['gender'];

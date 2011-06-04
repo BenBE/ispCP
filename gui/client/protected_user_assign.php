@@ -41,7 +41,7 @@ $template = 'puser_assign.tpl';
  * functions
  */
 
-function get_htuser_name(&$sql, &$uuser_id, &$dmn_id) {
+function get_htuser_name($sql, $uuser_id, $dmn_id) {
 	$query = "
 		SELECT
 			`uname`
@@ -67,7 +67,7 @@ function get_htuser_name(&$sql, &$uuser_id, &$dmn_id) {
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
-function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
+function gen_user_assign($tpl, $sql, $dmn_id) {
 	if (isset($_GET['uname'])
 		&& $_GET['uname'] !== ''
 		&& is_numeric($_GET['uname'])) {
@@ -147,7 +147,7 @@ function gen_user_assign(&$tpl, &$sql, &$dmn_id) {
 	}
 }
 
-function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
+function add_user_to_group($tpl, $sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -206,7 +206,7 @@ function add_user_to_group(&$tpl, &$sql, &$dmn_id) {
 	}
 }
 
-function delete_user_from_group(&$tpl, &$sql, &$dmn_id) {
+function delete_user_from_group($tpl, $sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

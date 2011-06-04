@@ -122,7 +122,7 @@ unset_messages();
  * @param int $edit_id
  * @param string $dmn_type
  */
-function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
+function gen_editsubdomain_page($tpl, $sql, $edit_id, $dmn_type) {
 	// Get data from sql
 	list($domain_id, $domain_name) = get_domain_default_props($sql, $_SESSION['user_id']);
 
@@ -225,7 +225,7 @@ function gen_editsubdomain_page(&$tpl, &$sql, $edit_id, $dmn_type) {
  * @param int $subdomain_id
  * @param string $dmn_type
  */
-function check_fwd_data(&$tpl, &$sql, $subdomain_id, $dmn_type) {
+function check_fwd_data($tpl, $sql, $subdomain_id, $dmn_type) {
 
 	$forward_url = strtolower(clean_input($_POST['forward']));
 	// unset errors

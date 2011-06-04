@@ -92,7 +92,7 @@ unset_messages();
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function generate_page(&$tpl) {
+function generate_page($tpl) {
 
 	global $month, $year;
 
@@ -208,7 +208,7 @@ SQL_QUERY;
  * @param int $row
  * @return void
  */
-function generate_reseller_entry(&$tpl, $reseller_id, $reseller_name, $row) {
+function generate_reseller_entry($tpl, $reseller_id, $reseller_name, $row) {
 	global $crnt_month, $crnt_year;
 
 	list($rdmn_current, $rdmn_max,

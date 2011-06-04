@@ -74,7 +74,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function gen_reseller_table(&$tpl, &$sql) {
+function gen_reseller_table($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 

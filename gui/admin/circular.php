@@ -79,7 +79,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @return void
  */
-function gen_page_data(&$tpl, &$sql) {
+function gen_page_data($tpl, $sql) {
 
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
 		$tpl->assign(
@@ -161,7 +161,7 @@ function check_user_data() {
 	}
 }
 
-function send_reseller_message(&$sql) {
+function send_reseller_message($sql) {
 
 	$user_id = $_SESSION['user_id'];
 
@@ -207,7 +207,7 @@ function send_reseller_message(&$sql) {
 	write_log('Mass email was sent from ' . tohtml($sender_name) . '<' . $sender_email . '>!');
 }
 
-function send_circular(&$tpl, &$sql) {
+function send_circular($tpl, $sql) {
 	if (isset($_POST['uaction']) && $_POST['uaction'] === 'send_circular') {
 		if (check_user_data()) {
 			send_reseller_message($sql);
@@ -217,7 +217,7 @@ function send_circular(&$tpl, &$sql) {
 	}
 }
 
-function send_reseller_users_message(&$sql, $admin_id) {
+function send_reseller_users_message($sql, $admin_id) {
 
 	$msg_subject = clean_input($_POST['msg_subject'], false);
 	$msg_text = clean_input($_POST['msg_text'], false);

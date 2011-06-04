@@ -82,7 +82,7 @@ unset_messages();
  * @param int $reseller_id
  * @param string $als_err
  */
-function generate_als_list(&$tpl, $reseller_id, &$als_err) {
+function generate_als_list($tpl, $reseller_id, &$als_err) {
 	$sql = ispCP_Registry::get('Db');
 	$cfg = ispCP_Registry::get('Config');
 
@@ -384,7 +384,7 @@ function generate_als_list(&$tpl, $reseller_id, &$als_err) {
  * @param ispCP_TemplateEngine $tpl
  * @param string $als_err
  */
-function generate_als_messages(&$tpl, $als_err) {
+function generate_als_messages($tpl, $als_err) {
 	if ($als_err != '_off_') {
 		$tpl->assign(
 			array('MESSAGE' => $als_err)

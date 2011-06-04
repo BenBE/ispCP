@@ -124,7 +124,7 @@ function get_server_trafic($from, $to) {
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function generate_page(&$tpl) {
+function generate_page($tpl) {
 
 	global $month, $year;
 	$sql = ispCP_Registry::get('Db');

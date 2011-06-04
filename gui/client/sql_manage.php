@@ -94,7 +94,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $db_id
  */
-function gen_db_user_list(&$tpl, &$sql, $db_id) {
+function gen_db_user_list($tpl, $sql, $db_id) {
 
 	global $count;
 
@@ -135,7 +135,7 @@ function gen_db_user_list(&$tpl, &$sql, $db_id) {
  * @param ispCP_Database $sql
  * @param int $user_id
  */
-function gen_db_list(&$tpl, &$sql, $user_id) {
+function gen_db_list($tpl, $sql, $user_id) {
 
 	$dmn_id = get_user_domain_id($sql, $user_id);
 

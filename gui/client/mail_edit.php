@@ -83,7 +83,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function edit_mail_account(&$tpl, &$sql) {
+function edit_mail_account($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -284,7 +284,7 @@ function update_email_pass($sql) {
 	}
 }
 
-function update_email_forward(&$tpl, &$sql) {
+function update_email_forward($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 

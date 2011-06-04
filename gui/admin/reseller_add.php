@@ -121,7 +121,7 @@ unset_messages();
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function get_server_ip(&$tpl, &$sql) {
+function get_server_ip($tpl, $sql) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -204,7 +204,7 @@ function get_server_ip(&$tpl, &$sql) {
  * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
-function add_reseller(&$tpl, &$sql) {
+function add_reseller($tpl, $sql) {
 
 	global $reseller_ips;
 	$cfg = ispCP_Registry::get('Config');

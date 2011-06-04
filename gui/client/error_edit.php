@@ -91,7 +91,7 @@ unset_messages();
  * @param int $user_id
  * @param string $eid
  */
-function gen_error_page_data(&$tpl, &$sql, $eid) {
+function gen_error_page_data($tpl, $sql, $eid) {
 
 	$domain = $_SESSION['user_logged'];
 

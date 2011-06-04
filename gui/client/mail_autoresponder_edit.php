@@ -85,7 +85,7 @@ unset_messages();
 
 // page functions.
 
-function check_email_user(&$sql) {
+function check_email_user($sql) {
 	$dmn_name = $_SESSION['user_logged'];
 	$mail_id = $_GET['id'];
 
@@ -122,7 +122,7 @@ function check_email_user(&$sql) {
  * @param int $mail_id
  * @param bool $read_from_db
  */
-function gen_page_dynamic_data(&$tpl, &$sql, $mail_id) {
+function gen_page_dynamic_data($tpl, $sql, $mail_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

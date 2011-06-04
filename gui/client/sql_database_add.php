@@ -78,7 +78,7 @@ if ($cfg->DUMP_GUI_DEBUG) {
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_page_post_data(&$tpl) {
+function gen_page_post_data($tpl) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -138,7 +138,7 @@ function check_db_name($sql, $db_name) {
 	return false;
 }
 
-function add_sql_database(&$sql, $user_id) {
+function add_sql_database($sql, $user_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

@@ -38,7 +38,7 @@ $tpl = ispCP_TemplateEngine::getInstance();
 $template = 'puser_gadd.tpl';
 
 
-function padd_group(&$tpl, &$sql, $dmn_id) {
+function padd_group($tpl, $sql, $dmn_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 

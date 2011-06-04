@@ -63,7 +63,7 @@ unset_messages();
 /**
  * @param ispCP_TemplateEngine $tpl
  */
-function gen_directories(&$tpl) {
+function gen_directories($tpl) {
 
 	$sql = ispCP_Registry::get('Db');
 	// Initialize variables
