@@ -4,6 +4,8 @@ ispCP ω 1.1.0 ChangeLog
 2011-06-05 Markus Szywon
 	- GUI:
 		* Fixed #2571: Debug Information misplaced
+		* Fixed: NET_DNS - Strict standards error messages
+		* Some small fixes
 
 2011-06-04 Benedikt Heintel
 	- ENGINE:
