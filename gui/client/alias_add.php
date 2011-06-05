@@ -100,11 +100,11 @@ if(isset($_POST['uaction'])) {
 gen_al_page($tpl, $_SESSION['user_id']);
 gen_page_msg($tpl, $err_txt);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 /*
  * Begin function declaration lines

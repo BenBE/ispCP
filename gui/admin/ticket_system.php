@@ -77,11 +77,11 @@ gen_admin_menu($tpl, 'menu_ticket_system.tpl');
 
 gen_page_message($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 ?>

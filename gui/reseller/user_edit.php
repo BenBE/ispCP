@@ -135,12 +135,12 @@ if (isset($_POST['Submit'])
 }
 gen_edituser_page($tpl);
 gen_page_message($tpl);
-$tpl->display($template);
 
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
-//unset_messages();
+
+$tpl->display($template);
 
 /*
  * Begin function block

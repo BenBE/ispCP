@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-05 Markus Szywon
+	- GUI:
+		* Fixed #2571: Debug Information misplaced
+
 2011-06-04 Benedikt Heintel
 	- ENGINE:
 		* Code Cleanup

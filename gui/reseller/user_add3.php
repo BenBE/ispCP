@@ -108,11 +108,11 @@ if (!check_reseller_permissions($_SESSION['user_id'], 'alias')) {
 	$tpl->assign('ALIAS_ADD', '');
 }
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}// unset_messages();
+	dump_gui_debug($tpl);
+}
+
+$tpl->display($template);
 
 // FUNCTION declaration
 

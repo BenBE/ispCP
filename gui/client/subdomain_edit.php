@@ -106,11 +106,12 @@ gen_client_menu($tpl, 'menu_manage_domains.tpl');
 
 gen_editsubdomain_page($tpl, $sql, $editid, $dmntype);
 
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
+
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 // Begin function block

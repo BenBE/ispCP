@@ -83,11 +83,11 @@ gen_admin_menu($tpl, 'menu_statistics.tpl');
 gen_page_message($tpl);
 generate_page ($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 

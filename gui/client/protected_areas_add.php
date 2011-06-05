@@ -34,8 +34,13 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = ispCP_TemplateEngine::getInstance();
-$template = 'protect_it.tpl';
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/protect_it.tpl');
+$tpl->define_dynamic('page_message', 'page');
+$tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('group_item', 'page');
+$tpl->define_dynamic('user_item', 'page');
+$tpl->define_dynamic('unprotect_it', 'page');
 
 /**
  * @todo use db prepared statements
@@ -203,7 +208,7 @@ function protect_area($tpl, $sql, $dmn_id) {
 }
 
 /**
- * @param ispCP_TemplateEngine $tpl
+ * @param ispCP_pTemplate $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
@@ -228,6 +233,7 @@ function gen_protect_it($tpl, $sql, &$dmn_id) {
 		$ht_id = $_GET['id'];
 
 		$tpl->assign('CDIR', $ht_id);
+		$tpl->parse('UNPROTECT_IT', 'unprotect_it');
 
 		$query = "
 			SELECT
@@ -320,6 +326,7 @@ function gen_protect_it($tpl, $sql, &$dmn_id) {
 				'USER_SELECTED' => ''
 			)
 		);
+		$tpl->parse('USER_ITEM', 'user_item');
 	} else {
 		while (!$rs->EOF) {
 			$usr_id = explode(',', $user_id);
@@ -340,6 +347,7 @@ function gen_protect_it($tpl, $sql, &$dmn_id) {
 				)
 			);
 
+			$tpl->parse('USER_ITEM', '.user_item');
 
 			$rs->moveNext();
 		}
@@ -364,6 +372,7 @@ function gen_protect_it($tpl, $sql, &$dmn_id) {
 				'GROUP_SELECTED' => ''
 			)
 		);
+		$tpl->parse('GROUP_ITEM', 'group_item');
 	} else {
 		while (!$rs->EOF) {
 			$grp_id = explode(',', $group_id);
@@ -383,6 +392,7 @@ function gen_protect_it($tpl, $sql, &$dmn_id) {
 					'GROUP_SELECTED' => $grp_selected,
 				)
 			);
+			$tpl->parse('GROUP_ITEM', '.group_item');
 			$rs->moveNext();
 		}
 	}
@@ -425,10 +435,11 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
-$tpl->display($template);
+$tpl->parse('PAGE', 'page');
+$tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
 
 unset_messages();

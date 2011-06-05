@@ -85,12 +85,12 @@ if (!isset($_GET['domain_id'])) {
 $editid = $_GET['domain_id'];
 gen_detaildom_page($tpl, $_SESSION['user_id'], $editid);
 
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
 
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 // Begin function block

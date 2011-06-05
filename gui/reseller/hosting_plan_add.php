@@ -120,11 +120,11 @@ if ($rftp_max == "-1") $tpl->assign('FTP_ADD', '');
 if ($rsql_db_max == "-1") $tpl->assign('SQL_DB_ADD', '');
 if ($rsql_user_max == "-1") $tpl->assign('SQL_USER_ADD', '');
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 // Function definitions
 

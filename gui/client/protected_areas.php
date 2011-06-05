@@ -73,11 +73,11 @@ gen_client_menu($tpl, 'menu_webtools.tpl');
 
 gen_page_message($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 
@@ -86,7 +86,7 @@ unset_messages();
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */
-function gen_htaccess_entries(&$tpl, &$sql, &$dmn_id) {
+function gen_htaccess_entries($tpl, $sql, &$dmn_id) {
 	$query = "
 		SELECT
 			*

@@ -28,32 +28,37 @@
  * isp Control Panel. All Rights Reserved.
  */
 
-function dump_gui_debug() {
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_SESSION</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_SESSION, true));
-	echo '</pre>';
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_POST</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_POST, true));
-	echo '</pre>';
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_GET</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_GET, true));
-	echo '</pre>';
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_COOKIE</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_COOKIE, true));
-	echo '</pre>';
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_FILES</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_FILES, true));
-	echo '</pre>';
+function dump_gui_debug($tpl) {
+	$gui_debug_data = '<div id="dump_gui_debug">';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_SESSION</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_SESSION, true));
+	$gui_debug_data .= '</pre>';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_POST</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_POST, true));
+	$gui_debug_data .= '</pre>';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_GET</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_GET, true));
+	$gui_debug_data .= '</pre>';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_COOKIE</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_COOKIE, true));
+	$gui_debug_data .= '</pre>';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_FILES</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_FILES, true));
+	$gui_debug_data .= '</pre>';
 
 	/* Activate debug code if needed
-	echo '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_SERVER</strong>:<br /></span>';
-	echo '<pre>';
-	echo htmlentities(print_r($_SERVER, true));
-	echo '</pre>';
+	$gui_debug_data .= '<span style="color:#00f;text-decoration:underline;">Content of <strong>$_SERVER</strong>:<br /></span>';
+	$gui_debug_data .= '<pre>';
+	$gui_debug_data .= htmlentities(print_r($_SERVER, true));
+	$gui_debug_data .= '</pre>';
 	*/
+
+	$gui_debug_data .= '</div>';
+
+	$tpl->assign('GUI_DEBUG', $gui_debug_data);
 }

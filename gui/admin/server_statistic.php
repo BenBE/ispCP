@@ -80,11 +80,11 @@ gen_page_message($tpl);
 gen_select_lists($tpl, $month, $year);
 generate_page($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 

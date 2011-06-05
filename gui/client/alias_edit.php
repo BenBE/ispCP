@@ -92,11 +92,11 @@ if (isset($_POST['uaction']) && ($_POST['uaction'] === 'modify')) {
 }
 gen_editalias_page($tpl, $editid);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 
