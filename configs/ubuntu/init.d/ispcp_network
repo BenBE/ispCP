@@ -109,14 +109,14 @@ add_rules() {
 
 	# Services from matrix basically receiving data
 	for PORT in $SERVICES; do
-		${IPTABLES} -I ISPCP_INPUT  -p tcp --dport "$PORT" 2>> "$LOGFILE"
-		${IPTABLES} -I ISPCP_OUTPUT -p tcp --sport "$PORT" 2>> "$LOGFILE"
+		${IPTABLES} -I ISPCP_INPUT  -p tcp --dport "$PORT" -j ACCEPT 2>> "$LOGFILE"
+		${IPTABLES} -I ISPCP_OUTPUT -p tcp --sport "$PORT" -j ACCEPT 2>> "$LOGFILE"
 	done
 
 	# Services from matrix basically sending data
 	for PORT in $SERVICES_OUT; do
-		${IPTABLES} -I ISPCP_INPUT  -p tcp --sport "$PORT" 2>> "$LOGFILE"
-		${IPTABLES} -I ISPCP_OUTPUT -p tcp --dport "$PORT" 2>> "$LOGFILE"
+		${IPTABLES} -I ISPCP_INPUT  -p tcp --sport "$PORT" -j ACCEPT 2>> "$LOGFILE"
+		${IPTABLES} -I ISPCP_OUTPUT -p tcp --dport "$PORT" -j ACCEPT 2>> "$LOGFILE"
 	done
 
 	# Explicit return once done

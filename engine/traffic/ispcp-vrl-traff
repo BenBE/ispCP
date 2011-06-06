@@ -98,7 +98,7 @@ sub gen_log_file {
 	}
 
 	# @TODO:
-	# This is unefficient because gen_log_file is called once for every log file
+	# This is inefficient because gen_log_file is called once for every log file
 	# to be processed. Therefore, the *whole* logdb file is read at each call, 
 	# causing a lot of re-readings. Thus, logdb reading should be done once at 
 	# the beggining of this script and, similarly, logdb writting should be done
