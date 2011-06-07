@@ -121,7 +121,7 @@ function gen_catchall_item($tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_ac
 	$show_dmn_name = decode_idna($dmn_name);
 
 	if ($action === 'create') {
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'CATCHALL_DOMAIN'			=> tohtml($show_dmn_name),
 				'CATCHALL_ACC'				=> tr('None'),
@@ -136,7 +136,7 @@ function gen_catchall_item($tpl, $action, $dmn_id, $dmn_name, $mail_id, $mail_ac
 		$show_dmn_name = decode_idna($dmn_name);
 		$show_mail_acc = decode_idna($mail_acc);
 
-		$tpl->assign(
+		$tpl->append(
 			array(
 				'CATCHALL_DOMAIN' => tohtml($show_dmn_name),
 				'CATCHALL_ACC' => tohtml($show_mail_acc),

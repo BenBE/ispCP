@@ -1,6 +1,11 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-07 Markus Szywon
+	- GUI:
+		* Updated Smarty to version 3.0.8
+		* Some small fixes
+
 2011-06-06 Benedikt Heintel
 	- CONFIGS:
 		* Fixed #2547: Iptables rules from ispcp_network misses -j ACCEPT
