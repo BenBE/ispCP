@@ -42,7 +42,7 @@
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
 		{if isset($FTP_MSG)}
-		<div class="{$MSG_TYPE}">{$FTP_MSG}</div>
+		<div class="{$FTP_MSG_TYPE}">{$FTP_MSG}</div>
 		{/if}
 		{if isset($FTP_ACCOUNT)}
 		<h2 class="ftp"><span>{$TR_FTP_USERS}</span></h2>
@@ -67,6 +67,9 @@
 					<td>
 						<a href="ftp_edit.php?id={$UID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
 						<a href="#" onclick="action_delete('ftp_delete.php?id={$UID[i]}', '{$FTP_ACCOUNT[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
+						{if $FTP_LOGIN_AVAILABLE[i]}
+						<a href="ftp_auth.php?id={$UID[i]}" target="net2ftp" title="{$TR_LOGINAS}" class="icon i_identity"></a>
+						{/if}
 					</td>
 				</tr>
 				{/section}

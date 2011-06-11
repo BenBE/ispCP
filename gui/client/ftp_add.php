@@ -68,11 +68,11 @@ gen_client_menu($tpl, 'menu_ftp_accounts.tpl');
 
 gen_page_message($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 // page functions.
 
@@ -426,17 +426,18 @@ function add_ftp_user($sql, $dmn_name) {
 
 	if ($ftp_uid == -1) return;
 
-	$ftp_shell = $cfg->CMD_SHELL;
-	$ftp_passwd = crypt_user_pass_with_salt($_POST['pass']);
+	$ftp_shell		 = $cfg->CMD_SHELL;
+	$ftp_passwd		 = crypt_user_pass_with_salt($_POST['pass']);
+	$ftp_loginpasswd = encrypt_db_password($_POST['pass']);
 
 	$query = "
 		INSERT INTO ftp_users
-			(`userid`, `passwd`, `uid`, `gid`, `shell`, `homedir`)
+			(`userid`, `passwd`, `net2ftppasswd`, `uid`, `gid`, `shell`, `homedir`)
 		VALUES
-			(?, ?, ?, ?, ?, ?)
+			(?, ?, ?, ?, ?, ?, ?)
 	";
 
-	exec_query($sql, $query, array($ftp_user, $ftp_passwd, $ftp_uid, $ftp_gid, $ftp_shell, $ftp_home));
+	exec_query($sql, $query, array($ftp_user, $ftp_passwd, $ftp_loginpasswd, $ftp_uid, $ftp_gid, $ftp_shell, $ftp_home));
 
 	$domain_props = get_domain_default_props($sql, $_SESSION['user_id']);
 	update_reseller_c_props($domain_props[4]);

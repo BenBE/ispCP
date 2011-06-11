@@ -29,6 +29,8 @@
  */
 
 /**
+ * Calculates the bar size
+ * 
  * @param int|float $crnt
  * @param int|float $max
  * @param int|float $bars_max
@@ -139,11 +141,23 @@ function generate_rand_salt($min = 46, $max = 126) {
 	return $salt;
 }
 
+/**
+ * Returns the salt from a given String
+ * 
+ * @param String $data
+ * @return String
+ */
 function get_salt_from($data) {
 	$salt = substr($data, 0, 2);
 	return $salt;
 }
 
+/**
+ * Hashes a given string with MD5
+ *
+ * @param String $data
+ * @return String
+ */
 function crypt_user_pass($data) {
 	$res = md5($data);
 	return $res;

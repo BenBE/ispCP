@@ -57,6 +57,13 @@ class ispCP_Initializer {
 	private static $_initialized = false;
 
 	/**
+	 * PHP Version required by ispCP Omega
+	 *
+	 * @staticvar String
+	 */
+	private static $_phpVersion = '5.1.4';
+
+	/**
 	 * Runs the initializer
 	 *
 	 * By default, this will invoke the {@link _processAll}  or
@@ -111,6 +118,8 @@ class ispCP_Initializer {
 	}
 
 	/**
+	 * Singleton
+	 *
 	 * Create a new Initializer instance that references the given
 	 * {@link ispCP_Config_Handler_File} instance
 	 *
@@ -118,12 +127,14 @@ class ispCP_Initializer {
 	 * @return void
 	 */
 	protected function __construct(ispCP_Config_Handler $config) {
-
+		// Register config object in registry for further usage
 		$this->_config = ispCP_Registry::set('Config', $config);
 	}
 
 	/**
-	 * Object of this class shouldn't be cloned
+	 * Singleton
+	 *
+	 * Make clone unavailable
 	 */
 	protected function __clone() {}
 
@@ -242,26 +253,27 @@ class ispCP_Initializer {
 	protected function _checkPhp() {
 
 		// MAJOR . MINOR . TINY
-		$php_version = substr(phpversion(), 0, 5);
+		$phpVersion = substr(phpversion(), 0, 5);
 
-		if(!version_compare($php_version, '5.1.4', '>=')) {
-			$err_msg = sprintf(
-				'Error: PHP version is %s. Version 5.1.4 or later is required!',
-				$php_version
+		if(!version_compare($phpVersion, $this->_phpVersion, '>=')) {
+			$errMsg = sprintf(
+				'Error: PHP version is %s. Version %s or later is required!',
+				$phpVersion,
+				$this->_phpVersion
 			);
 
 		// We will use SPL interfaces like SplObserver, SplSubject
 		// Note: Both ArrayAccess and Iterator interfaces are part of PHP core,
 		// so, we can do the checking here without any problem.
-		} elseif($php_version < '5.3.0' && !extension_loaded('SPL')) {
-			$err_msg =
-				'Error: Standard PHP Library (SPL) was not detected! ' .
+		} elseif(version_compare($phpVersion, '5.3.0', '<') && !extension_loaded('SPL')) {
+			$errMsg =
+				'Error: Standard PHP Library (SPL) was not detected!\n' .
 				'See http://php.net/manual/en/book.spl.php for more information!';
 		} else {
 			return;
 		}
 
-		throw new ispCP_Exception($err_msg);
+		throw new ispCP_Exception($errMsg);
 	}
 
 	/**
@@ -387,7 +399,7 @@ class ispCP_Initializer {
 		ispCP_Registry::set('Db', $connection);
 		ispCP_Registry::set('Pdo', ispCP_Database::getRawInstance());
 
-		// Will be changed
+		// @todo remove the Global
 		$GLOBALS['sql'] =  ispCP_Registry::get('Db');
 	}
 
@@ -524,7 +536,7 @@ class ispCP_Initializer {
 	/**
 	 * Initialize logger
 	 *
-	 * <b>Note:</b> Not used at this moment (testing in progress)
+	 * <b>Note:</b> Not used at this moment
 	 *
 	 * @return void
 	 */

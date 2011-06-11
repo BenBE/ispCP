@@ -79,12 +79,12 @@ gen_system_message($tpl, $sql);
 
 gen_page_message($tpl);
 
-$tpl->assign('LAYOUT', '');
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
+
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 // page functions

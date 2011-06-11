@@ -98,11 +98,12 @@ generate_users_list($tpl, $_SESSION['user_id']);
 check_externel_events($tpl);
 gen_page_message($tpl);
 
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
+
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 // Begin function block

@@ -185,13 +185,4 @@
 			</div>
 		</form>
 	</div>
-	<div class="footer">
-		ispCP Omega {$VERSION}<br />build: {$BUILDDATE}<br />Codename: {$CODENAME}
-	</div>
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		dns_type_changed(document.getElementById('dns_type').value);
-	/* ]]> */
-	</script>
-</body>
-</html>
+{include file='footer.tpl'}

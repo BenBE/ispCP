@@ -80,11 +80,11 @@ gen_admin_menu($tpl, 'menu_settings.tpl');
 
 gen_page_message($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 
@@ -95,7 +95,7 @@ unset_messages();
 /**
  * Prepares page data to show available languages
  *
- * @param  ispCP_TemplateEngine $tpl An ispCP_TemplateEngine instance
+ * @param  ispCP_TemplateEngine $tpl an ispCP_TemplateEngine instance
  * @return void
  */
 function showLang($tpl) {

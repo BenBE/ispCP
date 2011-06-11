@@ -94,11 +94,11 @@ if (isset($_POST['uaction']) && $_POST['uaction'] != 'reset') {
 
 	gen_page_message($tpl);
 
-	$tpl->display($template);
-}
+	if ($cfg->DUMP_GUI_DEBUG) {
+		dump_gui_debug($tpl);
+	}
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	$tpl->display($template);
 }
 
 unset_messages();

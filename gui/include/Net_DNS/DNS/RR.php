@@ -279,7 +279,7 @@ class Net_DNS_RR
 
     /* }}} */
     /* Net_DNS_RR::rr_rdata($packet, $offset) {{{ */
-    function rr_rdata(&$packet, $offset)
+    function rr_rdata($packet, $offset)
     {
         return (strlen($this->rdata) ? $this->rdata : '');
     }

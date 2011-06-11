@@ -1,9 +1,40 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-11 Benedikt Heintel
+	- GUI:
+		* Added #2433: on-click-logon from the ftp-user site(such as for PMA)
+			(Thanks to William Lightning for the patch)
+		* Added some code improvements
+		* Fixed some language issues
+	- SETUP:
+		* Fixed setup problem with RKHunter not installed
+
+2011-06-09 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.2
+
+2011-06-07 Markus Szywon
+	- GUI:
+		* Updated Smarty to version 3.0.8
+		* Some small fixes
+
+2011-06-06 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #2547: Iptables rules from ispcp_network misses -j ACCEPT
+
+2011-06-05 Benedikt Heintel
+	- LANGUAGES:
+		* Added Spanish (Columbia) (thanks to Saúl Ortega)
+
+2011-06-05 Markus Szywon
+	- GUI:
+		* Fixed #2571: Debug Information misplaced
+		* Fixed: NET_DNS - Strict standards error messages
+		* Some small fixes
+
 2011-06-04 Benedikt Heintel
 	- ENGINE:
-		* Escape of system() calls
 		* Code Cleanup
 
 2011-06-04 Markus Szywon

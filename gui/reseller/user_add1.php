@@ -91,11 +91,12 @@ if (isset($_POST['uaction'])) {
 get_hp_data_list($tpl, $_SESSION['user_id']);
 gen_page_message($tpl);
 
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
+
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 // Function declaration path

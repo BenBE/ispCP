@@ -1904,6 +1904,29 @@ class ispCP_Update_Database extends ispCP_Update {
 		return $sqlUpd;
  	}
 
+	/**
+	 * Adds needed field to ftp_users table to allow single sign on to net2ftp
+	 * @see #2433
+	 *
+	 * @author Benedikt Heintel <benedikt.heintel@ispcp.net>
+	 * @since r3852
+	 * @return array
+	 */
+	protected function _databaseUpdate_48() {
+		$sqlUpd = array();
+
+		$sqlUpd[] = "
+			ALTER TABLE
+				`ftp_users`
+			ADD
+				`net2ftppasswd` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+			AFTER
+				`passwd`;
+		";
+
+		return $sqlUpd;
+	}
+
 	/*
 	 * DO NOT CHANGE ANYTHING BELOW THIS LINE!
 	 */

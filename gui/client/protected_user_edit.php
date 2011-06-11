@@ -38,10 +38,16 @@ check_login(__FILE__);
 
 $cfg = ispCP_Registry::get('Config');
 
-$tpl = ispCP_TemplateEngine::getInstance();
-$template = 'puser_edit.tpl';
+$tpl = new ispCP_pTemplate();
+$tpl->define_dynamic('page', $cfg->CLIENT_TEMPLATE_PATH . '/puser_edit.tpl');
+$tpl->define_dynamic('page_message', 'page');
+$tpl->define_dynamic('usr_msg', 'page');
+$tpl->define_dynamic('grp_msg', 'page');
+$tpl->define_dynamic('logged_from', 'page');
+$tpl->define_dynamic('pusres', 'page');
+$tpl->define_dynamic('pgroups', 'page');
 
-function pedit_user($tpl, $sql, $dmn_id, $uuser_id) {
+function pedit_user($tpl, $sql, &$dmn_id, &$uuser_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
@@ -225,11 +231,12 @@ $tpl->assign(
 
 gen_page_message($tpl);
 
+$tpl->parse('PAGE', 'page');
 
-$tpl->display($template);
+$tpl->prnt();
 
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
 
 unset_messages();

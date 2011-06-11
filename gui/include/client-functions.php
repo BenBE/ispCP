@@ -155,90 +155,22 @@ function get_domain_running_mail_acc_cnt($sql, $domain_id) {
 
 	$cfg = ispCP_Registry::get('Config');
 
-	$qr_dmn = "
+	$query = "
 		SELECT
 			COUNT(`mail_id`) AS cnt
 		FROM
 			`mail_users`
 		WHERE
-			`mail_type` RLIKE 'normal_'
+			`mail_type` RLIKE ?
 		AND
-			`mail_type` NOT LIKE 'normal_catchall'
-		AND
-			`domain_id` = ?
-	";
-
-	$qr_als = "
-		SELECT
-			COUNT(`mail_id`) AS cnt
-		FROM
-			`mail_users`
-		WHERE
-			`mail_type` RLIKE 'alias_'
-		AND
-			`mail_type` NOT LIKE 'alias_catchall'
+			`mail_type` NOT LIKE ?
 		AND
 			`domain_id` = ?
-	";
-
-	$qr_sub = "
-		SELECT
-			COUNT(`mail_id`) AS cnt
-		FROM
-			`mail_users`
-		WHERE
-			`mail_type` RLIKE 'subdom_'
-		AND
-			`mail_type` NOT LIKE 'subdom_catchall'
-		AND
-			`domain_id` = ?
-	";
-
-	$qr_alssub = "
-		SELECT
-			COUNT(`mail_id`) AS cnt
-		FROM
-			`mail_users`
-		WHERE
-			`mail_type` RLIKE 'alssub_'
-		AND
-			`mail_type` NOT LIKE 'alssub_catchall'
-		AND
-			`domain_id` = ?
+		;
 	";
 
 	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
-		$qr_dmn .= "
-			AND
-				`mail_acc` != 'abuse'
-			AND
-				`mail_acc` != 'postmaster'
-			AND
-				`mail_acc` != 'webmaster'
-			;
-		";
-
-		$qr_als .= "
-			AND
-				`mail_acc` != 'abuse'
-			AND
-				`mail_acc` != 'postmaster'
-			AND
-				`mail_acc` != 'webmaster'
-			;
-		";
-
-		$qr_sub .= "
-			AND
-				`mail_acc` != 'abuse'
-			AND
-				`mail_acc` != 'postmaster'
-			AND
-				`mail_acc` != 'webmaster'
-			;
-		";
-
-		$qr_alssub .= "
+		$query .= "
 			AND
 				`mail_acc` != 'abuse'
 			AND
@@ -249,16 +181,16 @@ function get_domain_running_mail_acc_cnt($sql, $domain_id) {
 		";
 	}
 
-	$rs = exec_query($sql, $qr_dmn, $domain_id);
+	$rs = exec_query($sql, $query, array('normal_', 'normal_catchall', $domain_id));
 	$dmn_mail_acc = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $qr_als, $domain_id);
+	$rs = exec_query($sql, $query, array('alias_', 'alias_catchall', $domain_id));
 	$als_mail_acc = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $qr_sub, $domain_id);
+	$rs = exec_query($sql, $query, array('subdom_', 'subdom_catchall', $domain_id));
 	$sub_mail_acc = $rs->fields['cnt'];
 
-	$rs = exec_query($sql, $qr_alssub, $domain_id);
+	$rs = exec_query($sql, $query, array('alssub_', 'alssub_catchall', $domain_id));
 	$alssub_mail_acc = $rs->fields['cnt'];
 
 	return array(

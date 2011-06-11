@@ -37,7 +37,7 @@ use `{DATABASE_NAME}`;
 -- Table structure for table `admin`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE IF NOT EXISTS `admin` (
   `admin_id` int(10) unsigned NOT NULL auto_increment,
   `admin_name` varchar(200) collate utf8_unicode_ci default NULL,
   `admin_pass` varchar(200) collate utf8_unicode_ci default NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `admin` (
 -- Table structure for table `autoreplies_log`
 --
 
-CREATE TABLE `autoreplies_log` (
+CREATE TABLE IF NOT EXISTS `autoreplies_log` (
   `time` DATETIME NOT NULL COMMENT 'Date and time of the sent autoreply',
   `from` VARCHAR( 255 ) NOT NULL COMMENT 'autoreply message sender',
   `to` VARCHAR( 255 ) NOT NULL COMMENT 'autoreply message recipient',
@@ -83,7 +83,7 @@ CREATE TABLE `autoreplies_log` (
 -- Table structure for table `auto_num`
 --
 
-CREATE TABLE `auto_num` (
+CREATE TABLE IF NOT EXISTS `auto_num` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `msg` varchar(255) collate utf8_unicode_ci default NULL,
   UNIQUE KEY `id` (`id`)
@@ -95,7 +95,7 @@ CREATE TABLE `auto_num` (
 -- Table structure for table `config`
 --
 
-CREATE TABLE `config` (
+CREATE TABLE IF NOT EXISTS `config` (
   `name` varchar(255) collate utf8_unicode_ci NOT NULL default '',
   `value` longtext collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`name`)
@@ -126,7 +126,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('PREVENT_EXTERNAL_LOGIN_ADMIN', '1'),
 ('PREVENT_EXTERNAL_LOGIN_RESELLER', '1'),
 ('PREVENT_EXTERNAL_LOGIN_CLIENT', '1'),
-('DATABASE_REVISION', '47');
+('DATABASE_REVISION', '48');
 
 -- --------------------------------------------------------
 
@@ -134,7 +134,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 -- Table structure for table `custom_menus`
 --
 
-CREATE TABLE `custom_menus` (
+CREATE TABLE IF NOT EXISTS `custom_menus` (
   `menu_id` int(10) unsigned NOT NULL auto_increment,
   `menu_level` varchar(10) collate utf8_unicode_ci default NULL,
   `menu_name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -149,7 +149,7 @@ CREATE TABLE `custom_menus` (
 -- Table structure for table `domain`
 --
 
-CREATE TABLE `domain` (
+CREATE TABLE IF NOT EXISTS `domain` (
   `domain_id` int(10) unsigned NOT NULL auto_increment,
   `domain_name` varchar(200) collate utf8_unicode_ci default NULL,
   `domain_gid` int(10) unsigned NOT NULL default '0',
@@ -185,7 +185,7 @@ CREATE TABLE `domain` (
 -- Table structure for table `domain_aliasses`
 --
 
-CREATE TABLE `domain_aliasses` (
+CREATE TABLE IF NOT EXISTS `domain_aliasses` (
   `alias_id` int(10) unsigned NOT NULL auto_increment,
   `domain_id` int(10) unsigned default NULL,
   `alias_name` varchar(200) collate utf8_unicode_ci default NULL,
@@ -202,7 +202,7 @@ CREATE TABLE `domain_aliasses` (
 -- Table structure for table `domain_dns`
 --
 
-CREATE TABLE `domain_dns` (
+CREATE TABLE IF NOT EXISTS `domain_dns` (
   `domain_dns_id` int(11) NOT NULL auto_increment,
   `domain_id` int(11) NOT NULL,
   `alias_id` int(11) NOT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE `domain_dns` (
 -- Table structure for table `domain_traffic`
 --
 
-CREATE TABLE `domain_traffic` (
+CREATE TABLE IF NOT EXISTS `domain_traffic` (
   `dtraff_id` int(10) unsigned NOT NULL auto_increment,
   `domain_id` int(10) unsigned default NULL,
   `dtraff_time` bigint(20) unsigned default NULL,
@@ -240,7 +240,7 @@ CREATE TABLE `domain_traffic` (
 -- Table structure for table `email_tpls`
 --
 
-CREATE TABLE `email_tpls` (
+CREATE TABLE IF NOT EXISTS `email_tpls` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `owner_id` int(10) unsigned NOT NULL default '0',
   `name` varchar(200) collate utf8_unicode_ci default NULL,
@@ -255,7 +255,7 @@ CREATE TABLE `email_tpls` (
 -- Table structure for table `error_pages`
 --
 
-CREATE TABLE `error_pages` (
+CREATE TABLE IF NOT EXISTS `error_pages` (
   `ep_id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
   `error_401` text collate utf8_unicode_ci NOT NULL,
@@ -271,7 +271,7 @@ CREATE TABLE `error_pages` (
 -- Table structure for table `ftp_group`
 --
 
-CREATE TABLE `ftp_group` (
+CREATE TABLE IF NOT EXISTS `ftp_group` (
   `groupname` varchar(255) collate utf8_unicode_ci default NULL,
   `gid` int(10) unsigned NOT NULL default '0',
   `members` text collate utf8_unicode_ci,
@@ -284,9 +284,10 @@ CREATE TABLE `ftp_group` (
 -- Table structure for table `ftp_users`
 --
 
-CREATE TABLE `ftp_users` (
+CREATE TABLE IF NOT EXISTS `ftp_users` (
   `userid` varchar(255) collate utf8_unicode_ci default NULL,
   `passwd` varchar(255) collate utf8_unicode_ci default NULL,
+  `net2ftppasswd` varchar(255) collate utf8_unicode_ci default NULL,
   `uid` int(10) unsigned NOT NULL default '0',
   `gid` int(10) unsigned NOT NULL default '0',
   `shell` varchar(255) collate utf8_unicode_ci default NULL,
@@ -300,7 +301,7 @@ CREATE TABLE `ftp_users` (
 -- Table structure for table `hosting_plans`
 --
 
-CREATE TABLE `hosting_plans` (
+CREATE TABLE IF NOT EXISTS `hosting_plans` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `reseller_id` int(10) unsigned NOT NULL default '0',
   `name` varchar(255) collate utf8_unicode_ci default NULL,
@@ -321,7 +322,7 @@ CREATE TABLE `hosting_plans` (
 -- Table structure for table `htaccess`
 --
 
-CREATE TABLE `htaccess` (
+CREATE TABLE IF NOT EXISTS `htaccess` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `dmn_id` int(10) unsigned NOT NULL default '0',
   `user_id` varchar(255) collate utf8_unicode_ci default NULL,
@@ -339,7 +340,7 @@ CREATE TABLE `htaccess` (
 -- Table structure for table `htaccess_groups`
 --
 
-CREATE TABLE `htaccess_groups` (
+CREATE TABLE IF NOT EXISTS `htaccess_groups` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `dmn_id` int(10) unsigned NOT NULL default '0',
   `ugroup` varchar(255) collate utf8_unicode_ci default NULL,
@@ -354,7 +355,7 @@ CREATE TABLE `htaccess_groups` (
 -- Table structure for table `htaccess_users`
 --
 
-CREATE TABLE `htaccess_users` (
+CREATE TABLE IF NOT EXISTS `htaccess_users` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `dmn_id` int(10) unsigned NOT NULL default '0',
   `uname` varchar(255) collate utf8_unicode_ci default NULL,
@@ -369,7 +370,7 @@ CREATE TABLE `htaccess_users` (
 -- Table structure for table `log`
 --
 
-CREATE TABLE `log` (
+CREATE TABLE IF NOT EXISTS `log` (
   `log_id` int(10) unsigned NOT NULL auto_increment,
   `log_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `log_message` varchar(250) collate utf8_unicode_ci default NULL,
@@ -382,7 +383,7 @@ CREATE TABLE `log` (
 -- Table structure for table `login`
 --
 
-CREATE TABLE `login` (
+CREATE TABLE IF NOT EXISTS `login` (
   `session_id` varchar(200) collate utf8_unicode_ci NOT NULL default '',
   `ipaddr` varchar(40) collate utf8_unicode_ci default NULL,
   `lastaccess` int(10) unsigned default NULL,
@@ -398,7 +399,7 @@ CREATE TABLE `login` (
 -- Table structure for table `mail_users`
 --
 
-CREATE TABLE `mail_users` (
+CREATE TABLE IF NOT EXISTS `mail_users` (
   `mail_id` int(10) unsigned NOT NULL auto_increment,
   `mail_acc` varchar(200) collate utf8_unicode_ci default NULL,
   `mail_pass` varchar(150) collate utf8_unicode_ci default NULL,
@@ -420,7 +421,7 @@ CREATE TABLE `mail_users` (
 -- Table structure for table `orders`
 --
 
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
   `plan_id` int(10) unsigned NOT NULL default '0',
@@ -450,7 +451,7 @@ CREATE TABLE `orders` (
 -- Table structure for table `orders_settings`
 --
 
-CREATE TABLE `orders_settings` (
+CREATE TABLE IF NOT EXISTS `orders_settings` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
   `header` text collate utf8_unicode_ci,
@@ -464,7 +465,7 @@ CREATE TABLE `orders_settings` (
 -- Table structure for table `quotalimits`
 --
 
-CREATE TABLE `quotalimits` (
+CREATE TABLE IF NOT EXISTS `quotalimits` (
   `name` varchar(30) collate utf8_unicode_ci NOT NULL default '',
   `quota_type` enum('user','group','class','all') collate utf8_unicode_ci NOT NULL default 'user',
   `per_session` enum('false','true') collate utf8_unicode_ci NOT NULL default 'false',
@@ -484,7 +485,7 @@ CREATE TABLE `quotalimits` (
 -- Table structure for table `quotatallies`
 --
 
-CREATE TABLE `quotatallies` (
+CREATE TABLE IF NOT EXISTS `quotatallies` (
   `name` varchar(30) collate utf8_unicode_ci NOT NULL default '',
   `quota_type` enum('user','group','class','all') collate utf8_unicode_ci NOT NULL default 'user',
   `bytes_in_used` float NOT NULL default '0',
@@ -502,7 +503,7 @@ CREATE TABLE `quotatallies` (
 -- Table structure for table `reseller_props`
 --
 
-CREATE TABLE `reseller_props` (
+CREATE TABLE IF NOT EXISTS `reseller_props` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `reseller_id` int(10) unsigned NOT NULL default '0',
   `current_dmn_cnt` int(11) default NULL,
@@ -535,7 +536,7 @@ CREATE TABLE `reseller_props` (
 -- Table structure for table `server_ips`
 --
 
-CREATE TABLE `server_ips` (
+CREATE TABLE IF NOT EXISTS `server_ips` (
   `ip_id` int(10) unsigned NOT NULL auto_increment,
   `ip_number` varchar(40) collate utf8_unicode_ci default NULL,
   `ip_domain` varchar(200) collate utf8_unicode_ci default NULL,
@@ -552,7 +553,7 @@ CREATE TABLE `server_ips` (
 -- Table structure for table `server_traffic`
 --
 
-CREATE TABLE `server_traffic` (
+CREATE TABLE IF NOT EXISTS `server_traffic` (
   `straff_id` int(10) unsigned NOT NULL auto_increment,
   `traff_time` int(10) unsigned default NULL,
   `bytes_in` bigint(20) unsigned default NULL,
@@ -573,7 +574,7 @@ CREATE TABLE `server_traffic` (
 -- Table structure for table `sql_database`
 --
 
-CREATE TABLE `sql_database` (
+CREATE TABLE IF NOT EXISTS `sql_database` (
   `sqld_id` int(10) unsigned NOT NULL auto_increment,
   `domain_id` int(10) unsigned default '0',
   `sqld_name` varchar(64) character set utf8 collate utf8_bin default 'n/a',
@@ -586,7 +587,7 @@ CREATE TABLE `sql_database` (
 -- Table structure for table `sql_user`
 --
 
-CREATE TABLE `sql_user` (
+CREATE TABLE IF NOT EXISTS `sql_user` (
   `sqlu_id` int(10) unsigned NOT NULL auto_increment,
   `sqld_id` int(10) unsigned default '0',
   `sqlu_name` varchar(64) collate utf8_unicode_ci default 'n/a',
@@ -600,7 +601,7 @@ CREATE TABLE `sql_user` (
 -- Table structure for table `straff_settings`
 --
 
-CREATE TABLE `straff_settings` (
+CREATE TABLE IF NOT EXISTS `straff_settings` (
   `straff_max` int(10) unsigned default NULL,
   `straff_warn` int(10) unsigned default NULL,
   `straff_email` int(10) unsigned default NULL
@@ -618,7 +619,7 @@ INSERT INTO `straff_settings` (`straff_max`, `straff_warn`, `straff_email`) VALU
 -- Table structure for table `subdomain`
 --
 
-CREATE TABLE `subdomain` (
+CREATE TABLE IF NOT EXISTS `subdomain` (
   `subdomain_id` int(10) unsigned NOT NULL auto_increment,
   `domain_id` int(10) unsigned default NULL,
   `subdomain_name` varchar(200) collate utf8_unicode_ci default NULL,
@@ -634,7 +635,7 @@ CREATE TABLE `subdomain` (
 -- Table structure for table `subdomain_alias`
 --
 
-CREATE TABLE `subdomain_alias` (
+CREATE TABLE IF NOT EXISTS `subdomain_alias` (
   `subdomain_alias_id` int(10) unsigned NOT NULL auto_increment,
   `alias_id` int(10) unsigned default NULL,
   `subdomain_alias_name` varchar(200) collate utf8_unicode_ci default NULL,
@@ -650,7 +651,7 @@ CREATE TABLE `subdomain_alias` (
 -- Table structure for table `tickets`
 --
 
-CREATE TABLE `tickets` (
+CREATE TABLE IF NOT EXISTS `tickets` (
   `ticket_id` int(10) unsigned NOT NULL auto_increment,
   `ticket_level` int(10) default NULL,
   `ticket_from` int(10) unsigned default NULL,
@@ -670,7 +671,7 @@ CREATE TABLE `tickets` (
 -- Table structure for table `user_gui_props`
 --
 
-CREATE TABLE `user_gui_props` (
+CREATE TABLE IF NOT EXISTS `user_gui_props` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL default '0',
   `lang` varchar(255) collate utf8_unicode_ci default '',

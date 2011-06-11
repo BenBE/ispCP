@@ -78,11 +78,12 @@ gen_reseller_menu($tpl, 'menu_general_information.tpl');
 
 gen_page_message($tpl);
 
+if ($cfg->DUMP_GUI_DEBUG) {
+	dump_gui_debug($tpl);
+}
+
 $tpl->display($template);
 
-if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
-}
 unset_messages();
 
 function save_layout() {

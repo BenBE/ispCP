@@ -92,11 +92,11 @@ gen_client_menu($tpl, 'menu_email_accounts.tpl');
 
 gen_page_message($tpl);
 
-$tpl->display($template);
-
 if ($cfg->DUMP_GUI_DEBUG) {
-	dump_gui_debug();
+	dump_gui_debug($tpl);
 }
+
+$tpl->display($template);
 
 unset_messages();
 
@@ -647,9 +647,10 @@ function gen_page_lists($tpl, $sql, $user_id) {
 
 		$tpl->assign(
 			array(
-				'MAIL_MSG'		=> tr('Mail accounts list is empty!'),
-				'MAIL_MSG_TYPE'	=> 'info',
-				'MAIL_ITEM'		=> '', 'MAILS_TOTAL' => ''
+				'MAIL_MSG'		=> tr('Mail account list is empty!'),
+				'MAIL_MSG_TYPE'	=> 'notice',
+				'MAIL_ITEM'		=> '',
+				'MAILS_TOTAL' => ''
 			)
 		);
 

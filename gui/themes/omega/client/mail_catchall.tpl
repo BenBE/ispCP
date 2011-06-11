@@ -54,16 +54,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: catchall_item -->
+				{section name=i loop=$CATCHALL_DOMAIN}
 				<tr>
-					<td>{$CATCHALL_DOMAIN}</td>
-					<td>{$CATCHALL_ACC}</td>
-					<td>{$CATCHALL_STATUS}</td>
+					<td>{$CATCHALL_DOMAIN[i]}</td>
+					<td>{$CATCHALL_ACC[i]}</td>
+					<td>{$CATCHALL_STATUS[i]}</td>
 					<td>
-						<a href="#" class="icon i_users" onclick="action_delete('{$CATCHALL_ACTION_SCRIPT}', '{$CATCHALL_ACC}')">{$CATCHALL_ACTION}</a>
+						<a href="#" onclick="action_delete('{$CATCHALL_ACTION_SCRIPT[i]}', '{$CATCHALL_ACC[i]}')" title="{$CATCHALL_ACTION[i]}" class="icon i_users"></a>
 					</td>
 				</tr>
-				<!-- EDP: catchall_item -->
+				{/section}
 			</tbody>
 		</table>
 	</div>

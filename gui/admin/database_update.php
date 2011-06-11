@@ -89,10 +89,10 @@ if(isset($_POST['execute']) && $_POST['execute'] == 'update') {
 
 	}
 
-	$tpl->display($template);
-
 	if ($cfg->DUMP_GUI_DEBUG) {
-		dump_gui_debug();
+		dump_gui_debug($tpl);
 	}
+
+	$tpl->display($template);
 }
 ?>
