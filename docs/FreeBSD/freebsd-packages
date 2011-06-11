@@ -21,7 +21,7 @@
 /usr/ports/security/amavisd-new
 /usr/ports/mail/postgrey
 /usr/ports/sysutils/logrotate
-/usr/ports/lang/perl5.10
+/usr/ports/lang/perl5.12
 /usr/ports/devel/pear
 /usr/ports/databases/p5-DBI
 /usr/ports/databases/php5-pdo_mysql

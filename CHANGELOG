@@ -8,7 +8,10 @@ ispCP ω 1.1.0 ChangeLog
 		* Added some code improvements
 		* Fixed some language issues
 	- SETUP:
-		* Fixed setup problem with RKHunter not installed
+	    * Fixed #2579: Conflict of perl dependencies in FreeBSD
+        * Fixed #2580: install in FreeBSD: ./setup/reset-setup: No such file or directory
+    	* Fixed setup problem with RKHunter not installed
+    	* Removed unneeded RegExp from updDB.php
 
 2011-06-09 Markus Szywon
 	- TOOLS:

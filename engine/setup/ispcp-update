@@ -493,7 +493,7 @@ sub rebuild_customers_cfg {
 		htaccess_users => 'status'
 	};
 
-	# Set status as 'change'
+	# Set status to 'change'
 	while (my ($table, $field) = each %$tables) {
 		my $rs = doSQL("
 				UPDATE
