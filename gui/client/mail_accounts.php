@@ -647,9 +647,10 @@ function gen_page_lists($tpl, $sql, $user_id) {
 
 		$tpl->assign(
 			array(
-				'MAIL_MSG'		=> tr('Mail accounts list is empty!'),
-				'MAIL_MSG_TYPE'	=> 'info',
-				'MAIL_ITEM'		=> '', 'MAILS_TOTAL' => ''
+				'MAIL_MSG'		=> tr('Mail account list is empty!'),
+				'MAIL_MSG_TYPE'	=> 'notice',
+				'MAIL_ITEM'		=> '',
+				'MAILS_TOTAL' => ''
 			)
 		);
 

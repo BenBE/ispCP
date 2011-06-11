@@ -95,7 +95,7 @@ unset_messages();
 /**
  * Prepares page data to show available languages
  *
- * @param  ispCP_TemplateEngine $tpl An ispCP_TemplateEngine instance
+ * @param  ispCP_TemplateEngine $tpl an ispCP_TemplateEngine instance
  * @return void
  */
 function showLang($tpl) {

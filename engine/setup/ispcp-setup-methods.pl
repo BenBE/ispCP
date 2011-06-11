@@ -1502,7 +1502,7 @@ sub setup_crontab {
 	}
 
 	# Search and cleaning path for rkhunter and chkrootkit programs
-	# @todo review this s...
+	# @todo review this section
 	($rkhunter = `which rkhunter`) =~ s/\s$//g;
 	($chkrootkit = `which chkrootkit`) =~ s/\s$//g;
 
@@ -3405,7 +3405,7 @@ sub setup_rkhunter {
 	}
 
 	# Update weekly cron task provided by Debian like distributions to avoid
-	# creation of unreadable log file
+	# creation of unreadable log files
 	if(-e '/etc/cron.weekly/rkhunter') {
 		# Get the rkhunter file content
 		($rs, $rdata) = get_file('/etc/cron.weekly/rkhunter');
@@ -3420,10 +3420,10 @@ sub setup_rkhunter {
 		return $rs if($rs != 0);
 	}
 
-	# Updates rkhunter database files (Only during setup process)
-	# @todo Review this s...
+	# Updates rkhunter database files (only during setup process)
+	# @todo Review this section
 	if(defined &setup_engine) {
-		if (sys_command("which rkhunter > /dev/null") == 0 ) {
+		if (sys_command("which rkhunter") == 0 ) {
 			# Here, we run the command with `--nolog` option to avoid creation
 			# of unreadable log file. The log file will be created later by an
 			# ispCP cron task

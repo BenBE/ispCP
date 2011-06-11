@@ -180,7 +180,9 @@ function update_ftp_account($sql, $ftp_acc, $dmn_name) {
 				return;
 			}
 
-			$pass = crypt_user_pass_with_salt($_POST['pass']);
+			$pass		= crypt_user_pass_with_salt($_POST['pass']);
+			$loginpass	= encrypt_db_password($_POST['pass']);
+
 			if (isset($_POST['use_other_dir']) && $_POST['use_other_dir'] === 'on') {
 
 				$other_dir = clean_input($_POST['other_dir']);
@@ -205,23 +207,26 @@ function update_ftp_account($sql, $ftp_acc, $dmn_name) {
 						`ftp_users`
 					SET
 						`passwd` = ?,
+						`net2ftppasswd` = ?,
 						`homedir` = ?
 					WHERE
 						`userid` = ?
 				";
 
-				exec_query($sql, $query, array($pass, $other_dir, $ftp_acc));
+				$param = array($pass, $loginpass, $other_dir, $ftp_acc);
 			} else {
 				$query = "
 					UPDATE
 						`ftp_users`
 					SET
-						`passwd` = ?
+						`passwd` = ?,
+						`net2ftppasswd` = ?,
 					WHERE
 						`userid` = ?
 				";
-				exec_query($sql, $query, array($pass, $ftp_acc));
+				$param = array($pass, $loginpass, $ftp_acc);
 			}
+			exec_query($sql, $query, $param);
 
 			write_log($_SESSION['user_logged'] . ": updated FTP " . $ftp_acc . " account data");
 			set_page_message(tr('FTP account data updated!'), 'success');

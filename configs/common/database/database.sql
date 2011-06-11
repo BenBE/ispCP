@@ -126,7 +126,7 @@ INSERT INTO `config` (`name`, `value`) VALUES
 ('PREVENT_EXTERNAL_LOGIN_ADMIN', '1'),
 ('PREVENT_EXTERNAL_LOGIN_RESELLER', '1'),
 ('PREVENT_EXTERNAL_LOGIN_CLIENT', '1'),
-('DATABASE_REVISION', '47');
+('DATABASE_REVISION', '48');
 
 -- --------------------------------------------------------
 
@@ -287,6 +287,7 @@ CREATE TABLE IF NOT EXISTS `ftp_group` (
 CREATE TABLE IF NOT EXISTS `ftp_users` (
   `userid` varchar(255) collate utf8_unicode_ci default NULL,
   `passwd` varchar(255) collate utf8_unicode_ci default NULL,
+  `net2ftppasswd` varchar(255) collate utf8_unicode_ci default NULL,
   `uid` int(10) unsigned NOT NULL default '0',
   `gid` int(10) unsigned NOT NULL default '0',
   `shell` varchar(255) collate utf8_unicode_ci default NULL,

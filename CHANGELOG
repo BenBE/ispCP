@@ -1,6 +1,15 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-11 Benedikt Heintel
+	- GUI:
+		* Added #2433: on-click-logon from the ftp-user site(such as for PMA)
+			(Thanks to William Lightning for the patch)
+		* Added some code improvements
+		* Fixed some language issues
+	- SETUP:
+		* Fixed setup problem with RKHunter not installed
+
 2011-06-09 Markus Szywon
 	- TOOLS:
 		* Updated phpMyAdmin to version 3.4.2

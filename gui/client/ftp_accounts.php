@@ -59,6 +59,7 @@ $tpl->assign(
 		'TR_FTP_USERS'			=> tr('FTP users'),
 		'TR_FTP_ACCOUNT'		=> tr('FTP account'),
 		'TR_FTP_ACTION'			=> tr('Action'),
+		'TR_LOGINAS'			=> tr('Login to Net2FTP'),
 		'TR_EDIT'				=> tr('Edit'),
 		'TR_DELETE'				=> tr('Delete'),
 		'TR_MESSAGE_DELETE'		=> tr('Are you sure you want to delete %s?', true, '%s')
@@ -95,7 +96,7 @@ function gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name) {
 			`ftp_group`
 		WHERE
 			`groupname` = ?
-	";
+	;";
 
 	$rs = exec_query($sql, $query, $dmn_name);
 
@@ -103,7 +104,7 @@ function gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name) {
 		$tpl->assign(
 			array(
 				'FTP_MSG' => tr('FTP list is empty!'),
-				'MSG_TYPE' => 'notice',
+				'FTP_MSG_TYPE' => 'notice',
 				'FTP_ITEM' => '',
 				'FTPS_TOTAL' => '',
 				'TABLE_LIST' => ''
@@ -122,10 +123,21 @@ function gen_page_ftp_list($tpl, $sql, $dmn_id, $dmn_name) {
 
 			$ftp_accs_encode[$i] = decode_idna($ftp_accs[$i]);
 
+			$query = "
+				SELECT
+					`net2ftppasswd`
+				FROM
+					`ftp_users`
+				WHERE
+					`userid` = ?
+			;";
+			$rs = exec_query($sql, $query, $ftp_accs[$i]);
+
 			$tpl->append(
 				array(
 					'FTP_ACCOUNT' => tohtml($ftp_accs_encode[$i]),
-					'UID' => urlencode($ftp_accs[$i])
+					'UID' => urlencode($ftp_accs[$i]),
+					'FTP_LOGIN_AVAILABLE' => !is_null($rs->fields['net2ftppasswd']),
 				)
 			);
 

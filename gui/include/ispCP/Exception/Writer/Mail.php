@@ -297,7 +297,7 @@ class ispCP_Exception_Writer_Mail extends ispCP_Exception_Writer {
 		// Body
 		$this->_body ="Dear admin,\n\n";
 		$this->_body .=
-			'An exception with the following message was raised in file ' .
+			'An exception with the following message was thrown in file ' .
 			$exception->getFile() . ' (Line: ' . $exception->getLine() . "):\n\n";
 
 		$this->_body .= str_repeat('=', 65) . "\n\n";
@@ -347,8 +347,8 @@ class ispCP_Exception_Writer_Mail extends ispCP_Exception_Writer {
 
 		$this->_body .= "\n" . str_repeat('_', 60) . "\n";
 		$this->_body .= self::NAME . "\n";
-		$this->_body .="\n\nNote: If the same exception is raised several " .
-			"times, this mail will not be re-send before " .
+		$this->_body .="\n\nNote: If the same exception is thrown several " .
+			"times, this mail will not be re-send within the next " .
 				"{$this->_expiryTime} hours.\n";
 		$this->_body = wordwrap($this->_body, 70, "\n");
 	}
