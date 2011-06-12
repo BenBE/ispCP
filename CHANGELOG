@@ -4,6 +4,7 @@ ispCP ω 1.1.0 ChangeLog
 2011-06-12 Markus Szywon
 	- GUI:
 		* Fix: Accessing static property as non static in "Initializer.php"
+		* Fix: Cannot execute queries while other unbuffered queries are active.
 
 2011-06-11 Benedikt Heintel
 	- GUI:

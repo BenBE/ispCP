@@ -166,7 +166,6 @@ function get_domain_running_mail_acc_cnt($sql, $domain_id) {
 			`mail_type` NOT LIKE ?
 		AND
 			`domain_id` = ?
-		;
 	";
 
 	if ($cfg->COUNT_DEFAULT_EMAIL_ADDRESSES == 0) {
