@@ -5049,3 +5049,9 @@ msgstr "Ο χρήστης δεν τερματίστηκε!"
 
 #~ msgid "Incorrect forward syntax"
 #~ msgstr "Incorrect <i>forward</i> syntax!"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

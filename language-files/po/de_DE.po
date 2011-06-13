@@ -4708,3 +4708,8 @@ msgstr "Benutzer wurde nicht gelöscht!"
 #~ "You have more SQL database users in use than the new hosting plan limits"
 #~ msgstr "Sie haben mehr Datenbanknutzer als im neuen Tarif vorgesehen."
 
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr "Der Pfad ist relativ zu ihrem Wurzelverzeichnis. Ein htdocs Verzeichnis dirt als Unterverzeichnis erstellt."
+
+msgid "Can't use an existing folder as mount point!"
+msgstr "Ein bereits existierender Ordner kann nicht als mount point verwendet werden."

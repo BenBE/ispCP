@@ -4768,3 +4768,8 @@ msgstr "ユーザーは終わりません！"
 #~ "あなたは、新しいホスティングプランのデータベースユーザ制限よりも、多くの"
 #~ "データベースユーザを使用しています。"
 
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

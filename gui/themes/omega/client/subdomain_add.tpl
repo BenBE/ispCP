@@ -97,7 +97,7 @@
 			</table>
 			<div class="buttons">
 				<input type="hidden" name="uaction" value="add_subd" />
-				<input type="submit" name="Submit" value="{$TR_ADD}" onclick="return confirm('{$TR_SUB_CREATE_CONFIRM}');" />
+				<input type="submit" name="Submit" value="{$TR_ADD}" />
 			</div>
 		</form>
 	</div>

@@ -5079,3 +5079,9 @@ msgstr "Пользователь не завершил работу!"
 #~ msgstr ""
 #~ "У Вас используется больше пользователей SQL чем доступно в новом хостинг-"
 #~ "плане"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

@@ -5306,3 +5306,9 @@ msgstr "Erabiltzailea ez da amaitu!"
 
 #~ msgid "Database update %s failed"
 #~ msgstr "Datubasearen eguneraketan %s akatsa"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

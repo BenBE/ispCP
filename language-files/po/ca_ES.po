@@ -4943,3 +4943,9 @@ msgstr "Usuari no eliminat!"
 
 #~ msgid "Could not get config from database"
 #~ msgstr "No es pot obtenir la configuració de la base de dades"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

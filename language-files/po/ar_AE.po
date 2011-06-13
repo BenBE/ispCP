@@ -4648,3 +4648,9 @@ msgstr ""
 
 #~ msgid "hours"
 #~ msgstr "ساعات"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

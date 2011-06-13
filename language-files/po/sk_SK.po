@@ -4776,3 +4776,8 @@ msgstr "10 rokov"
 msgid "We don't offer domains."
 msgstr "Neponúkame domény."
 
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

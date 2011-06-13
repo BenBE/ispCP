@@ -5109,3 +5109,9 @@ msgstr "¡El usuario no fue eliminado!"
 #~ msgstr ""
 #~ "Tienes mas usuarios de base de datos SQL en uso que los limites del nuevo "
 #~ "plan de hospedaje."
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""
