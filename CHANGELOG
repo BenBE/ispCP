@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-13 Markus Szywon
+	- GUI:
+		* Fixed #2578: Add FTP Account for a Domain without Alias Shows @EmptyList in Dropdown
+
 2011-06-12 Markus Szywon
 	- GUI:
 		* Fix: Accessing static property as non static in "Initializer.php"
