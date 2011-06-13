@@ -67,7 +67,9 @@ if (!is_xhr()) {
 			'TR_DISABLE'						=> tr('Disable'),
 			'TR_PREFIX_HTTP'					=> 'http://',
 			'TR_PREFIX_HTTPS'					=> 'https://',
-			'TR_PREFIX_FTP'						=> 'ftp://'
+			'TR_PREFIX_FTP'						=> 'ftp://',
+			'TR_MNT_POINT_HELP'					=>	tr('Path is relativ to your root directory. The mount point will contain a subfolder named htdocs'),
+			'TR_SUB_CREATE_CONFIRM'				=>	tr('When creating a subdomain to an existing directory the directory will be overwritten and all content will be lost.')
 		)
 	);
 

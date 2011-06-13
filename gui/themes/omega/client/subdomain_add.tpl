@@ -5,6 +5,7 @@
 		$(document).ready(function(){
 			// Tooltips - begin
 			$('#fwd_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
+			$('#mnt_help').ispCPtooltips({ msg:"{$TR_MNT_POINT_HELP}"});
 			// Tooltips - end
 		});
 
@@ -72,7 +73,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>{$TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT}</td>
+					<td>{$TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT} <span id="mnt_help" class="icon i_help">&nbsp;</span></td>
 					<td><input type="text" name="subdomain_mnt_pt" id="subdomain_mnt_pt" value="{$SUBDOMAIN_MOUNT_POINT}" /></td>
 				</tr>
 				<tr>
@@ -96,7 +97,7 @@
 			</table>
 			<div class="buttons">
 				<input type="hidden" name="uaction" value="add_subd" />
-				<input type="submit" name="Submit" value="{$TR_ADD}" />
+				<input type="submit" name="Submit" value="{$TR_ADD}" onclick="return confirm('{$TR_SUB_CREATE_CONFIRM}');" />
 			</div>
 		</form>
 	</div>

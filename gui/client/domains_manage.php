@@ -64,7 +64,7 @@ $tpl->assign(
 		'TR_SUB_FORWARD'	=> tr('Forward'),
 		'TR_SUB_STATUS'		=> tr('Status'),
 		'TR_SUB_ACTION'		=> tr('Actions'),
-		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s?', true, '%s'),
+		'TR_MESSAGE_DELETE'	=> tr('Are you sure you want to delete %s and the associated directory?', true, '%s'),
 		'TR_DNS'			=> tr("DNS zone's records"),
 		'TR_DNS_NAME'		=> tr('Name'),
 		'TR_DNS_CLASS'		=> tr('Class'),
