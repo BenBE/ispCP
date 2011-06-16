@@ -1,12 +1,15 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<<<<<<< .mine
+2011-06-16 Markus Szywon
+	- GUI:
+		* New: Add adminer 3.2.2 for alternate database administration
+
+
 2011-06-15 Markus Szywon
 	- LANGUAGES:
 		* Updated Japanese (Thanks to kazuo)
 
-=======
 2011-06-13 Klaas Tammling
 	- ENGINE:
 		* Fixed #2569: Added the Dovecot login manager to trunk (thanks to jjuvan)
@@ -14,7 +17,6 @@ ispCP ω 1.1.0 ChangeLog
 		* Fixed #2556: Added an explanation of what a mount point actually is
 		* Fixed #2555: Added a check for not overwriting existing folders when creating a subdomain
 
->>>>>>> .r3861
 2011-06-13 Markus Szywon
 	- GUI:
 		* Fixed #2578: Add FTP Account for a Domain without Alias Shows @EmptyList in Dropdown
