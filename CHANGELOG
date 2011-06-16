@@ -4,6 +4,7 @@ ispCP ω 1.1.0 ChangeLog
 2011-06-16 Markus Szywon
 	- GUI:
 		* New: Add adminer 3.2.2 for alternate database administration
+		* Added some code improvements
 
 
 2011-06-15 Markus Szywon

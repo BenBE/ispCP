@@ -120,6 +120,7 @@ function gen_page_msg($tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
+		$tpl->assign('MSG_TYPE', 'error');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
@@ -486,8 +487,6 @@ function check_subdomain_data($tpl, &$err_sub, $user_id, $dmn_name) {
 		} else {
 			$sub_mnt_pt = "/";
 		}
-		
-		
 
 		if ($_POST['dmn_type'] === 'als') {
 
