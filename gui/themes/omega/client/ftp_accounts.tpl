@@ -2,12 +2,10 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		jQuery(document).ready(function(){
+		$(document).ready(function(){
 			// TableSorter - begin
-			jQuery('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
 			// TableSorter - end
-
-			jQuery('.net2ftp').attr('rel', 'external').attr('target', '_blank');
 		});
 
 		function action_delete(url, subject) {
@@ -70,7 +68,7 @@
 						<a href="ftp_edit.php?id={$UID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
 						<a href="#" onclick="action_delete('ftp_delete.php?id={$UID[i]}', '{$FTP_ACCOUNT[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 						{if $FTP_LOGIN_AVAILABLE[i]}
-						<a href="ftp_auth.php?id={$UID[i]}" title="{$TR_LOGINAS}" class="icon i_identity net2ftp"></a>
+						<a href="ftp_auth.php?id={$UID[i]}" title="{$TR_LOGINAS}" class="icon i_identity external"></a>
 						{/if}
 					</td>
 				</tr>

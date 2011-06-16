@@ -62,14 +62,12 @@
 					<td>
 						<input type="text" name="subdomain_name" id="subdomain_name" value="{$SUBDOMAIN_NAME}" onblur="makeUser();" />&nbsp;
 						<input type="radio" name="dmn_type" id="dmn_type" value="dmn" {$SUB_DMN_CHECKED} />{$DOMAIN_NAME}&nbsp;
-						<!-- BDP: to_alias_domain -->
+						{if isset($ALS_NAME)}
 						<input type="radio" name="dmn_type" value="als" {$SUB_ALS_CHECKED} />
 							<select name="als_id">
-								{if isset($ALS_NAME)}
-									<option value="{$ALS_ID}" {$ALS_SELECTED}>.{$ALS_NAME}</option>
-								{/if}
+								<option value="{$ALS_ID}" {$ALS_SELECTED}>.{$ALS_NAME}</option>
 							</select>
-						<!-- EDP: to_alias_domain -->
+						{/if}
 					</td>
 				</tr>
 				<tr>

@@ -21,4 +21,11 @@
 	<!--[if lt IE 7.]>
 		<script defer type="text/javascript" src="{$THEME_SCRIPT_PATH}/pngfix.js"></script>
 	<![endif]-->
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		$(document).ready(function(){
+			$('.external').attr('rel', 'external').attr('target', '_blank');
+		});
+	/* ]]> */
+	</script>
 </head>
