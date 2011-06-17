@@ -1,11 +1,14 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-06-17 Benedikt Heintel
+	- CONFIGS:
+		* Fixed #2585: Error installing on freebsd 8.2
+
 2011-06-16 Markus Szywon
 	- GUI:
-		* New: Add adminer 3.2.2 for alternate database administration
+		* Added adminer 3.2.2 for alternate database administration
 		* Added some code improvements
-
 
 2011-06-15 Markus Szywon
 	- LANGUAGES:
@@ -24,20 +27,20 @@ ispCP ω 1.1.0 ChangeLog
 
 2011-06-12 Markus Szywon
 	- GUI:
-		* Fix: Accessing static property as non static in "Initializer.php"
-		* Fix: Cannot execute queries while other unbuffered queries are active.
+		* Fixed: Accessing static property as non static in "Initializer.php"
+		* Fixed: Cannot execute queries while other unbuffered queries are active.
 
 2011-06-11 Benedikt Heintel
 	- GUI:
-		* Added #2433: on-click-logon from the ftp-user site(such as for PMA)
+		* Added #2433: one-click-logon from the ftp-user site (such as for PMA)
 			(Thanks to William Lightning for the patch)
 		* Added some code improvements
 		* Fixed some language issues
 	- SETUP:
 	    * Fixed #2579: Conflict of perl dependencies in FreeBSD
-        * Fixed #2580: install in FreeBSD: ./setup/reset-setup: No such file or directory
-    	* Fixed setup problem with RKHunter not installed
-    	* Removed unneeded RegExp from updDB.php
+		* Fixed #2580: install in FreeBSD: ./setup/reset-setup: No such file or directory
+		* Fixed setup problem with RKHunter not installed
+		* Removed unneeded RegExp from updDB.php
 
 2011-06-09 Markus Szywon
 	- TOOLS:
