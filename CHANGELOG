@@ -1,11 +1,14 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 2011-06-22 Benedikt Heintel
-    - CONFIGS:
+    - DISTS:
         * Fixed #2587: error setup in FreeBSD
+    - GUI:
+        * Fixed some typos
+        * Code cleanup
 
 2011-06-17 Benedikt Heintel
-	- CONFIGS:
+	- DISTS:
 		* Fixed #2585: Error installing on freebsd 8.2
 
 2011-06-16 Markus Szywon

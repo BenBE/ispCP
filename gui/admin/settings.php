@@ -130,22 +130,22 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 			set_page_message(tr("Nothing has been changed!"), 'notice');
 		} elseif ($updt_count == 1) {
 			set_page_message(
-				tr('%d configuration parameter was updated!', $updt_count),
+				tr('%d configuration parameter updated!', $updt_count),
 				'success'
 			);
 		} elseif ($updt_count > 1) {
 			set_page_message(
-				tr('%d configuration parameters were updated!', $updt_count),
+				tr('%d configuration parameters updated!', $updt_count),
 				'success'
 			);
 		} elseif ($new_count == 1) {
 			set_page_message(
-				tr('%d configuration parameter was created!', $new_count),
+				tr('%d configuration parameter created!', $new_count),
 				'success'
 			);
 		} elseif ($new_count > 1) {
 			set_page_message(
-				tr('%d configuration parameters were created!', $new_count),
+				tr('%d configuration parameters created!', $new_count),
 				'success'
 			);
 		}
