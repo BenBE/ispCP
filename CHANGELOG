@@ -1,5 +1,8 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+2011-06-22 Benedikt Heintel
+    - CONFIGS:
+        * Fixed #2587: error setup in FreeBSD
 
 2011-06-17 Benedikt Heintel
 	- CONFIGS:
