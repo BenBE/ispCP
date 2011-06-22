@@ -5110,3 +5110,9 @@ msgstr "Потребителя не е приключен!"
 #, fuzzy
 #~ msgid "Error:"
 #~ msgstr "Грешка"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

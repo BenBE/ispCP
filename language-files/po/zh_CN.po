@@ -5189,3 +5189,9 @@ msgstr "用户未到期！"
 
 #~ msgid "Unknown account type!"
 #~ msgstr "Unknown account type!"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

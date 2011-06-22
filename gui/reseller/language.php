@@ -57,7 +57,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
 			`user_id` = ?
 	";
 
-	$rs = exec_query($sql, $query, array($user_lang, $user_id));
+	exec_query($sql, $query, array($user_lang, $user_id));
 
 	unset($_SESSION['user_def_lang']);
 	$_SESSION['user_def_lang'] = $user_lang;

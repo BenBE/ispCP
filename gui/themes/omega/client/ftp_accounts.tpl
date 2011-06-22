@@ -68,7 +68,7 @@
 						<a href="ftp_edit.php?id={$UID[i]}" title="{$TR_EDIT}" class="icon i_edit"></a>
 						<a href="#" onclick="action_delete('ftp_delete.php?id={$UID[i]}', '{$FTP_ACCOUNT[i]}')" title="{$TR_DELETE}" class="icon i_delete"></a>
 						{if $FTP_LOGIN_AVAILABLE[i]}
-						<a href="ftp_auth.php?id={$UID[i]}" target="net2ftp" title="{$TR_LOGINAS}" class="icon i_identity"></a>
+						<a href="ftp_auth.php?id={$UID[i]}" title="{$TR_LOGINAS}" class="icon i_identity external"></a>
 						{/if}
 					</td>
 				</tr>

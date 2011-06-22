@@ -4995,3 +4995,10 @@ msgstr "使用者未終止！"
 #, fuzzy
 #~ msgid "Error:"
 #~ msgstr "錯誤"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""
+

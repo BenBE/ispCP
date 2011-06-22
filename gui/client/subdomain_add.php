@@ -67,7 +67,8 @@ if (!is_xhr()) {
 			'TR_DISABLE'						=> tr('Disable'),
 			'TR_PREFIX_HTTP'					=> 'http://',
 			'TR_PREFIX_HTTPS'					=> 'https://',
-			'TR_PREFIX_FTP'						=> 'ftp://'
+			'TR_PREFIX_FTP'						=> 'ftp://',
+			'TR_MNT_POINT_HELP'					=>	tr('Path is relativ to your root directory. The mount point will contain a subfolder named htdocs.'),
 		)
 	);
 
@@ -119,6 +120,7 @@ function gen_page_msg($tpl, $error_txt) {
 
 	if ($error_txt != '_off_') {
 		$tpl->assign('MESSAGE', $error_txt);
+		$tpl->assign('MSG_TYPE', 'error');
 	} else {
 		$tpl->assign('PAGE_MESSAGE', '');
 	}
@@ -457,6 +459,7 @@ function check_subdomain_data($tpl, &$err_sub, $user_id, $dmn_name) {
 	global $validation_err_msg;
 
 	$sql = ispCP_Registry::get('Db');
+	$vfs = new ispCP_VirtualFileSystem($dmn_name, $sql);
 
 	$dmn_id = $domain_id = get_user_domain_id($sql, $user_id);
 
@@ -526,6 +529,8 @@ function check_subdomain_data($tpl, &$err_sub, $user_id, $dmn_name) {
 			$err_sub = tr('Subdomain already exists or is not allowed!');
 		} elseif (mount_point_exists($dmn_id, array_encode_idna($sub_mnt_pt, true))) {
 			$err_sub = tr('Mount point already in use!');
+		} elseif ($vfs->exists($sub_mnt_pt)) {
+			$err_sub = tr("Can't use an existing folder as mount point!");
 		} elseif (!validates_mpoint($sub_mnt_pt)) {
 			$err_sub = tr('Incorrect mount point syntax!');
 		} elseif ($_POST['status'] == 1) {

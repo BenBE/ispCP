@@ -255,11 +255,11 @@ class ispCP_Initializer {
 		// MAJOR . MINOR . TINY
 		$phpVersion = substr(phpversion(), 0, 5);
 
-		if(!version_compare($phpVersion, $this->_phpVersion, '>=')) {
+		if(!version_compare($phpVersion, self::$_phpVersion, '>=')) {
 			$errMsg = sprintf(
 				'Error: PHP version is %s. Version %s or later is required!',
 				$phpVersion,
-				$this->_phpVersion
+				self::$_phpVersion
 			);
 
 		// We will use SPL interfaces like SplObserver, SplSubject

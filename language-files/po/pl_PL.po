@@ -5293,3 +5293,9 @@ msgstr "Użytkownik nie usunięty!"
 
 #~ msgid "There's a conflicting admin / reseller fix that first!"
 #~ msgstr "Jest konflikt admin / reseller, musisz to zmienić!"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

@@ -2,9 +2,9 @@
 <body>
 	<script type="text/javascript">
 	/* <![CDATA[ */
-		jQuery(document).ready(function(){
+		$(document).ready(function(){
 			// TableSorter - begin
-			jQuery('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
+			$('.tablesorter').tablesorter({ cssHeader: 'tablesorter'});
 			// TableSorter - end
 		});
 

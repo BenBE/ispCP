@@ -1,48 +1,5 @@
 {include file='header.tpl'}
-<body onload="begin_js();">
-	<script type="text/javascript">
-	/* <![CDATA[ */
-		<!-- BDP: js_to_all_domain -->
-		function begin_js() {
-			document.forms[0].als_id.disabled = true;
-			document.forms[0].username.focus();
-		}
-
-		function changeDom(wath) {
-			if (wath == "real") {
-				document.forms[0].als_id.disabled = true;
-			} else if (wath == "subdom") {
-				document.forms[0].als_id.disabled = true;
-			} else {
-				document.forms[0].als_id.disabled = false;
-			}
-		}
-		<!-- EDP: js_to_all_domain -->
-
-		<!-- BDP: js_not_domain -->
-		function begin_js() {
-			document.forms[0].username.focus();
-		}
-		<!-- EDP: js_not_domain -->
-
-		<!-- BDP: js_to_alias_domain -->
-		function begin_js() {
-			document.forms[0].als_id.disabled = true;
-			document.forms[0].username.focus();
-		}
-
-		function changeDom(wath) {
-			if (wath == "real") {
-				document.forms[0].als_id.disabled = true;
-			} else if (wath == "subdom") {
-				document.forms[0].als_id.disabled = true;
-			} else {
-				document.forms[0].als_id.disabled = false;
-			}
-		}
-		<!-- EDP: js_to_alias_domain -->
-	/* ]]> */
-	</script>
+<body>
 	<div class="header">
 		{include file="$MAIN_MENU"}
 		<div class="logo">
@@ -78,21 +35,19 @@
 					<td><input type="text" name="username" id="username" value="{$USERNAME}" /></td>
 				</tr>
 				<tr>
-					<td><input type="radio" name="dmn_type" id="dmn_type" value="dmn" onfocus="changeDom('real');" {$DMN_TYPE_CHECKED} />{$TR_TO_MAIN_DOMAIN}</td>
+					<td><input type="radio" name="dmn_type" id="dmn_type" value="dmn" {$DMN_TYPE_CHECKED} />{$TR_TO_MAIN_DOMAIN}</td>
 					<td>{$FTP_SEPARATOR}{$DOMAIN_NAME}</td>
 				</tr>
-				<!-- BDP: to_alias_domain -->
+				{if isset($ALS_NAME)}
 				<tr>
-					<td><input type="radio" name="dmn_type" id="als_type" value="als" onfocus="changeDom('alias');" {$ALS_TYPE_CHECKED} />{$TR_TO_DOMAIN_ALIAS}</td>
+					<td><input type="radio" name="dmn_type" id="als_type" value="als" {$ALS_TYPE_CHECKED} />{$TR_TO_DOMAIN_ALIAS}</td>
 					<td>
 						<select name="als_id" id="als_id">
-							{if isset($ALS_NAME)}
 							<option value="{$ALS_ID}" {$ALS_SELECTED}>{$FTP_SEPARATOR}{$ALS_NAME}</option>
-							{/if}
 						</select>
 					</td>
 				</tr>
-				<!-- EDP: to_alias_domain -->
+				{/if}
 				<tr>
 					<td>{$TR_PASSWORD}</td>
 					<td><input type="password" name="pass" id="pass" value="" /></td>

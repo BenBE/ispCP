@@ -5133,3 +5133,9 @@ msgstr "Utilizador não terminado!"
 #~ msgstr ""
 #~ "Têm mais utilizadores SQL em utilização do que o novo plano de alojamento "
 #~ "suporta"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

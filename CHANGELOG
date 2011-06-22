@@ -1,17 +1,52 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+2011-06-22 Benedikt Heintel
+    - DISTS:
+        * Fixed #2587: error setup in FreeBSD
+    - GUI:
+        * Fixed some typos
+        * Code cleanup
+
+2011-06-17 Benedikt Heintel
+	- DISTS:
+		* Fixed #2585: Error installing on freebsd 8.2
+
+2011-06-16 Markus Szywon
+	- GUI:
+		* Added adminer 3.2.2 for alternate database administration
+		* Added some code improvements
+
+2011-06-15 Markus Szywon
+	- LANGUAGES:
+		* Updated Japanese (Thanks to kazuo)
+
+2011-06-13 Klaas Tammling
+	- ENGINE:
+		* Fixed #2569: Added the Dovecot login manager to trunk (thanks to jjuvan)
+	- GUI:
+		* Fixed #2556: Added an explanation of what a mount point actually is
+		* Fixed #2555: Added a check for not overwriting existing folders when creating a subdomain
+
+2011-06-13 Markus Szywon
+	- GUI:
+		* Fixed #2578: Add FTP Account for a Domain without Alias Shows @EmptyList in Dropdown
+
+2011-06-12 Markus Szywon
+	- GUI:
+		* Fixed: Accessing static property as non static in "Initializer.php"
+		* Fixed: Cannot execute queries while other unbuffered queries are active.
 
 2011-06-11 Benedikt Heintel
 	- GUI:
-		* Added #2433: on-click-logon from the ftp-user site(such as for PMA)
+		* Added #2433: one-click-logon from the ftp-user site (such as for PMA)
 			(Thanks to William Lightning for the patch)
 		* Added some code improvements
 		* Fixed some language issues
 	- SETUP:
 	    * Fixed #2579: Conflict of perl dependencies in FreeBSD
-        * Fixed #2580: install in FreeBSD: ./setup/reset-setup: No such file or directory
-    	* Fixed setup problem with RKHunter not installed
-    	* Removed unneeded RegExp from updDB.php
+		* Fixed #2580: install in FreeBSD: ./setup/reset-setup: No such file or directory
+		* Fixed setup problem with RKHunter not installed
+		* Removed unneeded RegExp from updDB.php
 
 2011-06-09 Markus Szywon
 	- TOOLS:

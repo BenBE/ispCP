@@ -5431,3 +5431,9 @@ msgstr "Käyttäjää ei poistettu!"
 
 #~ msgid "delete"
 #~ msgstr "poista"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

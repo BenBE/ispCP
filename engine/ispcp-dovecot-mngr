@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+ 
+# ispCP ω (OMEGA) a Virtual Hosting Control Panel
+# Copyright (C) 2006-2011 by isp Control Panel - http://ispcp.net
+#
+# Version: $Id: ispcp-update 2133 2009-11-14 00:34:49Z Obi_Wan $
+#
+# The contents of this file are subject to the Mozilla Public License
+# Version 1.1 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://www.mozilla.org/MPL/
+#
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+# License for the specific language governing rights and limitations
+# under the License.
+#
+# The Original Code is "ispCP ω (OMEGA) a Virtual Hosting Control Panel".
+#
+# The Initial Developer of the Original Code is ispCP Team.
+# Portions created by Initial Developer are Copyright (C) 2006-2009 by
+# isp Control Panel. All Rights Reserved.
+#
+# The ispCP ω Home Page is:
+#
+#    http://isp-control.net
+#
+
+################################################################################
+## Program Short Desciption:                                                  ##
+##  Dovecot Manager - This will enable dovecot to authenticate ispCP users    ##
+################################################################################
+
+use FindBin;
+use lib "$FindBin::Bin/";
+require 'ispcp_common_code.pl';
+use strict;
+use warnings;
+use Sys::Syslog;
+
+my $tempErr 								= 111;
+my $Err				 						= 1;
+
+my $local_part_dir							= "$main::cfg{'MTA_VIRTUAL_MAIL_DIR'}";
+my $uid 									= $main::cfg{'MTA_MAILBOX_UID'};
+my $gid										= $main::cfg{'MTA_MAILBOX_GID'};
+
+my $real_password							= '';
+my($size, $data)							= (undef,undef);
+my($username, $password, $timestamp, $rest)	= (undef, undef, undef, undef);
+
+my $ip										= "unknown ip";
+my $server									= "unknown";
+
+if (defined $ENV{'TCPREMOTEIP'}){
+	$ip = $ENV{'TCPREMOTEIP'};
+}
+if (defined $ENV{'SERVICE'}){
+	$server = $ENV{'SERVICE'};
+}
+
+openlog("dovecot","ndelay,perror","mail");
+
+if( open (HANDLER, "<&=3")) {
+	$size = read(HANDLER, $data, 512);
+	close HANDLER;
+} else {
+	syslog('err', 'No data read during login for %s from %s to %s server', $username, $ip, $server);
+	exit ($tempErr);
+}
+
+if ($size < 4) {
+	syslog('err', 'Invalid data read during login for %s from %s to %s server', $username, $ip, $server);
+	exit($tempErr);
+}
+
+($username, $password, $timestamp, $rest) = split(/\0/,$data);
+$username =~ tr/A-Z/a-z/;
+
+if ($username =~ /^(([a-z0-9\-_]+\.?)+)@(([a-z0-9\-]+\.?)+)$/) {
+	$local_part_dir = "$local_part_dir/$3/$1";
+} else {
+	syslog('info', 'Bad username "%s" from %s to %s server', $username, $ip, $server);
+	exit($Err);
+}
+my $sql = "SELECT count(mail_pass) FROM mail_users WHERE mail_pass != '_no_' AND mail_addr='$username'";
+my ($rs, $rows) = doSQL($sql);
+if ($rs != 0){
+	syslog('err', 'Can`t execute sql "%s"! during attempt for %s from %s, protocol %s', $sql, $username, $ip, $server);
+	exit($tempErr);
+}
+my $line = @$rows[0];
+
+if ( @$line[0] eq 0 ) {
+	syslog('err', 'User not found! during attempt for %s from %s, protocol %s', $username, $ip, $server);
+	exit($Err);
+}
+
+$sql = "SELECT mail_pass, mail_addr FROM mail_users WHERE mail_pass != '_no_' AND mail_addr='$username'";
+($rs, $rows) = doSQL($sql);
+if ($rs != 0){
+	syslog('err', 'Can`t execute sql %s during login for %s from %s to %s server', $sql, $username, $ip, $server);
+	exit($tempErr);
+}
+$line = @$rows[0];
+
+($rs,$real_password) = decrypt_db_password(@$line[0]);
+
+if ($rs != 0){
+	syslog('err', 'Internal error while decrypting password for username %s from %s for %s server', $username, $ip, $server);
+	exit($tempErr);
+}
+
+if ($password ne $real_password) {
+	syslog('info', 'Bad password for username %s from %s for %s server', $username, $ip, $server);
+	exit($Err);
+}
+
+
+if (open (HANDLER, ">>&=4")) {
+	printf	(HANDLER  "userdb_user=%s\tuserdb_home=%s\tuserdb_uid=%s\tuserdb_gid=%s\tuserdb_mail=%s\t",
+			$username, $local_part_dir, $uid, $gid, "maildir:$local_part_dir");
+	close HANDLER;
+} else {
+	syslog('err', 'Failed returning data during login for %s from %s to %s server', $username, $ip, $server);
+	exit($tempErr);
+}
+
+exit(0);

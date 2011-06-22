@@ -5,6 +5,7 @@
 		$(document).ready(function(){
 			// Tooltips - begin
 			$('#fwd_help').ispCPtooltips({ msg:"{$TR_DMN_HELP}"});
+			$('#mnt_help').ispCPtooltips({ msg:"{$TR_MNT_POINT_HELP}"});
 			// Tooltips - end
 		});
 
@@ -61,18 +62,16 @@
 					<td>
 						<input type="text" name="subdomain_name" id="subdomain_name" value="{$SUBDOMAIN_NAME}" onblur="makeUser();" />&nbsp;
 						<input type="radio" name="dmn_type" id="dmn_type" value="dmn" {$SUB_DMN_CHECKED} />{$DOMAIN_NAME}&nbsp;
-						<!-- BDP: to_alias_domain -->
+						{if isset($ALS_NAME)}
 						<input type="radio" name="dmn_type" value="als" {$SUB_ALS_CHECKED} />
 							<select name="als_id">
-								{if isset($ALS_NAME)}
-									<option value="{$ALS_ID}" {$ALS_SELECTED}>.{$ALS_NAME}</option>
-								{/if}
+								<option value="{$ALS_ID}" {$ALS_SELECTED}>.{$ALS_NAME}</option>
 							</select>
-						<!-- EDP: to_alias_domain -->
+						{/if}
 					</td>
 				</tr>
 				<tr>
-					<td>{$TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT}</td>
+					<td>{$TR_DIR_TREE_SUBDOMAIN_MOUNT_POINT} <span id="mnt_help" class="icon i_help">&nbsp;</span></td>
 					<td><input type="text" name="subdomain_mnt_pt" id="subdomain_mnt_pt" value="{$SUBDOMAIN_MOUNT_POINT}" /></td>
 				</tr>
 				<tr>

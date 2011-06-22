@@ -5135,3 +5135,9 @@ msgstr "Uživatel není odstraněn!"
 
 #~ msgid "delete"
 #~ msgstr "odstranit"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

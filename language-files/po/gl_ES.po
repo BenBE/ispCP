@@ -5056,3 +5056,9 @@ msgstr "Usuario non dado de baixa!"
 
 #~ msgid "Could not get config from database"
 #~ msgstr "Non se puido obter a configuración dende o banco de datos"
+
+msgid "Path is relativ to your root directory. The mount point will contain a subfolder named htdocs."
+msgstr ""
+
+msgid "Can't use an existing folder as mount point!"
+msgstr ""

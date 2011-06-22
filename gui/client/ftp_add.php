@@ -154,17 +154,7 @@ function gen_dmn_als_list($tpl, $sql, $dmn_id, $post_check) {
 	";
 
 	$rs = exec_query($sql, $query, array($dmn_id, $ok_status));
-	if ($rs->recordCount() == 0) {
-		$tpl->assign(
-			array(
-				'ALS_ID' => 'n/a',
-				'ALS_SELECTED' => $cfg->HTML_SELECTED,
-				'ALS_NAME' => tr('Empty List')
-			)
-		);
-		$tpl->assign('TO_ALIAS_DOMAIN', '');
-		$_SESSION['alias_count'] = "no";
-	} else {
+	if ($rs->recordCount() != 0) {
 		$first_passed = false;
 		while (!$rs->EOF) {
 			if ($post_check === 'yes') {
