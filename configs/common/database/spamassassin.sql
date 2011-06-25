@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS bayes_global_vars (
   PRIMARY KEY  (variable)
 ) TYPE=InnoDB;
 
-INSERT INTO bayes_global_vars VALUES ('VERSION','3');
+INSERT IGNORE INTO bayes_global_vars VALUES ('VERSION','3');
 
 CREATE TABLE IF NOT EXISTS bayes_seen (
   id int(11) NOT NULL default '0',

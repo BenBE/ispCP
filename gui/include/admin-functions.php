@@ -341,7 +341,7 @@ function get_admin_general_info($tpl, $sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @return void
  */
@@ -438,7 +438,7 @@ function gen_admin_list($tpl, $sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_reseller_list($tpl, $sql) {
@@ -530,7 +530,7 @@ function gen_reseller_list($tpl, $sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function gen_user_list($tpl, $sql) {
@@ -785,7 +785,7 @@ function gen_user_list($tpl, $sql) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  */
 function get_admin_manage_users($tpl, $sql) {
@@ -2435,7 +2435,7 @@ function delete_domain($domain_id, $goto, $breseller = false) {
 /**
  * @todo use template(s) instead of hardcoded (X)HTML
  * @todo possible SESSION hijackin for $_SESSION['user_theme']
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @param bool encode

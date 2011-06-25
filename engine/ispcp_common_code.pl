@@ -44,7 +44,7 @@ BEGIN {
 		HTML::Entities=> '',
 		File::Temp => 'qw(tempdir)',
 		File::Copy::Recursive => 'qw(rcopy)',
-		Net::LibIDN => 'qw/idn_to_ascii idn_to_unicode/'
+		Net::LibIDN => 'qw(idn_to_ascii idn_to_unicode)'
 	);
 
 	my ($mod, $mod_err, $mod_missing) = ('', '_off_', '');
@@ -125,8 +125,8 @@ if ($main::db_pass_key eq '{KEY}' || $main::db_pass_iv eq '{IV}') {
 	 "setup_mean\n";
 
 	map {s/'/\\'/g, chop}
-		my $db_pass_key = gen_sys_rand_num(32),
-		my $db_pass_iv = gen_sys_rand_num(8);
+		my $db_pass_key = gen_sys_rand_num(32, ''),
+		my $db_pass_iv = gen_sys_rand_num(8, '');
 
 	$main::db_pass_key = $db_pass_key;
 	$main::db_pass_iv = $db_pass_iv;

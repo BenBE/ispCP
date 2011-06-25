@@ -319,7 +319,7 @@ function add_update_services($mode) {
  *
  * @since 1.0.7
  * @author Laurent declercq (nuxwin) <laurent.declercq@ispcp.net>
- * @param ispCP_TemplateEngine $tpl Reference to a pTemplate instance
+ * @param ispCP_TemplateEngine $tpl Reference to a template instance
  * @return void;
  */
 function show_services($tpl) {

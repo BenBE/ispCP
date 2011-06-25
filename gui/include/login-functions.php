@@ -364,7 +364,7 @@ function is_ipaddr_blocked($ipaddr = null, $type = 'bruteforce',
 	}
 
 	deny_access();
-	return true;
+	return;
 }
 
 /**
@@ -570,6 +570,7 @@ function block_ipaddr($ipaddr, $type = 'General') {
 	);
 
 	deny_access();
+    return;
 }
 
 /**

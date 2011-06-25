@@ -197,50 +197,51 @@ abstract class ispCP_Update {
 			// First, switch to exception mode for errors management
 			$sql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+			// Checks if a database updated previously failed
 			if(isset($dbConfig->FAILED_UPDATE)) {
 				list($failedUpdate, $queryNb) = $dbConfig->FAILED_UPDATE;
 			} else {
 				$failedUpdate = 'inexistent';
+				$queryNb = -1;
 			}
 
-			try {
+			// We execute all SQL statements
+			foreach($queryArray as $index => $query) {
 
-				// We execute all SQL statements
-				foreach($queryArray as $index => $query) {
-					// Query was already applied with success ?
-					if($functionName == $failedUpdate && $index < $queryNb) {
-						continue;
+				// Query was already applied with success ?
+				if ($functionName == $failedUpdate && $index < $queryNb) {
+					continue;
+				}
+
+				try {
+					$sql->query($query);
+					unset($dbConfig->FAILED_UPDATE);
+
+					// Update revision
+					$dbConfig->set($this->_databaseVariableName, $newVersion);
+
+				} catch (PDOException $e) {
+
+					// Store the query number and function name that wraps it
+					$dbConfig->FAILED_UPDATE = "$functionName;$index";
+
+					// Prepare error message
+					$errorMessage =  sprintf($this->_errorMessage, $newVersion);
+
+					// Extended error message
+					if(PHP_SAPI != 'cli') {
+						$errorMessage .= ':<br /><br />' . $e->getMessage() .
+							'<br /><br />Query: ' . trim($query);
+					} else {
+						$errorMessage .= ":\n\n" . $e->getMessage() .
+							"\nQuery: " . trim($query);
 					}
 
-					$sql->query($query);
+					$this->_addErrorMessage($errorMessage);
+
+					// An error occurred, we stop here !
+					return false;
 				}
-
-				unset($dbConfig->FAILED_UPDATE);
-
-				// Update revision
-				$dbConfig->set($this->_databaseVariableName, $newVersion);
-
-			} catch (PDOException $e) {
-
-				// Store the query number and function name that wraps it
-				$dbConfig->FAILED_UPDATE = "$functionName;$index";
-
-				// Prepare error message
-				$errorMessage =  sprintf($this->_errorMessage, $newVersion);
-
-				// Extended error message
-				if(PHP_SAPI != 'cli') {
-					$errorMessage .= ':<br /><br />' . $e->getMessage() .
-						'<br /><br />Query: ' . trim($query);
-				} else {
-					$errorMessage .= ":\n\n" . $e->getMessage() .
-						"\nQuery: " . trim($query);
-				}
-
-				$this->_addErrorMessage($errorMessage);
-
-				// An error occurred, we stop here !
-				return false;
 			}
 
 			$this->_currentVersion = $newVersion;

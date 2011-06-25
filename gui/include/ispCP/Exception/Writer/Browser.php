@@ -43,7 +43,7 @@ require_once  INCLUDEPATH . '/ispCP/Exception/Writer.php';
  * browser.
  *
  * The given template should be a template file that can be treated by a
- * pTemplate object.
+ * template object.
  *
  * <b>Note:</b> Will be improved later.
  *

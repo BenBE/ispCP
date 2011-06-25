@@ -76,7 +76,7 @@ class ispCP_Database_ResultSet {
 
 		if(!($stmt instanceof PDOStatement)) {
 			throw new ispCP_Exception_Database(
-				'Error: Argument passed to ' . __METHOD__ . '() must be a ' .
+				'Argument passed to ' . __METHOD__ . '() must be a ' .
 					'PDOStatement object!'
 			);
 		}
@@ -85,9 +85,9 @@ class ispCP_Database_ResultSet {
 	}
 
 	/**
-	 * Php overloading
+	 * PHP overloading
 	 *
-	 * Php overloading method that allows to fetch the first row in the result
+	 * PHP overloading method that allows to fetch the first row in the result
 	 * set or check if one row exist in the result set
 	 *
 	 * @throws ispCP_Exception_Database
@@ -114,7 +114,7 @@ class ispCP_Database_ResultSet {
 			return !is_null($this->_fields) && !is_array($this->_fields);
 		}
 
-		throw new ispCP_Exception_Database("Error: Unknown parameter: `$param`");
+		throw new ispCP_Exception_Database("Unknown parameter: `$param`");
 	}
 
 	/**
@@ -183,7 +183,8 @@ class ispCP_Database_ResultSet {
 	 * Fetches a row from the result set. The fetch_style parameter determines
 	 * how the row is returned.
 	 *
-	 * @param int $fetchStyle
+	 * @param int $fetchStyle Controls how the next row will be returned to the
+	 * caller. This value must be one of the PDO::FETCH_* constants
 	 * @return mixed The return value of this function on success depends on the
 	 * fetch style. In all cases, FALSE is returned on failure.
 	 * @todo Finish fetch style implementation
@@ -193,6 +194,25 @@ class ispCP_Database_ResultSet {
 		$fetchStyle = is_null($fetchStyle) ? $this->_fetchMode : $fetchStyle;
 
 		return $this->_stmt->fetch($fetchStyle);
+	}
+
+	/**
+	 * Fetches all rows from the current result set
+	 *
+	 * Fetches all rows from the result set. The fetch_style parameter
+	 * determines how the rows are returned.
+	 *
+	 * @param int $fetchStyle Controls how the next row will be returned to the
+	 * caller. This value must be one of the PDO::FETCH_* constants
+	 * @return mixed The return value of this function on success depends on the
+	 * fetch style. In all cases, FALSE is returned on failure.
+	 * @todo Finish fetch style implementation
+	 */
+	public function fetchAll($fetchStyle = null) {
+		
+		$fetchStyle = is_null($fetchStyle) ? $this->_fetchMode : $fetchStyle;
+
+		return $this->_stmt->fetchAll($fetchStyle);
 	}
 
 	/**

@@ -1,5 +1,18 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2011-06-25 Benedikt Heintel
+	- DISTS:
+		* Added Debian Wheezy support
+	- ENGINE:
+		* Fixed Alias Manager copied file not longer available
+		* Replaced hard coded Autoreply Values in master.cf
+	- GUI:
+		* Added Exception if phptmp is not writable
+		* Added Method fetchAll() to ispCP_Database_ResultSet
+		* Improved l18n handling
+		* Refactored inlcudes
+
 2011-06-22 Benedikt Heintel
     - DISTS:
         * Fixed #2587: error setup in FreeBSD

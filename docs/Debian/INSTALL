@@ -17,7 +17,7 @@ Table of Content
 1) Version Info
 ---------------
 ispCP ω Version: 	1.1.0
-INSTALL Script:		2.8
+INSTALL Script:		2.9
 Maintainer:			Benedikt Heintel
 Homepage:			http://www.isp-contol.net
 Linux Distros:		Debian Lenny, Squeeze
@@ -34,6 +34,7 @@ Debian (or even any other *NIX-Distribution)
 
 All Lenny required packages are listed in ./docs/Debian/debian-packages-lenny
 All Squeeze required packages are listed in ./docs/Debian/debian-packages-squeeze
+All Wheezy required packages are listed in ./docs/Debian/debian-packages-wheezy
 
 ================================================================================
 3) Introduction
@@ -74,6 +75,10 @@ Make sure you are logged in as root and MySQL is running.
    Squeeze:
   	deb     http://ftp.debian.org/debian/	squeeze	main contrib non-free
 	deb     http://security.debian.org/	squeeze/updates main contrib non-free
+
+   Wheezy:
+  	deb     http://ftp.debian.org/debian/	wheezy	main contrib non-free
+	deb     http://security.debian.org/	wheezy/updates main contrib non-free
 
    Install all required packages:
 
@@ -142,6 +147,10 @@ Make sure you are logged in as root and MySQL is running.
    Squeeze:
   	deb     http://ftp.debian.org/debian/	squeeze	main contrib non-free
 	deb     http://security.debian.org/	squeeze/updates main contrib non-free
+
+   Wheezy:
+  	deb     http://ftp.debian.org/debian/	wheezy	main contrib non-free
+	deb     http://security.debian.org/	wheezy/updates main contrib non-free
 
    Install all required packages:
 

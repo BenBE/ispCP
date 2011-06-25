@@ -225,7 +225,7 @@ sub setup_system_users {
 			$cmd = "$main::cfg{'CMD_USERADD'} $fuid -c vmail-user -s /bin/false";
 		} else {
 			$cmd = "$main::cfg{'CMD_USERADD'} -c vmail-user -g $gid -s " .
-			"/bin/false $fuid";
+			"/bin/false -r $fuid";
 		}
 
 		$rs = sys_command($cmd);
