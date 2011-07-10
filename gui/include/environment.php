@@ -66,6 +66,9 @@ $config->USER_INITIAL_LANG = 'lang_EnglishBritain';
 // variable for development edition: show all php variables beyond page content
 $config->DUMP_GUI_DEBUG = false;
 
+// Set whether output should be compressed
+$config->COMPRESS_OUTPUT = true;
+
 // show spGZIP compression information in HTML output
 $config->SHOW_COMPRESSION_SIZE = true;
 

@@ -510,21 +510,23 @@ class ispCP_Initializer {
 	 */
 	protected function _initializeOutputBuffering() {
 
-		// Create a new filter that will be applyed on the buffer output
-		$filter = ispCP_Registry::set(
-			'bufferFilter',
-			new ispCP_Filter_Compress_Gzip(
-				ispCP_Filter_Compress_Gzip::FILTER_BUFFER
-			)
-		);
+		if(isset($this->_config->COMPRESS_OUTPUT) && $this->_config->COMPRESS_OUTPUT) {
+			// Create a new filter that will be applyed on the buffer output
+			$filter = ispCP_Registry::set(
+				'bufferFilter',
+				new ispCP_Filter_Compress_Gzip(
+					ispCP_Filter_Compress_Gzip::FILTER_BUFFER
+				)
+			);
 
-		// Show compression information in HTML comment ?
-		if(!$this->_config->SHOW_COMPRESSION_SIZE) {
-			$filter->compressionInformation = false;
+			// Show compression information in HTML comment ?
+			if(!$this->_config->SHOW_COMPRESSION_SIZE) {
+				$filter->compressionInformation = false;
+			}
+
+			// Start the buffer and attach the filter to him
+			ob_start(array($filter, ispCP_Filter_Compress_Gzip::CALLBACK_NAME));
 		}
-
-		// Start the buffer and attach the filter to him
-		ob_start(array($filter, ispCP_Filter_Compress_Gzip::CALLBACK_NAME));
 	}
 
 	/**

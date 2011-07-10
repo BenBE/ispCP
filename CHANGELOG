@@ -1,6 +1,16 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-07-09 Benedikt Heintel
+	- DOCS:
+		* Updated INSTALL files
+	- GUI:
+		* Added Setting for HTML output compression
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.3.1
+		* Updated jQuery to version 1.6.2
+		* Updated jQueryUI to version 1.8.14
+
 2011-06-25 Benedikt Heintel
 	- DISTS:
 		* Added Debian Wheezy support

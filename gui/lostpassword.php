@@ -40,7 +40,7 @@ if (!$cfg->LOSTPASSWORD) {
 
 // check if GD library is available
 if (!check_gd()) {
-	throw new ispCP_Exception(tr("PHP Extension 'gd' not loaded!"));
+	throw new ispCP_Exception(tr("GD PHP Extension not loaded!"));
 }
 
 // check if captch fonts exist

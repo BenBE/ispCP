@@ -28,7 +28,7 @@
  */
 
 /**
- * IspCP Jquery Tooltips plugin
+ * ispCP jQuery Tooltips plugin
  *
  * This plugin provides a function to create nicetitles/tooltips
  * for one or more html elements.
