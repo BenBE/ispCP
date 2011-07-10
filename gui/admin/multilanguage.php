@@ -125,7 +125,7 @@ function showLang($tpl) {
 		$pos = strpos($data, 'lang_');
 
 		if ($pos === false) {
-			// not found... ... next :)
+			// not found... next :)
 			continue;
 		}
 
@@ -182,7 +182,6 @@ function showLang($tpl) {
 					'LANGUAGE_REVISION' => $language_revision
 				)
 			);
-
 		} else {
 			$tpl->append(
 				array(
@@ -231,7 +230,7 @@ function importLanguageFile() {
 
 	if (empty($_FILES['lang_file']['name']) || !is_readable($file)) {
 		set_page_message(
-			tr('Upload file error!'),
+			tr('Upload file not readable!'),
 			'error'
 		);
 		return;
@@ -241,7 +240,7 @@ function importLanguageFile() {
 		&& $file_type != 'text/x-gettext-translation') {
 
 		set_page_message(
-			tr('You can upload only text files!'),
+			tr('You can only upload text files!'),
 			'error'
 		);
 		return;
@@ -313,13 +312,15 @@ function importLanguageFile() {
 
 		foreach ($ab as $msgid => $msgstr) {
 			$query = "
-				INSERT INTO `$lang_table` (
+				INSERT INTO `?` (
 					`msgid`, `msgstr`
 				) VALUES (?, ?);
 			";
 
+			$msgid  = str_replace("\\n", "\n", $msgid);
+			$msgstr = str_replace("\\n", "\n", $msgstr);
 			exec_query(
-				$sql, $query, str_replace("\\n", "\n", array($msgid, $msgstr))
+				$sql, $query, array($lang_table, $msgid, $msgstr)
 			);
 		}
 
@@ -463,7 +464,7 @@ function _importGettextFile($file, $filename) {
             }
         }
 
-		# Retrieving language translation team
+		// Retrieving language translation team
         if (isset($ameta['Language-Team'])) {
             $s = $ameta['Language-Team'];
             $n = strpos($s, '<');
@@ -530,11 +531,6 @@ function _decodePoFileString($s) {
         array('\\n', '\\r', '\\t', '\"'), array("\n", "\r", "\t", '"'),
 	    preg_replace('/"\s+"/', '', $s)
     );
-
-    if ($n !== false) {
-        //var_dump($s);
-        //var_dump($result);
-    }
 
     return $result;
 }

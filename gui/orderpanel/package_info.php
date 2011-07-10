@@ -62,7 +62,7 @@ function translate_sse($value) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $user_id
  * @param int $plan_id

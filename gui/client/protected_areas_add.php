@@ -208,7 +208,7 @@ function protect_area($tpl, $sql, $dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */

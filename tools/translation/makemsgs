@@ -54,9 +54,17 @@ if [ ! -f ${GUI}/index.php ]; then
 	exit 1
 fi
 
-/usr/bin/xgettext --language=PHP --output-dir=${GUI}../language-files/po \
-	--copyright-holder=ispCP\ Team --keyword=tr --no-wrap --default-domain=ispCP \
-	--output=ispCP.pot --no-location --from-code=utf-8 \
+/usr/bin/xgettext \
+	--language=PHP \
+	--default-domain="ISPCP" \
+	--copyright-holder="ISPCP Team" \
+	--package-name="ISPCP OMEGA" \
+	--keyword="tr" \
+	--no-wrap \
+	--no-location \
+	--output-dir=${GUI}../language-files/po \
+	--output=ispCP.pot \
+	--from-code=utf-8 \
 	${GUI}/include/i18n.php ${GUI}*.php ${GUI}*/*.php
 
 sed --in-place '/#. Please ignore this entry/d' ${GUI}../language-files/po/ispCP.pot

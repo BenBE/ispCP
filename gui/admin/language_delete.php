@@ -29,7 +29,6 @@
  */
 
 require '../include/ispcp-lib.php';
-
 check_login(__FILE__);
 
 /**
@@ -42,21 +41,20 @@ if (!isset($_GET['delete_lang'])) {
 	user_goto('multilanguage.php');
 }
 
-$delete_lang = $_GET['delete_lang'];
+$delete_lang = clean_input($_GET['delete_lang']);
 
-// ERROR - we have domains that use this IP
 if ($delete_lang == $cfg->USER_INITIAL_LANG) {
 	set_page_message(
-		tr("It is not possible to delete system default's language!"),
+		tr("It is not possible to delete system's default language!"),
 		'error'
 	);
 	user_goto('multilanguage.php');
 }
 
-// check if someone still uses that lang
+// check if someone still uses this language
 $query = "
 	SELECT
-		*
+		count(`lang`) AS `count`
 	FROM
 		`user_gui_props`
 	WHERE
@@ -65,20 +63,15 @@ $query = "
 
 $rs = exec_query($sql, $query, $delete_lang);
 
-// ERROR - we have domains that use this IP
-if ($rs->recordCount () > 0) {
-	set_page_message(tr('There are users who use this language!'), 'error');
-
+if ($rs->fields['count'] > 0) {
+	set_page_message(tr('It is not possible to delete a language in use!'), 'error');
 	user_goto('multilanguage.php');
 }
 
-$query = "DROP TABLE `$delete_lang`";
-
-$rs = exec_query($sql, $query);
+$query = "DROP TABLE `?`";
+exec_query($sql, $query, array($delete_lang));
 
 write_log(sprintf("%s removed language: %s", $_SESSION['user_logged'], $delete_lang));
-
 set_page_message(tr('Language was removed!'), 'success');
-
 user_goto('multilanguage.php');
 ?>

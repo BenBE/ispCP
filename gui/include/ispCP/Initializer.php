@@ -38,7 +38,7 @@
  * @package     ispCP_Initializer
  * @author      Laurent declercq <laurent.declercq@ispcp.net>
  * @since       1.0.7
- * @version     1.1.2
+ * @version     1.1.3
  */
 class ispCP_Initializer {
 
@@ -157,9 +157,6 @@ class ispCP_Initializer {
 		// Include path
 		$this->_setIncludePath();
 
-		// Create or restore the session
-		$this->_initializeSession();
-
 		// Establish the connection to the database
 		$this->_initializeDatabase();
 
@@ -175,6 +172,9 @@ class ispCP_Initializer {
 
 		// Initialize output buffering
 		$this->_initializeOutputBuffering();
+
+		// Create or restore the session
+		$this->_initializeSession();
 
 		// Initialize internationalization libraries
 		// $this->_initializeI18n();
@@ -354,6 +354,10 @@ class ispCP_Initializer {
 	 */
 	protected function _initializeSession() {
 
+        if (!is_writable($this->_config->GUI_ROOT_DIR . '/phptmp')) {
+            throw new ispCP_Exception('The directory '. $this->_config->GUI_ROOT_DIR . '/phptmp must be writable.');
+        }
+
 		session_name('ispCP');
 
 		if (!isset($_SESSION)) {
@@ -506,21 +510,23 @@ class ispCP_Initializer {
 	 */
 	protected function _initializeOutputBuffering() {
 
-		// Create a new filter that will be applyed on the buffer output
-		$filter = ispCP_Registry::set(
-			'bufferFilter',
-			new ispCP_Filter_Compress_Gzip(
-				ispCP_Filter_Compress_Gzip::FILTER_BUFFER
-			)
-		);
+		if(isset($this->_config->COMPRESS_OUTPUT) && $this->_config->COMPRESS_OUTPUT) {
+			// Create a new filter that will be applyed on the buffer output
+			$filter = ispCP_Registry::set(
+				'bufferFilter',
+				new ispCP_Filter_Compress_Gzip(
+					ispCP_Filter_Compress_Gzip::FILTER_BUFFER
+				)
+			);
 
-		// Show compression information in HTML comment ?
-		if(!$this->_config->SHOW_COMPRESSION_SIZE) {
-			$filter->compressionInformation = false;
+			// Show compression information in HTML comment ?
+			if(!$this->_config->SHOW_COMPRESSION_SIZE) {
+				$filter->compressionInformation = false;
+			}
+
+			// Start the buffer and attach the filter to him
+			ob_start(array($filter, ispCP_Filter_Compress_Gzip::CALLBACK_NAME));
 		}
-
-		// Start the buffer and attach the filter to him
-		ob_start(array($filter, ispCP_Filter_Compress_Gzip::CALLBACK_NAME));
 	}
 
 	/**
@@ -557,7 +563,7 @@ class ispCP_Initializer {
 	 * This method loads all the active plugins. Only plugins for the current
 	 * execution context are loaded.
 	 *
-	 * <b>Note:</b> Not used at this moment (testing in progress...)
+	 * <b>Note:</b> Not used at this moment
 	 *
 	 * @return void
 	 */

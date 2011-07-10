@@ -40,12 +40,12 @@ if (!$cfg->LOSTPASSWORD) {
 
 // check if GD library is available
 if (!check_gd()) {
-	throw new ispCP_Exception(tr("ERROR: php-extension 'gd' not loaded!"));
+	throw new ispCP_Exception(tr("GD PHP Extension not loaded!"));
 }
 
 // check if captch fonts exist
 if (!captcha_fontfile_exists()) {
-	throw new ispCP_Exception(tr("ERROR: captcha fontfile not found!"));
+	throw new ispCP_Exception(tr("Captcha fontfile not found!"));
 }
 
 // remove old unique keys

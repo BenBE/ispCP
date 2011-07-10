@@ -71,7 +71,7 @@ function get_htuser_name($sql, &$uuser_id, &$dmn_id) {
 }
 
 /**
- * @param ispCP_pTemplate $tpl
+ * @param ispCP_TemplateEngine $tpl
  * @param ispCP_Database $sql
  * @param int $dmn_id
  */

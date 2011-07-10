@@ -105,7 +105,7 @@ unset_messages();
 /**
  * Must be documented
  *
- * @param ispCP_TemplateEngine $tpl pTemplate instance
+ * @param ispCP_TemplateEngine $tpl template instance
  * @param int $mail_id
  * @param string $mail_type
  * @param string $mail_status
@@ -164,7 +164,7 @@ function gen_user_mail_auto_respond(
 /**
  * Must be documented
  *
- * @param ispCP_TemplateEngine $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to template object
  * @param ispCP_Database $sql reference to ispcp_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -375,7 +375,7 @@ function gen_page_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_TemplateEngine $tpl reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to the template object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id
  * @param string $dmn_name domain name
@@ -485,7 +485,7 @@ function gen_page_als_sub_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_TemplateEngine $tpl reference to pTemplate object
+ * @param ispCP_TemplateEngine $tpl reference to template object
  * @param ispCP_Database $sql reference to the ispCP_Database object
  * @param int $dmn_id domain name id;
  * @param string $dmn_name domain name
@@ -592,7 +592,7 @@ function gen_page_als_mail_list($tpl, $sql, $dmn_id, $dmn_name) {
 /**
  * Must be documented
  *
- * @param ispCP_TemplateEngine $tpl Reference to the pTemplate object
+ * @param ispCP_TemplateEngine $tpl Reference to the template object
  * @param ispCP_Database $sql Reference to the ispCP_Database object
  * @param int $user_id Customer id
  * @return void

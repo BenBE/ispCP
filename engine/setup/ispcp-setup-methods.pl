@@ -309,8 +309,7 @@ sub ask_db_ftp_password {
 	$pass1 = read_password(printQuery());
 
 	if (!defined $pass1  || $pass1 eq '') {
-		$dbPassword = gen_sys_rand_num(18);
-		$dbPassword =~ s/('|"|`|#|;)//g;
+		$dbPassword = generateRandomChars(18, '\'"`#; ');
 		$main::ua{'db_ftp_password'} = $dbPassword;
 		printNotice($dbPassword);
 	} else {
@@ -555,8 +554,7 @@ sub ask_db_pma_password {
 	my $pass1 = read_password(printQuery());
 
 	if (!defined $pass1 || $pass1 eq '') {
-		my $dbPassword = gen_sys_rand_num(18);
-		$dbPassword =~ s/('|"|`|#|;)//g;
+		my $dbPassword = generateRandomChars(18, '\'"`#; ');
 		$main::ua{'db_pma_password'} = $dbPassword;
 		printNotice($dbPassword);
 	} else {
@@ -2191,8 +2189,26 @@ sub setup_mta {
 
 	# master.cf
 
+	# Loading the template from /etc/ispcp/postfix/
+	($rs, $cfgTpl) = get_file("$cfgDir/master.cf");
+	return $rs if ($rs != 0);
+
+	# Building the file
+	($rs, $$cfg) = prep_tpl(
+		{
+			'{ARPL_USER}'	=> $main::cfg{'MTA_MAILBOX_UID_NAME'},
+			'{ARPL_GROUP}'	=> $main::cfg{'MTA_MAILBOX_GID_NAME'},
+			'{ARPL_PATH}'	=> $main::cfg{'ROOT_DIR'}."/engine/messenger/ispcp-arpl-msgr",
+		},
+		$cfgTpl
+	);
+	return $rs if ($rs != 0);
+
 	# Storing the new file in the working directory
-	$rs = sys_command("$main::cfg{'CMD_CP'} -pf $cfgDir/master.cf $wrkDir/");
+	$rs = store_file(
+		"$wrkDir/master.cf", $$cfg, $main::cfg{'ROOT_USER'},
+		$main::cfg{'ROOT_GROUP'}, 0644
+	);
 	return $rs if ($rs != 0);
 
 	# Installing the new file in the production dir
@@ -2954,7 +2970,7 @@ sub setup_gui_pma {
 
 	# Getting blowfish secret
 	if(!defined $blowfishSecret) {
-		$blowfishSecret = gen_sys_rand_num(31);
+		$blowfishSecret = generateRandomChars(31, '');
 		$blowfishSecret =~ s/'/\\'/gi;
 	}
 

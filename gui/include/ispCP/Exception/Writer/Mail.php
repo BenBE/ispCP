@@ -43,7 +43,7 @@ require_once  INCLUDEPATH . '/ispCP/Exception/Writer.php';
  * @subpackage  Writer
  * @author      Laurent Declercq <laurent.declercq@ispcp.net>
  * @since       1.0.7
- * @version     1.0.4
+ * @version     1.0.5
  */
 class ispCP_Exception_Writer_Mail extends ispCP_Exception_Writer {
 
@@ -113,14 +113,7 @@ class ispCP_Exception_Writer_Mail extends ispCP_Exception_Writer {
 	 */
 	public function __construct($to) {
 
-		// filter_var() is only available in PHP >= 5.2
-		if(function_exists('filter_var')) {
-			$ret = filter_var($to, FILTER_VALIDATE_EMAIL);
-		} else {
-			$ret = (bool) preg_match('/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_-]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/', $to);
-		}
-
-		if($ret === false) {
+		if (filter_var($to, FILTER_VALIDATE_EMAIL) === false) {
 			throw new ispCP_Exception(
 				'ispCP_Exception_Writer_Mail error: Invalid email address!'
 			);

@@ -58,6 +58,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	$hosting_plan_level = $_POST['hosting_plan_level'];
 	$domain_rows_per_page = clean_input($_POST['domain_rows_per_page']);
 	$checkforupdate = $_POST['checkforupdate'];
+	$compress_output = $_POST['compress_output'];
 	$show_compression_size = $_POST['show_compression_size'];
 	$prev_ext_login_admin = $_POST['prevent_external_login_admin'];
 	$prev_ext_login_reseller = $_POST['prevent_external_login_reseller'];
@@ -109,6 +110,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		$db_cfg->DOMAIN_ROWS_PER_PAGE = $domain_rows_per_page;
 		$db_cfg->LOG_LEVEL = $log_level;
 		$db_cfg->CHECK_FOR_UPDATES = $checkforupdate;
+		$db_cfg->COMPRESS_OUTPUT = $compress_output;
 		$db_cfg->SHOW_COMPRESSION_SIZE = $show_compression_size;
 		$db_cfg->PREVENT_EXTERNAL_LOGIN_ADMIN = $prev_ext_login_admin;
 		$db_cfg->PREVENT_EXTERNAL_LOGIN_RESELLER = $prev_ext_login_reseller;
@@ -150,6 +152,8 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 			);
 		}
 	}
+
+	user_goto('settings.php');
 }
 
 $coid = isset($cfg->CUSTOM_ORDERPANEL_ID)
@@ -272,6 +276,14 @@ if ($cfg->CHECK_FOR_UPDATES) {
 	$tpl->assign('CHECK_FOR_UPDATES_SELECTED_OFF', $html_selected);
 }
 
+if ($cfg->COMPRESS_OUTPUT) {
+	$tpl->assign('COMPRESS_OUTPUT_ON', $html_selected);
+	$tpl->assign('COMPRESS_OUTPUT_OFF', '');
+} else {
+	$tpl->assign('COMPRESS_OUTPUT_ON', '');
+	$tpl->assign('COMPRESS_OUTPUT_OFF', $html_selected);
+}
+
 if ($cfg->SHOW_COMPRESSION_SIZE) {
 	$tpl->assign('SHOW_COMPRESSION_SIZE_SELECTED_ON', $html_selected);
 	$tpl->assign('SHOW_COMPRESSION_SIZE_SELECTED_OFF', '');
@@ -374,6 +386,7 @@ $tpl->assign(
 		'TR_E_USER_WARNING' => tr('Warnings and Errors'),
 		'TR_E_USER_ERROR' => tr('Errors'),
 		'TR_CHECK_FOR_UPDATES' => tr('Check for update'),
+		'TR_COMPRESS_OUTPUT' => tr('Compress output'), 
 		'TR_SHOW_COMPRESSION_SIZE' => tr('Show compression size comment'),
 		'TR_PREVENT_EXTERNAL_LOGIN_ADMIN' =>
 			tr('Prevent external login for admins'),

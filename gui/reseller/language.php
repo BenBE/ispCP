@@ -46,7 +46,7 @@ $template = 'language.tpl';
 if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
 	$user_id = $_SESSION['user_id'];
 
-	$user_lang = $_POST['def_language'];
+	$user_lang = clean_input($_POST['def_language']);
 
 	$query = "
 		UPDATE
@@ -59,8 +59,10 @@ if (isset($_POST['uaction']) && $_POST['uaction'] === 'save_lang') {
 
 	exec_query($sql, $query, array($user_lang, $user_id));
 
-	unset($_SESSION['user_def_lang']);
-	$_SESSION['user_def_lang'] = $user_lang;
+	if(!isset($_SESSION['logged_from_id'])) {
+		unset($_SESSION['user_def_lang']);
+		$_SESSION['user_def_lang'] = $user_lang;
+	}
 	set_page_message(tr('User language updated successfully!'), 'success');
 }
 

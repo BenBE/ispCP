@@ -99,7 +99,7 @@ if($ispcp_db_pass_key != '{KEY}' && $ispcp_db_pass_iv != '{IV}') {
 /**
  * Include ispCP common functions
  */
-require_once 'net_idna/idna_convert.class.php';
+require_once 'Net/IDNA2.php';
 require_once INCLUDEPATH . '/ispcp-functions.php';
 
 /**

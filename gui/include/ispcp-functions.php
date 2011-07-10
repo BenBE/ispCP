@@ -388,7 +388,7 @@ function array_encode_idna($arr, $asPath = false) {
 }
 
 /**
- * Should be documented
+ * Decodes a String from IDNA format to UTF8
  *
  * @param  $input
  * @return string
@@ -397,16 +397,17 @@ function decode_idna($input) {
 
 	if (function_exists('idn_to_unicode')) {
 		return idn_to_utf8($input, IDNA_USE_STD3_RULES);
+	} else {
+
+		$IDNA = new Net_IDNA2();
+		$output = $IDNA->decode($input);
+
+		return ($output == false) ? $input : $output;
 	}
-
-	$IDN = new idna_convert();
-	$output = $IDN->decode($input);
-
-	return ($output == false) ? $input : $output;
 }
 
 /**
- * Should be documented
+ * Encodes a String from IDNA format ASCII
  *
  * @param  $input
  * @return string
@@ -415,22 +416,22 @@ function encode_idna($input) {
 
 	if (function_exists('idn_to_ascii')) {
 		return idn_to_ascii($input);
+	} else {
+
+		$IDNA = new Net_IDNA2();
+		$output = $IDNA->encode($input);
+
+		return $output;
 	}
-
-	$IDN = new idna_convert();
-	$output = $IDN->encode($input);
-
-	return $output;
 }
 
 /**
- * Should be documented
+ * Check wether a given String is a number or not.
  *
  * @param $integer Number to be checked
  * @return boolean TRUE if number, FALSE otherwise
  */
 function is_number($number) {
-
 	return (bool) preg_match('/^[0-9]+$/D', $number);
 }
 

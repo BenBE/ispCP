@@ -1,4 +1,4 @@
-ispCP ω (OMEGA) HowTo Install for Fedora Core 9
+ispCP ω (OMEGA) HowTo Install for Arch Linux
 ================================================================================
 For other Linux distributions please check the other INSTALL files.
 ================================================================================
@@ -16,11 +16,11 @@ Table of Content
 ================================================================================
 1) Version Info
 ---------------
-ispCP ω Version: 1.1.0
-INSTALL Script:		1.6
+ispCP ω Version: 	1.1.0
+INSTALL Script:		1.0
 Maintainer:
-Homepage:			http://ispcp.net
-Linux Distros:		Fedora Core 9
+Homepage:			http://www.ispcp.net
+Linux Distros:		Arch Linux
 
 ================================================================================
 2) Requirements
@@ -31,8 +31,6 @@ Pentium III or K6-4 with 500 MHz
 512 MB RAM
 100 MB disk space (only for install of ispCP ω)
 Debian (or even any other *NIX-Distribution)
-
-All required packages are listed in ./docs/fedora-packages
 
 ================================================================================
 3) Introduction
@@ -59,88 +57,50 @@ Make sure you are logged in as root and MySQL is running.
 2. Change to the newly created directory:
 	# cd ./ispcp-omega-1.1.0
 
-3. Install the required modules from 'fedora-packages'
-	# wget http://download.fedora.redhat.com/pub/epel/5/ARCH/epel-release-5-3.noarch.rpm
-	# rpm -Uvh epel-release-5-3.noarch.rpm
-	# yum install `cat ./docs/Fedora/fedora-packages`
+3. Install the required packages
 
-	# cpan2rpm -i http://search.cpan.org/CPAN/authors/id/P/PH/PHOENIX/Term-ReadPassword-0.07.tar.gz
-	# wget -P /tmp/core http://hany.sk/mirror/fedora/releases/7/Everything/i386/os/Fedora/perl-Net-LibIDN-0.09-3.fc7.i386.rpm
-	# rpm -i /tmp/core/perl-Net-LibIDN-0.09-3.fc7.i386.rpm
+   First update your system:
+	# aptitude update && aptitude safe-upgrade
+
+   Make sure you have added the non-free into your /etc/apt/sources.list:
+
+   Install all required packages:
+
+	# aptitude install lsb-release
+	# aptitude install $(cat ./docs/ArchLinux/debian-packages-`lsb_release -cs`)
+
+	(if you get to the courier screen select 'no' to web directories)
+	(if you get to the postfix screen select 'internet site'. 'mail name' should
+	be the server's domain. If you've set debian up correctly on install your
+	domain should be already shown.)
+	(if you get to the proftpd screen, select 'standalone')
 
 4. (optional) Check the ispcp.conf and adapt it to your requirements.
 
-5. Install Courier
-	# cp -f ./courier*.rpm /usr/local/
-	# cd /usr/local/
+5. Build the Software by using make:
+	# make install
 
-	# wget http://www.thatfleminggent.com/packages/fedora/7/i386/courier-authlib-0.59.3-1.fc7.mf.i386.rpm
-	# wget http://www.thatfleminggent.com/packages/fedora/7/i386/courier-authlib-userdb-0.59.3-1.fc7.mf.i386.rpm
-	# wget http://www.thatfleminggent.com/packages/fedora/7/i386/courier-imap-4.1.3-1.fc7.mf.i386.rpm
+6. Copy all the directories into your system. If you have not yet, now is a good
+   time to make backups of your server. The following steps do fundamental
+   changes to your system configuration.
+	# cp -R /tmp/ispcp/* /
 
-	# rpm -i courier-authlib-0.59.3-1.fc7.mf.i386.rpm
-	# rpm -i courier-authlib-userdb-0.59.3-1.fc7.mf.i386.rpm
-	# rpm -i courier-imap-4.1.3-1.fc7.mf.i386.rpm
+7. Change or create MySQL root password, remove anonymous users, disallow root
+	login remotely, remove test database (and access to it), reload privilege tables.
+	# mysql_secure_installation
 
-	Create group and user with 3000 UID so ispCP doesn't cause conflicts with user
-	# groupadd courier -g 3000
-	# useradd -u 3000 -c 'Courier Mail Server' -d /dev/null -g courier -s /bin/false courier
-
-6. Build the System by using make:
-	# make -f Makefile.fedora install
-
-6. Copy all the directories into your system (you may make backups)
-	# cp -RLf /tmp/ispcp/* /
-	# cp -Rv /tmp/ispcp/etc/init.d /etc/rc.d/
-	# ln -s /etc/rc.d/init.d /etc/init.d
-
-	# mkdir /var/mail/virtual
-
-7. Bind setup
-	# mv /var/named/data /var/named/data2
-	# ln -s /var/named/chroot/var/named/data /var/named/data
-
-	# mkdir /var/www/scoreboards
-
-	* create sasl2 database:
-	# touch /etc/sasldb2
-
-8. Additional apache setup
-	# echo 'include vhosts/*.conf' >> /etc/httpd/conf/httpd.conf
-
-	# mkdir -p /var/spool/postfix/etc
-	# cp /etc/sasldb2 /var/spool/postfix/etc/sasldb2
-
-	# chown apache:apache /var/www/ispcp/gui/tools/webmail/data
-
-9. Now it's time to set up the frontend. Change into the engine directory:
+8. Now it's time to set up the frontend. Change into the engine directory and
+	start the engine setup:
 	# cd /var/www/ispcp/engine/setup
-
-9a. Set the MySQL password, if not set:
-	# mysqladmin -u root password YOUR_PASSWORD
-
-10. Start the engine setup:
 	# perl ispcp-setup
-	(Be careful: the file /etc/named.conf must exist before you run the script.
-	Otherwise setup will failed on trying to backup it!
-	You can use the caching-nameserver package or the system-config-bind tool
-	for create it or you can use touch!)
 
-11. Install ispCP ω step-by-step
+9. Install ispCP ω step-by-step
 
 	If you get no error, all went good; if you get one, look at
 	http://ispcp.net to solve the problem.
 
-12. Modify some system values:
-	# chmod 777 /var/www/ispcp/gui/phptmp
-
-	* Install Daemon:
-	# chmod +x /etc/init.d/ispcp
-	# chkconfig --add ispcp
-	# service ispcp start
-
-13. Clean the temporary folders:
-	# rm -R /tmp/ispcp
+10. Clean the temporary folders:
+	# rm -fR /tmp/ispcp/
 
 ================================================================================
 5) Update
@@ -157,21 +117,32 @@ Make sure you are logged in as root and MySQL is running.
 2. Change to the newly created directory:
 	# cd ./ispcp-omega-1.1.0
 
-3. Install the required modules from 'fedora-packages'
-	# yum install `cat ./docs/Fedora/fedora-packages`
+3. Install the required packages
 
-	# cpan2rpm -i http://search.cpan.org/CPAN/authors/id/P/PH/PHOENIX/Term-ReadPassword-0.07.tar.gz
-	# wget -P /tmp/core http://hany.sk/mirror/fedora/releases/7/Everything/i386/os/Fedora/perl-Net-LibIDN-0.09-3.fc7.i386.rpm
-	# rpm -i /tmp/core/perl-Net-LibIDN-0.09-3.fc7.i386.rpm
+   First update your system:
+	# aptitude update && aptitude safe-upgrade
 
-4. (optional) Check the ispcp.conf and adapt it to your requirements.
+   Make sure you have added the non-free into your /etc/apt/sources.list:
 
-5. Stop the ispcp_deamon and build the System by using make:
+   Install all required packages:
+
+	# aptitude install lsb-release
+	# aptitude install $(cat ./docs/ArchLinux/debian-packages-`lsb_release -cs`)
+
+	(if you get to the courier screen select 'no' to web directories)
+	(if you get to the postfix screen select 'internet site' and then type 'root'
+	for mail. If you've set debian up correctly on install your domain should be
+	already on screen. Select 'no' to force sync updates.)
+	(if you get to the proftpd screen, select 'standalone')
+	(if you get to the rootkithunter screen, select two time 'yes')
+
+4. Stop the ispcp_deamon and build the Software by using make:
 	# /etc/init.d/ispcp_daemon stop
-	# make -f Makefile.fedora install
+	# make install
 
-6. Backup files
+5. Backup files
 	# cp -v /var/www/ispcp/gui/themes/user_logos/* /tmp/ispcp/var/www/ispcp/gui/themes/user_logos/
+	# cp -TRv /var/www/ispcp/gui/domain_default_page /tmp/ispcp/var/www/ispcp/gui/domain_default_page
 	# cp -v /var/www/ispcp/gui/tools/webmail/data/* /tmp/ispcp/var/www/ispcp/gui/tools/webmail/data/
 
 	For ispCP Omega prior version 1.0.8
@@ -182,32 +153,33 @@ Make sure you are logged in as root and MySQL is running.
 	For ispCP Omega prior version 1.0.7 RC2
 	# cp -v /var/www/ispcp/gui/tools/pma/config.inc.php /tmp/ispcp/etc/ispcp/pma/working/
 
-7. Delete old files to avoid security risks:
+6. Delete old files to avoid security risks:
 	# rm -Rf /var/www/ispcp/engine/
 	# rm -Rf /var/www/ispcp/gui/{admin,client,include,orderpanel,themes,reseller}/
 	# rm -Rf /var/www/ispcp/gui/tools/{pma/,filemanager/,webmail/,index.php}
 	# rm -Rf /var/www/ispcp/gui/{*.php,favicon.ico,robots.txt}
 
-8. Copy /usr and /var directories into your system (you may make backups)
-	# cp -Rv /tmp/ispcp/usr/* /usr/
-	# cp -Rv /tmp/ispcp/var/* /var/
+7. Copy /usr and /var directories into your system (you may make backups)
+	# cp -R /tmp/ispcp/usr/* /usr/
+	# cp -R /tmp/ispcp/var/* /var/
 
-9. Backup ispcp.conf and copy the /etc directory into your system (you may make backups):
-	# mv -v /etc/ispcp/ispcp.conf /etc/ispcp/ispcp.old.conf
-	# cp -Rv /tmp/ispcp/etc/* /etc/
+8. Backup ispcp.conf and copy the /etc directory into your system (you may make
+   backups):
+	# mv /etc/ispcp/ispcp.conf /etc/ispcp/ispcp.old.conf
+	# cp -R /tmp/ispcp/etc/* /etc/
 
-10. Now it's time to update your installation. Change into the engine directory:
+9. Now it's time to update your installation. Change into the engine directory:
 	# cd /var/www/ispcp/engine/setup
 
-11. Start the engine update:
+10. Start the engine update:
 	# perl ispcp-update
 
-12. Update ispCP ω step-by-step
+11. Update ispCP ω step-by-step
 
 	If you get no error, all went good; if you get one, look at
 	http://ispcp.net to solve the problem.
 
-13. Clean the temporary folders:
+12. Clean the temporary folders:
 	# rm -fR /tmp/ispcp/
 
 ================================================================================
@@ -228,8 +200,8 @@ Make sure you are logged in as root and MySQL is running.
 ----------
 
 ispCP ω is a project of ISPCP.
-ispCP, ispCP ω, ISP Control Panel, the ispCP logo and the ω Logo are trademarks
-of the ISPCP Project Team.
+ispCP, ispCP ω, isp Control Panel, the ispCP logo and the ω Logo are trademarks
+of the ispCP | isp Control Panel Project Team.
 
 Please visit our site under http://ispcp.net for further information on
 ispCP ω, ispCP and other themes.
