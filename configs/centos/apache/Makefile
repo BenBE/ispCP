@@ -50,7 +50,7 @@ install:
 	cp -R ./working $(SYSTEM_CONF)/apache
 
 	cp ./httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
-	cp ./fastcgi.conf $(SYSTEM_CONF)/apache/fastcgi_ispcp.conf
+	cp ./fastcgi_ispcp.conf $(SYSTEM_CONF)/apache/fastcgi_ispcp.conf
 	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/fcgid_ispcp.conf
 
 uninstall:

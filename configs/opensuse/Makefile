@@ -35,7 +35,6 @@ install:
 
 	if test $(HOST_OS) = opensuse ; then \
 		cp ./ispcp.conf $(SYSTEM_CONF) ; \
-		cd ./amavisd && $(MAKE) install ; cd .. ; \
 		cd ./apache && $(MAKE) install ; cd .. ; \
 		cd ./awstats && $(MAKE) install ; cd .. ; \
 		cd ./bind && $(MAKE) install ; cd .. ; \
@@ -52,7 +51,6 @@ uninstall:
 
 	if test $(HOST_OS) = opensuse ; then \
 		rm -rf $(SYSTEM_CONF)/ispcp.conf ;  \
-		cd ./amavisd && $(MAKE) uninstall ; cd.. ; \
 		cd ./apache && $(MAKE) uninstall ; cd .. ; \
 		cd ./awstats && $(MAKE) uninstall ; cd .. ; \
 		cd ./bind && $(MAKE) uninstall ; cd .. ; \
