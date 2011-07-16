@@ -29,13 +29,16 @@
 #    http://isp-control.net
 #
 
+REMOTE_FOLDER=../../common/logrotate
+LOCAL_FOLDER=.
+
 export
 
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/logrotate.d
 
-	cp ./ispcp $(ROOT_CONF)/logrotate.d
+	cp $(REMOTE_FOLDER)/ispcp $(ROOT_CONF)/logrotate.d
 
 uninstall:
 

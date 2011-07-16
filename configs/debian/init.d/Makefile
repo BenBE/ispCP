@@ -29,6 +29,9 @@
 #    http://isp-control.net
 #
 
+REMOTE_FOLDER=../../common/apache
+LOCAL_FOLDER=.
+
 export
 
 install:
@@ -36,8 +39,8 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/init.d
 	$(SYSTEM_MAKE_DIRS) $(ROOT_CONF)/default
 
-	cp ispcp_daemon $(ROOT_CONF)/init.d
-	cp ispcp_network $(ROOT_CONF)/init.d
+	cp $(LOCAL_FOLDER)/ispcp_daemon $(ROOT_CONF)/init.d
+	cp $(LOCAL_FOLDER)ispcp_network $(ROOT_CONF)/init.d
 
 	chown root:root $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon
 	chmod 0755 $(ROOT_CONF)/init.d/ispcp_network $(ROOT_CONF)/init.d/ispcp_daemon

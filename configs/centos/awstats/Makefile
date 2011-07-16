@@ -29,19 +29,16 @@
 #    http://isp-control.net
 #
 
-REMOTE_FOLDER=../../common/fcgi
+REMOTE_FOLDER=../../common/awstats
 LOCAL_FOLDER=.
 
 export
 
 install:
 
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/fcgi
-
-	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/fcgi
-	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/fcgi
-	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/fcgi
+	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/awstats
+	cp $(REMOTE_FOLDER)/awstats.ispcp_tpl.conf $(SYSTEM_CONF)/awstats
 
 uninstall:
 
-	rm -rf $(SYSTEM_CONF)/fcgi
+	rm -rf $(SYSTEM_CONF)/awstats

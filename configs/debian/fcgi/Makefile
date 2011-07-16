@@ -29,15 +29,18 @@
 #    http://isp-control.net
 #
 
+REMOTE_FOLDER=../../common/init.d
+LOCAL_FOLDER=.
+
 export
 
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/fcgi
 
-	cp -R ./backup $(SYSTEM_CONF)/fcgi
-	cp -R ./parts $(SYSTEM_CONF)/fcgi
-	cp -R ./working $(SYSTEM_CONF)/fcgi
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/fcgi
+	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/fcgi
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/fcgi
 
 uninstall:
 

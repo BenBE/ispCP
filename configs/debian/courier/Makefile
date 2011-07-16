@@ -30,6 +30,8 @@
 #
 
 ROOT_COURIER_CONF=$(ROOT_CONF)/courier
+REMOTE_FOLDER=../../common/courier
+LOCAL_FOLDER=.
 
 export
 
@@ -38,10 +40,10 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/courier
 	$(SYSTEM_MAKE_DIRS) $(ROOT_COURIER_CONF)
 
-	cp ./userdb $(SYSTEM_CONF)/courier
+	cp $(REMOTE_FOLDER)/userdb $(SYSTEM_CONF)/courier
 
-	cp -R ./backup $(SYSTEM_CONF)/courier
-	cp -R ./working $(SYSTEM_CONF)/courier
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/courier
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/courier
 
 uninstall:
 

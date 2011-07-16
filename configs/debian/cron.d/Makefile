@@ -29,17 +29,20 @@
 #    http://isp-control.net
 #
 
+REMOTE_FOLDER=../../common/cron.de
+LOCAL_FOLDER=.
+
 export
 
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/cron.d
 
-	cp ./ispcp $(SYSTEM_CONF)/cron.d
+	cp $(REMOTE_FOLDER)/ispcp $(SYSTEM_CONF)/cron.d
 
-	cp -R ./backup $(SYSTEM_CONF)/cron.d
-	cp -R ./parts $(SYSTEM_CONF)/cron.d
-	cp -R ./working $(SYSTEM_CONF)/cron.d
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/cron.d
+	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/cron.d
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/cron.d
 
 uninstall:
 

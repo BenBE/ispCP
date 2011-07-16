@@ -29,13 +29,16 @@
 #    http://isp-control.net
 #
 
+REMOTE_FOLDER=../../common/awstats
+LOCAL_FOLDER=.
+
 export
 
 install:
 
 	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/awstats
 
-	cp ./awstats.ispcp_tpl.conf $(SYSTEM_CONF)/awstats
+	cp $(REMOTE_FOLDER)/awstats.ispcp_tpl.conf $(SYSTEM_CONF)/awstats
 
 uninstall:
 

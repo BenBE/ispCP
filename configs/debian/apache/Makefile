@@ -30,6 +30,8 @@
 #
 
 ROOT_APACHE_CONF=$(ROOT_CONF)/apache2
+REMOTE_FOLDER=../../common/apache
+LOCAL_FOLDER=.
 
 export
 
@@ -41,18 +43,18 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)/mods-available
 	$(SYSTEM_MAKE_DIRS) $(ROOT_APACHE_CONF)/ispcp
 
-	cp ./httpd.conf $(SYSTEM_CONF)/apache
-	cp ./00_master.conf $(SYSTEM_CONF)/apache
-	cp ./01_awstats.conf $(SYSTEM_CONF)/apache
+	cp $(REMOTE_FOLDER)/httpd.conf $(SYSTEM_CONF)/apache
+	cp $(REMOTE_FOLDER)/00_master.conf $(SYSTEM_CONF)/apache
+	cp $(REMOTE_FOLDER)/01_awstats.conf $(SYSTEM_CONF)/apache
 
-	cp -R ./backup $(SYSTEM_CONF)/apache
-	cp -R ./parts $(SYSTEM_CONF)/apache
-	cp -R ./working $(SYSTEM_CONF)/apache
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/apache
+	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/apache
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/apache
 
-	cp ./httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
-
-	cp ./fastcgi_ispcp.conf $(SYSTEM_CONF)/apache/fastcgi_ispcp.conf
-	cp ./fcgid_ispcp.conf $(SYSTEM_CONF)/apache/fcgid_ispcp.conf
+	cp $(REMOTE_FOLDER)/httpd.conf $(SYSTEM_CONF)/apache/parts/ispcp_base.tpl
+	
+	cp $(REMOTE_FOLDER)/fastcgi_ispcp.conf $(SYSTEM_CONF)/apache/fastcgi_ispcp.conf
+	cp $(LOCAL_FOLDER)/fcgid_ispcp.conf $(SYSTEM_CONF)/apache/fcgid_ispcp.conf
 
 uninstall:
 

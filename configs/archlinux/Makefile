@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2006 by moleSoftware GmbH - http://www.molesoftware.com
 # Copyright (C) 2006-2011 by ispCP | http://ispcp.net
 #
-# Version: $Id$
+# Version: $Id: Makefile 3801 2011-03-03 20:57:28Z benedikt $
 #
 # The contents of this file are subject to the Mozilla Public License
 # Version 1.1 (the "License"); you may not use this file except in
@@ -29,19 +29,14 @@
 #    http://isp-control.net
 #
 
-REMOTE_FOLDER=../../common/fcgi
-LOCAL_FOLDER=.
-
 export
 
 install:
-
-	$(SYSTEM_MAKE_DIRS) $(SYSTEM_CONF)/fcgi
-
-	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/fcgi
-	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/fcgi
-	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/fcgi
+	if test $(HOST_OS) = archlinux  ; then \
+		cp ./ispcp.conf $(SYSTEM_CONF) ; \
+	fi
 
 uninstall:
-
-	rm -rf $(SYSTEM_CONF)/fcgi
+	if test $(HOST_OS) = archlinux ; then \
+		rm -rf $(SYSTEM_CONF)/ispcp.conf ;  \
+	fi

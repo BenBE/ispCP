@@ -32,6 +32,9 @@
 ROOT_COURIER_CONF=$(ROOT_CONF)/courier
 ROOT_AUTHLIB_CONF=$(ROOT_CONF)/authlib
 
+REMOTE_FOLDER=../../common/courier
+LOCAL_FOLDER=.
+
 export
 
 install:
@@ -40,10 +43,10 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(ROOT_COURIER_CONF)
 	$(SYSTEM_MAKE_DIRS) $(ROOT_AUTHLIB_CONF)
 
-	cp ./userdb $(SYSTEM_CONF)/courier
+	cp $(REMOTE_FOLDER)/userdb $(SYSTEM_CONF)/courier
 
-	cp -R ./backup $(SYSTEM_CONF)/courier
-	cp -R ./working $(SYSTEM_CONF)/courier
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/courier
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/courier
 
 uninstall:
 

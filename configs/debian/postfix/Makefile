@@ -29,8 +29,9 @@
 #    http://isp-control.net
 #
 
-
 ROOT_POSTFIX_CONF=$(ROOT_CONF)/postfix
+REMOTE_FOLDER=../../common/postfix
+LOCAL_FOLDER=.
 
 export
 
@@ -40,13 +41,13 @@ install:
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)
 	$(SYSTEM_MAKE_DIRS) $(ROOT_POSTFIX_CONF)/ispcp
 
-	cp ./main.cf $(SYSTEM_CONF)/postfix/main.cf
-	cp ./master.cf $(SYSTEM_CONF)/postfix/master.cf
+	cp $(REMOTE_FOLDER)/main.cf $(SYSTEM_CONF)/postfix/main.cf
+	cp $(REMOTE_FOLDER)/master.cf $(SYSTEM_CONF)/postfix/master.cf
 
-	cp -R ./backup $(SYSTEM_CONF)/postfix
-	cp -R ./parts $(SYSTEM_CONF)/postfix
-	cp -R ./working $(SYSTEM_CONF)/postfix
-	cp -R ./ispcp $(SYSTEM_CONF)/postfix
+	cp -R $(REMOTE_FOLDER)/backup $(SYSTEM_CONF)/postfix
+	cp -R $(REMOTE_FOLDER)/parts $(SYSTEM_CONF)/postfix
+	cp -R $(REMOTE_FOLDER)/working $(SYSTEM_CONF)/postfix
+	cp -R $(REMOTE_FOLDER)/ispcp $(SYSTEM_CONF)/postfix
 
 uninstall:
 
