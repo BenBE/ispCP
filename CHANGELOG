@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-07-26 Markus Szywon
+	- TOOLS:
+		* Updated phpMyAdmin to version 3.4.3.2
+
 2011-07-09 Benedikt Heintel
 	- DOCS:
 		* Updated INSTALL files
@@ -38,6 +42,7 @@ ispCP ω 1.1.0 ChangeLog
 	- GUI:
 		* Added adminer 3.2.2 for alternate database administration
 		* Added some code improvements
+		* Template improvements
 
 2011-06-15 Markus Szywon
 	- LANGUAGES:
