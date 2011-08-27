@@ -36,11 +36,6 @@ function getSkinArray() {
 	$skinArray["omega"]["image_url"]        = $net2ftp_globals["application_rootdir_url"] . "/skins/omega/images";
 	$skinArray["omega"]["icon_size_mime"]   = "16";
 
-	$skinArray["omega"]["name"]             = __("modern");
-	$skinArray["omega"]["iconset"]          = "nuvola";
-	$skinArray["omega"]["image_url"]        = $net2ftp_globals["application_rootdir_url"] . "/skins/modern/images";
-	$skinArray["omega"]["icon_size_mime"]   = "16";
-
 	return $skinArray;
 
 } // End function getSkinArray

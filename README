@@ -18,14 +18,14 @@ that can be created.
 
 
 Enjoy the power of ispCP ω
-Your ispCP Team
+Your ISPCP Team
 
 ================================================================
 INSTALLATION
 ------------
 
 Select the folder of the distribution you are using inside the docs directory.
-For Debian: ./docs/Debian/INSTALL
+E.g. for Debian: ./docs/Debian/INSTALL
 If there is none, select Debian and try it with this one.
 
 You have successfully installed ispCP ω on a non-listed distribution? Great,
@@ -39,7 +39,7 @@ ispCP was originally developed by moleSoftware http://molesoftware.com/ under
 the Name VHCS. After getting Open Source it was released under the MPL (Mozilla
 Public License) Version 1.1.
 
-The icons used by the omega_original theme for ispCP are copyrighted 2006-2007
+The icons used by the omega_original theme are copyrighted 2006-2007
 by Everaldo Coelho <everaldo@everaldo.com> and released under the Lesser General
 Public License (LGPL) license.
 
@@ -48,7 +48,7 @@ General Public License version 2 and states the following:
 Copyright (C) 2000-2007 - Laurent Destailleur - eldy@users.sourceforge.net
 
 Unless otherwise stated all code is licensed under the MPL 1.1 and has a
-Copyright 2006-2011 by ispCP.
+Copyright 2006-2011 by ISPCP.
 
 Please have a look at these Licenses if interested. They are shipped with this
 release in the docs folder:
@@ -60,14 +60,14 @@ LICENSE-LGPL2.1
 ================================================================
 CREDITS
 -------
-ispCP ω is a project of ispCP | ISP Control Panel.
-ispCP, ispCP ω, ISP Control Panel, the ispCP logo and the ω Logo are trademarks
-of the ispCP | ISP Control Panel Project Team.
+ispCP ω is a project of ISPCP.
+ispCP, ispCP ω, ISP Control Panel, the ISPCP logo and the ω Logo are trademarks
+of the ISPCP Project.
 
 All contributors are enlisted in the file CONTRIBUTORS.
 
 Please visit our site under http://ispcp.net for further information on
-ispCP ω, ispCP and other topics.
+ispCP ω, ISPCP and other topics.
 
 We hope you enjoy using ispCP ω. If you like it, help us, to make it better. We
 would be glad on help provided and donations made!
