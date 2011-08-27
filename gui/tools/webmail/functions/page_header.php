@@ -5,12 +5,10 @@
  *
  * Prints the page header (duh)
  *
- * @copyright 1999-2010 The SquirrelMail Project Team
+ * @copyright 1999-2011 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: page_header.php 13904 2010-02-13 16:28:10Z kink $
+ * @version $Id: page_header.php 14117 2011-07-12 03:44:14Z pdontthink $
  * @package squirrelmail
- *
- * @modified by ispCP Omega Team http://isp-control.net
  */
 
 /** Include required files from SM */
@@ -28,10 +26,29 @@ function displayHtmlHeader( $title = 'SquirrelMail', $xtra = '', $do_hook = TRUE
     }
     global $theme_css, $custom_css, $pageheader_sent;
 
+    // prevent clickjack attempts
+// FIXME: should we use DENY instead?  We can also make this a configurable value, including giving the admin the option of removing this entirely in case they WANT to be framed by an external domain
+    header('X-Frame-Options: SAMEORIGIN');
+
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' .
          "\n\n" . html_tag( 'html' ,'' , '', '', '' ) . "\n<head>\n" .
          "<meta name=\"robots\" content=\"noindex,nofollow\">\n" .
          "<meta http-equiv=\"x-dns-prefetch-control\" content=\"off\">\n";
+
+    // prevent clickjack attempts using JavaScript for browsers that
+    // don't support the X-Frame-Options header...
+    // we check to see if we are *not* the top page, and if not, check
+    // whether or not the top page is in the same domain as we are...
+    // if not, log out immediately -- this is an attempt to do the same
+    // thing that the X-Frame-Options does using JavaScript (never a good
+    // idea to rely on JavaScript-based solutions, though)
+    echo '<script type="text/javascript" language="JavaScript">'
+       . "\n<!--\n"
+       . 'if (self != top) { try { if (document.domain != top.document.domain) {'
+       . ' throw "Clickjacking security violation! Please log out immediately!"; /* this code should never execute - exception should already have been thrown since it\'s a security violation in this case to even try to access top.document.domain (but it\'s left here just to be extra safe) */ } } catch (e) { self.location = "'
+       . sqm_baseuri() . 'src/signout.php"; top.location = "'
+       . sqm_baseuri() . 'src/signout.php" } }'
+       . "\n// -->\n</script>\n";
 
     if ( !isset( $custom_css ) || $custom_css == 'none' ) {
         if ($theme_css != '') {
@@ -256,11 +273,7 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
     if ( $shortBoxName == 'INBOX' ) {
         $shortBoxName = _("INBOX");
     }
-    //
-    // Modified by ispCP Omega - http://isp-control.net
-    //
     echo "<a name=\"pagetop\"></a>\n"
-    /**** commented out
         . html_tag( 'table', '', '', $color[4], 'border="0" width="100%" cellspacing="0" cellpadding="2"' ) ."\n"
         . html_tag( 'tr', '', '', $color[9] ) ."\n"
         . html_tag( 'td', '', 'left' ) ."\n";
@@ -278,20 +291,8 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
         . ($hide_sm_attributions ? html_tag( 'td', '', 'left', '', 'colspan="2"' )
                                  : html_tag( 'td', '', 'left' ) )
         . "\n";
-	*/
-		. html_tag( 'table', NULL, NULL, NULL, 'border="0" width="100%" cellspacing="0" cellpadding="2"' ) ."\n"
-		. html_tag( 'tr', NULL, NULL, NULL, 'class="main_header_bar"' ) ."\n"
-		. ($hide_sm_attributions ? html_tag( 'td', NULL, 'left', NULL, 'colspan="2"' ) : html_tag( 'td', NULL, 'left' ) )
-		. "\n";
-    //
-	// End Modification
-	//
     $urlMailbox = urlencode($mailbox);
     $startMessage = (int)$startMessage;
-	//
-	// Modified by ispCP Omega - http://isp-control.net
-	//
-	/**** commented out
     echo makeComposeLink('src/compose.php?mailbox='.$urlMailbox.'&amp;startMessage='.$startMessage);
     echo "&nbsp;&nbsp;\n";
     displayInternalLink ('src/addressbook.php', _("Addresses"));
@@ -306,23 +307,9 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
     echo "&nbsp;&nbsp;\n";
 
     do_hook('menuline');
-    */
-    // Menu Icons
-	echo displayInternalLink('src/right_main.php?PG_SHOWALL=0&amp;sort=0&amp;startMessage=1&amp;mailbox=INBOX', "<div id='inbox_button'><p class='button_text'>"._("INBOX")."</p></div>") . "\n";
-	echo makeComposeLink('src/compose.php?mailbox='.$urlMailbox.'&amp;startMessage='.$startMessage, "<div id='compose_button'><p class='button_text'>"._("Compose")."</p></div>") . "\n";
-	echo displayInternalLink ('src/addressbook.php', "<div id='addresses_button'><p class='button_text'>"._("Addresses")."</p></div>") . "\n";
-	echo displayInternalLink ('src/folders.php', "<div id='folders_button'><p class='button_text'>"._("Folders")."</p></div>") . "\n";
-	echo displayInternalLink ('src/options.php', "<div id='options_button'><p class='button_text'>"._("Options")."</p></div>") . "\n";
-	//
-	// End Modification
-	//
 
     echo "      </td>\n";
 
-	//
-	// Modified by ispCP Omega - http://isp-control.net
-	//
-	/**** commented out
     if (!$hide_sm_attributions)
     {
         echo html_tag( 'td', '', 'right' ) ."\n";
@@ -331,47 +318,8 @@ function displayPageHeader($color, $mailbox, $xtra='', $session=false) {
         echo '<a href="'.$provider_uri.'" target="_blank">'.$provider_name.'</a>';
         echo "</td>\n";
     }
-	*/
-	//
-	// End Modification
-	//
-
-	//
-	// Modified by ispCP Omega - http://isp-control.net
-	//
-    // Top Header
-	echo "      <td class=\"inbox_bar_header\" align=\"right\" width=\"30%\">";
-	echo displayInternalLink ('src/signout.php', "<div id='exit_button' title='"._("Sign Out")."'>&nbsp;&nbsp;&nbsp;</div>", $frame_top) . "\n";
-	echo displayInternalLink ("src/search.php?mailbox=$urlMailbox", "<div id='search_button' title='"._("Search")."'>&nbsp;&nbsp;&nbsp;</div>") . "\n";
-	echo displayInternalLink ('src/help.php', "<div id='help_button' title='"._("Help")."'>&nbsp;&nbsp;&nbsp;</div>") . "\n";
-	do_hook('fetchmail');
-	do_hook('calendar_plugin');
-	do_hook('bookmark_plugin');
-	do_hook('notes_plugin');
-	do_hook('todo_plugin');
-	echo "      </td>";
     echo "   </tr>\n".
-        "</table>\n\n";
-
-    // Welcome Bar
-	//
-	// Modified by ispCP Omega - http://isp-control.net
-	//
-	echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n
-		    <tr>\n";
-	if ( $shortBoxName <> '' && strtolower( $shortBoxName ) <> 'none' ) {
-        echo "      <td align=\"left\" class=\"inbox_bar_header\">" . _("Current Folder") . ": <b>$shortBoxName&nbsp;</b></td>\n";
-    } else {
-        echo "      <td align=\"left\" class=\"inbox_bar_header\">" . _("Current Folder") . ": <b>Option&nbsp;</b></td>\n";
-    }
-	echo "  <td class=\"top_bar_header\" align=\"right\" >";
-	do_hook('menuline');
-	echo "&nbsp;</td>";
-	//
-	// End Modification
-	//
-	echo "   </tr>\n
-		  </table>\n\n";
+        "</table><br>\n\n";
 }
 
 /* blatently copied/truncated/modified from the above function */

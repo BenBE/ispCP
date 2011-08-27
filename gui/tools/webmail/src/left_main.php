@@ -6,12 +6,10 @@
  * This is the code for the left bar. The left bar shows the folders
  * available, and has cookie information.
  *
- * @copyright 1999-2010 The SquirrelMail Project Team
+ * @copyright 1999-2011 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version $Id$
  * @package squirrelmail
- *
- * @modified by ispCP Omega Team http://isp-control.net
  */
 
 /** This is the left_main page */
@@ -105,7 +103,7 @@ function formatMailboxName($imapConnection, $box_array) {
         if (($numMessages > 0) or ($box_array['parent'] == 1)) {
             $urlMailbox = urlencode($real_box);
             $line .= "\n<small>\n" .
-                    '&nbsp;&nbsp;(<a href="empty_trash.php" style="text-decoration:none">'._("Purge").'</a>)' .
+                    '&nbsp;&nbsp;(<a href="empty_trash.php?smtoken=' . sm_generate_security_token() . '" style="text-decoration:none">'._("Purge").'</a>)' .
                     '</small>';
         }
     }
@@ -181,13 +179,9 @@ function create_collapse_link($boxnum) {
     $link = '<a target="left" style="text-decoration:none" ' .
             'href="left_main.php?';
     if ($boxes[$boxnum]['collapse'] == SM_BOX_COLLAPSED) {
-		// Modified by ispCP Omega - http://isp-control.net
-    	$link .= "unfold=$mailbox\"><img src=\"../images/plus.png\" border=\"0\">";
-        // End Modification
+        $link .= "unfold=$mailbox\">+";
     } else {
-    	// Modified by ispCP Omega - http://isp-control.net
-    	$link .= "fold=$mailbox\"><img src=\"../images/minus.png\" border=\"0\">";
-	    // End Modification
+        $link .= "fold=$mailbox\">-";
     }
     $link .= '</a>';
 
@@ -351,16 +345,11 @@ if ($auto_create_special && !$auto_create_done) {
      */
     $boxes = sqimap_mailbox_list($imapConnection,true);
 }
-// Modified by ispCP Omega - http://isp-control.net
-echo "\n<body class=\"left\" bgcolor=\"$color[3]\" text=\"$color[6]\" link=\"$color[6]\" vlink=\"$color[6]\" alink=\"$color[6]\">\n";
-// End Modification
+
+echo "\n<body bgcolor=\"$color[3]\" text=\"$color[6]\" link=\"$color[6]\" vlink=\"$color[6]\" alink=\"$color[6]\">\n";
 
 do_hook('left_main_before');
 
-//
-// Modified by ispCP Omega - http://isp-control.net
-//
-/**** commented out
 echo "\n\n" . html_tag( 'table', '', 'left', '', 'border="0" cellspacing="0" cellpadding="0" width="99%"' ) .
     html_tag( 'tr' ) .
     html_tag( 'td', '', 'left' ) .
@@ -368,60 +357,6 @@ echo "\n\n" . html_tag( 'table', '', 'left', '', 'border="0" cellspacing="0" cel
     html_tag( 'tr' ) .
     html_tag( 'td', '', 'center' ) .
     '<font size="4"><b>'. _("Folders") . "</b><br /></font>\n\n";
-*/
-//===============Code for left top header=======
-
-echo "\n\n" . html_tag( 'table',
-		html_tag( 'tr',
-			html_tag( 'td',
-				html_tag( 'div',
-					"\n\n"
-					, NULL, NULL, 'id="left_logo"'
-				),
-				'center', NULL, NULL
-			 )
-		),
-		NULL, NULL, 'border="0" cellspacing="0" cellpadding="0" width="100%"'
-		);
-
-// ========Quota Plugin enable here =========
-/*
-echo html_tag( 'div',
-     	do_hook('quota_plugin_left'),
-     	'', '', 'id="quota"'
-	 );
-*/
-// ==========End Quota Plugin=========
-
-echo html_tag ( 'div',
-		html_tag ('p',
-			_("Folders") . sprintf( ' <a href="../src/left_main.php" target="left" id="refresh"><img src="../images/%s" align="absmiddle" border="0"></a>', $GLOBALS['refresh_button'] ).
-			sprintf( ' <a href="#" onclick="reveal(\'folders\');" class="minimize"><img src="../images/%s" align="absmiddle" border="0"></a>', $GLOBALS['minimize_button'] )
-		),
-		NULL, NULL, 'id="folders_top"'
-	) .
-	html_tag ( 'div',
-		html_tag ( 'table',
-			html_tag ( 'tr',
-				html_tag ( 'td',
-					html_tag ( 'div',
-						'',
-					 	'left', NULL, NULL
-					),
-				'center', NULL, 'valign="top"'
-				)
-			),
-			NULL, NULL, 'width="99%" border="0" cellpadding="0" cellspacing="0"'
-		),
-		NULL, NULL, 'id="folders"'
-	);
-
-//=====end Header code=========
-
-// @todo finish Implementation
-//
-// End Modification
-//
 
 if ($date_format != 6) {
     /* First, display the clock. */
@@ -457,36 +392,14 @@ if ($date_format != 6) {
     }
     $clk = str_replace(' ','&nbsp;',$clk);
 
-	//
-	// Modified by ispCP Omega - http://isp-control.net
-	//
-	/**** commented out
     echo '<small><span style="white-space: nowrap;">'
        . str_replace(' ', '&nbsp;', _("Last Refresh"))
        . ":</span><br /><span style=\"white-space: nowrap;\">$clk</span></small><br />";
-    */
-    echo '<small><span style="white-space: nowrap;">'
-       . str_replace(' ', '&nbsp;', _("Last Refresh"))
-       . ":<br />$clk</span></small><br /><br />";
-    //
-	// End Modification
-	//
-
 }
 
-//
-// Modified by ispCP Omega - http://isp-control.net
-//
-//**** commented out
-/* Next, display the refresh button. *//*
+/* Next, display the refresh button. */
 echo '<small style="white-space: nowrap;">(<a href="../src/left_main.php" target="left">'.
      _("Check mail") . '</a>)</small></td></tr></table><br />';
-*/
-
-echo '<div id="folders">';
-//
-// End Modification
-//
 
 /* Lastly, display the folder list. */
 if ( $collapse_folders ) {
@@ -528,27 +441,6 @@ for ($i = 0; $i < count($boxes); $i++) {
             $prefix = str_replace(' ','&nbsp;',$prefix);
         }
         $line = "<span style=\"white-space: nowrap;\"><tt>$prefix</tt>";
-        //
-		// Modified by ispCP Omega - http://isp-control.net
-		//
-		if ((strtolower($boxes[$i]['unformatted']) == 'inbox')) {
-			$line .= "<img src=\"../images/inbox.png\" align=\"absmiddle\" class=\"mbox_img\">";
-		}
-		elseif ($boxes[$i]['unformatted'] == $draft_folder) {
-			$line .= "<img src=\"../images/draft.png\" align=\"absmiddle\" class=\"mbox_img\">";
-		}
-		elseif ($boxes[$i]['unformatted'] == $sent_folder) {
-			$line .= "<img src=\"../images/senti.png\" align=\"absmiddle\" class=\"mbox_img\">";
-		}
-		elseif ($boxes[$i]['unformatted'] == $trash_folder) {
-			$line .= "<img src=\"../images/delitem.png\" align=\"absmiddle\" class=\"mbox_img\">";
-		}
-		else {
-        	$line .= "<img src=\"../images/folder.png\" align=\"absmiddle\"  class=\"mbox_img\">&nbsp;";
-        }
-        //
-		// End Modification
-		//
 
         /* Add the folder name and link. */
         if (! isset($color[15])) {
@@ -581,58 +473,6 @@ for ($i = 0; $i < count($boxes); $i++) {
 do_hook('left_main_after');
 sqimap_logout($imapConnection);
 
-/*
-
 ?>
 </td></tr></table>
-</body></html>
-*/
-
-?>
-</div>
-<!--</td></tr></table>-->
-<?php
-//
-// Modified by ispCP Omega - http://isp-control.net
-//
-echo "<div id=\"folders_bottom\"></div>\n";
-
-//=======Extras=========
-
-do_hook('smallcal_plugin');
-do_hook('left_main_todo');
-
-echo html_tag ( 'div',
-           html_tag ( 'p',
-                _("Options") ."<a href=\"#\" onclick=\"reveal('extra');\" class=\"minimize\"><img src=\"../images/".$GLOBALS['minimize_button']."\" align=\"absmiddle\" border=\"0\"></a>"
-           ),
-           NULL, NULL, "id=\"extra_top\""
-     ) .
-     html_tag ( 'div',
-         html_tag ( 'table',
-             html_tag ( 'tr',
-                 html_tag ( 'td',
-                     html_tag ( 'div',
-                         html_tag ( 'p',
-                            "&nbsp;&nbsp;<img src=\"../skins/omega/arrow.png\" align=\"absmiddle\" vspace=\"1\">&nbsp;&nbsp;<a href=\"../src/options.php?optpage=personal\" target=\"right\">"._("Change Settings")."</a><br />" .
-                            "&nbsp;&nbsp;<img src=\"../skins/omega/arrow.png\" align=\"absmiddle\" vspace=\"1\">&nbsp;&nbsp;<a href=\"../src/options.php?optpage=folder\" target=\"right\">"._("Folder Preferences")."</a><br />" .
-                            "&nbsp;&nbsp;<img src=\"../skins/omega/arrow.png\" align=\"absmiddle\" vspace=\"1\">&nbsp;&nbsp;<a href=\"../plugins/filters/options.php\" target=\"right\">"._("Message Filtering")."</a><br />" .
-                            "&nbsp;&nbsp;<img src=\"../skins/omega/arrow.png\" align=\"absmiddle\" vspace=\"1\">&nbsp;&nbsp;<a href=\"../plugins/mail_fetch/options.php\" target=\"right\">"._("Remote POP")."</a><br><br />"
-                        ),
-                        "left", NULL, "id=\"options\""
-                     ),
-                    "center", NULL, "valign=\"top\""
-                )
-            ),
-             NULL, NULL, 'width="99%" border="0" cellpadding="0" cellspacing="0"'
-        ),
-         NULL, NULL, "id=\"extra\""
-     );
-
-//======End Extras=========
-
-//
-// End Modification
-//
-?>
 </body></html>

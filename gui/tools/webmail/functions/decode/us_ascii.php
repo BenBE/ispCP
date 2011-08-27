@@ -8,13 +8,11 @@
  *
  * Function replaces all 8bit symbols with '?' marks
  *
- * @copyright 2004-2010 The SquirrelMail Project Team
+ * @copyright 2004-2011 The SquirrelMail Project Team
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version $Id: us_ascii.php 13893 2010-01-25 02:47:41Z pdontthink $
+ * @version $Id: us_ascii.php 14084 2011-01-06 02:44:03Z pdontthink $
  * @package squirrelmail
  * @subpackage decode
- * 
- * @author ispCP Team May 2010 based on a patch of Benny Baumann
  */
 
 /**
@@ -28,7 +26,11 @@ function charset_decode_us_ascii ($string) {
     if (! sq_is8bit($string,'us-ascii'))
         return $string;
 
-    $string = preg_replace("/([\201-\377])/","?",$string);
+    $string = preg_replace("/([\201-\237])/e","'?'",$string);
 
+    /* I don't want to use 0xA0 (\240) in any ranges. RH73 may dislike it */
+    $string = str_replace("\240", '?', $string);
+
+    $string = preg_replace("/([\241-\377])/e","'?'",$string);
     return $string;
 }
