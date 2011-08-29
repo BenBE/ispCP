@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-08-29 Benedikt Heintel
+	- SETUP:
+		* Fixed #2592: reverted back changes in updDB.php
+
 2011-08-27 Benedikt Heintel
 	- TOOLS:
 		* Updated SquirrelMail to Version 1.4.22
