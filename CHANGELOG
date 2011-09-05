@@ -1,6 +1,10 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+2011-09-05 Benedikt Heintel
+	LANGUAGES:
+		* Updated Finnish translation, see #2599 (thanks to Lillian)
+
 2011-08-29 Benedikt Heintel
 	- SETUP:
 		* Fixed #2592: reverted back changes in updDB.php
