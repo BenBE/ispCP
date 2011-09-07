@@ -32,13 +32,13 @@
 				<th>{$TR_LOGIN_ON}</th>
 				<th>{$TR_OPTIONS}</th>
 			</tr>
-			<!-- BDP: user_session -->
+			{section name=i loop=$ADMIN_USERNAME}
 			<tr>
-				<td>{$ADMIN_USERNAME}</td>
-				<td>{$LOGIN_TIME}</td>
-				<td><a href="{$KILL_LINK}" title="{$TR_DELETE}" class="icon i_delete">{$TR_DELETE}</a></td>
+				<td>{$ADMIN_USERNAME[i]}</td>
+				<td>{$LOGIN_TIME[i]}</td>
+				<td><a href="{$KILL_LINK[i]}" title="{$TR_DELETE}" class="icon i_delete">{$TR_DELETE}</a></td>
 			</tr>
-			<!-- EDP: user_session -->
+			{/section}
 		</table>
 	</div>
 {include file='footer.tpl'}

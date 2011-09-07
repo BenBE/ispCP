@@ -40,13 +40,13 @@ $template = 'sessions_manage.tpl';
 // static page messages
 $tpl->assign(
 	array(
-		'TR_PAGE_TITLE' => tr('ispCP - Admin/Manage Sessions'),
-		'TR_MANAGE_USER_SESSIONS' => tr('Manage user sessions'),
-		'TR_USERNAME' => tr('Username'),
-		'TR_USERTYPE' => tr('User type'),
-		'TR_LOGIN_ON' => tr('Last access'),
-		'TR_OPTIONS' => tr('Options'),
-		'TR_DELETE' => tr('Kill session'),
+		'TR_PAGE_TITLE'				=> tr('ispCP - Admin/Manage Sessions'),
+		'TR_MANAGE_USER_SESSIONS'	=> tr('Manage user sessions'),
+		'TR_USERNAME'				=> tr('Username'),
+		'TR_USERTYPE'				=> tr('User type'),
+		'TR_LOGIN_ON'				=> tr('Last access'),
+		'TR_OPTIONS'				=> tr('Options'),
+		'TR_DELETE'					=> tr('Kill session')
 	)
 );
 
