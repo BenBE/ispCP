@@ -36,7 +36,7 @@
 			<tr>
 				<td>{$ADMIN_USERNAME[i]}</td>
 				<td>{$LOGIN_TIME[i]}</td>
-				<td><a href="{$KILL_LINK[i]}" title="{$TR_DELETE}" class="icon i_delete">{$TR_DELETE}</a></td>
+				<td><a href="{$KILL_LINK[i]}" title="{$TR_DELETE}" class="icon i_delete"></a></td>
 			</tr>
 			{/section}
 		</table>

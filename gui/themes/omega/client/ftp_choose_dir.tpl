@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-<body>
+<body style="background:none">
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		function CopyText(inputname) {
@@ -22,18 +22,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- BDP: dir_item -->
+				{section name=i loop=$DIR_NAME}
 				<tr>
-					<!-- BDP: list_item -->
-					<td><a href="{$LINK}" class="icon i_bc_{$ICON}">{$DIR_NAME}</a></td>
+					<td><a href="{$LINK[i]}" class="icon i_bc_{$ICON[i]}">{$DIR_NAME[i]}</a></td>
 					<td>
-					<!-- BDP: action_link -->
-					<a href="javascript:CopyText('{$CHOOSE_IT}');" class="icon i_choose">{$CHOOSE}</a><input type="hidden" name="{$CHOOSE_IT}" value="{$CHOOSE_IT}" />
-					<!-- EDP: action_link -->
+					{if $ACTION_LINK[i] != 'no'}
+					<a href="javascript:CopyText('{$CHOOSE_IT[i]}');" class="icon i_choose">{$CHOOSE}</a><input type="hidden" name="{$CHOOSE_IT[i]}" value="{$CHOOSE_IT[i]}" />
+					{/if}
 					</td>
-					<!-- EDP: list_item -->
 				</tr>
-				<!-- EDP: dir_item -->
+				{/section}
 			</tbody>
 		</table>
 	</form>

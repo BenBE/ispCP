@@ -84,13 +84,14 @@ function gen_directories($tpl) {
 	$parent = explode(DIRECTORY_SEPARATOR, $path);
 	array_pop($parent);
 	$parent = implode(DIRECTORY_SEPARATOR, $parent);
-	$tpl->assign('ACTION_LINK', '');
-	$tpl->assign(
+	$tpl->append(
 		array(
-			'ACTION' => '',
-			'ICON' => "parent",
-			'DIR_NAME' => tr('Parent Directory'),
-			'LINK' => 'ftp_choose_dir.php?cur_dir=' . $parent,
+			'ACTION'		=> '',
+			'ACTION_LINK'	=> 'no',
+			'ICON'			=> "parent",
+			'DIR_NAME'		=> tr('Parent Directory'),
+			'CHOOSE_IT'		=> '',
+			'LINK'			=> 'ftp_choose_dir.php?cur_dir=' . $parent
 		)
 	);
 	// Show directories only
@@ -117,17 +118,18 @@ function gen_directories($tpl) {
 		$forbiddenDirnames = ('/backups|disabled|errors|logs|phptmp/i');
 		$forbidden = preg_match($forbiddenDirnames, $entry['file']);
 		if ($forbidden === 1) {
-			$tpl->assign('ACTION_LINK', '');
+			$tpl->append('ACTION_LINK', 'no');
 		} else {
+			$tpl->append('ACTION_LINK', 'yes');
 		}
 		// Create the directory link
-		$tpl->assign(
+		$tpl->append(
 			array(
-				'PROTECT_IT' => "protected_areas_add.php?file=".$dr,
-				'ICON' => $image,
-				'DIR_NAME' => tohtml($entry['file']),
-				'CHOOSE_IT' => $dr,
-				'LINK' => "ftp_choose_dir.php?cur_dir=".$dr,
+				'PROTECT_IT'	=> "protected_areas_add.php?file=".$dr,
+				'ICON'			=> $image,
+				'DIR_NAME'		=> tohtml($entry['file']),
+				'CHOOSE_IT'		=> $dr,
+				'LINK'			=> "ftp_choose_dir.php?cur_dir=".$dr
 			)
 		);
 	}
