@@ -1,7 +1,11 @@
 ispCP ω 1.1.0 ChangeLog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2011-08-19 Markus Szywon
+2011-09-08 Markus Szywon
+	- GUI:
+		* Updated jQuery to version 1.6.3
+
+2011-09-07 Markus Szywon
 	- GUI:
 		* Fixed #2598: Template-Bug in "admin/sessions_manage.tpl"
 
