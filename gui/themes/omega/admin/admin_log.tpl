@@ -25,7 +25,7 @@
 		{if isset($MESSAGE)}
 		<div class="{$MSG_TYPE}">{$MESSAGE}</div>
 		{/if}
-		<h2 class="admin_lod"><span>{$TR_ADMIN_LOG}</span></h2>
+		<h2 class="adminlog"><span>{$TR_ADMIN_LOG}</span></h2>
 		<table>
 			<tr>
 				<th>{$TR_DATE}</th>

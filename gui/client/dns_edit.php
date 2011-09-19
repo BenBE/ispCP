@@ -26,7 +26,7 @@
  */
 
 require_once '../include/ispcp-lib.php';
-require_once '../include/Net/DNS/DNS.php';
+require_once '../include/Net/DNS.php';
 
 check_login(__FILE__);
 
