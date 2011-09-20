@@ -4,6 +4,8 @@ ispCP ω 1.1.0 ChangeLog
 2011-09-20 Markus Szywon
 	- TOOLS:
 		* Updated phpMyAdmin to version 3.4.5
+	- ENGINE:
+		* Fixed Setup was broken
 
 2011-09-19 Markus Szywon
 	- GUI:
