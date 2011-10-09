@@ -54,6 +54,10 @@ POSTFIX_SASLDB2_DIR=$(INST_PREF)/etc/sasl2
 
 export
 
+build:
+
+	cd ./tools && $(MAKE)
+
 install:
 
 	cd ./tools && $(MAKE) install

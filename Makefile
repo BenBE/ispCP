@@ -51,6 +51,10 @@ SYSTEM_MAKE_FILE=/bin/touch
 
 export
 
+build:
+
+	cd ./tools && $(MAKE)
+
 install:
 
 	cd ./tools && $(MAKE) install
